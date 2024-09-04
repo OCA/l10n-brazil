@@ -141,7 +141,7 @@ class AccountTax(models.Model):
             account_taxes_by_domain.update({tax.id: tax_domain})
 
         for account_tax in taxes_results["taxes"]:
-            tax = self.filtered(lambda t: t.id == account_tax.get("id"))
+            tax = self.filtered(lambda t: t.id == account_tax.get("id"))  # noqa: B023
             fiscal_tax = fiscal_taxes_results["taxes"].get(
                 account_taxes_by_domain.get(tax.id)
             )
@@ -271,10 +271,10 @@ class AccountTax(models.Model):
                     handle_price_include=base_line["handle_price_include"],
                     include_caba_tags=include_caba_tags,
                 )
-                for tax_res, new_taxes_res in zip(
-                    taxes_res["taxes"], new_taxes_res["taxes"]
+                for tax_res, _new_taxes_res in zip(
+                    taxes_res["taxes"], new_taxes_res["taxes"], strict=True
                 ):
-                    delta_tax = new_taxes_res["amount"] - tax_res["amount"]
+                    delta_tax = _new_taxes_res["amount"] - tax_res["amount"]
                     tax_res["amount"] += delta_tax
                     to_update_vals["price_total"] += delta_tax
 

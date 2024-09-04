@@ -71,7 +71,7 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             cnae_main_id=cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
             document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
             annual_revenue=815000.0,
-            **kwargs
+            **kwargs,
         )
         chart_template.load_fiscal_taxes()
         return res

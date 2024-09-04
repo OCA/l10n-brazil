@@ -92,7 +92,8 @@ class TestInvoiceDiscount(TransactionCase):
         self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
         user_tz = timezone(self.env.user.tz or "UTC")
         original_date = datetime.combine(datetime.now().date(), time.min)
-        # Convert the original_date to the user's timezone and remove the time for comparison
+        # Convert the original_date to the user's timezone and remove the time for
+        # comparison
         original_date_in_user_tz = (
             user_tz.localize(original_date).astimezone(UTC).replace(tzinfo=None)
         )
@@ -123,7 +124,8 @@ class TestInvoiceDiscount(TransactionCase):
         self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
         user_tz = timezone(self.env.user.tz or "UTC")
         original_date = datetime.combine(datetime.now().date(), time.min)
-        # Convert the original_date to the user's timezone and remove the time for comparison
+        # Convert the original_date to the user's timezone and remove the time for
+        # comparison
         original_date_in_user_tz = (
             user_tz.localize(original_date).astimezone(UTC).replace(tzinfo=None)
         )
