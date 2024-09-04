@@ -20,8 +20,7 @@ def _not_every_day_test(method, self, modulo=7, remaining=1):
         return method(self)
     else:
         return lambda: _logger.info(
-            "Skipping test today because datetime.now().day %% %s != %s"
-            % (modulo, remaining)
+            f"Skipping test today because datetime.now().day % {modulo} != {remaining}"
         )
 
 
