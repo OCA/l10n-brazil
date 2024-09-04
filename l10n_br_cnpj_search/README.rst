@@ -28,58 +28,72 @@ Brazilian Localization CNPJ Search
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Módulo que adiciona um botão para preencher automaticamente os campos de um partner a partir do seu CNPJ.
-Seguem abaixo os campos que podem ser consultados de ambas as APIs utilizadas para conseguir informações a partir do CNPJ:
+Módulo que adiciona um botão para preencher automaticamente os campos de
+um partner a partir do seu CNPJ. Seguem abaixo os campos que podem ser
+consultados de ambas as APIs utilizadas para conseguir informações a
+partir do CNPJ:
 
 ReceitaWS
--------------------
+---------
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/receita.png
-   :alt: ReceitaWS campos parte 1
-   :width: 80 %
-   :align: center
+|image1|
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/receita1.png
-   :alt: ReceitaWS campos parte 2
-   :width: 80 %
-   :align: center
+|image2|
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/receita2.png
-   :alt: ReceitaWS campos parte 3
-   :width: 80 %
-   :align: center
+|image3|
 
 SERPRO
-----------------------------------------------
+------
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/serpro.png
-   :alt: SERPRO
-   :width: 80 %
-   :align: center
+|image4|
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/serpro1.png
-   :alt: SERPRO
-   :width: 80 %
-   :align: center
+|image5|
+
+.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/receita.png
+.. |image2| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/receita1.png
+.. |image3| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/receita2.png
+.. |image4| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/serpro.png
+.. |image5| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_cnpj_search/static/description/serpro1.png
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Installation
+============
+
+
+
 Configuration
 =============
 
-Esta busca de informações a partir do cnpj é realizada com base no provedor configurado na aba de configurações, vale ressaltar que o provedor receitaws permite a realização de três consultas por minuto, enquanto que o SERPRO é pago e permite consultas ilimitadas em seus planos.
+Esta busca de informações a partir do cnpj é realizada com base no
+provedor configurado na aba de configurações, vale ressaltar que o
+provedor receitaws permite a realização de três consultas por minuto,
+enquanto que o SERPRO é pago e permite consultas ilimitadas em seus
+planos.
 
 Usage
 =====
 
-#. Acesse  Configurações
-#. Escolha um provedor para a busca
-#. Acesse Configurações > Usuários e Empresas > Empresas > Criar ou acesse Contatos > Criar
-#. Preencha os campos obrigatórios, insira no campo de CNPJ o CNPJ que deseja buscar e clique na lupa ao lado do campo para buscar
-#. O mesmo procedimento pode ser feito editando alguma empresa.
+1. Acesse Configurações
+2. Escolha um provedor para a busca
+3. Acesse Configurações > Usuários e Empresas > Empresas > Criar ou
+   acesse Contatos > Criar
+4. Preencha os campos obrigatórios, insira no campo de CNPJ o CNPJ que
+   deseja buscar e clique na lupa ao lado do campo para buscar
+5. O mesmo procedimento pode ser feito editando alguma empresa.
+
+Known issues / Roadmap
+======================
+
+
+
+Changelog
+=========
+
+
 
 Bug Tracker
 ===========
@@ -95,19 +109,19 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Breno Oliveira Dias <breno.dias@kmee.com.br>
+   -  Breno Oliveira Dias <breno.dias@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
