@@ -195,7 +195,8 @@ class CNABImportWizard(models.TransientModel):
         batch_list = []
         for line in lines:
             batch = self._get_content(line, "batch")
-            # Ignore batches from header and trailer of file, they will always be 0000 and 9999.
+            # Ignore batches from header and trailer of file,
+            # they will always be 0000 and 9999.
             # If there is an exception, it must be handled.
             if batch not in ["0000", "9999"]:
                 batch_list.append(batch)
@@ -213,7 +214,7 @@ class CNABImportWizard(models.TransientModel):
         for s in segment_lines:
             segment_code = self._get_content(s, "segment")
             line_template = batch_template.line_ids.filtered(
-                lambda line: line.type == "segment"
+                lambda line, segment_code=segment_code: line.type == "segment"
                 and line.segment_code == segment_code
             )
             segment = {"raw_line": s, "line_template": line_template}
