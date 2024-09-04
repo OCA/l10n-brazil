@@ -28,7 +28,9 @@ Brazilian Localization IE Search
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Módulo que busca a inscrição estadual referente ao CNPJ pesquisado ao clicar no botão de busca de cnpj do módulo l10n_br_cnpj_search, assim preenchendo o campo State Tax Number.
+Módulo que busca a inscrição estadual referente ao CNPJ pesquisado ao
+clicar no botão de busca de cnpj do módulo l10n_br_cnpj_search, assim
+preenchendo o campo State Tax Number.
 
 **Table of contents**
 
@@ -38,16 +40,23 @@ Módulo que busca a inscrição estadual referente ao CNPJ pesquisado ao clicar 
 Configuration
 =============
 
-Esta busca de informações a partir do cnpj é realizada com base no provedor SINTEGRA com o token da conta do usuário no site da API configurado na aba de configurações ou com o WebService do SEFAZ ao marcar a opção correspondente e configurando o certificado da empresa, vale ressaltar que o provedor SINTEGRA é pago, enquanto que o SEFAZ é gratuito.
+Esta busca de informações a partir do cnpj é realizada com base no
+provedor SINTEGRA com o token da conta do usuário no site da API
+configurado na aba de configurações ou com o WebService do SEFAZ ao
+marcar a opção correspondente e configurando o certificado da empresa,
+vale ressaltar que o provedor SINTEGRA é pago, enquanto que o SEFAZ é
+gratuito.
 
 Usage
 =====
 
-#. Para usar o SINTEGRAws
-#. Acesse  Configurações
-#. Clique na caixa de seleção "Activate state subscription search"
-#. Insira o seu token da API no campo "SINTEGRA Token"
-#. Preencha os campos obrigatórios, insira no campo de CNPJ o CNPJ que deseja buscar e clique na lupa ao lado do campo para buscar e o campo State Tax Number será preenchido com a inscrição estadual
+1. Para usar o SINTEGRAws
+2. Acesse Configurações
+3. Clique na caixa de seleção "Activate state subscription search"
+4. Insira o seu token da API no campo "SINTEGRA Token"
+5. Preencha os campos obrigatórios, insira no campo de CNPJ o CNPJ que
+   deseja buscar e clique na lupa ao lado do campo para buscar e o campo
+   State Tax Number será preenchido com a inscrição estadual
 
 Bug Tracker
 ===========
@@ -63,19 +72,19 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Breno Oliveira Dias <breno.dias@kmee.com.br>
+   -  Breno Oliveira Dias <breno.dias@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
