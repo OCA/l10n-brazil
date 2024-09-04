@@ -205,7 +205,6 @@ class AccountMoveLine(models.Model):
                     values.get("uot_id"),
                 )
             )
-            values["uom_id"] = values.get("product_uom_id")
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
         self._inject_shadowed_fields(vals_list)
