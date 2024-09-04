@@ -94,10 +94,10 @@ class DataAbstract(models.AbstractModel):
     def name_get(self):
         def truncate_name(name):
             if len(name) > 60:
-                name = "{}...".format(name[:60])
+                name = f"{name[:60]}..."
             return name
 
         if self._context.get("show_code_only"):
-            return [(r.id, "{}".format(r.code)) for r in self]
+            return [(r.id, f"{r.code}") for r in self]
 
-        return [(r.id, "{} - {}".format(r.code, truncate_name(r.name))) for r in self]
+        return [(r.id, f"{r.code} - {truncate_name(r.name)}") for r in self]
