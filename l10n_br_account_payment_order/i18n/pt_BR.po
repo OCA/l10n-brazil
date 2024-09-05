@@ -2574,8 +2574,8 @@ msgstr "Modo de Pagamento"
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
 #, python-format
 msgid ""
-"Payment Mode %(payment_mode_name)s don't has %(missing)s for making "
-"CNABchange, check if should have."
+"Payment Mode %(payment_mode_name)s don't has %(missing)s for making CNAB "
+"change, check if should have."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
