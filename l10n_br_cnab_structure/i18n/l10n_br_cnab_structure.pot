@@ -531,6 +531,36 @@ msgid "Condition"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_end_pos
+msgid "Conf Detail End Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_start_pos
+msgid "Conf Detail Start Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_end_pos
+msgid "Conf Payment Way End Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_start_pos
+msgid "Conf Payment Way Start Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_end_pos
+msgid "Conf Segment End Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_start_pos
+msgid "Conf Segment Start Pos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
 msgid "Configuration Fields"
 msgstr ""
@@ -735,16 +765,16 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__sending_dynamic_content
 msgid ""
-"Expression in Python to define the final value of the content,you can use the following predefined words: \n"
+"Expression in Python to define the final value of the content,you can use the following predefined words:\n"
 "\n"
-"'content' returns the value of the mapped content source field. \n"
-"'time' class to handle date. \n"
-"'seq_batch' returns the batch sequence. \n"
-"'seq_record_detail' returns the sequence for detail record in the batch. \n"
-"'payment_way_code' return the batch payment way \n"
-"'patment_type_code' return the batch payment type \n"
-"'qty_batches' returns the number of batches \n"
-"'qty_records' returns the number of records \n"
+"'content' returns the value of the mapped content source field.\n"
+"'time' class to handle date.\n"
+"'seq_batch' returns the batch sequence.\n"
+"'seq_record_detail' returns the sequence for detail record in the batch.\n"
+"'payment_way_code' return the batch payment way\n"
+"'patment_type_code' return the batch payment type\n"
+"'qty_batches' returns the number of batches\n"
+"'qty_records' returns the number of records\n"
 "'batch_detail_lines' returns a list of batch detail records.'segment_code' returns the code of the segment defined in the header of the line."
 msgstr ""
 
@@ -1012,12 +1042,12 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_end_pos
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_end_pos
 msgid "Last position of segment of an detail record. Only for detail records."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_end_pos
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_end_pos
 msgid ""
 "Last position of sequencial identification of Detail Records. Only for "
 "detail records."
@@ -1354,14 +1384,14 @@ msgid "Payment Way"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_end_pos
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_end_pos
 msgid ""
 "Payment Way last position in Header Batch Records. Only for Header Batch "
 "Records."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_start_pos
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_start_pos
 msgid ""
 "Payment Way start position in Header Batch Records. Only for Header Batch "
 "Records."
@@ -1391,7 +1421,7 @@ msgid "Phone Number"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_start_pos
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_detail_start_pos
 msgid ""
 "Position of sequencial identification of Detail Records. Only for detail "
 "records."
@@ -1478,11 +1508,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line__content_source_model_id
-#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_source_model_id
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__content_source_model_id
 msgid ""
 "Related model that will provide the origin of the contents of CNAB files."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line__content_source_model_id
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__content_source_model_id
+msgid ""
+"Related model that will provide the origin of the contents of CNABfiles."
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -1595,7 +1630,7 @@ msgid "Start Position"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_start_pos
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_segment_start_pos
 msgid ""
 "Start position of segment of an detail record. Only for detail records."
 msgstr ""
