@@ -23,6 +23,7 @@ msgid "Automatic Reconcile payment returns"
 msgstr "Reconciliar automaticamente as devoluções de pagamento"
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
 #, python-format
 msgid ""
@@ -41,12 +42,12 @@ msgstr ""
 "\n"
 "Defina a URL usando um destes métodos:\n"
 "\n"
-"1. Defina a variável de ambiente: BRCOBRANCA_API_URL=http://boleto_cnab_api:"
-"9292\n"
+"1. Defina a variável de ambiente: BRCOBRANCA_API_URL=http://"
+"boleto_cnab_api:9292\n"
 "2. Configure a URL no arquivo de configuração do Odoo: "
 "brcobranca_api_url=http://boleto_cnab_api:9292\n"
-"3. Defina a URL nos Parâmetros do Sistema: "
-"brcobranca_api_url=http://boleto_cnab_api:9292\n"
+"3. Defina a URL nos Parâmetros do Sistema: brcobranca_api_url=http://"
+"boleto_cnab_api:9292\n"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_brcobranca.selection__account_journal__import_type__cnab240
@@ -73,31 +74,9 @@ msgstr ""
 "para este diário."
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
 msgid "Enable automatic payment return reconciliation."
 msgstr "Habilitar reconciliação do retorno de pagamento automático."
-
-#. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__id
-msgid "ID"
-msgstr "ID"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.ui.menu,name:l10n_br_account_payment_brcobranca.move_importer_menu_brcobranca
@@ -110,6 +89,7 @@ msgid "Import Batch File wizard"
 msgstr "Importar Arquivo de Lote wizard"
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_move.py:0
 #, python-format
 msgid ""
@@ -136,17 +116,7 @@ msgid "Journal Item"
 msgstr "Item de Diário"
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
 msgid ""
@@ -156,6 +126,7 @@ msgstr ""
 "de diário!"
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
 msgid "Nothing to import: The file is empty"
@@ -177,27 +148,53 @@ msgid "Payment Order"
 msgstr "Ordem de Pagamento"
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
-msgid "Statement import error The statement cannot be created: %s"
-msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
+msgid "Statement import error The statement cannot be created: %(st)s"
+msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
 #, python-format
-msgid "The Bank {} CNAB {} is not implemented in BRCobranca."
-msgstr "O banco {} CNAB {} não está implantado no BRCobranca."
+msgid "The Bank %(bank)s CNAB %(cnab_code)s is not implemented in BRCobranca."
+msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:0
 #, python-format
-msgid "The CNAB {} for Bank {} are not implemented in BRCobranca."
-msgstr "O CNAB {} para o banco {} não está implementado no BRCobranca."
+msgid ""
+"The CNAB %(cnab_type)s for Bank %(bank_name)s are not implemented in "
+"BRCobranca."
+msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr "Tipo de importação"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#, python-format
+#~ msgid "Statement import error The statement cannot be created: %s"
+#~ msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
+
+#, python-format
+#~ msgid "The Bank {} CNAB {} is not implemented in BRCobranca."
+#~ msgstr "O banco {} CNAB {} não está implantado no BRCobranca."
+
+#, python-format
+#~ msgid "The CNAB {} for Bank {} are not implemented in BRCobranca."
+#~ msgstr "O CNAB {} para o banco {} não está implementado no BRCobranca."
 
 #, python-format
 #~ msgid ""
