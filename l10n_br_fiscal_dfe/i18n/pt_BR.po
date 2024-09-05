@@ -158,13 +158,10 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_dfe/models/dfe.py:0
 #, python-format
 msgid ""
-"Error validating document distribution: \n"
+"Error validating document distribution:\n"
 "\n"
 "%(code)s - %(message)s"
 msgstr ""
-"Erro ao validar a distribuição do documento:\n"
-"\n"
-"%(code)s - %(message)s"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__file_name
@@ -381,3 +378,13 @@ msgstr "Mensagens do Site"
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__website_message_ids
 msgid "Website communication history"
 msgstr "Histórico de comunicação do Site"
+
+#, python-format
+#~ msgid ""
+#~ "Error validating document distribution: \n"
+#~ "\n"
+#~ "%(code)s - %(message)s"
+#~ msgstr ""
+#~ "Erro ao validar a distribuição do documento:\n"
+#~ "\n"
+#~ "%(code)s - %(message)s"
