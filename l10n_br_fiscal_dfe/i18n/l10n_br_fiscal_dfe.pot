@@ -153,7 +153,7 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_dfe/models/dfe.py:0
 #, python-format
 msgid ""
-"Error validating document distribution: \n"
+"Error validating document distribution:\n"
 "\n"
 "%(code)s - %(message)s"
 msgstr ""
