@@ -61,7 +61,7 @@ class FiscalClosing(models.Model):
     def _compute_name(self):
         for record in self:
             if record.export_type == "period":
-                record.name = "{}/{}".format(record.month, record.year)
+                record.name = f"{record.month}/{record.year}"
                 record.file_name = "{}-{}.{}".format(record.month, record.year, "zip")
             else:
                 now = fields.Datetime.now().strftime("%d/%m/%Y")

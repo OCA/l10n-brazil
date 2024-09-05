@@ -109,9 +109,9 @@ class AccountMoveLine(models.Model):
     )
 
     payment_term_number = fields.Char(
-        help="Stores the installment number in the format 'current-total'. For example, "
-        "'1-3' for the first of three installments, '2-3' for the second, and '3-3'"
-        " for the last installment.",
+        help="Stores the installment number in the format 'current-total'. "
+        "For example, '1-3' for the first of three installments, '2-3' for the second,"
+        " and '3-3' for the last installment.",
     )
 
     @api.depends(
@@ -169,7 +169,7 @@ class AccountMoveLine(models.Model):
         for vals in vals_list:
             for field in self._shadowed_fields():
                 if field in vals:
-                    vals["fiscal_%s" % (field,)] = vals[field]
+                    vals[f"fiscal_{field}"] = vals[field]
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -239,7 +239,8 @@ class AccountMoveLine(models.Model):
         # Initialize the inverted index list with the same length as the original list
         inverted_index = [0] * len(original_indexes)
 
-        # Iterate over the original_indexes list and fill the inverted_index list accordingly
+        # Iterate over the original_indexes list and fill the inverted_index list
+        #  accordingly
         for i, val in enumerate(original_indexes):
             inverted_index[val] = i
 
@@ -285,7 +286,7 @@ class AccountMoveLine(models.Model):
                 .with_context(
                     skip_invoice_line_sync=True,
                 )
-                .filtered(lambda l: l.move_id.is_invoice(True))
+                .filtered(lambda line: line.move_id.is_invoice(True))
             }
 
         def changed(fname):

@@ -1,0 +1,10 @@
+- [KMEE](https://www.kmee.com.br):
+  - Luis Felipe Mileo
+  - Fernando Marcato
+  - Hendrix Costa
+- [Akretion](https://www.akretion.com/pt-BR):
+  - Magno Costa
+- [Engenere](https://engenere.one):
+  - Antônio S. Pereira Neto
+- [Escodoo](https://www.escodoo.com.br):
+  - Marcel Savegnago

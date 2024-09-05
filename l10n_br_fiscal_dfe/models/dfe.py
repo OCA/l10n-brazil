@@ -78,7 +78,8 @@ class DFe(models.Model):
             self.message_post(
                 body=_(
                     _(
-                        "Error validating document distribution: \n\n%(code)s - %(message)s",
+                        "Error validating document distribution:"
+                        "\n\n%(code)s - %(message)s",
                         code=code,
                         message=message,
                     )

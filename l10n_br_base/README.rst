@@ -28,20 +28,26 @@ Brazilian Localization Base
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este é o módulo 'raiz' da localização brasileira. Ele traz adaptações nos modelos do módulo ``base`` do Odoo como Parceiros, Empresas e Endereços:
+Este é o módulo 'raiz' da localização brasileira. Ele traz adaptações
+nos modelos do módulo ``base`` do Odoo como Parceiros, Empresas e
+Endereços:
 
-* Campo CNPJ e CPF com formatação e validação destes campos;
-* Campo de Inscrição Estadual com validação;
-* Formatação dos campos de endereço;
-* Código do Banco Central e Siscomex para países;
-* Código do IBGE para estados e municípios;
-* Lista dos Bancos brasileiros;
-* Contas bancarias e chaves PIX dos parceiros;
-* Lista dos municípios brasileiros.
+-  Campo CNPJ e CPF com formatação e validação destes campos;
+-  Campo de Inscrição Estadual com validação;
+-  Formatação dos campos de endereço;
+-  Código do Banco Central e Siscomex para países;
+-  Código do IBGE para estados e municípios;
+-  Lista dos Bancos brasileiros;
+-  Contas bancarias e chaves PIX dos parceiros;
+-  Lista dos municípios brasileiros.
 
-Se trata de um módulo muito simples e maduro. Existem alguns outros módulos simples que dependem apenas desse módulo ou quase como ``l10n_br_crm`` ou ``l10n_br_portal``.
+Se trata de um módulo muito simples e maduro. Existem alguns outros
+módulos simples que dependem apenas desse módulo ou quase como
+``l10n_br_crm`` ou ``l10n_br_portal``.
 
-Mas se você quiser emitir ou apenas gerenciar algum tipo de documento fiscal como NF-e ou NFS-e, o próximo módulo que você deve olhar é o ``l10n_br_fiscal`` que é porém um módulo muito mais complexo.
+Mas se você quiser emitir ou apenas gerenciar algum tipo de documento
+fiscal como NF-e ou NFS-e, o próximo módulo que você deve olhar é o
+``l10n_br_fiscal`` que é porém um módulo muito mais complexo.
 
 **Table of contents**
 
@@ -53,73 +59,78 @@ Installation
 
 Este módulo depende dos pacotes Python:
 
-* `erpbrasil.base <https://github.com/erpbrasil/erpbrasil.base>`_
-* num2words
-* phonenumbers
-* email_validator
+-  `erpbrasil.base <https://github.com/erpbrasil/erpbrasil.base>`__
+-  num2words
+-  phonenumbers
+-  email_validator
 
 Configuration
 =============
 
-Após a instalação do módulo deve ser preenchido o endereço da empresa para que a formação e validações necessárias para o Brasil funcione os objetos parceiros e nos endereços.
+Após a instalação do módulo deve ser preenchido o endereço da empresa
+para que a formação e validações necessárias para o Brasil funcione os
+objetos parceiros e nos endereços.
 
 Usage
 =====
 
-Após ter o endereço da empresa configurado, no cadastro do parceiro você encotrar os campos CNPJ, CPF, IE, RG e os campos de endereço formatado para o Brasil. Caso você tenha apenas o módulo base instalado, você pode instalar o módulo Contact para acessar o cadastro de parceiros.
+Após ter o endereço da empresa configurado, no cadastro do parceiro você
+encotrar os campos CNPJ, CPF, IE, RG e os campos de endereço formatado
+para o Brasil. Caso você tenha apenas o módulo base instalado, você pode
+instalar o módulo Contact para acessar o cadastro de parceiros.
 
 Known issues / Roadmap
 ======================
 
-* Formatação da Inscrição Estadual de acordo com cada UF.
+-  Formatação da Inscrição Estadual de acordo com cada UF.
 
 Changelog
 =========
 
 12.0.1.0.0 (2019)
-~~~~~~~~~~~~~~~~~
+-----------------
 
-A partir da versão 12.0 foi extraído o pacote de validações cadastrais ``erpbrasil.base`` no intuito de minimizar o código que depende de uma versão especifica do Odoo e para desenvolver sinergias com outras comunidades de código aberto.
-
+A partir da versão 12.0 foi extraído o pacote de validações cadastrais
+``erpbrasil.base`` no intuito de minimizar o código que depende de uma
+versão especifica do Odoo e para desenvolver sinergias com outras
+comunidades de código aberto.
 
 11.0 (unreleased)
-~~~~~~~~~~~~~~~~~
+-----------------
 
-Devido ao atraso com a versão 11.0 foi decido de pular a versão 11.0 e trabalhar direitamente para a versão 12.0.
-
+Devido ao atraso com a versão 11.0 foi decido de pular a versão 11.0 e
+trabalhar direitamente para a versão 12.0.
 
 10.0.1.0.0 (2017)
-~~~~~~~~~~~~~~~~~
+-----------------
 
-Devido ao trabalho enorme com a reescritura do módulo de contabilidade na versão 9 e a problemas pessoas de um dos autores, essa versão atrasou um pouco para sair.
-
+Devido ao trabalho enorme com a reescritura do módulo de contabilidade
+na versão 9 e a problemas pessoas de um dos autores, essa versão atrasou
+um pouco para sair.
 
 9.0.1.0.0 (2015)
-~~~~~~~~~~~~~~~~
-
+----------------
 
 8.0.1.0.0 (2014)
-~~~~~~~~~~~~~~~~
-
+----------------
 
 7.0.1.0.0 (2013)
-~~~~~~~~~~~~~~~~
+----------------
 
-Mudança do Launchpad para Github. Mudança importante com a unificação das tabelas de parceiros e endereços.
-
+Mudança do Launchpad para Github. Mudança importante com a unificação
+das tabelas de parceiros e endereços.
 
 6.1.1.0.0 (2012)
-~~~~~~~~~~~~~~~~
-
+----------------
 
 6.0.1.0.0 (2011)
-~~~~~~~~~~~~~~~~
-
+----------------
 
 5.0.1.0.0 (2009)
-~~~~~~~~~~~~~~~~
+----------------
 
-Este módulo foi criado na versão 5.0 do Odoo então chamado OpenERP. Era inicialmente hospedado na plataforma Launchpad.
+Este módulo foi criado na versão 5.0 do Odoo então chamado OpenERP. Era
+inicialmente hospedado na plataforma Launchpad.
 
 Bug Tracker
 ===========
@@ -135,29 +146,29 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Akretion <https://www.akretion.com/pt-BR>`_:
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  * Renato Lima <renato.lima@akretion.com.br>
-  * Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Luis Felipe Mileo <mileo@kmee.com.br>
-  * Michell Stuttgart <michell.stuttgart@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Michell Stuttgart <michell.stuttgart@kmee.com.br>
 
-* `Engenere <https://engenere.one>`_:
+-  `Engenere <https://engenere.one>`__:
 
-  * Antônio S. Pereira Neto <neto@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 

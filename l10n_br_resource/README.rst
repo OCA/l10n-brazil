@@ -28,7 +28,9 @@ L10n Br Resource
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module extends the core resource module to add data for Brazil. It defines a Brazilian calendar and some tools to compute dates used in financial and payroll modules.
+This module extends the core resource module to add data for Brazil. It
+defines a Brazilian calendar and some tools to compute dates used in
+financial and payroll modules.
 
 **Table of contents**
 
@@ -40,38 +42,41 @@ Installation
 
 To install this module, you need to:
 
-#. Install https://github.com/peopledoc/workalendar
+1. Install https://github.com/peopledoc/workalendar
 
 Configuration
 =============
 
-Após a instalação do módulo acesse Configurações > Técnico > Recursos > Importar calendário brasileiro. Definir um intervalo, selecionando o seu tipo e intervalo para que o calendário seja carregado.
+Após a instalação do módulo acesse Configurações > Técnico > Recursos >
+Importar calendário brasileiro. Definir um intervalo, selecionando o seu
+tipo e intervalo para que o calendário seja carregado.
 
 Usage
 =====
 
 To use this module, you need to:
 
-#. Call your methods in modules inherited from it;
-#. Add manual calendar leaves manualy if you need;
+1. Call your methods in modules inherited from it;
+2. Add manual calendar leaves manualy if you need;
 
 Known issues / Roadmap
 ======================
 
-[ Enumerate known caveats and future potential improvements.
-  It is mostly intended for end-users, and can also help
-  potential new contributors discovering new features to implement. ]
+| [ Enumerate known caveats and future potential improvements.
+| It is mostly intended for end-users, and can also help potential new
+  contributors discovering new features to implement. ]
 
 1. Remove pybrasil from dependencies;
-2. Review parent_id many2one field to handle better relation with Odoo core;
+2. Review parent_id many2one field to handle better relation with Odoo
+   core;
 
 Changelog
 =========
 
 10.0.1.0.0 (2016-10-02)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* [MIG] Migration to version 10.0
+-  [MIG] Migration to version 10.0
 
 Bug Tracker
 ===========
@@ -87,27 +92,27 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Luis Felipe Mileo <mileo@kmee.com.br>
-* Luiz Divino <luiz.divino@kmee.com.br>
-* Hendrix Costa <hendrix.costa@kmee.com.br>
-* Bruna Braga <bruna.braga@kmee.com.br>
+-  Luis Felipe Mileo <mileo@kmee.com.br>
+-  Luiz Divino <luiz.divino@kmee.com.br>
+-  Hendrix Costa <hendrix.costa@kmee.com.br>
+-  Bruna Braga <bruna.braga@kmee.com.br>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
 The development of this module has been financially supported by:
 
-* KMEE INFORMATICA LTDA
+-  KMEE INFORMATICA LTDA
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 

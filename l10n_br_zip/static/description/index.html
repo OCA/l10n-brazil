@@ -370,61 +370,72 @@ ul.auto-toc {
 !! source digest: sha256:ef2b6d7c3bbdf7a0a1667fc3a35b52ecd4b52b6fca7e5e90e9756959f88e0c82
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_zip"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_zip"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Permite consultar o endereço através do CEP e preencher o campos do endereço com as informações consultadas, esse módulo também permite utilizar os seguintes serviços para consulta de CEP:</p>
+<p>Permite consultar o endereço através do CEP e preencher o campos do
+endereço com as informações consultadas, esse módulo também permite
+utilizar os seguintes serviços para consulta de CEP:</p>
 <ul class="simple">
 <li>[API CEP](<a class="reference external" href="https://apicep.com/api-de-consulta/">https://apicep.com/api-de-consulta/</a>)</li>
 <li>[Via CEP](<a class="reference external" href="https://viacep.com.br/">https://viacep.com.br/</a>)</li>
 <li>[Correios](<a class="reference external" href="http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCepEndereco.cfm">http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCepEndereco.cfm</a>)</li>
 </ul>
-<p>Para otimizar as buscas este módulo salva o resultado das consultas de cep na tabela l10n_br_zip, por padrão a cada 365 dias o registro de cep na tabela é atualizado em uma nova consulta de cep nos cadastros do Odoo.</p>
+<p>Para otimizar as buscas este módulo salva o resultado das consultas de
+cep na tabela l10n_br_zip, por padrão a cada 365 dias o registro de cep
+na tabela é atualizado em uma nova consulta de cep nos cadastros do
+Odoo.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
 <li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
 <li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
-<li><a class="reference internal" href="#changelog" id="toc-entry-4">Changelog</a><ul>
-<li><a class="reference internal" href="#section-1" id="toc-entry-5">16.0.2.0.0 (2023-06-29)</a></li>
-<li><a class="reference internal" href="#section-2" id="toc-entry-6">16.0.1.0.0 (2022-10-25)</a></li>
-<li><a class="reference internal" href="#section-3" id="toc-entry-7">15.0.1.0.0 (2022-10-25)</a></li>
-<li><a class="reference internal" href="#section-4" id="toc-entry-8">14.0.1.0.0 (2022-10-25)</a></li>
-<li><a class="reference internal" href="#section-5" id="toc-entry-9">12.0.3.0.0 (2021-01-08)</a></li>
-<li><a class="reference internal" href="#section-6" id="toc-entry-10">12.0.2.0.0 (2019-06-17)</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-6">16.0.2.0.0 (2023-06-29)</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-7">16.0.1.0.0 (2022-10-25)</a></li>
+<li><a class="reference internal" href="#section-3" id="toc-entry-8">15.0.1.0.0 (2022-10-25)</a></li>
+<li><a class="reference internal" href="#section-4" id="toc-entry-9">14.0.1.0.0 (2022-10-25)</a></li>
+<li><a class="reference internal" href="#section-5" id="toc-entry-10">12.0.3.0.0 (2021-01-08)</a></li>
+<li><a class="reference internal" href="#section-6" id="toc-entry-11">12.0.2.0.0 (2019-06-17)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-11">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-12">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-13">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-14">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-15">Maintainers</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-12">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-13">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-14">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-15">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-16">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="installation">
 <h1><a class="toc-backref" href="#toc-entry-1">Installation</a></h1>
-<p>Este módulo depende do l10n_br_base e da biblioteca BrazilCEP ( <a class="reference external" href="https://github.com/mstuttgart/brazilcep">https://github.com/mstuttgart/brazilcep</a>  ).</p>
+<p>Este módulo depende do l10n_br_base e da biblioteca BrazilCEP (
+<a class="reference external" href="https://github.com/mstuttgart/brazilcep">https://github.com/mstuttgart/brazilcep</a> ).</p>
 </div>
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
-<p>Nas configurações gerais no grupo de  <strong>Localização Brasileira</strong> pode ser habilitada ou desabilitada a busca de CEP</p>
-<div class="figure">
-<img alt="Configuração de busca de CEP" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_zip/static/description/l10n_br_zip_1.png" style="width: 600px;" />
-</div>
+<p>Nas configurações gerais no grupo de <strong>Localização Brasileira</strong> pode ser
+habilitada ou desabilitada a busca de CEP</p>
+<p><img alt="image1" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_zip/static/description/l10n_br_zip_1.png" /></p>
 <p>Ao habilitar a busca de CEP existe as configurações:</p>
 <ul class="simple">
 <li>Provedor de Busca de CEP;</li>
-<li>Periodo para um registro na l10n_br_zip ser atualizado em uma nova consulta.</li>
+<li>Periodo para um registro na l10n_br_zip ser atualizado em uma nova
+consulta.</li>
 </ul>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
-<p>Nos endereços de parceiro, empresa e prospectos será exibido ao lado do campo CEP um botão para pesquisa de CEP.</p>
+<p>Nos endereços de parceiro, empresa e prospectos será exibido ao lado do
+campo CEP um botão para pesquisa de CEP.</p>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
 </div>
 <div class="section" id="changelog">
-<h1><a class="toc-backref" href="#toc-entry-4">Changelog</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-5">Changelog</a></h1>
 <div class="section" id="section-1">
-<h2><a class="toc-backref" href="#toc-entry-5">16.0.2.0.0 (2023-06-29)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">16.0.2.0.0 (2023-06-29)</a></h2>
 <blockquote>
 <ul class="simple">
 <li>Biblioteca PyCEP-Correios foi renomeada para BrazilCEP.</li>
@@ -432,7 +443,7 @@ ul.auto-toc {
 </blockquote>
 </div>
 <div class="section" id="section-2">
-<h2><a class="toc-backref" href="#toc-entry-6">16.0.1.0.0 (2022-10-25)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-7">16.0.1.0.0 (2022-10-25)</a></h2>
 <blockquote>
 <ul class="simple">
 <li>Migração para 16.0</li>
@@ -440,7 +451,7 @@ ul.auto-toc {
 </blockquote>
 </div>
 <div class="section" id="section-3">
-<h2><a class="toc-backref" href="#toc-entry-7">15.0.1.0.0 (2022-10-25)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-8">15.0.1.0.0 (2022-10-25)</a></h2>
 <blockquote>
 <ul class="simple">
 <li>Migração para 15.0</li>
@@ -448,7 +459,7 @@ ul.auto-toc {
 </blockquote>
 </div>
 <div class="section" id="section-4">
-<h2><a class="toc-backref" href="#toc-entry-8">14.0.1.0.0 (2022-10-25)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-9">14.0.1.0.0 (2022-10-25)</a></h2>
 <blockquote>
 <ul class="simple">
 <li>Migração para 14.0</li>
@@ -456,25 +467,27 @@ ul.auto-toc {
 </blockquote>
 </div>
 <div class="section" id="section-5">
-<h2><a class="toc-backref" href="#toc-entry-9">12.0.3.0.0 (2021-01-08)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-10">12.0.3.0.0 (2021-01-08)</a></h2>
 <blockquote>
 <ul class="simple">
 <li>Atualizada a biblioteca pycep-correios para a versão 5.0.0</li>
-<li>[ADD] Adicionado a opção para selecionar o provedor do serviço de busca de CEP.</li>
+<li>[ADD] Adicionado a opção para selecionar o provedor do serviço de
+busca de CEP.</li>
 </ul>
 </blockquote>
 </div>
 <div class="section" id="section-6">
-<h2><a class="toc-backref" href="#toc-entry-10">12.0.2.0.0 (2019-06-17)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-11">12.0.2.0.0 (2019-06-17)</a></h2>
 <blockquote>
 <ul class="simple">
-<li>[REF] Incluida pesquisa e dependência da biblioteca PyCEP-Correios.</li>
+<li>[REF] Incluida pesquisa e dependência da biblioteca
+PyCEP-Correios.</li>
 </ul>
 </blockquote>
 </div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-11">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-12">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -482,15 +495,15 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-12">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-13">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-13">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-14">Authors</a></h2>
 <ul class="simple">
 <li>Akretion</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-14">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-15">Contributors</a></h2>
 <ul class="simple">
 <li>Renato Lima &lt;<a class="reference external" href="mailto:rento.lima&#64;akretion.com.br">rento.lima&#64;akretion.com.br</a>&gt;</li>
 <li>Magno Costa &lt;<a class="reference external" href="mailto:magno.costa&#64;akretion.com.br">magno.costa&#64;akretion.com.br</a>&gt;</li>
@@ -498,7 +511,7 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-15">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-16">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />

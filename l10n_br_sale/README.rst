@@ -28,7 +28,11 @@ Brazilian Localization Sale
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este módulo estende o módulo sale do Odoo para adaptá-lo as necessidades brasileira, com este módulo você tem dados fiscal para faturamento e geração dos documentos fiscais (NF-e, NFS-e, CF-e, NFC-e e etc.), cálculo dos impostos e contribuições brasileiros (municipais, estaduais e federal).
+Este módulo estende o módulo sale do Odoo para adaptá-lo as necessidades
+brasileira, com este módulo você tem dados fiscal para faturamento e
+geração dos documentos fiscais (NF-e, NFS-e, CF-e, NFC-e e etc.),
+cálculo dos impostos e contribuições brasileiros (municipais, estaduais
+e federal).
 
 **Table of contents**
 
@@ -40,43 +44,51 @@ Installation
 
 Este módulo depende dos seguintes módulos:
 
-* sale_management
-* l10n_br_account
-* l10n_br_fiscal
+-  sale_management
+-  l10n_br_account
+-  l10n_br_fiscal
 
 Configuration
 =============
 
-Este módulo depende do módulo l10n_br_fiscal e l10n_br_account e para funcionar corretamente deve ser previamente configurado parâmetros fiscais e contábeis.
+Este módulo depende do módulo l10n_br_fiscal e l10n_br_account e para
+funcionar corretamente deve ser previamente configurado parâmetros
+fiscais e contábeis.
 
 Usage
 =====
 
-Após configurar a empresa, os dados contábeis e fiscais, ao criar um pedido de venda será, será possível visualizar os dados fiscais e contábeis:
+Após configurar a empresa, os dados contábeis e fiscais, ao criar um
+pedido de venda será, será possível visualizar os dados fiscais e
+contábeis:
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_sale/static/description/sale_order_1.png
-    :alt: Pedido de Venda
-    :width: 600 px
+|image1|
+
+Ao adicionar um produto ou serviço será exibido os detalhes dos
+impostos:
+
+|image2|
+
+.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_sale/static/description/sale_order_1.png
+.. |image2| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_sale/static/description/sale_order_2.png
+
+Known issues / Roadmap
+======================
 
 
-Ao adicionar um produto ou serviço será exibido os detalhes dos impostos:
-
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_sale/static/description/sale_order_2.png
-    :alt: Adicionando um produto ou serviço no pedido de venda
-    :width: 600 px
 
 Changelog
 =========
 
 14.0.1.0.0 (2022-06-03)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* [MIG] Migração para a versão 14.
+-  [MIG] Migração para a versão 14.
 
 13.0.1.0.0 (2022-01-13)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* [MIG] Migração para a versão 13.
+-  [MIG] Migração para a versão 13.
 
 Bug Tracker
 ===========
@@ -92,41 +104,41 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `AKRETION <https://akretion.com/pt-BR/>`_:
+-  `AKRETION <https://akretion.com/pt-BR/>`__:
 
-  * Raphaël Valyi <raphael.valyi@akretion.com.br>
-  * Renato Lima <renato.lima@akretion.com.br>
-  * Magno Costa <magno.costa@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Magno Costa <magno.costa@akretion.com.br>
 
-* `KMEE <https://kmee.com.br>`_:
+-  `KMEE <https://kmee.com.br>`__:
 
-  * Luis Felipe Mileo <mileo@kmee.com.br>
-  * Michell Stuttgart <michell.stuttgart@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Michell Stuttgart <michell.stuttgart@kmee.com.br>
 
-* `ESCODOO <https://escodoo.com.br>`_:
+-  `ESCODOO <https://escodoo.com.br>`__:
 
-  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-* `ENGENERE <https://engenere.one>`_:
+-  `ENGENERE <https://engenere.one>`__:
 
-  * Felipe Motter Pereira <felipe@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
 The development of this module has been financially supported by:
 
-* AKRETION LTDA - www.akretion.com
+-  AKRETION LTDA - `www.akretion.com <http://www.akretion.com>`__
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 

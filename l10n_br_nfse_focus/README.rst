@@ -28,7 +28,9 @@ NFS-e (FocusNFE)
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Esse módulo integra a emissão de Notas Fiscais de Serviços(NFSe) com a API da FocusNFE permitindo assim, a criação, transmissão, consulta e cancelamento de documentos fiscais do tipo NFSe.
+Esse módulo integra a emissão de Notas Fiscais de Serviços(NFSe) com a
+API da FocusNFE permitindo assim, a criação, transmissão, consulta e
+cancelamento de documentos fiscais do tipo NFSe.
 
 Para mais informações, acesse: https://focusnfe.com.br/
 
@@ -40,34 +42,44 @@ Para mais informações, acesse: https://focusnfe.com.br/
 Installation
 ============
 
-Para instalar esta funcionalidde, simplesmente instale o módulo e faça as devidas configurações.
+Para instalar esta funcionalidde, simplesmente instale o módulo e faça
+as devidas configurações.
 
 Configuration
 =============
 
-Após a instalação do módulo, siga os seguintes passos para configurá-lo para a empresa desejada:
+Após a instalação do módulo, siga os seguintes passos para configurá-lo
+para a empresa desejada:
 
-#. Definições > Usuários & Empresas > Empresas
-#. Selecione a empresa desejada
-#. Na visualização da empresa, clique na aba Fiscal
-#. Na subseção NFS-e, configure os seguintes campos:
+1. Definições > Usuários & Empresas > Empresas
 
-    - **Ambiente NFS-e:** Selecione a opção a ser usada no ambiente (Produção, Homologação)
-    - **Provedor NFS-e:** Selecione a opção FocusNFE
-    - **FocusNFe Token:** Informe o token de acesso da empresa. Obs. Este token é obtido através da plataforma da FocusNFE
-    - **Valor Tipo de Serviço:** Se necessário configure o campo que deve preencher o valor de tipo de serviço
-    - **Valor Código CNAE:** Se necessário configure o campo que deve preencher o valor do Código CNAE
+2. Selecione a empresa desejada
+
+3. Na visualização da empresa, clique na aba Fiscal
+
+4. Na subseção NFS-e, configure os seguintes campos:
+
+      -  **Ambiente NFS-e:** Selecione a opção a ser usada no ambiente
+         (Produção, Homologação)
+      -  **Provedor NFS-e:** Selecione a opção FocusNFE
+      -  **FocusNFe Token:** Informe o token de acesso da empresa. Obs.
+         Este token é obtido através da plataforma da FocusNFE
+      -  **Valor Tipo de Serviço:** Se necessário configure o campo que
+         deve preencher o valor de tipo de serviço
+      -  **Valor Código CNAE:** Se necessário configure o campo que deve
+         preencher o valor do Código CNAE
 
 Usage
 =====
 
 Para usar este módulo:
 
-#. Crie uma fatura com o tipo de documento fiscal 'SE'.
-#. Preencha os detalhes necessários, como o código tributário da cidade, impostos e informações correlatas.
-#. Valide o documento.
-#. Envie o Documento Fiscal.
-#. Acompanhe o status de processamento do documento.
+1. Crie uma fatura com o tipo de documento fiscal 'SE'.
+2. Preencha os detalhes necessários, como o código tributário da cidade,
+   impostos e informações correlatas.
+3. Valide o documento.
+4. Envie o Documento Fiscal.
+5. Acompanhe o status de processamento do documento.
 
 Bug Tracker
 ===========
@@ -83,25 +95,25 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 * Escodoo
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * André Marcos <andre.marcos@kmee.com.br>
+   -  André Marcos <andre.marcos@kmee.com.br>
 
-* `Escodoo <https://www.escodoo.com.br>`_:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
-  * Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
