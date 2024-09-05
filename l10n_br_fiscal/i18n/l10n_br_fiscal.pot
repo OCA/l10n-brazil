@@ -16,12 +16,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #, python-format
 msgid "%(name)s Tax Estimate Failure"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #, python-format
 msgid "%(name)s Tax Estimate Failure: %(error)s"
@@ -817,6 +819,8 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_pis_cofins_base.py:0
+#: code:addons/l10n_br_fiscal/models/tax_pis_cofins_base.py:0
+#: code:addons/l10n_br_fiscal/models/tax_pis_cofins_credit.py:0
 #: code:addons/l10n_br_fiscal/models/tax_pis_cofins_credit.py:0
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_base_l10n_br_fiscal_tax_pis_cofins_base_uniq
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_credit_l10n_br_fiscal_tax_pis_cofins_code_uniq
@@ -1133,6 +1137,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #, python-format
 msgid "Bills to pay"
 msgstr ""
@@ -1314,6 +1319,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/cnae.py:0
 #: code:addons/l10n_br_fiscal/models/cnae.py:0
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cnae_fiscal_cnae_code_uniq
 #, python-format
@@ -1663,6 +1669,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/cst.py:0
+#: code:addons/l10n_br_fiscal/models/cst.py:0
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cst_l10n_br_fiscal_cst_code_tax_group_id_uniq
 #, python-format
 msgid "CST already exists with this code !"
@@ -1765,6 +1772,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document.py:0
+#: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid ""
 "Canceling the document is not allowed: one or more associated documents have"
@@ -1828,6 +1836,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/tax_group.py:0
 #: code:addons/l10n_br_fiscal/models/tax_group.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__city_id
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_scope__city
@@ -1964,6 +1973,8 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:0
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:0
+#: code:addons/l10n_br_fiscal/models/tax_pis_cofins.py:0
 #: code:addons/l10n_br_fiscal/models/tax_pis_cofins.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_email__company_id
@@ -2205,6 +2216,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation.py:0
+#: code:addons/l10n_br_fiscal/models/operation.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__default_price_unit__cost_price
 #, python-format
 msgid "Cost Price"
@@ -2292,6 +2304,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #, python-format
 msgid "Create invoice/bill"
@@ -2743,6 +2756,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
 #, python-format
 msgid "Document Imported"
 msgstr ""
@@ -2812,6 +2826,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_serie.py:0
+#: code:addons/l10n_br_fiscal/models/document_serie.py:0
 #, python-format
 msgid "Document Serie Sequence"
 msgstr ""
@@ -2874,6 +2889,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
+#: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_invalidate_number__state__done
 #, python-format
 msgid "Done"
@@ -2887,6 +2903,8 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
+#: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__state__draft
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_invalidate_number__state__draft
@@ -2974,12 +2992,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
 #, python-format
 msgid "Erro!"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
 msgid "Error in the request: {}"
@@ -3145,6 +3165,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_group.py:0
+#: code:addons/l10n_br_fiscal/models/tax_group.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_scope__federal
 #, python-format
 msgid "Federal"
@@ -3269,6 +3290,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_type_action
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document
@@ -3437,6 +3459,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation_line.py:0
+#: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_operation_line_fiscal_operation_name_uniq
 #, python-format
 msgid "Fiscal Operation Line already exists with this name !"
@@ -3454,6 +3477,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation.py:0
 #: code:addons/l10n_br_fiscal/models/operation.py:0
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_operation_fiscal_operation_code_uniq
 #, python-format
@@ -3556,6 +3580,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__cofins_base_type__fixed
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__cofins_wh_base_type__fixed
@@ -3756,12 +3781,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
 msgid "IBPT Forbidden - token=%(token)s, cnpj=%(cnpj)s, UF=%(uf)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
 msgid "IBPT Service Unavailable - {!r}"
@@ -3779,6 +3806,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
 #, python-format
 msgid "IBPT URL not found - {!r}"
@@ -5414,6 +5442,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
 #, python-format
 msgid "Importation not implemented for %s!"
 msgstr ""
@@ -5454,6 +5483,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__type_in_out__in
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cst__cst_type__in
@@ -5566,6 +5596,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
 #, python-format
 msgid "Invalid file!"
 msgstr ""
@@ -5589,6 +5620,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: model:ir.actions.act_window,name:l10n_br_fiscal.invalidate_number_action
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_invalidate_number
@@ -5639,6 +5671,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #, python-format
 msgid "Invoices owed to you"
@@ -5730,6 +5763,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
 #, python-format
 msgid "Justification must be at least 15 characters."
@@ -5947,35 +5981,35 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
+#: code:addons/l10n_br_fiscal/hooks.py:0 code:addons/l10n_br_fiscal/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_fiscal demo files."
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
+#: code:addons/l10n_br_fiscal/hooks.py:0 code:addons/l10n_br_fiscal/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
+#: code:addons/l10n_br_fiscal/hooks.py:0 code:addons/l10n_br_fiscal/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_fiscal post demo files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
+#: code:addons/l10n_br_fiscal/hooks.py:0 code:addons/l10n_br_fiscal/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_fiscal post init files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
+#: code:addons/l10n_br_fiscal/hooks.py:0 code:addons/l10n_br_fiscal/hooks.py:0
 #, python-format
 msgid ""
 "Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
@@ -6060,6 +6094,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/partner_profile.py:0
 #: code:addons/l10n_br_fiscal/models/partner_profile.py:0
 #, python-format
 msgid ""
@@ -6284,6 +6319,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/nbs.py:0
+#: code:addons/l10n_br_fiscal/models/nbs.py:0
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_nbs_fiscal_nbs_code_uniq
 #, python-format
 msgid "NBS already exists with this code !"
@@ -6291,6 +6327,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/tax_pis_cofins.py:0
 #: code:addons/l10n_br_fiscal/models/tax_pis_cofins.py:0
 #: model:ir.actions.act_window,name:l10n_br_fiscal.ncm_action
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_ncm
@@ -6326,6 +6363,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/ncm.py:0
 #: code:addons/l10n_br_fiscal/models/ncm.py:0
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_ncm_fiscal_ncm_code_exception_uniq
 #, python-format
@@ -6503,12 +6541,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_eletronic.py:0
+#: code:addons/l10n_br_fiscal/models/document_eletronic.py:0
 #, python-format
 msgid "No PDF file generated!"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_eletronic.py:0
 #: code:addons/l10n_br_fiscal/models/document_eletronic.py:0
 #, python-format
 msgid "No XML file generated!"
@@ -6608,6 +6648,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
+#: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
 #, python-format
 msgid "Number range overlap is not allowed."
 msgstr ""
@@ -6636,6 +6677,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
 #, python-format
 msgid ""
@@ -6691,6 +6733,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_workflow.py:0
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:0
 #, python-format
 msgid ""
 "Não é possível realizar esta operação,\n"
@@ -6703,6 +6746,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:0
 #: code:addons/l10n_br_fiscal/models/document_workflow.py:0
 #, python-format
 msgid ""
@@ -6864,6 +6908,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_group.py:0
+#: code:addons/l10n_br_fiscal/models/tax_group.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__type_move__other
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_type__other
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_scope__other
@@ -6892,6 +6937,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__type_in_out__out
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cst__cst_type__out
@@ -7176,6 +7222,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:0
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: model:ir.actions.act_window,name:l10n_br_fiscal.partner_action
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_id
@@ -7319,6 +7366,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:0
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__percent_amount
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__cofins_base_type__percent
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__cofins_wh_base_type__percent
@@ -7421,6 +7469,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/tax_pis_cofins.py:0
 #: code:addons/l10n_br_fiscal/models/tax_pis_cofins.py:0
 #: model:ir.model,name:l10n_br_fiscal.model_product_template
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__product_id
@@ -7635,6 +7684,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:0
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__quantity
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__quantity
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__cofins_base_type__quantity
@@ -7819,6 +7869,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__state__done
 #, python-format
 msgid "Response received"
@@ -7921,6 +7972,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation.py:0
+#: code:addons/l10n_br_fiscal/models/operation.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__default_price_unit__sale_price
 #, python-format
 msgid "Sale Price"
@@ -7949,12 +8001,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #, python-format
 msgid "Scheduled {} estimate taxes update complete."
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #, python-format
 msgid "Scheduled {} estimate taxes update..."
@@ -8021,12 +8075,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document.py:0
+#: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__state__send
 #, python-format
@@ -8239,6 +8295,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/tax_group.py:0
 #: code:addons/l10n_br_fiscal/models/tax_group.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__state_id
@@ -8645,12 +8702,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_definition_cfop.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition_cfop.py:0
 #, python-format
 msgid "Tax Definition already exists for this CFOP and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/tax_definition_company.py:0
 #: code:addons/l10n_br_fiscal/models/tax_definition_company.py:0
 #, python-format
 msgid "Tax Definition already exists for this Company and Tax Group !"
@@ -8659,6 +8718,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_definition_icms.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition_icms.py:0
 #, python-format
 msgid "Tax Definition already exists for this ICMS and Tax Group !"
 msgstr ""
@@ -8666,12 +8726,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_definition_operation_line.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition_operation_line.py:0
 #, python-format
 msgid "Tax Definition already exists for this Operation Line and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/tax_definition_partner_profile.py:0
 #: code:addons/l10n_br_fiscal/models/tax_definition_partner_profile.py:0
 #, python-format
 msgid "Tax Definition already exists for this Partner Profile and Tax Group !"
@@ -8715,6 +8777,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/tax_group.py:0
 #: code:addons/l10n_br_fiscal/models/tax_group.py:0
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_group_fiscal_tax_group_code_uniq
 #, python-format
@@ -8948,12 +9011,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
 #, python-format
 msgid "Tax benefit code must be 8 characters!"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
 #: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
 #, python-format
 msgid "Tax benefit code must be start with state code!"
@@ -9008,12 +9073,15 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_eletronic.py:0
+#: code:addons/l10n_br_fiscal/models/document_eletronic.py:0
 #, python-format
 msgid "The field 'Issuer' is required for brazilian electronic documents!"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#: code:addons/l10n_br_fiscal/models/document.py:0
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
@@ -9038,6 +9106,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
 #, python-format
 msgid "The tax benefit code must contain the type of benefit!"
 msgstr ""
@@ -9053,6 +9122,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document.py:0
+#: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid ""
 "There is already a fiscal document with this Serie: %(serie)s, Number: "
@@ -9061,6 +9131,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid "There is already a fiscal document with this key: {} !"
@@ -9155,6 +9226,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid "Unidentified Consumer"
@@ -9320,6 +9392,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_event.py:0
+#: code:addons/l10n_br_fiscal/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_event__state__wait
 #, python-format
 msgid "Waiting Response"
@@ -9327,6 +9400,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #, python-format
 msgid "Warning!"
@@ -9391,6 +9465,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
+#: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
 #, python-format
 msgid "You can delete only draft Invalidate Number Range !"
 msgstr ""
@@ -9403,6 +9478,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_workflow.py:0
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:0
 #, python-format
 msgid ""
 "You cannot create a fiscal correction document if this fical document you "
@@ -9412,12 +9488,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation_line.py:0
+#: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation.py:0
 #: code:addons/l10n_br_fiscal/models/operation.py:0
 #, python-format
 msgid "You cannot delete an Operation which is not draft !"
@@ -9426,12 +9504,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/tax_definition.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid ""
@@ -9442,12 +9522,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document_workflow.py:0
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:0
 #, python-format
 msgid "You cannot invalidate this document"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/data_abstract.py:0
 #: code:addons/l10n_br_fiscal/models/data_abstract.py:0
 #, python-format
 msgid "You don't have permission to archive records."
@@ -9456,6 +9538,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_abstract.py:0
+#: code:addons/l10n_br_fiscal/models/data_abstract.py:0
 #, python-format
 msgid "You don't have permission to unarchive records."
 msgstr ""
@@ -9463,12 +9546,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation_line.py:0
+#: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #, python-format
 msgid "You need set a default fiscal document in your company !"
@@ -9551,6 +9636,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard_mixin.py:0
 #, python-format
 msgid "xsdata Python lib not installed!"
 msgstr ""
@@ -9567,6 +9653,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #, python-format
