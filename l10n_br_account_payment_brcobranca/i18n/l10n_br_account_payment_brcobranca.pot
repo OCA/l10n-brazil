@@ -127,7 +127,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
-msgid "Statement import error The statement cannot be created: %s"
+msgid "Statement import error The statement cannot be created: %(st)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
