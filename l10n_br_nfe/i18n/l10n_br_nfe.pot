@@ -1822,6 +1822,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_detpag__nfe40_indPag
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_detpag__nfe40_tPag
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
 msgid "Forma de Pagamento"
@@ -2408,14 +2409,8 @@ msgid "Indicador"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Indicador da Forma"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid ""
-"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+msgid "Indicador da Forma de Pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe
