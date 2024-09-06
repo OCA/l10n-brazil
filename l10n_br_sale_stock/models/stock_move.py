@@ -27,8 +27,9 @@ class StockMove(models.Model):
         values = {}
         fiscal_operation = False
         if self.sale_line_id:
-            values = self.sale_line_id.order_id._prepare_br_fiscal_dict()
-            fiscal_operation = self.sale_line_id.order_id.fiscal_operation_id
+            if self.sale_line_id.order_id.fiscal_operation_id:
+                fiscal_operation = self.sale_line_id.order_id.fiscal_operation_id
+                values = self.sale_line_id.order_id._prepare_br_fiscal_dict()
 
         values.update(super()._get_new_picking_values())
         # O self pode conter mais de uma stock.move por isso a Operação Fiscal

@@ -197,6 +197,11 @@ msgid "Company Phone"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_est_st
+msgid "Company ST State Tax Number"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_state_id
 msgid "Company State"
 msgstr ""
@@ -359,22 +364,6 @@ msgid "Final Consumption Operation"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_company_id
-msgid "Fiscal Company"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_currency_id
-msgid "Fiscal Currency"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_document_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_document_id
@@ -411,12 +400,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__incoterm_id
 msgid "Fiscal Inconterm"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_name
-msgid "Fiscal Name"
 msgstr ""
 
 #. module: l10n_br_account
@@ -457,25 +440,59 @@ msgid "Fiscal Position"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_price_unit
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_price_unit
-msgid "Fiscal Price Unit"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_product_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_product_id
-msgid "Fiscal Product"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_genre_code
 msgid "Fiscal Product Genre Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_company_id
+msgid "Fiscal Proxy Company"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_currency_id
+msgid "Fiscal Proxy Currency"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_name
+msgid "Fiscal Proxy Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_price_unit
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_price_unit
+msgid "Fiscal Proxy Price Unit"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_product_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_product_id
+msgid "Fiscal Proxy Product"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_quantity
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_quantity
+msgid "Fiscal Proxy Quantity"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_user_id
+msgid "Fiscal Proxy User"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Fiscal Quantity"
 msgstr ""
@@ -494,14 +511,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
 msgid "Fiscal Taxes"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_user_id
-msgid "Fiscal User"
 msgstr ""
 
 #. module: l10n_br_account

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-02 02:23+0000\n"
-"PO-Revision-Date: 2024-08-13 16:05+0000\n"
+"PO-Revision-Date: 2024-08-28 19:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -492,7 +492,7 @@ msgstr "Valor do Desconto Financeiro"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__financial_total_gross
 msgid "Financial Gross Amount"
-msgstr ""
+msgstr "Valor Financeiro Bruto"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_additional_data
@@ -1112,7 +1112,7 @@ msgstr "Lançamento de Diário"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_key
 msgid "Key"
-msgstr ""
+msgstr "Chave"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_account_move____last_update
@@ -1429,7 +1429,7 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie
 msgid "Serie Number"
-msgstr ""
+msgstr "Número de Série"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__service_type_id
@@ -1606,12 +1606,12 @@ msgstr "Total"
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__total_with_taxes
 msgid "Total With Taxes"
-msgstr ""
+msgstr "Total com Impostos"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__financial_total_gross
 msgid "Total amount before any discounts are applied."
-msgstr ""
+msgstr "Valor total antes de quaisquer descontos serem aplicados."
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__price_gross
@@ -1619,6 +1619,8 @@ msgid ""
 "Total value of products or services (quantity x unit price)before any "
 "discounts."
 msgstr ""
+"Valor total dos produtos ou serviços (quantidade x preço unitário) antes de "
+"quaisquer descontos."
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
