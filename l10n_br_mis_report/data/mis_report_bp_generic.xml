@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="balanco_patrimonial_generic" model="mis.report">
+        <field name="name">BP (l10n_br_coa_generic)</field>
+        <field name="description">Balanço Patrimonial</field>
+        <field name="move_lines_source" ref="account.model_account_move_line" />
+    </record>
+
+    <!--        LADO DIREITO       -->
+
+    <!--        ATIVO       -->
+
+    <record id="balanco_patrimonial_generic_header_1" model="mis.report.kpi">
+        <field name="sequence">1000</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">ATIVO</field>
+        <field name="name">header_1</field>
+        <field name="expression">""</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <!--        ATIVO CIRCULANTE        -->
+
+    <record id="balanco_patrimonial_generic_circulante_ativo" model="mis.report.kpi">
+        <field name="sequence">1001</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">CIRCULANTE</field>
+        <field name="name">circulante_ativo</field>
+        <field name="expression">caixa+contas_a_receber+estoques+outros_creditos</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="balanco_patrimonial_generic_caixa" model="mis.report.kpi">
+        <field name="sequence">1010</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Caixa e Equivalentes de Caixa</field>
+        <field name="name">caixa</field>
+        <field name="expression">+bale[1.1.1.1%,1.1.1.2%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_contas_a_receber" model="mis.report.kpi">
+        <field name="sequence">1020</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Contas a Receber</field>
+        <field name="name">contas_a_receber</field>
+        <field name="expression">+bale[1.1.2%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_estoques" model="mis.report.kpi">
+        <field name="sequence">1030</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Estoques</field>
+        <field name="name">estoques</field>
+        <field name="expression">+bale[1.1.3%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_outros_creditos" model="mis.report.kpi">
+        <field name="sequence">1040</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Outros Creditos</field>
+        <field name="name">outros_creditos</field>
+        <field name="expression">+bale[1.1.4%,1.1.5%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_vazio_1_1" model="mis.report.kpi">
+        <field name="sequence">1050</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description" />
+        <field name="name">vazio_1_1</field>
+        <field name="expression">""</field>
+        <field name="type">str</field>
+        <field name="compare_method">none</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_vazio_1_2" model="mis.report.kpi">
+        <field name="sequence">1060</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description" />
+        <field name="name">vazio_1_2</field>
+        <field name="expression">""</field>
+        <field name="type">str</field>
+        <field name="compare_method">none</field>
+    </record>
+
+    <!--        ATIVO NÃO CIRCULANTE        -->
+
+    <record
+        id="balanco_patrimonial_generic_nao_circulante_ativo"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">1100</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">NÃO CIRCULANTE</field>
+        <field name="name">nao_circulante_ativo</field>
+        <field
+            name="expression"
+        >realizavel_longo_prazo+investimentos+imobilizado+intangivel+depreciacao_amortizacao</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record
+        id="balanco_patrimonial_generic_realizavel_longo_prazo"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">1110</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Realizável a Longo Prazo</field>
+        <field name="name">realizavel_longo_prazo</field>
+        <field name="expression">+bale[1.2.2%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_investimentos" model="mis.report.kpi">
+        <field name="sequence">1120</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Investimentos</field>
+        <field name="name">investimentos</field>
+        <field name="expression">+bale[1.2.7%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_imobilizado" model="mis.report.kpi">
+        <field name="sequence">1130</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Imobilizado</field>
+        <field name="name">imobilizado</field>
+        <field name="expression">+bale[1.2.8.1%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_intangivel" model="mis.report.kpi">
+        <field name="sequence">1140</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Intangível</field>
+        <field name="name">intangivel</field>
+        <field name="expression">+bale[1.2.9.1%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record
+        id="balanco_patrimonial_generic_depreciacao_amortizacao"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">1150</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">(-) Depreciação e Amortização Acumuladas</field>
+        <field name="name">depreciacao_amortizacao</field>
+        <field name="expression">bale[1.2.9.6%,1.2.8.9%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <!--        total       -->
+
+    <record id="balanco_patrimonial_generic_total_ativo" model="mis.report.kpi">
+        <field name="sequence">1999</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">TOTAL DO ATIVO</field>
+        <field name="name">depreciacao_amortizacao</field>
+        <field name="expression">circulante_ativo+nao_circulante_ativo</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <!--        LADO ESQUERDO       -->
+
+    <!--        PASSIVO e PATRIMÔNIO LÍQUIDO    -->
+
+    <!--        CIRCULANTE        -->
+
+    <record id="balanco_patrimonial_generic_header_2" model="mis.report.kpi">
+        <field name="sequence">2000</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">PASSIVO e PATRIMÔNIO LÍQUIDO</field>
+        <field name="name">header_2</field>
+        <field name="expression">""</field>
+        <field name="type">str</field>
+        <!--            <field name="column_start">True</field>-->
+        <!--            <field name="column_title">True</field>-->
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="balanco_patrimonial_generic_passivo_circulante" model="mis.report.kpi">
+        <field name="sequence">2010</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">CIRCULANTE</field>
+        <field name="name">passivo_circulante</field>
+        <field
+            name="expression"
+        >fornecedores+emprestimos_financiamentos+obrigacoes_fiscais+obrigacoes_trabalhistas_sociais+contas_a_pagar+provisoes</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="balanco_patrimonial_generic_fornecedores" model="mis.report.kpi">
+        <field name="sequence">2020</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Fornecedores</field>
+        <field name="name">fornecedores</field>
+        <field name="expression">+bale[2.1.1%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record
+        id="balanco_patrimonial_generic_emprestimos_financiamentos"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">2030</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Empréstimos e Financiamentos</field>
+        <field name="name">emprestimos_financiamentos</field>
+        <field name="expression">+bale[2.1.4]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_obrigacoes_fiscais" model="mis.report.kpi">
+        <field name="sequence">2040</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Obrigações Fiscais</field>
+        <field name="name">obrigacoes_fiscais</field>
+        <field name="expression">+bale[2.1.7%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record
+        id="balanco_patrimonial_generic_obrigacoes_trabalhistas_sociais"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">2050</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Obrigações Trabalhistas e Sociais</field>
+        <field name="name">obrigacoes_trabalhistas_sociais</field>
+        <field name="expression">+bale[2.1.6%,2.1.8%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_contas_a_pagar" model="mis.report.kpi">
+        <field name="sequence">2060</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Contas a Pagar</field>
+        <field name="name">contas_a_pagar</field>
+        <field name="expression">+bale[2.1.2%,2.1.3%,2.1.4%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_provisoes" model="mis.report.kpi">
+        <field name="sequence">2070</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Provisões</field>
+        <field name="name">provisoes</field>
+        <field name="expression">+bale[2.1.8%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_vazio_2_1" model="mis.report.kpi">
+        <field name="sequence">2080</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description" />
+        <field name="name">vazio_2_1</field>
+        <field name="expression">""</field>
+        <field name="type">str</field>
+        <field name="compare_method">none</field>
+    </record>
+
+    <!--        PASSIVO NÃO CIRCULANTE        -->
+
+    <record
+        id="balanco_patrimonial_generic_passivo_nao_circulante"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">2100</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">NÃO CIRCULANTE</field>
+        <field name="name">passivo_nao_circulante</field>
+        <field name="expression">contas_a_pagar_longo+financiamentos_longo</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record
+        id="balanco_patrimonial_generic_contas_a_pagar_longo"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">2110</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Contas a Pagar</field>
+        <field name="name">contas_a_pagar_longo</field>
+        <field name="expression">+bale[2.2.2%,2.2.7%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record
+        id="balanco_patrimonial_generic_financiamentos_longo"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">2120</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Financiamentos</field>
+        <field name="name">financiamentos_longo</field>
+        <field name="expression">+bale[2.2.1%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_vazio_2_2" model="mis.report.kpi">
+        <field name="sequence">2130</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description" />
+        <field name="name">vazio_2_2</field>
+        <field name="expression">""</field>
+        <field name="type">str</field>
+        <field name="compare_method">none</field>
+    </record>
+
+    <!--        PATRIMÔNIO LÍQUIDO      -->
+
+    <record id="balanco_patrimonial_generic_patrimonio_liquido" model="mis.report.kpi">
+        <field name="sequence">2150</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">PATRIMÔNIO LÍQUIDO</field>
+        <field name="name">patrimonio_liquido</field>
+        <field
+            name="expression"
+        >capital_social+reservas_capital+reservas_lucros+lucros+prejuizos</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="balanco_patrimonial_generic_capital_social" model="mis.report.kpi">
+        <field name="sequence">2160</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Capital Social</field>
+        <field name="name">capital_social</field>
+        <field name="expression">+bale[2.4.1%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_reservas_capital" model="mis.report.kpi">
+        <field name="sequence">2170</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Reservas de Capital</field>
+        <field name="name">reservas_capital</field>
+        <field name="expression">+bale[2.4.2.1%,2.4.2.2%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_reservas_lucros" model="mis.report.kpi">
+        <field name="sequence">2180</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Reservas de Lucros</field>
+        <field name="name">reservas_lucros</field>
+        <field name="expression">+bale[2.4.2.3%,2.4.3%,2.4.4%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_lucros_prejuizos" model="mis.report.kpi">
+        <field name="sequence">2190</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">Lucros Acumulados</field>
+        <field name="name">lucros</field>
+        <field name="expression">+bale[7.1.2.1%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="balanco_patrimonial_generic_prejuizos" model="mis.report.kpi">
+        <field name="sequence">2200</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">(-) Prejuízos Acumulados</field>
+        <field name="name">prejuizos</field>
+        <field name="expression">+bale[2.4.4%]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record
+        id="balanco_patrimonial_generic_total_passivo_patrimonio_liq"
+        model="mis.report.kpi"
+    >
+        <field name="sequence">2999</field>
+        <field name="report_id" ref="balanco_patrimonial_generic" />
+        <field name="description">TOTAL DO PASSIVO E PATRIMÔNIO LÍQUIDO</field>
+        <field name="name">total_passivo_patrimonio_liq</field>
+        <field
+            name="expression"
+        >patrimonio_liquido+passivo_nao_circulante+passivo_circulante</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+</odoo>
