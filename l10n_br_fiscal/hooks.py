@@ -55,7 +55,6 @@ def post_init_hook(cr, registry):
             "demo/fiscal_document_nfse_demo.xml",
             "demo/fiscal_operation_demo.xml",
             "demo/subsequent_operation_demo.xml",
-            "demo/l10n_br_fiscal_document_email.xml",
             "demo/res_users_demo.xml",
             "demo/icms_tax_definition_demo.xml",
         ]

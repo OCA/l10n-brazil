@@ -171,13 +171,13 @@
                         groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
                     />
-            <button
+            <!--button
                         name="action_send_email"
                         type="object"
                         string="Send Email"
                         groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('state_edoc', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"
-                    />
+                    /-->
             <field
                         name="state_edoc"
                         widget="statusbar"
