@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo-addon-l10n_br_account>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_account_due_list>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_br_account_nfe>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_account_payment_brcobranca>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_account_payment_order>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_base>=16.0dev,<16.1dev',
