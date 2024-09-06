@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2010-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+      <!--busca por cnpj_cpf e razao social nos pedidos de compra -->
+      <record id="l10n_br_purchase_order_filter" model="ir.ui.view">
+          <field name="name">l10n_br_purchase.partner.filter</field>
+          <field name="model">purchase.order</field>
+          <field name="inherit_id" ref="purchase.view_purchase_order_filter" />
+          <field name="arch" type="xml">
+              <field name="name" position="after">
+                  <field name="legal_name" string="Razão Social" />
+                  <field name="cnpj_cpf" string="CNPJ/CPF" />
+                  <field name="ie" string="Inscr. Estadual" />
+              </field>
+          </field>
+      </record>
+
+      <record id="l10n_br_purchase_order_form" model="ir.ui.view">
+          <field name="name">l10n_br_purchase.order.form</field>
+          <field name="model">purchase.order</field>
+          <field name="inherit_id" ref="purchase.purchase_order_form" />
+          <field name="priority">100</field>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='partner_ref']" position="after">
+                  <field name="active_company_country_id" invisible="True" />
+                  <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('active_company_country_id', '!=', %(base.br)d)]}"
+                />
+                  <field
+                    name="ind_final"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+              </xpath>
+              <xpath expr="//field[@name='order_line']" position="attributes">
+                  <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id}</attribute>
+              </xpath>
+              <!-- Edit order_line Tree view -->
+              <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                  <attribute name="editable" />
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
+                position="attributes"
+            >
+                  <attribute
+                    name="attrs"
+                >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
+                position="before"
+            >
+                  <field
+                    name="fiscal_tax_ids"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    widget="many2many_tags"
+                />
+              </xpath>
+              <!-- Edit order_line Form view -->
+              <xpath expr="//field[@name='order_line']/form" position="inside">
+                  <group name="fiscal_fields" invisible="1">
+                      <field name="fiscal_operation_type" invisible="1" readonly="1" />
+                      <field name="fiscal_genre_code" invisible="1" />
+                      <field name="tax_framework" invisible="1" />
+                      <field name="tax_icms_or_issqn" invisible="1" />
+                      <field name="product_uom" invisible="1" />
+                  </group>
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/form//field[@name='product_id']"
+                position="attributes"
+            >
+                <attribute name="attrs">{
+                    'readonly': [('id', '!=', False),('state', 'in', ('purchase', 'to approve','done', 'cancel'))],
+                    'required': [('display_type', '=', False)],
+                }</attribute>
+                <attribute name="context">{
+                    'partner_id':parent.partner_id, 'quantity':product_qty, 'uom':product_uom, 'company_id': parent.company_id
+                }</attribute>
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/form//field[@name='product_uom']"
+                position="attributes"
+            >
+                <attribute name="attrs">{
+                    'readonly': [('id', '!=', False),('state', 'in', ('purchase', 'done', 'cancel'))],
+                    'required': [('display_type', '=', False)]
+                }</attribute>
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/form//field[@name='taxes_id']"
+                position="attributes"
+            >
+                  <attribute
+                    name="attrs"
+                >{'invisible': [('fiscal_operation_id', '!=', False)]}</attribute>
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/form//field[@name='taxes_id']"
+                position="after"
+            >
+                  <field
+                    name="fiscal_operation_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)], 'required': [('parent.fiscal_operation_id', '!=', False)]}"
+                />
+                  <field
+                    name="fiscal_operation_line_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
+                />
+                  <field
+                    name="cfop_id"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('parent.fiscal_operation_id', '=', False)]}"
+                    options="{'no_create': True}"
+                />
+                  <field
+                    name="service_type_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
+                />
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/form//notebook"
+                position="attributes"
+            >
+                  <!-- necessario incluir porque o attrs não funciona na tag Page apenas  na Notebook-->
+                  <attribute
+                    name="attrs"
+                >{'invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/form/field[@name='name']"
+                position="after"
+            >
+                <notebook
+                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                >
+                      <page
+                        name="fiscal_taxes"
+                        string="Taxes"
+                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    />
+                      <page
+                        name="fiscal_line_extra_info"
+                        string="Extra Info"
+                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    />
+                      <page
+                        name="others"
+                        string="Outros Custos"
+                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    >
+                          <group>
+                              <field name="delivery_costs" invisible="1" />
+                              <field
+                                name="freight_value"
+                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                            />
+                              <field
+                                name="insurance_value"
+                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                            />
+                              <field
+                                name="other_value"
+                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                            />
+                          </group>
+                      </page>
+                      <page
+                        name="accounting"
+                        string="Accounting"
+                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    >
+                          <group>
+                              <field
+                                name="taxes_id"
+                                widget="many2many_tags"
+                                options="{'no_create': True}"
+                                context="{'search_view_ref': 'account.account_tax_view_search'}"
+                                domain="[('type_tax_use','=','purchase'),('company_id','=',parent.company_id)]"
+                            />
+                          </group>
+                      </page>
+                          <!-- necessario incluir porque o attrs não funciona na tag Page apenas  na Notebook-->
+                          <page string="Notes" name="notes">
+                              <field name="name" />
+                          </page>
+                          <page
+                        string="Invoices and Incoming Shipments"
+                        name="invoices_incoming_shiptments"
+                    >
+                              <field name="invoice_lines" />
+                          </page>
+                  </notebook>
+              </xpath>
+              <xpath
+                expr="//field[@name='order_line']/form//field[@name='price_unit']"
+                position="after"
+            >
+                  <field
+                    name="discount_value"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id'}"
+                />
+              </xpath>
+              <xpath expr="//field[@name='tax_totals']" position="before">
+                  <field
+                    name="amount_price_gross"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id'}"
+                />
+                  <field
+                    name="amount_discount_value"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id'}"
+                />
+              </xpath>
+              <xpath expr="//field[@name='tax_totals']" position="after">
+                  <field name="delivery_costs" invisible="1" />
+                  <field
+                    name="amount_freight_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line')], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+                  <field
+                    name="amount_insurance_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line')], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+                  <field
+                    name="amount_other_value"
+                    widget='monetary'
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'readonly': [('delivery_costs', '=', 'line')], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
+              </xpath>
+          </field>
+      </record>
+
+      <!-- TODO -->
+      <record id="l10n_br_purchase_order_line_form" model="ir.ui.view">
+          <field name="name">l10n_br_purchase.order.line.form</field>
+          <field name="model">purchase.order.line</field>
+          <field name="inherit_id" ref="purchase.purchase_order_line_form2" />
+          <field name="arch" type="xml">
+              <xpath expr="//form/sheet/group" position="after">
+                  <group id="l10n_br_fiscal" />
+              </xpath>
+          </field>
+      </record>
+
+</odoo>
