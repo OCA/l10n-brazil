@@ -28,51 +28,81 @@ Relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Templates de relatórios contábeis brasileiros: DRE e BP baseados no ITG 1000.
+Templates de relatórios contábeis brasileiros: DRE e BP baseados no ITG
+1000.
 
 Balanço Patrimonial
 -------------------
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png
-   :alt: Balanço Patrimonial
-   :width: 80 %
-   :align: center
+|image1|
 
 Demonstrativo de Resultados do Exercício (DRE)
 ----------------------------------------------
 
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png
-   :alt: Demonstrativo de Resultados do Exercício (DRE)
-   :width: 80 %
-   :align: center
+|image2|
+
+.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png
+.. |image2| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Installation
+============
+
+
+
 Configuration
 =============
 
-Este relatório é estruturado a partir do tipo de conta, caso você esteja utilizando um plano de contas customizado
-deverá ficar atendo a campo tipo de conta no cadastro do plano de contas.
+Este relatório é estruturado a partir do tipo de conta, caso você esteja
+utilizando um plano de contas customizado deverá ficar atendo a campo
+tipo de conta no cadastro do plano de contas.
 
-Alem disso caso você esteja utilizando um dos plano de contas padrão e criar uma nova conta, você também deve ficar atendo a classificação.
+Alem disso caso você esteja utilizando um dos plano de contas padrão e
+criar uma nova conta, você também deve ficar atendo a classificação.
 
 Usage
 =====
 
-#. Acesse  Contabilidade > Relatórios > MIS > Relatórios MIS
-#. Crie um novo Relatório
-#. Selecione o plano de contas
-#. Você pode optar por desabilitar a expansão das contas na aba layout para ter um relatório resumido.
-#. Para selecionar os períodos, você pode:
+1. Acesse Contabilidade > Relatórios > MIS > Relatórios MIS
 
-    * Selecione diretamente o intervalo de datas desejado ou o nome do intervalo para obter o relatório apenas para esse período.
-    * Clique em "Modo de comparação" e insira na guia "Colunas" quantas linhas forem diferentes períodos que deseja colocar. Esses períodos também podem ser definidos com datas fixas, ou colocar períodos relativos (por exemplo "Tipo de período" = "Ano", "Deslocamento" = "0" e "Duração" = "1" para o ano N, e o mesmo mas com “Deslocamento” = “-1” para o ano N - 1. Não se esqueça que a data base do relatório é no ano a ser analisado).
+2. Crie um novo Relatório
 
-#. Clique em "Visualizar", "Imprimir" ou "Exportar" para calcular o relatório e executar a ação.
-#. Se você estiver no modo de visualização, pode clicar no número nas linhas de detalhes para ver as notas relacionadas a esse número.
+3. Selecione o plano de contas
+
+4. Você pode optar por desabilitar a expansão das contas na aba layout
+   para ter um relatório resumido.
+
+5. Para selecionar os períodos, você pode:
+
+      -  Selecione diretamente o intervalo de datas desejado ou o nome
+         do intervalo para obter o relatório apenas para esse período.
+      -  Clique em "Modo de comparação" e insira na guia "Colunas"
+         quantas linhas forem diferentes períodos que deseja colocar.
+         Esses períodos também podem ser definidos com datas fixas, ou
+         colocar períodos relativos (por exemplo "Tipo de período" =
+         "Ano", "Deslocamento" = "0" e "Duração" = "1" para o ano N, e o
+         mesmo mas com “Deslocamento” = “-1” para o ano N - 1. Não se
+         esqueça que a data base do relatório é no ano a ser analisado).
+
+6. Clique em "Visualizar", "Imprimir" ou "Exportar" para calcular o
+   relatório e executar a ação.
+
+7. Se você estiver no modo de visualização, pode clicar no número nas
+   linhas de detalhes para ver as notas relacionadas a esse número.
+
+Known issues / Roadmap
+======================
+
+
+
+Changelog
+=========
+
+
 
 Bug Tracker
 ===========
@@ -88,18 +118,18 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Luis Felipe Mileo <mileo@kmee.com.br>
-* Diego Paradeda <diego.paradeda@kmee.com.br>
+-  Luis Felipe Mileo <mileo@kmee.com.br>
+-  Diego Paradeda <diego.paradeda@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
