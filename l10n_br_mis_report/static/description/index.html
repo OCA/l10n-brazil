@@ -8,10 +8,11 @@
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 8954 2022-01-20 10:10:25Z milde $
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
 
 See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
 customize this style sheet.
@@ -274,7 +275,7 @@ pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
 
-pre.code .ln { color: grey; } /* line numbers */
+pre.code .ln { color: gray; } /* line numbers */
 pre.code, code { background-color: #eeeeee }
 pre.code .comment, code .comment { color: #5C6576 }
 pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
@@ -300,7 +301,7 @@ span.option {
 span.pre {
   white-space: pre }
 
-span.problematic {
+span.problematic, pre.problematic {
   color: red }
 
 span.section-subtitle {
@@ -369,65 +370,81 @@ ul.auto-toc {
 !! source digest: sha256:98abb42abb1aa9e78210bcc6bc7dbcce878327bed03eb8234aad7fbc976b0b94
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_mis_report"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_mis_report"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Templates de relatórios contábeis brasileiros: DRE e BP baseados no ITG 1000.</p>
+<p>Templates de relatórios contábeis brasileiros: DRE e BP baseados no ITG
+1000.</p>
 <div class="section" id="balanco-patrimonial">
 <h1>Balanço Patrimonial</h1>
-<div class="figure align-center">
-<img alt="Balanço Patrimonial" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png" style="width: 80%;" />
-</div>
+<p><img alt="image1" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png" /></p>
 </div>
 <div class="section" id="demonstrativo-de-resultados-do-exercicio-dre">
 <h1>Demonstrativo de Resultados do Exercício (DRE)</h1>
-<div class="figure align-center">
-<img alt="Demonstrativo de Resultados do Exercício (DRE)" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png" style="width: 80%;" />
-</div>
+<p><img alt="image2" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png" /></p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
-<li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-3">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-4">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-5">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-6">Contributors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-7">Maintainers</a></li>
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-6">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-7">Credits</a></li>
 </ul>
-</li>
-</ul>
+</div>
+<div class="section" id="installation">
+<h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
 </div>
 <div class="section" id="configuration">
-<h2><a class="toc-backref" href="#toc-entry-1">Configuration</a></h2>
-<p>Este relatório é estruturado a partir do tipo de conta, caso você esteja utilizando um plano de contas customizado
-deverá ficar atendo a campo tipo de conta no cadastro do plano de contas.</p>
-<p>Alem disso caso você esteja utilizando um dos plano de contas padrão e criar uma nova conta, você também deve ficar atendo a classificação.</p>
+<h2><a class="toc-backref" href="#toc-entry-2">Configuration</a></h2>
+<p>Este relatório é estruturado a partir do tipo de conta, caso você esteja
+utilizando um plano de contas customizado deverá ficar atendo a campo
+tipo de conta no cadastro do plano de contas.</p>
+<p>Alem disso caso você esteja utilizando um dos plano de contas padrão e
+criar uma nova conta, você também deve ficar atendo a classificação.</p>
 </div>
 <div class="section" id="usage">
-<h2><a class="toc-backref" href="#toc-entry-2">Usage</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-3">Usage</a></h2>
 <ol class="arabic">
-<li><p class="first">Acesse  Contabilidade &gt; Relatórios &gt; MIS &gt; Relatórios MIS</p>
+<li><p class="first">Acesse Contabilidade &gt; Relatórios &gt; MIS &gt; Relatórios MIS</p>
 </li>
 <li><p class="first">Crie um novo Relatório</p>
 </li>
 <li><p class="first">Selecione o plano de contas</p>
 </li>
-<li><p class="first">Você pode optar por desabilitar a expansão das contas na aba layout para ter um relatório resumido.</p>
+<li><p class="first">Você pode optar por desabilitar a expansão das contas na aba layout
+para ter um relatório resumido.</p>
 </li>
 <li><p class="first">Para selecionar os períodos, você pode:</p>
 <blockquote>
 <ul class="simple">
-<li>Selecione diretamente o intervalo de datas desejado ou o nome do intervalo para obter o relatório apenas para esse período.</li>
-<li>Clique em “Modo de comparação” e insira na guia “Colunas” quantas linhas forem diferentes períodos que deseja colocar. Esses períodos também podem ser definidos com datas fixas, ou colocar períodos relativos (por exemplo “Tipo de período” = “Ano”, “Deslocamento” = “0” e “Duração” = “1” para o ano N, e o mesmo mas com “Deslocamento” = “-1” para o ano N - 1. Não se esqueça que a data base do relatório é no ano a ser analisado).</li>
+<li>Selecione diretamente o intervalo de datas desejado ou o nome
+do intervalo para obter o relatório apenas para esse período.</li>
+<li>Clique em “Modo de comparação” e insira na guia “Colunas”
+quantas linhas forem diferentes períodos que deseja colocar.
+Esses períodos também podem ser definidos com datas fixas, ou
+colocar períodos relativos (por exemplo “Tipo de período” =
+“Ano”, “Deslocamento” = “0” e “Duração” = “1” para o ano N, e o
+mesmo mas com “Deslocamento” = “-1” para o ano N - 1. Não se
+esqueça que a data base do relatório é no ano a ser analisado).</li>
 </ul>
 </blockquote>
 </li>
-<li><p class="first">Clique em “Visualizar”, “Imprimir” ou “Exportar” para calcular o relatório e executar a ação.</p>
+<li><p class="first">Clique em “Visualizar”, “Imprimir” ou “Exportar” para calcular o
+relatório e executar a ação.</p>
 </li>
-<li><p class="first">Se você estiver no modo de visualização, pode clicar no número nas linhas de detalhes para ver as notas relacionadas a esse número.</p>
+<li><p class="first">Se você estiver no modo de visualização, pode clicar no número nas
+linhas de detalhes para ver as notas relacionadas a esse número.</p>
 </li>
 </ol>
 </div>
+<div class="section" id="known-issues-roadmap">
+<h2><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h2>
+</div>
+<div class="section" id="changelog">
+<h2><a class="toc-backref" href="#toc-entry-5">Changelog</a></h2>
+</div>
 <div class="section" id="bug-tracker">
-<h2><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -435,24 +452,28 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h2><a class="toc-backref" href="#toc-entry-4">Credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-7">Credits</a></h2>
+</div>
+</div>
 <div class="section" id="authors">
-<h3><a class="toc-backref" href="#toc-entry-5">Authors</a></h3>
+<h1>Authors</h1>
 <ul class="simple">
 <li>KMEE</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h3><a class="toc-backref" href="#toc-entry-6">Contributors</a></h3>
+<h1>Contributors</h1>
 <ul class="simple">
 <li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
 <li>Diego Paradeda &lt;<a class="reference external" href="mailto:diego.paradeda&#64;kmee.com.br">diego.paradeda&#64;kmee.com.br</a>&gt;</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h3><a class="toc-backref" href="#toc-entry-7">Maintainers</a></h3>
+<h1>Maintainers</h1>
 <p>This module is maintained by the OCA.</p>
-<a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
@@ -460,8 +481,6 @@ promote its widespread use.</p>
 <p><a class="reference external image-reference" href="https://github.com/mileo"><img alt="mileo" src="https://github.com/mileo.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_mis_report">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
-</div>
-</div>
 </div>
 </div>
 </body>
