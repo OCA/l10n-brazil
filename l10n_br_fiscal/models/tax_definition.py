@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from .. import tools
 from ..constants.fiscal import (
@@ -12,6 +12,7 @@ from ..constants.fiscal import (
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
 )
+from ..constants.icms import ICMS_TAX_BENEFIT_TYPE
 
 
 class TaxDefinition(models.Model):
@@ -36,6 +37,19 @@ class TaxDefinition(models.Model):
         return result
 
     display_name = fields.Char(compute="_compute_display_name", store=True)
+
+    code = fields.Char(
+        size=8,
+        states={"draft": [("readonly", False)]},
+    )
+
+    name = fields.Char(
+        states={"draft": [("readonly", False)]},
+    )
+
+    description = fields.Text(
+        states={"draft": [("readonly", False)]},
+    )
 
     type_in_out = fields.Selection(
         selection=FISCAL_IN_OUT,
@@ -234,6 +248,31 @@ class TaxDefinition(models.Model):
         domain="['|', ('cst_in_id', '=', cst_id), ('cst_out_id', '=', cst_id)]",
     )
 
+    fiscal_profile_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.partner.profile", string="Partner Profile"
+    )
+
+    fiscal_operation_line_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.line", string="Operation Line"
+    )
+
+    icms_regulation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.icms.regulation", string="ICMS Regulation"
+    )
+
+    cfop_id = fields.Many2one(comodel_name="l10n_br_fiscal.cfop", string="CFOP")
+
+    is_benefit = fields.Boolean(
+        string="Benefit?",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    benefit_type = fields.Selection(
+        selection=ICMS_TAX_BENEFIT_TYPE,
+        states={"draft": [("readonly", False)]},
+    )
+
     def _get_search_domain(self, tax_definition):
         """Create domain to be used in contraints methods"""
         domain = [
@@ -243,6 +282,34 @@ class TaxDefinition(models.Model):
             ("tax_group_id", "=", tax_definition.tax_group_id.id),
             ("tax_id", "=", tax_definition.tax_id.id),
         ]
+        if tax_definition.icms_regulation_id:
+            domain.append(
+                ("icms_regulation_id", "=", tax_definition.icms_regulation_id.id),
+            )
+        if tax_definition.icms_regulation_id and tax_definition.is_benefit:
+            domain.append(
+                ("is_benefit", "=", tax_definition.is_benefit),
+            )
+            if tax_definition.ncm_ids:
+                domain.append(
+                    ("ncm_ids", "in", tax_definition.ncm_ids.ids),
+                )
+            if tax_definition.cest_ids:
+                domain.append(
+                    ("cest_ids", "in", tax_definition.cest_ids.ids),
+                )
+            if tax_definition.nbm_ids:
+                domain.append(
+                    ("nbm_ids", "in", tax_definition.nbm_ids.ids),
+                )
+            if tax_definition.product_ids:
+                domain.append(
+                    ("product_ids", "in", tax_definition.product_ids.ids),
+                )
+            if tax_definition.ncm_exception:
+                domain.append(
+                    ("ncm_exception", "=", tax_definition.ncm_exception),
+                )
         return domain
 
     def action_review(self):
@@ -411,3 +478,124 @@ class TaxDefinition(models.Model):
                 self.cst_id = self.tax_id.cst_out_id
             else:
                 self.cst_id = self.tax_id.cst_in_id
+
+    @api.onchange("cfop_id")
+    def _onchange_cfop_id(self):
+        if self.cfop_id:
+            self.type_in_out = self.cfop_id.type_in_out
+
+    @api.constrains("fiscal_profile_id")
+    def _check_fiscal_profile_id(self):
+        for record in self:
+            if record.fiscal_profile_id:
+                domain = [
+                    ("id", "!=", record.id),
+                    ("fiscal_profile_id", "=", record.fiscal_profile_id.id),
+                    ("tax_group_id", "=", record.tax_group_id.id),
+                    ("tax_id", "=", record.tax_id.id),
+                ]
+
+                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
+                    raise ValidationError(
+                        _(
+                            "Tax Definition already exists "
+                            "for this Partner Profile and Tax Group !"
+                        )
+                    )
+
+    @api.constrains("fiscal_operation_line_id")
+    def _check_fiscal_operation_line_id(self):
+        for record in self:
+            if record.fiscal_operation_line_id:
+                domain = [
+                    ("id", "!=", record.id),
+                    (
+                        "fiscal_operation_line_id",
+                        "=",
+                        record.fiscal_operation_line_id.id,
+                    ),
+                    ("tax_group_id", "=", record.tax_group_id.id),
+                    ("tax_id", "=", record.tax_id.id),
+                ]
+
+                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
+                    raise ValidationError(
+                        _(
+                            "Tax Definition already exists "
+                            "for this Operation Line and Tax Group !"
+                        )
+                    )
+
+    @api.constrains("icms_regulation_id", "state_from_id")
+    def _check_icms(self):
+        for record in self:
+            if record.icms_regulation_id:
+                domain = self._get_search_domain(record)
+                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
+                    raise ValidationError(
+                        _(
+                            "Tax Definition already exists "
+                            "for this ICMS and Tax Group !"
+                        )
+                    )
+
+    @api.constrains("company_id")
+    def _check_company_id(self):
+        for record in self:
+            if record.company_id:
+                domain = [
+                    ("id", "!=", record.id),
+                    ("company_id", "=", record.company_id.id),
+                    ("tax_group_id", "=", record.tax_group_id.id),
+                    ("tax_id", "=", record.tax_id.id),
+                ]
+
+                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
+                    raise ValidationError(
+                        _(
+                            "Tax Definition already exists "
+                            "for this Company and Tax Group !"
+                        )
+                    )
+
+    @api.constrains("cfop_id")
+    def _check_cfop_id(self):
+        for record in self:
+            if record.cfop_id:
+                domain = [
+                    ("id", "!=", record.id),
+                    ("cfop_id", "=", record.cfop_id.id),
+                    ("tax_group_id", "=", record.tax_group_id.id),
+                    ("tax_id", "=", record.tax_id.id),
+                ]
+
+                if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
+                    raise ValidationError(
+                        _(
+                            "Tax Definition already exists "
+                            "for this CFOP and Tax Group !"
+                        )
+                    )
+
+    @api.constrains("is_benefit", "code", "benefit_type", "state_from_id")
+    def _check_tax_benefit_code(self):
+        for record in self:
+            if record.is_benefit:
+                if record.code:
+                    if len(record.code) != 8:
+                        raise ValidationError(
+                            _("Tax benefit code must be 8 characters!")
+                        )
+
+                    if record.code[:2].upper() != record.state_from_id.code.upper():
+                        raise ValidationError(
+                            _("Tax benefit code must be start with state code!")
+                        )
+
+                    if record.code[3:4] != record.benefit_type:
+                        raise ValidationError(
+                            _(
+                                "The tax benefit code must contain "
+                                "the type of benefit!"
+                            )
+                        )
