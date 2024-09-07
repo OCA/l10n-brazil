@@ -18,7 +18,7 @@
         ],
     },
     "depends": [
-        "l10n_br_fiscal",
+        "l10n_br_fiscal_edi",
         "l10n_br_fiscal_certificate",
     ],
     "data": [

@@ -33,7 +33,8 @@ class TestSubsequentOperation(TransactionCase):
             line._onchange_product_id_fiscal()
             line._onchange_fiscal_taxes()
 
-        self.nfe_simples_faturamento.action_document_confirm()
+        self.nfe_simples_faturamento.state_edoc = "a_enviar"
+        self.nfe_simples_faturamento._generates_subsequent_operations()
 
         subsequent_documents = self.nfe_simples_faturamento.document_subsequent_ids
 
