@@ -100,7 +100,7 @@ class L10nBrWebsiteSale(WebsiteSale):
             and res.qcontext["checkout"]["city_id"]
         ):
             state_id = res.qcontext["checkout"]["state_id"]
-            if type(state_id) is not str:
+            if not isinstance(state_id, str):
                 state_id = state_id.id
             elif state_id:
                 state_id = int(state_id)
@@ -135,7 +135,8 @@ class L10nBrWebsiteSale(WebsiteSale):
             "vat",
         ]
 
-        # Update new_values for each expected field if it exists in values and not in errors
+        # Update new_values for each expected field if it exists in values and not in
+        # errors
         for field in expected_fields:
             if field in values and field not in errors:
                 new_values[field] = values[field]
