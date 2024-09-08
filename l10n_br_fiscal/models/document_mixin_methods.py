@@ -21,7 +21,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         vals.pop("id", None)
 
         if default:  # in case you want to use new rather than write later
-            return {"default_%s" % (k,): vals[k] for k in vals.keys()}
+            return {f"default_{k}": vals[k] for k in vals.keys()}
         return vals
 
     def _get_amount_lines(self):
@@ -133,11 +133,12 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                         line.freight_value = amount_freight_value * (
                             line.freight_value / amount_freight_old
                         )
-                    record._get_product_amount_lines()[
-                        -1
-                    ].freight_value = amount_freight_value - sum(
-                        line.freight_value
-                        for line in record._get_product_amount_lines()[:-1]
+                    record._get_product_amount_lines()[-1].freight_value = (
+                        amount_freight_value
+                        - sum(
+                            line.freight_value
+                            for line in record._get_product_amount_lines()[:-1]
+                        )
                     )
                 else:
                     amount_total = sum(
@@ -148,11 +149,12 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                             line.freight_value = amount_freight_value * (
                                 line.price_gross / amount_total
                             )
-                    record._get_product_amount_lines()[
-                        -1
-                    ].freight_value = amount_freight_value - sum(
-                        line.freight_value
-                        for line in record._get_product_amount_lines()[:-1]
+                    record._get_product_amount_lines()[-1].freight_value = (
+                        amount_freight_value
+                        - sum(
+                            line.freight_value
+                            for line in record._get_product_amount_lines()[:-1]
+                        )
                     )
                 for line in record._get_product_amount_lines():
                     line._onchange_fiscal_taxes()
@@ -181,11 +183,12 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                         line.insurance_value = amount_insurance_value * (
                             line.insurance_value / amount_insurance_old
                         )
-                    record._get_product_amount_lines()[
-                        -1
-                    ].insurance_value = amount_insurance_value - sum(
-                        line.insurance_value
-                        for line in record._get_product_amount_lines()[:-1]
+                    record._get_product_amount_lines()[-1].insurance_value = (
+                        amount_insurance_value
+                        - sum(
+                            line.insurance_value
+                            for line in record._get_product_amount_lines()[:-1]
+                        )
                     )
                 else:
                     amount_total = sum(
@@ -196,11 +199,12 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                             line.insurance_value = amount_insurance_value * (
                                 line.price_gross / amount_total
                             )
-                    record._get_product_amount_lines()[
-                        -1
-                    ].insurance_value = amount_insurance_value - sum(
-                        line.insurance_value
-                        for line in record._get_product_amount_lines()[:-1]
+                    record._get_product_amount_lines()[-1].insurance_value = (
+                        amount_insurance_value
+                        - sum(
+                            line.insurance_value
+                            for line in record._get_product_amount_lines()[:-1]
+                        )
                     )
                 for line in record._get_product_amount_lines():
                     line._onchange_fiscal_taxes()
@@ -229,11 +233,12 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                         line.other_value = amount_other_value * (
                             line.other_value / amount_other_old
                         )
-                    record._get_product_amount_lines()[
-                        -1
-                    ].other_value = amount_other_value - sum(
-                        line.other_value
-                        for line in record._get_product_amount_lines()[:-1]
+                    record._get_product_amount_lines()[-1].other_value = (
+                        amount_other_value
+                        - sum(
+                            line.other_value
+                            for line in record._get_product_amount_lines()[:-1]
+                        )
                     )
                 else:
                     amount_total = sum(
@@ -244,11 +249,12 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                             line.other_value = amount_other_value * (
                                 line.price_gross / amount_total
                             )
-                    record._get_product_amount_lines()[
-                        -1
-                    ].other_value = amount_other_value - sum(
-                        line.other_value
-                        for line in record._get_product_amount_lines()[:-1]
+                    record._get_product_amount_lines()[-1].other_value = (
+                        amount_other_value
+                        - sum(
+                            line.other_value
+                            for line in record._get_product_amount_lines()[:-1]
+                        )
                     )
                 for line in record._get_product_amount_lines():
                     line._onchange_fiscal_taxes()

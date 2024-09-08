@@ -62,7 +62,8 @@ class CNABStructure(models.Model):
     content_source_model_id = fields.Many2one(
         comodel_name="ir.model",
         string="Content Source",
-        help="Related model that will provide the origin of the contents of CNAB files.",
+        help="Related model that will provide the origin of the contents of CNAB"
+        " files.",
         compute="_compute_content_source_model_id",
     )
 
@@ -103,41 +104,43 @@ class CNABStructure(models.Model):
     )
 
     conf_payment_way_start_pos = fields.Integer(
-        string="Payment Way start position in Header Batch Records."
+        help="Payment Way start position in Header Batch Records."
         " Only for Header Batch Records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     conf_payment_way_end_pos = fields.Integer(
-        string="Payment Way last position in Header Batch Records."
+        help="Payment Way last position in Header Batch Records."
         " Only for Header Batch Records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     conf_detail_start_pos = fields.Integer(
-        string="Position of sequencial identification of Detail Records."
+        help="Position of sequencial identification of Detail Records."
         " Only for detail records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     conf_detail_end_pos = fields.Integer(
-        string="Last position of sequencial identification of Detail Records."
+        help="Last position of sequencial identification of Detail Records."
         " Only for detail records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     conf_segment_start_pos = fields.Integer(
-        string="Start position of segment of an detail record. Only for detail records.",
+        help="Start position of segment of an detail record. Only for detail"
+        " records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
 
     conf_segment_end_pos = fields.Integer(
-        string="Last position of segment of an detail record. Only for detail records.",
+        help="Last position of segment of an detail record. Only for detail"
+        " records.",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -408,7 +411,8 @@ class CNABStructure(models.Model):
         if len(trailer_line) != 1:
             raise UserError(
                 _(
-                    f"{self.name}: Structures need to have one and only one trailer line!"
+                    f"{self.name}: Structures need to have one and only one trailer"
+                    " line!"
                 )
             )
 

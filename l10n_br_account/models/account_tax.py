@@ -139,7 +139,9 @@ class AccountTax(models.Model):
             account_taxes_by_domain.update({tax.id: tax_domain})
 
         for account_tax in taxes_results["taxes"]:
-            tax = self.filtered(lambda t: t.id == account_tax.get("id"))
+            tax = self.filtered(
+                lambda t, account_tax=account_tax: t.id == account_tax.get("id")
+            )
             fiscal_tax = fiscal_taxes_results["taxes"].get(
                 account_taxes_by_domain.get(tax.id)
             )

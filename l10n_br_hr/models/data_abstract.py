@@ -15,7 +15,7 @@ class DataAbstract(models.AbstractModel):
     name = fields.Text(required=True, index=True)
 
     def name_get(self):
-        return [(r.id, "{} - {}".format(r.code, r.name)) for r in self]
+        return [(r.id, f"{r.code} - {r.name}") for r in self]
 
     @api.model
     def _name_search(

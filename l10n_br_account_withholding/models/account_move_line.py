@@ -10,7 +10,6 @@ from odoo.addons.l10n_br_account.models.account_move_line import (
 
 
 class AccountMoveLine(models.Model):
-
     _inherit = "account.move.line"
 
     wh_move_line_id = fields.Many2one(

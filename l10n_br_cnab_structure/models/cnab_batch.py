@@ -121,21 +121,24 @@ class CNABBatch(models.Model):
         if not segment_lines:
             raise UserError(
                 _(
-                    f"Batch {self.name}: Every Batch need to have at least one segment line!"
+                    f"Batch {self.name}: Every Batch need to have at least one segment"
+                    " line!"
                 )
             )
 
         if len(header_line) != 1:
             raise UserError(
                 _(
-                    f"Batch {self.name}: One batch need to have one and only one header line!"
+                    f"Batch {self.name}: One batch need to have one and only one"
+                    " header line!"
                 )
             )
 
         if len(trailer_line) != 1:
             raise UserError(
                 _(
-                    f"Batch {self.name}: One batch need to have one and only one trailer line!"
+                    f"Batch {self.name}: One batch need to have one and only one"
+                    " trailer line!"
                 )
             )
 

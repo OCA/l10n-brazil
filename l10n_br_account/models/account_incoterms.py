@@ -22,5 +22,5 @@ class AccountIncoterms(models.Model):
             # name completo
             if len(record.name) > 150:
                 name = record.name[:150] + " ..."
-            result.append((record.id, "%s - %s" % (record.code, name)))
+            result.append((record.id, f"{record.code} - {name}"))
         return result

@@ -59,7 +59,7 @@ class SpecMixin(models.AbstractModel):
         if not hasattr(self, "_spec_module"):
             return res
 
-        load_key = "_%s_loaded" % (self._spec_module,)
+        load_key = f"_{self._spec_module}_loaded"
         if hasattr(self.env.registry, load_key):  # already done for registry
             return res
         setattr(self.env.registry, load_key, True)
@@ -141,10 +141,7 @@ class SpecMixin(models.AbstractModel):
         """
 
         underline_name = cls._name.replace(".", "_")
-        model_id = "%s_spec.model_%s" % (
-            module_name,
-            underline_name,
-        )
+        model_id = f"{module_name}_spec.model_{underline_name}"
         user_access_name = f"access_{underline_name}_user"
         if not env["ir.model.access"].search(
             [
@@ -157,7 +154,7 @@ class SpecMixin(models.AbstractModel):
                     user_access_name,
                     user_access_name,
                     model_id,
-                    "%s.group_user" % (module_name,),
+                    f"{module_name}.group_user",
                     "1",
                     "0",
                     "0",
@@ -176,7 +173,7 @@ class SpecMixin(models.AbstractModel):
                     manager_access_name,
                     manager_access_name,
                     model_id,
-                    "%s.group_manager" % (module_name,),
+                    f"{module_name}.group_manager",
                     "1",
                     "1",
                     "1",

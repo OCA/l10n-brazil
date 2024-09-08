@@ -143,8 +143,8 @@ class TestPaymentOrderInbound(TransactionCase):
             {
                 "payment_date": Date.context_today(self.env.user),
                 "journal_id": self.journal_cash.id,
-                "payment_method_line_id": self.journal_cash._get_available_payment_method_lines(
-                    "inbound"
+                "payment_method_line_id": (
+                    self.journal_cash._get_available_payment_method_lines("inbound")
                 )
                 .filtered(lambda x: x.code == "manual")
                 .id,
@@ -177,6 +177,11 @@ class TestPaymentOrderInbound(TransactionCase):
         payment_order.draft2open()
         self.assertEqual(payment_order.state, "open")
 
+        manual_inbound_payment_method_line = (
+            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
+                lambda x: x.code == "manual"
+            )
+        )
         ctx = {
             "active_model": "account.move",
             "active_ids": [self.invoice_unicred.id],
@@ -185,11 +190,7 @@ class TestPaymentOrderInbound(TransactionCase):
             {
                 "payment_date": Date.context_today(self.env.user),
                 "journal_id": self.journal_cash.id,
-                "payment_method_line_id": self.journal_cash._get_available_payment_method_lines(
-                    "inbound"
-                )
-                .filtered(lambda x: x.code == "manual")
-                .id,
+                "payment_method_line_id": manual_inbound_payment_method_line.id,
             }
         )
 
@@ -244,8 +245,8 @@ class TestPaymentOrderInbound(TransactionCase):
         payment = self.env["account.payment"].create(
             {
                 "payment_type": "inbound",
-                "payment_method_line_id": self.journal_cash._get_available_payment_method_lines(
-                    "inbound"
+                "payment_method_line_id": (
+                    self.journal_cash._get_available_payment_method_lines("inbound")
                 )
                 .filtered(lambda x: x.code == "manual")
                 .id,

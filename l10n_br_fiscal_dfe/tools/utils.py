@@ -15,13 +15,7 @@ def mask_cnpj(cnpj):
     if len(val) != 14:
         return cnpj
 
-    return "%s.%s.%s/%s-%s" % (
-        val[0:2],
-        val[2:5],
-        val[5:8],
-        val[8:12],
-        val[12:14],
-    )
+    return f"{val[0:2]}.{val[2:5]}.{val[5:8]}/{val[8:12]}-{val[12:14]}"
 
 
 def format_nsu(nsu):

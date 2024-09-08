@@ -153,8 +153,8 @@ class DocumentNfe(models.Model):
             if not rec.move_ids.payment_mode_id.fiscal_payment_mode:
                 raise UserError(
                     _(
-                        "Payment Mode %(mode)s should have "
-                        "a Fiscal Payment Mode filled to be used in the Fiscal Document!",
+                        "Payment Mode %(mode)s should have a Fiscal Payment Mode"
+                        " filled to be used in the Fiscal Document!",
                         mode=rec.move_ids.payment_mode_id.name,
                     )
                 )

@@ -72,13 +72,13 @@ def build_edoc_path(
     try:
         os.makedirs(caminho, exist_ok=True)
     except Exception as e:
-        _logger.error("Falha de permissão ao acessar diretorio do e-doc {}".format(e))
+        _logger.error(f"Falha de permissão ao acessar diretorio do e-doc {e}")
     return caminho
 
 
 def remove_non_ascii_characters(value):
     result = ""
-    if value and type(value) is str:
+    if value and isinstance(value, str):
         result = (
             normalize("NFKD", value)
             .encode("ASCII", "ignore")

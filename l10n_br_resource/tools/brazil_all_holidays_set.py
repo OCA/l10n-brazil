@@ -6,7 +6,6 @@ from workalendar.america.brazil import IBGE_REGISTER
 
 class BrazilianHoliday:
     def __init__(self, nome, data, estado_ibge, municipio_ibge, abrangencia, tipo):
-
         self.estado_ibge = estado_ibge
         self.municipio_ibge = municipio_ibge
         self.municipio_nome = ""
@@ -58,7 +57,6 @@ def brazil_all_holidays_set(year):
     for register in IBGE_REGISTER.items():
         estado_ibge = re.sub("BR-IBGE-", "", register[0])
         if len(estado_ibge) == 2:
-
             cal_state = IBGE_REGISTER[register[0]]()
             for state_holidays in cal_state.holidays(year):
                 holiday_name = state_holidays[1]
@@ -80,7 +78,6 @@ def brazil_all_holidays_set(year):
         municipio_ibge = re.sub("BR-IBGE-", "", register[0])
         estado_ibge = municipio_ibge[0:2]
         if len(municipio_ibge) > 2:
-
             cal_city = IBGE_REGISTER[register[0]]()
 
             for city_holiday in cal_city.holidays(year):

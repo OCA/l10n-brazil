@@ -249,9 +249,7 @@ class Document(models.Model):
         if attachment_id:
             return {
                 "type": "ir.actions.act_url",
-                "url": "/web/content/{id}/{nome}".format(
-                    id=attachment_id.id, nome=attachment_id.name
-                ),
+                "url": f"/web/content/{attachment_id.id}/{attachment_id.name}",
                 "target": "new",
             }
 
@@ -289,6 +287,7 @@ class Document(models.Model):
             if not record.issuer:
                 raise ValidationError(
                     _(
-                        "The field 'Issuer' is required for brazilian electronic documents!"
+                        "The field 'Issuer' is required for brazilian electronic "
+                        "documents!"
                     )
                 )
