@@ -207,7 +207,8 @@ class TestGeneratePaymentInfo(SavepointCase):
         invoice.action_post()
         self.assertFalse(
             invoice.nfe40_dup,
-            "Error field nfe40_dup should not filled when Fiscal Operation are Bonificação.",
+            "Error field nfe40_dup should not filled when Fiscal Operation are "
+            "Bonificação.",
         )
         for detPag in invoice.nfe40_detPag:
             self.assertEqual(

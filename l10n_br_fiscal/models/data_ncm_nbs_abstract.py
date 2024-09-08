@@ -158,9 +158,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                SELECT {0}_id
                FROM {0}_max_date
             WHERE max < %(create_date)s
-            """.format(
-            object_name.lower()
-        )
+            """.format(object_name.lower())
 
         query_params = {"create_date": data_max.strftime("%Y-%m-%d")}
 

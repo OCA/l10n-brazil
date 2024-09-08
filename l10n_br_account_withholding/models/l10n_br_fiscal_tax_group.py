@@ -5,7 +5,6 @@ from odoo import fields, models
 
 
 class FiscalTaxGroup(models.Model):
-
     _inherit = "l10n_br_fiscal.tax.group"
 
     journal_id = fields.Many2one(

@@ -27,7 +27,7 @@ class PosConfig(models.Model):
             if record.cfop_ids and record.out_pos_fiscal_operation_id:
                 record.out_pos_fiscal_operation_line_ids = (
                     record.out_pos_fiscal_operation_id.line_ids.filtered(
-                        lambda x: x.cfop_internal_id in record.cfop_ids
+                        lambda x, record=record: x.cfop_internal_id in record.cfop_ids
                     )
                 )
             else:
@@ -66,7 +66,8 @@ class PosConfig(models.Model):
 
     anonymous_simplified_limit = fields.Float(
         digits="Account",
-        help="Over this amount is not legally posible to create a Anonymous NFC-E / CF-e",
+        help="Over this amount is not legally posible to create a Anonymous "
+        "NFC-E / CF-e",
         default=10000,
     )
 

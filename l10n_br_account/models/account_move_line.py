@@ -139,7 +139,7 @@ class AccountMoveLine(models.Model):
         for vals in vals_list:
             for field in self._shadowed_fields():
                 if field in vals:
-                    vals["fiscal_proxy_%s" % (field,)] = vals[field]
+                    vals[f"fiscal_proxy_{field}"] = vals[field]
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -247,7 +247,8 @@ class AccountMoveLine(models.Model):
         # Initialize the inverted index list with the same length as the original list
         inverted_index = [0] * len(original_indexes)
 
-        # Iterate over the original_indexes list and fill the inverted_index list accordingly
+        # Iterate over the original_indexes list and fill the inverted_index list
+        # accordingly
         for i, val in enumerate(original_indexes):
             inverted_index[val] = i
 
@@ -257,8 +258,8 @@ class AccountMoveLine(models.Model):
             sorted_result |= result[idx]
 
         for line in sorted_result:
-            # Forces the recalculation of price_total and price_subtotal fields which are
-            # recalculated by super
+            # Forces the recalculation of price_total and price_subtotal fields which
+            # are recalculated by super
             if line.move_id.company_id.country_id.code == "BR":
                 line.update(line._get_price_total_and_subtotal())
 

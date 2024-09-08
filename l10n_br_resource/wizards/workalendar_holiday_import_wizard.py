@@ -65,7 +65,7 @@ class WorkalendarHolidayImport(models.TransientModel):
             calendar = self.env["resource.calendar"].create(
                 {
                     "name": "Calendar " + country.name,
-                    "country_id": country.id
+                    "country_id": country.id,
                     # '':u'N',
                 }
             )
