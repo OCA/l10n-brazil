@@ -5,7 +5,6 @@ from odoo import api, fields, models
 
 
 class HrExpense(models.Model):
-
     _inherit = ["hr.expense"]
 
     fiscal_operation_id = fields.Many2one(
