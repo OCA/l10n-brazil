@@ -538,7 +538,7 @@ class AccountMove(models.Model):
         action = self.env["ir.actions.act_window"]._for_xml_id(xmlid)
 
         if len(self.fiscal_document_ids) == 1:
-            form_view = [(self.env.ref("l10n_br_fiscal.document_form").id, "form")]
+            form_view = [(self.env.ref("l10n_br_account.l10n_br_fiscal_document_form_inherit").id, "form")]
             if "views" in action:
                 action["views"] = form_view + [
                     (state, view) for state, view in action["views"] if view != "form"
