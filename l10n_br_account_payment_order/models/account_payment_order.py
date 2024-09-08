@@ -225,18 +225,11 @@ class AccountPaymentOrder(models.Model):
 
     def get_file_name(self, cnab_type):
         context_today = fields.Date.context_today(self)
+        date = context_today.strftime("%d%m")
+        file_number = self.file_number
         if cnab_type == "240":
-            return "CB%s%s.REM" % (
-                context_today.strftime("%d%m"),
-                str(self.file_number),
-            )
+            return f"CB{date}{file_number}.REM"
         elif cnab_type == "400":
-            return "CB%s%02d.REM" % (
-                context_today.strftime("%d%m"),
-                self.file_number or 1,
-            )
+            return f"CB{date}{file_number:02d}.REM"
         elif cnab_type == "500":
-            return "PG%s%s.REM" % (
-                context_today.strftime("%d%m"),
-                str(self.file_number),
-            )
+            return f"PG{date}{file_number}.REM"

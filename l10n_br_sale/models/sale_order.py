@@ -151,7 +151,6 @@ class SaleOrder(models.Model):
         return result
 
     def _get_invoiceable_lines(self, final=False):
-
         lines = super()._get_invoiceable_lines(final=final)
         if not self.fiscal_operation_id:
             # O caso Brasil se caracteriza por ter a Operação Fiscal

@@ -15,7 +15,7 @@ from odoo.tests.common import TransactionCase
 from odoo.tools.misc import format_date
 
 
-class FakeRetorno(object):
+class FakeRetorno:
     __slots__ = "text", "ok"
 
 
