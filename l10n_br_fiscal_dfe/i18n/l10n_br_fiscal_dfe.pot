@@ -147,7 +147,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Error on searching documents.\n"
-"%s"
+"%(error)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -156,12 +156,12 @@ msgstr ""
 msgid ""
 "Error validating document distribution: \n"
 "\n"
-"%s - %s"
+"%(code)s - %(message)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__file_name
-msgid "Filename"
+msgid "File Name"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
