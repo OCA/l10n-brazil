@@ -138,11 +138,7 @@ class RepairOrder(models.Model):
                 "move_id"
             ).filtered(
                 lambda r: r.move_type in ["out_invoice", "out_refund"]
-            ) + order.fees_lines.mapped(
-                "invoice_line_id"
-            ).mapped(
-                "move_id"
-            ).filtered(
+            ) + order.fees_lines.mapped("invoice_line_id").mapped("move_id").filtered(
                 lambda r: r.move_type in ["out_invoice", "out_refund"]
             )
             # Search for invoices which have been
@@ -158,7 +154,7 @@ class RepairOrder(models.Model):
             )
 
             invoice_ids |= refunds.filtered(
-                lambda r: order.name
+                lambda r, order=order: order.name
                 in [
                     invoice_origin.strip()
                     for invoice_origin in r.invoice_origin.split(",")
