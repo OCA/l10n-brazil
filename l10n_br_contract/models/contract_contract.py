@@ -123,7 +123,7 @@ class ContractContract(models.Model):
         for invoice_val in super_inv_vals:
             # Identify how many Document Types exist
             for inv_line in invoice_val.get("invoice_line_ids"):
-                if type(inv_line[2]) is list:
+                if isinstance(inv_line[2], list):
                     continue
 
                 operation_line_id = self.env["l10n_br_fiscal.operation.line"].browse(
