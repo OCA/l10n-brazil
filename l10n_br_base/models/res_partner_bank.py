@@ -107,8 +107,8 @@ class ResPartnerBank(models.Model):
                 if not rec.bra_number or not rec.acc_number_dig:
                     raise UserError(
                         _(
-                            "A Checking Account or Saving Account transactional account "
-                            "must contain the branch number and the account verification "
-                            "digit."
+                            "A Checking Account or Saving Account transactional account"
+                            " must contain the branch number and the account"
+                            " verification digit."
                         )
                     )

@@ -22,25 +22,27 @@ def check_ie(env, inscr_est, state, country):
     :return:
     """
     if env and inscr_est and state and country:
-        if country == env.ref("base.br"):
-            disable_ie_validation = env["ir.config_parameter"].sudo().get_param(
-                "l10n_br_base.disable_ie_validation", default=False
-            ) or env.context.get("disable_ie_validation")
+        if not country == env.ref("base.br"):
+            return  # skip
+        disable_ie_validation = env["ir.config_parameter"].sudo().get_param(
+            "l10n_br_base.disable_ie_validation", default=False
+        ) or env.context.get("disable_ie_validation")
 
-            if not disable_ie_validation:
-                # TODO: em aberto debate sobre:
-                #  Se no caso da empresa ser 'isenta' do IE o campo
-                #  deve estar vazio ou pode ter algum valor como abaixo
-                if inscr_est not in ("isento", "isenta", "ISENTO", "ISENTA"):
-
-                    if not ie.validar(state.code.lower(), inscr_est):
-                        raise ValidationError(
-                            _(
-                                "Estadual Inscription %(inscr)s Invalid for State %(state)s!",
-                                inscr=inscr_est,
-                                state=state.name,
-                            )
-                        )
+        if disable_ie_validation:
+            return  # skip
+            # TODO: em aberto debate sobre:
+            #  Se no caso da empresa ser 'isenta' do IE o campo
+            #  deve estar vazio ou pode ter algum valor como abaixo
+        if inscr_est in ("isento", "isenta", "ISENTO", "ISENTA"):
+            return  # skip
+        if not ie.validar(state.code.lower(), inscr_est):
+            raise ValidationError(
+                _(
+                    "Estadual Inscription %(inscr)s Invalid for State %(state)s!",
+                    inscr=inscr_est,
+                    state=state.name,
+                )
+            )
 
 
 def check_cnpj_cpf(env, cnpj_cpf_value, country):
