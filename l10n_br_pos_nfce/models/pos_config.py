@@ -10,7 +10,6 @@ class PosConfig(models.Model):
     nfce_document_serie_id = fields.Many2one(
         string="Document Serie",
         comodel_name="l10n_br_fiscal.document.serie",
-        related="company_id.nfe_default_serie_id",
     )
 
     nfce_environment = fields.Selection(
@@ -22,7 +21,7 @@ class PosConfig(models.Model):
 
     nfce_document_serie_code = fields.Char(
         string="Document Serie Code",
-        related="company_id.nfe_default_serie_id.code",
+        related="nfce_document_serie_id.code",
         readonly=True,
     )
 

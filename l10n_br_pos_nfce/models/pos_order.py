@@ -80,7 +80,6 @@ class PosOrder(models.Model):
             created_order._setup_anonymous_consumer()
 
             try:
-                fiscal_document_id.action_document_confirm()
                 fiscal_document_id.action_document_send()
             except Exception as e:
                 _logger.error("Error sending NFCe document: %s" % e)
