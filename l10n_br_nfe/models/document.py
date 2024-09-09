@@ -886,6 +886,8 @@ class NFe(spec_models.StackedModel):
         for record in self.with_context(lang="pt_BR").filtered(
             filter_processador_edoc_nfe
         ):
+            record.flush()
+            record.invalidate_cache()
             inf_nfe = record.export_ds()[0]
 
             inf_nfe_supl = None
