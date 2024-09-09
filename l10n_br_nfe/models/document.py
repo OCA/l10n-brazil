@@ -900,7 +900,7 @@ class NFe(spec_models.StackedModel):
 
     def _processador(self):
         self._check_nfe_environment()
-        certificado = self.env.company._get_br_ecertificate()
+        certificado = self.company_id._get_br_ecertificate()
         session = Session()
         session.verify = False
 
@@ -913,8 +913,8 @@ class NFe(spec_models.StackedModel):
 
         if self.document_type == MODELO_FISCAL_NFE:
             params.update(
-                envio_sincrono=self.env.company.nfe_enable_sync_transmission,
-                contingencia=self.env.company.nfe_enable_contingency_ws,
+                envio_sincrono=self.company_id.nfe_enable_sync_transmission,
+                contingencia=self.company_id.nfe_enable_contingency_ws,
             )
             return edoc_nfe(**params)
 
