@@ -8,7 +8,6 @@ from odoo import _, api, fields, models
 
 
 class ResourceCalendar(models.Model):
-
     _inherit = "resource.calendar"
     _parent_store = True
 

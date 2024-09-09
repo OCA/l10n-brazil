@@ -121,7 +121,8 @@ class AccountMove(models.Model):
             if rec.document_type_id and not rec.fiscal_document_id:
                 raise UserError(
                     _(
-                        "You cannot set a document type when the move has no Fiscal Document!"
+                        "You cannot set a document type when the move has no Fiscal "
+                        "Document!"
                     )
                 )
 
@@ -174,7 +175,7 @@ class AccountMove(models.Model):
         for vals in vals_list:
             for field in self._shadowed_fields():
                 if field in vals:
-                    vals["fiscal_proxy_%s" % (field,)] = vals[field]
+                    vals[f"fiscal_proxy_{field}"] = vals[field]
 
     def ensure_one_doc(self):
         self.ensure_one()
@@ -242,7 +243,8 @@ class AccountMove(models.Model):
 
                 if invoice_view["fields"].get("line_ids"):
                     # it is required to inject the fiscal fields in the
-                    # "accounting lines" view to avoid loosing fiscal values from the form.
+                    # "accounting lines" view to avoid loosing fiscal values from the
+                    # form.
                     sub_form_view = invoice_view["fields"]["line_ids"]["views"]["tree"][
                         "arch"
                     ]
@@ -508,9 +510,7 @@ class AccountMove(models.Model):
                 # TODO TODO pegar o método do self.fiscal_document_id.with_context(
                 # fiscal_document_no_company=True
                 # )._compute_document_name()
-                terms_line.name = "{}/{}-{}".format(
-                    self.document_number, idx + 1, len(terms_lines)
-                )
+                terms_line.name = f"{self.document_number}/{idx + 1}-{len(terms_lines)}"
         return result
 
     @api.onchange("fiscal_operation_id")

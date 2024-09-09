@@ -12,7 +12,7 @@ from odoo.tests.common import TransactionCase
 _logger = logging.getLogger(__name__)
 
 
-class FakeRetorno(object):
+class FakeRetorno:
     __slots__ = "text", "status_code"
 
     def json(self):
