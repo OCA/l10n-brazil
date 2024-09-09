@@ -217,6 +217,8 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             # a copia entre os objetos é testada tanto no stock.move acima
             # quanto na account.move.line abaixo
             "uom_id",
+            # O campo stock price não é passado em todos os casos
+            "stock_price_br",
             # Ao chamar o _onchange_product_id_fiscal no stock.move o
             # partner_id usado no mapeamento é o do objeto, nesse teste
             # 'Akretion Aluminio - SP' por ser o Endereço de Entrega

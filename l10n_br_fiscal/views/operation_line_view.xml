@@ -81,6 +81,13 @@
                                 nolabel="1"
                                 context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_fiscal_operation_line_id': id}"
                             />
+                            <label for="non_creditable_tax_definition_ids" />
+                            <field
+                                nolabel="1"
+                                name="non_creditable_tax_definition_ids"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                widget="many2many_tags"
+                            />
                       </page>
                       <page name="extra_info" string="Extra Info">
                         <group>
