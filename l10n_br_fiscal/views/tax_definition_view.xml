@@ -122,14 +122,11 @@
                         />
 
           </group>
-          <group
-                        name="state"
-                        string="State"
-                        attrs="{'invisible': [('icms_regulation_id', '=', False)]}"
-                    >
+          <group name="state" string="State">
             <field
                             name="state_from_id"
                             options="{'no_create': True, 'no_create_edit': True}"
+                            attrs="{'required': [('is_benefit', '=', True)]}"
                         />
             <field name="state_to_ids" options="{'no_create': True}" />
           </group>
