@@ -1,7 +1,4 @@
-# Copyright (C) 2012-Today - KMEE (<http://kmee.com.br>).
-#  @author Luis Felipe Miléo - mileo@kmee.com.br
-#  @author Renato Lima - renato.lima@akretion.com.br
-# Copyright (C) 2021-Today - Akretion (<http://www.akretion.com>).
+# Copyright (C) 2024-Today - Akretion (<http://www.akretion.com>).
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -11,37 +8,23 @@ from odoo.exceptions import ValidationError
 from ..constants import BR_CODES_PAYMENT_ORDER, FORMA_LANCAMENTO, TIPO_SERVICO
 
 
-class AccountPaymentMode(models.Model):
-    _name = "account.payment.mode"
+class L10nBRCNABConfig(models.Model):
+    _name = "l10n_br_cnab.config"
+    _description = "CNAB Config"
     _inherit = [
-        "account.payment.mode",
         "l10n_br_cnab.boleto.fields",
         "l10n_br_cnab.payment.fields",
         "mail.thread",
     ]
 
-    cnab_config_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.config",
-        string="CNAB Config",
-        tracking=True,
-    )
+    name = fields.Char(index=True, tracking=True, required=True)
 
-    PAYMENT_MODE_DOMAIN = [
-        ("dinheiro", _("Dinheiro")),
-        ("cheque", _("Cheque")),
-        ("pix_transfer", _("PIX Transfer")),
-        ("ted", _("TED")),
-        ("doc", _("DOC")),
-        ("boleto", _("Boleto")),
-    ]
-
-    payment_mode_domain = fields.Selection(
-        selection=PAYMENT_MODE_DOMAIN,
-    )
-
-    auto_create_payment_order = fields.Boolean(
-        string="Adicionar automaticamente ao validar a fatura",
-        help="Cria a ordem de pagamento automaticamente ao confirmar a fatura",
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        required=True,
+        ondelete="restrict",
+        default=lambda self: self.env.company,
     )
 
     service_type = fields.Selection(
@@ -60,17 +43,23 @@ class AccountPaymentMode(models.Model):
         comodel_name="ir.sequence",
         string="Sequencia do Arquivo CNAB",
         tracking=True,
-        copy=False,
     )
 
-    # Fields used to make invisible banks specifics fields
     bank_id = fields.Many2one(
-        related="fixed_journal_id.bank_id",
+        comodel_name="res.bank",
+        tracking=True,
+    )
+
+    payment_method_id = fields.Many2one(
+        comodel_name="account.payment.method",
+        tracking=True,
     )
 
     bank_code_bc = fields.Char(
-        related="fixed_journal_id.bank_id.code_bc",
+        related="bank_id.code_bc",
     )
+    payment_method_code = fields.Char(related="payment_method_id.code")
+    payment_type = fields.Selection(related="payment_method_id.payment_type")
 
     cnab_processor = fields.Selection(
         selection="_selection_cnab_processor",
@@ -96,19 +85,18 @@ class AccountPaymentMode(models.Model):
     # TODO: Ligação com o payment_mode_id não permite extrair para o objeto
     #  l10n_br_cnab.boleto.fields, teria alguma forma de fazer ?
     # Podem existir diferentes codigos, mesmo no 240
-
     liq_return_move_code_ids = fields.Many2many(
         comodel_name="l10n_br_cnab.code",
-        relation="l10n_br_cnab_liq_return_move_code_rel",
-        column1="liq_return_move_code_id",
-        column2="payment_mode_id",
         string="CNAB Liquidity Return Move Code",
         tracking=True,
     )
 
+    comment = fields.Text()
+
     @api.constrains(
-        "fixed_journal_id",
-        "group_lines",
+        "cnab_company_bank_code",
+        "cnab_sequence_id",
+        "boleto_wallet",
     )
     def _check_cnab_restriction(self):
         for record in self:
@@ -117,24 +105,47 @@ class AccountPaymentMode(models.Model):
                 or self.payment_type == "outbound"
             ):
                 return False
-            fields_forbidden_cnab = []
-            if record.group_lines:
-                fields_forbidden_cnab.append("Group Lines")
 
-            for field in fields_forbidden_cnab:
+            if (
+                self.bank_code_bc == "341"
+                and self.payment_type == "inbound"
+                and not self.boleto_wallet
+            ):
+                raise ValidationError(_("Carteira no banco Itaú é obrigatória"))
+
+    @api.constrains("boleto_discount_perc")
+    def _check_discount_perc(self):
+        for record in self:
+            if record.boleto_discount_perc > 100 or record.boleto_discount_perc < 0:
                 raise ValidationError(
-                    _(
-                        "The Payment Mode can not be used for CNAB with the field"
-                        " %s active. \n Please uncheck it to continue."
-                    )
-                    % field
+                    _("O percentual deve ser um valor entre 0 a 100.")
                 )
 
-    @api.onchange("payment_method_id")
-    def _onchange_payment_method_id(self):
+    @api.constrains("own_number_sequence_id", "cnab_sequence_id")
+    def _check_sequences(self):
         for record in self:
-            if record.payment_method_code in BR_CODES_PAYMENT_ORDER:
-                # Campos Default que não devem estar marcados no caso CNAB
-                record.group_lines = False
-                # Selecionavel na Ordem de Pagamento
-                record.payment_order_ok = True
+            already_in_use = self.search(
+                [
+                    ("id", "!=", record.id),
+                    "|",
+                    ("own_number_sequence_id", "=", record.own_number_sequence_id.id),
+                    ("cnab_sequence_id", "=", record.cnab_sequence_id.id),
+                ],
+                limit=1,
+            )
+
+            if already_in_use.own_number_sequence_id:
+                raise ValidationError(
+                    _(
+                        "Sequence Own Number already in use by %(cnab_config)s!",
+                        cnab_config=already_in_use.name,
+                    )
+                )
+
+            if already_in_use.cnab_sequence_id:
+                raise ValidationError(
+                    _(
+                        "Sequence CNAB Sequence already in use by %(cnab_config)s!",
+                        cnab_config=already_in_use.name,
+                    )
+                )

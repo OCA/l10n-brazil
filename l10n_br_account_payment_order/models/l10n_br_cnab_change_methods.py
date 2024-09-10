@@ -152,18 +152,20 @@ class L10nBrCNABChangeMethods(models.Model):
                 )
             )
 
-    def _msg_error_cnab_missing(self, payment_mode_name, missing):
+    def _msg_error_cnab_missing(self, payment_mode, missing):
         """
         CNAB - Não é possível fazer a alteração pois falta algo
-        :param payment_mode_name: Nome do Modo de Pagamento
+        :param payment_mode: Modo de Pagamento
         :param missing: descrição do que falta
         :return: Mensagem de Erro
         """
         raise UserError(
             _(
-                "Payment Mode %(payment_mode_name)s don't has %(missing)s for making "
-                "CNAB change, check if should have.",
-                payment_mode_name=payment_mode_name,
+                "CNAB Config %(cnab_config_name)s in Payment Mode"
+                " %(payment_mode_name)s don't has %(missing)s for"
+                " making CNAB change, check if should have.",
+                cnab_config_name=payment_mode.cnab_config.name,
+                payment_mode_name=payment_mode.name,
                 missing=missing,
             )
         )
@@ -210,15 +212,14 @@ class L10nBrCNABChangeMethods(models.Model):
                 )
             )
 
+        cnab_config = self.payment_mode_id.cnab_config_id
         # Modo de Pagto usado precisa ter o codigo de alteração do vencimento
-        if not self.move_id.payment_mode_id.change_maturity_date_code_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, "Date Maturity Code"
-            )
+        if not cnab_config.change_maturity_date_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Date Maturity Code")
 
         self.date_maturity = new_date
 
-        return self.payment_mode_id.change_maturity_date_code_id
+        return cnab_config.change_maturity_date_code_id
 
     def _create_cnab_not_payment(self, payorder, new_payorder, reason):
         """
@@ -228,17 +229,18 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         # Modo de Pagto usado precisa ter a Conta Contabil de
         # Não Pagamento/Inadimplencia
-        if not self.move_id.payment_mode_id.not_payment_account_id:
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.not_payment_account_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, "the Account to Not Payment"
+                self.payment_mode_id, "the Account to Not Payment"
             )
 
-        if not self.move_id.payment_mode_id.write_off_code_id:
-            self._msg_error_cnab_missing(self.payment_mode_id.name, "Writte Off Code")
+        if not cnab_config.write_off_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Writte Off Code")
 
         # TODO: O codigo usado seria o mesmo do writte off ?
         #  Em todos os casos?
-        self.instruction_move_code_id = self.payment_mode_id.write_off_code_id
+        self.instruction_move_code_id = cnab_config.write_off_code_id
 
         # Reconciliação e Baixa do Título
         move_obj = self.env["account.move"]
@@ -269,7 +271,7 @@ class L10nBrCNABChangeMethods(models.Model):
         move_not_payment_values = {
             "debit": self.amount_residual,
             "credit": 0.0,
-            "account_id": self.move_id.payment_mode_id.not_payment_account_id.id,
+            "account_id": cnab_config.not_payment_account_id.id,
         }
 
         commom_move_values = {
@@ -339,8 +341,9 @@ class L10nBrCNABChangeMethods(models.Model):
                 self.remove_payment_line(reason, payment_situation)
                 payment_lines_removed = True
 
-        if not self.move_id.payment_mode_id.write_off_code_id:
-            self._msg_error_cnab_missing(self.payment_mode_id.name, "Write Off Code")
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.write_off_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Write Off Code")
 
         if not payment_lines_removed:
             # Checar se existe uma Instrução de CNAB ainda a ser enviada
@@ -348,7 +351,7 @@ class L10nBrCNABChangeMethods(models.Model):
 
             payorder, new_payorder = self._get_payment_order(self.move_id)
 
-            self.instruction_move_code_id = self.payment_mode_id.write_off_code_id
+            self.instruction_move_code_id = cnab_config.write_off_code_id
             self.payment_situation = payment_situation
 
             self.create_payment_line_from_move_line(payorder)
@@ -361,15 +364,16 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         CNAB - Alteração do Valor do Título.
         """
-        if not self.payment_mode_id.change_title_value_code_id:
-            self._msg_error_cnab_missing(self.payment_mode_id.name, "Tittle Value Code")
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.change_title_value_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Tittle Value Code")
 
         # Checar se existe uma Instrução de CNAB ainda a ser enviada
         self._check_cnab_instruction_to_be_send()
 
         payorder, new_payorder = self._get_payment_order(self.move_id)
 
-        self.instruction_move_code_id = self.payment_mode_id.change_title_value_code_id
+        self.instruction_move_code_id = cnab_config.change_title_value_code_id
         reason = (
             "Movement Instruction Code Updated for Request to "
             "Change Title Value, because partial payment "
@@ -387,23 +391,23 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         CNAB - Protestar Título.
         """
-        if not self.payment_mode_id.protest_title_code_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, "Protest Tittle Code"
-            )
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.protest_title_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Protest Tittle Code")
 
-        return self.payment_mode_id.protest_title_code_id
+        return cnab_config.protest_title_code_id
 
     def _get_cnab_suspend_protest_keep_wallet(self):
         """
         CNAB - Sustar Protesto e Manter em Carteira.
         """
-        if not self.payment_mode_id.suspend_protest_keep_wallet_code_id:
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.suspend_protest_keep_wallet_code_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, "Suspend Protest and Keep in Wallet Code"
+                self.payment_mode_id, "Suspend Protest and Keep in Wallet Code"
             )
 
-        return self.payment_mode_id.suspend_protest_keep_wallet_code_id
+        return cnab_config.suspend_protest_keep_wallet_code_id
 
     def _get_cnab_suspend_protest_writte_off(self):
         """
@@ -411,13 +415,13 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         # TODO: Deveria chamar a função de Não
         #  Pagamento( _create_cnab_not_payment ) ?
-
-        if not self.payment_mode_id.suspend_protest_write_off_code_id:
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.suspend_protest_write_off_code_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, "Suspend Protest and Writte Off Code"
+                self.payment_mode_id, "Suspend Protest and Writte Off Code"
             )
 
-        return self.payment_mode_id.suspend_protest_write_off_code_id
+        return cnab_config.suspend_protest_write_off_code_id
 
     def _get_cnab_grant_rebate(self):
         """
@@ -425,22 +429,22 @@ class L10nBrCNABChangeMethods(models.Model):
         :param rebate_value: Valor do Abatimento
         :param reason: Descrição sobre alteração
         """
-        if not self.payment_mode_id.grant_rebate_code_id:
-            self._msg_error_cnab_missing(self.payment_mode_id.name, "Grant Rebate Code")
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.grant_rebate_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Grant Rebate Code")
 
-        return self.payment_mode_id.grant_rebate_code_id
+        return cnab_config.grant_rebate_code_id
 
     def _get_cnab_cancel_rebate(self):
         """
         CNAB - Cancelar Abatimento.
         :param reason: Descrição sobre alteração
         """
-        if not self.payment_mode_id.cancel_rebate_code_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, "Cancel Rebate Code"
-            )
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.cancel_rebate_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Cancel Rebate Code")
 
-        return self.payment_mode_id.cancel_rebate_code_id
+        return cnab_config.cancel_rebate_code_id
 
     def _get_cnab_grant_discount(self):
         """
@@ -448,24 +452,22 @@ class L10nBrCNABChangeMethods(models.Model):
         :param discount_value: Valor do Desconto
         :param reason: Descrição sobre alteração
         """
-        if not self.payment_mode_id.grant_discount_code_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, "Grant Discount Code"
-            )
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.grant_discount_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Grant Discount Code")
 
-        return self.payment_mode_id.grant_discount_code_id
+        return cnab_config.grant_discount_code_id
 
     def _get_cnab_cancel_discount(self):
         """
         CNAB - Cancelar Desconto.
         :param reason: Descrição sobre alteração
         """
-        if not self.payment_mode_id.cancel_discount_code_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, "Cancel Discount Code"
-            )
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.cancel_discount_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Cancel Discount Code")
 
-        return self.payment_mode_id.cancel_discount_code_id
+        return cnab_config.cancel_discount_code_id
 
     def _make_cnab_change(self, cnab_code, new_payorder, payorder, reason):
         """
