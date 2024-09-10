@@ -4574,7 +4574,7 @@ msgstr ""
 "documento está cancelado no SEFAZ"
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/fiscal_document.py:0
+#: code:addons/l10n_br_account/models/document.py:0
 #, python-format
 msgid "You cannot delete a fiscal document which is not draft state."
 msgstr ""
