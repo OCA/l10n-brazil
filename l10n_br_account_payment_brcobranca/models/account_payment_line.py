@@ -14,15 +14,7 @@ _logger = logging.getLogger(__name__)
 class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
-    def _prepare_bank_line_ailos(self, payment_mode_id, linhas_pagamentos):
-        if self.discount_value:
-            # Código adotado pela FEBRABAN para identificação do desconto.
-            # Domínio:
-            # 0 = Isento
-            # 1 = Valor Fixo
-            linhas_pagamentos["cod_desconto"] = "1"
-
-    def _prepare_bank_line_unicred(self, payment_mode_id, linhas_pagamentos):
+    def _prepare_bank_line_unicred(self, cnab_config, linhas_pagamentos):
         # TODO - Valores padrões ?
         #  Estou preenchendo valores que se forem vazios geram erro
         #  os campos parecem estar usando uma Seleção que é definida
@@ -30,10 +22,8 @@ class AccountPaymentLine(models.Model):
         #  Isso deveria ser feito para o CNAB de outros Bancos ?
         #  Na criação dos campos houve a opção de deixa-los com o tipo
         #  CHAR ao invês de Selection por essa falta de padrão.
-        linhas_pagamentos["codigo_protesto"] = (
-            payment_mode_id.boleto_protest_code or "3"
-        )
-        linhas_pagamentos["dias_protesto"] = payment_mode_id.boleto_days_protest or "0"
+        linhas_pagamentos["codigo_protesto"] = cnab_config.boleto_protest_code or "3"
+        linhas_pagamentos["dias_protesto"] = cnab_config.boleto_days_protest or "0"
 
         # Código adotado pela FEBRABAN para identificação
         # do tipo de pagamento de multa.
@@ -62,14 +52,18 @@ class AccountPaymentLine(models.Model):
 
         linhas_pagamentos["numero"] = doc_number
 
-        if self.discount_value:
-            linhas_pagamentos["cod_desconto"] = "1"
-
-    def _prepare_bank_line_banco_brasil(self, payment_mode_id, linhas_pagamentos):
-        if self.instruction_move_code_id.code == payment_mode_id.sending_code_id.code:
+    def _prepare_cod_primeira_instrucao_protest(self, cnab_config, linhas_pagamentos):
+        if self.instruction_move_code_id.code == cnab_config.sending_code_id.code:
             linhas_pagamentos["cod_primeira_instrucao"] = (
-                payment_mode_id.boleto_protest_code or "00"
+                cnab_config.boleto_protest_code or "00"
             )
+
+    def _prepare_bank_line_itau(self, cnab_config, linhas_pagamentos):
+        if cnab_config.payment_method_code == "400":
+            self._prepare_cod_primeira_instrucao_protest(cnab_config, linhas_pagamentos)
+
+    def _prepare_bank_line_banco_brasil(self, cnab_config, linhas_pagamentos):
+        self._prepare_cod_primeira_instrucao_protest(cnab_config, linhas_pagamentos)
 
     # Caso Santander 400 precisa enviar o Nosso Numero com DV isso não acontece no
     # 240, por enquanto é o único caso mapeado.
@@ -104,8 +98,8 @@ class AccountPaymentLine(models.Model):
             resto = soma % 11
             return resto
 
-    def _prepare_bank_line_santander(self, payment_mode_id, linhas_pagamentos):
-        if payment_mode_id.payment_method_code == "400":
+    def _prepare_bank_line_santander(self, cnab_config, linhas_pagamentos):
+        if cnab_config.payment_method_id.code == "400":
             nosso_numero = linhas_pagamentos["nosso_numero"]
             # O campo deve ter tamanho 7 caso a Sequencia não esteja configurada
             # corretamente é tratado aqui, talvez deva ser feito na validação
@@ -117,7 +111,7 @@ class AccountPaymentLine(models.Model):
             linhas_pagamentos["nosso_numero"] = str(nosso_numero) + str(dv)
 
     def prepare_bank_payment_line(self, bank_name_brcobranca):
-        payment_mode_id = self.order_id.payment_mode_id
+        cnab_config = self.order_id.payment_mode_id.cnab_config_id
         linhas_pagamentos = self._prepare_boleto_line_vals()
 
         # Casos onde o Banco além dos principais campos possui campos
@@ -128,16 +122,16 @@ class AccountPaymentLine(models.Model):
             bank_method = getattr(
                 self, f"_prepare_bank_line_{bank_name_brcobranca.name}"
             )
-            bank_method(payment_mode_id, linhas_pagamentos)
+            bank_method(cnab_config, linhas_pagamentos)
 
         # Cada Banco pode possuir seus Codigos de Instrução
-        if self.instruction_move_code_id.code == payment_mode_id.sending_code_id.code:
-            if payment_mode_id.boleto_fee_perc:
-                linhas_pagamentos["codigo_multa"] = payment_mode_id.boleto_fee_code
-                linhas_pagamentos["percentual_multa"] = payment_mode_id.boleto_fee_perc
+        if self.instruction_move_code_id.code == cnab_config.sending_code_id.code:
+            if cnab_config.boleto_fee_perc:
+                linhas_pagamentos["codigo_multa"] = cnab_config.boleto_fee_code
+                linhas_pagamentos["percentual_multa"] = cnab_config.boleto_fee_perc
 
-            if payment_mode_id.boleto_interest_perc:
-                linhas_pagamentos["tipo_mora"] = payment_mode_id.boleto_interest_code
+            if cnab_config.boleto_interest_perc:
+                linhas_pagamentos["tipo_mora"] = cnab_config.boleto_interest_code
                 # TODO - É padrão em todos os bancos ?
                 # Código adotado pela FEBRABAN para identificação do tipo de
                 # pagamento de mora de juros.
@@ -152,28 +146,29 @@ class AccountPaymentLine(models.Model):
                 # segundo manual. Cógido mantido
                 # para Correspondentes que ainda utilizam.
                 # Isento de Mora caso não exista percentual
-                if payment_mode_id.boleto_interest_code == "1":
+                if cnab_config.boleto_interest_code == "1":
                     linhas_pagamentos["valor_mora"] = self.company_currency_id.round(
                         self.amount_currency
-                        * ((payment_mode_id.boleto_interest_perc / 100) / 30),
+                        * ((cnab_config.boleto_interest_perc / 100) / 30),
                     )
-                if payment_mode_id.boleto_interest_code == "2":
-                    linhas_pagamentos[
-                        "valor_mora"
-                    ] = payment_mode_id.boleto_interest_perc
+                if cnab_config.boleto_interest_code == "2":
+                    linhas_pagamentos["valor_mora"] = cnab_config.boleto_interest_perc
 
             if self.discount_value:
                 linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
                 linhas_pagamentos["valor_desconto"] = self.discount_value
 
             # Protesto
-            if payment_mode_id.boleto_protest_code:
-                linhas_pagamentos[
-                    "codigo_protesto"
-                ] = payment_mode_id.boleto_protest_code
-                if payment_mode_id.boleto_days_protest:
-                    linhas_pagamentos[
-                        "dias_protesto"
-                    ] = payment_mode_id.boleto_days_protest
+            if cnab_config.boleto_protest_code:
+                linhas_pagamentos["codigo_protesto"] = cnab_config.boleto_protest_code
+                if cnab_config.boleto_days_protest:
+                    linhas_pagamentos["dias_protesto"] = cnab_config.boleto_days_protest
+
+            # Desconto
+            # Código adotado pela FEBRABAN para identificação do desconto.
+            # Domínio: 0 = Isento | 1 = Valor Fixo
+            if cnab_config.payment_method_code == "240":
+                if self.discount_value:
+                    linhas_pagamentos["cod_desconto"] = "1"
 
         return linhas_pagamentos
