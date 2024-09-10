@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 15.0.2.9.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Invoicing and accounting entries for Brazil
+[l10n_br_account](l10n_br_account/) | 15.0.2.10.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Invoicing and accounting entries for Brazil
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 15.0.1.1.0 |  | Brazilian Account Due List
 [l10n_br_account_nfe](l10n_br_account_nfe/) | 15.0.1.0.0 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) [![felipemotter](https://github.com/felipemotter.png?size=30px)](https://github.com/felipemotter) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Integration between l10n_br_account and l10n_br_nfe
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 15.0.1.1.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Payment Order
@@ -34,7 +34,7 @@ addon | version | maintainers | summary
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 15.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
 [l10n_br_crm](l10n_br_crm/) | 15.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 15.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
-[l10n_br_fiscal](l10n_br_fiscal/) | 15.0.2.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Fiscal module/tax engine for Brazil
+[l10n_br_fiscal](l10n_br_fiscal/) | 15.0.2.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Fiscal module/tax engine for Brazil
 [l10n_br_fiscal_certificate](l10n_br_fiscal_certificate/) | 15.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | A1 fiscal certificate management for Brazil
 [l10n_br_fiscal_closing](l10n_br_fiscal_closing/) | 15.0.2.0.0 |  | Period fiscal closing
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 15.0.1.1.1 |  | Distribuição de documentos fiscais
@@ -48,7 +48,7 @@ addon | version | maintainers | summary
 [l10n_br_nfse_focus](l10n_br_nfse_focus/) | 15.0.1.1.1 | [![AndreMarcos](https://github.com/AndreMarcos.png?size=30px)](https://github.com/AndreMarcos) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![ygcarvalh](https://github.com/ygcarvalh.png?size=30px)](https://github.com/ygcarvalh) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | NFS-e (FocusNFE)
 [l10n_br_purchase](l10n_br_purchase/) | 15.0.1.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Brazilian Localization Purchase
 [l10n_br_resource](l10n_br_resource/) | 15.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![hendixcosta](https://github.com/hendixcosta.png?size=30px)](https://github.com/hendixcosta) [![lfdivino](https://github.com/lfdivino.png?size=30px)](https://github.com/lfdivino) | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
-[l10n_br_sale](l10n_br_sale/) | 15.0.1.4.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
+[l10n_br_sale](l10n_br_sale/) | 15.0.1.5.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
 [l10n_br_setup_tests](l10n_br_setup_tests/) | 15.0.1.0.0 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) | Modules for Odoo's Brazil-focused usability with integration tests.
 [l10n_br_stock](l10n_br_stock/) | 15.0.1.0.1 |  | Brazilian Localization Warehouse
 [l10n_br_zip](l10n_br_zip/) | 15.0.1.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
