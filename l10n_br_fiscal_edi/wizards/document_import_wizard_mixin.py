@@ -7,7 +7,7 @@ import logging
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constants.fiscal import FISCAL_IN_OUT_ALL
+from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_IN_OUT_ALL
 
 _logger = logging.getLogger(__name__)
 
