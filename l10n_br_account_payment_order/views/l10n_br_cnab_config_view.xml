@@ -148,12 +148,6 @@
                                 <field name="boleto_fee_perc" />
                             </group>
                             <group name="desconto" string="Configuração de Desconto">
-                                <field
-                                        name="boleto_discount_code_id"
-                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
-                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'discount_code')]"
-                                    />
-
                                 <field name="boleto_discount_perc" />
                             </group>
                             <group
@@ -172,7 +166,7 @@
                                 <group
                                         name="brasil"
                                         string="Banco do Brasil"
-                                        attrs="{'invisible': ['|', ('bank_code_bc', '!=', '001'), ('payment_method_code', '!=', '400')]}"
+                                        attrs="{'invisible': [('bank_code_bc', '!=', '001')]}"
                                     >
                                     <field
                                             name="convention_code"
@@ -189,11 +183,6 @@
                                             name="wallet_code_id"
                                             domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'wallet_code')]"
                                         />
-                                    <field
-                                            name="write_off_devolution_code_id"
-                                            domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'boleto_write_off_devolution')]"
-                                        />
-                                    <field name="write_off_devolution_number_of_days" />
                                  </group>
                                  <group
                                         name="bradesco"
