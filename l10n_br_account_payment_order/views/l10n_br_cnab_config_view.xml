@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2024-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="l10n_br_cnab_config_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.config.tree</field>
+        <field name="model">l10n_br_cnab.config</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="bank_id" />
+                <field name="payment_method_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_config_search_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.config.search</field>
+        <field name="model">l10n_br_cnab.config</field>
+        <field name="arch" type="xml">
+            <search string="CNAB Config">
+                <field name="name" />
+                <field name="bank_id" />
+                <field name="payment_method_id" />
+                <group expand='0' string='Group By...'>
+                    <filter
+                        string='Bank'
+                        name="bank_id"
+                        domain="[]"
+                        context="{'group_by' : 'bank_id'}"
+                    />
+                    <filter
+                        string='CNAB Type'
+                        name="payment_method_id"
+                        domain="[]"
+                        context="{'group_by' : 'payment_method_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_config_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.config.form.view</field>
+        <field name="model">l10n_br_cnab.config</field>
+        <field name="arch" type="xml">
+            <form string="CNAB Code">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="bank_id" />
+                        <field name="payment_method_id" />
+                        <field name="comment" />
+                        <field name="payment_type" invisible="1" />
+                        <field name="payment_method_id" invisible="1" />
+                    </group>
+                    <group>
+                        <field
+                            name="cnab_processor"
+                            attrs="{'invisible': [('cnab_processor','=',False),('payment_method_code', 'not in', ('240', '400', '500'))], 'required': [('payment_method_code', 'in', ('240', '400', '500'))]}"
+                        />
+                    </group>
+
+                <group
+                        name='l10n-br-config'
+                        col="4"
+                        attrs="{'invisible': [('payment_method_code', 'not in', ('240','400', '500', 'manual_test') )]}"
+                    >
+                    <notebook name="l10n_br_account_payment_order">
+                        <page string="Geral">
+                            <group name="l10n_br_account_payment_order-geral">
+                                <!-- Forma encontrada para evitar ter diversos
+                                     campos duplicados com o mesmo objetivo
+                                     Campo que tem o código que identifica a
+                                     Empresa no Banco e que tem o tamanho 20,
+                                     alterar a String para os casos especificos
+                                -->
+                                <!-- Casos com nomes diferentes de Código da Empresa no Banco -->
+                                <!-- Banco UNICRED e AILOS -->
+                                <field
+                                        name="cnab_company_bank_code"
+                                        string="Código do Beneficiário"
+                                        attrs="{'invisible': [('bank_code_bc', 'not in', ('136', '085'))]}"
+                                    />
+                                <!-- Banco Santander -->
+                                <field
+                                        name="cnab_company_bank_code"
+                                        string="Código de Transmissão"
+                                        attrs="{'invisible': [('bank_code_bc', '!=', '033')]}"
+                                    />
+                                <!-- Bradesco 240 chama Convênio porém no 400
+                                chama Código da Empresa -->
+                                <field
+                                        name="cnab_company_bank_code"
+                                        string="Código do Convênio no Banco"
+                                        attrs="{'invisible': ['&amp;', ('bank_code_bc', '!=', '237'), ('payment_method_code', '!=', '240')]}"
+                                    />
+                                <!-- Casos que ou usam o termo Codigo da Empresa
+                                     ou que não estao mapeados
+                                -->
+                                <field
+                                        name="cnab_company_bank_code"
+                                        attrs="{'invisible': [('bank_code_bc', 'in', ('136', '085', '033'))]}"
+                                    />
+                                <field name="instructions" />
+                                <field name="invoice_print" />
+                                <field name="condition_issuing_paper" />
+                                <field name="cnab_sequence_id" />
+                                <field name="communication_2" />
+                            </group>
+                        </page>
+                        <page
+                                string="Cobranca"
+                                attrs="{'invisible': [('payment_type', '!=', 'inbound')]}"
+                            >
+                            <group string="Configurações Gerais">
+                                <field name="bank_code_bc" invisible="1" />
+                                <field name="generate_own_number" />
+                                <field
+                                        name="own_number_sequence_id"
+                                        attrs="{'required': [('payment_method_code', 'in', ('240', '400', '500')), ('payment_type', '==', 'inbound')]}"
+                                    />
+                                <field name="boleto_wallet" />
+                                <field name="boleto_modality" />
+                                <field name="boleto_variation" />
+                                <field name="boleto_accept" />
+                                <field name="boleto_species" />
+                                <field name="payment_method_code" invisible="1" />
+                            </group>
+
+                            <group name="protesto" string="Configuração do Protesto">
+                                <field name="boleto_protest_code" />
+                                <field name="boleto_days_protest" />
+                            </group>
+                            <group
+                                    name="juros-mora"
+                                    string="Configuração do Juros Mora"
+                                >
+                                <field name="boleto_interest_code" />
+                                <field name="boleto_interest_perc" />
+                            </group>
+                            <group name="multa" string="Configuração da Multa">
+                                <field name="boleto_fee_code" />
+                                <field name="boleto_fee_perc" />
+                            </group>
+                            <group name="desconto" string="Configuração de Desconto">
+                                <field name="boleto_discount_perc" />
+                            </group>
+                            <group
+                                    name="outros"
+                                    string="Outras Configurações"
+                                    attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756', '001', '033', '237') )]}"
+                                >
+                                <group
+                                        name="sicred_sicoob"
+                                        string="Bancos SICRED ou SICOOB"
+                                        attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"
+                                    >
+                                    <field name="boleto_byte_idt" />
+                                    <field name="boleto_post" />
+                                </group>
+                                <group
+                                        name="brasil"
+                                        string="Banco do Brasil"
+                                        attrs="{'invisible': [('bank_code_bc', '!=', '001')]}"
+                                    >
+                                    <field
+                                            name="convention_code"
+                                            string="Código do Convênio Líder"
+                                        />
+                                 </group>
+                                 <group
+                                        name="santander"
+                                        string="Banco Santander"
+                                        attrs="{'invisible': [('bank_code_bc', '!=', '033')]}"
+                                    >
+                                    <field name="convention_code" />
+                                    <field
+                                            name="wallet_code_id"
+                                            domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'wallet_code')]"
+                                        />
+                                 </group>
+                                 <group
+                                        name="bradesco"
+                                        string="Banco Bradesco"
+                                        attrs="{'invisible': [('bank_code_bc', '!=', '237')]}"
+                                    >
+                                    <field
+                                            name="wallet_code_id"
+                                            domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'wallet_code')]"
+                                        />
+                                 </group>
+                            </group>
+                        </page>
+                        <page
+                                string="Pagamento"
+                                attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                            >
+                            <group>
+                                <field name="service_type" />
+                                <field name="release_form" />
+                                <field name="doc_finality_code" />
+                                <field name="ted_finality_code" />
+                                <field name="complementary_finality_code" />
+                                <field name="favored_warning" />
+                            </group>
+                        </page>
+                        <page string="Contabilidade">
+                            <group>
+                                <field name="tariff_charge_account_id" />
+                                <field name="interest_fee_account_id" />
+                                <field name="discount_account_id" />
+                                <field name="rebate_account_id" />
+                                <field name="not_payment_account_id" />
+                            </group>
+                        </page>
+                        <page
+                                string="Configuração dos Codigos CNAB"
+                                attrs="{'invisible': [('payment_method_code', 'not in', ('240', '400', '500', 'manual_test'))]}"
+                            >
+                            <field name="bank_id" invisible="1" />
+                            <group
+                                    name="return_move_code"
+                                    string="Códigos de Retorno do Movimento"
+                                >
+                                <field
+                                        name="liq_return_move_code_ids"
+                                        widget="many2many_tags"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'return_move_code')]"
+                                    />
+                            </group>
+                            <group
+                                    name="move_instruction_code"
+                                    string="Códigos de Instrução do Movimento"
+                                >
+                                <field
+                                        name="sending_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="write_off_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="change_title_value_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="change_maturity_date_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="protest_title_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="suspend_protest_keep_wallet_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="suspend_protest_write_off_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="grant_rebate_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="cancel_rebate_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="grant_discount_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                                <field
+                                        name="cancel_discount_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
+                                    />
+                            </group>
+                        </page>
+                    </notebook>
+                </group>
+
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_config_action" model="ir.actions.act_window">
+        <field name="name">CNAB Config</field>
+        <field name="res_model">l10n_br_cnab.config</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by':['bank_id', 'payment_method_id']}</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_br_cnab_config"
+        parent="account.account_management_menu"
+        name="CNAB Config"
+        sequence="999"
+        action="l10n_br_cnab_config_action"
+    />
+
+</odoo>
