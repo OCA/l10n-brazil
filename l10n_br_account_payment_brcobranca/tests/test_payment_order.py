@@ -48,7 +48,7 @@ class TestPaymentOrder(TransactionCase):
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -92,7 +92,7 @@ class TestPaymentOrder(TransactionCase):
         self.assertEqual(invoice.state, "posted")
 
         # Imprimir Boleto
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
                 "tests",
@@ -119,7 +119,7 @@ class TestPaymentOrder(TransactionCase):
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -281,7 +281,7 @@ class TestPaymentOrder(TransactionCase):
             # Caso de Baixa do Titulo
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.write_off_code_id.name,
+                line.order_id.cnab_config_id.write_off_code_id.name,
             )
 
     def test_payment_outside_cnab_writeoff_and_change_tittle_value(self):
@@ -299,11 +299,9 @@ class TestPaymentOrder(TransactionCase):
             .create(
                 {
                     "payment_type": "inbound",
-                    "payment_method_line_id": (
-                        self.journal_cash._get_available_payment_method_lines("inbound")
-                        .filtered(lambda x: x.code == "manual")
-                        .id
-                    ),
+                    "payment_method_id": self.env.ref(
+                        "account.account_payment_method_manual_in"
+                    ).id,
                     "partner_type": "customer",
                     "partner_id": self.partner_akretion.id,
                     "amount": 600,
@@ -325,13 +323,13 @@ class TestPaymentOrder(TransactionCase):
                 # Caso de Baixa do Titulo
                 self.assertEqual(
                     line.instruction_move_code_id.name,
-                    line.order_id.payment_mode_id.write_off_code_id.name,
+                    line.order_id.cnab_config_id.write_off_code_id.name,
                 )
             else:
                 # Caso de alteração do valor do titulo por pagamento parcial
                 self.assertEqual(
                     line.instruction_move_code_id.name,
-                    line.order_id.payment_mode_id.change_title_value_code_id.name,
+                    line.order_id.cnab_config_id.change_title_value_code_id.name,
                 )
                 self.assertEqual(
                     line.move_line_id.amount_residual, line.amount_currency
@@ -391,13 +389,13 @@ class TestPaymentOrder(TransactionCase):
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.change_maturity_date_code_id.name,
+                line.order_id.cnab_config_id.change_maturity_date_code_id.name,
             )
 
         # Open payment order
         payment_order.draft2open()
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -437,13 +435,13 @@ class TestPaymentOrder(TransactionCase):
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.protest_title_code_id.name,
+                line.order_id.cnab_config_id.protest_title_code_id.name,
             )
         # Open payment order
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -481,19 +479,19 @@ class TestPaymentOrder(TransactionCase):
             ]
         )
 
-        suspend_protest_keep_wallet = (
-            self.aml_to_change.payment_mode_id.suspend_protest_keep_wallet_code_id
+        suspend_protest_keep_wallet_code = (
+            self.aml_to_change.cnab_config_id.suspend_protest_keep_wallet_code_id
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                suspend_protest_keep_wallet.name,
+                suspend_protest_keep_wallet_code.name,
             )
         # Open payment order
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -538,7 +536,7 @@ class TestPaymentOrder(TransactionCase):
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.grant_rebate_code_id.name,
+                line.order_id.cnab_config_id.grant_rebate_code_id.name,
             )
             self.assertEqual(line.rebate_value, 10.0)
 
@@ -547,12 +545,12 @@ class TestPaymentOrder(TransactionCase):
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.grant_rebate_code_id.name,
+                line.order_id.cnab_config_id.grant_rebate_code_id.name,
             )
             self.assertEqual(line.rebate_value, 10.0)
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -592,14 +590,14 @@ class TestPaymentOrder(TransactionCase):
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.cancel_rebate_code_id.name,
+                line.order_id.cnab_config_id.cancel_rebate_code_id.name,
             )
 
         # Open payment order
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -644,7 +642,7 @@ class TestPaymentOrder(TransactionCase):
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.grant_discount_code_id.name,
+                line.order_id.cnab_config_id.grant_discount_code_id.name,
             )
             self.assertEqual(line.discount_value, 10.0)
 
@@ -653,12 +651,12 @@ class TestPaymentOrder(TransactionCase):
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.grant_discount_code_id.name,
+                line.order_id.cnab_config_id.grant_discount_code_id.name,
             )
             self.assertEqual(line.discount_value, 10.0)
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -698,14 +696,14 @@ class TestPaymentOrder(TransactionCase):
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.cancel_discount_code_id.name,
+                line.order_id.cnab_config_id.cancel_discount_code_id.name,
             )
 
         # Open payment order
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -751,7 +749,7 @@ class TestPaymentOrder(TransactionCase):
             # Baixa do Titulo
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.write_off_code_id.name,
+                line.order_id.cnab_config_id.write_off_code_id.name,
             )
 
     def test_payment(self):
@@ -769,7 +767,7 @@ class TestPaymentOrder(TransactionCase):
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -798,11 +796,7 @@ class TestPaymentOrder(TransactionCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_line_id = (
-            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
-                lambda x: x.code == "manual"
-            )
-        )
+        payment_register.payment_method_id = self.payment_method_manual_in
 
         # Perform the partial payment by setting the amount at 300 instead of 500
         payment_register.amount = 100
@@ -820,7 +814,7 @@ class TestPaymentOrder(TransactionCase):
             # Caso de alteração do valor do titulo por pagamento parcial
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.change_title_value_code_id.name,
+                line.order_id.cnab_config_id.change_title_value_code_id.name,
             )
             self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
@@ -828,7 +822,7 @@ class TestPaymentOrder(TransactionCase):
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -857,11 +851,7 @@ class TestPaymentOrder(TransactionCase):
             )
         )
         payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_line_id = (
-            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
-                lambda x: x.code == "manual"
-            )
-        )
+        payment_register.payment_method_id = self.payment_method_manual_in
 
         # Perform the partial payment by setting the amount at 300 instead of 500
         payment_register.amount = 50
@@ -878,7 +868,7 @@ class TestPaymentOrder(TransactionCase):
             # Caso de alteração do valor do titulo por pagamento parcial
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.change_title_value_code_id.name,
+                line.order_id.cnab_config_id.change_title_value_code_id.name,
             )
             self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
@@ -886,7 +876,7 @@ class TestPaymentOrder(TransactionCase):
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI"):
+        if os.environ.get("CI_NO_BRCOBRANCA"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
@@ -917,11 +907,9 @@ class TestPaymentOrder(TransactionCase):
             .create(
                 {
                     "payment_type": "inbound",
-                    "payment_method_line_id": (
-                        self.journal_cash._get_available_payment_method_lines("inbound")
-                        .filtered(lambda x: x.code == "manual")
-                        .id
-                    ),
+                    "payment_method_id": self.env.ref(
+                        "account.account_payment_method_manual_in"
+                    ).id,
                     "partner_type": "customer",
                     "partner_id": self.partner_akretion.id,
                     "amount": 150,
@@ -942,7 +930,7 @@ class TestPaymentOrder(TransactionCase):
             # Baixa do Titulo
             self.assertEqual(
                 line.instruction_move_code_id.name,
-                line.order_id.payment_mode_id.write_off_code_code_id.name,
+                line.order_id.cnab_config_id.write_off_code_id.name,
             )
             # TODO: Pedido de Baixa está indo com o valor inicial deveria ser
             #  o ultimo valor enviado ? Já que é um Pedido de Baixa o Banco

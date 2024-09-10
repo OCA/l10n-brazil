@@ -43,6 +43,7 @@ class AccountMoveLine(models.Model):
             bank_name_brcobranca = get_brcobranca_bank(
                 bank_account_id, move_line.payment_mode_id.payment_method_code
             )
+            cnab_config = move_line.payment_mode_id.cnab_config_id
 
             boleto_cnab_api_data = {
                 "bank": bank_name_brcobranca[0],
@@ -64,8 +65,8 @@ class AccountMoveLine(models.Model):
                 "sacado_documento": move_line.partner_id.cnpj_cpf,
                 "agencia": bank_account_id.bra_number,
                 "conta_corrente": bank_account_id.acc_number,
-                "convenio": move_line.payment_mode_id.cnab_company_bank_code,
-                "carteira": str(move_line.payment_mode_id.boleto_wallet),
+                "convenio": cnab_config.cnab_company_bank_code,
+                "carteira": str(cnab_config.boleto_wallet),
                 "nosso_numero": int(
                     "".join(i for i in move_line.own_number if i.isdigit())
                 ),
@@ -74,10 +75,10 @@ class AccountMoveLine(models.Model):
                 "data_documento": move_line.move_id.invoice_date.strftime("%Y/%m/%d"),
                 "especie": move_line.currency_id.symbol,
                 "especie_documento": get_boleto_especie_short_name(
-                    move_line.payment_mode_id.boleto_species
+                    cnab_config.boleto_species
                 ),
                 "moeda": DICT_BRCOBRANCA_CURRENCY["R$"],
-                "aceite": move_line.payment_mode_id.boleto_accept,
+                "aceite": cnab_config.boleto_accept,
                 "sacado_endereco": (move_line.partner_id.street_name or "")
                 + " "
                 + (move_line.partner_id.street_number or "")
@@ -92,24 +93,21 @@ class AccountMoveLine(models.Model):
                 "data_processamento": move_line.move_id.invoice_date.strftime(
                     "%Y/%m/%d"
                 ),
-                "instrucao1": move_line.payment_mode_id.instructions or "",
+                "instrucao1": cnab_config.instructions or "",
             }
 
             # Instrução de Juros
-            if move_line.payment_mode_id.boleto_interest_perc > 0.0:
+            if cnab_config.boleto_interest_perc > 0.0:
                 valor_juros = move_line.currency_id.round(
-                    move_line.debit
-                    * ((move_line.payment_mode_id.boleto_interest_perc / 100) / 30),
+                    move_line.debit * ((cnab_config.boleto_interest_perc / 100) / 30),
                 )
-                percentual_formatado = (
-                    f"{move_line.payment_mode_id.boleto_interest_perc:.2f}".replace(
-                        ".", ","
-                    )
-                )
-                juros_formatado = f"{valor_juros:.2f}".replace(".", ",")
                 instrucao_juros = (
-                    f"APÓS VENCIMENTO COBRAR PERCENTUAL DE {percentual_formatado}%"
-                    f" AO MÊS (R${juros_formatado} AO DIA)"
+                    "APÓS VENCIMENTO COBRAR PERCENTUAL"
+                    + " DE %s %% AO MÊS ( R$ %s AO DIA )"
+                    % (
+                        ("%.2f" % cnab_config.boleto_interest_perc).replace(".", ","),
+                        ("%.2f" % valor_juros).replace(".", ","),
+                    )
                 )
                 boleto_cnab_api_data.update(
                     {
@@ -118,17 +116,17 @@ class AccountMoveLine(models.Model):
                 )
 
             # Instrução Multa
-            if move_line.payment_mode_id.boleto_fee_perc > 0.0:
+            if cnab_config.boleto_fee_perc > 0.0:
                 valor_multa = move_line.currency_id.round(
-                    move_line.debit * (move_line.payment_mode_id.boleto_fee_perc / 100),
+                    move_line.debit * (cnab_config.boleto_fee_perc / 100),
                 )
-                percentual_formatado = (
-                    f"{move_line.payment_mode_id.boleto_fee_perc:.2f}".replace(".", ",")
-                )
-                multa_formatado = f"{valor_multa:.2f}".replace(".", ",")
                 instrucao_multa = (
-                    f"APÓS VENCIMENTO COBRAR MULTA DE {percentual_formatado}%"
-                    f" (R${multa_formatado})"
+                    "APÓS VENCIMENTO COBRAR MULTA"
+                    + " DE %s %% ( R$ %s )"
+                    % (
+                        ("%.2f" % cnab_config.boleto_fee_perc).replace(".", ","),
+                        ("%.2f" % valor_multa).replace(".", ","),
+                    )
                 )
                 boleto_cnab_api_data.update(
                     {
@@ -141,15 +139,14 @@ class AccountMoveLine(models.Model):
                 valor_desconto = move_line.currency_id.round(
                     move_line.debit * (move_line.boleto_discount_perc / 100),
                 )
-                percentual_formatado = f"{move_line.boleto_discount_perc:.2f}".replace(
-                    ".", ","
-                )
-                desconto_formatado = f"{valor_desconto:.2f}".replace(".", ",")
-                vencimento_formatado = move_line.date_maturity.strftime("%d/%m/%Y")
                 instrucao_desconto_vencimento = (
-                    f"CONCEDER DESCONTO DE {percentual_formatado}% "
-                    f"ATÉ O VENCIMENTO EM {vencimento_formatado} "
-                    f"(R${desconto_formatado})"
+                    "CONCEDER DESCONTO DE" + " %s %% "
+                    "ATÉ O VENCIMENTO EM %s ( R$ %s )"
+                    % (
+                        ("%.2f" % move_line.boleto_discount_perc).replace(".", ","),
+                        move_line.date_maturity.strftime("%d/%m/%Y"),
+                        ("%.2f" % valor_desconto).replace(".", ","),
+                    )
                 )
                 boleto_cnab_api_data.update(
                     {
@@ -173,8 +170,8 @@ class AccountMoveLine(models.Model):
             if bank_account_id.bank_id.code_bc in ("748", "756"):
                 boleto_cnab_api_data.update(
                     {
-                        "byte_idt": move_line.payment_mode_id.boleto_byte_idt,
-                        "posto": move_line.payment_mode_id.boleto_post,
+                        "byte_idt": cnab_config.boleto_byte_idt,
+                        "posto": cnab_config.boleto_post,
                     }
                 )
             # Campo usado no Unicred
@@ -193,7 +190,7 @@ class AccountMoveLine(models.Model):
                 # no boleto é usado o convenio
                 boleto_cnab_api_data.update(
                     {
-                        "convenio": move_line.payment_mode_id.convention_code,
+                        "convenio": cnab_config.convention_code,
                     }
                 )
 
