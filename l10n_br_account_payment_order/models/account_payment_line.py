@@ -191,21 +191,21 @@ class AccountPaymentLine(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        mode = (
+        cnab_config = (
             self.env["account.payment.order"]
             .browse(self.env.context.get("order_id"))
-            .payment_mode_id
+            .payment_mode_id.cnab_config_id
         )
-        if mode.doc_finality_code:
-            res.update({"doc_finality_code": mode.doc_finality_code})
-        if mode.ted_finality_code:
-            res.update({"ted_finality_code": mode.ted_finality_code})
-        if mode.complementary_finality_code:
+        if cnab_config.doc_finality_code:
+            res.update({"doc_finality_code": cnab_config.doc_finality_code})
+        if cnab_config.ted_finality_code:
+            res.update({"ted_finality_code": cnab_config.ted_finality_code})
+        if cnab_config.complementary_finality_code:
             res.update(
-                {"complementary_finality_code": mode.complementary_finality_code}
+                {"complementary_finality_code": cnab_config.complementary_finality_code}
             )
-        if mode.favored_warning:
-            res.update({"favored_warning": mode.favored_warning})
+        if cnab_config.favored_warning:
+            res.update({"favored_warning": cnab_config.favored_warning})
 
         return res
 
