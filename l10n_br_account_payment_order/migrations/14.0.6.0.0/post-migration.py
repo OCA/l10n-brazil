@@ -16,6 +16,11 @@ def unifying_cnab_codes(env):
     )
     for row in env.cr.fetchall():
         mov_instruction = env["l10n_br_cnab.mov.instruction.code"].browse(row[0])
+        existing_code = env["l10n_br_cnab.code"].search(
+            [("code", "=", mov_instruction.code)], limit=1
+        )
+        if existing_code:
+            continue  # Skip
         env["l10n_br_cnab.code"].create(
             {
                 "name": mov_instruction.name,
@@ -34,6 +39,11 @@ def unifying_cnab_codes(env):
     )
     for row in env.cr.fetchall():
         return_code = env["l10n_br_cnab.return.move.code"].browse(row[0])
+        existing_code = env["l10n_br_cnab.code"].search(
+            [("code", "=", return_code.code)], limit=1
+        )
+        if existing_code:
+            continue  # Skip
         env["l10n_br_cnab.code"].create(
             {
                 "name": return_code.name,
@@ -52,6 +62,11 @@ def unifying_cnab_codes(env):
     )
     for row in env.cr.fetchall():
         wallet_code = env["l10n_br_cnab.boleto.wallet.code"].browse(row[0])
+        existing_code = env["l10n_br_cnab.code"].search(
+            [("code", "=", wallet_code.code)], limit=1
+        )
+        if existing_code:
+            continue  # Skip
         env["l10n_br_cnab.code"].create(
             {
                 "name": wallet_code.name,
