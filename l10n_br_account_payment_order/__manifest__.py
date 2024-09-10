@@ -53,6 +53,7 @@
         "views/l10n_br_cnab_boleto_wallet_code_view.xml",
         # Códigos CNAB
         "views/l10n_br_cnab_code_view.xml",
+        "views/l10n_br_cnab_config_view.xml",
     ],
     "demo": [
         "demo/account_payment_method.xml",
