@@ -53,11 +53,15 @@ class AccountPaymentOrder(models.Model):
         help="Campo G029 do CNAB",
     )
 
-    cnab_company_bank_code = fields.Char(
-        related="payment_mode_id.cnab_company_bank_code",
+    cnab_config_id = fields.Many2one(
+        related="payment_mode_id.cnab_config_id",
     )
 
-    convention_code = fields.Char(related="payment_mode_id.convention_code")
+    cnab_company_bank_code = fields.Char(
+        related="cnab_config_id.cnab_company_bank_code",
+    )
+
+    convention_code = fields.Char(related="cnab_config_id.convention_code")
 
     indicative_form_payment = fields.Selection(
         selection=INDICATIVO_FORMA_PAGAMENTO,
