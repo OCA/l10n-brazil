@@ -74,12 +74,14 @@
         <field name="context">{'group_by':['bank_id', 'payment_method_id']}</field>
     </record>
 
+    <!-- TODO: Remover a Visão na próxima versão, usando apenas para
+          migração para o l10n_br_cnab.code
     <menuitem
         id="menu_l10n_br_cnab_mov_instruction_code"
         parent="account.account_management_menu"
         name="CNAB Movement Instruction Code"
         sequence="999"
         action="l10n_br_cnab_mov_instruction_code_action"
-    />
+    />-->
 
 </odoo>

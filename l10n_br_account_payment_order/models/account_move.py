@@ -132,9 +132,7 @@ class AccountMove(models.Model):
             interval.instructions = instructions
             # Codigo de Instrução do Movimento pode variar,
             # mesmo no CNAB 240
-            interval.mov_instruction_code_id = (
-                self.payment_mode_id.cnab_sending_code_id.id
-            )
+            interval.instruction_move_code_id = self.payment_mode_id.sending_code_id
         filtered_invoice_ids = self.filtered(
             lambda s: (
                 s.payment_mode_id and s.payment_mode_id.auto_create_payment_order
