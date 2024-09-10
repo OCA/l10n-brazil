@@ -7966,35 +7966,35 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition_cfop.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "Tax Definition already exists for this CFOP and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition_company.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "Tax Definition already exists for this Company and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition_icms.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "Tax Definition already exists for this ICMS and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition_operation_line.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "Tax Definition already exists for this Operation Line and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition_partner_profile.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "Tax Definition already exists for this Partner Profile and Tax Group !"
 msgstr ""
@@ -8269,14 +8269,14 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "Tax benefit code must be 8 characters!"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "Tax benefit code must be start with state code!"
 msgstr ""
@@ -8352,7 +8352,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition_benefit.py:0
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
 #, python-format
 msgid "The tax benefit code must contain the type of benefit!"
 msgstr ""
