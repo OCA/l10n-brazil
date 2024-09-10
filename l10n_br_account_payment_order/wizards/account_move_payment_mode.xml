@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="account_move_payment_mode_cnab_change_wizard_form" model="ir.ui.view">
+        <field name="name">account.move.payment.mode.cnab.change.form</field>
+        <field name="model">account.move.payment.mode.cnab.change</field>
+        <field name="arch" type="xml">
+            <form string="Set Payment Mode CNAB">
+                <group>
+                    <field name="payment_mode_id" />
+                </group>
+                <footer>
+                    <button
+                        name="set_payment_mode"
+                        string="Confirm"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="wizard_set_payment_mode_cnab_act_multi">
+        <field name="name">Set Payment Mode CNAB</field>
+        <field name="res_model">account.move.payment.mode.cnab.change</field>
+        <field name="view_mode">form</field>
+        <field name="binding_model_id" ref="model_account_move" />
+        <field name="target">new</field>
+    </record>
+
+</odoo>
