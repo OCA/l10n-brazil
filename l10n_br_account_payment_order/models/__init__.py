@@ -43,3 +43,4 @@ from . import l10n_br_cnab_return_move_code
 from . import l10n_br_cnab_mov_intruction_code
 from . import l10n_br_cnab_boleto_wallet_code
 from . import l10n_br_cnab_code
+from . import l10n_br_cnab_config

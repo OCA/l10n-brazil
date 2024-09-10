@@ -75,11 +75,15 @@ class AccountMoveLine(models.Model):
         copy=False,
     )
 
+    cnab_config_id = fields.Many2one(
+        related="payment_mode_id.cnab_config_id",
+    )
+
     boleto_discount_perc = fields.Float(
         string="Desconto de pontualidade",
         digits="Account",
         help="Percentual de Desconto até a Data de Vencimento",
-        related="payment_mode_id.boleto_discount_perc",
+        related="cnab_config_id.boleto_discount_perc",
     )
 
     instructions = fields.Text(
@@ -163,9 +167,9 @@ class AccountMoveLine(models.Model):
             # Se for uma solicitação de baixa do título é preciso informar o
             # campo debit o codigo original coloca o amount_residual
             if (
-                self.payment_mode_id.write_off_code_id
+                self.cnab_config_id.write_off_code_id
                 and self.instruction_move_code_id
-                == self.payment_mode_id.write_off_code_id
+                == self.cnab_config_id.write_off_code_id
             ):
                 vals["amount_currency"] = self.credit or self.debit
 

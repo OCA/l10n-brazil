@@ -20,6 +20,12 @@ class AccountPaymentMode(models.Model):
         "mail.thread",
     ]
 
+    cnab_config_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.config",
+        string="CNAB Config",
+        tracking=True,
+    )
+
     PAYMENT_MODE_DOMAIN = [
         ("dinheiro", _("Dinheiro")),
         ("cheque", _("Cheque")),
@@ -101,10 +107,7 @@ class AccountPaymentMode(models.Model):
     )
 
     @api.constrains(
-        "cnab_company_bank_code",
-        "cnab_sequence_id",
         "fixed_journal_id",
-        "boleto_wallet",
         "group_lines",
     )
     def _check_cnab_restriction(self):
@@ -127,21 +130,6 @@ class AccountPaymentMode(models.Model):
                     % field
                 )
 
-            if (
-                self.bank_code_bc == "341"
-                and self.payment_type == "inbound"
-                and not self.boleto_wallet
-            ):
-                raise ValidationError(_("Carteira no banco Itaú é obrigatória"))
-
-    @api.constrains("boleto_discount_perc")
-    def _check_discount_perc(self):
-        for record in self:
-            if record.boleto_discount_perc > 100 or record.boleto_discount_perc < 0:
-                raise ValidationError(
-                    _("O percentual deve ser um valor entre 0 a 100.")
-                )
-
     @api.onchange("payment_method_id")
     def _onchange_payment_method_id(self):
         for record in self:
@@ -150,32 +138,3 @@ class AccountPaymentMode(models.Model):
                 record.group_lines = False
                 # Selecionavel na Ordem de Pagamento
                 record.payment_order_ok = True
-
-    @api.constrains("own_number_sequence_id", "cnab_sequence_id")
-    def _check_sequences(self):
-        for record in self:
-            already_in_use = self.search(
-                [
-                    ("id", "!=", record.id),
-                    "|",
-                    ("own_number_sequence_id", "=", record.own_number_sequence_id.id),
-                    ("cnab_sequence_id", "=", record.cnab_sequence_id.id),
-                ],
-                limit=1,
-            )
-
-            if already_in_use.own_number_sequence_id:
-                raise ValidationError(
-                    _(
-                        "Sequence Own Number already in use by %(payment_mode)s!",
-                        payment_mode=already_in_use.name,
-                    )
-                )
-
-            if already_in_use.cnab_sequence_id:
-                raise ValidationError(
-                    _(
-                        "Sequence CNAB Sequence already in use by %(payment_mode)s!",
-                        payment_mode=already_in_use.name,
-                    )
-                )
