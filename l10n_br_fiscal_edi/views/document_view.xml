@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <record id="document_form" model="ir.ui.view">
+      <field name="name">l10n_br_fiscal_edi.document.form</field>
+      <field name="model">l10n_br_fiscal.document</field>
+      <field name="priority">5</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//page[@name='delivery']" position="after">
+            <page name="others" string="EDI">
+                <group>
+                    <field name="operation_name" />
+                    <field
+                            name="status_description"
+                            attrs="{'invisible': [('document_electronic', '=', '0')]}"
+                        />
+                </group>
+                <group>
+                    <group name="authorization" string="Authorization" colspan="4">
+                        <field name="authorization_event_id" />
+                        <field name="authorization_date" />
+                        <field name="authorization_protocol" />
+                        <field name="send_file_id" />
+                        <field name="authorization_file_id" />
+                        <field name="file_report_id" />
+                    </group>
+                    <group
+                            name="cancel"
+                            string="Cancellation"
+                            colspan="4"
+                            attrs="{'invisible': [('state_edoc', '!=', 'cancelada')]}"
+                        >
+                        <field name="cancel_event_id" />
+                        <field name="cancel_date" />
+                        <field name="cancel_protocol_number" />
+                        <field name="cancel_reason" />
+                        <field name="cancel_file_id" />
+                    </group>
+                    <group
+                            name="corrections"
+                            string="Corrections"
+                            colspan="4"
+                            attrs="{'invisible': [('correction_event_ids', '=', [])]}"
+                        >
+                        <field name="correction_event_ids" nolabel="1">
+                            <tree>
+                                <field name="id" />
+                                <field name="justification" />
+                                <field name="create_date" />
+                                <field name="state" />
+                                <button
+                                        name="print_document_event"
+                                        icon="fa-print"
+                                        type="object"
+                                    />
+                            </tree>
+                        </field>
+                    </group>
+                    <group name="events" string="Events and Services" colspan="4">
+                        <field name="event_ids" nolabel="1">
+                            <tree>
+                                <field name="id" />
+                                <field name="type" />
+                                <field name="origin" />
+                                <field name="create_date" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </page>
+        </xpath>
+      </field>
+  </record>
+
+</odoo>

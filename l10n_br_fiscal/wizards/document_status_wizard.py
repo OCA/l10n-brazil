@@ -4,6 +4,8 @@
 from odoo import models
 
 
+# this class is defined here so it can be overriden in l10n_br_account
+# without depending on l10n_br_fiscal_edi.
 class DocumentStatusWizard(models.TransientModel):
     _name = "l10n_br_fiscal.document.status.wizard"
     _description = "Fiscal Document Status Wizard"
