@@ -60,6 +60,7 @@
         "demo/account_account.xml",
         "demo/account_journal.xml",
         "demo/ir_sequence.xml",
+        "demo/l10n_br_cnab_config_demo.xml",
         "demo/account_payment_mode.xml",
         "demo/account_invoice.xml",
         "demo/res_users.xml",
