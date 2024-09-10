@@ -2744,11 +2744,6 @@ msgid "Invalidate File XML"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_invalidate_number_wizard
-msgid "Invalidate Number Wizard"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__invalidate_date
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__invalidate_date
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__invalidate_date
