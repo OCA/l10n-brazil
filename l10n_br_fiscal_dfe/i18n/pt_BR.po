@@ -146,11 +146,10 @@ msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: code:addons/l10n_br_fiscal_dfe/models/dfe.py:0
-#: code:addons/l10n_br_fiscal_dfe/models/dfe.py:0
 #, python-format
 msgid ""
 "Error on searching documents.\n"
-"%s"
+"%(error)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -159,13 +158,13 @@ msgstr ""
 msgid ""
 "Error validating document distribution: \n"
 "\n"
-"%s - %s"
+"%(code)s - %(message)s"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__file_name
-msgid "Filename"
-msgstr "Nome do Arquivo"
+msgid "File Name"
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_document
@@ -390,3 +389,6 @@ msgstr "Mensagens do Website"
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__website_message_ids
 msgid "Website communication history"
 msgstr "Histórico de comunicação do website"
+
+#~ msgid "Filename"
+#~ msgstr "Nome do Arquivo"

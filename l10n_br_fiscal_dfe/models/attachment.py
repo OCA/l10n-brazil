@@ -18,9 +18,9 @@ class Attachment(models.TransientModel):
     _name = "l10n_br_fiscal.attachment"
     _description = "Fiscal Document Attachment"
 
-    attachment = fields.Binary(string="Attachment", readonly=True)
+    attachment = fields.Binary(readonly=True)
 
-    file_name = fields.Char(string="Filename", default="attachments")
+    file_name = fields.Char(default="attachments")
 
     attachment_ids = fields.Many2many(
         comodel_name="ir.attachment",

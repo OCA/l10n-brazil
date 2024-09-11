@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2024-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+
+    <record id="l10n_br_cnab_code_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.code.tree</field>
+        <field name="model">l10n_br_cnab.code</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="code_type" />
+                <field name="bank_ids" widget="many2many_tags" />
+                <field name="payment_method_ids" widget="many2many_tags" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_code_search_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.code.search</field>
+        <field name="model">l10n_br_cnab.code</field>
+        <field name="arch" type="xml">
+            <search string="CNAB Code">
+                <field name="code" />
+                <field name="name" />
+                <field name="code_type" />
+                <field name="bank_ids" />
+                <field name="payment_method_ids" />
+                <!-- TODO: Não é possivel fazer Group By em campos many2many,
+                 a solução são os campos compute abaixo, parece ser possivel na
+                 v15 validar na migração -->
+                <field name="bank_id" />
+                <field name="payment_method_id" />
+                <group expand='0' string='Group By...'>
+                    <filter
+                        string='Bank'
+                        name="bank_id"
+                        domain="[]"
+                        context="{'group_by' : 'bank_id'}"
+                    />
+                    <filter
+                        string='CNAB Type'
+                        name="payment_method_id"
+                        domain="[]"
+                        context="{'group_by' : 'payment_method_id'}"
+                    />
+                    <filter
+                        string="Code Type"
+                        name="code_type"
+                        domain="[]"
+                        context="{'group_by': 'code_type'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_code_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.code.form.view</field>
+        <field name="model">l10n_br_cnab.code</field>
+        <field name="arch" type="xml">
+            <form string="CNAB Code">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="code_type" />
+                        <field name="bank_ids" widget="many2many_tags" />
+                        <field name="payment_method_ids" widget="many2many_tags" />
+                        <field name="comment" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_code_action" model="ir.actions.act_window">
+        <field name="name">CNAB Code</field>
+        <field name="res_model">l10n_br_cnab.code</field>
+        <field name="view_mode">tree,form</field>
+        <field
+            name="context"
+        >{'group_by':['bank_id', 'payment_method_id', 'code_type']}</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_br_cnab_code"
+        parent="account.account_management_menu"
+        name="CNAB Code"
+        sequence="999"
+        action="l10n_br_cnab_code_action"
+    />
+
+</odoo>

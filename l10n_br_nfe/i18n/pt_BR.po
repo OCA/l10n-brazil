@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-08-28 16:06+0000\n"
+"PO-Revision-Date: 2024-09-11 18:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -276,7 +276,7 @@ msgstr "Data da Autorização"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__authorization_protocol
 msgid "Authorization Protocol"
-msgstr ""
+msgstr "Protocolo de Autorização"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -2860,7 +2860,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_invalidate_number
 msgid "Invalidate Number"
-msgstr ""
+msgstr "Número invalidado"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
@@ -2880,7 +2880,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__justification
 msgid "Justification"
-msgstr ""
+msgstr "Justificativa"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_ir_actions_report____last_update
@@ -4313,7 +4313,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__rps_number
 msgid "Rps Number"
-msgstr "Número do RPS"
+msgstr "Número do Rps"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__export_folder

@@ -8,7 +8,7 @@
         <field name="model">l10n_br_nfe.import_xml</field>
         <field
             name="inherit_id"
-            ref="l10n_br_fiscal.l10n_br_fiscal_document_import_wizard_mixin_form"
+            ref="l10n_br_fiscal_edi.l10n_br_fiscal_document_import_wizard_mixin_form"
         />
         <field name="mode">primary</field>
         <field name="arch" type="xml">

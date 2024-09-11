@@ -3,9 +3,8 @@
 
 {
     "name": "NFS-e",
-    "summary": """
-        NFS-e""",
-    "version": "14.0.1.20.0",
+    "summary": "Root electronic invoice for service / NFS-e module",
+    "version": "14.0.2.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "maintainers": ["gabrielcardoso21", "mileo", "luismalta", "marcelsavegnago"],
@@ -18,7 +17,7 @@
         ],
     },
     "depends": [
-        "l10n_br_fiscal",
+        "l10n_br_fiscal_edi",
         "l10n_br_fiscal_certificate",
     ],
     "data": [

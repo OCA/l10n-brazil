@@ -309,7 +309,6 @@ msgstr "Desconto (%)"
 #: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax__display_name
@@ -542,7 +541,6 @@ msgstr "Código CST do ICMS"
 #: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax__id
@@ -621,11 +619,6 @@ msgstr ""
 "predefinidos utilizados em transações internacionais."
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_invalidate_number_wizard
-msgid "Invalidate Number Wizard"
-msgstr "Assistente para Invalidar Número"
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__account_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__account_line_ids
 msgid "Invoice Lines"
@@ -661,7 +654,6 @@ msgstr "Item de Diário"
 #: model:ir.model.fields,field_description:l10n_br_account.field_ir_model_data____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax____last_update
@@ -911,7 +903,7 @@ msgstr ""
 "documento está cancelado no SEFAZ"
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/fiscal_document.py:0
+#: code:addons/l10n_br_account/models/document.py:0
 #, python-format
 msgid "You cannot delete a fiscal document which is not draft state."
 msgstr ""
@@ -925,6 +917,9 @@ msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
 "Você não pode definir um tipo de documento quando o lançamento não possui "
 "Documento Fiscal!"
+
+#~ msgid "Invalidate Number Wizard"
+#~ msgstr "Assistente para Invalidar Número"
 
 #~ msgid "Fiscal Company"
 #~ msgstr "Empresa Fiscal"
