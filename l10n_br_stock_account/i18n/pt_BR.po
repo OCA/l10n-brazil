@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2024-09-03 18:06+0000\n"
+"PO-Revision-Date: 2024-09-11 02:06+0000\n"
 "Last-Translator: Rodrigo Sottomaior Macedo "
 "<sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -334,7 +334,7 @@ msgstr "CST PIS ST"
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
 msgid ""
 "Check this box if you want to generate fiscal document for this operation."
-msgstr ""
+msgstr "Marque esta caixa se desejar gerar documento fiscal para esta operação."
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__city_taxation_code_id
@@ -433,17 +433,17 @@ msgstr "Valor do Desconto"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
 msgid "Document Number"
-msgstr ""
+msgstr "Número do Documento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie_id
 msgid "Document Serie"
-msgstr ""
+msgstr "Série do Documento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_type_id
 msgid "Document Type"
-msgstr ""
+msgstr "Tipo do Documento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__estimate_tax
@@ -491,7 +491,7 @@ msgstr "Valor do Desconto Financeiro"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__financial_total_gross
 msgid "Financial Gross Amount"
-msgstr ""
+msgstr "Valor Bruto Financeiro"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
@@ -565,7 +565,7 @@ msgstr "Valor do Frete"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__price_gross
 msgid "Gross Product/Service Amount"
-msgstr ""
+msgstr "Valor bruto do produto/serviço"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__group
@@ -1097,11 +1097,13 @@ msgid ""
 "Invalid Journal! There is not journal defined for this company: %(company)s "
 "in fiscal operation: %(operation)s!"
 msgstr ""
+"Diário inválido! Não há diário definido para esta empresa: %(company)s na "
+"operação fiscal: %(operation)s!"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__invoice_wizard
 msgid "Invoice Create Wizard"
-msgstr ""
+msgstr "Assistente de criação de fatura"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
@@ -1127,7 +1129,7 @@ msgstr "Faturamento"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_key
 msgid "Key"
-msgstr ""
+msgstr "Chave"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__manual_additional_data
@@ -1172,7 +1174,7 @@ msgstr "Impostos do Simples Nacional sem ICMS"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__none
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #. module: l10n_br_stock_account
 #. odoo-python
@@ -1335,7 +1337,7 @@ msgstr "Tipo da Base do PIS WH"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_picking_type__pre_generate_fiscal_document_number__pack
 msgid "Pack"
-msgstr ""
+msgstr "Embalagem"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_order
@@ -1365,7 +1367,7 @@ msgstr "Produto"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
 msgid "Pré generate Fiscal Document Number"
-msgstr ""
+msgstr "Pré-gerar Número de Documento Fiscal"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_is_public_entity
@@ -1380,7 +1382,7 @@ msgstr "Separação de Retorno"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie
 msgid "Serie Number"
-msgstr ""
+msgstr "Número da série"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__service_type_id
@@ -1563,7 +1565,7 @@ msgstr "Impostos"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__tax_ids
 msgid "Taxes that apply on the base amount"
-msgstr ""
+msgstr "Impostos que incidem sobre o valor base"
 
 #. module: l10n_br_stock_account
 #. odoo-python
@@ -1571,6 +1573,7 @@ msgstr ""
 #, python-format
 msgid "This Fiscal Operation has no Fiscal Operation for Returns defined!"
 msgstr ""
+"Esta Operação Fiscal não possui Operação Fiscal para Devoluções definida!"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__quantity
@@ -1600,7 +1603,7 @@ msgstr "Para ser Faturado"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__financial_total_gross
 msgid "Total amount before any discounts are applied."
-msgstr ""
+msgstr "Valor total antes da aplicação de quaisquer descontos."
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__price_gross
@@ -1608,6 +1611,8 @@ msgid ""
 "Total value of products or services (quantity x unit price)before any "
 "discounts."
 msgstr ""
+"Valor total dos produtos ou serviços (quantidade x preço unitário) antes de "
+"quaisquer descontos."
 
 #. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_picking
