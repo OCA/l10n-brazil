@@ -400,6 +400,19 @@ class NFe(spec_models.StackedModel):
         for doc in self:  # TODO if out
             doc.nfe40_emit = doc.company_id
 
+    def _set_nfe40_IEST(self):
+        self.ensure_one()
+        iest = ""
+        if self.partner_id:
+            dest_state_id = self.partner_id.state_id
+            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
+                stn_id = self.company_id.state_tax_number_ids.filtered(
+                    lambda stn: stn.state_id == dest_state_id
+                )
+                iest = stn_id.inscr_est
+                iest = re.sub("[^0-9]+", "", iest)
+        self.company_inscr_est_st = iest
+
     ##########################
     # NF-e tag: dest
     ##########################
@@ -432,19 +445,6 @@ class NFe(spec_models.StackedModel):
                 doc.nfe40_dest = None
             else:
                 doc.nfe40_dest = doc.partner_id
-            doc._set_nfe40_IEST()
-
-    def _set_nfe40_IEST(self):
-        self.ensure_one()
-        iest = ""
-        if self.partner_id:
-            dest_state_id = self.partner_id.state_id
-            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
-                stn_id = self.company_id.state_tax_number_ids.filtered(
-                    lambda stn: stn.state_id == dest_state_id
-                )
-                iest = stn_id.inscr_est
-        self.company_inscr_est_st = iest
 
     ##########################
     # NF-e tag: entrega
@@ -701,6 +701,17 @@ class NFe(spec_models.StackedModel):
                     if k.startswith(self._field_prefix)
                 ):
                     return False
+
+        if (
+            field_name == "nfe40_emit"
+            and self.fiscal_operation_type == "out"
+            and self.issuer == "company"
+        ):
+            self._set_nfe40_IEST()
+            res = super()._export_many2one(field_name, xsd_required, class_obj)
+            if self.company_inscr_est_st:
+                res.IEST = self.company_inscr_est_st
+            return res
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
