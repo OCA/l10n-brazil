@@ -180,6 +180,12 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         tracking=True,
     )
 
+    boleto_discount_code_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.code",
+        string="Boleto Discount Code",
+        tracking=True,
+    )
+
     boleto_discount_perc = fields.Float(
         string="Percentual de Desconto até a Data de Vencimento",
         digits="Account",
