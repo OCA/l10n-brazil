@@ -82,18 +82,6 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         cls.loader.restore_registry()
         super(TestSpecModel, cls).tearDownClass()
 
-    # def test_loading_hook(self):
-    #
-    #     remaining_spec_models = get_remaining_spec_models(
-    #         self.env.cr,
-    #         self.env.registry,
-    #         "spec_driven_model",
-    #         "odoo.addons.spec_driven_model.tests.spec_poxsd",
-    #     )
-    #     self.assertEqual(
-    #         remaining_spec_models, {"poxsd.10.purchaseorder", "poxsd.10.comment"}
-    #     )
-
     def test_spec_models(self):
         self.assertTrue(
             set(self.env["res.partner"]._fields.keys()).issuperset(
@@ -110,7 +98,11 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
     def test_stacked_model(self):
         po_fields_or_stacking = set(self.env["fake.purchase.order"]._fields.keys())
         po_fields_or_stacking.update(
-            set(self.env["fake.purchase.order"]._stacking_points.keys())
+            set(
+                self.env["fake.purchase.order"]
+                ._poxsd10_spec_settings["stacking_points"]
+                .keys()
+            )
         )
         self.assertTrue(
             po_fields_or_stacking.issuperset(
@@ -118,7 +110,11 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             )
         )
         self.assertEqual(
-            list(self.env["fake.purchase.order"]._stacking_points.keys()),
+            list(
+                self.env["fake.purchase.order"]
+                ._poxsd10_spec_settings["stacking_points"]
+                .keys()
+            ),
             ["poxsd10_items"],
         )
 
@@ -159,7 +155,11 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
 
         # 2nd we serialize it into a binding object:
         # (that could be further XML serialized)
-        po_binding = po._build_generateds()
+        po_binding = po._build_generateds(spec_schema="poxsd", spec_version="10")
+        self.assertEqual(
+            [s.__name__ for s in type(po_binding).mro()],
+            ["PurchaseOrderType", "object"],
+        )
         self.assertEqual(po_binding.bill_to.name, "Wood Corner")
         self.assertEqual(po_binding.items.item[0].product_name, "Some product desc")
         self.assertEqual(po_binding.items.item[0].quantity, 42)
@@ -206,12 +206,14 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         # 4th we import an Odoo PO from this binding object
         # first we will do a dry run import:
         imported_po_dry_run = self.env["fake.purchase.order"].build_from_binding(
-            po_binding, dry_run=True
+            "poxsd", "10", po_binding, dry_run=True
         )
         assert isinstance(imported_po_dry_run.id, NewId)
 
         # now a real import:
-        imported_po = self.env["fake.purchase.order"].build_from_binding(po_binding)
+        imported_po = self.env["fake.purchase.order"].build_from_binding(
+            "poxsd", "10", po_binding
+        )
         self.assertEqual(imported_po.partner_id.name, "Wood Corner")
         self.assertEqual(
             imported_po.partner_id.id, self.env.ref("base.res_partner_1").id
