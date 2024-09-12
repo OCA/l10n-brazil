@@ -4,7 +4,7 @@
 
 {
     "name": "Brazilian Payment Order",
-    "version": "14.0.7.0.1",
+    "version": "14.0.8.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Akretion, Odoo Community Association (OCA)",
     "maintainers": ["mbcosta"],
@@ -36,6 +36,13 @@
         # Boleto Wallet Code
         "data/cnab_codes/banco_santander_boleto_wallet_code.xml",
         "data/cnab_codes/banco_bradesco_boleto_wallet_code.xml",
+        # CNAB Discount Codes
+        "data/cnab_codes/banco_ailos_240_boleto_discount_code.xml",
+        "data/cnab_codes/banco_bradesco_240_boleto_discount_code.xml",
+        "data/cnab_codes/banco_cef_240_boleto_discount_code.xml",
+        "data/cnab_codes/banco_santander_240_boleto_discount_code.xml",
+        "data/cnab_codes/banco_sicredi_240_boleto_discount_code.xml",
+        "data/cnab_codes/banco_unicred_240_400_boleto_discount_code.xml",
         # Wizards
         "wizards/account_payment_line_create_view.xml",
         "wizards/account_move_line_change.xml",

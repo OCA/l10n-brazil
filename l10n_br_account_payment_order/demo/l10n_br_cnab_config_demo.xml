@@ -56,9 +56,13 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field
+            name="boleto_discount_code_id"
+            ref="bradesco_240_boleto_discount_code_6"
+        />
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bradesco_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bradesco_240" />
-        <field name="boleto_discount_perc">1</field>
         <field
             name="tariff_charge_account_id"
             ref="1_account_template_32302_avoid_travis_error"
@@ -127,6 +131,10 @@
         <field name="boleto_interest_perc">2</field>
         <field name="boleto_fee_code">2</field>
         <field name="boleto_fee_perc">2</field>
+        <field
+            name="boleto_discount_code_id"
+            ref="unicred_240_400_boleto_discount_code_1"
+        />
         <field name="boleto_discount_perc">1</field>
         <field
             name="tariff_charge_account_id"
@@ -185,6 +193,10 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">N</field>
+        <field
+            name="boleto_discount_code_id"
+            ref="unicred_240_400_boleto_discount_code_1"
+        />
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_unicred_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_unicred_240" />
@@ -248,6 +260,8 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_ailos_240" />
         <field name="boleto_protest_code">3</field>
         <field name="boleto_days_protest">5</field>
+        <field name="boleto_discount_code_id" ref="ailos_240_boleto_discount_code_1" />
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_company_bank_code">101004</field>
         <field
             name="tariff_charge_account_id"
@@ -389,6 +403,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_code_id" ref="cef_240_boleto_discount_code_2" />
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_cef_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_cef_240" />
@@ -483,6 +498,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_code_id" ref="sicred_240_boleto_discount_code_3" />
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_sicredi_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_sicredi_240" />
@@ -709,6 +725,10 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">35</field>
         <field name="boleto_accept">S</field>
+        <field
+            name="boleto_discount_code_id"
+            ref="santander_240_boleto_discount_code_4"
+        />
         <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_santander_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_santander_240" />
