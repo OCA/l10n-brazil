@@ -4,6 +4,7 @@
 import logging
 import sys
 from collections import OrderedDict, defaultdict
+from importlib import import_module
 from inspect import getmembers, isclass
 
 from odoo import SUPERUSER_ID, _, api, models
@@ -65,6 +66,20 @@ class SpecModel(models.Model):
             if rec.display_name == "False" or not rec.display_name:
                 rec.display_name = _("Abrir...")
         return res
+
+    def _get_stacking_points(self):
+        key = f"_{self._spec_prefix(self._context)}_spec_settings"
+        if hasattr(self, key):
+            return getattr(self, key)["stacking_points"]
+        return {}
+
+    @classmethod
+    def _spec_prefix(cls, context=None, spec_schema=None, spec_version=None):
+        if context and context.get("spec_schema"):
+            spec_schema = context.get("spec_schema")
+        if context and context.get("spec_version"):
+            spec_version = context.get("spec_version")
+        return "%s%s" % (spec_schema, spec_version.replace(".", "")[:2])
 
     @classmethod
     def _build_model(cls, pool, cr):
@@ -212,8 +227,9 @@ class StackedModel(SpecModel):
 
     By inheriting from StackModel instead, your models.Model can
     instead inherit all the mixins that would correspond to the nested xsd
-    nodes starting from the _stacked node. _stack_skip allows you to avoid
-    stacking specific nodes.
+    nodes starting from the stacking_mixin. stacking_skip_paths allows you to avoid
+    stacking specific nodes while stacking_force_paths will stack many2one
+    entities even if they are not required.
 
     In Brazil it allows us to have mostly the fiscal
     document objects and the fiscal document line object with many details
@@ -225,39 +241,49 @@ class StackedModel(SpecModel):
 
     _register = False  # forces you to inherit StackeModel properly
 
-    # define _stacked in your submodel to define the model of the XML tags
-    # where we should start to
-    # stack models of nested tags in the same object.
-    _stacked = False
-    _stack_path = ""
-    _stack_skip = ()
-    # all m2o below these paths will be stacked even if not required:
-    _force_stack_paths = ()
-    _stacking_points = {}
-
     @classmethod
     def _build_model(cls, pool, cr):
+        mod = import_module(".".join(cls.__module__.split(".")[:-1]))
+        if hasattr(cls, "_schema_name"):
+            schema = cls._schema_name
+            version = cls._schema_version.replace(".", "")[:2]
+        else:
+            mod = import_module(".".join(cls.__module__.split(".")[:-1]))
+            schema = mod.spec_schema
+            version = mod.spec_version.replace(".", "")[:2]
+        spec_prefix = cls._spec_prefix(spec_schema=schema, spec_version=version)
+        stacking_settings = getattr(cls, "_%s_spec_settings" % (spec_prefix,))
         # inject all stacked m2o as inherited classes
+        if cls._stacked:
+            
         _logger.info(f"building StackedModel {cls._name} {cls}")
-        node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
-        env = api.Environment(cr, SUPERUSER_ID, {})
-        for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
-            env, node
-        ):
-            if kind == "stacked" and klass not in cls.__bases__:
-                cls.__bases__ = (klass,) + cls.__bases__
+            node = cls._odoo_name_to_class(
+                stacking_settings["stacking_mixin"], stacking_settings["module"]
+            )
+            env = api.Environment(cr, SUPERUSER_ID, {})
+            for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
+                env, node, stacking_settings
+            ):
+                if kind == "stacked" and klass not in cls.__bases__:
+                    cls.__bases__ = (klass,) + cls.__bases__
         return super()._build_model(pool, cr)
 
     @api.model
     def _add_field(self, name, field):
         for cls in type(self).mro():
             if issubclass(cls, StackedModel):
-                if name in type(self)._stacking_points.keys():
-                    return
+                if hasattr(self, "_schema_name"):
+                    prefix = self._spec_prefix(
+                        None, self._schema_name, self._schema_version
+                    )
+                    key = f"_{prefix}_spec_settings"
+                    stacking_points = getattr(self, key)["stacking_points"]
+                    if name in stacking_points.keys():
+                        return
         return super()._add_field(name, field)
 
     @classmethod
-    def _visit_stack(cls, env, node, path=None):
+    def _visit_stack(cls, env, node, stacking_settings, path=None):
         """Pre-order traversal of the stacked models tree.
         1. This method is used to dynamically inherit all the spec models
         stacked together from an XML hierarchy.
@@ -269,7 +295,7 @@ class StackedModel(SpecModel):
         # https://github.com/OCA/l10n-brazil/pull/1272#issuecomment-821806603
         node._description = None
         if path is None:
-            path = cls._stacked.split(".")[-1]
+            path = stacking_settings["stacking_mixin"].split(".")[-1]
         SpecModel._map_concrete(env.cr.dbname, node._name, cls._name, quiet=True)
         yield "stacked", node, path, None, None
 
@@ -293,10 +319,15 @@ class StackedModel(SpecModel):
                 and i[1].xsd_choice_required,
             }
         for name, f in fields.items():
-            if f["type"] not in ["many2one", "one2many"] or name in cls._stack_skip:
+            if f["type"] not in [
+                "many2one",
+                "one2many",
+            ] or name in stacking_settings.get("stacking_skip_paths", ""):
                 # TODO change for view or export
                 continue
-            child = cls._odoo_name_to_class(f["comodel_name"], cls._spec_module)
+            child = cls._odoo_name_to_class(
+                f["comodel_name"], stacking_settings["module"]
+            )
             if child is None:  # Not a spec field
                 continue
             child_concrete = SPEC_MIXIN_MAPPINGS[env.cr.dbname].get(child._name)
@@ -308,7 +339,7 @@ class StackedModel(SpecModel):
 
             force_stacked = any(
                 stack_path in path + "." + field_path
-                for stack_path in cls._force_stack_paths
+                for stack_path in stacking_settings.get("stacking_force_paths", "")
             )
 
             # many2one
@@ -318,7 +349,9 @@ class StackedModel(SpecModel):
                 # then we will STACK the child in the current class
                 child._stack_path = path
                 child_path = f"{path}.{field_path}"
-                cls._stacking_points[name] = env[node._name]._fields.get(name)
-                yield from cls._visit_stack(env, child, child_path)
+                stacking_settings["stacking_points"][name] = env[
+                    node._name
+                ]._fields.get(name)
+                yield from cls._visit_stack(env, child, stacking_settings, child_path)
             else:
                 yield "many2one", node, path, field_path, child_concrete

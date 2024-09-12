@@ -1,8 +1,7 @@
-# Copyright 2019-2020 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 from odoo import api, models
-from odoo.tools import frozendict
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
 
@@ -22,20 +21,6 @@ class SpecMixin(models.AbstractModel):
     _description = "root abstract model meant for xsd generated fiscal models"
     _name = "spec.mixin"
     _inherit = ["spec.mixin_export", "spec.mixin_import"]
-
-    # actually _stacking_points are model and even schema specific
-    # but the legacy code used it extensively so a first defensive
-    # action we can take is to use a frozendict so it is readonly
-    # at least. In the future the whole stacking system should be
-    # scoped under a given schema and version as in
-    # https://github.com/OCA/l10n-brazil/pull/3424
-    _stacking_points = frozendict({})
-
-    # _spec_module = 'override.with.your.python.module'
-    # _binding_module = 'your.pyhthon.binding.module'
-    # _odoo_module = 'your.odoo_module'
-    # _field_prefix = 'your_field_prefix_'
-    # _schema_name = 'your_schema_name'
 
     def _valid_field_parameter(self, field, name):
         if name in (
@@ -73,6 +58,7 @@ class SpecMixin(models.AbstractModel):
             return res
         setattr(self.env.registry, load_key, True)
         access_data = []
+        access_fields = []
         self.env.cr.execute(
             """SELECT DISTINCT relation FROM ir_model_fields
                    WHERE relation LIKE %s;""",
@@ -85,7 +71,6 @@ class SpecMixin(models.AbstractModel):
             if self.env.registry.get(i[0])
             and not SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(i[0])
         }
-
         for name in remaining_models:
             spec_class = StackedModel._odoo_name_to_class(name, self._spec_module)
             if spec_class is None:
@@ -113,6 +98,8 @@ class SpecMixin(models.AbstractModel):
                     "_module": self._odoo_module,
                 },
             )
+            model_type._schema_name = self._schema_name
+            model_type._schema_version = self._schema_version
             models.MetaModel.module_to_models[self._odoo_module] += [model_type]
 
             # now we init these models properly
