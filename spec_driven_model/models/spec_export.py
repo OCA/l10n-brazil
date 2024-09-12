@@ -70,7 +70,7 @@ class SpecMixinExport(models.AbstractModel):
                 continue
             if (
                 not self._fields.get(xsd_field)
-            ) and xsd_field not in self._stacking_points.keys():
+            ) and xsd_field not in self._get_stacking_points().keys():
                 continue
             field_spec_name = xsd_field.replace(class_obj._field_prefix, "")
             field_spec = False
@@ -90,7 +90,7 @@ class SpecMixinExport(models.AbstractModel):
             field_data = self._export_field(
                 xsd_field, class_obj, field_spec, export_dict.get(field_spec_name)
             )
-            if xsd_field in self._stacking_points.keys():
+            if xsd_field in self._get_stacking_points().keys():
                 if not field_data:
                     # stacked nested tags are skipped if empty
                     continue
@@ -106,11 +106,13 @@ class SpecMixinExport(models.AbstractModel):
         """
         self.ensure_one()
         # TODO: Export number required fields with Zero.
-        field = class_obj._fields.get(xsd_field, self._stacking_points.get(xsd_field))
+        field = class_obj._fields.get(
+            xsd_field, self._get_stacking_points().get(xsd_field)
+        )
         xsd_required = field.xsd_required if hasattr(field, "xsd_required") else None
         xsd_type = field.xsd_type if hasattr(field, "xsd_type") else None
         if field.type == "many2one":
-            if (not self._stacking_points.get(xsd_field)) and (
+            if (not self._get_stacking_points().get(xsd_field)) and (
                 not self[xsd_field] and not xsd_required
             ):
                 if field.comodel_name not in self._get_spec_classes():
@@ -144,9 +146,9 @@ class SpecMixinExport(models.AbstractModel):
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         self.ensure_one()
-        if field_name in self._stacking_points.keys():
+        if field_name in self._get_stacking_points().keys():
             return self._build_generateds(
-                class_name=self._stacking_points[field_name].comodel_name
+                class_name=self._get_stacking_points()[field_name].comodel_name
             )
         else:
             return (self[field_name] or self)._build_generateds(
@@ -158,7 +160,7 @@ class SpecMixinExport(models.AbstractModel):
         relational_data = []
         for relational_field in self[field_name]:
             field_data = relational_field._build_generateds(
-                class_obj._fields[field_name].comodel_name
+                class_name=class_obj._fields[field_name].comodel_name
             )
             relational_data.append(field_data)
         return relational_data
@@ -190,10 +192,11 @@ class SpecMixinExport(models.AbstractModel):
             ).isoformat("T")
         )
 
-    def _build_generateds(self, class_name=False):
+    # TODO rename _build_binding
+    def _build_generateds(self, class_name=False, spec_schema=None, spec_version=None):
         """
         Iterate over an Odoo record and its m2o and o2m sub-records
-        using a pre-order tree traversal and maps the Odoo record values
+        using a pre-order tree traversal and map the Odoo record values
         to  a dict of Python binding values.
 
         These values will later be injected as **kwargs in the proper XML Python
@@ -201,9 +204,16 @@ class SpecMixinExport(models.AbstractModel):
         sub binding instances already properly instanciated.
         """
         self.ensure_one()
+        if spec_schema and spec_version:
+            self = self.with_context(
+                self.env, spec_schema=spec_schema, spec_version=spec_version
+            )
+        spec_prefix = self._spec_prefix(self._context)
         if not class_name:
-            if hasattr(self, "_stacked"):
-                class_name = self._stacked
+            if hasattr(self, f"_{spec_prefix}_spec_settings"):
+                class_name = getattr(self, f"_{spec_prefix}_spec_settings")[
+                    "stacking_mixin"
+                ]
             else:
                 class_name = self._name
 
@@ -231,12 +241,15 @@ class SpecMixinExport(models.AbstractModel):
     def export_xml(self):
         self.ensure_one()
         result = []
-
-        if hasattr(self, "_stacked"):
+        if hasattr(self, f"_{self._spec_prefix(self._context)}_spec_settings"):
             binding_instance = self._build_generateds()
             result.append(binding_instance)
         return result
 
-    def export_ds(self):  # TODO rename export_binding!
+    def export_ds(
+        self, spec_schema, spec_version
+    ):  # TODO change name -> export_binding!
         self.ensure_one()
-        return self.export_xml()
+        return self.with_context(
+            spec_schema=spec_schema, spec_version=spec_version
+        ).export_xml()
