@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2024-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Desconto Banco Bradesco -->
+    <!-- 240 -->
+    <record id="bradesco_240_boleto_discount_code_1" model="l10n_br_cnab.code">
+        <field name="name">Valor Fixo Até a Data Informada</field>
+        <field name="code">1</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Para os códigos '1' e '2' será obrigatório a informação da Data.
+        </field>
+    </record>
+
+    <record id="bradesco_240_boleto_discount_code_2" model="l10n_br_cnab.code">
+        <field name="name">Percentual Até a Data Informada</field>
+        <field name="code">2</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Para os códigos '1' e '2' será obrigatório a informação da Data.
+        </field>
+    </record>
+
+    <record id="bradesco_240_boleto_discount_code_3" model="l10n_br_cnab.code">
+        <field name="name">Valor por Antecipação Dia Corrido</field>
+        <field name="code">3</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="bradesco_240_boleto_discount_code_4" model="l10n_br_cnab.code">
+        <field name="name">Valor por Antecipação Dia Útil</field>
+        <field name="code">4</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="bradesco_240_boleto_discount_code_5" model="l10n_br_cnab.code">
+        <field name="name">Percentual Sobre o Valor Nominal Dia Corrido</field>
+        <field name="code">5</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="bradesco_240_boleto_discount_code_6" model="l10n_br_cnab.code">
+        <field name="name">Percentual Sobre o Valor Nominal Dia Útil</field>
+        <field name="code">6</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="bradesco_240_boleto_discount_code_7" model="l10n_br_cnab.code">
+        <field name="name">Cancelamento de Desconto</field>
+        <field name="code">7</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Para o código '7', somente será válido para o código de movimento '31' - Alteração de Dados
+        </field>
+    </record>
+
+</odoo>
