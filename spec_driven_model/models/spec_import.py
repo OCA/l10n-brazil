@@ -27,7 +27,7 @@ class SpecMixinImport(models.AbstractModel):
     """
 
     @api.model
-    def build_from_binding(self, node, dry_run=False):
+    def build_from_binding(self, spec_schema, spec_version, node, dry_run=False):
         """
         Build an instance of an Odoo Model from a pre-populated
         Python binding object. Binding object such as the ones generated using
@@ -42,8 +42,12 @@ class SpecMixinImport(models.AbstractModel):
 
         Defaults values and control options are meant to be passed in the context.
         """
-        model = self._get_concrete_model(self._name)
-        attrs = model.with_context(dry_run=dry_run).build_attrs(node)
+        model = self.with_context(
+            spec_schema=spec_schema, spec_version=spec_version
+        )._get_concrete_model(self._name)
+        attrs = model.with_context(
+            dry_run=dry_run, spec_schema=spec_schema, spec_version=spec_version
+        ).build_attrs(node)
         if dry_run:
             return model.new(attrs)
         else:
