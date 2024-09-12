@@ -37,13 +37,6 @@ class AccountPaymentLine(models.Model):
         # Isento de Mora
         linhas_pagamentos["tipo_mora"] = "5"
 
-        # TODO
-        # Código adotado pela FEBRABAN para identificação do desconto.
-        # Domínio:
-        # 0 = Isento
-        # 1 = Valor Fixo
-        linhas_pagamentos["cod_desconto"] = "0"
-
         # Tamanho do campo não pode se maior do que 10
         doc_number = str(self.document_number)
         if len(doc_number) > 10:
@@ -167,8 +160,34 @@ class AccountPaymentLine(models.Model):
             # Desconto
             # Código adotado pela FEBRABAN para identificação do desconto.
             # Domínio: 0 = Isento | 1 = Valor Fixo
-            if cnab_config.payment_method_code == "240":
-                if self.discount_value:
-                    linhas_pagamentos["cod_desconto"] = "1"
+
+            # Apesar das Documentações dos Bancos dizerem que estão seguindo
+            # um "Padrão" na realidade:
+            # Banco     | Cod Banco | Possíveis Códigos de Desconto |
+            #           |           | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+            # ----------|-----------|---|---|---|---|---|---|---|---|
+            # Ailos     |    085    | X | X |   |   |   |   |   |   |
+            # Bradesco  |    237    |   | X | X | X | X | X | X | X |
+            # CEF       |    104    | X | X | X |   |   |   |   |   |
+            # Santander |    033    | X | X | X | X |   |   |   |   |
+            # Sicred    |    748    |   | X | X | X |   |   |   | X |
+            # Unicred   |    136    | X | X |   |   |   |   |   |   |
+
+            discount_code = False
+            if self.discount_value:
+                # Apenas para inicialmente evitar erro no caso do CNAB Config
+                # não está com valor no 'Codigo de Desconto'.
+                # TODO: Considerar remover e deixar apenas o 'Código de Desconto'
+                #  e dependendo retornar um Warning sobre a falta da informação.
+                discount_code = "1"
+
+                if cnab_config.boleto_discount_code_id:
+                    discount_code = cnab_config.boleto_discount_code_id.code
+            else:
+                if cnab_config.bank_code_bc in ("085", "104", "033", "136"):
+                    # Casos mapeados que enviam Zero para quando não tem valor
+                    discount_code = "0"
+
+            linhas_pagamentos["cod_desconto"] = discount_code
 
         return linhas_pagamentos
