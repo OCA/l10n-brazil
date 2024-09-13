@@ -370,15 +370,35 @@ ul.auto-toc {
 !! source digest: sha256:98abb42abb1aa9e78210bcc6bc7dbcce878327bed03eb8234aad7fbc976b0b94
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_mis_report"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_mis_report"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Templates de relatórios contábeis brasileiros: DRE e BP baseados no ITG
-1000.</p>
-<div class="section" id="balanco-patrimonial">
-<h1>Balanço Patrimonial</h1>
-<p><img alt="image1" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png" /></p>
+<p>Este módulo implementa <strong>Modelos de Relatórios Contábeis Brasileiros</strong>,
+como o <strong>Demonstrativo de Resultados do Exercício (DRE)</strong> e o <strong>Balanço
+Patrimonial (BP)</strong>, baseados na norma <strong>ITG 1000</strong>. Ele permite que
+pequenas empresas e microentidades gerem relatórios contábeis de acordo
+com os padrões brasileiros, com a flexibilidade de personalizar os
+modelos conforme o plano de contas de cada empresa.</p>
+<p><strong>Nota:</strong> Embora esses modelos sejam <strong>inspirados no ITG 1000</strong>, eles
+<strong>não correspondem exatamente ao modelo proposto pela norma</strong>. Além
+disso, pode haver <strong>diferenças</strong> em relação às versões mais recentes do
+ITG 1000.</p>
+<p>Para mais informações, consulte as <a class="reference external" href="https://cfc.org.br/tecnica/normas-brasileiras-de-contabilidade/normas-simplificadas-para-pmes/">Normas Simplificadas para PMEs no
+site do
+CFC</a>.</p>
+<p><strong>Observação:</strong> Esses modelos são um <strong>ponto de partida</strong> e precisam ser
+<strong>ajustados</strong> de acordo com o plano de contas da sua empresa. Por
+padrão, eles estão configurados com os prefixos das contas contábeis da
+<strong>localização brasileira da OCA</strong>. Para saber mais sobre como configurar
+corretamente esses modelos, consulte a <strong>seção de configuração</strong>.</p>
+<div class="section" id="balanco-patrimonial-bp">
+<h1>Balanço Patrimonial (BP)</h1>
+<p>Abaixo está um exemplo visual de um <strong>Balanço Patrimonial</strong> inspirado no
+ITG 1000:</p>
+<p><img alt="Balanço Patrimonial" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png" /></p>
 </div>
 <div class="section" id="demonstrativo-de-resultados-do-exercicio-dre">
 <h1>Demonstrativo de Resultados do Exercício (DRE)</h1>
-<p><img alt="image2" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png" /></p>
+<p>Abaixo está um exemplo visual de um <strong>DRE</strong> (Demonstrativo de Resultados
+do Exercício) inspirado no ITG 1000:</p>
+<p><img alt="DRE" src="https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png" /></p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -388,57 +408,85 @@ ul.auto-toc {
 <li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
 <li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a></li>
 <li><a class="reference internal" href="#bug-tracker" id="toc-entry-6">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-7">Credits</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-7">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-8">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-9">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-10">Maintainers</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="installation">
 <h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
+<p>Este módulo tem como dependência o módulo <tt class="docutils literal">mis_builder</tt>, que pode ser
+encontrado nos seguintes locais:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://odoo-community.org/shop">Odoo Community Association (OCA)
+Shop</a></li>
+<li><a class="reference external" href="https://github.com/OCA/mis-builder">Repositório no GitHub</a></li>
+</ul>
 </div>
 <div class="section" id="configuration">
 <h2><a class="toc-backref" href="#toc-entry-2">Configuration</a></h2>
-<p>Este relatório é estruturado a partir do tipo de conta, caso você esteja
-utilizando um plano de contas customizado deverá ficar atendo a campo
-tipo de conta no cadastro do plano de contas.</p>
-<p>Alem disso caso você esteja utilizando um dos plano de contas padrão e
-criar uma nova conta, você também deve ficar atendo a classificação.</p>
+<p>Esses relatórios são estruturados inicialmente com base no <strong>prefixo das
+contas</strong>. Se você estiver utilizando um plano de contas customizado, é
+importante revisar o campo <strong>prefixo da conta</strong> no cadastro do plano de
+contas para garantir que está alinhado com o que foi configurado no
+modelo de relatório.</p>
+<p>No entanto, essa configuração pode ser ajustada para utilizar <strong>outros
+métodos de identificação</strong> oferecidos pela ferramenta <strong>SIG</strong> (Sistema
+de Informação Gerencial), equivalente ao <strong>MIS</strong> (Management Information
+System) em inglês, implementada pelo módulo <strong>mis_builder</strong>.</p>
+<p>Para alterar um modelo, siga os passos abaixo:</p>
+<ol class="arabic simple">
+<li>Acesse <strong>Faturamento &gt; Configuração &gt; Relatórios SIG &gt; Modelos do
+Relatório SIG</strong>.</li>
+<li>Selecione o modelo que deseja editar e ajuste os critérios de
+identificação, incluindo o <strong>prefixo das contas</strong> ou outro método de
+identificação disponível.</li>
+<li>Certifique-se de que os <strong>prefixos configurados</strong> no modelo do
+relatório estejam <strong>alinhados</strong> com os prefixos do seu plano de
+contas.</li>
+</ol>
+<p>Para mais detalhes sobre como configurar, consulte a documentação do
+<strong>mis_builder</strong>.</p>
 </div>
 <div class="section" id="usage">
 <h2><a class="toc-backref" href="#toc-entry-3">Usage</a></h2>
-<ol class="arabic">
-<li><p class="first">Acesse Contabilidade &gt; Relatórios &gt; MIS &gt; Relatórios MIS</p>
-</li>
-<li><p class="first">Crie um novo Relatório</p>
-</li>
-<li><p class="first">Selecione o plano de contas</p>
-</li>
-<li><p class="first">Você pode optar por desabilitar a expansão das contas na aba layout
-para ter um relatório resumido.</p>
-</li>
-<li><p class="first">Para selecionar os períodos, você pode:</p>
-<blockquote>
-<ul class="simple">
-<li>Selecione diretamente o intervalo de datas desejado ou o nome
-do intervalo para obter o relatório apenas para esse período.</li>
-<li>Clique em “Modo de comparação” e insira na guia “Colunas”
-quantas linhas forem diferentes períodos que deseja colocar.
-Esses períodos também podem ser definidos com datas fixas, ou
-colocar períodos relativos (por exemplo “Tipo de período” =
-“Ano”, “Deslocamento” = “0” e “Duração” = “1” para o ano N, e o
-mesmo mas com “Deslocamento” = “-1” para o ano N - 1. Não se
-esqueça que a data base do relatório é no ano a ser analisado).</li>
+<ol class="arabic simple">
+<li>Acesse Faturamento &gt; Relatórios &gt; Relatórios SIG &gt; Relatórios SIG</li>
+<li>Crie um <strong>novo Relatório</strong>.</li>
+<li>Selecione um dos <strong>modelos de relatórios contabeis brasileiro</strong>.</li>
+<li>Na aba <strong>Layout</strong>, você pode desativar a <strong>expansão das contas</strong> para
+gerar um relatório mais resumido.</li>
+<li>Para selecionar os períodos, siga uma das opções abaixo:<ul>
+<li>Selecione diretamente o <strong>intervalo de datas</strong> ou o <strong>nome do
+período</strong> desejado para obter o relatório referente a esse período
+específico.</li>
+<li>Ative o <strong>Modo de Comparação</strong> e, na guia <strong>Colunas</strong>, defina
+quantas colunas deseja, com períodos diferentes. Esses períodos
+podem ser configurados com <strong>datas fixas</strong> ou períodos relativos.
+Por exemplo, defina “Tipo de período” como “Ano”, com
+“Deslocamento” = “0” e “Duração” = “1” para o ano corrente (N), e
+“Deslocamento” = “-1” para o ano anterior (N-1). Lembre-se de
+ajustar a <strong>data base</strong> do relatório para o ano a ser analisado.</li>
 </ul>
-</blockquote>
 </li>
-<li><p class="first">Clique em “Visualizar”, “Imprimir” ou “Exportar” para calcular o
-relatório e executar a ação.</p>
-</li>
-<li><p class="first">Se você estiver no modo de visualização, pode clicar no número nas
-linhas de detalhes para ver as notas relacionadas a esse número.</p>
-</li>
+<li>Clique em <strong>Visualizar</strong>, <strong>Imprimir</strong> ou <strong>Exportar</strong> para calcular
+o relatório e executar a ação desejada.</li>
+<li>No modo de visualização, você pode clicar no <strong>valor</strong> das linhas
+detalhadas para visualizar os <strong>registros contábeis relacionados</strong>.</li>
 </ol>
 </div>
 <div class="section" id="known-issues-roadmap">
 <h2><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h2>
+<p>Fornecer modelos de <strong>Balanço Patrimonial (BP)</strong> e <strong>Demonstrativo de
+Resultados do Exercício (DRE)</strong> conforme a norma <strong>ITG 1000</strong>, com
+versões para:</p>
+<ul class="simple">
+<li><strong>Pequenas Empresas</strong></li>
+<li><strong>Microentidades</strong></li>
+</ul>
 </div>
 <div class="section" id="changelog">
 <h2><a class="toc-backref" href="#toc-entry-5">Changelog</a></h2>
@@ -453,23 +501,22 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </div>
 <div class="section" id="credits">
 <h2><a class="toc-backref" href="#toc-entry-7">Credits</a></h2>
-</div>
-</div>
 <div class="section" id="authors">
-<h1>Authors</h1>
+<h3><a class="toc-backref" href="#toc-entry-8">Authors</a></h3>
 <ul class="simple">
 <li>KMEE</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h1>Contributors</h1>
+<h3><a class="toc-backref" href="#toc-entry-9">Contributors</a></h3>
 <ul class="simple">
 <li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
 <li>Diego Paradeda &lt;<a class="reference external" href="mailto:diego.paradeda&#64;kmee.com.br">diego.paradeda&#64;kmee.com.br</a>&gt;</li>
+<li>Antônio S. Pereira Neto &lt;<a class="reference external" href="mailto:neto&#64;engenere.one">neto&#64;engenere.one</a>&gt;</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h1>Maintainers</h1>
+<h3><a class="toc-backref" href="#toc-entry-10">Maintainers</a></h3>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
@@ -481,6 +528,8 @@ promote its widespread use.</p>
 <p><a class="reference external image-reference" href="https://github.com/mileo"><img alt="mileo" src="https://github.com/mileo.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_mis_report">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
 </div>
 </div>
 </body>

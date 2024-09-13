@@ -28,21 +28,46 @@ Relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Templates de relatórios contábeis brasileiros: DRE e BP baseados no ITG
-1000.
+Este módulo implementa **Modelos de Relatórios Contábeis Brasileiros**,
+como o **Demonstrativo de Resultados do Exercício (DRE)** e o **Balanço
+Patrimonial (BP)**, baseados na norma **ITG 1000**. Ele permite que
+pequenas empresas e microentidades gerem relatórios contábeis de acordo
+com os padrões brasileiros, com a flexibilidade de personalizar os
+modelos conforme o plano de contas de cada empresa.
 
-Balanço Patrimonial
--------------------
+**Nota:** Embora esses modelos sejam **inspirados no ITG 1000**, eles
+**não correspondem exatamente ao modelo proposto pela norma**. Além
+disso, pode haver **diferenças** em relação às versões mais recentes do
+ITG 1000.
 
-|image1|
+Para mais informações, consulte as `Normas Simplificadas para PMEs no
+site do
+CFC <https://cfc.org.br/tecnica/normas-brasileiras-de-contabilidade/normas-simplificadas-para-pmes/>`__.
+
+**Observação:** Esses modelos são um **ponto de partida** e precisam ser
+**ajustados** de acordo com o plano de contas da sua empresa. Por
+padrão, eles estão configurados com os prefixos das contas contábeis da
+**localização brasileira da OCA**. Para saber mais sobre como configurar
+corretamente esses modelos, consulte a **seção de configuração**.
+
+Balanço Patrimonial (BP)
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Abaixo está um exemplo visual de um **Balanço Patrimonial** inspirado no
+ITG 1000:
+
+|Balanço Patrimonial|
 
 Demonstrativo de Resultados do Exercício (DRE)
-----------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-|image2|
+Abaixo está um exemplo visual de um **DRE** (Demonstrativo de Resultados
+do Exercício) inspirado no ITG 1000:
 
-.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png
-.. |image2| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png
+|DRE|
+
+.. |Balanço Patrimonial| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/bp.png
+.. |DRE| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/16.0/l10n_br_mis_report/static/description/dre.png
 
 **Table of contents**
 
@@ -52,52 +77,81 @@ Demonstrativo de Resultados do Exercício (DRE)
 Installation
 ============
 
+Este módulo tem como dependência o módulo ``mis_builder``, que pode ser
+encontrado nos seguintes locais:
 
+-  `Odoo Community Association (OCA)
+   Shop <https://odoo-community.org/shop>`__
+-  `Repositório no GitHub <https://github.com/OCA/mis-builder>`__
 
 Configuration
 =============
 
-Este relatório é estruturado a partir do tipo de conta, caso você esteja
-utilizando um plano de contas customizado deverá ficar atendo a campo
-tipo de conta no cadastro do plano de contas.
+Esses relatórios são estruturados inicialmente com base no **prefixo das
+contas**. Se você estiver utilizando um plano de contas customizado, é
+importante revisar o campo **prefixo da conta** no cadastro do plano de
+contas para garantir que está alinhado com o que foi configurado no
+modelo de relatório.
 
-Alem disso caso você esteja utilizando um dos plano de contas padrão e
-criar uma nova conta, você também deve ficar atendo a classificação.
+No entanto, essa configuração pode ser ajustada para utilizar **outros
+métodos de identificação** oferecidos pela ferramenta **SIG** (Sistema
+de Informação Gerencial), equivalente ao **MIS** (Management Information
+System) em inglês, implementada pelo módulo **mis_builder**.
+
+Para alterar um modelo, siga os passos abaixo:
+
+1. Acesse **Faturamento > Configuração > Relatórios SIG > Modelos do
+   Relatório SIG**.
+2. Selecione o modelo que deseja editar e ajuste os critérios de
+   identificação, incluindo o **prefixo das contas** ou outro método de
+   identificação disponível.
+3. Certifique-se de que os **prefixos configurados** no modelo do
+   relatório estejam **alinhados** com os prefixos do seu plano de
+   contas.
+
+Para mais detalhes sobre como configurar, consulte a documentação do
+**mis_builder**.
 
 Usage
 =====
 
-1. Acesse Contabilidade > Relatórios > MIS > Relatórios MIS
+1. Acesse Faturamento > Relatórios > Relatórios SIG > Relatórios SIG
 
-2. Crie um novo Relatório
+2. Crie um **novo Relatório**.
 
-3. Selecione o plano de contas
+3. Selecione um dos **modelos de relatórios contabeis brasileiro**.
 
-4. Você pode optar por desabilitar a expansão das contas na aba layout
-   para ter um relatório resumido.
+4. Na aba **Layout**, você pode desativar a **expansão das contas** para
+   gerar um relatório mais resumido.
 
-5. Para selecionar os períodos, você pode:
+5. Para selecionar os períodos, siga uma das opções abaixo:
 
-      -  Selecione diretamente o intervalo de datas desejado ou o nome
-         do intervalo para obter o relatório apenas para esse período.
-      -  Clique em "Modo de comparação" e insira na guia "Colunas"
-         quantas linhas forem diferentes períodos que deseja colocar.
-         Esses períodos também podem ser definidos com datas fixas, ou
-         colocar períodos relativos (por exemplo "Tipo de período" =
-         "Ano", "Deslocamento" = "0" e "Duração" = "1" para o ano N, e o
-         mesmo mas com “Deslocamento” = “-1” para o ano N - 1. Não se
-         esqueça que a data base do relatório é no ano a ser analisado).
+   -  Selecione diretamente o **intervalo de datas** ou o **nome do
+      período** desejado para obter o relatório referente a esse período
+      específico.
+   -  Ative o **Modo de Comparação** e, na guia **Colunas**, defina
+      quantas colunas deseja, com períodos diferentes. Esses períodos
+      podem ser configurados com **datas fixas** ou períodos relativos.
+      Por exemplo, defina "Tipo de período" como "Ano", com
+      "Deslocamento" = "0" e "Duração" = "1" para o ano corrente (N), e
+      "Deslocamento" = "-1" para o ano anterior (N-1). Lembre-se de
+      ajustar a **data base** do relatório para o ano a ser analisado.
 
-6. Clique em "Visualizar", "Imprimir" ou "Exportar" para calcular o
-   relatório e executar a ação.
+6. Clique em **Visualizar**, **Imprimir** ou **Exportar** para calcular
+   o relatório e executar a ação desejada.
 
-7. Se você estiver no modo de visualização, pode clicar no número nas
-   linhas de detalhes para ver as notas relacionadas a esse número.
+7. No modo de visualização, você pode clicar no **valor** das linhas
+   detalhadas para visualizar os **registros contábeis relacionados**.
 
 Known issues / Roadmap
 ======================
 
+Fornecer modelos de **Balanço Patrimonial (BP)** e **Demonstrativo de
+Resultados do Exercício (DRE)** conforme a norma **ITG 1000**, com
+versões para:
 
+-  **Pequenas Empresas**
+-  **Microentidades**
 
 Changelog
 =========
@@ -127,6 +181,7 @@ Contributors
 
 -  Luis Felipe Mileo <mileo@kmee.com.br>
 -  Diego Paradeda <diego.paradeda@kmee.com.br>
+-  Antônio S. Pereira Neto <neto@engenere.one>
 
 Maintainers
 -----------
