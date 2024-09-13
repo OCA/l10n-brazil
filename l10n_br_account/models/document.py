@@ -9,7 +9,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_NFE,
     SITUACAO_EDOC_EM_DIGITACAO,
 )
 
@@ -32,17 +35,17 @@ class FiscalDocument(models.Model):
         readonly=False,
     )
     fiscal_proxy_company_id = fields.Many2one(
-        string="Fiscal Company",
+        string="Fiscal Proxy Company",
         related="company_id",
         readonly=False,
     )
     fiscal_proxy_currency_id = fields.Many2one(
-        string="Fiscal Currency",
+        string="Fiscal Proxy Currency",
         related="currency_id",
         readonly=False,
     )
     fiscal_proxy_user_id = fields.Many2one(
-        string="Fiscal User",
+        string="Fiscal Proxy User",
         related="user_id",
         readonly=False,
     )
@@ -179,9 +182,33 @@ class FiscalDocument(models.Model):
         self.message_post(body=msg)
         return result
 
+    def _document_deny(self):
+        msg = _(
+            "Canceled due to the denial of document %(document_number)s",
+            document_number=self.document_number,
+        )
+        self.cancel_move_ids()
+        self.message_post(body=msg)
+
     def action_document_confirm(self):
         result = super().action_document_confirm()
         if not self._context.get("skip_post"):
             move_ids = self.move_ids.filtered(lambda move: move.state == "draft")
             move_ids._post()
         return result
+
+    def action_document_back2draft(self):
+        result = super().action_document_back2draft()
+        if self.move_ids:
+            self.move_ids.button_draft()
+        return result
+
+    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
+        self.ensure_one()
+        models_cancel_on_deny = [MODELO_FISCAL_NFE, MODELO_FISCAL_CTE]
+        if (
+            self.document_type_id.code in models_cancel_on_deny
+            and self.issuer == DOCUMENT_ISSUER_COMPANY
+        ):
+            self._document_deny()
+        return super().exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
