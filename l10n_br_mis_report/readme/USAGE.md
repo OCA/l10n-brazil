@@ -1,26 +1,17 @@
-1.  Acesse Contabilidade \> Relatórios \> MIS \> Relatórios MIS
+1.  Acesse Faturamento \> Relatórios \> Relatórios SIG \> Relatórios SIG
 
-2.  Crie um novo Relatório
+2.  Crie um **novo Relatório**.
 
-3.  Selecione o plano de contas
+3.  Selecione um dos **modelos de relatórios contabeis brasileiro**.
 
-4.  Você pode optar por desabilitar a expansão das contas na aba layout
-    para ter um relatório resumido.
+4.  Na aba **Layout**, você pode desativar a **expansão das contas** para gerar um relatório mais resumido.
 
-5.  Para selecionar os períodos, você pode:
+5. Para selecionar os períodos, siga uma das opções abaixo:
 
-    > - Selecione diretamente o intervalo de datas desejado ou o nome do
-    >   intervalo para obter o relatório apenas para esse período.
-    > - Clique em "Modo de comparação" e insira na guia "Colunas"
-    >   quantas linhas forem diferentes períodos que deseja colocar.
-    >   Esses períodos também podem ser definidos com datas fixas, ou
-    >   colocar períodos relativos (por exemplo "Tipo de período" =
-    >   "Ano", "Deslocamento" = "0" e "Duração" = "1" para o ano N, e o
-    >   mesmo mas com “Deslocamento” = “-1” para o ano N - 1. Não se
-    >   esqueça que a data base do relatório é no ano a ser analisado).
+    - Selecione diretamente o **intervalo de datas** ou o **nome do período** desejado para obter o relatório referente a esse período específico.
+    - Ative o **Modo de Comparação** e, na guia **Colunas**, defina quantas colunas deseja, com períodos diferentes. Esses períodos podem ser configurados com **datas fixas** ou períodos relativos. Por exemplo, defina "Tipo de período" como "Ano", com "Deslocamento" = "0" e "Duração" = "1" para o ano corrente (N), e "Deslocamento" = "-1" para o ano anterior (N-1). Lembre-se de ajustar a **data base** do relatório para o ano a ser analisado.
 
-6.  Clique em "Visualizar", "Imprimir" ou "Exportar" para calcular o
-    relatório e executar a ação.
 
-7.  Se você estiver no modo de visualização, pode clicar no número nas
-    linhas de detalhes para ver as notas relacionadas a esse número.
+6. Clique em **Visualizar**, **Imprimir** ou **Exportar** para calcular o relatório e executar a ação desejada.
+
+7. No modo de visualização, você pode clicar no **valor** das linhas detalhadas para visualizar os **registros contábeis relacionados**.
