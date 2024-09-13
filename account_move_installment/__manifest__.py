@@ -9,9 +9,9 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "16.0.1.0.1",
-    "depends": ["account_due_list"],
+    "depends": ["account"],
     "data": [
-        "views/account_invoice_view.xml",
+        "views/account_move_view.xml",
     ],
     "installable": True,
     "auto_install": True,

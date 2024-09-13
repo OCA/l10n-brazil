@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="invoice_form" model="ir.ui.view">
-        <field name="name">l10n_br_account_due_list.invoice.form</field>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account_installment.move.form</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
