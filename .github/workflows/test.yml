@@ -49,6 +49,12 @@ jobs:
           POSTGRES_DB: odoo
         ports:
           - 5432:5432
+      boleto_cnab_api:
+        image: ghcr.io/akretion/boleto_cnab_api:latest
+        ports:
+          - 9292:9292
+    env:
+      BRCOBRANCA_API_URL: http://boleto_cnab_api:9292
     steps:
       - uses: actions/checkout@v3
         with:
