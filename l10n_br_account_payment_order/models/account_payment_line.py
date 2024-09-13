@@ -136,13 +136,6 @@ class AccountPaymentLine(models.Model):
         default="0",
     )
 
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    mov_instruction_code_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Código da Instrução para Movimento",
-        help="Campo G061 do CNAB",
-    )
     instruction_move_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Código da Instrução para Movimento",
