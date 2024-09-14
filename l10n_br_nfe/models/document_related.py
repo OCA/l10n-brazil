@@ -30,6 +30,7 @@ class NFeRelated(spec_models.StackedModel):
     _stack_skip = ("nfe40_NFref_ide_id",)
     # all m2o below this level will be stacked even if not required:
     _rec_name = "nfe40_refNFe"
+    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
 
     # When dynamic stacking is applied, this class has the following structure:
     NFREF_TREE = """
