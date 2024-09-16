@@ -18,9 +18,12 @@ class NfeSpecMixin(models.AbstractModel):
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Moeda",
-        # FIXME compute method is better, but not working in v14.
-        default=lambda self: self.env.ref("base.BRL"),
+        compute="_compute_brl_currency_id",
     )
+
+    def _compute_brl_currency_id(self):
+        for item in self:
+            item.brl_currency_id = self.env.ref("base.BRL").id
 
     def _valid_field_parameter(self, field, name):
         if name in (
