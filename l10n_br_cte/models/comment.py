@@ -29,14 +29,9 @@ class CTeComment(spec_models.StackedModel):
         if xsd_field == "cte40_xCampo":
             return self.name[:20].strip()
         if xsd_field == "cte40_xTexto":
-            # Aparentemente isso terá que ser feito de outra forma
-            if (
-                "active_id" in self.env.context
-                and self.env.context.get("active_model")
-                == "l10n_br_fiscal.document.line"
-            ):
-                active_id = self.env.context["active_id"]
-                doc = self.env["l10n_br_fiscal.document"].browse(active_id)
+            if "doc" in self.env.context:
+                doc_id = self.env.context["doc"]
+                doc = self.env["l10n_br_fiscal.document"].browse(doc_id)
                 vals = {"user": self.env.user, "ctx": self._context, "doc": doc}
                 message = self.compute_message(vals).strip()
                 if self.comment_type == "fiscal":

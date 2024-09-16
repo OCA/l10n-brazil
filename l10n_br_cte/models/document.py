@@ -1164,6 +1164,7 @@ class CTe(spec_models.StackedModel):
         if xsd_field == "cte40_tpAmb":
             self.env.context = dict(self.env.context)
             self.env.context.update({"tpAmb": self[xsd_field]})
+            self.env.context.update({"doc": self.id})
 
         # TODO: Força a remoção da tag infGlobalizado já que o
         # campo xObs está no l10n_br_fiscal.document
