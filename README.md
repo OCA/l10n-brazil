@@ -41,6 +41,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal_edi](l10n_br_fiscal_edi/) | 16.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Common EDI fiscal features
 [l10n_br_hr](l10n_br_hr/) | 16.0.1.0.3 |  | Brazilian Localization HR
 [l10n_br_ie_search](l10n_br_ie_search/) | 16.0.1.1.0 |  | Integração com a API SintegraWS e SEFAZ
+[l10n_br_mis_report](l10n_br_mis_report/) | 16.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 [l10n_br_nfe](l10n_br_nfe/) | 16.0.2.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Eletronic Invoicing for Brazil / NF-e
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 16.0.1.1.2 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 16.0.2.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Root electronic invoice for service / NFS-e module
