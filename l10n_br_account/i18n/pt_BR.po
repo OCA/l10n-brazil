@@ -7,9 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 09:02+0000\n"
-"PO-Revision-Date: 2024-09-11 02:06+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -103,7 +102,7 @@ msgstr "Todos os Documentos"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__allow_csll_irpj
 msgid "Allow Csll Irpj"
-msgstr ""
+msgstr "Permitir Csll Irpj"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_vAliqProd
@@ -144,14 +143,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_discount_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_discount_value
 msgid "Amount Discount"
-msgstr ""
+msgstr "Total do Desconto"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_estimate_tax
 msgid "Amount Estimate Tax"
-msgstr ""
+msgstr "Total Estimado de Impostos"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_financial_total
@@ -159,51 +158,51 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__financial_total
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_financial_total
 msgid "Amount Financial"
-msgstr ""
+msgstr "Total Financeiro"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_financial_total_gross
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_financial_total_gross
 msgid "Amount Financial Gross"
-msgstr ""
+msgstr "Total Financeiro Bruto"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_fiscal
 msgid "Amount Fiscal"
-msgstr ""
+msgstr "Total Fiscal"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_price_gross
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_price_gross
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_price_gross
 msgid "Amount Gross"
-msgstr ""
+msgstr "Total Bruto"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax
 msgid "Amount Tax"
-msgstr ""
+msgstr "Total de Imposto"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_included
 msgid "Amount Tax Included"
-msgstr ""
+msgstr "Total Impostos Inclusos"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_not_included
 msgid "Amount Tax Not Included"
-msgstr ""
+msgstr "Total Não incluído Impostos"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_taxed
 msgid "Amount Taxed"
-msgstr "Montante Tributado"
+msgstr "Total Tributado"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_total
 msgid "Amount Total"
-msgstr ""
+msgstr "Valor Total"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_untaxed
@@ -218,7 +217,7 @@ msgstr "Total sem Impostos"
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__amount_price_gross
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_vProd
 msgid "Amount without discount."
-msgstr ""
+msgstr "Total sem desconto."
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
@@ -319,17 +318,17 @@ msgstr "Impostos Brasileiros"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__ind_pres
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__ind_pres
 msgid "Buyer Presence"
-msgstr ""
+msgstr "Presença do Comprador"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cest_id
 msgid "CEST"
-msgstr ""
+msgstr "CEST"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cfop_id
 msgid "CFOP"
-msgstr ""
+msgstr "CFOP"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cfop_destination
@@ -339,7 +338,7 @@ msgstr "CFOP Destino"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cnae_id
 msgid "CNAE Code"
-msgstr ""
+msgstr "Código CNAE"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnpj_cpf
@@ -379,12 +378,12 @@ msgstr "CNPJ/CPF"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_percent
 msgid "COFINS %"
-msgstr ""
+msgstr "% COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_reduction
 msgid "COFINS % Reduction"
-msgstr ""
+msgstr "% Redução COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofins_base
@@ -392,17 +391,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_base
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofins_base
 msgid "COFINS Base"
-msgstr ""
+msgstr "Base para COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_base_id
 msgid "COFINS Base Code"
-msgstr ""
+msgstr "COFINS Código da Base"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_base_type
 msgid "COFINS Base Type"
-msgstr ""
+msgstr "COFINS Tipo da Base"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_cst_code
@@ -412,51 +411,51 @@ msgstr "Código CST de COFINS"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_credit_id
 msgid "COFINS Credit Code"
-msgstr ""
+msgstr "Código de Crédito de COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_percent
 msgid "COFINS RET %"
-msgstr ""
+msgstr "% RET COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_reduction
 msgid "COFINS RET % Reduction"
-msgstr ""
+msgstr "% Redução de RETENÇÃO de COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr ""
+msgstr "Base para RET COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_value
 msgid "COFINS RET Value"
-msgstr ""
+msgstr "Valor RET COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofins_wh_base
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cofins_wh_base
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofins_wh_base
 msgid "COFINS Ret Base"
-msgstr ""
+msgstr "Base para RET COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofins_wh_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cofins_wh_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofins_wh_value
 msgid "COFINS Ret Value"
-msgstr ""
+msgstr "Valor RET COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_percent
 msgid "COFINS ST %"
-msgstr ""
+msgstr "% ST COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_reduction
 msgid "COFINS ST % Reduction"
-msgstr ""
+msgstr "% Redução ST COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofinsst_base
@@ -464,12 +463,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_base
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofinsst_base
 msgid "COFINS ST Base"
-msgstr ""
+msgstr "Base para ST COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_base_type
 msgid "COFINS ST Base Type"
-msgstr ""
+msgstr "Tipo de Base ST COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_cst_code
@@ -482,7 +481,7 @@ msgstr "Código CST ST COFINS"
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofinsst_value
 msgid "COFINS ST Value"
-msgstr ""
+msgstr "Valor de ST do COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofins_value
@@ -490,27 +489,27 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofins_value
 msgid "COFINS Value"
-msgstr ""
+msgstr "Valor do COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_base_type
 msgid "COFINS WH Base Type"
-msgstr ""
+msgstr "Tipo de Base COFINS WH"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_choice_cofins
 msgid "COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr"
-msgstr ""
+msgstr "COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_percent
 msgid "CSLL %"
-msgstr ""
+msgstr "% CSLL"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_reduction
 msgid "CSLL % Reduction"
-msgstr ""
+msgstr "% de Redução do CSLL"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_csll_base
@@ -518,41 +517,41 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_base
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_csll_base
 msgid "CSLL Base"
-msgstr ""
+msgstr "Base para CSLL"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_percent
 msgid "CSLL RET %"
-msgstr ""
+msgstr "% CSLL RET"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_reduction
 msgid "CSLL RET % Reduction"
-msgstr ""
+msgstr "% de Redução CSLL RET"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_base
 msgid "CSLL RET Base"
-msgstr ""
+msgstr "Base para CSLL RET"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_value
 msgid "CSLL RET Value"
-msgstr ""
+msgstr "Valor RET CSLL"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_csll_wh_base
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_csll_wh_base
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_csll_wh_base
 msgid "CSLL Ret Base"
-msgstr ""
+msgstr "Base para CSLL RET"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_csll_wh_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_csll_wh_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_csll_wh_value
 msgid "CSLL Ret Value"
-msgstr ""
+msgstr "Valor RET CSLL"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_csll_value
@@ -560,37 +559,37 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_csll_value
 msgid "CSLL Value"
-msgstr ""
+msgstr "Valor CSLL"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_cst_id
 msgid "CST COFINS"
-msgstr ""
+msgstr "CST COFINS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_cst_id
 msgid "CST COFINS ST"
-msgstr ""
+msgstr "CST COFINS ST"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_id
 msgid "CST ICMS"
-msgstr ""
+msgstr "CST ICMS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_cst_id
 msgid "CST IPI"
-msgstr ""
+msgstr "CST IPI"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_cst_id
 msgid "CST PIS"
-msgstr ""
+msgstr "CST PIS"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_cst_id
 msgid "CST PIS ST"
-msgstr ""
+msgstr "CST PIS ST"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_obsFisco
@@ -671,7 +670,7 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_CFOP
 msgid "Cfop"
-msgstr ""
+msgstr "Cfop"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_is_company
@@ -702,7 +701,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__close_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__close_id
 msgid "Close ID"
-msgstr ""
+msgstr "ID do Fechamento Fiscal"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_cBarra
@@ -3044,7 +3043,7 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_value
 msgid "National Simple Taxes"
-msgstr ""
+msgstr "Impostos do Simples Nacional"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_without_icms_value
