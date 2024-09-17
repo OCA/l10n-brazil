@@ -6,9 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-07-06 20:58+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -1244,7 +1243,7 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_CFOP
 msgid "Cfop"
-msgstr ""
+msgstr "Cfop"
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_veicprod__nfe40_chassi
