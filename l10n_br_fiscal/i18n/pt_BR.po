@@ -6,9 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-11 02:06+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -779,7 +778,7 @@ msgstr "Ajuste"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_operation_type__all
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_search
 msgid "All"
-msgstr "Tudo"
+msgstr "Todos"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_email_action
@@ -824,7 +823,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__allow_csll_irpj
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__allow_csll_irpj
 msgid "Allow Csll Irpj"
-msgstr ""
+msgstr "Permitir Csll Irpj"
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -1376,7 +1375,7 @@ msgstr "% Redução de RETENÇÃO de COFINS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_wh_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cofins_wh_base
 msgid "COFINS RET Base"
-msgstr "Base para COFINS RET"
+msgstr "Base para RET COFINS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cofins_wh_value
@@ -2517,7 +2516,7 @@ msgstr "Valor do desconto"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_credit__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom_alternative__display_name
 msgid "Display Name"
-msgstr "Nome Exibição"
+msgstr "Nome Exibido"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__document_id
@@ -2654,7 +2653,7 @@ msgstr "Concluído"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 #, python-format
 msgid "Draft"
-msgstr "Provisório"
+msgstr "Rascunho"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__wh_due_day
@@ -3302,7 +3301,7 @@ msgstr "Seguidores (Parceiros)"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_type_icon
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Ícone Fonte awesome e.x fa-tasks"
+msgstr "Ícone do font awesome ex. fa-task"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__force_compute_delivery_costs_by_total
@@ -5025,7 +5024,7 @@ msgstr "Ícone"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_exception_icon
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr "Ícone para indicar uma atividade de exceção."
+msgstr "Ícone para indicar uma atividade excepcional."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_cfop__destination
@@ -5045,7 +5044,7 @@ msgstr "Identifica o destino da operação."
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_needaction
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Se marcado novas mensagens solicitarão sua atenção."
+msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__message_has_error
@@ -5251,7 +5250,7 @@ msgstr "É eletrônico?"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_is_follower
 msgid "Is Follower"
-msgstr "É seguidor"
+msgstr "É Seguidor"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__is_import
@@ -5738,7 +5737,7 @@ msgstr "Mercadoria para Revenda"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_has_error
 msgid "Message Delivery error"
-msgstr "Erro de entrega de Mensagem"
+msgstr "Erro de Entrega da Mensagem"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__message_ids
@@ -5786,7 +5785,7 @@ msgstr "Número de Impostos Municipais"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__my_activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Prazo Final da Minha Atividade"
+msgstr "Prazo Final das Minhas Atividades"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.nbm_action
@@ -6015,7 +6014,7 @@ msgstr "Próximo Evento do Calendário de Atividades"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Prazo para Próxima Atividade"
+msgstr "Prazo Final da Próxima Atividade"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__activity_summary
@@ -7727,8 +7726,8 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status baseado em atividades\n"
-"Atrasado: a data de vencimento já passou\n"
-"Hoje: a data da atividade é hoje\n"
+"Atrasado: Data definida já passou\n"
+"Hoje: Data de atividade é hoje\n"
 "Planejado: Atividades futuras."
 
 #. module: l10n_br_fiscal
@@ -8560,7 +8559,7 @@ msgstr "Tipo movimento"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_exception_decoration
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "Tipo de atividade de exceção registrada."
+msgstr "Tipo da atividade de exceção no registro."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__uom_id
@@ -8751,7 +8750,7 @@ msgstr "Aviso!"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__website_message_ids
 msgid "Website Messages"
-msgstr "Mensagens do Site"
+msgstr "Mensagens do Website"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__website_message_ids
@@ -8764,7 +8763,7 @@ msgstr "Mensagens do Site"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__website_message_ids
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__website_message_ids
 msgid "Website communication history"
-msgstr "Histórico de comunicação do Site"
+msgstr "Histórico de comunicação do website"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_form
