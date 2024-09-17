@@ -42,6 +42,11 @@ msgid "CNAB 400"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_l10n_br_cnab_config
+msgid "CNAB Config"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__cnab_returned_ref
 msgid "CNAB Returned Reference"
 msgstr ""
@@ -61,6 +66,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -77,6 +83,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config__id
 msgid "ID"
 msgstr ""
 
@@ -121,6 +128,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config____last_update
 msgid "Last Modified on"
 msgstr ""
 
