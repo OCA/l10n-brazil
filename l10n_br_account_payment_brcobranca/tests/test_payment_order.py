@@ -280,8 +280,8 @@ class TestPaymentOrder(SavepointCase):
         for line in payment_order.payment_line_ids:
             # Caso de Baixa do Titulo
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_write_off_code_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.write_off_code_id.name,
             )
 
     def test_payment_outside_cnab_writeoff_and_change_tittle_value(self):
@@ -322,14 +322,14 @@ class TestPaymentOrder(SavepointCase):
             if line.amount_currency == 300:
                 # Caso de Baixa do Titulo
                 self.assertEqual(
-                    line.mov_instruction_code_id.name,
-                    line.order_id.payment_mode_id.cnab_write_off_code_id.name,
+                    line.instruction_move_code_id.name,
+                    line.order_id.cnab_config_id.write_off_code_id.name,
                 )
             else:
                 # Caso de alteração do valor do titulo por pagamento parcial
                 self.assertEqual(
-                    line.mov_instruction_code_id.name,
-                    line.order_id.payment_mode_id.cnab_code_change_title_value_id.name,
+                    line.instruction_move_code_id.name,
+                    line.order_id.cnab_config_id.change_title_value_code_id.name,
                 )
                 self.assertEqual(
                     line.move_line_id.amount_residual, line.amount_currency
@@ -388,8 +388,8 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_change_maturity_date_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.change_maturity_date_code_id.name,
             )
 
         # Open payment order
@@ -434,8 +434,8 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_protest_title_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.protest_title_code_id.name,
             )
         # Open payment order
         payment_order.draft2open()
@@ -479,13 +479,13 @@ class TestPaymentOrder(SavepointCase):
             ]
         )
 
-        cnab_code_suspend_protest_keep_wallet = (
-            self.aml_to_change.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
+        suspend_protest_keep_wallet_code = (
+            self.aml_to_change.cnab_config_id.suspend_protest_keep_wallet_code_id
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                cnab_code_suspend_protest_keep_wallet.name,
+                line.instruction_move_code_id.name,
+                suspend_protest_keep_wallet_code.name,
             )
         # Open payment order
         payment_order.draft2open()
@@ -535,8 +535,8 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_grant_rebate_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.grant_rebate_code_id.name,
             )
             self.assertEqual(line.rebate_value, 10.0)
 
@@ -544,8 +544,8 @@ class TestPaymentOrder(SavepointCase):
         payment_order.draft2open()
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_grant_rebate_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.grant_rebate_code_id.name,
             )
             self.assertEqual(line.rebate_value, 10.0)
 
@@ -589,8 +589,8 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_cancel_rebate_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.cancel_rebate_code_id.name,
             )
 
         # Open payment order
@@ -641,8 +641,8 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_grant_discount_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.grant_discount_code_id.name,
             )
             self.assertEqual(line.discount_value, 10.0)
 
@@ -650,8 +650,8 @@ class TestPaymentOrder(SavepointCase):
         payment_order.draft2open()
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_grant_discount_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.grant_discount_code_id.name,
             )
             self.assertEqual(line.discount_value, 10.0)
 
@@ -695,8 +695,8 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_cancel_discount_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.cancel_discount_code_id.name,
             )
 
         # Open payment order
@@ -748,8 +748,8 @@ class TestPaymentOrder(SavepointCase):
         for line in payment_order.payment_line_ids:
             # Baixa do Titulo
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_write_off_code_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.write_off_code_id.name,
             )
 
     def test_payment(self):
@@ -813,8 +813,8 @@ class TestPaymentOrder(SavepointCase):
         for line in payment_order.payment_line_ids:
             # Caso de alteração do valor do titulo por pagamento parcial
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_change_title_value_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.change_title_value_code_id.name,
             )
             self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
@@ -867,8 +867,8 @@ class TestPaymentOrder(SavepointCase):
         for line in payment_order.payment_line_ids:
             # Caso de alteração do valor do titulo por pagamento parcial
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_change_title_value_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.change_title_value_code_id.name,
             )
             self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
@@ -929,8 +929,8 @@ class TestPaymentOrder(SavepointCase):
         for line in payment_order.payment_line_ids:
             # Baixa do Titulo
             self.assertEqual(
-                line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_write_off_code_id.name,
+                line.instruction_move_code_id.name,
+                line.order_id.cnab_config_id.write_off_code_id.name,
             )
             # TODO: Pedido de Baixa está indo com o valor inicial deveria ser
             #  o ultimo valor enviado ? Já que é um Pedido de Baixa o Banco
