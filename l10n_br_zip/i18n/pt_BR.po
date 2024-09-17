@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-12-27 15:35+0000\n"
-"Last-Translator: Adriano Prado <adrianojprado@gmail.com>\n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__apicep
@@ -131,19 +131,19 @@ msgstr "É necessário informar o Estado, município e logradouro"
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip____last_update
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search____last_update
 msgid "Last Modified on"
-msgstr "Última atualização em"
+msgstr "Última Modificação em"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__write_uid
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr "Última Atualização por"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__write_date
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__write_date
 msgid "Last Updated on"
-msgstr "Atualizado pela última vez em"
+msgstr "Última Atualização em"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_name
