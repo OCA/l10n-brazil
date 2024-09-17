@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-07-19 04:58+0000\n"
-"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -562,7 +562,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_CFOP
 msgid "Cfop"
-msgstr "CFOP"
+msgstr "Cfop"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__new_cfop_id
@@ -2251,7 +2251,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_ipi
 msgid "IPI"
-msgstr ""
+msgstr "IPI"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_tax_ipi_guideline
@@ -3226,7 +3226,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__nfe40_NFe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__nfe40_NFe
 msgid "NFe"
-msgstr ""
+msgstr "NFe"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__schema__procnfe
