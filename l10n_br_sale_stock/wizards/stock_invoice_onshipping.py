@@ -59,3 +59,36 @@ class StockInvoiceOnshipping(models.TransientModel):
                 )
 
         return invoice, values
+
+    def _get_invoice_line_values(self, moves, invoice_values, invoice):
+        """
+        Create invoice line values from given moves
+        :param moves: stock.move
+        :param invoice: account.invoice
+        :return: dict
+        """
+
+        values = super()._get_invoice_line_values(moves, invoice_values, invoice)
+        # Devido ao KEY com sale_line_id aqui
+        # vem somente um registro
+        # Caso venha apenas uma linha porem sem
+        # sale_line_id é preciso ignora-la
+        if len(moves) != 1 or not moves.sale_line_id:
+            return values
+
+        sale_line_id = moves.sale_line_id
+        values["sale_line_ids"] = [(6, 0, sale_line_id.ids)]
+        sale_line_id = moves.sale_line_id
+        analytic_account_id = sale_line_id.order_id.analytic_account_id.id
+        if sale_line_id.analytic_distribution and not sale_line_id.display_type:
+            values["analytic_distribution"] = sale_line_id.analytic_distribution
+        if analytic_account_id and not sale_line_id.display_type:
+            analytic_account_id = str(analytic_account_id)
+            if "analytic_distribution" in values:
+                values["analytic_distribution"][analytic_account_id] = (
+                    values["analytic_distribution"].get(analytic_account_id, 0) + 100
+                )
+            else:
+                values["analytic_distribution"] = {analytic_account_id: 100}
+
+        return values
