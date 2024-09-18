@@ -8,7 +8,7 @@ from odoo.tests.common import OdooSuite, tagged
 _logger = logging.getLogger(__name__)
 
 
-# flake8: noqa: B950  - line too long
+# ruff: noqa: E501  - line too long
 def addTest(self, test):
     """
     This monkey patch is required to avoid triggering all the tests from
@@ -116,13 +116,13 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_line_onchange_currency_1(self):
         return super().test_out_invoice_line_onchange_currency_1()
 
-    #    def test_force_out_invoice_line_tax_fixed_price_include_free_product(self):
-    #        FIXME
-    #        return super().test_out_invoice_line_tax_fixed_price_include_free_product()
+    # def test_force_out_invoice_line_tax_fixed_price_include_free_product(self):
+    #   FIXME
+    #   return super().test_out_invoice_line_tax_fixed_price_include_free_product()
 
-    #    def test_force_out_invoice_line_taxes_fixed_price_include_free_product(self):
-    #        FIXME
-    #        return super().test_out_invoice_line_taxes_fixed_price_include_free_product()
+    # def test_force_out_invoice_line_taxes_fixed_price_include_free_product(self):
+    #   FIXME
+    #   return super().test_out_invoice_line_taxes_fixed_price_include_free_product()
 
     def test_force_out_invoice_create_refund(self):
         return super().test_out_invoice_create_refund()

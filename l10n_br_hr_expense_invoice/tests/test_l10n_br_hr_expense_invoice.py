@@ -56,10 +56,10 @@ class TestL10nBrHrExpenseInvoice(SavepointCase):
             len(invoices), 2, "The number of created invoices is not as expected."
         )
         invoice_1 = self.sheet_id.expense_line_ids.filtered(
-            lambda l: l.name == "expense_1"
+            lambda line: line.name == "expense_1"
         ).invoice_id
         invoice_2 = self.sheet_id.expense_line_ids.filtered(
-            lambda l: l.name == "expense_2"
+            lambda line: line.name == "expense_2"
         ).invoice_id
         self.assertFalse(
             invoice_1.fiscal_operation_id,

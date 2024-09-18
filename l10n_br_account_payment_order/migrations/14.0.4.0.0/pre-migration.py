@@ -14,7 +14,6 @@ _column_renames = {
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-
     # Apagando o objeto bank.payment.line
     openupgrade.logged_query(
         env.cr,

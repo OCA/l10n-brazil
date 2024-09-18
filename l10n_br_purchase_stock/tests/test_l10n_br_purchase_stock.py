@@ -183,7 +183,8 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
             #     self.assertEqual(inv_line.price_unit,
             #     inv_line.purchase_line_id.price_unit)
             # AssertionError: 82.53 != 100.0
-            # self.assertEqual(inv_line.price_unit, inv_line.purchase_line_id.price_unit)
+            # self.assertEqual(inv_line.price_unit,
+            # inv_line.purchase_line_id.price_unit)
             # Valida presença dos campos principais para o mapeamento Fiscal
             self.assertTrue(inv_line.fiscal_operation_id, "Missing Fiscal Operation.")
             self.assertTrue(

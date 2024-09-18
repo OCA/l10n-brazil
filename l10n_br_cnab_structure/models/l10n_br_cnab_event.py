@@ -93,8 +93,8 @@ class CNABReturnEvent(models.Model):
         """Override Create Method"""
         event = super().create(vals)
         if not event.cnab_return_log_id.cnab_structure_id:
-            # if there is no cnab_structure_id it is because the return file is not being
-            # processed by this module, so there is nothing to do here.
+            # if there is no cnab_structure_id it is because the return file is not
+            # being processed by this module, so there is nothing to do here.
             return event
         event.load_description_occurrences()
         event.load_bank_payment_line()
@@ -202,7 +202,8 @@ class CNABReturnEvent(models.Model):
     def _get_liq_move_vals(self):
         return {
             "name": f"CNAB Return {self.cnab_return_log_id.bank_id.short_name} - "
-            f"{self.cnab_return_log_id.bank_account_id.acc_number} - REF: {self.your_number}",
+            f"{self.cnab_return_log_id.bank_account_id.acc_number} - "
+            f"REF: {self.your_number}",
             "ref": self.your_number,
             "is_cnab": True,
             "journal_id": self.journal_id.id,
@@ -223,7 +224,8 @@ class CNABReturnEvent(models.Model):
         move_lines = self.move_line_ids.sorted(key=lambda line: line.date_maturity)
         for index, move_line in enumerate(move_lines):
             line_balance = abs(move_line.balance)
-            # the total value of counterpart move lines must be equal to balance in return event
+            # the total value of counterpart move lines must be equal to balance in
+            # return event
             if index != len(self.move_line_ids) - 1:
                 if balance > line_balance:
                     value = line_balance

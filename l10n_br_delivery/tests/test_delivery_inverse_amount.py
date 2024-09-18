@@ -367,7 +367,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         )
         for line in self.sale_demo.order_line:
             other_line = self.sale_demo.order_line.filtered(
-                lambda o_l: o_l.id != line.id
+                lambda o_l, line=line: o_l.id != line.id
             )
             self.assertNotEqual(
                 line.freight_value,
@@ -403,7 +403,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
         for line in invoice.invoice_line_ids:
             other_line = invoice.invoice_line_ids.filtered(
-                lambda o_l: o_l.id != line.id
+                lambda o_l, line=line: o_l.id != line.id
             )
             self.assertNotEqual(
                 line.freight_value,
@@ -426,7 +426,7 @@ class TestDeliveryInverseAmount(SavepointCase):
 
         for line in fiscal_document_id.fiscal_line_ids:
             other_line = fiscal_document_id.fiscal_line_ids.filtered(
-                lambda o_l: o_l.id != line.id
+                lambda o_l, line=line: o_l.id != line.id
             )
             self.assertNotEqual(
                 line.freight_value,

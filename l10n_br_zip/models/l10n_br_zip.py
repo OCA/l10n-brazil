@@ -60,7 +60,8 @@ class L10nBrZip(models.Model):
             if not state_id or not city_id or len(street_name or "") == 0:
                 raise UserError(
                     _(
-                        "It is necessary to inform the State, municipality and public place"
+                        "It is necessary to inform the State, municipality and public "
+                        "place"
                     )
                 )
 

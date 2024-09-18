@@ -217,7 +217,6 @@ def update_payment_mode_inbound(env):
         if payment_mode.cnab_liq_return_move_code_ids:
             liq_codes = env["l10n_br_cnab.code"]
             for code in payment_mode.cnab_liq_return_move_code_ids:
-
                 liq_code = get_new_code(env, payment_mode, code, "return_move_code")
                 liq_codes |= liq_code
 
