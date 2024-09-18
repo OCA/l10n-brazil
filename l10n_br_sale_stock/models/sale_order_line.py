@@ -19,18 +19,18 @@ class SaleOrderLine(models.Model):
         return values
 
     # no trigger product_id.invoice_policy to avoid retroactively changing SO
-    @api.depends("qty_invoiced", "qty_delivered", "product_uom_qty", "order_id.state")
-    def _get_to_invoice_qty(self):
+    @api.depends("qty_invoiced", "qty_delivered", "product_uom_qty", "state")
+    def _compute_qty_to_invoice(self):
         """
         Compute the quantity to invoice. If the invoice policy is order,
         the quantity to invoice is calculated from the ordered quantity.
         Otherwise, the quantity delivered is used.
         """
-        result = super()._get_to_invoice_qty()
+        result = super()._compute_qty_to_invoice()
 
         for line in self:
             if line.order_id.state in ["sale", "done"]:
-                if line.product_id.invoice_policy == "order":
+                if line.state in ["sale", "done"] and not line.display_type:
                     if (
                         line.order_id.company_id.sale_create_invoice_policy
                         == "stock_picking"

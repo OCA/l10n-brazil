@@ -43,14 +43,12 @@ class StockInvoiceOnshipping(models.TransientModel):
                 # Evita enviar False quando não tem nada
                 additional_data = ""
                 if pick.sale_id.manual_customer_additional_data:
-                    additional_data = "{}".format(
-                        pick.sale_id.manual_customer_additional_data
-                    )
+                    additional_data = f"{pick.sale_id.manual_customer_additional_data}"
 
                 values.update(
                     {
                         "manual_customer_additional_data": additional_data
-                        + " TERMOS E CONDIÇÕES: {}".format(pick.sale_id.note),
+                        + f" TERMOS E CONDIÇÕES: {pick.sale_id.note}",
                     }
                 )
 
@@ -87,16 +85,24 @@ class StockInvoiceOnshipping(models.TransientModel):
         values = super()._get_invoice_line_values(moves, invoice_values, invoice)
         # Devido ao KEY com sale_line_id aqui
         # vem somente um registro
-        if len(moves) == 1:
-            # Caso venha apenas uma linha porem sem
-            # sale_line_id é preciso ignora-la
-            if moves.sale_line_id:
-                values["sale_line_ids"] = [(6, 0, moves.sale_line_id.ids)]
-                values[
-                    "analytic_account_id"
-                ] = moves.sale_line_id.order_id.analytic_account_id.id
-                values["analytic_tag_ids"] = [
-                    (6, 0, moves.sale_line_id.analytic_tag_ids.ids)
-                ]
+        # Caso venha apenas uma linha porem sem
+        # sale_line_id é preciso ignora-la
+        if len(moves) != 1 or not moves.sale_line_id:
+            return values
+
+        sale_line_id = moves.sale_line_id
+        values["sale_line_ids"] = [(6, 0, sale_line_id.ids)]
+        sale_line_id = moves.sale_line_id
+        analytic_account_id = sale_line_id.order_id.analytic_account_id.id
+        if sale_line_id.analytic_distribution and not sale_line_id.display_type:
+            values["analytic_distribution"] = sale_line_id.analytic_distribution
+        if analytic_account_id and not sale_line_id.display_type:
+            analytic_account_id = str(analytic_account_id)
+            if "analytic_distribution" in values:
+                values["analytic_distribution"][analytic_account_id] = (
+                    values["analytic_distribution"].get(analytic_account_id, 0) + 100
+                )
+            else:
+                values["analytic_distribution"] = {analytic_account_id: 100}
 
         return values
