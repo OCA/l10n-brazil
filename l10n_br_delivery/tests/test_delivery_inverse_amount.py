@@ -3,10 +3,10 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests.common import Form, SavepointCase
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestDeliveryInverseAmount(SavepointCase):
+class TestDeliveryInverseAmount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

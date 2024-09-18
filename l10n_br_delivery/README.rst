@@ -10,9 +10,9 @@ delivery module Brazilian Localization
    !! source digest: sha256:a42327d40a82670bd74fba8329ab1c5f0a9d5094b0523a19aee0433acc84d98b
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -38,6 +38,11 @@ Esse módulo localiza o módulo *delivery* para adequar as necessidades do Brasi
   * desativa o método *_add_delivery_cost_to_so* da Expedição, pois o frete já esta corretamente informado no pedido.
   * vale a pena notar que o rateamento do frete, seguro e outros custos já esta sendo feito pelo módulo l10n_br_fiscal, tanto para notas de saída como de entrada.
   * se você for emitir NF-e, você precisa do módulo *l10n_br_delivery_nfe* que faz a integração deste módulo com o módulo *l10n_br_nfe*.
+
+.. IMPORTANT::
+   This is an alpha version, the data model and design can change at any time without warning.
+   Only for development or testing purpose, do not use in production.
+   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 
