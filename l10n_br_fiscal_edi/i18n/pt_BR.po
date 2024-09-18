@@ -59,10 +59,16 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event
 msgid ""
-"A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:<br/>\n"
+"A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do "
+"Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para "
+"regularização de erro ocorrido na emissão de documento fiscal, desde que o "
+"erro não seja relacionado com:<br/>\n"
 "                  <br/>\n"
-"                  I - as variáveis que determinam o valor do imposto tais como: base de cálculo, alíquota, diferença de preço, quantidade, valor da operação ou da prestação;<br/>\n"
-"                  II - a correção de dados cadastrais que impliquem mudança do remetente ou do destinatário;<br/>\n"
+"                  I - as variáveis que determinam o valor do imposto tais "
+"como: base de cálculo, alíquota, diferença de preço, quantidade, valor da "
+"operação ou da prestação;<br/>\n"
+"                  II - a correção de dados cadastrais que impliquem mudança "
+"do remetente ou do destinatário;<br/>\n"
 "                  III - a data de emissão ou de saída.<br/>"
 msgstr ""
 
@@ -530,8 +536,8 @@ msgstr "Entrada"
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,help:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__lot_receipt_number
 msgid ""
-"In asynchronous processing, a lot receipt number is generated, which is used"
-" for later consultation."
+"In asynchronous processing, a lot receipt number is generated, which is used "
+"for later consultation."
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -548,7 +554,7 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: code:addons/l10n_br_fiscal_edi/wizards/document_import_wizard_mixin.py:0
 #, python-format
-msgid "Invalid file: %s"
+msgid "Invalid file!"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
