@@ -1,4 +1,3 @@
-This module extends the standard Odoo sale stock module for Brazil, specially when selling products with NFe's.
+Este módulo estende o módulo padrão de vendas e estoque do Odoo para atender às necessidades específicas do Brasil, especialmente no contexto de vendas de produtos com NF-e (Nota Fiscal Eletrônica).
 
-It deals with the propagation of the fiscal operation, fiscal comment and incoterms to invoice created direct from sale
-order or picking.
+Ele automatiza a propagação da operação fiscal, comentários fiscais e incoterms para as faturas geradas diretamente a partir de ordens de venda ou movimentações de estoque, garantindo que essas informações sejam corretamente transferidas e utilizadas no processo de faturamento.
