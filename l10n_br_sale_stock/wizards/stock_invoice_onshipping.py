@@ -34,9 +34,17 @@ class StockInvoiceOnshipping(models.TransientModel):
                 # {False}     {''}
                 additional_data = ""
                 if picking.sale_id.manual_customer_additional_data:
+<<<<<<< Updated upstream
                     additional_data = "{}".format(
                         picking.sale_id.manual_customer_additional_data
                     )
+||||||| Stash base
+                    additional_data = f"{pick.sale_id.manual_customer_additional_data}"
+=======
+                    additional_data = (
+                        f"{picking.sale_id.manual_customer_additional_data}"
+                    )
+>>>>>>> Stashed changes
                 customer_data.add(additional_data)
                 values["manual_customer_additional_data"] = additional_data
 
