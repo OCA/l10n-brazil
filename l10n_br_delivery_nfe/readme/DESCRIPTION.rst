@@ -1,2 +1,1 @@
-Módulo criado para integrar os módulos l10n_br_delivery, l10n_br_account e o l10n_br_nfe.
-Pois cada um desses 3 módulos pode ser instalado de forma independente.
+Este módulo foi criado para integrar os módulos l10n_br_delivery, l10n_br_account e l10n_br_nfe, garantindo a correta transferência das informações de entrega para a Nota Fiscal Eletrônica (NF-e). Como esses três módulos podem ser instalados de forma independente, essa integração assegura que os dados relacionados ao frete, transporte e outras informações logísticas sejam incluídos corretamente no documento fiscal.
