@@ -187,8 +187,8 @@ msgstr "Ordem de Pagamento"
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
-msgid "Statement import error The statement cannot be created: %s"
-msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
+msgid "Statement import error The statement cannot be created: %(st)s"
+msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
@@ -208,6 +208,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr "Tipo de importação"
+
+#, python-format
+#~ msgid "Statement import error The statement cannot be created: %s"
+#~ msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
 
 #, python-format
 #~ msgid "The Bank {} CNAB {} is not implemented in BRCobranca."
