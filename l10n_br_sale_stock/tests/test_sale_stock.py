@@ -83,7 +83,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         stock_picking = self.so.picking_ids
 
         # compare sale.order.line with stock.move
-        stock_move = stock_picking.move_lines
+        stock_move = stock_picking.move_ids
         sale_order_line = self.so.order_line
 
         sm_fields = [key for key in self.env["stock.move"]._fields.keys()]
@@ -249,7 +249,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         self.assertTrue(
             picking_devolution.fiscal_operation_id, "Missing Fiscal Operation."
         )
-        for line in picking_devolution.move_lines:
+        for line in picking_devolution.move_ids:
             self.assertEqual(line.invoice_state, "2binvoiced")
             # Valida presença dos campos principais para o mapeamento Fiscal
             self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
