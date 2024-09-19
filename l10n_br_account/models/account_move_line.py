@@ -24,9 +24,6 @@ SHADOWED_FIELDS = [
     "price_unit",
 ]
 
-ACCOUNTING_FIELDS = ("debit", "credit", "amount_currency")
-BUSINESS_FIELDS = ("price_unit", "quantity", "discount", "tax_ids")
-
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
