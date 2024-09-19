@@ -940,6 +940,13 @@ msgid "Boleto Accept"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_discount_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_discount_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_discount_code_id
+msgid "Boleto Discount Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__boleto_modality
 msgid "Boleto Modality"
 msgstr ""
