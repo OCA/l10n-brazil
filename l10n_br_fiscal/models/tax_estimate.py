@@ -1,7 +1,7 @@
 # Copyright (C) 2012  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class TaxEstimate(models.Model):
@@ -43,8 +43,22 @@ class TaxEstimate(models.Model):
 
     origin = fields.Char(string="Source", size=32)
 
-    company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company",
-        default=lambda self: self.env.company,
-    )
+    active = fields.Boolean(string="Ativo", default=True)
+
+    def _deactivate_old_estimates(self):
+        for estimate in self:
+            domain = [
+                ("id", "!=", estimate.id),
+                ("state_id", "=", estimate.state_id.id),
+                "|",
+                ("ncm_id", "=", estimate.ncm_id.id),
+                ("nbs_id", "=", estimate.nbs_id.id),
+            ]
+            old_estimates = self.search(domain)
+            old_estimates.write({"active": False})
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        estimates = super().create(vals_list)
+        estimates._deactivate_old_estimates()
+        return estimates

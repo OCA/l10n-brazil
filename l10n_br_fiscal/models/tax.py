@@ -320,17 +320,19 @@ class Tax(models.Model):
             and op_line.fiscal_operation_id.fiscal_type == "sale"
         ):
             if nbs:
+                estimate_tax_national, estimate_tax_imported = nbs.get_estimated_taxes()
                 amount_estimate_tax = currency.round(
-                    amount_total * (nbs.estimate_tax_national / 100)
+                    amount_total * (estimate_tax_national / 100)
                 )
             elif ncm:
+                estimate_tax_national, estimate_tax_imported = ncm.get_estimated_taxes()
                 if icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
                     amount_estimate_tax = currency.round(
-                        amount_total * (ncm.estimate_tax_imported / 100)
+                        amount_total * (estimate_tax_imported / 100)
                     )
                 else:
                     amount_estimate_tax = currency.round(
-                        amount_total * (ncm.estimate_tax_national / 100)
+                        amount_total * (estimate_tax_national / 100)
                     )
 
         return amount_estimate_tax
