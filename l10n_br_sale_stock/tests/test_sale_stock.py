@@ -263,6 +263,12 @@ class TestSaleStock(TransactionCase):
             # a copia entre os objetos é testada tanto no stock.move acima
             # quanto na account.move.line abaixo
             "uom_id",
+            # O campo 'display_type' difere entre 'sale.order.line' e
+            # 'account.move.line' para produtos: é False em 'sale.order.line' e
+            # "product" em 'account.move.line'
+            "display_type",
+            "sequence",
+            "analytic_precision",  # verificar se tem  importancia
         ]
 
         common_fields = list(set(acl_fields) & set(sol_fields) - set(skipped_fields))
@@ -274,6 +280,14 @@ class TestSaleStock(TransactionCase):
                 invoice_lines[field],
                 "Field %s failed to transfer from "
                 "sale.order.line to account.move.line" % field,
+            )
+        # Assert específico para 'display_type'
+        if sale_order_line.display_type is False:
+            self.assertEqual(
+                invoice_lines.display_type,
+                "product",
+                "Esperado 'display_type' como 'product' em account.move.line quando"
+                "é False em sale.order.line",
             )
 
         for inv_line in invoice_lines:
@@ -423,7 +437,6 @@ class TestSaleStock(TransactionCase):
         picking and 3 moves per picking, the 3 has the same Partner to
         Invoice but one has Partner to Shipping so shouldn't be grouping.
         """
-
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
