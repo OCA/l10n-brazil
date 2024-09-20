@@ -169,7 +169,7 @@ class SaleOrder(models.Model):
                 pass
 
         if not moves:
-            raise self._nothing_to_invoice_error()
+            raise UserError(self._nothing_to_invoice_error_message())
 
         return moves
 
