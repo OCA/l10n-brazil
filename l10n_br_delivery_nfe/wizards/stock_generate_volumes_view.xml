@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_generate_volumes" model="ir.ui.view">
+        <field name="name">Stock Generate Volumes</field>
+        <field name="model">stock.generate.volumes</field>
+        <field name="arch" type="xml">
+            <form string="Generate Draft Volumes">
+                <group>
+                    <field name="vol_ids">
+                        <tree>
+                            <field name="nfe40_qVol" string="Qt Vol" />
+                            <field name="nfe40_esp" string="Esp." />
+                            <field name="nfe40_marca" string="Marca" />
+                            <field name="nfe40_nVol" string="N. Vol." />
+                            <field name="nfe40_pesoL" string="Peso L." />
+                            <field name="nfe40_pesoB" string="Peso B." />
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button
+                        name="action_generate"
+                        string="Create"
+                        type="object"
+                        class="oe_highlight"
+                        default_focus="1"
+                        tabindex="0"
+                    />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_generate_volume_ids" model="ir.actions.act_window">
+        <field name="name">Generate Draft Volumes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.generate.volumes</field>
+        <field name="view_id" ref="view_stock_generate_volumes" />
+        <field name="binding_view_types">list,form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

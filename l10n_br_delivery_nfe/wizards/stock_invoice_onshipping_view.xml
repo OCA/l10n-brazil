@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_l10n_br_delivery_nfe_invoice_onshipping" model="ir.ui.view">
+        <field name="name">l10n_br_delivery_nfe Invoice Onshipping</field>
+        <field name="model">stock.invoice.onshipping</field>
+        <field
+            name="inherit_id"
+            ref="stock_picking_invoicing.view_stock_invoice_onshipping"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="vol_ids">
+                    <tree default_order="picking_id">
+                        <field name="picking_id" string="Transfer" />
+                        <field name="nfe40_qVol" string="Qt Vol" />
+                        <field name="nfe40_esp" string="Esp." />
+                        <field name="nfe40_marca" string="Marca" />
+                        <field name="nfe40_nVol" string="N. Vol." />
+                        <field name="nfe40_pesoL" string="Peso L." />
+                        <field name="nfe40_pesoB" string="Peso B." />
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
