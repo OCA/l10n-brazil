@@ -1,0 +1,13 @@
+<odoo>
+
+    <record id="view_product_product_form" model="ir.ui.view">
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_variant_easy_edit_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='net_weight']" position="before">
+                <field name="product_volume_type" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
