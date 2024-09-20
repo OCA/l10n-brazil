@@ -6,7 +6,7 @@
     "name": "Brazilian Localization Delivery NFe",
     "category": "Localisation",
     "license": "AGPL-3",
-    "author": "Akretion, Odoo Community Association (OCA)",
+    "author": "Akretion, KMEE, Odoo Community Association (OCA)",
     "maintainers": ["mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "14.0.1.1.0",
