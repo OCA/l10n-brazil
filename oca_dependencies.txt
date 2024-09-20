@@ -12,3 +12,4 @@ purchase-workflow
 sale-workflow
 delivery-carrier
 web
+product-atribute
