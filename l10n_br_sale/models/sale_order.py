@@ -168,8 +168,8 @@ class SaleOrder(models.Model):
                 # TODO: Avoid only when it is "nothing to invoice error"
                 pass
 
-        if not moves:
-            raise self._nothing_to_invoice_error()
+        if not moves and self._context.get("raise_if_nothing_to_invoice", True):
+            raise UserError(self._nothing_to_invoice_error_message())
 
         return moves
 
