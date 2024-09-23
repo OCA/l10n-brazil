@@ -154,10 +154,10 @@ class AccountMove(models.Model):
     @api.depends("line_ids", "invoice_line_ids")
     def _compute_fiscal_document_ids(self):
         for move in self:
-            docs = set()
+            docs = self.env["l10n_br_fiscal.document"]
             for line in move.invoice_line_ids:
-                docs.add(line.document_id.id)
-            move.fiscal_document_ids = list(docs)
+                docs |= line.document_id
+            move.fiscal_document_ids = docs
 
     @api.depends("move_type", "fiscal_operation_id")
     def _compute_fiscal_operation_type(self):
