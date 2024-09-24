@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 15.0.2.10.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Invoicing and accounting entries for Brazil
+[l10n_br_account](l10n_br_account/) | 15.0.2.10.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Invoicing and accounting entries for Brazil
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 15.0.1.1.0 |  | Brazilian Account Due List
 [l10n_br_account_nfe](l10n_br_account_nfe/) | 15.0.1.0.0 | [![antoniospneto](https://github.com/antoniospneto.png?size=30px)](https://github.com/antoniospneto) [![felipemotter](https://github.com/felipemotter.png?size=30px)](https://github.com/felipemotter) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Integration between l10n_br_account and l10n_br_nfe
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 15.0.1.1.0 | [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Payment Order
