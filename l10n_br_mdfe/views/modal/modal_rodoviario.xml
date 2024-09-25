@@ -359,4 +359,50 @@
             </form>
         </field>
     </record>
+
+    <record id="modal_rodoviario_lacre_tree_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.lacre.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.lacre</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_nLacre" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_lacre_form_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.lacre.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.lacre</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="mdfe30_nLacre" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="modal_rodoviario_contratante_form_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.contratante.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.contratante</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="partner_id" />
+                        <field name="mdfe30_CNPJ" />
+                        <field name="mdfe30_CPF" />
+                        <field name="mdfe30_idEstrangeiro" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
 </odoo>

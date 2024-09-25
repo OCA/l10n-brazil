@@ -12,6 +12,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
     "depends": [
+        "l10n_br_fiscal_edi",
         "l10n_br_fiscal_certificate",
         "l10n_br_mdfe_spec",
         "spec_driven_model",
@@ -39,7 +40,7 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib>=2.0.0",
+            "nfelib<=2.0.7",
             "erpbrasil.transmissao>=1.1.0",
             "erpbrasil.edoc>=2.5.2",
         ]
