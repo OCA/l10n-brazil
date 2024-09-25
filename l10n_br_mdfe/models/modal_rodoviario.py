@@ -36,7 +36,7 @@ class MDFeModalRodoviario(spec_models.StackedModel):
 
     mdfe30_categCombVeic = fields.Selection(related="document_id.mdfe30_categCombVeic")
 
-    mdfe30_infContratante = fields.One2many(compute="_compute_contractor")
+    mdfe30_infContratante = fields.One2many(related="document_id.mdfe30_infContratante")
 
     mdfe30_RNTRC = fields.Char(related="document_id.mdfe30_RNTRC")
 
@@ -68,12 +68,12 @@ class MDFeModalRodoviario(spec_models.StackedModel):
 
     mdfe30_lacRodo = fields.One2many(related="document_id.mdfe30_lacRodo")
 
-    @api.depends("document_id.mdfe30_infContratante")
-    def _compute_contractor(self):
-        for record in self:
-            record.mdfe30_infContratante = [
-                (6, 0, record.document_id.mdfe30_infContratante.ids)
-            ]
+    # @api.depends("document_id.mdfe30_infContratante")
+    # def _compute_contractor(self):
+    #     for record in self:
+    #         record.mdfe30_infContratante = [
+    #             (6, 0, record.document_id.mdfe30_infContratante.ids)
+    #         ]
 
 
 class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
@@ -270,3 +270,35 @@ class MDFeModalRodoviarioReboque(spec_models.SpecModel):
     mdfe30_cInt = fields.Char(size=10)
 
     mdfe30_RENAVAM = fields.Char(size=11)
+
+
+class MDFeModalRodoviarioLacre(spec_models.SpecModel):
+    _name = "l10n_br_mdfe.modal.rodoviario.lacre"
+    _inherit = "mdfe.30.lacrodo"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Lacre MDFe"
+
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
+
+    mdfe30_nLacre = fields.Char(required=True, size=20)
+
+
+class MDFeModalRodoviarioContratante(spec_models.SpecModel):
+    _name = "l10n_br_mdfe.modal.rodoviario.contratante"
+    _inherit = "mdfe.30.infcontratante"
+    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _description = "Contratante MDFe"
+
+    document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
+
+    partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Contratante", required=True
+    )
+
+    mdfe30_CNPJ = fields.Char(related="partner_id.mdfe30_CNPJ")
+
+    mdfe30_CPF = fields.Char(related="partner_id.mdfe30_CPF")
+
+    mdfe30_idEstrangeiro = fields.Char(related="partner_id.mdfe30_idEstrangeiro")
+
+    mdfe30_xNome = fields.Char(related="partner_id.mdfe30_xNome")
