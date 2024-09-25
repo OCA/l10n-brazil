@@ -402,6 +402,7 @@
             <page name="delivery" string="Delivery">
               <group>
                 <field name="force_compute_delivery_costs_by_total" />
+                <field name="total_weight" />
               </group>
             </page>
             <page name="amounts" string="Amounts">
