@@ -20,7 +20,6 @@ from ..constants.mdfe import (
 
 
 class ResCompany(spec_models.SpecModel):
-
     _name = "res.company"
     _inherit = [
         "res.company",

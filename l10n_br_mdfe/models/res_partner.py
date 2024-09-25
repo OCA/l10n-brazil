@@ -10,7 +10,6 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 
 class ResPartner(spec_models.SpecModel):
-
     _name = "res.partner"
     _inherit = [
         "res.partner",
@@ -22,7 +21,6 @@ class ResPartner(spec_models.SpecModel):
         "mdfe.30.autxml",
         "mdfe.30.veicreboque_prop",
         "mdfe.30.veictracao_prop",
-        "mdfe.30.infcontratante",
         "mdfe.30.infresp",
         "mdfe.30.infseg",
     ]
