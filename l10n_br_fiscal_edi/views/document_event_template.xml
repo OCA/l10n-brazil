@@ -103,7 +103,7 @@ row {
         <div class="article">
             <t t-foreach="docs" t-as="doc">
                 <t
-                        t-call="l10n_br_fiscal.report_document_event"
+                        t-call="l10n_br_fiscal_edi.report_document_event"
                         t-lang="doc.document_id.partner_id.lang"
                     />
             </t>
