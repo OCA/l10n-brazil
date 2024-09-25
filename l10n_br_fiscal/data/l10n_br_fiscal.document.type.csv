@@ -31,6 +31,7 @@
 "document_30","30","Bilhete/Recibo do Passageiro","False",,,"icms"
 "document_55","55","Nota Fiscal Eletrônica","True","NFe","nf-e","icms"
 "document_57","57","Conhecimento de Transporte Eletrônico – CT-e","True","CTe","ct-e","icms"
+"document_58","58","Manifesto Eletrônico de Documentos Fiscais","True","MDFe","mdf-e","icms"
 "document_59","59","Cupom Fiscal Eletrônico - CF-e","True","CFe","cf-e","icms"
 "document_60","60","Cupom Fiscal Eletrônico CF-e-ECF","True",,,"icms"
 "document_65","65","Nota Fiscal Eletrônica ao Consumidor Final – NFC-e","True","NFe","nfc-e","icms"
