@@ -60,6 +60,15 @@ class DocumentRelated(models.Model):
 
     document_date = fields.Date(string="Data")
 
+    currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        default=lambda self: self.env.company.currency_id,
+    )
+    document_total_weight = fields.Float(string="Peso Total")
+    document_total_amount = fields.Monetary(
+        string="Valor Total", currency_field="currency_id"
+    )
+
     @api.constrains("document_key")
     def _check_key(self):
         for record in self:
@@ -92,6 +101,8 @@ class DocumentRelated(models.Model):
             return False
 
         self.document_type_id = related.document_type_id
+        self.document_total_amount = related.amount_total
+        self.document_total_weight = related.total_weight
 
         if related.document_type_id.electronic:
             self.document_key = related.document_key
