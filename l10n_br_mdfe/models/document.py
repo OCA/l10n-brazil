@@ -6,15 +6,13 @@ import string
 from enum import Enum
 from unicodedata import normalize
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
 from requests import Session
 
-from odoo import _, api, fields
-from odoo.exceptions import UserError
+from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -59,7 +57,6 @@ def filtered_processador_edoc_mdfe(record):
 
 
 class MDFe(spec_models.StackedModel):
-
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "mdfe.30.tmdfe_infmdfe"]
     _stacked = "mdfe.30.tmdfe_infmdfe"
@@ -474,7 +471,10 @@ class MDFe(spec_models.StackedModel):
         selection=VALEPED_CATEGCOMBVEIC, string="Categoria de Combinação Veicular"
     )
 
-    mdfe30_infContratante = fields.Many2many(comodel_name="res.partner")
+    mdfe30_infContratante = fields.One2many(
+        comodel_name="l10n_br_mdfe.modal.rodoviario.contratante",
+        inverse_name="document_id",
+    )
 
     mdfe30_RNTRC = fields.Char(size=8, string="RNTRC")
 
@@ -518,7 +518,9 @@ class MDFe(spec_models.StackedModel):
     )
 
     mdfe30_lacRodo = fields.One2many(
-        comodel_name="l10n_br_mdfe.transporte.lacre", inverse_name="document_id"
+        comodel_name="l10n_br_mdfe.modal.rodoviario.lacre",
+        inverse_name="document_id",
+        size=3,
     )
 
     mdfe30_UF = fields.Selection(selection=TUF, compute="_compute_rodo_uf")
@@ -604,7 +606,6 @@ class MDFe(spec_models.StackedModel):
     mdfe30_lacres = fields.One2many(
         comodel_name="l10n_br_mdfe.transporte.lacre",
         inverse_name="document_id",
-        related="mdfe30_lacRodo",
     )
 
     ##########################
@@ -747,15 +748,15 @@ class MDFe(spec_models.StackedModel):
         key = "mdfe30_%s" % (attr[0],)  # TODO schema wise
         value = getattr(node, attr[0])
 
-        if attr[0] == "any_element":  # build modal
-            modal_id = self._get_modal_to_build(node.any_element.__module__)
-            if modal_id is False:
-                return
+        # if attr[0] == "any_element":  # build modal
+        #     modal_id = self._get_modal_to_build(node.any_element.__module__)
+        #     if modal_id is False:
+        #         return
 
-            modal_attrs = modal_id.build_attrs(value, path=path)
-            for chave, valor in modal_attrs.items():
-                vals[chave] = valor
-            return
+        #     modal_attrs = modal_id.build_attrs(value, path=path)
+        #     for chave, valor in modal_attrs.items():
+        #         vals[chave] = valor
+        #     return
 
         if key == "mdfe30_mod":
             if isinstance(value, Enum):
@@ -839,27 +840,16 @@ class MDFe(spec_models.StackedModel):
         if self.document_type != MODELO_FISCAL_MDFE:
             return super()._processador()
 
-        certificate = False
-        if self.company_id.sudo().certificate_nfe_id:
-            certificate = self.company_id.sudo().certificate_nfe_id
-        elif self.company_id.sudo().certificate_ecnpj_id:
-            certificate = self.company_id.sudo().certificate_ecnpj_id
+        certificado = self.company_id._get_br_ecertificate()
 
-        if not certificate:
-            raise UserError(_("Certificado não encontrado"))
-
-        certificado = cert.Certificado(
-            arquivo=certificate.file,
-            senha=certificate.password,
-        )
         session = Session()
         session.verify = False
 
         params = {
             "transmissao": TransmissaoSOAP(certificado, session),
+            "uf": self.company_id.state_id.ibge_code,
             "versao": self.mdfe_version,
             "ambiente": self.mdfe_environment,
-            "uf": self.company_id.state_id.ibge_code,
         }
         return edoc_mdfe(**params)
 
@@ -892,6 +882,13 @@ class MDFe(spec_models.StackedModel):
             xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
                 0
             ]
+            # Delete previous authorization events in draft
+            if (
+                record.authorization_event_id
+                and record.authorization_event_id.state == "draft"
+            ):
+                record.sudo().authorization_event_id.unlink()
+
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(

@@ -7,7 +7,6 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 
 class MDFeRelated(spec_models.StackedModel):
-
     _name = "l10n_br_fiscal.document.related"
     _inherit = [
         "l10n_br_fiscal.document.related",

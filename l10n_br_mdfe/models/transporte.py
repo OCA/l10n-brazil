@@ -62,7 +62,7 @@ class MDFeTranportePerigoso(spec_models.SpecModel):
 
 class MDFeLacre(spec_models.SpecModel):
     _name = "l10n_br_mdfe.transporte.lacre"
-    _inherit = ["mdfe.30.lacunidtransp", "mdfe.30.lacunidcarga", "mdfe.30.lacrodo"]
+    _inherit = ["mdfe.30.lacunidtransp", "mdfe.30.lacunidcarga"]
     _description = "Lacre MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
