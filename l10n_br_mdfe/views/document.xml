@@ -7,67 +7,130 @@
         <field name="name">mdfe.document.form.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_fiscal.document</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
-        <field name="mode">primary</field>
+        <field name="priority">5</field>
         <field name="arch" type="xml">
             <xpath
                 expr="//button[@name='action_document_correction']"
                 position="attributes"
             >
-                <attribute name="invisible">1</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
 
             <xpath expr="//page[@name='document_related']" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
 
-            <xpath expr="//page[@name='recipient']" position="attributes">
-                <attribute name="invisible">1</attribute>
+            <xpath expr="//page[@name='partners']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
 
             <xpath expr="//page[@name='products']" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
 
             <xpath expr="//page[@name='finance']" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
 
             <xpath expr="//page[@name='amounts']" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
 
             <xpath expr="//field[@name='edoc_purpose']" position="attributes">
-               <attribute name="invisible">1</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
 
             <xpath expr="//field[@name='ind_final']" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
              </xpath>
 
              <xpath expr="//field[@name='ind_pres']" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
              </xpath>
 
              <xpath expr="//field[@name='fiscal_operation_id']" position="after">
-                <field name="mdfe_emit_type" />
-                <field name="mdfe_transp_type" />
-             </xpath>
+                <field
+                    name="mdfe_emit_type"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+                <field
+                    name="mdfe_transp_type"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+            </xpath>
 
             <xpath expr="//page[@name='delivery']" position="inside">
                 <group>
-                    <field name="mdfe_initial_state_id" />
-                    <field name="mdfe_final_state_id" />
+                    <field
+                        name="mdfe_initial_state_id"
+                        attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                    />
+                    <field
+                        name="mdfe_final_state_id"
+                        attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                    />
                 </group>
 
-                <separator colspan="4" string="Loading Cities" />
-                <field name="mdfe_loading_city_ids" />
+                <separator
+                    colspan="4"
+                    string="Loading Cities"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+                <field
+                    name="mdfe_loading_city_ids"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
 
-                <separator colspan="4" string="Route States" />
-                <field name="mdfe_route_state_ids" />
+                <separator
+                    colspan="4"
+                    string="Route States"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+                <field
+                    name="mdfe_route_state_ids"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
             </xpath>
 
+            <xpath expr="//field[@name='date_in_out']" position="after">
+                <field
+                    name="mdfe30_prodPred"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="nfe_document_edi_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfe_edi.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
+        <field name="arch" type="xml">
             <xpath expr="//page[@name='others']" position="before">
-                <page string="Related Documents">
+                <page
+                    string="Related Documents"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                >
                     <field name="mdfe30_infMunDescarga" nolabel="1">
                         <tree>
                             <field name="state_id" />
@@ -109,8 +172,10 @@
                         </form>
                     </field>
                 </page>
-
-                <page string="Modal">
+                <page
+                    string="Modal"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                >
                     <group>
                         <field name="mdfe_modal" widget="radio" />
                     </group>
@@ -131,16 +196,16 @@
                                         <field name="mdfe30_cInt" />
                                         <field
                                             name="mdfe30_placa"
-                                            attrs="{'required': [('mdfe_modal', '=', '1')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', ['58'])]}"
                                         />
                                         <field name="mdfe30_RENAVAM" />
                                         <field
                                             name="mdfe30_tpCar"
-                                            attrs="{'required': [('mdfe_modal', '=', '1')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', ['58'])]}"
                                         />
                                         <field
                                             name="mdfe30_tpRod"
-                                            attrs="{'required': [('mdfe_modal', '=', '1')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', ['58'])]}"
                                         />
                                         <field name="rodo_vehicle_state_id" />
                                         <field
@@ -157,7 +222,7 @@
                                     <group>
                                         <field
                                             name="mdfe30_tara"
-                                            attrs="{'required': [('mdfe_modal', '=', '1')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', ['58'])]}"
                                         />
                                         <field name="mdfe30_capKG" />
                                         <field name="mdfe30_capM3" />
@@ -350,7 +415,10 @@
                         </notebook>
                     </group>
                 </page>
-                <page string="Seguros da Carga">
+                <page
+                    string="Seguros da Carga"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                >
                     <field name="mdfe30_seg" nolabel="1" required="1">
                         <tree>
                             <field name="mdfe30_infResp" />
@@ -370,8 +438,11 @@
                         </form>
                     </field>
                 </page>
-                <page string="Totais">
-                    <group>
+                <page
+                    string="Totais"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                >
+                    <!-- <group>
                         <group>
                             <field name="mdfe30_cUnid" />
                             <field name="mdfe30_qCarga" />
@@ -382,14 +453,13 @@
                             <field name="mdfe30_qNFe" />
                             <field name="mdfe30_qMDFe" />
                         </group>
-                    </group>
+                    </group> -->
                 </page>
             </xpath>
 
-            <xpath expr="//field[@name='date_in_out']" position="after">
-                <field name="mdfe30_prodPred" />
-            </xpath>
         </field>
     </record>
+
+
 
 </odoo>
