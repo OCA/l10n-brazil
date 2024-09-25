@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="mdfe_product_product_form_view" model="ir.ui.view">
+        <field name="name">mdfe.product.product.form (in l10n_br_mdfe)</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="MDFe">
+                    <group>
+                        <field name="mdfe30_tpCarga" />
+                        <field name="mdfe30_infLotacao" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_lotacao_form_view" model="ir.ui.view">
+        <field name="name">product.lotacao.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.product.lotacao</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="mdfe30_infLocalCarrega" />
+                        <field name="mdfe30_infLocalDescarrega" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_lotacao_local_form_view" model="ir.ui.view">
+        <field name="name">product.lotacao.local.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.product.lotacao.local</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="local_type" />
+                        <field
+                            name="mdfe30_CEP"
+                            attrs="{'invisible': [('local_type', '!=', 'CEP')]}"
+                        />
+                        <field
+                            name="mdfe30_latitude"
+                            attrs="{'invisible': [('local_type', '!=', 'coord')]}"
+                        />
+                        <field
+                            name="mdfe30_longitude"
+                            attrs="{'invisible': [('local_type', '!=', 'coord')]}"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

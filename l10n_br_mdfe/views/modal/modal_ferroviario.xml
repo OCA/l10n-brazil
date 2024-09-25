@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="modal_ferroviario_vagao_tree_view" model="ir.ui.view">
+        <field name="name">modal.ferroviario.vagao.tree.view</field>
+        <field name="model">l10n_br_mdfe.modal.ferroviario.vagao</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_nVag" />
+                <field name="mdfe30_tpVag" />
+                <field name="mdfe30_serie" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_ferroviario_vagao_form_view" model="ir.ui.view">
+        <field name="name">modal.ferroviario.vagao.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.ferroviario.vagao</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="mdfe30_nVag" />
+                            <field name="mdfe30_tpVag" />
+                            <field name="mdfe30_serie" />
+                            <field name="mdfe30_nSeq" />
+                        </group>
+                        <group>
+                            <field name="mdfe30_pesoBC" />
+                            <field name="mdfe30_pesoR" />
+                            <field name="mdfe30_TU" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
