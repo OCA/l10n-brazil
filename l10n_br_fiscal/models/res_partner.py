@@ -2,7 +2,7 @@
 # Copyright (C) 2020 - TODAY Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 from ..constants.fiscal import (
     FINAL_CUSTOMER,
@@ -136,3 +136,9 @@ class ResPartner(models.Model):
             "inscr_est",
             "inscr_mun",
         ]
+
+    @api.constrains("is_anonymous_consumer")
+    def _check_anonymous_consumer(self):
+        for p in self:
+            if p.is_anonymous_consumer and p.cnpj_cpf:
+                raise ValueError(_("Anonymous consumer cannot have a CNPJ/CPF number."))
