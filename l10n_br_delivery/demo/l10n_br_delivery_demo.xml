@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!--
+    Transportadora res.partner
+    -->
+    <record id="test_carrier" model="res.partner">
+        <field name="name">Transportadora - Teste</field>
+        <field name="legal_name">Transportadora - Teste</field>
+        <field name="cnpj_cpf">21.221.265/0001-90</field>
+        <field name="street_name">Estrada do Caminho Velho</field>
+        <field name="street_number">1</field>
+        <field name="district">Jardim Nova Cidade</field>
+        <field name="street2" />
+        <field name="state_id" ref="base.state_br_sp" />
+        <field name="city_id" ref="l10n_br_base.city_3518800" />
+        <field name="zip">07252-312</field>
+        <field name="country_id" ref="base.br" />
+        <field name="website">www.transportadora.com.br</field>
+        <field name="phone">(11) 9999-9999</field>
+        <field name="email">teste@teste.com.br</field>
+        <field name="inscr_est">115.106.496.207</field>
+        <field name="is_company" eval="1" />
+        <field name="active" eval="1" />
+    </record>
+
+    <!-- Dados do Veículo -->
+    <record
+        id="test_l10n_br_delivery_carrier_vehicle_1"
+        model="l10n_br_delivery.carrier.vehicle"
+    >
+        <field name="name">Teste - Veículo da Transportadora 1</field>
+        <field name="description">Teste - Veículo da Transportadora 1</field>
+        <field name="plate">ABC1234</field>
+        <field name="driver">Teste - Motorista 1</field>
+        <field name="rntc_code">Teste - Codigo RTNC 1</field>
+        <field name="country_id" ref="base.br" />
+        <field name="state_id" ref="base.state_br_sp" />
+        <field name="city_id" ref="l10n_br_base.city_3518800" />
+        <field name="active" eval="1" />
+        <field name="manufacture_year">2000</field>
+        <field name="model_year">2001</field>
+        <field name="type">bau</field>
+    </record>
+
+    <record
+        id="test_l10n_br_delivery_carrier_vehicle_2"
+        model="l10n_br_delivery.carrier.vehicle"
+    >
+        <field name="name">Teste - Veículo da Transportadora 2</field>
+        <field name="description">Teste - Veículo da Transportadora 2</field>
+        <field name="plate">DEF5678</field>
+        <field name="driver">Teste - Motorista 2</field>
+        <field name="rntc_code">Teste - Codigo RTNC 2</field>
+        <field name="country_id" ref="base.br" />
+        <field name="state_id" ref="base.state_br_sp" />
+        <field name="city_id" ref="l10n_br_base.city_3518800" />
+        <field name="active" eval="1" />
+        <field name="manufacture_year">2010</field>
+        <field name="model_year">2011</field>
+        <field name="type">bau</field>
+    </record>
+
+    <!-- Metodo de Entrega -->
+    <record id="test_br_delivery_carrier" model="delivery.carrier">
+        <field name="name">Teste - l10n_br_delivery</field>
+        <field name="fixed_price">10.0</field>
+        <field name="sequence">3</field>
+        <field name="delivery_type">fixed</field>
+        <field name="product_id" ref="delivery.product_product_delivery_normal" />
+        <field name="partner_id" ref="test_carrier" />
+        <field name="antt_code">Teste - Código ANTT</field>
+        <field
+            name="vehicle_ids"
+            eval="[(6,0,[ref('test_l10n_br_delivery_carrier_vehicle_1'),
+            ref('test_l10n_br_delivery_carrier_vehicle_2'),
+            ])]"
+        />
+    </record>
+
+    <!-- Resource: stock.inventory -->
+
+    <record id="l10n_br_delivery_stock_inventory_0" model="stock.inventory">
+        <field name="name">Starting Inventory - l10n_br_delivery</field>
+        <field name="state">confirm</field>
+    </record>
+
+    <!-- Resource: stock.inventory.line -->
+
+    <record id="l10n_br_delivery_stock_inventory_line_1" model="stock.inventory.line">
+        <field name="product_id" ref="product.product_delivery_01" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
+        <field name="inventory_id" ref="l10n_br_delivery_stock_inventory_0" />
+        <field name="product_qty">100</field>
+        <field name="location_id" ref="stock.stock_location_stock" />
+    </record>
+
+    <record id="l10n_br_delivery_stock_inventory_line_2" model="stock.inventory.line">
+        <field name="product_id" ref="product.product_delivery_02" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
+        <field name="inventory_id" ref="l10n_br_delivery_stock_inventory_0" />
+        <field name="product_qty">100</field>
+        <field name="location_id" ref="stock.stock_location_stock" />
+    </record>
+
+    <function model="stock.inventory" name="action_validate">
+        <function
+            eval="[[('state','=','draft'),('id', '=', ref('l10n_br_delivery_stock_inventory_0'))]]"
+            model="stock.inventory"
+            name="search"
+        />
+    </function>
+
+    <!-- Physical Products -->
+    <!-- Office Chair -->
+    <record id="product.product_delivery_01" model="product.product">
+        <field name="weight">3.0</field>
+        <field name="volume">1</field>
+    </record>
+
+    <!-- Office Lamp -->
+    <record id="product.product_delivery_02" model="product.product">
+        <field name="weight">3.0</field>
+        <field name="volume">1</field>
+    </record>
+
+</odoo>
