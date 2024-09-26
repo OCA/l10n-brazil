@@ -188,6 +188,7 @@ class AccountPaymentLine(models.Model):
                     # Casos mapeados que enviam Zero para quando não tem valor
                     discount_code = "0"
 
-            linhas_pagamentos["cod_desconto"] = discount_code
+            if discount_code:
+                linhas_pagamentos["cod_desconto"] = discount_code
 
         return linhas_pagamentos
