@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: L10n-brazil 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-11 18:06+0000\n"
+"PO-Revision-Date: 2024-09-26 14:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -1043,7 +1043,7 @@ msgstr "Ajuste"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_operation_type__all
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_search
 msgid "All"
-msgstr "Tudo"
+msgstr "Todos"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_email_action
