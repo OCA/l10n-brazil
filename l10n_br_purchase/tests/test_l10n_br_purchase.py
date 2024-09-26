@@ -262,17 +262,20 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             self.assertEqual(
                 order.amount_freight_value,
                 invoice.amount_freight_value,
-                "Error field Amount Freight in Invoice are different from Purchase Order.",
+                "Error field Amount Freight in Invoice are different from "
+                "Purchase Order.",
             )
             self.assertEqual(
                 order.amount_insurance_value,
                 invoice.amount_insurance_value,
-                "Error field Amount Insurance in Invoice are different from Purchase Order.",
+                "Error field Amount Insurance in Invoice are different from "
+                "Purchase Order.",
             )
             self.assertEqual(
                 order.amount_other_value,
                 invoice.amount_other_value,
-                "Error field Amount Other Values in Invoice are different from Purchase Order.",
+                "Error field Amount Other Values in Invoice are different from "
+                "Purchase Order.",
             )
 
             for line in invoice.invoice_line_ids:
@@ -590,7 +593,9 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             )
 
     def test_compatible_with_international_case(self):
-        """Test of compatible with international case, create Invoice but not for Brazil."""
+        """
+        Test of compatible with international case, create Invoice but not for Brazil.
+        """
         po_international = self.env.ref("purchase.purchase_order_1")
         self._run_purchase_order_onchanges(po_international)
         for line in po_international.order_line:

@@ -82,7 +82,8 @@ class Document(models.Model):
             rps = rps.encode("utf-8")
         if not isinstance(rps, bytes):
             raise ValueError(
-                "O conteúdo fornecido para a codificação base64 não está em formato de bytes."
+                "O conteúdo fornecido para a codificação base64 não está em formato"
+                " de bytes."
             )
 
         rps = base64.b64encode(rps)

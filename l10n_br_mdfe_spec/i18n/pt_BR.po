@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-07-29 17:58+0000\n"
+"PO-Revision-Date: 2024-09-26 14:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -1596,7 +1596,7 @@ msgstr ""
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infprot__mdfe30_Id
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infembcomb__mdfe30_xBalsa

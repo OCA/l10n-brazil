@@ -26,7 +26,7 @@ class AccountInvoice(models.Model):
     def _compute_financial(self):
         for move in self:
             lines = move.line_ids.filtered(
-                lambda l: l.account_id.internal_type in ("receivable", "payable")
+                lambda line: line.account_id.internal_type in ("receivable", "payable")
             )
             move.financial_move_line_ids = lines.sorted()
 

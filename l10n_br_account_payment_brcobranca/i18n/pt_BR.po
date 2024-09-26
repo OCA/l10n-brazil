@@ -59,6 +59,11 @@ msgid "CNAB 400"
 msgstr "CNAB 400"
 
 #. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_l10n_br_cnab_config
+msgid "CNAB Config"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__cnab_returned_ref
 msgid "CNAB Returned Reference"
 msgstr "Referência Retornada CNAB"
@@ -77,9 +82,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -93,9 +98,9 @@ msgstr "Habilitar reconciliação do retorno de pagamento automático."
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config__id
 msgid "ID"
 msgstr "ID"
 
@@ -140,9 +145,9 @@ msgstr "Item de Diário"
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
 
@@ -167,11 +172,6 @@ msgid "Payment Lines"
 msgstr "Linhas de Pagamento"
 
 #. module: l10n_br_account_payment_brcobranca
-#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_mode
-msgid "Payment Modes"
-msgstr "Modos de Pagamento"
-
-#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_order
 msgid "Payment Order"
 msgstr "Ordem de Pagamento"
@@ -179,8 +179,8 @@ msgstr "Ordem de Pagamento"
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
-msgid "Statement import error The statement cannot be created: %s"
-msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
+msgid "Statement import error The statement cannot be created: %(st)s"
+msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
@@ -200,6 +200,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr "Tipo de importação"
+
+#~ msgid "Payment Modes"
+#~ msgstr "Modos de Pagamento"
+
+#, python-format
+#~ msgid "Statement import error The statement cannot be created: %s"
+#~ msgstr "Erro de importação de extrato. O extrato não pode ser criado: %s"
 
 #, python-format
 #~ msgid "The Bank {} CNAB {} is not implemented in BRCobranca."

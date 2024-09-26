@@ -15,7 +15,8 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
-from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce, NFeAdapter as edoc_nfe
+from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
+from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.models.datatype import XmlDateTime
@@ -399,6 +400,19 @@ class NFe(spec_models.StackedModel):
         for doc in self:  # TODO if out
             doc.nfe40_emit = doc.company_id
 
+    def _set_nfe40_IEST(self):
+        self.ensure_one()
+        iest = ""
+        if self.partner_id:
+            dest_state_id = self.partner_id.state_id
+            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
+                stn_id = self.company_id.state_tax_number_ids.filtered(
+                    lambda stn: stn.state_id == dest_state_id
+                )
+                iest = stn_id.inscr_est
+                iest = re.sub("[^0-9]+", "", iest)
+        self.company_inscr_est_st = iest
+
     ##########################
     # NF-e tag: dest
     ##########################
@@ -431,19 +445,6 @@ class NFe(spec_models.StackedModel):
                 doc.nfe40_dest = None
             else:
                 doc.nfe40_dest = doc.partner_id
-            doc._set_nfe40_IEST()
-
-    def _set_nfe40_IEST(self):
-        self.ensure_one()
-        iest = ""
-        if self.partner_id:
-            dest_state_id = self.partner_id.state_id
-            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
-                stn_id = self.company_id.state_tax_number_ids.filtered(
-                    lambda stn: stn.state_id == dest_state_id
-                )
-                iest = stn_id.inscr_est
-        self.company_inscr_est_st = iest
 
     ##########################
     # NF-e tag: entrega
@@ -701,6 +702,17 @@ class NFe(spec_models.StackedModel):
                 ):
                     return False
 
+        if (
+            field_name == "nfe40_emit"
+            and self.fiscal_operation_type == "out"
+            and self.issuer == "company"
+        ):
+            self._set_nfe40_IEST()
+            res = super()._export_many2one(field_name, xsd_required, class_obj)
+            if self.company_inscr_est_st:
+                res.IEST = self.company_inscr_est_st
+            return res
+
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def _export_one2many(self, field_name, class_obj=None):
@@ -722,7 +734,7 @@ class NFe(spec_models.StackedModel):
         }
 
     def _build_attr(self, node, fields, vals, path, attr):
-        key = "nfe40_%s" % (attr[0],)  # TODO schema wise
+        key = f"nfe40_{attr[0]}"  # TODO schema wise
         value = getattr(node, attr[0])
 
         if key == "nfe40_mod":
@@ -855,7 +867,8 @@ class NFe(spec_models.StackedModel):
                 ):
                     raise ValidationError(
                         _(
-                            "The document date does not match the date in the document key."
+                            "The document date does not match the date in the document "
+                            "key."
                         )
                     )
 
@@ -1055,7 +1068,7 @@ class NFe(spec_models.StackedModel):
                 # autorizado, podendo perder dados.
                 # Se der problema que apareça quando
                 # o usuário clicar no gerar PDF novamente.
-                _logger.error("DANFE Error \n {}".format(e))
+                _logger.error(f"DANFE Error \n {e}")
         return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
@@ -1351,7 +1364,8 @@ class NFe(spec_models.StackedModel):
             if not justificative or len(justificative) < 15:
                 raise ValidationError(
                     _(
-                        "Please enter a justification that is at least 15 characters long."
+                        "Please enter a justification that is at least 15 characters "
+                        "long."
                     )
                 )
         result = super()._document_cancel(justificative)

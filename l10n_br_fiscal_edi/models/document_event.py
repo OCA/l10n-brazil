@@ -242,7 +242,7 @@ class Event(models.Model):
             if not os.path.exists(save_dir):
                 os.makedirs(save_dir)
             f = open(file_path, "w")
-        except IOError as e:
+        except OSError as e:
             raise UserError(
                 _("Erro!"),
                 _(
@@ -388,5 +388,5 @@ class Event(models.Model):
 
     def print_document_event(self):
         return self.env.ref(
-            "l10n_br_fiscal.action_report_document_event"
+            "l10n_br_fiscal_edi.action_report_document_event"
         ).report_action(self)

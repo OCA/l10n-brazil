@@ -9,5 +9,5 @@ class CFOP(models.Model):
 
     is_pos = fields.Boolean(
         string="Allowed at the POS",
-        help="""Check this selection so that the CFOP can be used at the Point of Sale.""",
+        help="Check this selection so that the CFOP can be used at the Point of Sale.",
     )

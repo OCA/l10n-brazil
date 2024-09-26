@@ -1,19 +1,16 @@
-# Copyright (C) 2012-Today - KMEE (<http://kmee.com.br>).
-#  @author Luis Felipe Miléo - mileo@kmee.com.br
-#  @author Renato Lima - renato.lima@akretion.com.br
-# Copyright (C) 2021-Today - Akretion (<http://www.akretion.com>).
+# Copyright (C) 2024-Today - Akretion (<http://www.akretion.com>).
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, models
 
 
-class AccountPaymentMode(models.Model):
+class L10nBRCNABConfig(models.Model):
     """
-    Override Account Payment Mode
+    Override CNAB Config
     """
 
-    _inherit = "account.payment.mode"
+    _inherit = "l10n_br_cnab.config"
 
     @api.model
     def _selection_cnab_processor(self):

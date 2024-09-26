@@ -545,7 +545,7 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: code:addons/l10n_br_fiscal_edi/wizards/document_import_wizard_mixin.py:0
 #, python-format
-msgid "Invalid file: %s"
+msgid "Invalid file!"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi

@@ -124,7 +124,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             icms_regulation_id=cls.env.ref("l10n_br_fiscal.tax_icms_regulation").id,
             cnae_main_id=cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
             document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
-            **kwargs
+            **kwargs,
         )
         res["company"].partner_id.state_id = cls.env.ref("base.state_br_sp").id
         res["company"].partner_id.cnpj_cpf = cnpj
@@ -1785,3 +1785,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         document_id.action_document_back2draft()
         self.assertEqual(self.move_out_venda.state, "draft")
         self.assertEqual(document_id.state, "em_digitacao")
+
+    def test_document_deny(self):
+        document_id = self.move_out_venda.fiscal_document_id
+        self.assertEqual(self.move_out_venda.state, "draft")
+        document_id.exec_after_SITUACAO_EDOC_DENEGADA("em_digitacao", "denegada")
+        self.assertEqual(self.move_out_venda.state, "cancel")

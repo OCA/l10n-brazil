@@ -36,7 +36,8 @@ def delete_payments_created_from_payment_orders(env):
     openupgrade.logged_query(
         env.cr,
         """
-        DELETE FROM account_payment WHERE payment_order_id IS NOT NULL AND payment_method_id IN
+        DELETE FROM account_payment
+        WHERE payment_order_id IS NOT NULL AND payment_method_id IN
         (SELECT id FROM account_payment_method WHERE code IN ('240', '400', '500'));
         """,
     )

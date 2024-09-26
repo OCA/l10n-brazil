@@ -9,7 +9,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_NFE,
     SITUACAO_EDOC_EM_DIGITACAO,
 )
 
@@ -123,10 +126,10 @@ class FiscalDocument(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         """
-        It's not allowed to create a fiscal document line without a document_type_id anyway.
-        But instead of letting Odoo crash in this case we simply avoid creating the
-        record. This makes it possible to create an account.move without
-        a fiscal_document_id despite the _inherits system:
+        It's not allowed to create a fiscal document line without a document_type_id
+        anyway. But instead of letting Odoo crash in this case we simply avoid creating
+        the record. This makes it possible to create an account.move without a
+        fiscal_document_id despite the _inherits system:
         Odoo will write NULL as the value in this case.
         """
         if self._context.get("create_from_move"):
@@ -158,16 +161,24 @@ class FiscalDocument(models.Model):
 
     def _document_cancel(self, justificative):
         result = super()._document_cancel(justificative)
-        msg = "Cancelamento: {}".format(justificative)
+        msg = f"Cancelamento: {justificative}"
         self.cancel_move_ids()
         self.message_post(body=msg)
         return result
 
     def _document_correction(self, justificative):
         result = super()._document_correction(justificative)
-        msg = "Carta de correção: {}".format(justificative)
+        msg = f"Carta de correção: {justificative}"
         self.message_post(body=msg)
         return result
+
+    def _document_deny(self):
+        msg = _(
+            "Canceled due to the denial of document %(document_number)s",
+            document_number=self.document_number,
+        )
+        self.cancel_move_ids()
+        self.message_post(body=msg)
 
     def action_document_confirm(self):
         result = super().action_document_confirm()
@@ -186,3 +197,13 @@ class FiscalDocument(models.Model):
         if self.move_ids:
             self.move_ids._edoc_subscribe()
         return
+
+    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
+        self.ensure_one()
+        models_cancel_on_deny = [MODELO_FISCAL_NFE, MODELO_FISCAL_CTE]
+        if (
+            self.document_type_id.code in models_cancel_on_deny
+            and self.issuer == DOCUMENT_ISSUER_COMPANY
+        ):
+            self._document_deny()
+        return super().exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
