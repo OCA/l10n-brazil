@@ -58,7 +58,7 @@ class SaleOrder(models.Model):
 
     ie = fields.Char(
         string="State Tax Number/RG",
-        related="partner_id.inscr_est",
+        related="partner_id.l10n_br_ie_code",
     )
 
     discount_rate = fields.Float(
