@@ -770,7 +770,7 @@ msgid "Company Main CNAE"
 msgstr "CNAE Principal da Empresa"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_l10n_br_im_code
 msgid "Company Municipal Tax Number"
 msgstr "Número de Inscrição Municipal da Empresa"
 
@@ -2983,7 +2983,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_l10n_br_im_code
 msgid "Municipal Tax Number"
 msgstr "Numero Inscrição Municipal"
 
