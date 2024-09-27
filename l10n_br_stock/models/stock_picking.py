@@ -9,4 +9,6 @@ class StockPicking(models.Model):
 
     cnpj_cpf = fields.Char(string="CNPJ/CPF", related="partner_id.cnpj_cpf")
     legal_name = fields.Char(string="Legal Name", related="partner_id.legal_name")
-    inscr_est = fields.Char(string="State Tax Number", related="partner_id.inscr_est")
+    l10n_br_ie_code = fields.Char(
+        string="State Tax Number", related="partner_id.l10n_br_ie_code"
+    )

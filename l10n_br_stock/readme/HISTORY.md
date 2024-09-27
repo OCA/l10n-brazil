@@ -1,6 +1,6 @@
 ## 14.0.2.0.0 (2022-06-07)
 
-- \[REF\] Renomeado campo Inscrição Estadual de ie para inscr_est.
+- \[REF\] Renomeado campo Inscrição Estadual de ie para l10n_br_ie_code.
 
 ## 14.0.1.0.0 (2021-12-31)
 

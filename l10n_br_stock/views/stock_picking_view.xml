@@ -8,7 +8,7 @@
             <field name="name" position="after">
                 <field name="legal_name" />
                 <field name="cnpj_cpf" />
-                <field name="inscr_est" />
+                <field name="l10n_br_ie_code" />
             </field>
         </field>
     </record>
