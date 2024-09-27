@@ -1248,7 +1248,7 @@ msgid "Mother Name"
 msgstr "Nome da mãe"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__l10n_br_im_code
 msgid "Municipal Tax Number"
 msgstr "Número da Inscrição Municipal"
 
