@@ -42,9 +42,9 @@ class DocumentMoveMixin(models.AbstractModel):
         related="partner_id.ind_ie_dest",
     )
 
-    partner_inscr_mun = fields.Char(
+    partner_l10n_br_im_code = fields.Char(
         string="Municipal Tax Number",
-        related="partner_id.inscr_mun",
+        related="partner_id.l10n_br_im_code",
     )
 
     partner_suframa = fields.Char(
@@ -145,9 +145,9 @@ class DocumentMoveMixin(models.AbstractModel):
         related="company_id.inscr_est",
     )
 
-    company_inscr_mun = fields.Char(
+    company_l10n_br_im_code = fields.Char(
         string="Company Municipal Tax Number",
-        related="company_id.inscr_mun",
+        related="company_id.l10n_br_im_code",
     )
 
     company_suframa = fields.Char(

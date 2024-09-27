@@ -316,7 +316,7 @@
                   <field name="company_district" readonly="1" />
                 </group>
                 <group name="company_right">
-                  <field name="company_inscr_mun" readonly="1" />
+                  <field name="company_l10n_br_im_code" readonly="1" />
                   <field name="company_suframa" readonly="1" />
                   <field name="company_cnae_main_id" readonly="1" />
                   <field name="company_tax_framework" readonly="1" />
@@ -345,7 +345,7 @@
                   <field name="partner_district" readonly="1" />
                 </group>
                 <group name="partner_right">
-                  <field name="partner_inscr_mun" readonly="1" />
+                  <field name="partner_l10n_br_im_code" readonly="1" />
                   <field name="partner_suframa" readonly="1" />
                   <field name="partner_cnae_main_id" readonly="1" />
                   <field name="partner_tax_framework" readonly="1" />
