@@ -11,7 +11,7 @@
                 <field name="cnpj" invisible="1" />
                 <field name="inscr_est" invisible="1" />
                 <field name="inscr_mun" invisible="1" />
-                <field name="suframa" invisible="1" />
+                <field name="l10n_br_isuf_code" invisible="1" />
                 <field name="name_surname" invisible="1" />
                 <field name="cpf" invisible="1" />
                 <field name="rg" invisible="1" />

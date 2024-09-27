@@ -138,7 +138,7 @@ msgid "Street Number"
 msgstr "Número"
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__suframa
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_isuf_code
 msgid "Suframa"
 msgstr "Suframa"
 

@@ -53,7 +53,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
-                    name="suframa"
+                    name="l10n_br_isuf_code"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>
@@ -84,7 +84,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
-                    name="suframa"
+                    name="l10n_br_isuf_code"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>
