@@ -87,4 +87,4 @@ class TestSintegra(TransactionCase):
             self.env["partner.search.wizard"].with_context(**wizard_context).create({})
         ).save()
         wizard.action_update_partner()
-        self.assertEqual(dummy.inscr_est, "149848403115")
+        self.assertEqual(dummy.l10n_br_ie_code, "149848403115")

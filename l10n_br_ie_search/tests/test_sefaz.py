@@ -131,4 +131,4 @@ class TestSefaz(TransactionCase):
                 .create({})
             ).save()
             wizard.action_update_partner()
-            self.assertEqual(dummy.inscr_est, "528388258640")
+            self.assertEqual(dummy.l10n_br_ie_code, "528388258640")
