@@ -49,7 +49,7 @@ class PartyMixin(models.AbstractModel):
         unaccent=False,
     )
 
-    suframa = fields.Char(
+    l10n_br_isuf_code = fields.Char(
         size=18,
         unaccent=False,
     )

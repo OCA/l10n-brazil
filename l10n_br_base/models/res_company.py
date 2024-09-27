@@ -23,7 +23,7 @@ class Company(models.Model):
             "inscr_mun",
             "district",
             "city_id",
-            "suframa",
+            "l10n_br_isuf_code",
             "state_tax_number_ids",
             "street_number",
             "street_name",
@@ -82,10 +82,10 @@ class Company(models.Model):
         for company in self:
             company.partner_id.city_id = company.city_id
 
-    def _inverse_suframa(self):
+    def _inverse_l10n_br_isuf_code(self):
         """Write the l10n_br specific functional fields."""
         for company in self:
-            company.partner_id.suframa = company.suframa
+            company.partner_id.l10n_br_isuf_code = company.l10n_br_isuf_code
 
     legal_name = fields.Char(
         compute="_compute_address",
@@ -138,9 +138,9 @@ class Company(models.Model):
         inverse="_inverse_inscr_mun",
     )
 
-    suframa = fields.Char(
+    l10n_br_isuf_code = fields.Char(
         compute="_compute_address",
-        inverse="_inverse_suframa",
+        inverse="_inverse_l10n_br_isuf_code",
     )
 
     @api.model

@@ -23390,10 +23390,10 @@ msgid "Sud Mennucci"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__suframa
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__suframa
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__suframa
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__suframa
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_isuf_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_isuf_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_isuf_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_isuf_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "Suframa"
 msgstr ""

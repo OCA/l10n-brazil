@@ -95,7 +95,7 @@
                                 attrs="{'invisible': [('is_company','!=', True)]}"
                             />
                             <field
-                                name="suframa"
+                                name="l10n_br_isuf_code"
                                 attrs="{'invisible': [('is_company','!=', True)]}"
                             />
                             <field
