@@ -107,7 +107,7 @@ class Document(models.Model):
             cidade_ibge=int(self.company_id.partner_id.city_id.ibge_code),
             cnpj_prestador=misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf),
             im_prestador=misc.punctuation_rm(
-                self.company_id.partner_id.inscr_mun or ""
+                self.company_id.partner_id.l10n_br_im_code or ""
             ),
         )
 
@@ -239,7 +239,7 @@ class Document(models.Model):
         return {
             "cnpj": misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf),
             "inscricao_municipal": misc.punctuation_rm(
-                self.company_id.partner_id.inscr_mun or ""
+                self.company_id.partner_id.l10n_br_im_code or ""
             )
             or None,
             "id": "rps" + str(num_rps),
