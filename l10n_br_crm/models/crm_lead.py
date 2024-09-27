@@ -178,7 +178,7 @@ class Lead(models.Model):
             values.update(
                 {
                     "cnpj_cpf": self.cpf,
-                    "inscr_est": self.incr_est,
+                    "inscr_est": self.inscr_est,
                     "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
             )
