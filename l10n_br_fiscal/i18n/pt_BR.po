@@ -1944,8 +1944,8 @@ msgid "Company State"
 msgstr "Estado da Empresa"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_inscr_est
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_inscr_est
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__company_l10n_br_ie_code
 msgid "Company State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
@@ -5162,7 +5162,7 @@ msgid "Input"
 msgstr "Entrada"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__l10n_br_ie_code
 msgid "Inscr. Estadual/RG"
 msgstr "O Inscr. Estadual/RG"
 
@@ -7696,10 +7696,10 @@ msgid "State"
 msgstr "Estado"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_inscr_est
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__partner_inscr_est
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_move_mixin__partner_l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr "Número do Imposto Estadual/RG"
 

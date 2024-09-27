@@ -56,7 +56,7 @@ class DocumentRelated(models.Model):
         default="cnpj",
     )
 
-    inscr_est = fields.Char(string="Inscr. Estadual/RG", size=16)
+    l10n_br_ie_code = fields.Char(string="Inscr. Estadual/RG", size=16)
 
     document_date = fields.Date(string="Data")
 
@@ -78,11 +78,14 @@ class DocumentRelated(models.Model):
         for record in self:
             check_cnpj_cpf(record.env, record.cnpj_cpf, self.env.ref("base.br"))
 
-    @api.constrains("inscr_est", "state_id")
+    @api.constrains("l10n_br_ie_code", "state_id")
     def _check_ie(self):
         for record in self:
             check_ie(
-                record.env, record.inscr_est, record.state_id, self.env.ref("base.br")
+                record.env,
+                record.l10n_br_ie_code,
+                record.state_id,
+                self.env.ref("base.br"),
             )
 
     @api.onchange("document_related_id")
@@ -101,7 +104,7 @@ class DocumentRelated(models.Model):
             self.cnpj_cpf = False
             self.cpfcnpj_type = False
             self.document_date = False
-            self.inscr_est = False
+            self.l10n_br_ie_code = False
 
         if related.document_type_id.code in ("01", "04"):
             self.access_key = False
@@ -124,8 +127,8 @@ class DocumentRelated(models.Model):
             self.document_date = related.document_date
 
         if related.document_type_id.code == "04":
-            self.inscr_est = (
-                related.partner_id and related.partner_id.inscr_est or False
+            self.l10n_br_ie_code = (
+                related.partner_id and related.partner_id.l10n_br_ie_code or False
             )
 
     @api.onchange("cnpj_cpf", "cpfcnpj_type")

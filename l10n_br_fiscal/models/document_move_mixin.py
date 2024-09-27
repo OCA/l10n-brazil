@@ -32,9 +32,9 @@ class DocumentMoveMixin(models.AbstractModel):
         related="partner_id.cnpj_cpf",
     )
 
-    partner_inscr_est = fields.Char(
+    partner_l10n_br_ie_code = fields.Char(
         string="State Tax Number",
-        related="partner_id.inscr_est",
+        related="partner_id.l10n_br_ie_code",
     )
 
     partner_ind_ie_dest = fields.Selection(
@@ -140,9 +140,9 @@ class DocumentMoveMixin(models.AbstractModel):
         related="company_id.cnpj_cpf",
     )
 
-    company_inscr_est = fields.Char(
+    company_l10n_br_ie_code = fields.Char(
         string="Company State Tax Number",
-        related="company_id.inscr_est",
+        related="company_id.l10n_br_ie_code",
     )
 
     company_inscr_mun = fields.Char(
