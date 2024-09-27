@@ -13,7 +13,7 @@
                 <field name="legal_name" />
                 <field
                     name="cnpj_cpf"
-                    filter_domain="['|', ('cnpj_cpf', 'ilike', self), ('cnpj_cpf_stripped', 'ilike', self)]"
+                    filter_domain="['|', ('vat', 'ilike', self), ('cnpj_cpf_stripped', 'ilike', self)]"
                 />
             </field>
         </field>

@@ -177,18 +177,17 @@ class ValidCreateIdTest(TransactionCase):
                 self.partner_invalid_cpf
             )
 
-    def test_vat_computation_with_cnpj(self):
-        """Test VAT computation for a br partner with CNPJ"""
+    def test_vat_computation_with_cpf(self):
+        """Test vat computation for a br partner with CPF"""
         partner = (
             self.env["res.partner"]
             .with_context(tracking_disable=True)
             .create(self.partner_valid)
         )
-        partner._compute_vat_from_cnpj_cpf()
         self.assertEqual(
             partner.vat,
             self.partner_valid["cnpj_cpf"],
-            "VAT should be equal to CNPJ for a br partner",
+            "vat should be equal to CPF for a br partner",
         )
 
     def test_vat_computation_without_cnpj(self):
@@ -200,7 +199,6 @@ class ValidCreateIdTest(TransactionCase):
             .with_context(tracking_disable=True)
             .create(partner_data)
         )
-        partner._compute_vat_from_cnpj_cpf()
         self.assertFalse(
             partner.vat, "VAT should be False for a br partner without CNPJ"
         )
@@ -212,7 +210,6 @@ class ValidCreateIdTest(TransactionCase):
             .with_context(tracking_disable=True)
             .create(self.partner_outside_br)
         )
-        partner._compute_vat_from_cnpj_cpf()
         self.assertEqual(
             partner.vat,
             "123456789",
@@ -228,12 +225,12 @@ class ValidCreateIdTest(TransactionCase):
             .with_context(tracking_disable=True)
             .create(partner_data)
         )
-        partner._compute_vat_from_cnpj_cpf()
         self.assertFalse(partner.vat, "VAT should be False as registered")
 
     def test_vat_computation_with_company_name_and_vat(self):
         """Test VAT computation for a br partner with company_name and vat"""
         partner_data = self.partner_valid.copy()
+        partner_data.pop("cnpj_cpf")
         partner_data.update(
             {
                 "company_name": "Company Partner",
@@ -245,8 +242,7 @@ class ValidCreateIdTest(TransactionCase):
             .with_context(tracking_disable=True)
             .create(partner_data)
         )
-        partner._compute_vat_from_cnpj_cpf()
-        self.assertEqual(
+        self.assertEqual(  # FIXME
             partner.vat,
             "93.429.799/0001-17",
             "The VAT must be the same as what was registered",
@@ -273,11 +269,6 @@ class ValidCreateIdTest(TransactionCase):
             company.legal_name,
             company.name,
             "The legal name must be the same as the company name",
-        )
-        self.assertEqual(
-            company.cnpj_cpf,
-            company.vat,
-            "The company CNPJ_CPF must be the same as the company VAT",
         )
         self.assertEqual(
             company.cnpj_cpf,
@@ -316,7 +307,6 @@ class ValidCreateIdTest(TransactionCase):
             partner.vat,
             "The company CNPJ_CPF must be the same as the partner VAT",
         )
-        self.assertFalse(company.cnpj_cpf, "CNPJ_CPF should be False")
 
 
 # No test on Inscricao Estadual for partners with CPF
