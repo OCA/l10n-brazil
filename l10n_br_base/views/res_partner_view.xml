@@ -91,7 +91,7 @@
                         <group string="Fiscal Infos" name="fiscal_numbers">
                             <field name="cei_code" />
                             <field
-                                name="inscr_mun"
+                                name="l10n_br_im_code"
                                 attrs="{'invisible': [('is_company','!=', True)]}"
                             />
                             <field

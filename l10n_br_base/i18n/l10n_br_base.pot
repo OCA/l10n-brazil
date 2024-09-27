@@ -15901,10 +15901,10 @@ msgid "Munhoz de Melo"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_mun
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_mun
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_mun
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_im_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_im_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_im_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_im_code
 msgid "Municipal Tax Number"
 msgstr ""
 

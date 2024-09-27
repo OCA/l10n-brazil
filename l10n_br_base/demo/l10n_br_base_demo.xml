@@ -513,7 +513,7 @@
     <record id="res_partner_address_ak3" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="cnpj_cpf">11.034.414/0003-10</field>
-        <field name="inscr_mun">1448</field>
+        <field name="l10n_br_im_code">1448</field>
         <field eval="0" name="employee" />
         <field eval="1" name="active" />
         <field name="is_company" eval="1" />

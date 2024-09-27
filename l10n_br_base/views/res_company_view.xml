@@ -30,7 +30,7 @@
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
-                    name="inscr_mun"
+                    name="l10n_br_im_code"
                     placeholder="Municipal Tax Number..."
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
