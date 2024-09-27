@@ -70,13 +70,13 @@
                 <field name="cnpj_cpf" nolabel="1" />
                 <div>
                     <label
-                        for="rg"
+                        for="l10n_br_rg_code"
                         string="RG"
                         attrs="{'invisible': [('is_company','=', True)]}"
                     />
                 </div>
                 <field
-                    name="rg"
+                    name="l10n_br_rg_code"
                     nolabel="1"
                     attrs="{'invisible': [('is_company','=', True)]}"
                 />
