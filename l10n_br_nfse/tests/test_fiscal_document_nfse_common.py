@@ -21,7 +21,7 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
 
         cls.company.processador_edoc = PROCESSADOR_OCA
         cls.company.partner_id.inscr_mun = "35172"
-        cls.company.partner_id.inscr_est = ""
+        cls.company.partner_id.l10n_br_ie_code = ""
         cls.company.partner_id.state_id = cls.env.ref("base.state_br_mg")
         cls.company.partner_id.city_id = cls.env.ref("l10n_br_base.city_3132404")
         cls.company.icms_regulation_id = cls.env.ref(
