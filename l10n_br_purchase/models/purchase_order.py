@@ -48,7 +48,7 @@ class PurchaseOrder(models.Model):
 
     ie = fields.Char(
         string="State Tax Number/RG",
-        related="partner_id.inscr_est",
+        related="partner_id.l10n_br_ie_code",
     )
 
     comment_ids = fields.Many2many(
