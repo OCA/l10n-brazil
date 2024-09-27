@@ -177,6 +177,12 @@ class Document(models.Model):
         copy=False,
     )
 
+    currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        string="Currency",
+        compute="_compute_currency_id",
+    )
+
     # this related "state" field is required for the status bar widget
     # while state_edoc avoids colliding with the state field
     # of objects where the fiscal mixin might be injected.
@@ -269,6 +275,11 @@ class Document(models.Model):
                         number=record.document_number,
                     )
                 )
+
+    @api.depends("company_id")
+    def _compute_currency_id(self):
+        for doc in self:
+            doc.currency_id = doc.company_id.currency_id or self.env.company.currency_id
 
     def _compute_document_name(self):
         self.ensure_one()
@@ -368,11 +379,6 @@ class Document(models.Model):
             )
 
         return super().unlink()
-
-    @api.onchange("company_id")
-    def _onchange_company_id(self):
-        if self.company_id:
-            self.currency_id = self.company_id.currency_id
 
     def _create_return(self):
         return_docs = self.env[self._name]

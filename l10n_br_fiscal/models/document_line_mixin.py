@@ -80,7 +80,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Currency",
-        default=lambda self: self.env.ref("base.BRL"),
+        compute="_compute_currency_id",
     )
 
     product_id = fields.Many2one(
@@ -112,7 +112,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     quantity = fields.Float(
         digits="Product Unit of Measure",
-        default=1.0,
     )
 
     fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE)
@@ -147,6 +146,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     fiscal_operation_type = fields.Selection(
+        string="Operation Type",
         related="fiscal_operation_id.fiscal_operation_type",
         readonly=True,
     )
@@ -884,3 +884,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.cnae",
         string="CNAE Code",
     )
+
+    @api.depends("company_id")
+    def _compute_currency_id(self):
+        for doc_line in self:
+            doc_line.currency_id = doc_line.company_id.currency_id or self.env.ref(
+                "base.BRL"
+            )

@@ -33,11 +33,7 @@ class DocumentLine(models.Model):
         store=True,
     )
 
-    currency_id = fields.Many2one(
-        comodel_name="res.currency",
-        related="company_id.currency_id",
-        string="Currency",
-    )
+    quantity = fields.Float(default=1.0)
 
     ind_final = fields.Selection(related="document_id.ind_final")
 
