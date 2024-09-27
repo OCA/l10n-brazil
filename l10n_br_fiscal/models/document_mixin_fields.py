@@ -56,7 +56,6 @@ class FiscalDocumentMixinFields(models.AbstractModel):
 
     fiscal_operation_type = fields.Selection(
         related="fiscal_operation_id.fiscal_operation_type",
-        string="Fiscal Operation Type",
         readonly=True,
     )
 
@@ -95,9 +94,8 @@ class FiscalDocumentMixinFields(models.AbstractModel):
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
+        string="Currency",
         default=lambda self: self.env.company.currency_id,
-        store=True,
-        readonly=True,
     )
 
     amount_price_gross = fields.Monetary(
