@@ -119,7 +119,7 @@ msgid "Show L10N Br"
 msgstr ""
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr ""
 

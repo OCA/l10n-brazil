@@ -9,7 +9,7 @@
             <xpath expr="//group" position="inside">
                 <field name="legal_name" invisible="1" />
                 <field name="cnpj" invisible="1" />
-                <field name="inscr_est" invisible="1" />
+                <field name="l10n_br_ie_code" invisible="1" />
                 <field name="inscr_mun" invisible="1" />
                 <field name="suframa" invisible="1" />
                 <field name="name_surname" invisible="1" />

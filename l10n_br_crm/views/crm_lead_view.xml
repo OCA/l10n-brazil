@@ -39,7 +39,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
-                    name="inscr_est"
+                    name="l10n_br_ie_code"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>
@@ -71,7 +71,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
-                    name="inscr_est"
+                    name="l10n_br_ie_code"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>
