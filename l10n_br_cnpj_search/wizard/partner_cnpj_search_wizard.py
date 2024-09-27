@@ -21,7 +21,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
     cnpj_cpf = fields.Char()
     legal_name = fields.Char()
     name = fields.Char()
-    inscr_est = fields.Char()
+    l10n_br_ie_code = fields.Char()
     zip = fields.Char()
     street_name = fields.Char()
     street_number = fields.Char()
@@ -96,7 +96,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         values_to_update = {
             "legal_name": self.legal_name,
             "name": self.name,
-            "inscr_est": self.inscr_est,
+            "l10n_br_ie_code": self.l10n_br_ie_code,
             "zip": self.zip,
             "street_name": self.street_name,
             "street_number": self.street_number,

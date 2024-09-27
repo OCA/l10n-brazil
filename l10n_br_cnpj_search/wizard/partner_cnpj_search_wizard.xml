@@ -18,7 +18,7 @@
                         <field name="name" />
                         <field name="legal_name" />
                         <field name="cnpj_cpf" readonly="1" string="CNPJ" />
-                        <field name="inscr_est" string="IE" />
+                        <field name="l10n_br_ie_code" string="IE" />
                     </group>
 
                     <group name="Contacts" string="Contacts">
