@@ -49,7 +49,7 @@ class DocumentMoveMixin(models.AbstractModel):
 
     partner_suframa = fields.Char(
         string="Suframa",
-        related="partner_id.suframa",
+        related="partner_id.l10n_br_isuf_code",
     )
 
     partner_cnae_main_id = fields.Many2one(
@@ -152,7 +152,7 @@ class DocumentMoveMixin(models.AbstractModel):
 
     company_suframa = fields.Char(
         string="Company Suframa",
-        related="company_id.suframa",
+        related="company_id.l10n_br_isuf_code",
     )
 
     company_cnae_main_id = fields.Many2one(
