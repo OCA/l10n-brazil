@@ -25,7 +25,7 @@
         <field name="website">www.intel.com.br</field>
         <field name="phone">(11) 3365-5500</field>
         <field name="email">teste@teste.com.br</field>
-        <field name="inscr_est">623.343.911.173</field>
+        <field name="l10n_br_ie_code">623.343.911.173</field>
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
@@ -48,7 +48,7 @@
         <field name="website">www.amd.com/br</field>
         <field name="phone">(55-11) 3478-2150</field>
         <field name="email">teste@teste.com.br</field>
-        <field name="inscr_est">621.240.850.633</field>
+        <field name="l10n_br_ie_code">621.240.850.633</field>
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
@@ -71,7 +71,7 @@
         <field name="website">www.lg.com/br</field>
         <field name="phone">(92) 2129-8710</field>
         <field name="email">teste@teste.com.br</field>
-        <field name="inscr_est">86.015.623-0</field>
+        <field name="l10n_br_ie_code">86.015.623-0</field>
         <field name="suframa">550309012</field>
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -95,7 +95,7 @@
         <field name="website">www.samsung.com/br</field>
         <field name="phone">(81) 1111-1111</field>
         <field name="email">teste@teste.com.br</field>
-        <field name="inscr_est">4386525-92</field>
+        <field name="l10n_br_ie_code">4386525-92</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -119,7 +119,7 @@
         <field name="website">www.positivoinformatica.com.br</field>
         <field name="phone">(41) 3316-7700</field>
         <field name="email">teste@teste.com.br</field>
-        <field name="inscr_est">80320143-90</field>
+        <field name="l10n_br_ie_code">80320143-90</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -143,7 +143,7 @@
         <field name="website">www.dell.com.br</field>
         <field name="phone">(51) 3320-3500</field>
         <field name="email">teste@teste.com.br</field>
-        <field name="inscr_est">074/2864251</field>
+        <field name="l10n_br_ie_code">074/2864251</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -167,7 +167,7 @@
         <field name="website">www.infobahia.com.br</field>
         <field name="phone">(71) 3321-9652</field>
         <field name="email">teste@teste.com.br</field>
-        <field name="inscr_est">2004915-45</field>
+        <field name="l10n_br_ie_code">2004915-45</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -191,7 +191,7 @@
         <field name="website">www.infomanuas.com/br</field>
         <field name="phone">(92) 2129-8720</field>
         <field name="email">teste@teste.com.br</field>
-        <field name="inscr_est">78.002.376-5</field>
+        <field name="l10n_br_ie_code">78.002.376-5</field>
         <field name="suframa">101160100</field>
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -215,7 +215,7 @@
         <field name="website">www.cliente1.com/br</field>
         <field name="phone">(55-11) 3478-2150</field>
         <field name="email">cliente1@cliente1.com.br</field>
-        <field name="inscr_est">460.429.771.334</field>
+        <field name="l10n_br_ie_code">460.429.771.334</field>
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
@@ -238,7 +238,7 @@
         <field name="website">www.cliente2.com.br</field>
         <field name="phone">(11) 7777-7777</field>
         <field name="email">cliente2@cliente2.com.br</field>
-        <field name="inscr_est">887.273.429.152</field>
+        <field name="l10n_br_ie_code">887.273.429.152</field>
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
@@ -261,7 +261,7 @@
         <field name="website">www.cliente2.com.br</field>
         <field name="phone">(11) 7777-7777</field>
         <field name="email">cliente2@cliente2.com.br</field>
-        <field name="inscr_est">811.510.100.755</field>
+        <field name="l10n_br_ie_code">811.510.100.755</field>
         <!-- Necessário company_type person para o metodo address_get
         identificar como sendo o Partner to Shipping
         TODO: A localização deveria sobreescrever o metodo address_get
@@ -293,7 +293,7 @@
         <field name="website">www.cliente3.com/br</field>
         <field name="phone">(92) 2145-9999</field>
         <field name="email">cliente3@cliente3.com.br</field>
-        <field name="inscr_est">78.217.504-0</field>
+        <field name="l10n_br_ie_code">78.217.504-0</field>
         <field name="suframa">101362102</field>
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -317,7 +317,7 @@
         <field name="website">www.cliente3.com/br</field>
         <field name="phone">(92) 2145-8888</field>
         <field name="email">cliente4@cliente4.com.br</field>
-        <field name="inscr_est">09.569.321-1</field>
+        <field name="l10n_br_ie_code">09.569.321-1</field>
         <field name="suframa">100695108</field>
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -341,7 +341,7 @@
         <field name="website">www.cliente5.com/br</field>
         <field name="phone">(81) 1111-1111</field>
         <field name="email">cliente5@cliente5.com.br</field>
-        <field name="inscr_est">8700737-10</field>
+        <field name="l10n_br_ie_code">8700737-10</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -365,7 +365,7 @@
         <field name="website">www.cliente5.com/br</field>
         <field name="phone">(81) 1111-1111</field>
         <field name="email">cliente6@cliente6.com.br</field>
-        <field name="inscr_est">7055493-56</field>
+        <field name="l10n_br_ie_code">7055493-56</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -389,7 +389,7 @@
         <field name="website">www.cliente7.com.br</field>
         <field name="phone">(51) 3320-7777</field>
         <field name="email">cliente7@cliente7.com.br</field>
-        <field name="inscr_est">176/1256758</field>
+        <field name="l10n_br_ie_code">176/1256758</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
@@ -413,7 +413,7 @@
         <field name="website">www.cliente7.com.br</field>
         <field name="phone">(11) 7777-7777</field>
         <field name="email">cliente2@cliente7.com.br</field>
-        <field name="inscr_est">845/2345834</field>
+        <field name="l10n_br_ie_code">845/2345834</field>
         <!-- Necessário company_type person para o metodo address_get
         identificar como sendo o Partner to Invoice
         TODO: A localização deveria sobreescrever o metodo address_get
@@ -445,7 +445,7 @@
         <field name="website">www.cliente8.com.br</field>
         <field name="phone">(51) 3320-8888</field>
         <field name="email">cliente8@cliente8.com.br</field>
-        <field name="inscr_est">383/4127240</field>
+        <field name="l10n_br_ie_code">383/4127240</field>
         <field name="suframa" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />

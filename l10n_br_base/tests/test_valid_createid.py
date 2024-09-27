@@ -17,7 +17,7 @@ class ValidCreateIdTest(TransactionCase):
             "name": "Company Test 1",
             "legal_name": "Company Testc 1 Ltda",
             "cnpj_cpf": "02.960.895/0001-31",
-            "inscr_est": "081.981.37-6",
+            "l10n_br_ie_code": "081.981.37-6",
             "street": "Rod BR-101 Norte Contorno",
             "street_number": "955",
             "street2": "Portão 1",
@@ -36,7 +36,7 @@ class ValidCreateIdTest(TransactionCase):
             "name": "Company Test 2",
             "legal_name": "Company Testc 2 Ltda",
             "cnpj_cpf": "14.018.406/0001-93",
-            "inscr_est": "385.611.86-2",
+            "l10n_br_ie_code": "385.611.86-2",
             "street": "Rod BR-101 Norte Contorno",
             "street_number": "955",
             "street2": "Portão 1",
@@ -51,11 +51,11 @@ class ValidCreateIdTest(TransactionCase):
             "website": "www.companytest.com.br",
         }
 
-        cls.company_invalid_inscr_est = {
+        cls.company_invalid_l10n_br_ie_code = {
             "name": "Company Test 3",
             "legal_name": "Company Testc 3 Ltda",
             "cnpj_cpf": "31.295.101/0001-60",
-            "inscr_est": "924.511.27-0",
+            "l10n_br_ie_code": "924.511.27-0",
             "street": "Rod BR-101 Norte Contorno",
             "street_number": "955",
             "street2": "Portão 1",
@@ -74,7 +74,7 @@ class ValidCreateIdTest(TransactionCase):
             "name": "Partner Test 1",
             "legal_name": "Partner Testc 1 Ltda",
             "cnpj_cpf": "734.419.622-06",
-            "inscr_est": "176.754.07-5",
+            "l10n_br_ie_code": "176.754.07-5",
             "street": "Rod BR-101 Norte Contorno",
             "street_number": "955",
             "street2": "Portão 1",
@@ -93,7 +93,7 @@ class ValidCreateIdTest(TransactionCase):
             "name": "Partner Test 2",
             "legal_name": "Partner Testc 2 Ltda",
             "cnpj_cpf": "734.419.622-07",
-            "inscr_est": "538.759.92-5",
+            "l10n_br_ie_code": "538.759.92-5",
             "street": "Rod BR-101 Norte Contorno",
             "street_number": "955",
             "street2": "Portão 1",
@@ -130,12 +130,12 @@ class ValidCreateIdTest(TransactionCase):
                 self.company_invalid_cnpj
             )
 
-    def test_comp_invalid_inscr_est(self):
+    def test_comp_invalid_l10n_br_ie_code(self):
         """Test if ValidationError raised with correct CNPJ
         and invalid Inscricao Estadual"""
         with self.assertRaises(ValidationError):
             self.env["res.company"].with_context(tracking_disable=True).create(
-                self.company_invalid_inscr_est
+                self.company_invalid_l10n_br_ie_code
             )
 
     # Tests on partners

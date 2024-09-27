@@ -23317,11 +23317,11 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr ""
 
