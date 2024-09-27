@@ -134,7 +134,7 @@ class ResPartner(spec_models.SpecModel):
         inverse="_inverse_nfe40_IE",
         compute_sudo=True,
     )
-    nfe40_ISUF = fields.Char(related="suframa")
+    nfe40_ISUF = fields.Char(related="l10n_br_isuf_code")
     nfe40_email = fields.Char(related="email")
     nfe40_xEnder = fields.Char(compute="_compute_nfe40_xEnder")
 
