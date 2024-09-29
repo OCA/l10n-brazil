@@ -63,7 +63,7 @@ class NfeImport(models.TransientModel):
         self.partner_id = self.env["res.partner"].search(
             [
                 "|",
-                ("cnpj_cpf", "=", infNFe.emit.CNPJ),
+                ("vat", "=", infNFe.emit.CNPJ),
                 ("nfe40_xNome", "=", infNFe.emit.xNome),
             ],
             limit=1,
