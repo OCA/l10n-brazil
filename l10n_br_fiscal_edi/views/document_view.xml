@@ -51,6 +51,7 @@
                                 <field name="state" />
                                 <button
                                         name="print_document_event"
+                                        title="Print Document Event"
                                         icon="fa-print"
                                         type="object"
                                     />
