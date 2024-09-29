@@ -303,8 +303,8 @@ class ResPartner(spec_models.SpecModel):
         if rec_dict.get("cnpj_cpf", False):
             domain_cnpj = [
                 "|",
-                ("cnpj_cpf", "=", rec_dict["cnpj_cpf"]),
-                ("cnpj_cpf", "=", cnpj_cpf.formata(rec_dict["cnpj_cpf"])),
+                ("cnpj_cpf_stripped", "=", rec_dict["cnpj_cpf"]),
+                ("vat", "=", cnpj_cpf.formata(rec_dict["cnpj_cpf"])),
             ]
             match = self.search(domain_cnpj, limit=1)
             if match:
