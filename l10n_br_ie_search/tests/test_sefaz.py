@@ -122,7 +122,7 @@ class TestSefaz(TransactionCase):
                     "certificate_ecnpj_id": self.cert.id,
                 }
             )
-            dummy._onchange_cnpj_cpf()
+            dummy._onchange_vat()
             action_wizard = dummy.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
             wizard = Form(
