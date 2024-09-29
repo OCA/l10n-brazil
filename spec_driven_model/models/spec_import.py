@@ -137,15 +137,15 @@ class SpecMixinImport(models.AbstractModel):
                 comodel_vals = comodel.build_attrs(value, path=child_path)
                 child_defaults = self._extract_related_values(vals, key)
 
-                new_value.update(child_defaults)
-                self._build_many2one(comodel, vals, new_value, key, value, child_path)
+                comodel_vals.update(child_defaults)
+                self._build_many2one(comodel, vals, comodel_vals, key, value, child_path)
 
     @api.model
     def _build_string_not_simple_type(self, key, vals, value, node):
         vals[key] = value
 
     @api.model
-    def _build_many2one(self, comodel, vals, new_value, key, value, path):
+    def _build_many2one(self, comodel, vals, comodel_vals, key, value, path):
         if comodel._name == self._name:
             # stacked m2o
             vals.update(comodel_vals)
