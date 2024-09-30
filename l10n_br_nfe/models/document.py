@@ -1511,7 +1511,7 @@ class NFe(spec_models.StackedModel):
 
     def _prepare_nfce_danfe_values(self):
         return {
-            "company_ie": self.company_id.inscr_est,
+            "company_ie": self.company_id.l10n_br_ie_code,
             "company_cnpj": self.company_id.cnpj_cpf,
             "company_legal_name": self.company_id.legal_name,
             "company_street": self.company_id.street,
