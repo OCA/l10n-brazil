@@ -739,6 +739,11 @@ msgid "Preview Data"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
+msgid "Print Document Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__environment__prod
 msgid "Production"
 msgstr ""
