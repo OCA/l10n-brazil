@@ -108,8 +108,8 @@ class Partner(models.Model):
         sync_children._compute_commercial_partner()
         return res
 
-    @api.constrains("vat", "inscr_est")
-    def _check_cnpj_inscr_est(self):
+    @api.constrains("vat", "l10n_br_ie_code")
+    def _check_cnpj_l10n_br_ie_code(self):
         for record in self:
             domain = []
 
@@ -144,8 +144,8 @@ class Partner(models.Model):
                     if allow_cnpj_multi_ie == "True":
                         for partner in record.env["res.partner"].search(domain):
                             if (
-                                partner.inscr_est == record.inscr_est
-                                and record.inscr_est
+                                partner.l10n_br_ie_code == record.l10n_br_ie_code
+                                and record.l10n_br_ie_code
                             ):
                                 raise ValidationError(
                                     _(
@@ -187,7 +187,7 @@ class Partner(models.Model):
                 record.country_id,
             )
 
-    @api.constrains("inscr_est", "state_id", "is_company")
+    @api.constrains("l10n_br_ie_code", "state_id", "is_company")
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
@@ -197,7 +197,10 @@ class Partner(models.Model):
         for record in self:
             if record.is_company:
                 check_ie(
-                    record.env, record.inscr_est, record.state_id, record.country_id
+                    record.env,
+                    record.l10n_br_ie_code,
+                    record.state_id,
+                    record.country_id,
                 )
 
     @api.constrains("state_tax_number_ids")
@@ -260,7 +263,7 @@ class Partner(models.Model):
         if res and self.is_br_partner:
             parent = self.parent_id
             parent.legal_name = parent.name
-            parent.inscr_est = self.inscr_est
+            parent.l10n_br_ie_code = self.l10n_br_ie_code
             parent.inscr_mun = self.inscr_mun
         return res
 

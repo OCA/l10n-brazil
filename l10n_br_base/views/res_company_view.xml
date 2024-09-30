@@ -25,7 +25,7 @@
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
-                    name="inscr_est"
+                    name="l10n_br_ie_code"
                     placeholder="State Tax Number..."
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
