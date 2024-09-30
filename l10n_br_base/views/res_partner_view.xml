@@ -27,7 +27,7 @@
             <field name="display_name" position="after">
                 <field name="legal_name" />
                 <field name="cnpj_cpf" />
-                <field name="inscr_est" />
+                <field name="l10n_br_ie_code" />
             </field>
         </field>
     </record>
@@ -91,16 +91,16 @@
                     nolabel="1"
                     attrs="{'invisible': [('is_company','=', True)]}"
                 />
-                <div name="inscr_est">
+                <div name="l10n_br_ie_code">
                          <label
-                        for="inscr_est"
+                        for="l10n_br_ie_code"
                         string="IE"
                         attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
                     />
                 </div>
                      <field
                     colspan="4"
-                    name="inscr_est"
+                    name="l10n_br_ie_code"
                     nolabel="1"
                     attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
                 />
