@@ -91,7 +91,10 @@ class DocumentRelated(models.Model):
     def _check_ie(self):
         for record in self:
             check_ie(
-                record.env, record.inscr_est, record.state_id, self.env.ref("base.br")
+                record.env,
+                record.inscr_est,
+                record.state_id,
+                self.env.ref("base.br"),
             )
 
     @api.onchange("document_related_id")
