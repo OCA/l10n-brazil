@@ -406,7 +406,7 @@ class NFe(spec_models.StackedModel):
                 stn_id = self.company_id.state_tax_number_ids.filtered(
                     lambda stn: stn.state_id == dest_state_id
                 )
-                iest = stn_id.inscr_est
+                iest = stn_id.l10n_br_ie_code
                 iest = re.sub("[^0-9]+", "", iest)
         self.company_inscr_est_st = iest
 
@@ -1550,7 +1550,7 @@ class NFe(spec_models.StackedModel):
 
     def _prepare_nfce_danfe_values(self):
         return {
-            "company_ie": self.company_id.inscr_est,
+            "company_ie": self.company_id.l10n_br_ie_code,
             "company_cnpj": self.company_id.cnpj_cpf,
             "company_legal_name": self.company_id.legal_name,
             "company_street": self.company_id.street,
