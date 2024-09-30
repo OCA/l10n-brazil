@@ -29,10 +29,15 @@ class PartyMixin(models.AbstractModel):
         index=True,
     )
 
-    inscr_est = fields.Char(
+    l10n_br_ie_code = fields.Char(
         string="State Tax Number",
         size=17,
         unaccent=False,
+    )
+
+    # compat with legacy code:
+    inscr_est = fields.Char(
+        related="l10n_br_ie_code", string="State Tax Number alias", readonly=False
     )
 
     rg = fields.Char(
