@@ -15,7 +15,10 @@ class Lead(models.Model):
     _name = "crm.lead"
     _inherit = [_name, "l10n_br_base.party.mixin"]
 
-    cnpj = fields.Char(string="CNPJ")
+    vat = fields.Char(
+        string="CNPJ",
+        index=True,
+    )
 
     street_name = fields.Char()
 
@@ -24,8 +27,6 @@ class Lead(models.Model):
     name_surname = fields.Char(
         string="Name and Surname", help="Name used in fiscal documents"
     )
-
-    cpf = fields.Char(string="CPF")
 
     show_l10n_br = fields.Boolean(
         compute="_compute_show_l10n_br",
@@ -69,15 +70,15 @@ class Lead(models.Model):
         if not self.name_surname:
             self.name_surname = self.contact_name
 
-    @api.constrains("cnpj")
+    @api.constrains("vat")
     def _check_cnpj(self):
         for record in self:
-            check_cnpj_cpf(record.env, record.cnpj, record.country_id)
+            check_cnpj_cpf(record.env, record.vat, record.country_id)
 
-    @api.constrains("cpf")
+    @api.constrains("l10n_br_cpf_code")
     def _check_cpf(self):
         for record in self:
-            check_cnpj_cpf(record.env, record.cpf, record.country_id)
+            check_cnpj_cpf(record.env, record.l10n_br_cpf_code, record.country_id)
 
     @api.constrains("inscr_est")
     def _check_ie(self):
@@ -89,13 +90,9 @@ class Lead(models.Model):
         for record in self:
             check_ie(record.env, record.inscr_est, record.state_id, record.country_id)
 
-    @api.onchange("cnpj", "country_id")
-    def _onchange_cnpj(self):
-        self.cnpj = cnpj_cpf.formata(self.cnpj)
-
-    @api.onchange("cpf", "country_id")
+    @api.onchange("l10n_br_cpf_code", "country_id")
     def _onchange_mask_cpf(self):
-        self.cpf = cnpj_cpf.formata(self.cpf)
+        self.l10n_br_cpf_code = cnpj_cpf.formata(self.l10n_br_cpf_code)
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
@@ -130,19 +127,19 @@ class Lead(models.Model):
             result["country_id"] = self.partner_id.country_id.id
             if self.partner_id.is_company:
                 result["legal_name"] = self.partner_id.legal_name
-                result["cnpj"] = self.partner_id.cnpj_cpf
+                result["vat"] = self.partner_id.vat
                 result["inscr_est"] = self.partner_id.inscr_est
                 result["inscr_mun"] = self.partner_id.inscr_mun
                 result["suframa"] = self.partner_id.suframa
             else:
                 result["partner_name"] = self.partner_id.parent_id.name or False
                 result["legal_name"] = self.partner_id.parent_id.legal_name or False
-                result["cnpj"] = self.partner_id.parent_id.cnpj_cpf or False
+                result["vat"] = self.partner_id.parent_id.vat or False
                 result["inscr_est"] = self.partner_id.parent_id.inscr_est or False
                 result["inscr_mun"] = self.partner_id.parent_id.inscr_mun or False
                 result["suframa"] = self.partner_id.parent_id.suframa or False
                 result["website"] = self.partner_id.parent_id.website or False
-                result["cpf"] = self.partner_id.cnpj_cpf
+                result["l10n_br_cpf_code"] = self.partner_id.l10n_br_cpf_code
                 result["rg"] = self.partner_id.rg
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
@@ -168,7 +165,7 @@ class Lead(models.Model):
         if is_company:
             values.update(
                 {
-                    "cnpj_cpf": self.cnpj,
+                    "vat": self.vat,
                     "inscr_est": self.inscr_est,
                     "inscr_mun": self.inscr_mun,
                     "suframa": self.suframa,
@@ -177,7 +174,7 @@ class Lead(models.Model):
         else:
             values.update(
                 {
-                    "cnpj_cpf": self.cpf,
+                    "l10n_br_cpf_code": self.l10n_br_cpf_code,
                     "inscr_est": self.rg,
                     "rg": self.rg,
                 }

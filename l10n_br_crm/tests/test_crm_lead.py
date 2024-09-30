@@ -16,7 +16,7 @@ class CrmLeadTest(TransactionCase):
             {
                 "name": "Test Company Lead",
                 "legal_name": "Teste Empresa",
-                "cnpj": "56.647.352/0001-98",
+                "vat": "56.647.352/0001-98",
                 "stage_id": self.env.ref("crm.stage_lead1").id,
                 "partner_name": "Test Partner",
                 "inscr_est": "079.798.013.363",
@@ -28,7 +28,7 @@ class CrmLeadTest(TransactionCase):
         self.crm_lead_contact = self.env["crm.lead"].create(
             {
                 "name": "Test Contact",
-                "cpf": "70531160505",
+                "l10n_br_cpf_code": "70531160505",
                 "rg": "99.888.777-1",
                 "stage_id": self.env.ref("crm.stage_lead1").id,
                 "contact_name": "Test Contact",
@@ -40,7 +40,7 @@ class CrmLeadTest(TransactionCase):
             {
                 "name": "Test Company Lead IE",
                 "legal_name": "Teste Empresa 1",
-                "cnpj": "57.240.310/0001-09",
+                "vat": "57.240.310/0001-09",
                 "stage_id": self.env.ref("crm.stage_lead1").id,
                 "partner_name": "Test Partner 1",
                 "inscr_est": "041.092.540.590",
@@ -218,10 +218,10 @@ class CrmLeadTest(TransactionCase):
         )
 
         self.assertEqual(
-            self.crm_lead_company_1.cnpj,
+            self.crm_lead_company_1.vat,
             "22.898.817/0001-61",
             "In the change of the partner \
-                         the field cpf was not automatically filled.",
+                         the field CNPJ was not automatically filled.",
         )
 
         self.assertEqual(
