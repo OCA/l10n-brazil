@@ -38,7 +38,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal_certificate](l10n_br_fiscal_certificate/) | 16.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | A1 fiscal certificate management for Brazil
 [l10n_br_fiscal_closing](l10n_br_fiscal_closing/) | 16.0.2.0.0 |  | Period fiscal closing
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 16.0.1.0.2 |  | Distribuição de documentos fiscais
-[l10n_br_fiscal_edi](l10n_br_fiscal_edi/) | 16.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Common EDI fiscal features
+[l10n_br_fiscal_edi](l10n_br_fiscal_edi/) | 16.0.1.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Common EDI fiscal features
 [l10n_br_hr](l10n_br_hr/) | 16.0.1.0.3 |  | Brazilian Localization HR
 [l10n_br_ie_search](l10n_br_ie_search/) | 16.0.1.1.0 |  | Integração com a API SintegraWS e SEFAZ
 [l10n_br_mis_report](l10n_br_mis_report/) | 16.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
