@@ -29,7 +29,7 @@ class CrmLeadTest(TransactionCase):
             {
                 "name": "Test Contact",
                 "cpf": "70531160505",
-                "rg": "99.888.777-1",
+                "l10n_br_rg_code": "99.888.777-1",
                 "stage_id": self.env.ref("crm.stage_lead1").id,
                 "contact_name": "Test Contact",
             }
