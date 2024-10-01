@@ -59,7 +59,6 @@ def filtered_processador_edoc_mdfe(record):
 
 
 class MDFe(spec_models.StackedModel):
-
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "mdfe.30.tmdfe_infmdfe"]
     _stacked = "mdfe.30.tmdfe_infmdfe"
@@ -474,7 +473,10 @@ class MDFe(spec_models.StackedModel):
         selection=VALEPED_CATEGCOMBVEIC, string="Categoria de Combinação Veicular"
     )
 
-    mdfe30_infContratante = fields.Many2many(comodel_name="res.partner")
+    mdfe30_infContratante = fields.One2many(
+        comodel_name="l10n_br_mdfe.modal.rodoviario.contratante",
+        inverse_name="document_id",
+    )
 
     mdfe30_RNTRC = fields.Char(size=8, string="RNTRC")
 
@@ -518,7 +520,9 @@ class MDFe(spec_models.StackedModel):
     )
 
     mdfe30_lacRodo = fields.One2many(
-        comodel_name="l10n_br_mdfe.transporte.lacre", inverse_name="document_id"
+        comodel_name="l10n_br_mdfe.modal.rodoviario.lacre",
+        inverse_name="document_id",
+        size=3,
     )
 
     mdfe30_UF = fields.Selection(selection=TUF, compute="_compute_rodo_uf")
@@ -604,7 +608,6 @@ class MDFe(spec_models.StackedModel):
     mdfe30_lacres = fields.One2many(
         comodel_name="l10n_br_mdfe.transporte.lacre",
         inverse_name="document_id",
-        related="mdfe30_lacRodo",
     )
 
     ##########################
