@@ -20,6 +20,7 @@ from odoo.exceptions import RedirectWarning
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     MODELO_FISCAL_CFE,
+    MODELO_FISCAL_CTE,
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
     MODELO_FISCAL_EMISSAO_PRODUTO,
     MODELO_FISCAL_EMISSAO_SERVICO,
@@ -42,6 +43,7 @@ PATH_MODELO = {
     MODELO_FISCAL_CUPOM_FISCAL_ECF: "cfe_ecf",
     MODELO_FISCAL_NFSE: "nfse",
     MODELO_FISCAL_RL: "rl",
+    MODELO_FISCAL_CTE: "cte",
 }
 
 SITUACAO_EDOC = [
@@ -137,6 +139,13 @@ class FiscalClosing(models.Model):
         string="RL Documents",
         inverse_name="close_id",
         domain=[("document_type", "=", MODELO_FISCAL_RL)],
+    )
+
+    document_cte_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document",
+        string="CTE Documents",
+        inverse_name="close_id",
+        domain=[("document_type", "=", MODELO_FISCAL_CTE)],
     )
 
     attachment_ids = fields.Many2many(
