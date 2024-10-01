@@ -790,6 +790,11 @@ msgid "Company Phone"
 msgstr "Telefone da Empresa"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_est_st
+msgid "Company ST State Tax Number"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_state_id
 msgid "Company State"
 msgstr "Estado da Empresa"
