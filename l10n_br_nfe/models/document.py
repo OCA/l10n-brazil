@@ -400,6 +400,19 @@ class NFe(spec_models.StackedModel):
         for doc in self:  # TODO if out
             doc.nfe40_emit = doc.company_id
 
+    def _set_nfe40_IEST(self):
+        self.ensure_one()
+        iest = ""
+        if self.partner_id:
+            dest_state_id = self.partner_id.state_id
+            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
+                stn_id = self.company_id.state_tax_number_ids.filtered(
+                    lambda stn: stn.state_id == dest_state_id
+                )
+                iest = stn_id.inscr_est
+                iest = re.sub("[^0-9]+", "", iest)
+        self.company_inscr_est_st = iest
+
     ##########################
     # NF-e tag: dest
     ##########################
@@ -689,6 +702,17 @@ class NFe(spec_models.StackedModel):
                 ):
                     return False
 
+        if (
+            field_name == "nfe40_emit"
+            and self.fiscal_operation_type == "out"
+            and self.issuer == "company"
+        ):
+            self._set_nfe40_IEST()
+            res = super()._export_many2one(field_name, xsd_required, class_obj)
+            if self.company_inscr_est_st:
+                res.IEST = self.company_inscr_est_st
+            return res
+
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def _export_one2many(self, field_name, class_obj=None):
@@ -873,6 +897,8 @@ class NFe(spec_models.StackedModel):
         for record in self.with_context(lang="pt_BR").filtered(
             filter_processador_edoc_nfe
         ):
+            record.flush()
+            record.invalidate_cache()
             inf_nfe = record.export_ds()[0]
 
             inf_nfe_supl = None
@@ -885,7 +911,7 @@ class NFe(spec_models.StackedModel):
 
     def _processador(self):
         self._check_nfe_environment()
-        certificado = self.env.company._get_br_ecertificate()
+        certificado = self.company_id._get_br_ecertificate()
         session = Session()
         session.verify = False
 
@@ -898,8 +924,8 @@ class NFe(spec_models.StackedModel):
 
         if self.document_type == MODELO_FISCAL_NFE:
             params.update(
-                envio_sincrono=self.env.company.nfe_enable_sync_transmission,
-                contingencia=self.env.company.nfe_enable_contingency_ws,
+                envio_sincrono=self.company_id.nfe_enable_sync_transmission,
+                contingencia=self.company_id.nfe_enable_contingency_ws,
             )
             return edoc_nfe(**params)
 
