@@ -17,7 +17,7 @@
             <xpath expr="//group[@name='lead_info']/div" position="after">
                 <field name="name_surname" />
                 <field
-                    name="cpf"
+                    name="l10n_br_cpf_code"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
@@ -35,7 +35,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
-                    name="cnpj"
+                    name="vat"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
@@ -67,7 +67,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
-                    name="cnpj"
+                    name="vat"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
@@ -94,7 +94,7 @@
             >
                 <field name="name_surname" />
                 <field
-                    name="cpf"
+                    name="l10n_br_cpf_code"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field

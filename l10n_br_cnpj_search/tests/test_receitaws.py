@@ -62,7 +62,7 @@ class TestReceitaWS(TestCnpjCommon):
     )
     def test_receita_ws_fail(self):
         invalido = self.model.create({"name": "invalido", "cnpj_cpf": "00000000000000"})
-        invalido._onchange_cnpj_cpf()
+        invalido._onchange_vat()
 
         with self.assertRaises(ValidationError):
             action_wizard = invalido.action_open_cnpj_search_wizard()
@@ -76,7 +76,7 @@ class TestReceitaWS(TestCnpjCommon):
     )
     def test_receita_ws_multiple_phones(self):
         isla = self.model.create({"name": "Isla", "cnpj_cpf": "92.666.056/0001-06"})
-        isla._onchange_cnpj_cpf()
+        isla._onchange_vat()
 
         action_wizard = isla.action_open_cnpj_search_wizard()
         wizard_context = action_wizard.get("context")

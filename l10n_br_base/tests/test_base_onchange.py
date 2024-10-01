@@ -43,7 +43,7 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         """
         Call all the onchange methods in l10n_br_base
         """
-        self.company_01._onchange_cnpj_cpf()
+        self.company_01._onchange_vat()
         self.company_01._onchange_city_id()
         self.company_01._onchange_zip()
         self.company_01._onchange_state()
@@ -53,7 +53,7 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         #  chamado, por isso existe outro metodo com o final _id
         self.company_01._onchange_state_id()
 
-        self.partner_01._onchange_cnpj_cpf()
+        self.partner_01._onchange_vat()
         self.partner_01._onchange_city_id()
         self.partner_01._onchange_zip()
         self.partner_01._onchange_state()

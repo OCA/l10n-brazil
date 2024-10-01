@@ -1,6 +1,7 @@
 # Copyright (C) 2021 Renato Lima (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import re
 
 from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
@@ -12,6 +13,14 @@ class PartyMixin(models.AbstractModel):
     _name = "l10n_br_base.party.mixin"
     _description = "Brazilian partner and company data mixin"
 
+    # this cnpj_cpf field helps maintaining the compatibility with the legacy codebase
+    # while using the vat field for CNPJ and l10n_br_cpf_code for CPF as Odoo SA did.
+    cnpj_cpf = fields.Char(
+        string="CNPJ/CPF",
+        inverse="_inverse_cnpj_cpf",
+        compute="_compute_cnpj_cpf",
+    )
+
     cnpj_cpf_stripped = fields.Char(
         string="CNPJ/CPF Stripped",
         help="CNPJ/CPF without special characters",
@@ -20,11 +29,7 @@ class PartyMixin(models.AbstractModel):
         index=True,
     )
 
-    cnpj_cpf = fields.Char(
-        string="CNPJ/CPF",
-        size=18,
-        unaccent=False,
-    )
+    l10n_br_cpf_code = fields.Char(string="CPF", help="Natural Persons Register")
 
     inscr_est = fields.Char(
         string="State Tax Number",
@@ -84,9 +89,32 @@ class PartyMixin(models.AbstractModel):
             else:
                 record.cnpj_cpf_stripped = False
 
+    @api.returns("self", lambda value: value.id)
+    def copy(self, default=None):
+        if self.is_br_partner:
+            if default is None:
+                default = {}
+            if "vat" not in default:
+                # CNPJ should be unique:
+                default["vat"] = None
+        return super().copy(default)
+
     @api.onchange("cnpj_cpf")
-    def _onchange_cnpj_cpf(self):
-        self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
+    def _inverse_cnpj_cpf(self):
+        for partner in self:
+            if partner.cnpj_cpf and len(re.sub("[^0-9]", "", partner.cnpj_cpf)) > 11:
+                partner.vat = partner.cnpj_cpf
+            else:
+                partner.l10n_br_cpf_code = partner.cnpj_cpf
+
+    @api.depends("vat", "l10n_br_cpf_code")
+    def _compute_cnpj_cpf(self):
+        for partner in self:
+            partner.cnpj_cpf = partner.vat or partner.l10n_br_cpf_code
+
+    @api.onchange("vat")
+    def _onchange_vat(self):
+        self.vat = cnpj_cpf.formata(str(self.vat))
 
     @api.onchange("zip")
     def _onchange_zip(self):
