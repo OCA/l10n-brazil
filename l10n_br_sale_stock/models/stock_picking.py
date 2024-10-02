@@ -23,8 +23,9 @@ class StockPicking(models.Model):
     def _get_fiscal_partner(self):
         self.ensure_one()
         partner = super()._get_fiscal_partner()
-        if partner != self._get_partner_to_invoice():
-            partner = self._get_partner_to_invoice()
+        partner_to_invoice = self._get_partner_to_invoice()
+        if partner.id != partner_to_invoice:
+            partner = self.env["res.partner"].browse(partner_to_invoice)
         return partner
 
     def _get_default_fiscal_operation(self):
