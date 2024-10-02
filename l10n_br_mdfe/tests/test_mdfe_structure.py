@@ -5,7 +5,6 @@ from io import StringIO
 
 from odoo.tests import SavepointCase
 
-from odoo.addons.spec_driven_model import hooks
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 
 from ..models.document import MDFe
@@ -15,11 +14,7 @@ class MDFeStructure(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        hooks.register_hook(
-            cls.env,
-            "l10n_br_mdfe",
-            "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00",
-        )
+        cls.env["spec.mixin.mdfe"]._register_hook()
 
     @classmethod
     def get_stacked_tree(cls, klass):
