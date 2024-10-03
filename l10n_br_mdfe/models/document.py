@@ -748,15 +748,15 @@ class MDFe(spec_models.StackedModel):
         key = "mdfe30_%s" % (attr[0],)  # TODO schema wise
         value = getattr(node, attr[0])
 
-        if attr[0] == "any_element":  # build modal
-            modal_id = self._get_modal_to_build(node.any_element.__module__)
-            if modal_id is False:
-                return
+        # if attr[0] == "any_element":  # build modal
+        #     modal_id = self._get_modal_to_build(node.any_element.__module__)
+        #     if modal_id is False:
+        #         return
 
-            modal_attrs = modal_id.build_attrs(value, path=path)
-            for chave, valor in modal_attrs.items():
-                vals[chave] = valor
-            return
+        #     modal_attrs = modal_id.build_attrs(value, path=path)
+        #     for chave, valor in modal_attrs.items():
+        #         vals[chave] = valor
+        #     return
 
         if key == "mdfe30_mod":
             if isinstance(value, Enum):
