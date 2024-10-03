@@ -48,6 +48,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping__display_name
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_picking__display_name
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule__display_name
 msgid "Display Name"
 msgstr ""
@@ -59,6 +60,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping__id
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_picking__id
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule__id
 msgid "ID"
 msgstr ""
@@ -77,6 +79,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_res_config_settings____last_update
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_invoice_onshipping____last_update
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_move____last_update
+#: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_picking____last_update
 #: model:ir.model.fields,field_description:l10n_br_purchase_stock.field_stock_rule____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -126,4 +129,9 @@ msgstr ""
 #. module: l10n_br_purchase_stock
 #: model:ir.model,name:l10n_br_purchase_stock.model_stock_rule
 msgid "Stock Rule"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_picking
+msgid "Transfer"
 msgstr ""
