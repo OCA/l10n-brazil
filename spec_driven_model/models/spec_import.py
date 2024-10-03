@@ -124,7 +124,15 @@ class SpecMixinImport(models.AbstractModel):
             comodel = self._get_concrete_model(comodel_name)
             if comodel is None:  # example skip ICMS100 class
                 return
-            if str(attr[1].type).startswith("typing.List"):
+            if not str(attr[1].type).startswith("typing.List"):
+                # m2o
+                new_value = comodel.build_attrs(value, path=child_path)
+                child_defaults = self._extract_related_values(vals, key)
+
+                new_value.update(child_defaults)
+                # FIXME comodel._build_many2one
+                self._build_many2one(comodel, vals, new_value, key, value, child_path)
+            else:
                 # o2m
                 lines = []
                 for line in [li for li in value if li]:
@@ -133,16 +141,6 @@ class SpecMixinImport(models.AbstractModel):
                     )
                     lines.append((0, 0, line_vals))
                 vals[key] = lines
-            else:
-                # m2o
-                comodel_vals = comodel.build_attrs(value, path=child_path)
-                child_defaults = self._extract_related_values(vals, key)
-
-                comodel_vals.update(child_defaults)
-                # FIXME comodel._build_many2one
-                self._build_many2one(
-                    comodel, vals, comodel_vals, key, value, child_path
-                )
 
     @api.model
     def _build_string_not_simple_type(self, key, vals, value, node):
