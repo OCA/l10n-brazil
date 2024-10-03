@@ -232,6 +232,6 @@ class TestMDFeSerialize(TransactionCase):
             self.cr.dbname,
             mdfe.send_file_id.store_fname,
         )
-
-        _logger.info("XML file saved at %s" % (output,))
-        return main.diff_files(output, xml_path)
+        _logger.info(f"XML file saved at {output}")
+        diff = main.diff_files(output, xml_path)
+        return diff
