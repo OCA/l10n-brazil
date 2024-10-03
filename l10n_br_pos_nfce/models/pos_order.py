@@ -184,9 +184,11 @@ class PosOrderLine(models.Model):
 
     def _prepare_nfce_tax_dict(self):
         # Get fiscal map for this product
-        fiscal_map_id = self.product_id.pos_fiscal_map_ids.search(
-            [("pos_config_id", "=", self.order_id.config_id.id)], limit=1
+        fiscal_map_id = self.product_id.pos_fiscal_map_ids.filtered(
+            lambda pfm: pfm.pos_config_id == self.order_id.config_id
         )
+        if fiscal_map_id and len(fiscal_map_id) > 1:
+            fiscal_map_id = fields.first(fiscal_map_id)
 
         # Create base tax_dict
         tax_dict = {
