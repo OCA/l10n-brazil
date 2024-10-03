@@ -6,15 +6,13 @@ import string
 from enum import Enum
 from unicodedata import normalize
 
-from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
 from requests import Session
 
-from odoo import _, api, fields
-from odoo.exceptions import UserError
+from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -842,27 +840,16 @@ class MDFe(spec_models.StackedModel):
         if self.document_type != MODELO_FISCAL_MDFE:
             return super()._processador()
 
-        certificate = False
-        if self.company_id.sudo().certificate_nfe_id:
-            certificate = self.company_id.sudo().certificate_nfe_id
-        elif self.company_id.sudo().certificate_ecnpj_id:
-            certificate = self.company_id.sudo().certificate_ecnpj_id
+        certificado = self.company_id._get_br_ecertificate()
 
-        if not certificate:
-            raise UserError(_("Certificado não encontrado"))
-
-        certificado = cert.Certificado(
-            arquivo=certificate.file,
-            senha=certificate.password,
-        )
         session = Session()
         session.verify = False
 
         params = {
             "transmissao": TransmissaoSOAP(certificado, session),
+            "uf": self.company_id.state_id.ibge_code,
             "versao": self.mdfe_version,
             "ambiente": self.mdfe_environment,
-            "uf": self.company_id.state_id.ibge_code,
         }
         return edoc_mdfe(**params)
 
@@ -895,6 +882,13 @@ class MDFe(spec_models.StackedModel):
             xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
                 0
             ]
+            # Delete previous authorization events in draft
+            if (
+                record.authorization_event_id
+                and record.authorization_event_id.state == "draft"
+            ):
+                record.sudo().authorization_event_id.unlink()
+
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
