@@ -67,6 +67,10 @@ class ProductTemplate(models.Model):
         comodel_name="l10n_br_fiscal.product.genre", string="Fiscal Product Genre"
     )
 
+    operation_line_tag_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.product.tag", string="Operation Line Tags"
+    )
+
     service_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type",
         string="Service Type LC 166",

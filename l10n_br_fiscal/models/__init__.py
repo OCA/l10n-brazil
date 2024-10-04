@@ -19,6 +19,7 @@ from . import service_type
 from . import ncm
 from . import nbm
 from . import cest
+from . import product_tag
 from . import tax_group
 from . import tax
 from . import tax_pis_cofins
