@@ -47,7 +47,6 @@ class TestFiscalClosing(TransactionCase):
             xml_file=xml_file,
             document_id=self.nfe_export,
         )
-        self.nfe_export._onchange_company_id()
         event_id.set_done(
             status_code="101",
             response="Teste Autorizado",
