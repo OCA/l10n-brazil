@@ -24,7 +24,7 @@ class PurchaseOrder(models.Model):
 
     active_company_country_id = fields.Many2one(
         comodel_name="res.country",
-        string="Company",
+        string="Active Company Country",
         default=lambda self: self.env.company.country_id,
     )
 
