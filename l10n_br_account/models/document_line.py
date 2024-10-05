@@ -25,22 +25,22 @@ class FiscalDocumentLine(models.Model):
     # to the fiscal doc line from the aml through the _inherits system
     # despite they have the same names.
     fiscal_proxy_name = fields.Text(
-        string="Fiscal Name",
+        string="Fiscal Proxy Name",
         related="name",
         readonly=False,
     )
     fiscal_proxy_product_id = fields.Many2one(
-        string="Fiscal Product",
+        string="Fiscal Proxy Product",
         related="product_id",
         readonly=False,
     )
     fiscal_proxy_quantity = fields.Float(
-        string="Fiscal Quantity",
+        string="Fiscal Proxy Quantity",
         related="quantity",
         readonly=False,
     )
     fiscal_proxy_price_unit = fields.Float(
-        string="Fiscal Price Unit",
+        string="Fiscal Proxy Price Unit",
         related="price_unit",
         readonly=False,
     )
