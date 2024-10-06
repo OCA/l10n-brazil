@@ -1,0 +1,125 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_sale_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_sale_stock
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order__button_create_invoice_invisible
+msgid "Button Create Invoice Invisible"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model,name:l10n_br_sale_stock.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model,name:l10n_br_sale_stock.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_stock.l10n_br_sale_stock_res_config_settings_form
+msgid "Define if Invoice should be create from Sale Order or Stock Picking"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model.fields,help:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
+#: model:ir.model.fields,help:l10n_br_sale_stock.field_res_config_settings__sale_create_invoice_policy
+msgid ""
+"Define, when Product Type are not service, if Invoice should be create from "
+"Sale Order or Stock Picking."
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_invoice_onshipping__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order__id
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order_line__id
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_invoice_onshipping__id
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order____last_update
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_invoice_onshipping____last_update
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_move____last_update
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_config_settings__sale_create_invoice_policy
+msgid "Sale Create Invoice Policy"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: code:addons/l10n_br_sale_stock/models/res_company.py:0
+#: model:ir.model.fields.selection,name:l10n_br_sale_stock.selection__res_company__sale_create_invoice_policy__sale_order
+#, python-format
+msgid "Sale Order"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model,name:l10n_br_sale_stock.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model,name:l10n_br_sale_stock.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model,name:l10n_br_sale_stock.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model,name:l10n_br_sale_stock.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: code:addons/l10n_br_sale_stock/models/res_company.py:0
+#: model:ir.model.fields.selection,name:l10n_br_sale_stock.selection__res_company__sale_create_invoice_policy__stock_picking
+#, python-format
+msgid "Stock Picking"
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_stock.l10n_br_sale_stock_res_config_settings_form
+msgid "This default value is applied to creation of Invoice."
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model,name:l10n_br_sale_stock.model_stock_picking
+msgid "Transfer"
+msgstr ""
