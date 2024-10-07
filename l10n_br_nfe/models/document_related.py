@@ -20,10 +20,12 @@ from odoo.addons.spec_driven_model.models import spec_models
 class NFeRelated(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.related"
     _inherit = ["l10n_br_fiscal.document.related", "nfe.40.nfref"]
-    _stacked = "nfe.40.nfref"
-    _stacking_points = {}
-    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-    _stack_skip = ("nfe40_NFref_ide_id",)
+    _nfe40_spec_settings = {
+        "module": "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
+        "stacking_mixin": "nfe.40.nfref",
+        "stacking_points": {},
+        "stacking_skip_paths": ("nfe40_NFref_ide_id",),
+    }
     # all m2o below this level will be stacked even if not required:
     _rec_name = "nfe40_refNFe"
 

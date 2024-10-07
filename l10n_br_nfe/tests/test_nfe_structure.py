@@ -26,11 +26,14 @@ class NFeStructure(TransactionCase):
         # ≡ means o2m. Eventually followd by the mapped Odoo model
         """
         spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-        node = SpecModel._odoo_name_to_class(klass._stacked, spec_module)
+        stacking_settings = klass._nfe40_spec_settings
+        node = SpecModel._odoo_name_to_class(
+            stacking_settings["stacking_mixin"], spec_module
+        )
         tree = StringIO()
         visited = set()
         for kind, n, path, field_path, child_concrete in klass._visit_stack(
-            cls.env, node
+            cls.env, node, stacking_settings
         ):
             visited.add(n)
             path_items = path.split(".")
@@ -118,7 +121,13 @@ class NFeStructure(TransactionCase):
             "nfe40_cobr",
             "nfe40_fat",
         ]
-        keys = [k for k in self.env["l10n_br_fiscal.document"]._stacking_points.keys()]
+        keys = [
+            k
+            for k in self.env["l10n_br_fiscal.document"]
+            .with_context(spec_schema="nfe", spec_version="40")
+            ._get_stacking_points()
+            .keys()
+        ]
         self.assertEqual(sorted(keys), sorted(doc_keys))
 
     def test_doc_tree(self):
@@ -154,7 +163,11 @@ class NFeStructure(TransactionCase):
             "nfe40_prod",
         ]
         keys = [
-            k for k in self.env["l10n_br_fiscal.document.line"]._stacking_points.keys()
+            k
+            for k in self.env["l10n_br_fiscal.document.line"]
+            .with_context(spec_schema="nfe", spec_version="40")
+            ._get_stacking_points()
+            .keys()
         ]
         self.assertEqual(sorted(keys), line_keys)
 
