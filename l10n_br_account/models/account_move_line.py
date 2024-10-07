@@ -198,6 +198,15 @@ class AccountMoveLine(models.Model):
                 cfop_id = (
                     self.env["l10n_br_fiscal.cfop"].browse(cfop) if cfop else False
                 )
+                fiscal_operation_line_id = values.get("fiscal_operation_line_id")
+                fiscal_operation_line_id = (
+                    self.env["l10n_br_fiscal.operation.line"].browse(
+                        fiscal_operation_line_id
+                    )
+                    if fiscal_operation_line_id
+                    else False
+                )
+
                 values.update(
                     self._get_amount_credit_debit_model(
                         move_id,
@@ -214,6 +223,7 @@ class AccountMoveLine(models.Model):
                         company_id=move_id.company_id,
                         date=move_id.date,
                         cfop_id=cfop_id,
+                        fiscal_operation_line_id=fiscal_operation_line_id,
                     )
                 )
         self._inject_shadowed_fields(vals_list)
@@ -309,6 +319,7 @@ class AccountMoveLine(models.Model):
                     company_id=line.company_id,
                     date=line.date,
                     cfop_id=line.cfop_id,
+                    fiscal_operation_line_id=line.fiscal_operation_line_id,
                 )
                 result |= super(AccountMoveLine, line).write(to_write)
 
@@ -599,6 +610,7 @@ class AccountMoveLine(models.Model):
         company_id=None,
         date=None,
         cfop_id=None,
+        fiscal_operation_line_id=None,
     ):
         self.ensure_one()
         # The formatting was a little strange, but I tried to make it as close as
@@ -625,6 +637,9 @@ class AccountMoveLine(models.Model):
             if date is None
             else date,
             cfop_id=self.cfop_id if cfop_id is None else cfop_id,
+            fiscal_operation_line_id=self.fiscal_operation_line_id
+            if fiscal_operation_line_id is None
+            else fiscal_operation_line_id,
         )
 
     def _get_amount_credit_debit_model(
@@ -639,6 +654,7 @@ class AccountMoveLine(models.Model):
         company_id,
         date,
         cfop_id,
+        fiscal_operation_line_id,
     ):
         if exclude_from_invoice_tab:
             return {}
@@ -648,7 +664,11 @@ class AccountMoveLine(models.Model):
             sign = -1
         else:
             sign = 1
-        if cfop_id and not cfop_id.finance_move:
+        if (cfop_id and not cfop_id.finance_move) or (
+            not cfop_id
+            and fiscal_operation_line_id
+            and not fiscal_operation_line_id.add_to_amount
+        ):
             amount_currency = 0
         else:
             if move_id.fiscal_operation_id.deductible_taxes:
