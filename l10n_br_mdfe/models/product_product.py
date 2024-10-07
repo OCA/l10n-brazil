@@ -53,7 +53,7 @@ class MDFeProductLotacaoLocal(spec_models.SpecModel):
         default="CEP",
     )
 
-    mdfe30_choice12 = fields.Selection(
+    mdfe30_choice_tlocal = fields.Selection(
         selection=[("mdfe30_CEP", "CEP"), ("mdfe30_latitude", "Latitude/Longitude")],
         string="Tipo de Local",
         compute="_compute_choice",
@@ -63,6 +63,6 @@ class MDFeProductLotacaoLocal(spec_models.SpecModel):
     def _compute_choice(self):
         for record in self:
             if record.local_type == "CEP":
-                record.mdfe30_choice12 = "mdfe30_CEP"
+                record.mdfe30_choice_tlocal = "mdfe30_CEP"
             else:
-                record.mdfe30_choice12 = "mdfe30_latitude"
+                record.mdfe30_choice_tlocal = "mdfe30_latitude"
