@@ -70,12 +70,14 @@ class NFeLine(spec_models.StackedModel):
 
     _name = "l10n_br_fiscal.document.line"
     _inherit = ["l10n_br_fiscal.document.line", "nfe.40.det"]
-    _stacked = "nfe.40.det"
-    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-    _stacking_points = {}
-    # all m2o below this level will be stacked even if not required:
-    _force_stack_paths = ("det.imposto.",)
-    _stack_skip = ("nfe40_det_infNFe_id",)
+    _nfe40_spec_settings = {
+        "module": "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
+        "stacking_mixin": "nfe.40.det",
+        "stacking_points": {},
+        # all m2o below this level will be stacked even if not required:
+        "stacking_force_paths": ("det.imposto.",),
+        "stacking_skip_paths": ("nfe40_det_infNFe_id",),
+    }
 
     # When dynamic stacking is applied, the NFe line has the following structure:
     DET_TREE = """
