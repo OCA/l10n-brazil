@@ -460,6 +460,24 @@
         <field name="state">approved</field>
     </record>
 
+    <record id="fo_manifesto" model="l10n_br_fiscal.operation">
+        <field name="code">Manifesto</field>
+        <field name="name">Manifesto</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_manifesto_manifesto" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field name="name">Manifesto</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="add_to_amount">False</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
+        <field name="state">approved</field>
+    </record>
+
     <!-- l10n_br_fiscal.operation relations -->
     <record id="fo_venda" model="l10n_br_fiscal.operation">
         <field name="return_fiscal_operation_id" ref="fo_devolucao_venda" />
