@@ -9,7 +9,6 @@ from odoo.addons.spec_driven_model.models import spec_models
 class MDFeMunicipioDescarga(spec_models.SpecModel):
     _name = "l10n_br_mdfe.municipio.descarga"
     _inherit = "mdfe.30.infmundescarga"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
     _description = "Informações de Descarga do Documento MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
