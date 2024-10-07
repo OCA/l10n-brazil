@@ -6,7 +6,7 @@ import pprint
 
 import requests
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -48,10 +48,8 @@ class PaymentTransactionCielo(models.Model):
     )
 
     def _create_cielo_charge(self, acquirer_ref=None, tokenid=None, email=None):
-        """Creates the s2s payment.
-
-        Uses credit card token instead of secret info.
-
+        """Create the s2s payment.
+        Use credit card token instead of secret info.
         """
         api_url_charge = "https://%s/1/sales" % (self.acquirer_id._get_cielo_api_url())
 
@@ -88,7 +86,6 @@ class PaymentTransactionCielo(models.Model):
         _logger.info("_create_cielo_charge: Values received:\n%s", pprint.pformat(res))
         return res
 
-    @api.multi
     def cielo_s2s_do_transaction(self, **kwargs):
         self.ensure_one()
         result = self._create_cielo_charge(
@@ -96,9 +93,8 @@ class PaymentTransactionCielo(models.Model):
         )
         return self._cielo_s2s_validate_tree(result)
 
-    @api.multi
     def cielo_s2s_capture_transaction(self):
-        """Captures an authorized transaction."""
+        """Capture an authorized transaction."""
         _logger.info(
             "cielo_s2s_capture_transaction: Sending values to URL %s",
             self.cielo_s2s_capture_link,
@@ -113,7 +109,7 @@ class PaymentTransactionCielo(models.Model):
         )
         # analyse result
         if (
-            type(res) == dict
+            isinstance(res, dict)
             and res.get("ProviderReturnMessage")
             and res.get("ProviderReturnMessage") == "Operation Successful"
         ):
@@ -135,9 +131,8 @@ class PaymentTransactionCielo(models.Model):
                 }
             )
 
-    @api.multi
     def cielo_s2s_void_transaction(self):
-        """Voids an authorized transaction."""
+        """Void an authorized transaction."""
         _logger.info(
             "cielo_s2s_void_transaction: Sending values to URL %s",
             self.cielo_s2s_void_link,
@@ -151,7 +146,7 @@ class PaymentTransactionCielo(models.Model):
         )
         # analyse result
         if (
-            type(res) == dict
+            isinstance(res, dict)
             and res.get("ProviderReturnMessage")
             and res.get("ProviderReturnMessage") == "Operation Successful"
         ):
@@ -172,15 +167,12 @@ class PaymentTransactionCielo(models.Model):
                 }
             )
 
-    @api.multi
     def _cielo_s2s_validate_tree(self, tree):
-        """Validates the transaction.
-
-        This method updates the payment.transaction object describing the
+        """Validate the transaction.
+        Update the payment.transaction object describing the
         actual transaction outcome.
-        Also saves get/capture/void links sent by cielo to make it easier to
+        Save get/capture/void links sent by Cielo to make it easier to
         perform the operations.
-
         """
         self.ensure_one()
         if self.state != "draft":
@@ -190,7 +182,7 @@ class PaymentTransactionCielo(models.Model):
             )
             return True
 
-        if type(tree) != list:
+        if isinstance(tree, dict):
             status = tree.get("Payment").get("Status")
             if status == 1:
                 self.write(
@@ -229,7 +221,7 @@ class PaymentTransactionCielo(models.Model):
                 self._set_transaction_cancel()
                 return False
 
-        elif type(tree) == list:
+        elif isinstance(tree, list):
             error = tree[0].get("Message")
             _logger.warn(error)
             self.sudo().write(

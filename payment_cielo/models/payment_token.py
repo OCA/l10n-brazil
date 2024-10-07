@@ -45,11 +45,10 @@ class PaymentTokenCielo(models.Model):
     )
 
     def _cielo_tokenize(self, values):
-        """Tokenize card in cielo server.
+        """Tokenize card in Cielo server.
 
-        Sends card data to cielo and gets back a token. Returns the response
-        dict which still contains all credit card data.
-
+        Send card data to Cielo and get back a token. Return the response
+        dict, which still contains all credit card data.
         """
         aquirer_id = self.env.ref("payment_cielo.payment_acquirer_cielo")
         api_url_create_card = "https://%s/1/card" % (aquirer_id._get_cielo_api_url())
@@ -84,13 +83,12 @@ class PaymentTokenCielo(models.Model):
 
     @api.model
     def cielo_create(self, values):
-        """Treats tokenizing data.
+        """Treat tokenizing data.
 
-        Calls _cielo_tokenize, formats the response data to the result and
-        removes secret credit card information since it's now stored by cielo.
-        A resulting dict containing card brand, card token, formated name (
-        XXXXXXXXXXXX1234 - Customar Name) and partner_id will be returned.
-
+        Call _cielo_tokenize, format the response data to the result and
+        remove secret credit card information since it's now stored by Cielo.
+        Return a resulting dict containing card brand, card token, formatted
+        name (XXXXXXXXXXXX1234 - Customer Name), and partner_id.
         """
         token = self._cielo_tokenize(values)
         if "CardToken" not in token:
@@ -121,7 +119,7 @@ class PaymentTokenCielo(models.Model):
             "cielo_token": values["card_token"],
         }
 
-        # pop credit card info to info sent to create
+        # Pop credit card info from info sent to create
         for field_name in ["card_number", "card_cvc", "card_holder", "card_exp"]:
             res.pop(field_name, None)
         return res

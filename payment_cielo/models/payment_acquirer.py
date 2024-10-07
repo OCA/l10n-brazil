@@ -11,7 +11,9 @@ _logger = logging.getLogger(__name__)
 class PaymentAcquirerCielo(models.Model):
     _inherit = "payment.acquirer"
 
-    provider = fields.Selection(selection_add=[("cielo", "Cielo")])
+    provider = fields.Selection(
+        selection_add=[("cielo", "Cielo")], ondelete={"cielo": "set default"}
+    )
     cielo_merchant_key = fields.Char(
         required_if_provider="cielo", groups="base.group_user"
     )
@@ -22,9 +24,8 @@ class PaymentAcquirerCielo(models.Model):
     )
     cielo_image_url = fields.Char("Checkout Image URL", groups="base.group_user")
 
-    @api.multi
     def cielo_s2s_form_validate(self, data):
-        """Validates user input"""
+        """Validate user input"""
         self.ensure_one()
         # mandatory fields
         for field_name in [
@@ -40,10 +41,9 @@ class PaymentAcquirerCielo(models.Model):
 
     @api.model
     def cielo_s2s_form_process(self, data):
-        """Saves the payment.token object with data from cielo server
+        """Save the payment.token object with data from Cielo server
 
         Secret card info should be empty by this point.
-
         """
         payment_token = (
             self.env["payment.token"]
@@ -64,31 +64,28 @@ class PaymentAcquirerCielo(models.Model):
 
     @api.model
     def _get_cielo_api_url(self):
-        """Get cielo API URLs used in all s2s communication
+        """Get Cielo API URLs used in all S2S communication
 
-        Takes environment in consideration.
-
+        Consider state.
         """
-        if self.environment == "test":
+        if self.state == "test":
             return "apisandbox.cieloecommerce.cielo.com.br"
-        if self.environment == "prod":
+        if self.state == "prod":
             return "api.cieloecommerce.cielo.com.br"
 
-    @api.multi
     def _get_cielo_api_headers(self):
-        """Get cielo API headers used in all s2s communication
+        """Get Cielo API headers used in all S2S communication
 
-        Takes environment in consideration. If environment is production
-        merchant_id and merchant_key need to be defined.
-
+        Consider state. If state is production, merchant_id
+        and merchant_key need to be defined.
         """
-        if self.environment == "test":
+        if self.state == "test":
             CIELO_HEADERS = {
                 "MerchantId": "be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd",
                 "MerchantKey": "POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE",
                 "Content-Type": "application/json",
             }
-        if self.environment == "prod":
+        if self.state == "prod":
             CIELO_HEADERS = {
                 "MerchantId": self.cielo_merchant_id,
                 "MerchantKey": self.cielo_merchant_key,
@@ -97,7 +94,7 @@ class PaymentAcquirerCielo(models.Model):
         return CIELO_HEADERS
 
     def _get_feature_support(self):
-        """Get advanced feature support by provider.
+        """Get advanced feature support by provider
 
         Each provider should add its technical in the corresponding
         key for the following features:

@@ -39,60 +39,6 @@ class CieloController(http.Controller):
 
         res = {
             "result": True,
-            "short_name": token.short_name,
-            "3d_secure": False,
-            "verified": False,
-        }
-
-        return res
-
-    @http.route(["/payment/cielo/s2s/create_json"], type="json", auth="public")
-    def cielo_s2s_create_json(self, **kwargs):
-        acquirer_id = int(kwargs.get("acquirer_id"))
-        acquirer = request.env["payment.acquirer"].browse(acquirer_id)
-        if not kwargs.get("partner_id"):
-            kwargs["partner_id"] = request.env.user.partner_id.id
-        return acquirer.s2s_process(kwargs).id
-
-    @http.route(["/payment/cielo/s2s/create"], type="http", auth="public")
-    def cielo_s2s_create(self, **post):
-        acquirer_id = int(post.get("acquirer_id"))
-        acquirer = request.env["payment.acquirer"].browse(acquirer_id)
-        error = None
-        try:
-            acquirer.s2s_process(post)
-        except Exception as e:
-            error = str(e)
-
-        return_url = post.get("return_url", "/")
-        if error:
-            separator = "?" if werkzeug.urls.url_parse(return_url).query == "" else "&"
-            return_url += "{}{}".format(
-                separator, werkzeug.urls.url_encode({"error": error})
-            )
-
-        return werkzeug.utils.redirect(return_url)
-
-    @http.route(
-        ["/payment/cielo/s2s/create_json_3ds"], type="json", auth="public", csrf=False
-    )
-    def cielo_s2s_create_json_3ds(self, verify_validity=False, **kwargs):
-        if not kwargs.get("partner_id"):
-            kwargs["partner_id"] = request.env.user.partner_id.id
-        token = (
-            request.env["payment.acquirer"]
-            .browse(int(kwargs.get("acquirer_id")))
-            .s2s_process(kwargs)
-        )
-
-        if not token:
-            res = {
-                "result": False,
-            }
-            return res
-
-        res = {
-            "result": True,
             "id": token.id,
             "short_name": token.short_name,
             "3d_secure": False,
@@ -107,9 +53,8 @@ class CieloController(http.Controller):
 
     @http.route(["/payment/cielo/create_charge"], type="json", auth="public")
     def cielo_create_charge(self, **post):
-        """Create a payment transaction
-
-        Expects the result from the user input from checkout.js popup"""
+        """Create a payment transaction.
+        Expect the result from the user input from checkout.js popup."""
         TX = request.env["payment.transaction"]
         tx = None
         if post.get("tx_ref"):
@@ -153,7 +98,7 @@ class CieloController(http.Controller):
             request.env["payment.transaction"].sudo().with_context(
                 lang=None
             ).form_feedback(response, "cielo")
-        # add the payment transaction into the session to let the page
-        # /payment/process to handle it
+        # Add the payment transaction into the session to let the page
+        # /payment/process handle it.
         PaymentProcessing.add_payment_transaction(tx)
         return "/payment/process"

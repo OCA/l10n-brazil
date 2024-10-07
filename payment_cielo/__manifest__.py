@@ -2,10 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Payent Cielo",
+    "name": "Payment Cielo",
     "summary": """
         Payment Acquirer: Cielo Implementation""",
-    "version": "12.0.3.2.1",
+    "version": "14.0.1.0.0",
     "development_status": "Alpha",
     "license": "AGPL-3",
     "author": "KMEE INFORMATICA LTDA,Odoo Community Association (OCA)",
