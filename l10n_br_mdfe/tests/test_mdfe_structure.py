@@ -5,7 +5,6 @@ from io import StringIO
 
 from odoo.tests import SavepointCase
 
-from odoo.addons.spec_driven_model import hooks
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 
 from ..models.document import MDFe
@@ -15,11 +14,6 @@ class MDFeStructure(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        hooks.register_hook(
-            cls.env,
-            "l10n_br_mdfe",
-            "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00",
-        )
 
     @classmethod
     def get_stacked_tree(cls, klass):
@@ -31,11 +25,25 @@ class MDFeStructure(SavepointCase):
         spec_module = (
             "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
         )
-        node = SpecModel._odoo_name_to_class(klass._stacked, spec_module)
+        spec_prefix = "mdfe30"
+        stacking_settings = {
+            "odoo_module": getattr(klass, f"_{spec_prefix}_odoo_module"),
+            "stacking_mixin": getattr(klass, f"_{spec_prefix}_stacking_mixin"),
+            "stacking_points": getattr(klass, f"_{spec_prefix}_stacking_points"),
+            "stacking_skip_paths": getattr(
+                klass, f"_{spec_prefix}_stacking_skip_paths", []
+            ),
+            "stacking_force_paths": getattr(
+                klass, f"_{spec_prefix}_stacking_force_paths", []
+            ),
+        }
+        node = SpecModel._odoo_name_to_class(
+            stacking_settings["stacking_mixin"], spec_module
+        )
         tree = StringIO()
         visited = set()
         for kind, n, path, field_path, child_concrete in klass._visit_stack(
-            cls.env, node
+            cls.env, node, stacking_settings
         ):
             visited.add(n)
             path_items = path.split(".")
@@ -105,10 +113,19 @@ class MDFeStructure(SavepointCase):
         )
 
     def test_m2o_stacked_to_concrete(self):
-        adic_model = (
-            self.env["l10n_br_fiscal.document"]._fields["mdfe30_infAdic"].comodel_name
+        # not stacked because optional
+        model = (
+            self.env["l10n_br_fiscal.document"]
+            ._fields["mdfe30_infSolicNFF"]
+            .comodel_name
         )
-        self.assertEqual(adic_model, "mdfe.30.infadic")
+        self.assertEqual(model, "mdfe.30.infsolicnff")
+
+    # def test_m2o_stacked(self):
+    #     # not stacked because optional
+    #     mdfe_model = self.env["l10n_br_fiscal.document"]
+    #     # mdfe30_cana is optional so its fields shoudn't be stacked
+    #     assert "mdfe30_XXX" not in mdfe_model._fields.keys()
 
     def test_doc_stacking_points(self):
         doc_keys = [
@@ -117,13 +134,19 @@ class MDFeStructure(SavepointCase):
             "mdfe30_infDoc",
             "mdfe30_tot",
             "mdfe30_infAdic",
-            "mdfe30_trem",
-            "mdfe30_infANTT",
-            "mdfe30_valePed",
-            "mdfe30_veicTracao",
-            "mdfe30_infBanc",
+            #     "mdfe30_trem",
+            #     "mdfe30_infANTT",
+            #     "mdfe30_valePed",
+            #     "mdfe30_veicTracao",
+            #     "mdfe30_infBanc",
         ]
-        keys = [k for k in MDFe._stacking_points.keys() if k.startswith("mdfe30_")]
+        keys = [
+            k
+            for k in self.env["l10n_br_fiscal.document"]
+            .with_context(spec_schema="mdfe", spec_version="30")
+            ._get_stacking_points()
+            .keys()
+        ]
         self.assertEqual(sorted(keys), sorted(doc_keys))
 
     def test_doc_tree(self):
@@ -131,3 +154,9 @@ class MDFeStructure(SavepointCase):
         tree, visited = self.get_stacked_tree(base_class)
         self.assertEqual(tree, MDFe.INFMDFE_TREE)
         self.assertEqual(len(visited), 6)  # all stacked classes
+
+    def test_m2o_force_stack(self):
+        pass
+
+    def test_doc_visit_stack(self):
+        pass

@@ -11,18 +11,14 @@ from ..constants.modal import MDFE_MODAL_HARBORS
 class MDFeModalAquaviario(spec_models.StackedModel):
     _name = "l10n_br_mdfe.modal.aquaviario"
     _inherit = "mdfe.30.aquav"
-    _stacked = "mdfe.30.aquav"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
-    _field_prefix = "mdfe30_"
-    _schema_name = "mdfe"
-    _schema_version = "3.0.0"
-    _odoo_module = "l10n_br_mdfe"
-    _spec_module = (
+    _description = "Modal Aquaviário MDFe"
+
+    _mdfe30_odoo_module = (
         "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aquaviario_v3_00"
     )
-    _spec_tab_name = "MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
+    _mdfe30_stacking_mixin = "mdfe.30.aquav"
     _mdfe_search_keys = ["mdfe30_irin", "mdfe30_cEmbar", "mdfe30_nViag"]
-    _description = "Modal Aquaviário MDFe"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -75,8 +71,8 @@ class MDFeModalAquaviario(spec_models.StackedModel):
 class MDFeModalAquaviarioCarregamento(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.carregamento"
     _inherit = "mdfe.30.inftermcarreg"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
     _description = "Carregamento no Modal Aquaviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -100,8 +96,8 @@ class MDFeModalAquaviarioCarregamento(spec_models.SpecModel):
 class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.descarregamento"
     _inherit = "mdfe.30.inftermdescarreg"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
     _description = "Descarregamento no Modal Aquaviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -125,8 +121,8 @@ class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
 class MDFeModalAquaviarioComboio(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.comboio"
     _inherit = "mdfe.30.infembcomb"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
     _description = "Informações de Comboio no Modal Aquaviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -138,8 +134,8 @@ class MDFeModalAquaviarioComboio(spec_models.SpecModel):
 class MDFeModalAquaviarioCargaVazia(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.carga.vazia"
     _inherit = "mdfe.30.infunidcargavazia"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
     _description = "Informações de Carga Vazia no Modal Aquaviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -151,8 +147,8 @@ class MDFeModalAquaviarioCargaVazia(spec_models.SpecModel):
 class MDFeModalAquaviarioTranporteVazio(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.transporte.vazio"
     _inherit = "mdfe.30.infunidtranspvazia"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
     _description = "Informações de Transporte Vazio no Modal Aquaviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
