@@ -5,7 +5,6 @@ from io import StringIO
 
 from odoo.tests import SavepointCase
 
-from odoo.addons.spec_driven_model import hooks
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 
 from ..models.document import MDFe
@@ -15,11 +14,7 @@ class MDFeStructure(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        hooks.register_hook(
-            cls.env,
-            "l10n_br_mdfe",
-            "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00",
-        )
+        cls.env["spec.mixin.mdfe"]._register_hook()
 
     @classmethod
     def get_stacked_tree(cls, klass):
@@ -105,10 +100,19 @@ class MDFeStructure(SavepointCase):
         )
 
     def test_m2o_stacked_to_concrete(self):
-        adic_model = (
-            self.env["l10n_br_fiscal.document"]._fields["mdfe30_infAdic"].comodel_name
+        # not stacked because optional
+        model = (
+            self.env["l10n_br_fiscal.document"]
+            ._fields["mdfe30_infSolicNFF"]
+            .comodel_name
         )
-        self.assertEqual(adic_model, "mdfe.30.infadic")
+        self.assertEqual(model, "mdfe.30.infsolicnff")
+
+    # def test_m2o_stacked(self):
+    #     # not stacked because optional
+    #     mdfe_model = self.env["l10n_br_fiscal.document"]
+    #     # mdfe30_cana is optional so its fields shoudn't be stacked
+    #     assert "mdfe30_XXX" not in mdfe_model._fields.keys()
 
     def test_doc_stacking_points(self):
         doc_keys = [
@@ -123,7 +127,7 @@ class MDFeStructure(SavepointCase):
             "mdfe30_veicTracao",
             "mdfe30_infBanc",
         ]
-        keys = [k for k in MDFe._stacking_points.keys() if k.startswith("mdfe30_")]
+        keys = [k for k in self.env["l10n_br_fiscal.document"]._stacking_points.keys()]
         self.assertEqual(sorted(keys), sorted(doc_keys))
 
     def test_doc_tree(self):
