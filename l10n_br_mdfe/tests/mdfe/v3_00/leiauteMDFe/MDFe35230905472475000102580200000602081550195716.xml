@@ -19,7 +19,7 @@
             <UFFim>AC</UFFim>
             <infMunCarrega>
                 <cMunCarrega>1200013</cMunCarrega>
-                <xMunCarrega>Acrel&#226;ndia</xMunCarrega>
+                <xMunCarrega>Acrelândia</xMunCarrega>
             </infMunCarrega>
             <infPercurso>
                 <UFPer>PB</UFPer>
@@ -33,6 +33,7 @@
             <enderEmit>
                 <xLgr>Rua Paulo Dias</xLgr>
                 <nro>586</nro>
+                <xBairro>Vila Santa Luzia</xBairro>
                 <cMun>3501152</cMun>
                 <xMun>Alumínio</xMun>
                 <CEP>18125000</CEP>
@@ -54,7 +55,7 @@
         <infDoc>
             <infMunDescarga>
                 <cMunDescarga>1200013</cMunDescarga>
-                <xMunDescarga>Acrel&#226;ndia</xMunDescarga>
+                <xMunDescarga>Acrelândia</xMunDescarga>
                 <infNFe>
                     <chNFe>41190806117473000150550010000586251016759484</chNFe>
                 </infNFe>

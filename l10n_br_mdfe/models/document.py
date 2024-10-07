@@ -59,24 +59,20 @@ def filtered_processador_edoc_mdfe(record):
 class MDFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "mdfe.30.tmdfe_infmdfe"]
-    _stacked = "mdfe.30.tmdfe_infmdfe"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
-    _field_prefix = "mdfe30_"
-    _schema_name = "mdfe"
-    _schema_version = "3.0.0"
-    _odoo_module = "l10n_br_mdfe"
-    _spec_module = "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
-    _spec_tab_name = "MDFe"
-    _mdfe_search_keys = ["mdfe30_Id"]
-
+    _mdfe30_odoo_module = (
+        "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
+    )
+    _mdfe30_stacking_mixin = "mdfe.30.tmdfe_infmdfe"
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = [
+    _mdfe30_stacking_force_paths = [
         "infmdfe.infAdic",
         "infmdfe.tot",
         "infmdfe.infsolicnff",
         "infmdfe.InfDoc",
     ]
+    _mdfe_search_keys = ["mdfe30_Id"]
 
+    # When dynamic stacking is applied the MDFe structure is:
     INFMDFE_TREE = """
 > <tmdfe_infmdfe>
     > <ide>
@@ -557,7 +553,7 @@ class MDFe(spec_models.StackedModel):
         if not self.modal_aereo_id:
             self.modal_aereo_id = self.modal_aereo_id.create({"document_id": self.id})
 
-        return self.modal_aereo_id.export_ds()[0]
+        return self.modal_aereo_id._build_binding("mdfe", "30")
 
     def _export_modal_ferroviario(self):
         if not self.modal_ferroviario_id:
@@ -565,7 +561,7 @@ class MDFe(spec_models.StackedModel):
                 {"document_id": self.id}
             )
 
-        return self.modal_ferroviario_id.export_ds()[0]
+        return self.modal_ferroviario_id._build_binding("mdfe", "30")
 
     def _export_modal_aquaviario(self):
         if not self.modal_aquaviario_id:
@@ -573,7 +569,7 @@ class MDFe(spec_models.StackedModel):
                 {"document_id": self.id}
             )
 
-        return self.modal_aquaviario_id.export_ds()[0]
+        return self.modal_aquaviario_id._build_binding("mdfe", "30")
 
     def _export_modal_rodoviario(self):
         if not self.modal_rodoviario_id:
@@ -581,7 +577,7 @@ class MDFe(spec_models.StackedModel):
                 {"document_id": self.id}
             )
 
-        return self.modal_rodoviario_id.export_ds()[0]
+        return self.modal_rodoviario_id._build_binding("mdfe", "30")
 
     ##########################
     # MDF-e tag: seg
@@ -740,7 +736,9 @@ class MDFe(spec_models.StackedModel):
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name == "mdfe30_infModal":
-            return self._build_generateds(class_obj._fields[field_name].comodel_name)
+            return self._build_binding(
+                class_name=class_obj._fields[field_name].comodel_name
+            )
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
@@ -826,11 +824,11 @@ class MDFe(spec_models.StackedModel):
             filtered_processador_edoc_mdfe
         ):
             record = record.with_context(module="l10n_br_mdfe")
-            inf_mdfe = record.export_ds()[0]
+            inf_mdfe = record._build_binding("mdfe", "30")
 
             inf_mdfe_supl = None
             if record.mdfe30_infMDFeSupl:
-                inf_mdfe_supl = record.mdfe30_infMDFeSupl.export_ds()[0]
+                inf_mdfe_supl = record.mdfe30_infMDFeSupl._build_binding("mdfe", "30")
 
             mdfe = Mdfe(infMDFe=inf_mdfe, infMDFeSupl=inf_mdfe_supl, signature=None)
             edocs.append(mdfe)
@@ -854,7 +852,8 @@ class MDFe(spec_models.StackedModel):
         return edoc_mdfe(**params)
 
     def _generate_key(self):
-        super()._generate_key()
+        if self.document_type_id.code not in [MODELO_FISCAL_MDFE]:
+            return super()._generate_key()
 
         for record in self.filtered(filtered_processador_edoc_mdfe):
             date = fields.Datetime.context_timestamp(record, record.document_date)
