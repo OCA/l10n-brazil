@@ -12,7 +12,6 @@ from odoo.tests.common import TransactionCase
 from odoo.tools import config
 
 from odoo.addons import l10n_br_mdfe
-from odoo.addons.spec_driven_model import hooks
 
 _logger = logging.getLogger(__name__)
 
@@ -20,13 +19,6 @@ _logger = logging.getLogger(__name__)
 class TestMDFeSerialize(TransactionCase):
     def setUp(self, mdfe_list):
         super().setUp()
-
-        hooks.register_hook(
-            self.env,
-            "l10n_br_mdfe",
-            "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00",
-        )
-
         self.mdfe_list = mdfe_list
         for mdfe_data in self.mdfe_list:
             mdfe = self.env.ref(mdfe_data["record_ref"])
@@ -239,6 +231,6 @@ class TestMDFeSerialize(TransactionCase):
             self.cr.dbname,
             mdfe.send_file_id.store_fname,
         )
-
-        _logger.info("XML file saved at %s" % (output,))
-        return main.diff_files(output, xml_path)
+        _logger.info(f"XML file saved at {output}")
+        diff = main.diff_files(output, xml_path)
+        return diff

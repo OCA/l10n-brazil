@@ -24,8 +24,6 @@ class ResPartner(spec_models.SpecModel):
         "mdfe.30.infresp",
         "mdfe.30.infseg",
     ]
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
-    _field_prefix = "mdfe30_"
     _mdfe_search_keys = ["mdfe30_CNPJ", "mdfe30_CPF", "mdfe_xNome"]
 
     @api.model
@@ -40,17 +38,24 @@ class ResPartner(spec_models.SpecModel):
         return values
 
     mdfe30_CNPJ = fields.Char(
-        compute="_compute_mdfe_data", inverse="_inverse_mdfe30_CNPJ", store=True
+        compute="_compute_mdfe_data",
+        inverse="_inverse_mdfe30_CNPJ",
+        store=True,
+        compute_sudo=True,
     )
 
     mdfe30_idEstrangeiro = fields.Char(
         compute="_compute_mdfe_data",
         inverse="_inverse_mdfe30_idEstrangeiro",
         store=True,
+        compute_sudo=True,
     )
 
     mdfe30_CPF = fields.Char(
-        compute="_compute_mdfe_data", inverse="_inverse_mdfe30_CPF", store=True
+        compute="_compute_mdfe_data",
+        inverse="_inverse_mdfe30_CPF",
+        store=True,
+        compute_sudo=True,
     )
 
     mdfe30_xLgr = fields.Char(
@@ -107,14 +112,18 @@ class ResPartner(spec_models.SpecModel):
         compute_sudo=True,
     )
 
-    mdfe30_choice6 = fields.Selection(
+    mdfe30_choice_emit = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="CNPJ/CPF do Emitente - MDFe",
         compute="_compute_mdfe_data",
+        compute_sudo=True,
     )
 
     mdfe30_CEP = fields.Char(
-        compute="_compute_mdfe_data", inverse="_inverse_mdfe30_CEP", string="CEP - MDFe"
+        compute="_compute_mdfe_data",
+        inverse="_inverse_mdfe30_CEP",
+        string="CEP - MDFe",
+        compute_sudo=True,
     )
 
     mdfe30_cPais = fields.Char(
@@ -135,6 +144,7 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_mdfe_data",
         inverse="_inverse_mdfe30_fone",
         string="Telefone MDFe",
+        compute_sudo=True,
     )
 
     mdfe30_xNome = fields.Char(related="legal_name", string="Nome - MDFe")
@@ -144,6 +154,7 @@ class ResPartner(spec_models.SpecModel):
     mdfe30_IE = fields.Char(
         compute="_compute_mdfe_data",
         inverse="_inverse_mdfe30_IE",
+        compute_sudo=True,
     )
 
     mdfe30_email = fields.Char(related="email")
@@ -156,19 +167,21 @@ class ResPartner(spec_models.SpecModel):
 
     mdfe30_tpProp = fields.Selection(default="0")
 
-    mdfe30_choice8 = fields.Selection(
+    mdfe30_choice_autxml = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="CNPJ/CPF do Parceiro Autorizado - MDFe",
         compute="_compute_mdfe_data",
+        compute_sudo=True,
     )
 
-    mdfe30_choice9 = fields.Selection(
+    mdfe30_choice_trailer_owner = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="CNPJ/CPF do Proprietário do Reboque",
         compute="_compute_mdfe_data",
+        compute_sudo=True,
     )
 
-    mdfe30_choice10 = fields.Selection(
+    mdfe30_choice_tcontractor = fields.Selection(
         selection=[
             ("mdfe30_CNPJ", "CNPJ"),
             ("mdfe30_CPF", "CPF"),
@@ -176,18 +189,21 @@ class ResPartner(spec_models.SpecModel):
         ],
         string="CNPJ/CPF/Id Estrangeiro do Contratante",
         compute="_compute_mdfe_data",
+        compute_sudo=True,
     )
 
-    mdfe30_choice11 = fields.Selection(
+    mdfe30_choice_contractor = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="CNPJ/CPF do Contratante",
         compute="_compute_mdfe_data",
+        compute_sudo=True,
     )
 
-    mdfe30_choice12 = fields.Selection(
+    mdfe30_choice_insurer = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="CNPJ/CPF do Responsável pelo Seguro da Carga",
         compute="_compute_mdfe_data",
+        compute_sudo=True,
     )
 
     @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
@@ -197,33 +213,33 @@ class ResPartner(spec_models.SpecModel):
             cnpj_cpf = punctuation_rm(rec.cnpj_cpf)
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
-                    rec.mdfe30_choice10 = "mdfe30_idEstrangeiro"
+                    rec.mdfe30_choice_tcontractor = "mdfe30_idEstrangeiro"
                     rec.mdfe30_idEstrangeiro = rec.vat
                 elif rec.is_company:
-                    rec.mdfe30_choice6 = "mdfe30_CNPJ"
-                    rec.mdfe30_choice8 = "mdfe30_CNPJ"
-                    rec.mdfe30_choice9 = "mdfe30_CNPJ"
-                    rec.mdfe30_choice10 = "mdfe30_CNPJ"
-                    rec.mdfe30_choice11 = "mdfe30_CNPJ"
-                    rec.mdfe30_choice12 = "mdfe30_CNPJ"
+                    rec.mdfe30_choice_emit = "mdfe30_CNPJ"
+                    rec.mdfe30_choice_autxml = "mdfe30_CNPJ"
+                    rec.mdfe30_choice_trailer_owner = "mdfe30_CNPJ"
+                    rec.mdfe30_choice_tcontractor = "mdfe30_CNPJ"
+                    rec.mdfe30_choice_contractor = "mdfe30_CNPJ"
+                    rec.mdfe30_choice_insurer = "mdfe30_CNPJ"
                     rec.mdfe30_CNPJ = cnpj_cpf
                     rec.mdfe30_CPF = None
                 else:
-                    rec.mdfe30_choice6 = "mdfe30_CPF"
-                    rec.mdfe30_choice8 = "mdfe30_CPF"
-                    rec.mdfe30_choice9 = "mdfe30_CPF"
-                    rec.mdfe30_choice10 = "mdfe30_CPF"
-                    rec.mdfe30_choice11 = "mdfe30_CPF"
-                    rec.mdfe30_choice12 = "mdfe30_CPF"
+                    rec.mdfe30_choice_emit = "mdfe30_CPF"
+                    rec.mdfe30_choice_autxml = "mdfe30_CPF"
+                    rec.mdfe30_choice_trailer_owner = "mdfe30_CPF"
+                    rec.mdfe30_choice_tcontractor = "mdfe30_CPF"
+                    rec.mdfe30_choice_contractor = "mdfe30_CPF"
+                    rec.mdfe30_choice_insurer = "mdfe30_CPF"
                     rec.mdfe30_CPF = cnpj_cpf
                     rec.mdfe30_CNPJ = None
             else:
-                rec.mdfe30_choice6 = False
-                rec.mdfe30_choice8 = False
-                rec.mdfe30_choice9 = False
-                rec.mdfe30_choice10 = False
-                rec.mdfe30_choice11 = False
-                rec.mdfe30_choice12 = False
+                rec.mdfe30_choice_emit = False
+                rec.mdfe30_choice_autxml = False
+                rec.mdfe30_choice_trailer_owner = False
+                rec.mdfe30_choice_tcontractor = False
+                rec.mdfe30_choice_contractor = False
+                rec.mdfe30_choice_insurer = False
                 rec.mdfe30_CNPJ = ""
                 rec.mdfe30_CPF = ""
 
@@ -239,30 +255,30 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             if rec.mdfe30_CNPJ:
                 rec.is_company = True
-                rec.mdfe30_choice6 = "mdfe30_CPF"
-                rec.mdfe30_choice8 = "mdfe30_CPF"
-                rec.mdfe30_choice9 = "mdfe30_CPF"
-                rec.mdfe30_choice10 = "mdfe30_CPF"
-                rec.mdfe30_choice11 = "mdfe30_CPF"
-                rec.mdfe30_choice12 = "mdfe30_CPF"
+                rec.mdfe30_choice_emit = "mdfe30_CPF"
+                rec.mdfe30_choice_autxml = "mdfe30_CPF"
+                rec.mdfe30_choice_trailer_owner = "mdfe30_CPF"
+                rec.mdfe30_choice_tcontractor = "mdfe30_CPF"
+                rec.mdfe30_choice_contractor = "mdfe30_CPF"
+                rec.mdfe30_choice_insurer = "mdfe30_CPF"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.mdfe30_CNPJ))
 
     def _inverse_mdfe30_CPF(self):
         for rec in self:
             if rec.mdfe30_CPF:
                 rec.is_company = False
-                rec.mdfe30_choice6 = "mdfe30_CNPJ"
-                rec.mdfe30_choice8 = "mdfe30_CNPJ"
-                rec.mdfe30_choice9 = "mdfe30_CNPJ"
-                rec.mdfe30_choice10 = "mdfe30_CNPJ"
-                rec.mdfe30_choice11 = "mdfe30_CNPJ"
-                rec.mdfe30_choice12 = "mdfe30_CNPJ"
+                rec.mdfe30_choice_emit = "mdfe30_CNPJ"
+                rec.mdfe30_choice_autxml = "mdfe30_CNPJ"
+                rec.mdfe30_choice_trailer_owner = "mdfe30_CNPJ"
+                rec.mdfe30_choice_tcontractor = "mdfe30_CNPJ"
+                rec.mdfe30_choice_contractor = "mdfe30_CNPJ"
+                rec.mdfe30_choice_insurer = "mdfe30_CNPJ"
                 rec.cnpj_cpf = cnpj_cpf.formata(str(rec.mdfe30_CPF))
 
     def _inverse_mdfe30_idEstrangeiro(self):
         for rec in self:
             if rec.mdfe30_idEstrangeiro:
-                rec.mdfe30_choice10 = "mdfe30_CPF"
+                rec.mdfe30_choice_tcontractor = "mdfe30_CPF"
                 rec.vat = rec.mdfe30_idEstrangeiro
 
     def _inverse_mdfe30_IE(self):

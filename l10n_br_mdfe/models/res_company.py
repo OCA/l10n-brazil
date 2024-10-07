@@ -25,8 +25,6 @@ class ResCompany(spec_models.SpecModel):
         "res.company",
         "mdfe.30.emit",
     ]
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00"
-    _field_prefix = "mdfe30_"
     _mdfe_search_keys = ["mdfe30_CNPJ", "mdfe30_xNome", "mdfe_xFant"]
 
     mdfe_version = fields.Selection(
@@ -78,7 +76,7 @@ class ResCompany(spec_models.SpecModel):
 
     mdfe30_fone = fields.Char(related="partner_id.mdfe30_fone")
 
-    mdfe30_choice6 = fields.Selection(
+    mdfe30_choice_emit = fields.Selection(
         [("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="MDFe emit CNPJ/CPF",
         compute="_compute_mdfe_data",
@@ -87,14 +85,14 @@ class ResCompany(spec_models.SpecModel):
     def _compute_mdfe_data(self):
         for rec in self:
             if rec.partner_id.is_company:
-                rec.mdfe30_choice6 = "mdfe30_CNPJ"
+                rec.mdfe30_choice_emit = "mdfe30_CNPJ"
             else:
-                rec.mdfe30_choice6 = "mdfe30_CPF"
+                rec.mdfe30_choice_emit = "mdfe30_CPF"
 
     def _build_attr(self, node, fields, vals, path, attr):
         if attr[0] == "enderEmit" and self.env.context.get("edoc_type") == "in":
             # we don't want to try build a related partner_id for enderEmit
-            # when importing an NFe
+            # when importing an MDFe
             # instead later the emit tag will be imported as the
             # document partner_id (dest) and the enderEmit data will be
             # injected in the same res.partner record.

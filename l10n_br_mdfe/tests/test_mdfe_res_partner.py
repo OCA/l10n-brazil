@@ -16,7 +16,9 @@ class TestMDFeResPartner(TransactionCase):
     def test_compute_fields(self):
         self.partner_id.country_id = self.env.ref("base.us")
 
-        self.assertEqual(self.partner_id.mdfe30_choice10, "mdfe30_idEstrangeiro")
+        self.assertEqual(
+            self.partner_id.mdfe30_choice_tcontractor, "mdfe30_idEstrangeiro"
+        )
         self.assertEqual(self.partner_id.mdfe30_idEstrangeiro, self.partner_id.cnpj_cpf)
 
     def test_inverse_fields(self):

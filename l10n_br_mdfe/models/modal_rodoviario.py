@@ -11,20 +11,14 @@ from odoo.addons.spec_driven_model.models import spec_models
 class MDFeModalRodoviario(spec_models.StackedModel):
     _name = "l10n_br_mdfe.modal.rodoviario"
     _inherit = "mdfe.30.rodo"
-    _stacked = "mdfe.30.rodo"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
-    _field_prefix = "mdfe30_"
-    _schema_name = "mdfe"
-    _schema_version = "3.0.0"
-    _odoo_module = "l10n_br_mdfe"
-    _spec_module = (
+    _description = "Modal Rodoviário MDFe"
+    _mdfe30_odoo_module = (
         "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_rodoviario_v3_00"
     )
-    _spec_tab_name = "MDFe"
-    _description = "Modal Rodoviário MDFe"
-
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _mdfe30_stacking_mixin = "mdfe.30.rodo"
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = ["rodo.infANTT", "rodo.infANTT.ValePed"]
+    _mdfe30_stacking_force_paths = ["rodo.infANTT", "rodo.infANTT.ValePed"]
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -79,9 +73,9 @@ class MDFeModalRodoviario(spec_models.StackedModel):
 class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.ciot"
     _inherit = "mdfe.30.infciot"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
-    _mdfe_search_keys = ["mdfe30_CIOT"]
     _description = "Informações do CIOT no Modal Rodoviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _mdfe_search_keys = ["mdfe30_CIOT"]
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -93,7 +87,7 @@ class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
 
     mdfe30_CPF = fields.Char(string="CPF do responsável")
 
-    mdfe30_choice1 = fields.Selection(
+    mdfe30_choice_responsible = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="CNPJ/CPF do responsável",
         compute="_compute_ciot_choice",
@@ -102,14 +96,16 @@ class MDFeModalRodoviarioCIOT(spec_models.SpecModel):
     @api.depends("is_company")
     def _compute_ciot_choice(self):
         for record in self:
-            record.mdfe30_choice1 = "mdfe30_CNPJ" if record.is_company else "mdfe30_CPF"
+            record.mdfe30_choice_responsible = (
+                "mdfe30_CNPJ" if record.is_company else "mdfe30_CPF"
+            )
 
 
 class MDFeModalRodoviarioValePedagioDispositivo(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.vale_pedagio.dispositivo"
     _inherit = "mdfe.30.disp"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _description = "Informações de Dispositivos do Pedágio no Modal Rodoviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -121,17 +117,14 @@ class MDFeModalRodoviarioValePedagioDispositivo(spec_models.SpecModel):
 class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
     _name = "l10n_br_mdfe.modal.rodoviario.pagamento"
     _inherit = "mdfe.30.rodo_infpag"
-    _stacked = "mdfe.30.rodo_infpag"
-    _field_prefix = "mdfe30_"
-    _schema_name = "mdfe"
-    _schema_version = "3.0.0"
-    _odoo_module = "l10n_br_mdfe"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
-    _spec_module = (
+    _description = "Informações do Pagamento do Modal Rodoviário MDFe"
+    _mdfe30_odoo_module = (
         "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_rodoviario_v3_00"
     )
-    _spec_tab_name = "MDFe"
-    _description = "Informações do Pagamento do Modal Rodoviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+    _mdfe30_stacking_mixin = "mdfe.30.rodo_infpag"
+    # all m2o at this level will be stacked even if not required:
+    _mdfe30_stacking_force_paths = ["rodo.infANTT", "rodo.infANTT.ValePed"]
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -145,7 +138,7 @@ class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
 
     mdfe30_xNome = fields.Char(related="partner_id.mdfe30_xNome")
 
-    mdfe30_choice1 = fields.Selection(
+    mdfe30_choice_tresponsible = fields.Selection(
         selection=[
             ("mdfe30_CNPJ", "CNPJ"),
             ("mdfe30_CPF", "CPF"),
@@ -176,7 +169,7 @@ class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
         default="bank",
     )
 
-    mdfe30_choice1 = fields.Selection(
+    mdfe30_choice_tpayment = fields.Selection(
         selection=[
             ("mdfe30_codBanco", "Banco"),
             ("mdfe30_codAgencia", "Agencia"),
@@ -191,11 +184,11 @@ class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
     def _compute_payment_type(self):
         for record in self:
             if record.payment_type == "bank":
-                record.mdfe30_choice1 = "mdfe30_codBanco"
+                record.mdfe30_choice_tpayment = "mdfe30_codBanco"
             elif record.payment_type == "pix":
-                record.mdfe30_choice1 = "mdfe30_PIX"
+                record.mdfe30_choice_tpayment = "mdfe30_PIX"
             else:
-                record.mdfe30_choice1 = False
+                record.mdfe30_choice_tpayment = False
 
     @api.depends("partner_id")
     def _compute_mdfe_data(self):
@@ -203,20 +196,20 @@ class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
             cnpj_cpf = punctuation_rm(rec.partner_id.cnpj_cpf)
             if cnpj_cpf:
                 if rec.partner_id.country_id.code != "BR":
-                    rec.mdfe30_choice1 = "mdfe40_idEstrangeiro"
+                    rec.mdfe30_choice_tresponsible = "mdfe40_idEstrangeiro"
                 elif rec.partner_id.is_company:
-                    rec.mdfe30_choice1 = "mdfe30_CNPJ"
+                    rec.mdfe30_choice_tresponsible = "mdfe30_CNPJ"
                 else:
-                    rec.mdfe30_choice1 = "mdfe30_CPF"
+                    rec.mdfe30_choice_tresponsible = "mdfe30_CPF"
             else:
-                rec.mdfe30_choice1 = False
+                rec.mdfe30_choice_tresponsible = False
 
 
 class MDFeModalRodoviarioPagamentoFrete(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.pagamento.frete"
     _inherit = "mdfe.30.rodo_comp"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _description = "Informações do Frete no Pagamento do Modal Rodoviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
 
     mdfe30_tpComp = fields.Selection(required=True)
 
@@ -226,8 +219,8 @@ class MDFeModalRodoviarioPagamentoFrete(spec_models.SpecModel):
 class MDFeModalRodoviarioPagamentoPrazo(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.pagamento.prazo"
     _inherit = "mdfe.30.rodo_infprazo"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _description = "Informações de Prazo de Pagamento do Modal Rodoviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
 
     mdfe30_nParcela = fields.Char(required=True)
 
@@ -239,8 +232,8 @@ class MDFeModalRodoviarioPagamentoPrazo(spec_models.SpecModel):
 class MDFeModalRodoviarioVeiculoCondutor(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.veiculo.condutor"
     _inherit = "mdfe.30.rodo_condutor"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _description = "Informações do Condutor no Modal Rodoviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -252,8 +245,8 @@ class MDFeModalRodoviarioVeiculoCondutor(spec_models.SpecModel):
 class MDFeModalRodoviarioReboque(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.reboque"
     _inherit = "mdfe.30.veicreboque"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _description = "Informações de Reboque no Modal Rodoviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -275,8 +268,8 @@ class MDFeModalRodoviarioReboque(spec_models.SpecModel):
 class MDFeModalRodoviarioLacre(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.lacre"
     _inherit = "mdfe.30.lacrodo"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _description = "Lacre MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -286,8 +279,8 @@ class MDFeModalRodoviarioLacre(spec_models.SpecModel):
 class MDFeModalRodoviarioContratante(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.rodoviario.contratante"
     _inherit = "mdfe.30.infcontratante"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _description = "Contratante MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
