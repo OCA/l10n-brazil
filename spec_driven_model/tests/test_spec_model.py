@@ -143,6 +143,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         po = self.env["fake.purchase.order"].create(
             {
                 "name": "PO XSD",
+                "date_order": "2024-10-08",
                 "partner_id": self.env.ref("base.res_partner_1").id,
                 "dest_address_id": self.env.ref("base.res_partner_1").id,
             }
@@ -164,7 +165,45 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         self.assertEqual(po_binding.items.item[0].quantity, 42)
         self.assertEqual(po_binding.items.item[0].usprice, "13")  # FIXME
 
-        # 3rd we import an Odoo PO from this binding object
+        # 3rd we serialize po_binding as XML and check the output:
+        try:
+            from xsdata.formats.dataclass.serializers import XmlSerializer
+            from xsdata.formats.dataclass.serializers.config import SerializerConfig
+
+            serializer = XmlSerializer(config=SerializerConfig(indent="  "))
+            xml = serializer.render(obj=po_binding, ns_map=None)
+            expected_xml = """<?xml version="1.0" encoding="UTF-8"?>
+<PurchaseOrderType orderDate="2024-10-08">
+  <ns0:shipTo xmlns:ns0="http://tempuri.org/PurchaseOrderSchema.xsd" country="US">
+    <ns0:name>Wood Corner</ns0:name>
+    <ns0:street>1839 Arbor Way</ns0:street>
+    <ns0:city>Turlock</ns0:city>
+    <ns0:state>California</ns0:state>
+    <ns0:zip>0</ns0:zip>
+  </ns0:shipTo>
+  <ns0:billTo xmlns:ns0="http://tempuri.org/PurchaseOrderSchema.xsd" country="US">
+    <ns0:name>Wood Corner</ns0:name>
+    <ns0:street>1839 Arbor Way</ns0:street>
+    <ns0:city>Turlock</ns0:city>
+    <ns0:state>California</ns0:state>
+    <ns0:zip>0</ns0:zip>
+  </ns0:billTo>
+  <ns0:items xmlns:ns0="http://tempuri.org/PurchaseOrderSchema.xsd">
+    <ns0:item>
+      <ns0:productName>Some product desc</ns0:productName>
+      <ns0:quantity>42</ns0:quantity>
+      <ns0:USPrice>13</ns0:USPrice>
+      <ns0:comment>0</ns0:comment>
+    </ns0:item>
+  </ns0:items>
+</PurchaseOrderType>
+"""
+            self.assertEqual(xml, expected_xml)
+
+        except ImportError:
+            _logger.error(_("xsdata Python lib not installed, skipping XML test!"))
+
+        # 4th we import an Odoo PO from this binding object
         # first we will do a dry run import:
         imported_po_dry_run = self.env["fake.purchase.order"].build_from_binding(
             po_binding, dry_run=True
