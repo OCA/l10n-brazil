@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template" xml:space="preserve">
 <t t-name="cielo.error">
     <div role="dialog" class="modal fade">
@@ -6,13 +6,23 @@
             <div class="modal-content">
                 <header class="modal-header">
                     <h4 class="modal-title">Error</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&amp;times;</button>
+                    <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >&amp;times;</button>
                 </header>
                 <main class="modal-body">
-                    <t t-esc="msg"></t>
+                    <t t-esc="msg" />
                 </main>
                 <footer class="modal-footer">
-                    <a role="button" href="#" class="btn btn-link btn-sm" data-dismiss="modal">Close</a>
+                    <a
+                            role="button"
+                            href="#"
+                            class="btn btn-link btn-sm"
+                            data-dismiss="modal"
+                        >Close</a>
                 </footer>
             </div>
         </div>
