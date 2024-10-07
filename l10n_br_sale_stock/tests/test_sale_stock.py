@@ -6,6 +6,7 @@
 # from stock_picking_invoicing
 # https://github.com/OCA/account-invoicing/blob/16.0/
 # stock_picking_invoicing/tests/common.py
+from odoo import exceptions
 from odoo.tests import Form, tagged
 
 from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
@@ -16,6 +17,29 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # Problem in sale_stock_picking_invoicing
+        # In order to avoid errors in the tests CI environment when the tests
+        # Create of Invoice by Sale Order using sale.advance.payment.inv object
+        # is necessary let default policy as sale_order, just affect demo data.
+        # TODO: Is there other form to avoid this problem?
+        # cls.companies = cls.env["res.company"].search(
+        #    [("sale_invoicing_policy", "=", "sale_order")]
+        # )
+        # for company in cls.companies:
+        #    company.sale_invoicing_policy = "stock_picking"
+
+    def set_sale_invoicing_policy(self):
+        # Isso deveria estar sendo feito no setupUpClass mas retorna erro:
+        # l10n_br_sale_stock/tests/test_sale_stock.py", line 53, in setUpClass
+        # cls.companies = cls.env["res.company"].search(
+        # AttributeError: type object 'TestSaleStock' has no attribute 'env'
+        # TODO: Na v16 isso não parece acontecer, pode ser algo referente ao ORM,
+        #  ver na migração
+        self.companies = self.env["res.company"].search(
+            [("sale_invoicing_policy", "=", "sale_order")]
+        )
+        for company in self.companies:
+            company.sale_invoicing_policy = "stock_picking"
 
     def test_02_sale_stock_return(self):
         """
@@ -24,31 +48,21 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         of the picking. Check that a refund invoice is well generated.
         """
         # intial so
+        self.set_sale_invoicing_policy()
         self.partner = self.env.ref("l10n_br_base.res_partner_address_ak2")
         self.product = self.env.ref("product.product_delivery_01")
-        so_vals = {
-            "partner_id": self.partner.id,
-            "partner_invoice_id": self.partner.id,
-            "partner_shipping_id": self.partner.id,
-            "order_line": [
-                (
-                    0,
-                    0,
-                    {
-                        "name": self.product.name,
-                        "product_id": self.product.id,
-                        "product_uom_qty": 3.0,
-                        "product_uom": self.product.uom_id.id,
-                        "price_unit": self.product.list_price,
-                    },
-                )
-            ],
-            "pricelist_id": self.env.ref("product.list0").id,
-        }
-        self.so = self.env["sale.order"].create(so_vals)
 
-        for line in self.so.order_line:
-            line._onchange_product_id_fiscal()
+        sale_form = Form(self.env["sale.order"])
+        sale_form.partner_id = self.partner
+        sale_form.pricelist_id = self.env.ref("product.list0")
+        sale_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        with sale_form.order_line.new() as line:
+            line.name = self.product.name
+            line.product_id = self.product
+            line.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+            line.product_uom_qty = 3
+
+        self.so = sale_form.save()
 
         # confirm our standard so, check the picking
         self.so.action_confirm()
@@ -129,21 +143,18 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         """
         Test Sale Order with product and service
         """
-
-        sale_order_2 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_2")
-        sale_order_2.action_confirm()
-
-        # Forma encontrada para chamar o metodo
-        # _compute_get_button_create_invoice_invisible
+        self.set_sale_invoicing_policy()
+        sale_order_2 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_2")
         sale_order_form = Form(sale_order_2)
         sale_order = sale_order_form.save()
+        sale_order.action_confirm()
         # Metodo de criação da fatura a partir do sale.order
         # deve gerar apenas a linha de serviço
         sale_order._create_invoices(final=True)
         # Deve existir apenas a Fatura/Documento Fiscal de Serviço
         self.assertEqual(1, sale_order.invoice_count)
         for invoice in sale_order.invoice_ids:
-            for line in invoice.invoice_line_ids:
+            for line in invoice.invoice_line_ids.filtered(lambda ln: ln.product_id):
                 self.assertEqual(line.product_id.type, "service")
             # Confirmando a Fatura de Serviço
             invoice.action_post()
@@ -152,19 +163,9 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             )
 
         picking = sale_order.picking_ids
-        # Check product availability
-        picking.action_assign()
         # Apenas o Produto criado
         self.assertEqual(len(picking.move_ids_without_package), 1)
         self.assertEqual(picking.invoice_state, "2binvoiced")
-        # Force product availability
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-            # Usado para validar a transferencia dos campos da linha
-            # do Pedido de Venda para a linha da Fatura/Invoice
-            sale_order_line = move.sale_line_id
-            self.assertEqual(sale_order_line.product_uom, move.product_uom)
-
         self.picking_move_state(picking)
         self.assertEqual(picking.state, "done")
         invoice = self.create_invoice_wizard(picking)
@@ -182,7 +183,9 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         self.assertEqual(invoice.invoice_payment_term_id, sale_order_2.payment_term_id)
 
         # Apenas a Fatura com a linha do produto foi criada
-        self.assertEqual(len(invoice.invoice_line_ids), 1)
+        self.assertEqual(
+            len(invoice.invoice_line_ids.filtered(lambda ln: ln.product_id)), 1
+        )
 
         # No Pedido de Venda devem existir duas Faturas/Documentos Fiscais
         # de Serviço e Produto
@@ -192,13 +195,13 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         invoice.action_post()
         self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted.")
 
+        sale_order_line = sale_order.order_line.filtered(
+            lambda ln: ln.product_id.type == "product"
+        )
+
         # Validar Atualização da Quantidade Faturada
-        for line in sale_order_2.order_line:
-            # Apenas a linha de Produto tem a qtd faturada dobrada
-            if line.product_id.type == "product":
-                # A quantidade Faturada deve ser igual
-                # a Quantidade do Produto
-                self.assertEqual(line.product_uom_qty, line.qty_invoiced)
+        # A quantidade Faturada deve ser igual a Quantidade do Produto
+        self.assertEqual(sale_order_line.product_uom_qty, sale_order_line.qty_invoiced)
 
         # Checar se os campos das linhas do Pedido de Vendas
         # estão iguais as linhas da Fatura/Invoice.
@@ -217,26 +220,14 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             # a copia entre os objetos é testada tanto no stock.move acima
             # quanto na account.move.line abaixo
             "uom_id",
-            # Ao chamar o _onchange_product_id_fiscal no stock.move o
-            # partner_id usado no mapeamento é o do objeto, nesse teste
-            # 'Akretion Aluminio - SP' por ser o Endereço de Entrega
-            # partner_shipping_id, porém esse não é o partner_invoice_id
-            # 'Akretion Sao Paulo' essa diferença ocasiona diferentes
-            # 'Linhas de Operações Fiscal'/fiscal_operation_line_id entre:
-            # Objeto                         | Linha de Operações Fiscal
-            # _______________________________|____________________________
-            # sale.order.line                | 'Revenda não Contribuinte'
-            # stock.move e account.move.line | 'Revenda'
-            #  TODO: O mapeamento da 'Linha de Operações Fiscal' precisa
-            #   considerar os casos onde o partner_id do objeto não é o
-            #   partner_invoice_id. Por enquanto o campo não está sendo validado
-            #   para evitar erros aqui já que isso precisa ser resolvido em outro
-            #   modulo ou talvez aqui porém seria apenas uma correção temporaria.
-            "fiscal_operation_line_id",
+            # Field sequence add in creation of Invoice
+            "sequence",
         ]
 
         common_fields = list(set(acl_fields) & set(sol_fields) - set(skipped_fields))
-        invoice_lines = picking.invoice_ids.invoice_line_ids
+        invoice_lines = picking.invoice_ids.invoice_line_ids.filtered(
+            lambda ln: ln.product_id == sale_order_line.product_id
+        )
 
         for field in common_fields:
             self.assertEqual(
@@ -246,9 +237,10 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
                 "sale.order.line to account.move.line" % field,
             )
 
-        for inv_line in invoice_lines:
-            if inv_line.product_id == sale_order_line.product_id:
-                self.assertEqual(sale_order_line.product_uom, inv_line.product_uom_id)
+        for inv_line in invoice_lines.filtered(
+            lambda ln: ln.product_id == sale_order_line.product_id
+        ):
+            self.assertEqual(sale_order_line.product_uom, inv_line.product_uom_id)
 
         # Teste de Retorno
         picking_devolution = self.return_picking_wizard(picking)
@@ -275,12 +267,8 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             invoice_devolution.state, "posted", "Invoice should be in state Posted."
         )
         # Validar Atualização da Quantidade Faturada
-        for line in sale_order_2.order_line:
-            # Apenas a linha de Produto tem a qtd faturada dobrada
-            if line.product_id.type == "product":
-                # A quantidade Faturada deve ser zero
-                # devido a Devolução
-                self.assertEqual(0.0, line.qty_invoiced)
+        # A quantidade Faturada deve ser zero devido a Devolução
+        self.assertEqual(0.0, sale_order_line.qty_invoiced)
 
     def test_picking_invoicing_partner_shipping_invoiced(self):
         """
@@ -288,12 +276,13 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         picking and 3 moves per picking, but Partner to Shipping is
         different from Partner to Invoice.
         """
-        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_1")
+        self.set_sale_invoicing_policy()
+        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
         self.picking_move_state(picking)
 
-        sale_order_2 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_2")
+        sale_order_2 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_2")
         sale_order_2.action_confirm()
         picking2 = sale_order_2.picking_ids
 
@@ -318,8 +307,14 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
         # Not grouping products with different sale line,
         # 3 products from sale_order_1 and 1 product from sale_order_2
-        self.assertEqual(len(invoice.invoice_line_ids), 4)
-        for inv_line in invoice.invoice_line_ids:
+        # sale_order_1 | 3 products           | 1 Note | 1 Section
+        # sale_order_2 | 1 product -1 service | 1 Note | 1 Section |
+        len_sale_lines = len(sale_order_1.order_line) + (
+            len(sale_order_2.order_line) - 1
+        )
+
+        self.assertEqual(len(invoice.invoice_line_ids), len_sale_lines)
+        for inv_line in invoice.invoice_line_ids.filtered(lambda ln: ln.product_id):
             # TODO: No travis falha o browse aqui
             #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
             #  isso não acontece no caso da empresa de Lucro Presumido
@@ -340,20 +335,20 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         picking and 3 moves per picking, the 3 has the same Partner to
         Invoice but one has Partner to Shipping so shouldn't be grouping.
         """
-
-        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_1")
+        self.set_sale_invoicing_policy()
+        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
         self.picking_move_state(picking)
 
-        sale_order_3 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_3")
+        sale_order_3 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_3")
         sale_order_3.action_confirm()
         picking3 = sale_order_3.picking_ids
         self.picking_move_state(picking3)
         self.assertEqual(picking.state, "done")
         self.assertEqual(picking3.state, "done")
 
-        sale_order_4 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_4")
+        sale_order_4 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_4")
         sale_order_4.action_confirm()
         picking4 = sale_order_4.picking_ids
         self.picking_move_state(picking4)
@@ -398,7 +393,8 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         """
         Test the synchronize Sale Partner Shipping in Stock Picking
         """
-        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_1")
+        self.set_sale_invoicing_policy()
+        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
         sale_order_1.partner_shipping_id = self.env.ref(
@@ -411,10 +407,9 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         """
         Test Lucro Presumido Company
         """
+        self.set_sale_invoicing_policy()
         self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
-        sale_order_1 = self.env.ref(
-            "l10n_br_sale_stock.l10n_br_sale_stock_lucro_presumido"
-        )
+        sale_order_1 = self.env.ref("l10n_br_sale_stock.lucro_presumido-sale_order_1")
         sale_order_form = Form(sale_order_1)
         sale_order = sale_order_form.save()
         sale_order.incoterm = self.env.ref("account.incoterm_FOB")
@@ -424,7 +419,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         self.picking_move_state(picking)
         invoice = self.create_invoice_wizard(picking)
         self.assertEqual(len(invoice), 1)
-        for inv_line in invoice.invoice_line_ids:
+        for inv_line in invoice.invoice_line_ids.filtered(lambda ln: ln.product_id):
             # TODO: No Travis quando a empresa main_company falha esse browse aqui
             #  l10n_br_stock_account/models/stock_invoice_onshipping.py:105
             #  isso não acontece no caso da empresa de Lucro Presumido ou quando é
@@ -432,50 +427,12 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             #  seguida o l10n_br_stock_account.
             self.assertTrue(inv_line.tax_ids, "Error to map Sale Tax in invoice.line.")
 
-    def test_button_create_bill_in_view(self):
-        """
-        Test Field to make Button Create Bill invisible.
-        """
-        sale_order_form = Form(self.env.ref("l10n_br_sale.main_so_only_products"))
-        sale_products = sale_order_form.save()
-        # Caso do Pedido de Vendas em Rascunho
-        self.assertTrue(
-            sale_products.button_create_invoice_invisible,
-            "Field to make invisible the Button Create Bill should be"
-            " invisible when Sale Order is not in state Sale or Done.",
-        )
-        sale_products.action_confirm()
-        self.assertTrue(
-            sale_products.button_create_invoice_invisible,
-            "Field to make invisible the button Create Bill should be"
-            " invisible when Sale Order has only products.",
-        )
-
-        # Caso somente Serviços
-        sale_order_form = Form(self.env.ref("l10n_br_sale.main_so_only_services"))
-        sale_only_service = sale_order_form.save()
-        sale_only_service.action_confirm()
-        self.assertFalse(
-            sale_only_service.button_create_invoice_invisible,
-            "Field to make invisible the Button Create Bill should be"
-            " False when the Sale Order has only Services.",
-        )
-
-        # Caso Produto e Serviço
-        sale_order_form = Form(self.env.ref("l10n_br_sale.main_so_product_service"))
-        sale_service_product = sale_order_form.save()
-        sale_service_product.action_confirm()
-        self.assertFalse(
-            sale_only_service.button_create_invoice_invisible,
-            "Field to make invisible the Button Create Bill should be"
-            " False when the Sale Order has Service and Product.",
-        )
-
     def test_compatible_with_international_case(self):
         """
         Test compatibility with international cases or
         without Fiscal Operation.
         """
+        self.set_sale_invoicing_policy()
         so_international = self.env.ref("sale.sale_order_3")
         so_international.fiscal_operation_id = False
         so_international.action_confirm()
@@ -498,13 +455,14 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
     def test_form_stock_picking(self):
         """Test Stock Picking with Form"""
-
-        sale_order = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_1")
+        self.set_sale_invoicing_policy()
+        sale_order = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order.action_confirm()
         picking = sale_order.picking_ids
-        self.picking_move_state(picking)
         picking_form = Form(picking)
-
+        # Testa o mapeamento do _get_fiscal_partner
+        picking_form.partner_id = self.env.ref("l10n_br_base.res_partner_akretion")
+        picking_form.partner_id = self.env.ref("l10n_br_base.res_partner_address_ak3")
         # Apesar do metodo onchange retornar uma OP Fiscal padrão,
         # quando existe um Pedido de Venda associado deve usar retornar
         # a mesma OP Fiscal do Pedido.
@@ -512,3 +470,80 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         picking_form.invoice_state = "2binvoiced"
         self.assertEqual(sale_order.fiscal_operation_id, picking.fiscal_operation_id)
         picking_form.save()
+
+    def test_down_payment(self):
+        """Test the case with Down Payment"""
+        self.set_sale_invoicing_policy()
+        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
+        sale_order_1.action_confirm()
+        # Create Invoice Sale
+        context = {
+            "active_model": "sale.order",
+            "active_id": sale_order_1.id,
+            "active_ids": sale_order_1.ids,
+        }
+        # Test Create Invoice Policy
+        payment = (
+            self.env["sale.advance.payment.inv"]
+            .with_context(context)
+            .create(
+                {
+                    "advance_payment_method": "delivered",
+                }
+            )
+        )
+        with self.assertRaises(exceptions.UserError):
+            payment.with_context(context).create_invoices()
+
+        # DownPayment
+        payment_wizard = (
+            self.env["sale.advance.payment.inv"]
+            .with_context(context)
+            .create(
+                {
+                    "advance_payment_method": "percentage",
+                    "amount": 50,
+                }
+            )
+        )
+        payment_wizard.create_invoices()
+
+        invoice_down_payment = sale_order_1.invoice_ids[0]
+        invoice_down_payment.action_post()
+        payment_register = Form(
+            self.env["account.payment.register"].with_context(
+                active_model="account.move",
+                active_ids=invoice_down_payment.ids,
+            )
+        )
+        journal_cash = self.env["account.journal"].search(
+            [
+                ("type", "=", "cash"),
+                ("company_id", "=", invoice_down_payment.company_id.id),
+            ],
+            limit=1,
+        )
+        payment_register.journal_id = journal_cash
+        payment_method_manual_in = self.env.ref(
+            "account.account_payment_method_manual_in"
+        )
+        payment_register.payment_method_id = payment_method_manual_in
+        payment_register.amount = invoice_down_payment.amount_total
+        payment_register.save()._create_payments()
+
+        picking = sale_order_1.picking_ids
+        self.picking_move_state(picking)
+        invoice = self.create_invoice_wizard(picking)
+        # 3 Products, 1 Section, 1 Note, 1 Down Payment and 1 Section
+        # of DownPayment added during the creation of Invoice
+        sale_lines = len(sale_order_1.order_line) + 1
+        self.assertEqual(len(invoice.invoice_line_ids), sale_lines)
+        line_section = invoice.invoice_line_ids.filtered(
+            lambda line: line.display_type == "line_section"
+        )
+        assert line_section, "Invoice without Line Section for Down Payment."
+        down_payment_line = invoice.invoice_line_ids.filtered(
+            lambda line: line.sale_line_ids.is_downpayment
+        )
+        assert down_payment_line, "Invoice without Down Payment line."
+        invoice.action_post()
