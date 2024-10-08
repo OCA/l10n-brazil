@@ -28,11 +28,11 @@ Boletos e CNAB de cobrança
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-**Português** Esse modulo implementa o CNAB usando a biblioteca
-BRCobranca https://github.com/kivanio/brcobranca .
-
-**English** This module implement brazilian bank splips('Boletos
-Bancarios') by using BRCobranca(https://github.com/kivanio/brcobranca).
+O módulo implementa o CNAB, a geração do Boleto, do Arquivo de Remessa e
+importa o Arquivo de Retorno usando a `Biblioteca
+BRCobranca <https://github.com/kivanio/brcobranca>`__ através do
+Micro-Serviço
+`Boleto_CNAB_API <https://github.com/akretion/boleto_cnab_api>`__.
 
 **Table of contents**
 
@@ -42,12 +42,7 @@ Bancarios') by using BRCobranca(https://github.com/kivanio/brcobranca).
 Installation
 ============
 
-**Português** O modulo depende do:
-
-- l10n_br_account_payment_order
-- account_move_base_import
-
-**English** This module depends on:
+O modulo depende do:
 
 - l10n_br_account_payment_order
 - account_move_base_import
@@ -55,172 +50,196 @@ Installation
 Configuration
 =============
 
-**Português** Para configurar esse modulo é preciso:
+Para configurar esse módulo é preciso:
 
-- Rodar a biblioteca BRCobranca como um micro-serviço
-  https://github.com/akretion/boleto_cnab_api .
-- Informar a variável de ambiente **BRCOBRANCA_API_URL** no arquivo de
-  configuração do Odoo ou se estiver usando o docky na seção enviroment
+Rodar a biblioteca **BRCobranca** como um micro-serviço
+**Boleto_CNAB_API**.
+
+Informar a variável de ambiente **BRCOBRANCA_API_URL**, existem três
+opções:
+
+- No arquivo de configuração do **Docker Compose File** na seção
+  **enviroment**, por exemplo
   https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3
-  , exemplo: **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
-- Verifique se os Códigos de Movimento do CNAB a ser usado existem em
-  Faturamento > Configurações > Administração > Códigos de Instrução do
-  Movimento CNAB, se for necessário criar considere fazer um PR para
-  adicionar como dados aqui
-  https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml
-  .
-- Verifique se os Códigos de Retorno do Movimento do CNAB a ser usado
-  existem em Faturamento > Configurações > Administração > Códigos de
-  Retorno de Movimento CNAB, se for necessário criar considere fazer um
-  PR para adicionar como dados aqui
-  https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml
-  .
-- Criar a Conta Bancária referente ao CNAB em Faturamento >
-  Configurações > Contabilidade > Contas Bancárias .
-- Automaticamente será criado um Diário Contábil referente a conta
-  bancária em Faturamento > Configurações > Contabilidade > Diários na
-  aba **Informações Referentes a Importação** informe as configurações
-  de Retorno do CNAB nos campos "Tipo de Importação", "Conta de
-  Recebimento/Pagamento", "Criação de Contra-Partida" e se deve ser
-  feita a reconciliação automática ao importar o arquivo em "Reconciliar
-  Automaticamente o Retorno de Pagamento".
-- Em Faturamento > Configurações > Administração > Modos de Pagamento
-  criar um Modo de Pagamento com as informações do CNAB, no campo
-  "Diário de Banco Fixo" informar o Diário Contábil da conta bancária e
-  se for o caso, e é recomendado, marcar a opção "Adicionar
-  automaticamente ao validar a fatura" para não ser preciso fazer
-  manualmente.
-- Caso o CNAB e Banco escolhidos possua um campo especifico que seja
-  preciso implementar considere fazer um PR no modulo
-  l10n_br_account_payment_order aqui
-  https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307
-  .
-- Configure as permissões de acesso dos usuários, as opções são CNAB
-  "Usuário" e "Gerente".
+  , incluir: **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
+- No arquivo de Configuração do Odoo, incluir:
+  **brcobranca_api_url=http://boleto_cnab_api:9292**
+- No Odoo crie um Parâmetro de Sistema como:
+  **brcobranca_api_url=http://boleto_cnab_api:9292**
 
-**English** To configure this module, you need to:
+Verifique se os Códigos do CNAB do Banco que será usado existem em:
 
-- Run BRCobranca as micro-service
-  https://github.com/akretion/boleto_cnab_api.
-- Inform the envoriment variable BRCOBRANCA_API_URL in the config odoo
-  file or if are use docky in the section enviroment
-  https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3
-  , example: **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
-- Check if the CNAB Instruction Movement Code to be use exist in
-  Invoicing > Configuration > Management > CNAB Movement Instruction
-  Code if necessary create please consider make PR to add as data in
-  https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml
-  .
-- Check if the CNAB Return Move Code to be use exist in Invoicing >
-  Configuration > Management > CNAB Return Move Code if necessary create
-  please consider make PR to add as data in
-  https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml
-  .
-- Create an Bank Account referent of CNAB in Invoicing > Configuration >
-  Accounting > Bank Accounts .
-- Automatic will be create an Account Journal refer to bank account in
-  Invoicing > Configuration > Accounting > Journals in tab **Import
-  related infos** inform parameters of CNAB Return in fields "Type of
-  Import", "Receivable/Payable Account", "Create Counterpart", and if
-  should make automatic reconciliation when import the file in
-  "Automatic Reconcile payment returns".
-- In Invoicing > Configuration > Management > Payment Modes create an
-  Payment Mode with CNAB information, in the field "Fixed Bank Journal"
-  inform the Account Journal of bank account and mark if "Automatically
-  add when validating the invoice" so that you don't have to do it
-  manually.
-- Configure user access permissions, CNAB options are "User" and
-  "Manager".
+**Faturamento > Configurações > Administração > Códigos CNAB**
+
+Caso seja preciso criar por favor considere fazer um PR nesse módulo
+acrescentando os Códigos em
+**l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml**
+dessa forma nas próximas implementações já não será preciso cadastrar,
+isso ajuda na construção de um banco de conhecimento, salvando tanto
+horas de implementação por não ser necessário rever ou refazer o que foi
+feito como poder usar o que outros fizeram, isso também é importante
+porque permite testar e avaliar as diferenças entre cada caso tornando a
+implementação mais robusta, você pode ver os casos que já existem hoje
+no módulo
+`l10n_br_account_payment_order <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_order>`__.
+
+Crie uma **Configuração CNAB**, é onde serão armazenadas as informações
+específicas de cada caso como a Carteira, Convênio, Código do
+Benificiário, Códigos de Instrução e Retorno do Movimento, etc, em:
+
+**Faturamento > Configuração > Administração > Configurações CNAB**
+
+Verifique se a **Conta Bancária** referente ao CNAB já foi cadastrada
+em:
+
+**Configurações > Usuários e Empresas > Empresas**
+
+Clique no Contato associado, e na aba Faturamento veja se a **Contas
+Bancária** referente ao CNAB já existe e se as informações estão
+corretas, se não existir veja de criar informando os dados Número da
+Conta, Agencia, etc.
+
+Ao cadastrar a **Conta Bancária** deve ser criado automaticamente um
+**Diário Contábil**, ou se já havia sido cadastrada o Diário já deve
+existir, verifique em:
+
+**Faturamento > Configurações > Financeiro > Diários**
+
+Confirme se as informações estão corretas, campo **Tipo** deve estar
+como Banco, na aba **Lançamentos do Diário** em **Número da Conta
+Bancária** deve estar preenchido com a **Conta Bancária** do CNAB e na
+aba **Configuração de Pagamentos** os Metódos que serão usados, 240 ou
+400, devem estar marcados.
+
+Na aba **Informações Referentes a Importação** informe as configurações
+de Retorno do CNAB nos campos **Tipo de Importação**, **Conta de
+Recebimento/Pagamento**, **Criação de Contra-Partida** e se deve ser
+feita a reconciliação automática ao importar o arquivo em **Reconciliar
+Automaticamente o Retorno de Pagamento**.
+
+Crie um **Modo de Pagamento** ou use um existente em:
+
+**Faturamento > Configuração > Administração > Modos de Pagamento**
+
+Informe o **Diário Contábil** referente ao Banco e a **Configuração
+CNAB** que deverá ser utilizada, no campo **Diário de Banco Fixo**
+informar o Diário Contábil da Conta Bancária e se for o caso, e é
+recomendado, marcar a opção **Adicionar automaticamente ao validar a
+fatura** para não ser preciso fazer manualmente.
+
+Caso o CNAB e Banco escolhidos possua um campo específico que seja
+preciso implementar considere fazer um PR no módulo
+**l10n_br_account_payment_order** aqui
+https://github.com/OCA/l10n-brazil/blob/16.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307
+.
+
+Configure as permissões de acesso dos usuários, as opções são CNAB
+**Usuário** e **Gerente**.
 
 Usage
 =====
 
-**Português**
+Ao criar e Confirmar uma **Fatura** que tem um **Modo de Pagamento** que
+tenha uma **Configuração CNAB** definida deverá aparecer o botão de
+**Imprimir Boleto**, caso esteja marcado no Modo de Pagamento a opção de
+**Adicionar automaticamente ao validar a fatura** será criada ou
+adicionada em uma **Ordem de Pagamento** as linhas de pagamentos do
+CNAB, se a opção não estiver marcada será preciso fazer isso manualmente
+podendo ser feito tanto na Fatura quanto na Ordem de Pagamento.
 
-- Ao criar e Confirmar uma Fatura que tem um Modo de Pagamento que seja
-  CNAB deverá aparecer o botão de "Imprimir Boleto".
-- Caso esteja marcado no Modo de Pagamento a opção de "Adicionar
-  automaticamente ao validar a fatura" será criada ou adicionada em uma
-  Ordem de Pagamento as linhas de pagamentos do CNAB, se a opção não
-  estiver marcada será preciso fazer isso manualmente podendo ser feito
-  tanto na Fatura quanto na Ordem de Pagamento.
-- Ao Confirmar essa Ordem de Pagamento será possível gerar o arquivo de
-  Remessa CNAB a ser enviado ao Banco, é importante confirmar o envio do
-  arquivo alterando o status da ordem para "Arquivo Enviado", essa
-  informação é usada para validar se existe uma instrução CNAB pendente
-  antes de se poder criar outra.
-- Alterações de CNAB como Alteração da Data de Vencimento, Protesto,
-  Conceder Abatimento e etc podem ser feitas na própria Fatura em
-  Faturamento > Clientes > Faturas na aba Recebimentos na última coluna
-  existe o botão "Atualizar Informação CNAB" ao clicar em uma linha essa
-  opção também aparece, ao fazer uma alteração é criada ou adicionada em
-  uma Ordem de Pagamento a Instrução de Movimento CNAB selecionada.
-- A importação do arquivo CNAB de Retorno pode ser feita em Pagamentos >
-  Importar arquivo Batch ou no próprio Diário em Faturamento >
-  Configurações > Contabilidade > Diários na aba **Informações
-  Referentes a Importação** o botão Importar arquivo Batch.
-- Toda importação de arquivo de retorno cria uma LOG que pode ser
-  consultado em Pagamentos > LOG de Retorno CNAB.
-- Caso o Código de Retorno CNAB recebido seja um dos "Códigos de
-  Liquidação do Retorno do Movimento" do Modo de Pagamento será criado
-  uma Entrada de Diário com os valores quando existirem de desconto,
-  juros/mora, tarifa bancaria, abatimento e valor a ser reconciliado com
-  a linha da Fatura referente, os lançamentos são separados de acordo
-  com as Contas Contabéis definidas no Modo de Pagamento, a linha para
-  reconciliar a linha da Fatura precisam ser iguais por isso o valor é:
-  valor_recebido_calculado = (valor_recebido + valor_desconto +
-  valor_abatimento) - valor_juros_mora
-- Quando marcada a opção de "Reconciliação Automatica" /a Entrada de
-  Diário será movida para o status Lançado automaticamente ao importar o
-  arquivo, se não estiver marcada isso deverá ser feito manualmente.
+Ao Confirmar essa **Ordem de Pagamento** será possível gerar o **Arquivo
+de Remessa CNAB** a ser enviado ao Banco, é importante confirmar o envio
+do arquivo alterando o status da ordem para **Arquivo Enviado**, essa
+informação é usada para validar se existe uma instrução CNAB pendente
+antes de se poder criar outra.
 
-**English**
+Alterações de CNAB como Alteração da Data de Vencimento, Protesto,
+Conceder Abatimento e etc podem ser feitas na própria Fatura em:
 
-- When creating and confirming an Invoice that has a Payment Mode that
-  is CNAB, the button should appear "Print Boleto".
-- If the option to "Add automatically when validating the invoice" is
-  marked in the Payment Mode CNAB payment lines will be created or added
-  to a Payment Order, if the option is not marked, you will need to do
-  this manually, which can be done both in the Invoice and in the
-  Payment Order.
-- By confirming this Payment Order it will be possible to generate the
-  CNAB Remessa file to be sent to the Bank, it is important to confirm
-  the upload of the file by changing the order status to "File
-  Uploaded", this information is used to validate if there is a pending
-  CNAB instruction before another one can be created.
-- CNAB changes such as Change Due Date, Protest, Grant Rebate, etc. can
-  be made in the Invoice itself in Invoicing > Customers > Invoices in
-  the Receivable tab in the last column there is the button "Update CNAB
-  Information" when clicking on a line this option also appears, when
-  making a change it is created or added to a Payment Order the selected
-  CNAB Movement Instruction.
-- The import of the Return CNAB file can be done in Payments > Import
-  Batch file or in the same Journal in Invoicing > Configuration >
-  Accounting > Journals in the tab **Import related infos** the Import
-  Batch File button.
-- Every return file import creates a LOG that can be consulted in
-  Payments > CNAB Return LOG.
-- If the CNAB Return Code received is one of the "CNAB Liquidity Return
-  Move Code" of the Payment Mode, a Journal Entry will be created with
-  the values when there are discount, interest, tariff charge, rebate
-  and amount to be reconciled with the referring Invoice line, entries
-  are separated according to the Accounts defined in the Payment Mode,
-  the line to reconcile the Invoice line need be equal so the value is:
-  calculated_value_receive = (receive_amount + discount_amount +
-  rebate_amount) - interest_amount
-- When the "Automatic Reconciliation" option is checked, the Entry of
-  Journal will be moved to the status Posted automatically when
-  importing the file, if not checked it should be done manually.
+**Faturamento > Clientes > Faturas**
+
+Na aba **Recebimentos** na última coluna existe o botão **Atualizar
+Informação CNAB** ao clicar em uma linha essa opção também aparece, ao
+fazer uma alteração é criada ou adicionada em uma Ordem de Pagamento a
+**Instrução de Movimento CNAB** selecionada.
+
+A importação do **Arquivo CNAB de Retorno** pode ser feita em:
+
+**Faturamento > Financeiro > CNAB > Importar Arquivo de Lote**
+
+ou no próprio Diário em:
+
+**Faturamento > Configurações > Financeiro > Diários**
+
+Na aba **Informações Referentes a Importação** no botão **Arquivo de
+lote de importação**.
+
+Toda importação de arquivo de retorno cria um **LOG** que pode ser
+consultado em:
+
+**Faturamento > Financeiro > CNAB > Registro de Retorno de CNAB**
+
+Caso o **Código de Retorno CNAB** recebido seja um dos **Códigos de
+Liquidação do Retorno do Movimento**, definidos na **Configuração CNAB**
+usada no **Modo de Pagamento**, será criada uma **Entrada de Diário**
+com os valores, quando existirem de **Desconto, Juros/Mora, Tarifa
+Bancária, Abatimento** e o **Valor Recebido** a ser reconciliado com a
+linha da **Fatura** referente, os lançamentos são separados de acordo
+com as **Contas Contabéis** definidas na **Configuração CNAB**, a linha
+para reconciliar a Fatura precisam ser iguais por isso o valor é:
+
+**valor_recebido_calculado = valor_recebido + valor_desconto +
+valor_abatimento - valor_juros_mora**
+
+Quando marcada a opção de **Reconciliação Automática** a **Entrada de
+Diário** será movida para o status **Lançado** automaticamente ao
+importar o arquivo, se essa opção não estiver marcada isso deverá ser
+feito manualmente.
 
 Known issues / Roadmap
 ======================
 
-- Incluir a posssibilidade de imprimir o boleto no menu Imprimir da
-  Fatura, na v12 aparentemente não é possível chamar um metodo apenas um
-  QWeb, verificar na migração para outras versões.
+- Verificar a posssibilidade de Imprimir o **Boleto** pelo menu
+  **Imprimir** da Fatura, na v16 em diante.
 
 Changelog
 =========
+
+16.0.3.0.0 (2024-12-16)
+-----------------------
+
+- [REF] "Foward Port" Separando as Configurações do CNAB do Modo de
+  Pagamento.
+
+16.0.2.0.0 (2024-12-02)
+-----------------------
+
+- [REF] "Foward Port" Unindo os Códigos CNAB em um mesmo objeto.
+
+16.0.1.0.0 (2024-08-22)
+-----------------------
+
+- [MIG] Migração para a versão 16.0
+
+14.0.9.0.0 (2024-09-19)
+-----------------------
+
+- [REM] Removendo Campos, Visões e Objetos obsoletos.
+
+14.0.8.0.0 (2024-09-18)
+-----------------------
+
+- [IMP] Possibilidade de informar Códigos de Desconto além do 0 e 1.
+
+14.0.7.0.0 (2024-09-13)
+-----------------------
+
+- [REF] Separando as Configurações do CNAB do Modo de Pagamento.
+
+14.0.6.0.0 (2024-09-10)
+-----------------------
+
+- [REF] Unindo os Códigos CNAB em um mesmo objeto.
 
 14.0.1.0.0 (2022-05-26)
 -----------------------
