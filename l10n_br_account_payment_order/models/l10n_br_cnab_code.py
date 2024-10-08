@@ -48,6 +48,7 @@ class L10nBrCNABCode(models.Model):
         ],
     )
 
+    # TODO: a ordem das colunas estão trocadas
     bank_ids = fields.Many2many(
         string="Banks",
         comodel_name="res.bank",
@@ -58,6 +59,7 @@ class L10nBrCNABCode(models.Model):
         required=True,
     )
 
+    # TODO: a ordem das colunas estão trocadas
     payment_method_ids = fields.Many2many(
         comodel_name="account.payment.method",
         string="Payment Methods",
