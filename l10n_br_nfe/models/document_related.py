@@ -21,12 +21,8 @@ class NFeRelated(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.related"
     _inherit = ["l10n_br_fiscal.document.related", "nfe.40.nfref"]
     _stacked = "nfe.40.nfref"
-    _field_prefix = "nfe40_"
-    _schema_name = "nfe"
-    _schema_version = "4.0.0"
-    _odoo_module = "l10n_br_nfe"
+    _stacking_points = {}
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-    _spec_tab_name = "NFe"
     _stack_skip = ("nfe40_NFref_ide_id",)
     # all m2o below this level will be stacked even if not required:
     _rec_name = "nfe40_refNFe"
