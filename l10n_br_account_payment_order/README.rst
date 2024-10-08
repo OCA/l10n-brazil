@@ -28,17 +28,53 @@ Brazilian Payment Order
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-O modulo implementa a parte comum da infra-estrutura necessária para o
-uso do CNAB 240 ou 400 localizando o modulo
-https://github.com/OCA/bank-payment/tree/12.0/account_payment_order onde
-o Modo de Pagamento é usado para as configurações especificas de cada
-CNAB e a Ordem de Pagamento para o envio de Instruções CNAB, também é
-incluído grupos de acesso para permissões de segurança e o registro do
-LOG de retorno. Porém a implementação foi pensada para permitir que seja
-possível usar diferentes bibliotecas para gerar e tratar o retorno do
-CNAB, por isso é preciso instalar um segundo modulo que vai ter essa
-função, portanto a ideia é que aqui estará tudo que for comum para a
-implementação mas não irá funcionar sem esse segundo modulo.
+O módulo implementa a parte comum da infra-estrutura necessária para o
+uso do CNAB implementando:
+
+- **Códigos CNAB** - códigos de Instrução, Retorno, Carteira e Desconto.
+
+- **Configuração CNAB** - onde serão salvas as informações específicas
+  de cada caso como Convênio, Código do Beneficiário, Modalidade,
+  Percentual de Multa, códigos de Instrução do Movimento de Liquidação
+  de Alteração de Vencimento e etc.
+
+- **Modo de Pagamento** - localiza o módulo
+  `account_payment_mode <https://github.com/OCA/bank-payment/tree/16.0/account_payment_mode>`__
+  para associar o **Diário Contábil** referente a **Conta Bancária** do
+  CNAB e informar a **Configuração do CNAB** que será usada, assim ao
+  informar o Modo de Pagamento em um Pedido de Venda, Compras ou
+  Faturamento o programa identifica como sendo um caso CNAB.
+
+- **Ordem de Pagamento** - localiza o módulo
+  `account_payment_order <https://github.com/OCA/bank-payment/tree/16.0/account_payment_order>`__
+  que usa a **Ordem de Pagamento**, débito ou crédito, para registrar as
+  **Instruções de Movimento** e onde será criado o **Arquivo CNAB
+  Remessa**.
+
+- **Registro do LOG de Eventos** - ao importar um arquivo de retorno
+  CNAB.
+
+- **Grupos e Permissões de acesso** - CNAB Usuário e Gerente.
+
+A implementação foi pensada para permitir que seja possível usar
+diferentes Bibliotecas para **Gerar os Boletos, Arquivo CNAB de Remessa
+e tratar o Arquivo de Retorno do CNAB** por isso é preciso instalar um
+segundo módulo que vai ter essa função, portanto a ideia é que nesse
+módulo deverá estar tudo que for comum para a implementação mas o CNAB
+não irá funcionar sem esse segundo módulo.
+
+**IMPORTANTE:** Apesar de muitas Documentações do CNAB acabarem dizendo
+que usam o "Padrão FEBRABAN" na realidade e ao longo dos anos foi visto
+que existem muitas divergências entre os casos incluindo diferentes
+Códigos para a mesma função ou mesmo Termos e nomenclaturas que apesar
+de semelhantes podem acabar confundindo o usuário, por isso essa falta
+de padrão foi considerada na implementação e na arquitetura do módulo e
+também precisa ser considerada em manutenções, melhorias ou no uso de
+outras Bibliotecas, é preciso separar o que é realmente comum do que
+pode variar entre os Bancos e CNAB, nesse sentido foram incluídos nos
+Dados de Demonstração mais de um caso para ficar claro aos
+desenvolvedores essas particularidades e evitar uma arquitetura que
+desconsidere esse aspecto.
 
 **Table of contents**
 
@@ -48,7 +84,7 @@ implementação mas não irá funcionar sem esse segundo modulo.
 Installation
 ============
 
-This module depends on:
+Este módulo depende do:
 
 - l10n_br_base
 - account_payment_order
@@ -58,101 +94,205 @@ This module depends on:
 Configuration
 =============
 
-Verifique se o Banco e o tipo CNAB usado 240 ou 400 possuem os Códigos
-de Instrução do Movimento e os Códigos de Retorno do Movimento em:
+Verifique se os **Códigos CNAB** do Banco e da versão 240 ou 400 que
+serão usados principalmente os de **Instrução e de Retorno do
+Movimento** do CNAB existem ou se será necessário criar em:
 
-- Faturamento > Configurações > Administração > CNAB Código de Movimento
-  de Instrução
-- Faturamento > Configurações > Administração > CNAB Código de Retorno
-  do Movimento
+**Faturamento > Configuração > Administração > Códigos CNAB**
 
-Caso seja preciso cadastrar por favor considere fazer um PR nesse modulo
-acrescentando em
-l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml assim
-em proximas implementações já não será preciso cadastra-los.
+Caso seja preciso criar por favor considere fazer um PR nesse módulo
+acrescentando os Códigos em
+**l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml**
+dessa forma nas próximas implementações já não será preciso cadastrar,
+isso ajuda na construção de um banco de conhecimento, salvando tanto
+horas de implementação por não ser necessário rever ou refazer o que foi
+feito como poder usar o que outros fizeram, isso também é importante
+porque permite testar e avaliar as diferenças entre cada caso tornando a
+implementação mais robusta, hoje o que temos são:
 
-Informe os dados do CNAB usado no cadastro do:
+========= ======= ========= =======
+Banco     CNAB    Instrução Retorno
+========= ======= ========= =======
+AILOS     240     X         X
+Bradesco  240/400 X         X
+Brasil    400     X         X
+CEF       240     X         X
+Itaú      240/400 X         X
+Santander 240/400 X         X
+Sicred    240     X         X
+Unicred   240/400 X         X
+========= ======= ========= =======
 
-   - Faturamento > Configurações > Administração > Modos de Pagamento
+Crie uma **Configuração CNAB**, é onde será armazenada as informações
+específicas de cada caso como a Carteira, Convênio, Código do
+Benificiário, Códigos de Instrução e Retorno do Movimento, etc em:
+
+**Faturamento > Configuração > Administração > Configurações do CNAB**
+
+Verifique se a **Conta Bancária** referente ao CNAB já foi cadastrada
+em:
+
+**Configurações > Usuários e Empresas > Empresas**
+
+Clique no Contato associado e na aba **Faturamento** veja **Contas
+Bancárias** se não existir veja de criar informando os dados Número da
+Conta, Agencia, etc.
+
+Ao cadastrar uma **Conta Bancária** deve ser criado automaticamente um
+**Diário Contábil**, ou se já havia sido cadastrada o Diário já deve
+existir, verifique em:
+
+**Faturamento > Configurações > Financeiro > Diários**
+
+Verifique se as informações estão corretas, campo **Tipo** deve estar
+como Banco, na aba **Lançamentos do Diário** em Número da Conta Bancária
+deve estar preenchido com a **Conta Bancária** e na aba **Configuração
+de Pagamentos** os Metódos que serão usados, 240 ou 400, devem estar
+marcados.
+
+Crie um **Modo de Pagamento** ou use um existente em:
+
+**Faturamento > Configuração > Administração > Modos de Pagamento**
+
+Informe o Diário Contábil referente ao Banco e a Configuração CNAB que
+deverá ser utilizada.
+
+A partir disso sempre que for informado o **Modo de Pagamento** tanto em
+um Pedido de Vendas ou na Fatura o programa passa a identificar como um
+caso CNAB, em casos onde um cliente vai sempre usar o mesmo Modo de
+Pagamento também é possível deixar isso como padrão no Cadastro de
+Cliente assim a informação é carregada automaticamente ao informar esse
+Cliente em um novo Pedido de Venda ou Fatura.
 
 Verifique as permissões de acesso dos usuários que vão utilizar o CNAB,
-existe o Usuário e o Gerente CNAB.
+existe o **Usuário** e o **Gerente** CNAB.
 
-IMPORTANTE: Como o CNAB envolve dinheiro e o caixa da empresa a
+**IMPORTANTE:** Como o CNAB envolve dinheiro e o caixa da empresa a
 segurança e a rastreablidade são fundamentais e como as configurações
-especificas de cada CNAB estão no Modo de Pagamento/account.payment.mode
-foi incluído nele o objeto mail.thread que registra alterações feitas em
-campos importantes, porém campos many2many não estão sendo registrados
-pelo track_visibility( ver detalhes aqui
-l10n_br_account_payment_order/models/account_payment_mode.py#L59), e um
-campo especifico e importante que armazena os Codigos de Retorno do CNAB
-que devem gerar Baixa/Liquidação é desse tipo, portanto as alterações
-referentes a esse campo não estão sendo registradas. No repositorio
-https://github.com/OCA/social/tree/12.0 da OCA existe um modulo para
-corrigir isso o
-https://github.com/OCA/social/tree/12.0/mail_improved_tracking_value ,
-por isso considere e é RECOMENDADO incluir esse modulo na implementação
-para corrigir esse problema. A inclusão da dependencia desse modulo aqui
+especificas de cada CNAB estão na **Configuração
+CNAB/l10n_br_cnab.config** foi incluído nele o objeto **mail.thread**
+que registra alterações feitas em campos importantes, porém campos
+**many2many** não estão sendo registrados pelo **track_visibility** (ver
+detalhes aqui
+l10n_br_account_payment_order/models/l10n_br_cnab_config.py#L75), e um
+campo específico e importante que armazena os **Códigos de Retorno do
+CNAB** que devem gerar **Baixa/Liquidação** é desse tipo, portanto as
+alterações referentes a esse campo não estão sendo registradas. No
+repositório https://github.com/OCA/social/tree/16.0 da **OCA** existe um
+módulo para corrigir isso o
+`mail_improved_tracking_value <https://github.com/OCA/social/tree/16.0/mail_improved_tracking_value>`__,
+por isso considere e é RECOMENDADO incluir esse módulo na implementação
+para corrigir esse problema. A inclusão da dependência desse módulo aqui
 está pendente de aprovação.
 
 Usage
 =====
 
-Ao criar uma Fatura/account.invoice que tem um Modo de Pagamento do tipo
-CNAB e se o campo auto_create_payment_order estiver marcado as linhas
-referentes as Parcelas serão criadas automaticamente em uma nova Ordem
-de Pagamento ou adicionadas em uma já existente que esteja no estado
-Rascunho, também é possível incluir manualmente, a geração do arquivo e
-o tratamento do arquivo de retorno dependem da instalação de um segundo
-modulo onde é definida a biblioteca a ser utilizada.
+Ao criar uma **Fatura Documento Fiscal/account.move** que tem um **Modo
+de Pagamento** com uma **Configuração CNAB** definida e se o campo
+**auto_create_payment_order** estiver marcado as linhas referentes as
+Parcelas serão criadas automaticamente em uma nova **Ordem de
+Pagamento**, débito ou crédito, ou adicionadas em uma já existente que
+esteja no estado **Rascunho**, também é possível incluir manualmente, a
+geração do Boleto, Arquivo de Envio e o tratamento do Arquivo de Retorno
+dependem da instalação de um segundo módulo onde é definida a biblioteca
+a ser utilizada.
 
 Known issues / Roadmap
 ======================
 
-- Verificar a questão do campos many2many que não estão sendo
-  registrados pelo track_visibility e se será incluída a dependendecia
-  https://github.com/OCA/social/tree/12.0/mail_improved_tracking_value (
-  confirmar o problema na v14 ).
+- Verificar a questão do campos **many2many** que não estão sendo
+  registrados pelo **track_visibility** e se será incluída a dependência
+  do módulo
+  `mail_improved_tracking_value <https://github.com/OCA/social/tree/16.0/mail_improved_tracking_value>`__.
 - Processo de Alteração de Carteira, falta informações sobre o processo.
-- Mapear e incluir os codigos dos bancos de cada CNAB 240 / 400, aqui
-  devido a quantidade de possibilidades se trata de um "roadmap"
-  constante onde contamos com PRs de outros contribuidores que irão
-  implementar um caso que ainda não esteja cadastrado, apesar do codigo
-  permitir que o cadastro seja feito na tela nesses casos.
+- Mapear e incluir os Códigos dos Bancos CNAB 240/400, aqui devido a
+  quantidade de possibilidades se trata de um "roadmap" constante onde
+  contamos com PRs de outros contribuidores que irão implementar um caso
+  que ainda não esteja cadastrado, apesar do código permitir que o
+  cadastro seja feito na tela nesses casos.
 - Processo de "Antecipação do Título junto ao Banco" ou "Venda do Título
-  junto a Factoring" ver as alterações feitas na v14
-  https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592
-  .
+  junto a Factoring" ver as alterações feitas na v14 em diante
+  https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592.
 - CNAB de Pagamento, verificar a integração com o PR
   https://github.com/OCA/l10n-brazil/pull/972 e a possibilidade de
-  multiplos modos de pagamento na mesma Ordem de Pagamento
+  múltiplos **Modos de Pagamento** na mesma **Ordem de Pagamento**
   https://github.com/odoo-brazil/l10n-brazil/pull/112
-- Verificar a possibilidade na v14 de remoção do ondele='restrict' no
-  campo "move_line_id" e o campo "related" "ml_maturity_date" do
-  account.payment.line no modulo dependente
-  https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39
-  para permitir o processo de Cancelamento de uma Fatura quando existe
-  uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes
-  l10n_br_account_payment_order/models/account_payment_line.py#L130 )
-- Funcionalidade de Agrupar Por/Group By não funciona em campos do tipo
-  Many2Many, aparentemente isso foi resolvido na v15(verfificar na
-  migração), isso é usado nos objetos referentes aos Codigos CNAB de
+- Verificar a possibilidade na v16 em diante de remoção do
+  **ondele='restrict'** no campo "move_line_id" e o campo "related"
+  "ml_maturity_date" do **account.payment.line** no módulo dependente
+  https://github.com/OCA/bank-payment/blob/16.0/account_payment_order/models/account_payment_line.py#L39
+  para permitir o processo de **Cancelamento de uma Fatura** quando
+  existe uma **Ordem de Pagamento** já Confirmada/Gerada/Enviada
+  (detalhes
+  l10n_br_account_payment_order/models/account_payment_line.py#L130)
+- Funcionalidade de **Agrupar Por/Group By** não funciona em campos do
+  tipo **Many2Many**, aparentemente isso foi resolvido na v15(verificar
+  na migração), isso é usado nos objetos referentes aos Códigos CNAB de
   Instrução e Retorno.
-- Confirmar se existem Bancos que usam os mesmos conjuntos de Codigos
-  CNAB de Instrução e Retorno para caso não existir remover o many2many
-  do Banco e deixar apenas o many2one.
-- Na migração remover o objeto bank.payment.line, que está vazio, porém
-  é necessário para evitar erro na atualização do modulo ver detalhes em
-  l10n_br_account_payment_order/models/account_payment_line.py:291 e
-  referencia do problema https://github.com/odoo/odoo/issues/44767 .
-- Verificar a possibilidade de usar o objeto account.payment no caso
-  CNAB e o modulo
-  https://github.com/OCA/bank-payment/tree/14.0/account_payment_order_return
-  para tratar o LOG de Retorno do CNAB, RFC
-  https://github.com/OCA/l10n-brazil/issues/2272 .
+- Confirmar se existem Bancos que usam os mesmos conjuntos de Códigos
+  CNAB de Instrução e Retorno para caso não existir remover o
+  **many2many** do Banco e deixar apenas o **many2one**.
+- Verificar a possibilidade de usar o objeto **account.payment** no caso
+  CNAB e o módulo
+  https://github.com/OCA/bank-payment/tree/16.0/account_payment_order_return
+  para tratar o **LOG de Retorno do CNAB, RFC**
+  https://github.com/OCA/l10n-brazil/issues/2272.
 
 Changelog
 =========
+
+16.0.5.0.0 (2024-12-16)
+-----------------------
+
+- [REM] "Foward Port" Removendo Campos, Visões e Objetos obsoletos.
+
+16.0.4.0.0 (2024-12-16)
+-----------------------
+
+- [IMP] "Foward Port" Possibilidade de informar Códigos de Desconto além
+  do 0 e 1.
+
+16.0.3.0.0 (2024-12-16)
+-----------------------
+
+- [REF] "Foward-Port" Separando as Configurações do CNAB do Modo de
+  Pagamento.
+
+16.0.2.0.0 (2024-12-04)
+-----------------------
+
+- [REF] "Foward-Port" Unindo os Códigos CNAB em um mesmo objeto.
+
+16.0.1.0.0 (2024-09-10)
+-----------------------
+
+- [MIG] Migração para a versão 16.0
+
+15.0.1.0.0 (2024-07-25)
+-----------------------
+
+- [MIG] Migração para a versão 15.0
+
+14.0.9.0.0 (2024-09-19)
+-----------------------
+
+- [REM] Removendo Campos, Visões e Objetos obsoletos.
+
+14.0.8.0.0 (2024-09-18)
+-----------------------
+
+- [IMP] Possibilidade de informar Códigos de Desconto além do 0 e 1.
+
+14.0.7.0.0 (2024-09-13)
+-----------------------
+
+- [REF] Separando as Configurações do CNAB do Modo de Pagamento.
+
+14.0.6.0.0 (2024-09-10)
+-----------------------
+
+- [REF] Unindo os Códigos CNAB em um mesmo objeto.
 
 14.0.1.0.0 (2022-04-29)
 -----------------------
@@ -234,21 +374,21 @@ Contributors
 
 - `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Mileo
+  - Luis Felipe Mileo <mileo@kmee.com.br>
   - Fernando Marcato
-  - Hendrix Costa
+  - Hendrix Costa <hendrix.costa@kmee.com.br>
 
 - `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  - Magno Costa
+  - Magno Costa <magno.costa@akretion.com.br>
 
 - `Engenere <https://engenere.one>`__:
 
-  - Antônio S. Pereira Neto
+  - Antônio S. Pereira Neto <neto@engenere.one>
 
 - `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago
+  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
 Other credits
 -------------
