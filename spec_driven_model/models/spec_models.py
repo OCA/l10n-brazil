@@ -238,15 +238,14 @@ class StackedModel(SpecModel):
     @classmethod
     def _build_model(cls, pool, cr):
         # inject all stacked m2o as inherited classes
-        if cls._stacked:
-            _logger.info(f"building StackedModel {cls._name} {cls}")
-            node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
-            env = api.Environment(cr, SUPERUSER_ID, {})
-            for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
-                env, node
-            ):
-                if kind == "stacked" and klass not in cls.__bases__:
-                    cls.__bases__ = (klass,) + cls.__bases__
+        _logger.info(f"building StackedModel {cls._name} {cls}")
+        node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
+            env, node
+        ):
+            if kind == "stacked" and klass not in cls.__bases__:
+                cls.__bases__ = (klass,) + cls.__bases__
         return super()._build_model(pool, cr)
 
     @api.model
