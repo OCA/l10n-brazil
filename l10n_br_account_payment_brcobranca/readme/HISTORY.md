@@ -1,3 +1,31 @@
+## 16.0.3.0.0 (2024-12-16)
+
+- \[REF\] "Foward Port" Separando as Configurações do CNAB do Modo de Pagamento.
+
+## 16.0.2.0.0 (2024-12-02)
+
+- \[REF\] "Foward Port" Unindo os Códigos CNAB em um mesmo objeto.
+
+## 16.0.1.0.0 (2024-08-22)
+
+- \[MIG\] Migração para a versão 16.0 
+
+## 14.0.9.0.0 (2024-09-19)
+
+- \[REM\] Removendo Campos, Visões e Objetos obsoletos.
+
+## 14.0.8.0.0 (2024-09-18)
+
+- \[IMP\] Possibilidade de informar Códigos de Desconto além do 0 e 1.
+
+## 14.0.7.0.0 (2024-09-13)
+
+- \[REF\] Separando as Configurações do CNAB do Modo de Pagamento.
+
+## 14.0.6.0.0 (2024-09-10)
+
+- \[REF\] Unindo os Códigos CNAB em um mesmo objeto.
+
 ## 14.0.1.0.0 (2022-05-26)
 
 - \[MIG\] Migration

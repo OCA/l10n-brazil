@@ -1,76 +1,46 @@
-**Português** Para configurar esse modulo é preciso:
+Para configurar esse módulo é preciso:
 
-- Rodar a biblioteca BRCobranca como um micro-serviço
-  <https://github.com/akretion/boleto_cnab_api> .
-- Informar a variável de ambiente **BRCOBRANCA_API_URL** no arquivo de
-  configuração do Odoo ou se estiver usando o docky na seção enviroment
-  <https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3>
-  , exemplo: **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
-- Verifique se os Códigos de Movimento do CNAB a ser usado existem em
-  Faturamento \> Configurações \> Administração \> Códigos de Instrução
-  do Movimento CNAB, se for necessário criar considere fazer um PR para
-  adicionar como dados aqui
-  <https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml>
-  .
-- Verifique se os Códigos de Retorno do Movimento do CNAB a ser usado
-  existem em Faturamento \> Configurações \> Administração \> Códigos de
-  Retorno de Movimento CNAB, se for necessário criar considere fazer um
-  PR para adicionar como dados aqui
-  <https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml>
-  .
-- Criar a Conta Bancária referente ao CNAB em Faturamento \>
-  Configurações \> Contabilidade \> Contas Bancárias .
-- Automaticamente será criado um Diário Contábil referente a conta
-  bancária em Faturamento \> Configurações \> Contabilidade \> Diários
-  na aba **Informações Referentes a Importação** informe as
-  configurações de Retorno do CNAB nos campos "Tipo de Importação",
-  "Conta de Recebimento/Pagamento", "Criação de Contra-Partida" e se
-  deve ser feita a reconciliação automática ao importar o arquivo em
-  "Reconciliar Automaticamente o Retorno de Pagamento".
-- Em Faturamento \> Configurações \> Administração \> Modos de Pagamento
-  criar um Modo de Pagamento com as informações do CNAB, no campo
-  "Diário de Banco Fixo" informar o Diário Contábil da conta bancária e
-  se for o caso, e é recomendado, marcar a opção "Adicionar
-  automaticamente ao validar a fatura" para não ser preciso fazer
-  manualmente.
-- Caso o CNAB e Banco escolhidos possua um campo especifico que seja
-  preciso implementar considere fazer um PR no modulo
-  l10n_br_account_payment_order aqui
-  <https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307>
-  .
-- Configure as permissões de acesso dos usuários, as opções são CNAB
-  "Usuário" e "Gerente".
+Rodar a biblioteca **BRCobranca** como um micro-serviço **Boleto_CNAB_API**.
 
-**English** To configure this module, you need to:
+Informar a variável de ambiente **BRCOBRANCA_API_URL**, existem três opções:
 
-- Run BRCobranca as micro-service
-  <https://github.com/akretion/boleto_cnab_api>.
-- Inform the envoriment variable BRCOBRANCA_API_URL in the config odoo
-  file or if are use docky in the section enviroment
-  <https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3>
-  , example: **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
-- Check if the CNAB Instruction Movement Code to be use exist in
-  Invoicing \> Configuration \> Management \> CNAB Movement Instruction
-  Code if necessary create please consider make PR to add as data in
-  <https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml>
-  .
-- Check if the CNAB Return Move Code to be use exist in Invoicing \>
-  Configuration \> Management \> CNAB Return Move Code if necessary
-  create please consider make PR to add as data in
-  <https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml>
-  .
-- Create an Bank Account referent of CNAB in Invoicing \> Configuration
-  \> Accounting \> Bank Accounts .
-- Automatic will be create an Account Journal refer to bank account in
-  Invoicing \> Configuration \> Accounting \> Journals in tab **Import
-  related infos** inform parameters of CNAB Return in fields "Type of
-  Import", "Receivable/Payable Account", "Create Counterpart", and if
-  should make automatic reconciliation when import the file in
-  "Automatic Reconcile payment returns".
-- In Invoicing \> Configuration \> Management \> Payment Modes create an
-  Payment Mode with CNAB information, in the field "Fixed Bank Journal"
-  inform the Account Journal of bank account and mark if "Automatically
-  add when validating the invoice" so that you don't have to do it
-  manually.
-- Configure user access permissions, CNAB options are "User" and
-  "Manager".
+* No arquivo de configuração do **Docker Compose File** na seção **enviroment**, por exemplo https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3 , incluir:
+    **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
+* No arquivo de Configuração do Odoo, incluir:
+    **brcobranca_api_url=http://boleto_cnab_api:9292**
+* No Odoo crie um Parâmetro de Sistema como:
+    **brcobranca_api_url=http://boleto_cnab_api:9292**
+
+Verifique se os Códigos do CNAB do Banco que será usado existem em:
+
+**Faturamento > Configurações > Administração > Códigos CNAB**
+
+Caso seja preciso criar por favor considere fazer um PR nesse módulo acrescentando os Códigos em **l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml** dessa forma nas próximas implementações já não será preciso cadastrar, isso ajuda na construção de um banco de conhecimento, salvando tanto horas de implementação por não ser necessário rever ou refazer o que foi feito como poder usar o que outros fizeram, isso também é importante porque permite testar e avaliar as diferenças entre cada caso tornando a implementação mais robusta, você pode ver os casos que já existem hoje no módulo [l10n_br_account_payment_order](https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_order).
+
+Crie uma **Configuração CNAB**, é onde serão armazenadas as informações específicas de cada caso como a Carteira, Convênio, Código do Benificiário, Códigos de Instrução e Retorno do Movimento, etc, em:
+
+**Faturamento > Configuração > Administração > Configurações CNAB**
+
+Verifique se a **Conta Bancária** referente ao CNAB já foi cadastrada em:
+
+**Configurações > Usuários e Empresas > Empresas**
+
+Clique no Contato associado, e na aba Faturamento veja se a **Contas Bancária** referente ao CNAB já existe e se as informações estão corretas, se não existir veja de criar informando os dados Número da Conta, Agencia, etc.
+
+Ao cadastrar a **Conta Bancária** deve ser criado automaticamente um **Diário Contábil**, ou se já havia sido cadastrada o Diário já deve existir, verifique em:
+
+**Faturamento > Configurações > Financeiro > Diários**
+
+Confirme se as informações estão corretas, campo **Tipo** deve estar como Banco, na aba **Lançamentos do Diário** em **Número da Conta Bancária** deve estar preenchido com a **Conta Bancária** do CNAB e na aba **Configuração de Pagamentos** os Metódos que serão usados, 240 ou 400, devem estar marcados.
+
+Na aba **Informações Referentes a Importação** informe as configurações de Retorno do CNAB nos campos **Tipo de Importação**, **Conta de Recebimento/Pagamento**, **Criação de Contra-Partida** e se deve ser feita a reconciliação automática ao importar o arquivo em **Reconciliar Automaticamente o Retorno de Pagamento**.
+
+Crie um **Modo de Pagamento** ou use um existente em:
+
+**Faturamento > Configuração > Administração > Modos de Pagamento**
+
+Informe o **Diário Contábil** referente ao Banco e a **Configuração CNAB** que deverá ser utilizada, no campo **Diário de Banco Fixo** informar o Diário Contábil da Conta Bancária e se for o caso, e é recomendado, marcar a opção **Adicionar automaticamente ao validar a fatura** para não ser preciso fazer manualmente.
+
+Caso o CNAB e Banco escolhidos possua um campo específico que seja preciso implementar considere fazer um PR no módulo **l10n_br_account_payment_order** aqui https://github.com/OCA/l10n-brazil/blob/16.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307 .
+
+Configure as permissões de acesso dos usuários, as opções são CNAB **Usuário** e **Gerente**.

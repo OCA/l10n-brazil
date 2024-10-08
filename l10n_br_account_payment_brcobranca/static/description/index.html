@@ -370,10 +370,11 @@ ul.auto-toc {
 !! source digest: sha256:5dd0417356b8dc0ea061c8af1b34c315a3470745d2a4d614f7bc56ca71e67a1f
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account_payment_brcobranca"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_account_payment_brcobranca"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p><strong>Português</strong> Esse modulo implementa o CNAB usando a biblioteca
-BRCobranca <a class="reference external" href="https://github.com/kivanio/brcobranca">https://github.com/kivanio/brcobranca</a> .</p>
-<p><strong>English</strong> This module implement brazilian bank splips(‘Boletos
-Bancarios’) by using BRCobranca(<a class="reference external" href="https://github.com/kivanio/brcobranca">https://github.com/kivanio/brcobranca</a>).</p>
+<p>O módulo implementa o CNAB, a geração do Boleto, do Arquivo de Remessa e
+importa o Arquivo de Retorno usando a <a class="reference external" href="https://github.com/kivanio/brcobranca">Biblioteca
+BRCobranca</a> através do
+Micro-Serviço
+<a class="reference external" href="https://github.com/akretion/boleto_cnab_api">Boleto_CNAB_API</a>.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -382,32 +383,34 @@ Bancarios’) by using BRCobranca(<a class="reference external" href="https://gi
 <li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
 <li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
 <li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a><ul>
-<li><a class="reference internal" href="#section-1" id="toc-entry-6">14.0.1.0.0 (2022-05-26)</a></li>
-<li><a class="reference internal" href="#section-2" id="toc-entry-7">12.0.1.0.0 (2021-05-07)</a></li>
-<li><a class="reference internal" href="#section-3" id="toc-entry-8">12.0.1.0.0 (2020-06-12)</a></li>
-<li><a class="reference internal" href="#section-4" id="toc-entry-9">10.0.1.0.0 (2019-05-30)</a></li>
-<li><a class="reference internal" href="#section-5" id="toc-entry-10">8.0.1.0.0 (2018-01-29)</a></li>
-<li><a class="reference internal" href="#section-6" id="toc-entry-11">8.0.1.0.0 (2017-07-01)</a></li>
+<li><a class="reference internal" href="#section-1" id="toc-entry-6">16.0.3.0.0 (2024-12-16)</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-7">16.0.2.0.0 (2024-12-02)</a></li>
+<li><a class="reference internal" href="#section-3" id="toc-entry-8">16.0.1.0.0 (2024-08-22)</a></li>
+<li><a class="reference internal" href="#section-4" id="toc-entry-9">14.0.9.0.0 (2024-09-19)</a></li>
+<li><a class="reference internal" href="#section-5" id="toc-entry-10">14.0.8.0.0 (2024-09-18)</a></li>
+<li><a class="reference internal" href="#section-6" id="toc-entry-11">14.0.7.0.0 (2024-09-13)</a></li>
+<li><a class="reference internal" href="#section-7" id="toc-entry-12">14.0.6.0.0 (2024-09-10)</a></li>
+<li><a class="reference internal" href="#section-8" id="toc-entry-13">14.0.1.0.0 (2022-05-26)</a></li>
+<li><a class="reference internal" href="#section-9" id="toc-entry-14">12.0.1.0.0 (2021-05-07)</a></li>
+<li><a class="reference internal" href="#section-10" id="toc-entry-15">12.0.1.0.0 (2020-06-12)</a></li>
+<li><a class="reference internal" href="#section-11" id="toc-entry-16">10.0.1.0.0 (2019-05-30)</a></li>
+<li><a class="reference internal" href="#section-12" id="toc-entry-17">8.0.1.0.0 (2018-01-29)</a></li>
+<li><a class="reference internal" href="#section-13" id="toc-entry-18">8.0.1.0.0 (2017-07-01)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-12">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-13">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-14">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-15">Contributors</a></li>
-<li><a class="reference internal" href="#other-credits" id="toc-entry-16">Other credits</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-17">Maintainers</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-19">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-20">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-21">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-22">Contributors</a></li>
+<li><a class="reference internal" href="#other-credits" id="toc-entry-23">Other credits</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-24">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="installation">
 <h1><a class="toc-backref" href="#toc-entry-1">Installation</a></h1>
-<p><strong>Português</strong> O modulo depende do:</p>
-<ul class="simple">
-<li>l10n_br_account_payment_order</li>
-<li>account_move_base_import</li>
-</ul>
-<p><strong>English</strong> This module depends on:</p>
+<p>O modulo depende do:</p>
 <ul class="simple">
 <li>l10n_br_account_payment_order</li>
 <li>account_move_base_import</li>
@@ -415,182 +418,179 @@ Bancarios’) by using BRCobranca(<a class="reference external" href="https://gi
 </div>
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
-<p><strong>Português</strong> Para configurar esse modulo é preciso:</p>
+<p>Para configurar esse módulo é preciso:</p>
+<p>Rodar a biblioteca <strong>BRCobranca</strong> como um micro-serviço
+<strong>Boleto_CNAB_API</strong>.</p>
+<p>Informar a variável de ambiente <strong>BRCOBRANCA_API_URL</strong>, existem três
+opções:</p>
 <ul class="simple">
-<li>Rodar a biblioteca BRCobranca como um micro-serviço
-<a class="reference external" href="https://github.com/akretion/boleto_cnab_api">https://github.com/akretion/boleto_cnab_api</a> .</li>
-<li>Informar a variável de ambiente <strong>BRCOBRANCA_API_URL</strong> no arquivo de
-configuração do Odoo ou se estiver usando o docky na seção enviroment
+<li>No arquivo de configuração do <strong>Docker Compose File</strong> na seção
+<strong>enviroment</strong>, por exemplo
 <a class="reference external" href="https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3">https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3</a>
-, exemplo: <strong>BRCOBRANCA_API_URL=http://boleto_cnab_api:9292</strong></li>
-<li>Verifique se os Códigos de Movimento do CNAB a ser usado existem em
-Faturamento &gt; Configurações &gt; Administração &gt; Códigos de Instrução do
-Movimento CNAB, se for necessário criar considere fazer um PR para
-adicionar como dados aqui
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml">https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml</a>
-.</li>
-<li>Verifique se os Códigos de Retorno do Movimento do CNAB a ser usado
-existem em Faturamento &gt; Configurações &gt; Administração &gt; Códigos de
-Retorno de Movimento CNAB, se for necessário criar considere fazer um
-PR para adicionar como dados aqui
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml">https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml</a>
-.</li>
-<li>Criar a Conta Bancária referente ao CNAB em Faturamento &gt;
-Configurações &gt; Contabilidade &gt; Contas Bancárias .</li>
-<li>Automaticamente será criado um Diário Contábil referente a conta
-bancária em Faturamento &gt; Configurações &gt; Contabilidade &gt; Diários na
-aba <strong>Informações Referentes a Importação</strong> informe as configurações
-de Retorno do CNAB nos campos “Tipo de Importação”, “Conta de
-Recebimento/Pagamento”, “Criação de Contra-Partida” e se deve ser
-feita a reconciliação automática ao importar o arquivo em “Reconciliar
-Automaticamente o Retorno de Pagamento”.</li>
-<li>Em Faturamento &gt; Configurações &gt; Administração &gt; Modos de Pagamento
-criar um Modo de Pagamento com as informações do CNAB, no campo
-“Diário de Banco Fixo” informar o Diário Contábil da conta bancária e
-se for o caso, e é recomendado, marcar a opção “Adicionar
-automaticamente ao validar a fatura” para não ser preciso fazer
-manualmente.</li>
-<li>Caso o CNAB e Banco escolhidos possua um campo especifico que seja
-preciso implementar considere fazer um PR no modulo
-l10n_br_account_payment_order aqui
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307">https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307</a>
-.</li>
-<li>Configure as permissões de acesso dos usuários, as opções são CNAB
-“Usuário” e “Gerente”.</li>
+, incluir: <strong>BRCOBRANCA_API_URL=http://boleto_cnab_api:9292</strong></li>
+<li>No arquivo de Configuração do Odoo, incluir:
+<strong>brcobranca_api_url=http://boleto_cnab_api:9292</strong></li>
+<li>No Odoo crie um Parâmetro de Sistema como:
+<strong>brcobranca_api_url=http://boleto_cnab_api:9292</strong></li>
 </ul>
-<p><strong>English</strong> To configure this module, you need to:</p>
-<ul class="simple">
-<li>Run BRCobranca as micro-service
-<a class="reference external" href="https://github.com/akretion/boleto_cnab_api">https://github.com/akretion/boleto_cnab_api</a>.</li>
-<li>Inform the envoriment variable BRCOBRANCA_API_URL in the config odoo
-file or if are use docky in the section enviroment
-<a class="reference external" href="https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3">https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3</a>
-, example: <strong>BRCOBRANCA_API_URL=http://boleto_cnab_api:9292</strong></li>
-<li>Check if the CNAB Instruction Movement Code to be use exist in
-Invoicing &gt; Configuration &gt; Management &gt; CNAB Movement Instruction
-Code if necessary create please consider make PR to add as data in
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml">https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml</a>
-.</li>
-<li>Check if the CNAB Return Move Code to be use exist in Invoicing &gt;
-Configuration &gt; Management &gt; CNAB Return Move Code if necessary create
-please consider make PR to add as data in
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml">https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml</a>
-.</li>
-<li>Create an Bank Account referent of CNAB in Invoicing &gt; Configuration &gt;
-Accounting &gt; Bank Accounts .</li>
-<li>Automatic will be create an Account Journal refer to bank account in
-Invoicing &gt; Configuration &gt; Accounting &gt; Journals in tab <strong>Import
-related infos</strong> inform parameters of CNAB Return in fields “Type of
-Import”, “Receivable/Payable Account”, “Create Counterpart”, and if
-should make automatic reconciliation when import the file in
-“Automatic Reconcile payment returns”.</li>
-<li>In Invoicing &gt; Configuration &gt; Management &gt; Payment Modes create an
-Payment Mode with CNAB information, in the field “Fixed Bank Journal”
-inform the Account Journal of bank account and mark if “Automatically
-add when validating the invoice” so that you don’t have to do it
-manually.</li>
-<li>Configure user access permissions, CNAB options are “User” and
-“Manager”.</li>
-</ul>
+<p>Verifique se os Códigos do CNAB do Banco que será usado existem em:</p>
+<p><strong>Faturamento &gt; Configurações &gt; Administração &gt; Códigos CNAB</strong></p>
+<p>Caso seja preciso criar por favor considere fazer um PR nesse módulo
+acrescentando os Códigos em
+<strong>l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml</strong>
+dessa forma nas próximas implementações já não será preciso cadastrar,
+isso ajuda na construção de um banco de conhecimento, salvando tanto
+horas de implementação por não ser necessário rever ou refazer o que foi
+feito como poder usar o que outros fizeram, isso também é importante
+porque permite testar e avaliar as diferenças entre cada caso tornando a
+implementação mais robusta, você pode ver os casos que já existem hoje
+no módulo
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_account_payment_order">l10n_br_account_payment_order</a>.</p>
+<p>Crie uma <strong>Configuração CNAB</strong>, é onde serão armazenadas as informações
+específicas de cada caso como a Carteira, Convênio, Código do
+Benificiário, Códigos de Instrução e Retorno do Movimento, etc, em:</p>
+<p><strong>Faturamento &gt; Configuração &gt; Administração &gt; Configurações CNAB</strong></p>
+<p>Verifique se a <strong>Conta Bancária</strong> referente ao CNAB já foi cadastrada
+em:</p>
+<p><strong>Configurações &gt; Usuários e Empresas &gt; Empresas</strong></p>
+<p>Clique no Contato associado, e na aba Faturamento veja se a <strong>Contas
+Bancária</strong> referente ao CNAB já existe e se as informações estão
+corretas, se não existir veja de criar informando os dados Número da
+Conta, Agencia, etc.</p>
+<p>Ao cadastrar a <strong>Conta Bancária</strong> deve ser criado automaticamente um
+<strong>Diário Contábil</strong>, ou se já havia sido cadastrada o Diário já deve
+existir, verifique em:</p>
+<p><strong>Faturamento &gt; Configurações &gt; Financeiro &gt; Diários</strong></p>
+<p>Confirme se as informações estão corretas, campo <strong>Tipo</strong> deve estar
+como Banco, na aba <strong>Lançamentos do Diário</strong> em <strong>Número da Conta
+Bancária</strong> deve estar preenchido com a <strong>Conta Bancária</strong> do CNAB e na
+aba <strong>Configuração de Pagamentos</strong> os Metódos que serão usados, 240 ou
+400, devem estar marcados.</p>
+<p>Na aba <strong>Informações Referentes a Importação</strong> informe as configurações
+de Retorno do CNAB nos campos <strong>Tipo de Importação</strong>, <strong>Conta de
+Recebimento/Pagamento</strong>, <strong>Criação de Contra-Partida</strong> e se deve ser
+feita a reconciliação automática ao importar o arquivo em <strong>Reconciliar
+Automaticamente o Retorno de Pagamento</strong>.</p>
+<p>Crie um <strong>Modo de Pagamento</strong> ou use um existente em:</p>
+<p><strong>Faturamento &gt; Configuração &gt; Administração &gt; Modos de Pagamento</strong></p>
+<p>Informe o <strong>Diário Contábil</strong> referente ao Banco e a <strong>Configuração
+CNAB</strong> que deverá ser utilizada, no campo <strong>Diário de Banco Fixo</strong>
+informar o Diário Contábil da Conta Bancária e se for o caso, e é
+recomendado, marcar a opção <strong>Adicionar automaticamente ao validar a
+fatura</strong> para não ser preciso fazer manualmente.</p>
+<p>Caso o CNAB e Banco escolhidos possua um campo específico que seja
+preciso implementar considere fazer um PR no módulo
+<strong>l10n_br_account_payment_order</strong> aqui
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/blob/16.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307">https://github.com/OCA/l10n-brazil/blob/16.0/l10n_br_account_payment_order/models/l10n_br_cnab_boleto_fields.py#L307</a>
+.</p>
+<p>Configure as permissões de acesso dos usuários, as opções são CNAB
+<strong>Usuário</strong> e <strong>Gerente</strong>.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
-<p><strong>Português</strong></p>
-<ul class="simple">
-<li>Ao criar e Confirmar uma Fatura que tem um Modo de Pagamento que seja
-CNAB deverá aparecer o botão de “Imprimir Boleto”.</li>
-<li>Caso esteja marcado no Modo de Pagamento a opção de “Adicionar
-automaticamente ao validar a fatura” será criada ou adicionada em uma
-Ordem de Pagamento as linhas de pagamentos do CNAB, se a opção não
-estiver marcada será preciso fazer isso manualmente podendo ser feito
-tanto na Fatura quanto na Ordem de Pagamento.</li>
-<li>Ao Confirmar essa Ordem de Pagamento será possível gerar o arquivo de
-Remessa CNAB a ser enviado ao Banco, é importante confirmar o envio do
-arquivo alterando o status da ordem para “Arquivo Enviado”, essa
+<p>Ao criar e Confirmar uma <strong>Fatura</strong> que tem um <strong>Modo de Pagamento</strong> que
+tenha uma <strong>Configuração CNAB</strong> definida deverá aparecer o botão de
+<strong>Imprimir Boleto</strong>, caso esteja marcado no Modo de Pagamento a opção de
+<strong>Adicionar automaticamente ao validar a fatura</strong> será criada ou
+adicionada em uma <strong>Ordem de Pagamento</strong> as linhas de pagamentos do
+CNAB, se a opção não estiver marcada será preciso fazer isso manualmente
+podendo ser feito tanto na Fatura quanto na Ordem de Pagamento.</p>
+<p>Ao Confirmar essa <strong>Ordem de Pagamento</strong> será possível gerar o <strong>Arquivo
+de Remessa CNAB</strong> a ser enviado ao Banco, é importante confirmar o envio
+do arquivo alterando o status da ordem para <strong>Arquivo Enviado</strong>, essa
 informação é usada para validar se existe uma instrução CNAB pendente
-antes de se poder criar outra.</li>
-<li>Alterações de CNAB como Alteração da Data de Vencimento, Protesto,
-Conceder Abatimento e etc podem ser feitas na própria Fatura em
-Faturamento &gt; Clientes &gt; Faturas na aba Recebimentos na última coluna
-existe o botão “Atualizar Informação CNAB” ao clicar em uma linha essa
-opção também aparece, ao fazer uma alteração é criada ou adicionada em
-uma Ordem de Pagamento a Instrução de Movimento CNAB selecionada.</li>
-<li>A importação do arquivo CNAB de Retorno pode ser feita em Pagamentos &gt;
-Importar arquivo Batch ou no próprio Diário em Faturamento &gt;
-Configurações &gt; Contabilidade &gt; Diários na aba <strong>Informações
-Referentes a Importação</strong> o botão Importar arquivo Batch.</li>
-<li>Toda importação de arquivo de retorno cria uma LOG que pode ser
-consultado em Pagamentos &gt; LOG de Retorno CNAB.</li>
-<li>Caso o Código de Retorno CNAB recebido seja um dos “Códigos de
-Liquidação do Retorno do Movimento” do Modo de Pagamento será criado
-uma Entrada de Diário com os valores quando existirem de desconto,
-juros/mora, tarifa bancaria, abatimento e valor a ser reconciliado com
-a linha da Fatura referente, os lançamentos são separados de acordo
-com as Contas Contabéis definidas no Modo de Pagamento, a linha para
-reconciliar a linha da Fatura precisam ser iguais por isso o valor é:
-valor_recebido_calculado = (valor_recebido + valor_desconto +
-valor_abatimento) - valor_juros_mora</li>
-<li>Quando marcada a opção de “Reconciliação Automatica” /a Entrada de
-Diário será movida para o status Lançado automaticamente ao importar o
-arquivo, se não estiver marcada isso deverá ser feito manualmente.</li>
-</ul>
-<p><strong>English</strong></p>
-<ul class="simple">
-<li>When creating and confirming an Invoice that has a Payment Mode that
-is CNAB, the button should appear “Print Boleto”.</li>
-<li>If the option to “Add automatically when validating the invoice” is
-marked in the Payment Mode CNAB payment lines will be created or added
-to a Payment Order, if the option is not marked, you will need to do
-this manually, which can be done both in the Invoice and in the
-Payment Order.</li>
-<li>By confirming this Payment Order it will be possible to generate the
-CNAB Remessa file to be sent to the Bank, it is important to confirm
-the upload of the file by changing the order status to “File
-Uploaded”, this information is used to validate if there is a pending
-CNAB instruction before another one can be created.</li>
-<li>CNAB changes such as Change Due Date, Protest, Grant Rebate, etc. can
-be made in the Invoice itself in Invoicing &gt; Customers &gt; Invoices in
-the Receivable tab in the last column there is the button “Update CNAB
-Information” when clicking on a line this option also appears, when
-making a change it is created or added to a Payment Order the selected
-CNAB Movement Instruction.</li>
-<li>The import of the Return CNAB file can be done in Payments &gt; Import
-Batch file or in the same Journal in Invoicing &gt; Configuration &gt;
-Accounting &gt; Journals in the tab <strong>Import related infos</strong> the Import
-Batch File button.</li>
-<li>Every return file import creates a LOG that can be consulted in
-Payments &gt; CNAB Return LOG.</li>
-<li>If the CNAB Return Code received is one of the “CNAB Liquidity Return
-Move Code” of the Payment Mode, a Journal Entry will be created with
-the values when there are discount, interest, tariff charge, rebate
-and amount to be reconciled with the referring Invoice line, entries
-are separated according to the Accounts defined in the Payment Mode,
-the line to reconcile the Invoice line need be equal so the value is:
-calculated_value_receive = (receive_amount + discount_amount +
-rebate_amount) - interest_amount</li>
-<li>When the “Automatic Reconciliation” option is checked, the Entry of
-Journal will be moved to the status Posted automatically when
-importing the file, if not checked it should be done manually.</li>
-</ul>
+antes de se poder criar outra.</p>
+<p>Alterações de CNAB como Alteração da Data de Vencimento, Protesto,
+Conceder Abatimento e etc podem ser feitas na própria Fatura em:</p>
+<p><strong>Faturamento &gt; Clientes &gt; Faturas</strong></p>
+<p>Na aba <strong>Recebimentos</strong> na última coluna existe o botão <strong>Atualizar
+Informação CNAB</strong> ao clicar em uma linha essa opção também aparece, ao
+fazer uma alteração é criada ou adicionada em uma Ordem de Pagamento a
+<strong>Instrução de Movimento CNAB</strong> selecionada.</p>
+<p>A importação do <strong>Arquivo CNAB de Retorno</strong> pode ser feita em:</p>
+<p><strong>Faturamento &gt; Financeiro &gt; CNAB &gt; Importar Arquivo de Lote</strong></p>
+<p>ou no próprio Diário em:</p>
+<p><strong>Faturamento &gt; Configurações &gt; Financeiro &gt; Diários</strong></p>
+<p>Na aba <strong>Informações Referentes a Importação</strong> no botão <strong>Arquivo de
+lote de importação</strong>.</p>
+<p>Toda importação de arquivo de retorno cria um <strong>LOG</strong> que pode ser
+consultado em:</p>
+<p><strong>Faturamento &gt; Financeiro &gt; CNAB &gt; Registro de Retorno de CNAB</strong></p>
+<p>Caso o <strong>Código de Retorno CNAB</strong> recebido seja um dos <strong>Códigos de
+Liquidação do Retorno do Movimento</strong>, definidos na <strong>Configuração CNAB</strong>
+usada no <strong>Modo de Pagamento</strong>, será criada uma <strong>Entrada de Diário</strong>
+com os valores, quando existirem de <strong>Desconto, Juros/Mora, Tarifa
+Bancária, Abatimento</strong> e o <strong>Valor Recebido</strong> a ser reconciliado com a
+linha da <strong>Fatura</strong> referente, os lançamentos são separados de acordo
+com as <strong>Contas Contabéis</strong> definidas na <strong>Configuração CNAB</strong>, a linha
+para reconciliar a Fatura precisam ser iguais por isso o valor é:</p>
+<p><strong>valor_recebido_calculado = valor_recebido + valor_desconto +
+valor_abatimento - valor_juros_mora</strong></p>
+<p>Quando marcada a opção de <strong>Reconciliação Automática</strong> a <strong>Entrada de
+Diário</strong> será movida para o status <strong>Lançado</strong> automaticamente ao
+importar o arquivo, se essa opção não estiver marcada isso deverá ser
+feito manualmente.</p>
 </div>
 <div class="section" id="known-issues-roadmap">
 <h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
 <ul class="simple">
-<li>Incluir a posssibilidade de imprimir o boleto no menu Imprimir da
-Fatura, na v12 aparentemente não é possível chamar um metodo apenas um
-QWeb, verificar na migração para outras versões.</li>
+<li>Verificar a posssibilidade de Imprimir o <strong>Boleto</strong> pelo menu
+<strong>Imprimir</strong> da Fatura, na v16 em diante.</li>
 </ul>
 </div>
 <div class="section" id="changelog">
 <h1><a class="toc-backref" href="#toc-entry-5">Changelog</a></h1>
 <div class="section" id="section-1">
-<h2><a class="toc-backref" href="#toc-entry-6">14.0.1.0.0 (2022-05-26)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">16.0.3.0.0 (2024-12-16)</a></h2>
+<ul class="simple">
+<li>[REF] “Foward Port” Separando as Configurações do CNAB do Modo de
+Pagamento.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
+<h2><a class="toc-backref" href="#toc-entry-7">16.0.2.0.0 (2024-12-02)</a></h2>
+<ul class="simple">
+<li>[REF] “Foward Port” Unindo os Códigos CNAB em um mesmo objeto.</li>
+</ul>
+</div>
+<div class="section" id="section-3">
+<h2><a class="toc-backref" href="#toc-entry-8">16.0.1.0.0 (2024-08-22)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 16.0</li>
+</ul>
+</div>
+<div class="section" id="section-4">
+<h2><a class="toc-backref" href="#toc-entry-9">14.0.9.0.0 (2024-09-19)</a></h2>
+<ul class="simple">
+<li>[REM] Removendo Campos, Visões e Objetos obsoletos.</li>
+</ul>
+</div>
+<div class="section" id="section-5">
+<h2><a class="toc-backref" href="#toc-entry-10">14.0.8.0.0 (2024-09-18)</a></h2>
+<ul class="simple">
+<li>[IMP] Possibilidade de informar Códigos de Desconto além do 0 e 1.</li>
+</ul>
+</div>
+<div class="section" id="section-6">
+<h2><a class="toc-backref" href="#toc-entry-11">14.0.7.0.0 (2024-09-13)</a></h2>
+<ul class="simple">
+<li>[REF] Separando as Configurações do CNAB do Modo de Pagamento.</li>
+</ul>
+</div>
+<div class="section" id="section-7">
+<h2><a class="toc-backref" href="#toc-entry-12">14.0.6.0.0 (2024-09-10)</a></h2>
+<ul class="simple">
+<li>[REF] Unindo os Códigos CNAB em um mesmo objeto.</li>
+</ul>
+</div>
+<div class="section" id="section-8">
+<h2><a class="toc-backref" href="#toc-entry-13">14.0.1.0.0 (2022-05-26)</a></h2>
 <ul class="simple">
 <li>[MIG] Migration</li>
 </ul>
 </div>
-<div class="section" id="section-2">
-<h2><a class="toc-backref" href="#toc-entry-7">12.0.1.0.0 (2021-05-07)</a></h2>
+<div class="section" id="section-9">
+<h2><a class="toc-backref" href="#toc-entry-14">12.0.1.0.0 (2021-05-07)</a></h2>
 <ul class="simple">
 <li>[MIG] Finish migration</li>
 <li>[IMP] Integrate with module account_move_base_import used to import
@@ -599,35 +599,35 @@ CNAB file</li>
 of Fees, Tariff Bank, Rebate in configured accounts.</li>
 </ul>
 </div>
-<div class="section" id="section-3">
-<h2><a class="toc-backref" href="#toc-entry-8">12.0.1.0.0 (2020-06-12)</a></h2>
+<div class="section" id="section-10">
+<h2><a class="toc-backref" href="#toc-entry-15">12.0.1.0.0 (2020-06-12)</a></h2>
 <ul class="simple">
 <li>[MIG] Start Migration</li>
 </ul>
 </div>
-<div class="section" id="section-4">
-<h2><a class="toc-backref" href="#toc-entry-9">10.0.1.0.0 (2019-05-30)</a></h2>
+<div class="section" id="section-11">
+<h2><a class="toc-backref" href="#toc-entry-16">10.0.1.0.0 (2019-05-30)</a></h2>
 <ul class="simple">
 <li>[MIG] Migration</li>
 </ul>
 </div>
-<div class="section" id="section-5">
-<h2><a class="toc-backref" href="#toc-entry-10">8.0.1.0.0 (2018-01-29)</a></h2>
+<div class="section" id="section-12">
+<h2><a class="toc-backref" href="#toc-entry-17">8.0.1.0.0 (2018-01-29)</a></h2>
 <ul class="simple">
 <li>[REF] Maked functional to print Boleto, create CNAB file and import
 CNAB as Extrat Bank the user should be resolved manully the
 divergences between the values( Fee, Tariff Bank, Rebate, etc).</li>
 </ul>
 </div>
-<div class="section" id="section-6">
-<h2><a class="toc-backref" href="#toc-entry-11">8.0.1.0.0 (2017-07-01)</a></h2>
+<div class="section" id="section-13">
+<h2><a class="toc-backref" href="#toc-entry-18">8.0.1.0.0 (2017-07-01)</a></h2>
 <ul class="simple">
 <li>[NEW] First version</li>
 </ul>
 </div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-12">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-19">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
@@ -635,15 +635,15 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-13">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-20">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-14">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-21">Authors</a></h2>
 <ul class="simple">
 <li>Akretion</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-15">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-22">Contributors</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="https://akretion.com/pt-BR">Akretion</a>:<ul>
 <li>Raphaël Valyi &lt;<a class="reference external" href="mailto:raphael.valyi&#64;akretion.com.br">raphael.valyi&#64;akretion.com.br</a>&gt;</li>
@@ -657,14 +657,14 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="other-credits">
-<h2><a class="toc-backref" href="#toc-entry-16">Other credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-23">Other credits</a></h2>
 <p>The development of this module has been financially supported by:</p>
 <ul class="simple">
 <li>AKRETION LTDA - <a class="reference external" href="https://akretion.com/pt-BR">https://akretion.com/pt-BR</a></li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-17">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-24">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
