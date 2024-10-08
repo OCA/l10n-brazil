@@ -4,9 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-import os
-
-import vcr
+from unittest import mock
 
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
@@ -26,11 +24,6 @@ class TestTestSerPro(TestCnpjCommon):
         self.set_param("serpro_trial", True)
         self.set_param("serpro_schema", "basica")
 
-    @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_serpro_basica.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
-        ignore_localhost=True,
-    )
     def test_serpro_basica(self):
         dummy_basica = self.model.create(
             {"name": "Dummy Basica", "cnpj_cpf": "34.238.864/0001-68"}
@@ -61,11 +54,6 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(dummy_basica.equity_capital, 0)
         self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
-    @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_serpro_not_found.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
-        ignore_localhost=True,
-    )
     def test_serpro_not_found(self):
         # In the Trial version there are only a few registered CNPJ records
         invalid = self.model.create(
@@ -117,28 +105,124 @@ class TestTestSerPro(TestCnpjCommon):
 
         self.assertEqual(socios, expected_socios)
 
-    @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_serpro_empresa.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
-        ignore_localhost=True,
-    )
     def test_serpro_empresa(self):
-        self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
-            {"active": False}
-        )
-        self.set_param("serpro_schema", "empresa")
+        mocked_response = {
+            "ni": "34238864000168",
+            "nomeEmpresarial": "UHIEQKX WHNHIWD NH  FIXKHUUWPHMVX NH NWNXU (UHIFIX)",
+            "nomeFantasia": "UHIFIX UHNH",
+            "telefones": [
+                {"ddd": "61", "numero": "22222222"},
+                {"ddd": "61", "numero": "22222222"},
+            ],
+            "cep": "70836900",
+            "correioEletronico": "EMPRESA@XXXXXX.BR",
+            "socios": [
+                {
+                    "tipoSocio": "2",
+                    "cpf": "07119488449",
+                    "nome": "LUIZA ARAUJO DE OLIVEIRA",
+                    "qualificacao": "49",
+                    "dataInclusao": "2014-01-01",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {
+                        "cpf": "00000000000",
+                        "nome": "",
+                        "qualificacao": "00",
+                    },
+                },
+                {
+                    "tipoSocio": "2",
+                    "cpf": "23982012600",
+                    "nome": "JOANA ALVES MUNDIM PENA",
+                    "qualificacao": "49",
+                    "dataInclusao": "2014-01-01",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {
+                        "cpf": "00000000000",
+                        "nome": "",
+                        "qualificacao": "00",
+                    },
+                },
+                {
+                    "tipoSocio": "2",
+                    "cpf": "13946994415",
+                    "nome": "LUIZA BARBOSA BEZERRA",
+                    "qualificacao": "49",
+                    "dataInclusao": "2014-01-01",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {
+                        "cpf": "00000000000",
+                        "nome": "",
+                        "qualificacao": "00",
+                    },
+                },
+                {
+                    "tipoSocio": "2",
+                    "cpf": "00031298702",
+                    "nome": "MARCELO ANTONIO BARROS DE CICCO",
+                    "qualificacao": "49",
+                    "dataInclusao": "2014-01-01",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {
+                        "cpf": "00000000000",
+                        "nome": "",
+                        "qualificacao": "00",
+                    },
+                },
+                {
+                    "tipoSocio": "2",
+                    "cpf": "76822320300",
+                    "nome": "LUIZA ALDENORA",
+                    "qualificacao": "49",
+                    "dataInclusao": "2014-01-01",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {
+                        "cpf": "00000000000",
+                        "nome": "",
+                        "qualificacao": "00",
+                    },
+                },
+            ],
+            "endereco": {
+                "tipoLogradouro": "SETOR",
+                "logradouro": "NH BIWMNH WIHW MXIVH",
+                "numero": "Q.601",
+                "complemento": "LOTE V",
+                "cep": "70836900",
+                "bairro": "ASA NORTE",
+                "municipio": {"codigo": "9701", "descricao": "BRASILIA"},
+                "uf": "DF",
+                "pais": {"codigo": "105", "descricao": "BRASIL"},
+            },
+            "naturezaJuridica": {"codigo": "2011", "descricao": "Empresa Pública"},
+            "capitalSocial": 0,
+            "cnaePrincipal": {
+                "codigo": "6204000",
+                "descricao": "Consultoria em tecnologia da informação",
+            },
+        }
+        with mock.patch(
+            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+            return_value=mocked_response,
+        ):
+            self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
+                {"active": False}
+            )
+            self.set_param("serpro_schema", "empresa")
 
-        dummy_empresa = self.model.create(
-            {"name": "Dummy Empresa", "cnpj_cpf": "34.238.864/0001-68"}
-        )
+            dummy_empresa = self.model.create(
+                {"name": "Dummy Empresa", "cnpj_cpf": "34.238.864/0001-68"}
+            )
 
-        dummy_empresa._onchange_cnpj_cpf()
-        action_wizard = dummy_empresa.action_open_cnpj_search_wizard()
-        wizard_context = action_wizard.get("context")
-        wizard = (
-            self.env["partner.search.wizard"].with_context(**wizard_context).create({})
-        )
-        wizard.action_update_partner()
+            dummy_empresa._onchange_cnpj_cpf()
+            action_wizard = dummy_empresa.action_open_cnpj_search_wizard()
+            wizard_context = action_wizard.get("context")
+            wizard = (
+                self.env["partner.search.wizard"]
+                .with_context(**wizard_context)
+                .create({})
+            )
+            wizard.action_update_partner()
 
         expected_cnpjs = {
             "Joana": "23982012600",
@@ -150,35 +234,100 @@ class TestTestSerPro(TestCnpjCommon):
 
         self.assert_socios(dummy_empresa, expected_cnpjs)
 
-    @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_serpro_qsa.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
-        ignore_localhost=True,
-    )
     def test_serpro_qsa(self):
-        self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
-            {"active": False}
-        )
-        self.set_param("serpro_schema", "qsa")
-
-        dummy_qsa = self.model.create(
-            {"name": "Dummy QSA", "cnpj_cpf": "34.238.864/0001-68"}
-        )
-
-        dummy_qsa._onchange_cnpj_cpf()
-        action_wizard = dummy_qsa.action_open_cnpj_search_wizard()
-        wizard_context = action_wizard.get("context")
-        wizard = (
-            self.env["partner.search.wizard"].with_context(**wizard_context).create({})
-        )
-        wizard.action_update_partner()
-
-        expected_cnpjs = {
-            "Joana": False,
-            "Aldenora": False,
-            "Araujo": False,
-            "Barbosa": False,
-            "Marcelo": False,
+        mocked_response = {
+            "nomeEmpresarial": "UHIEQKX WHNHIWD NH  FIXKHUUWPHMVX NH NWNXU (UHIFIX)",
+            "nomeFantasia": "UHIFIX UHNH",
+            "telefones": [
+                {"ddd": "61", "numero": "22222222"},
+                {"ddd": "61", "numero": "22222222"},
+            ],
+            "cep": "70836900",
+            "correioEletronico": "EMPRESA@XXXXXX.BR",
+            "socios": [
+                {
+                    "tipoSocio": "2",
+                    "nome": "LUIZA ARAUJO DE OLIVEIRA",
+                    "qualificacao": "49",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {"nome": "", "qualificacao": "00"},
+                },
+                {
+                    "tipoSocio": "2",
+                    "nome": "JOANA ALVES MUNDIM PENA",
+                    "qualificacao": "49",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {"nome": "", "qualificacao": "00"},
+                },
+                {
+                    "tipoSocio": "2",
+                    "nome": "LUIZA BARBOSA BEZERRA",
+                    "qualificacao": "49",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {"nome": "", "qualificacao": "00"},
+                },
+                {
+                    "tipoSocio": "2",
+                    "nome": "MARCELO ANTONIO BARROS DE CICCO",
+                    "qualificacao": "49 ",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {"nome": "", "qualificacao": "00"},
+                },
+                {
+                    "tipoSocio": "2",
+                    "nome": "LUIZA ALDENORA",
+                    "qualificacao": "49",
+                    "pais": {"codigo": "105", "descricao": "BRASIL"},
+                    "representanteLegal": {"nome": "", "qualificacao": "00"},
+                },
+            ],
+            "endereco": {
+                "tipoLogradouro": "SETOR",
+                "logradouro": "NH BIWMNH WIHW MXIVH",
+                "numero": "Q.601",
+                "complemento": "LOTE V",
+                "cep": "70836900",
+                "bairro": "ASA NORTE",
+                "municipio": {"codigo": "9701", "descricao": "BRASILIA"},
+                "uf": "DF",
+                "pais": {"codigo": "105", "descricao": "BRASIL"},
+            },
+            "naturezaJuridica": {"codigo": "2011", "descricao": "Empresa Pública"},
+            "capitalSocial": 0,
+            "cnaePrincipal": {
+                "codigo": "6204000",
+                "descricao": "Consultoria em tecnologia da informação",
+            },
         }
+        with mock.patch(
+            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+            return_value=mocked_response,
+        ):
+            self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
+                {"active": False}
+            )
+            self.set_param("serpro_schema", "qsa")
 
-        self.assert_socios(dummy_qsa, expected_cnpjs)
+            dummy_qsa = self.model.create(
+                {"name": "Dummy QSA", "cnpj_cpf": "34.238.864/0001-68"}
+            )
+
+            dummy_qsa._onchange_cnpj_cpf()
+            action_wizard = dummy_qsa.action_open_cnpj_search_wizard()
+            wizard_context = action_wizard.get("context")
+            wizard = (
+                self.env["partner.search.wizard"]
+                .with_context(**wizard_context)
+                .create({})
+            )
+            wizard.action_update_partner()
+
+            expected_cnpjs = {
+                "Joana": False,
+                "Aldenora": False,
+                "Araujo": False,
+                "Barbosa": False,
+                "Marcelo": False,
+            }
+
+            self.assert_socios(dummy_qsa, expected_cnpjs)
