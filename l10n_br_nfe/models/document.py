@@ -87,6 +87,7 @@ class NFe(spec_models.StackedModel):
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
     _spec_tab_name = "NFe"
     _nfe_search_keys = ["nfe40_Id"]
+    _binding_module = "nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00"
 
     # all m2o at this level will be stacked even if not required:
     _force_stack_paths = (
@@ -772,16 +773,20 @@ class NFe(spec_models.StackedModel):
             company_cnpj = self.env.company.cnpj_cpf.translate(
                 str.maketrans("", "", string.punctuation)
             )
-            emit_cnpj = new_value.get("nfe40_CNPJ").translate(
-                str.maketrans("", "", string.punctuation)
-            )
-            if company_cnpj != emit_cnpj:
-                vals["issuer"] = "partner"
-            new_value["is_company"] = True
-            new_value["cnpj_cpf"] = emit_cnpj
-            super()._build_many2one(
-                self.env["res.partner"], vals, new_value, "partner_id", value, path
-            )
+            if new_value.get("nfe40_CNPJ"):
+                emit_cnpj = new_value.get("nfe40_CNPJ").translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+                if company_cnpj != emit_cnpj:
+                    vals["issuer"] = "partner"
+                new_value["is_company"] = True
+                new_value["cnpj_cpf"] = emit_cnpj
+                super()._build_many2one(
+                    self.env["res.partner"], vals, new_value, "partner_id", value, path
+                )
+            else:
+                new_value["name"] = value.xFant
+                super()._build_many2one(comodel, vals, new_value, key, value, path)
         elif key == "nfe40_dest" and self.env.context.get("edoc_type") == "out":
             enderDest_value = self.env["res.partner"].build_attrs(
                 value.enderDest, path=path
@@ -910,6 +915,9 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
+        if self.document_type not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return super()._processador()
+
         self._check_nfe_environment()
         certificado = self.company_id._get_br_ecertificate()
         session = Session()
@@ -1050,6 +1058,10 @@ class NFe(spec_models.StackedModel):
 
     def _valida_xml(self, xml_file):
         self.ensure_one()
+
+        if self.document_type not in (MODELO_FISCAL_NFE, MODELO_FISCAL_NFCE):
+            return super()._valida_xml(xml_file)
+
         erros = Nfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
@@ -1072,7 +1084,11 @@ class NFe(spec_models.StackedModel):
         return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
-        for record in self.filtered(filter_processador_edoc_nfe):
+        records = self.filtered(filter_processador_edoc_nfe)
+        if not records:
+            return super()._generate_key()
+
+        for record in records:
             date = fields.Datetime.context_timestamp(record, record.document_date)
 
             required_fields_gen_edoc = []
@@ -1115,6 +1131,19 @@ class NFe(spec_models.StackedModel):
         if receipt_process.resposta.cStat == "104":  # Lote Processado
             self._nfe_response_add_proc(receipt_process)
         self._nfe_process_authorization(receipt_process)
+
+    def _document_qrcode(self):
+        super()._document_qrcode()
+
+        for record in self.filtered(filter_processador_edoc_nfe):
+            record.nfe40_infNFeSupl = self.env[
+                "l10n_br_fiscal.document.supplement"
+            ].create(
+                {
+                    "qrcode": record.get_nfce_qrcode(),
+                    "url_key": record.get_nfce_qrcode_url(),
+                }
+            )
 
     def _nfe_response_add_proc(self, ws_response_process):
         """

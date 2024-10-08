@@ -99,3 +99,5 @@
 "l10n_br_fiscal_city_taxation_code_manager","Fiscal City Taxation Code for Manager","model_l10n_br_fiscal_city_taxation_code","l10n_br_fiscal.group_user",1,1,1,1
 "l10n_br_fiscal_base_wizard_mixin_user",l10n_br_fiscal_base_wizard_mixin,model_l10n_br_fiscal_base_wizard_mixin,base.group_user,1,1,1,1
 "l10n_br_fiscal_document_status_wizard_user",l10n_br_fiscal_document_status_wizard,model_l10n_br_fiscal_document_status_wizard,base.group_user,1,1,1,1
+"l10n_br_fiscal_document_supplement_user,l10n_br_fiscal_document_supplement_user,model_l10n_br_fiscal_document_supplement,l10n_br_fiscal.group_user,1,1,1,1
+"l10n_br_fiscal_document_supplement_manager,l10n_br_fiscal_document_supplement_manager,model_l10n_br_fiscal_document_supplement,l10n_br_fiscal.group_manager,1,1,1,1
