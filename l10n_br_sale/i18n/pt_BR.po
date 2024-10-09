@@ -564,11 +564,6 @@ msgid "Fiscal Operation Line"
 msgstr "Linha de Operação Fiscal"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_operation_type
-msgid "Fiscal Operation Type"
-msgstr "Tipo de Operação Fiscal"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_proxy_partner_shipping_id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_proxy_partner_shipping_id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_proxy_partner_shipping_id
@@ -1259,6 +1254,11 @@ msgid "Operation Name"
 msgstr "Nome da Operação"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__ind_pres__1
 msgid "Operação presencial"
 msgstr "Operação presencial"
@@ -1694,7 +1694,7 @@ msgid "Total with Taxes"
 msgstr "Total com Impostos"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_operation_type
 msgid "Type"
 msgstr "Tipo"
 
@@ -1732,6 +1732,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
+
+#~ msgid "Fiscal Operation Type"
+#~ msgstr "Tipo de Operação Fiscal"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor Retido na Fonte"
