@@ -23,6 +23,11 @@ msgid "Accounting"
 msgstr "Contabilidade"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
+msgid "Active Company Country"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__additional_data
 msgid "Additional Data"
 msgstr "Dados Adicionais"
@@ -352,7 +357,6 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_id
 msgid "Company"
 msgstr "Empresa"
@@ -497,11 +501,6 @@ msgstr "Operação Fiscal"
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
 msgid "Fiscal Operation Line"
 msgstr "Linha de Operação Fiscal"
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_type
-msgid "Fiscal Operation Type"
-msgstr "Tipo de Operação Fiscal"
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_price
@@ -1165,6 +1164,11 @@ msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_other_value
 msgid "Other Costs"
 msgstr "Outros Custos"
@@ -1565,7 +1569,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_type
 msgid "Type"
 msgstr "Tipo"
 
@@ -1601,6 +1605,9 @@ msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
 msgstr ""
 "Você pode encontrar um fornecedor por seu nome, TIN, e-mail ou referência "
 "interna."
+
+#~ msgid "Fiscal Operation Type"
+#~ msgstr "Tipo de Operação Fiscal"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor Retido na Fonte"
