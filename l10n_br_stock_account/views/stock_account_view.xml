@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="stock_move_tree" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.move.tree</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock_picking_invoicing.view_move_tree" />
+        <field name="arch" type="xml">
+            <field name="invoice_state" position="after">
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="stock_move_form" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.move.form</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock_picking_invoicing.view_move_picking_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="invoice_state" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </field>
+            <field name="invoice_state" position="after">
+                <field name="fiscal_type" force_save="1" invisible="1" readonly="1" />
+                <field name="price_unit" />
+                <label for="fiscal_quantity" string="Fiscal Quantity" />
+                <div>
+                    <field
+                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                        name="fiscal_quantity"
+                        class="oe_inline"
+                    />
+                    <field name="uot_id" class="oe_inline oe_no_button" />
+                </div>
+                <field name="fiscal_price" />
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', 'in', [False, 'none'])], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+                <field
+                    name="cfop_id"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('fiscal_operation_id', '=', True)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+                <field name="partner_id" invisible="1" />
+                <field name="company_id" invisible="1" />
+            </field>
+            <group name="invoice_lines" position="after">
+                <notebook
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                >
+                    <group name="fiscal_fields" invisible="1">
+                        <field
+                            name="fiscal_operation_type"
+                            invisible="1"
+                            readonly="1"
+                        />
+                        <field name="fiscal_genre_code" invisible="1" />
+                        <field name="tax_framework" invisible="1" />
+                    </group>
+                    <page name="fiscal_taxes" string="Taxes" />
+                    <page name="others" string="Others">
+                        <group>
+                            <field name="freight_value" />
+                            <field name="insurance_value" />
+                            <field name="other_value" />
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info" />
+                    <page name="accounting" string="Accounting" />
+                </notebook>
+            </group>
+        </field>
+    </record>
+
+</odoo>

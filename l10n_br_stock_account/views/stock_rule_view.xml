@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="stock_rule_form" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.stock.rule.form</field>
+        <field name="model">stock.rule</field>
+        <field name="inherit_id" ref="stock.view_stock_rule_form" />
+        <field name="arch" type="xml">
+            <field name="procure_method" position="after">
+                <field name="invoice_state" />
+                <field name="fiscal_operation_id" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
