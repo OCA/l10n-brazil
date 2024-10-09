@@ -155,7 +155,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
 
         # 2nd we serialize it into a binding object:
         # (that could be further XML serialized)
-        po_binding = po._build_generateds(spec_schema="poxsd", spec_version="10")
+        po_binding = po._build_binding(spec_schema="poxsd", spec_version="10")
         self.assertEqual(
             [s.__name__ for s in type(po_binding).mro()],
             ["PurchaseOrderType", "object"],
