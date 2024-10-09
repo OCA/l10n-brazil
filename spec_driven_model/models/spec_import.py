@@ -21,7 +21,7 @@ class SpecMixinImport(models.AbstractModel):
     _name = "spec.mixin_import"
     _description = """
     A recursive Odoo object builder that works along with the
-    GenerateDS object builder from the parsed XML.
+    xsdata object builder from the parsed XML.
     Here we take into account the concrete Odoo objects where the schema
     mixins where injected and possible matcher or builder overrides.
     """
@@ -31,7 +31,7 @@ class SpecMixinImport(models.AbstractModel):
         """
         Build an instance of an Odoo Model from a pre-populated
         Python binding object. Binding object such as the ones generated using
-        generateDS can indeed be automatically populated from an XML file.
+        xsdata can indeed be automatically populated from an XML file.
         This build method bridges the gap to build the Odoo object.
 
         It uses a pre-order tree traversal of the Python bindings and for each
