@@ -19,6 +19,11 @@ msgid "Accounting"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
+msgid "Active Company Country"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__additional_data
 msgid "Additional Data"
 msgstr ""
@@ -348,7 +353,6 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_id
 msgid "Company"
 msgstr ""
@@ -490,11 +494,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_line_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
 msgid "Fiscal Operation Line"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_type
-msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1158,6 +1157,11 @@ msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_other_value
 msgid "Other Costs"
 msgstr ""
@@ -1558,7 +1562,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_type
 msgid "Type"
 msgstr ""
 
