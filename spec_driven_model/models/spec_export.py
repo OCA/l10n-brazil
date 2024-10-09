@@ -51,7 +51,7 @@ class SpecMixinExport(models.AbstractModel):
         This method implements a dynamic dispatch checking if there is any
         method called _export_fields_CLASS_NAME to update the xsd_fields
         and export_dict variables, this way we allow controlling the
-        flow of fields to export or injecting specific values ​​in the
+        flow of fields to export or injecting specific values in the
         field export.
         """
         self.ensure_one()
@@ -118,10 +118,6 @@ class SpecMixinExport(models.AbstractModel):
                 if field.comodel_name not in self._get_spec_classes():
                     return False
             if hasattr(field, "xsd_choice_required"):
-                # NOTE generateds-odoo would abusively have xsd_required=True
-                # already in the spec file in this case.
-                # In xsdata-odoo we introduced xsd_choice_required.
-                # Here we make the legacy code compatible with xsdata-odoo:
                 xsd_required = True
             return self._export_many2one(xsd_field, xsd_required, class_obj)
         elif self._fields[xsd_field].type == "one2many":
@@ -135,7 +131,7 @@ class SpecMixinExport(models.AbstractModel):
             and self[xsd_field] is not False
         ):
             if hasattr(field, "xsd_choice_required"):
-                xsd_required = True  # NOTE compat, see previous NOTE
+                xsd_required = True
             return self._export_float_monetary(
                 xsd_field, xsd_type, class_obj, xsd_required, export_value
             )
@@ -147,19 +143,19 @@ class SpecMixinExport(models.AbstractModel):
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         self.ensure_one()
         if field_name in self._get_stacking_points().keys():
-            return self._build_generateds(
+            return self._build_binding(
                 class_name=self._get_stacking_points()[field_name].comodel_name
             )
         else:
-            return (self[field_name] or self)._build_generateds(
-                class_obj._fields[field_name].comodel_name
+            return (self[field_name] or self)._build_binding(
+                class_name=class_obj._fields[field_name].comodel_name
             )
 
     def _export_one2many(self, field_name, class_obj=None):
         self.ensure_one()
         relational_data = []
         for relational_field in self[field_name]:
-            field_data = relational_field._build_generateds(
+            field_data = relational_field._build_binding(
                 class_name=class_obj._fields[field_name].comodel_name
             )
             relational_data.append(field_data)
@@ -192,8 +188,7 @@ class SpecMixinExport(models.AbstractModel):
             ).isoformat("T")
         )
 
-    # TODO rename _build_binding
-    def _build_generateds(self, class_name=False, spec_schema=None, spec_version=None):
+    def _build_binding(self, spec_schema=None, spec_version=None, class_name=None):
         """
         Iterate over an Odoo record and its m2o and o2m sub-records
         using a pre-order tree traversal and map the Odoo record values
@@ -206,7 +201,7 @@ class SpecMixinExport(models.AbstractModel):
         self.ensure_one()
         if spec_schema and spec_version:
             self = self.with_context(
-                self.env, spec_schema=spec_schema, spec_version=spec_version
+                spec_schema=spec_schema, spec_version=spec_version
             )
         spec_prefix = self._spec_prefix(self._context)
         if not class_name:
@@ -229,27 +224,9 @@ class SpecMixinExport(models.AbstractModel):
         kwargs = {}
         binding_class = self._get_binding_class(class_obj)
         self._export_fields(xsd_fields, class_obj, export_dict=kwargs)
-        if kwargs:
-            sliced_kwargs = {
-                key: kwargs.get(key)
-                for key in binding_class.__dataclass_fields__.keys()
-                if kwargs.get(key)
-            }
-            binding_instance = binding_class(**sliced_kwargs)
-            return binding_instance
-
-    def export_xml(self):
-        self.ensure_one()
-        result = []
-        if hasattr(self, f"_{self._spec_prefix(self._context)}_spec_settings"):
-            binding_instance = self._build_generateds()
-            result.append(binding_instance)
-        return result
-
-    def export_ds(
-        self, spec_schema, spec_version
-    ):  # TODO change name -> export_binding!
-        self.ensure_one()
-        return self.with_context(
-            spec_schema=spec_schema, spec_version=spec_version
-        ).export_xml()
+        sliced_kwargs = {
+            key: kwargs.get(key)
+            for key in binding_class.__dataclass_fields__.keys()
+            if kwargs.get(key)
+        }
+        return binding_class(**sliced_kwargs)
