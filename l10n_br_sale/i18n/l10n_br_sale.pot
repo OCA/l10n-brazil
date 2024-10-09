@@ -549,11 +549,6 @@ msgid "Fiscal Operation Line"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_operation_type
-msgid "Fiscal Operation Type"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_proxy_partner_shipping_id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_proxy_partner_shipping_id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_proxy_partner_shipping_id
@@ -1244,6 +1239,11 @@ msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__ind_pres__1
 msgid "Operação presencial"
 msgstr ""
@@ -1677,7 +1677,7 @@ msgid "Total with Taxes"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_operation_type
 msgid "Type"
 msgstr ""
 
