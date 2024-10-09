@@ -333,7 +333,8 @@ msgstr "CST PIS ST"
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
 msgid ""
 "Check this box if you want to generate fiscal document for this operation."
-msgstr "Marque esta caixa se desejar gerar documento fiscal para esta operação."
+msgstr ""
+"Marque esta caixa se desejar gerar documento fiscal para esta operação."
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__city_taxation_code_id
@@ -512,11 +513,6 @@ msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_invoice_onshipping__group__fiscal_operation
 msgid "Fiscal Operation"
 msgstr "Operação Fiscal"
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_type
-msgid "Fiscal Operation Type"
-msgstr "Tipo de Operação Fiscal"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_price
@@ -1200,6 +1196,11 @@ msgid "Operation Name"
 msgstr "Nome da Operação"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__partner_id
 msgid ""
 "Optional address where goods are to be delivered, specifically used for "
@@ -1619,7 +1620,7 @@ msgid "Transfer"
 msgstr "Transferir"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_type
 msgid "Type"
 msgstr "Tipo"
 
@@ -1642,6 +1643,9 @@ msgstr "Validar"
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+
+#~ msgid "Fiscal Operation Type"
+#~ msgstr "Tipo de Operação Fiscal"
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
