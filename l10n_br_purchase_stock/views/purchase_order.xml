@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_purchase_stock_order_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="priority">120</field>
+        <field name="arch" type="xml">
+            <field name="fiscal_operation_id" position="after">
+                <field name="button_create_invoice_invisible" invisible="1" />
+            </field>
+
+            <xpath
+                expr="//button[@name='action_create_invoice'][1]"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+
+            </xpath>
+
+            <xpath
+                expr="//button[@name='action_create_invoice'][2]"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+
+            </xpath>
+
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_purchase_res_config_settings_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase.res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field
+            name="inherit_id"
+            ref="purchase.res_config_settings_view_form_purchase"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//div[@data-key='purchase']//h2[2]/following-sibling::div[1]"
+                position="inside"
+            >
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    title="If enabled, activates 3-way matching on vendor bills : the items must be received in order to pay the invoice."
+                >
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <label for="purchase_create_invoice_policy" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                            role="img"
+                        />
+                        <div class="text-muted">
+                            Select invoiced based on order or picking
+                        </div>
+                        <div class="content-group">
+                            <div class="mt16">
+                                <field
+                                    name="purchase_create_invoice_policy"
+                                    class="o_light_label"
+                                    widget="radio"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
