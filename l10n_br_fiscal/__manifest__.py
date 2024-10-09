@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "16.0.2.5.0",
+    "version": "16.0.2.6.0",
     "depends": [
         "product",
         "l10n_br_base",
