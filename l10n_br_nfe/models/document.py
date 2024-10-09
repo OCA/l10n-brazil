@@ -898,11 +898,11 @@ class NFe(spec_models.StackedModel):
         ):
             record.flush_model()
             self.env.invalidate_all()
-            inf_nfe = record.export_ds("nfe", "40")[0]
+            inf_nfe = record._build_binding("nfe", "40")
 
             inf_nfe_supl = None
             if record.nfe40_infNFeSupl:
-                inf_nfe_supl = record.nfe40_infNFeSupl.export_ds("nfe", "40")[0]
+                inf_nfe_supl = record.nfe40_infNFeSupl._build_binding("nfe", "40")
 
             nfe = Nfe(infNFe=inf_nfe, infNFeSupl=inf_nfe_supl, signature=None)
             edocs.append(nfe)
