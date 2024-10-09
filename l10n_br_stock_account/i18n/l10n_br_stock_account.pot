@@ -512,11 +512,6 @@ msgid "Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_type
-msgid "Fiscal Operation Type"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_price
 msgid "Fiscal Price"
 msgstr ""
@@ -1183,6 +1178,11 @@ msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__partner_id
 msgid ""
 "Optional address where goods are to be delivered, specifically used for "
@@ -1591,7 +1591,7 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_type
 msgid "Type"
 msgstr ""
 
