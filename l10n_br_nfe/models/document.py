@@ -79,19 +79,17 @@ def filter_processador_edoc_nfe(record):
 class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe", "nfe.40.fat"]
-    _nfe40_spec_settings = {
-        "module": "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-        "stacking_mixin": "nfe.40.infnfe",
-        "stacking_points": {},
-        # all m2o at this level will be stacked even if not required:
-        "stacking_force_paths": (
-            "infnfe.total",
-            "infnfe.infAdic",
-            "infnfe.exporta",
-            "infnfe.cobr",
-            "infnfe.cobr.fat",
-        ),
-    }
+
+    _nfe40_odoo_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
+    _nfe40_stacking_mixin = "nfe.40.infnfe"
+    # all m2o at this level will be stacked even if not required:
+    _nfe40_stacking_force_paths = (
+        "infnfe.total",
+        "infnfe.infAdic",
+        "infnfe.exporta",
+        "infnfe.cobr",
+        "infnfe.cobr.fat",
+    )
     _nfe_search_keys = ["nfe40_Id"]
 
     # When dynamic stacking is applied the NFe structure is:
