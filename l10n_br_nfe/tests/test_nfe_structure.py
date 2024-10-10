@@ -26,7 +26,18 @@ class NFeStructure(TransactionCase):
         # ≡ means o2m. Eventually followd by the mapped Odoo model
         """
         spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-        stacking_settings = klass._nfe40_spec_settings
+        spec_prefix = "nfe40"
+        stacking_settings = {
+            "odoo_module": getattr(klass, f"_{spec_prefix}_odoo_module"),
+            "stacking_mixin": getattr(klass, f"_{spec_prefix}_stacking_mixin"),
+            "stacking_points": getattr(klass, f"_{spec_prefix}_stacking_points"),
+            "stacking_skip_paths": getattr(
+                klass, f"_{spec_prefix}_stacking_skip_paths", []
+            ),
+            "stacking_force_paths": getattr(
+                klass, f"_{spec_prefix}_stacking_force_paths", []
+            ),
+        }
         node = SpecModel._odoo_name_to_class(
             stacking_settings["stacking_mixin"], spec_module
         )
