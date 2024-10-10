@@ -100,7 +100,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         po_fields_or_stacking.update(
             set(
                 self.env["fake.purchase.order"]
-                ._poxsd10_spec_settings["stacking_points"]
+                ._poxsd10_stacking_points
                 .keys()
             )
         )
@@ -112,7 +112,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         self.assertEqual(
             list(
                 self.env["fake.purchase.order"]
-                ._poxsd10_spec_settings["stacking_points"]
+                ._poxsd10_stacking_points
                 .keys()
             ),
             ["poxsd10_items"],

@@ -41,11 +41,9 @@ class PurchaseOrder(spec_models.StackedModel):
 
     _name = "fake.purchase.order"
     _inherit = ["fake.purchase.order", "poxsd.10.purchaseordertype"]
-    _poxsd10_spec_settings = {
-        "module": "odoo.addons.spec_driven_model.tests.spec_poxsd",
-        "stacking_mixin": "poxsd.10.purchaseordertype",
-        "stacking_points": {},
-    }
+
+    _poxsd10_odoo_module = "odoo.addons.spec_driven_model.tests.spec_poxsd"
+    _poxsd10_stacking_mixin = "poxsd.10.purchaseordertype"
 
     poxsd10_orderDate = fields.Date(compute="_compute_date")
     poxsd10_confirmDate = fields.Date(related="date_approve")

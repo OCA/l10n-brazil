@@ -67,12 +67,6 @@ class SpecModel(models.Model):
                 rec.display_name = _("Abrir...")
         return res
 
-    def _get_stacking_points(self):
-        key = f"_{self._spec_prefix(self._context)}_spec_settings"
-        if hasattr(self, key):
-            return getattr(self, key)["stacking_points"]
-        return {}
-
     @classmethod
     def _spec_prefix(cls, context=None, spec_schema=None, spec_version=None):
         if context and context.get("spec_schema"):
@@ -80,6 +74,15 @@ class SpecModel(models.Model):
         if context and context.get("spec_version"):
             spec_version = context.get("spec_version")
         return "%s%s" % (spec_schema, spec_version.replace(".", "")[:2])
+
+    def _get_spec_property(self, spec_property="", fallback=None):
+        return getattr(
+            self, f"_{self._spec_prefix(self._context)}_{spec_property}", fallback
+        )
+
+    def _get_stacking_points(self):
+        return self._get_spec_property("stacking_points", {})
+
 
     @classmethod
     def _build_model(cls, pool, cr):
@@ -90,8 +93,8 @@ class SpecModel(models.Model):
         spec.mixin.<schema_name> mixin.
         """
         schema = None
-        if hasattr(cls, "_schema_name"):
-            schema = cls._schema_name
+        if hasattr(cls, "_spec_schema"):
+            schema = cls._spec_schema
         elif pool.get(cls._name) and hasattr(pool[cls._name], "_schema_name"):
             schema = pool[cls._name]._schema_name
         if schema and "spec.mixin" not in [
@@ -126,14 +129,9 @@ class SpecModel(models.Model):
         relational fields pointing to such mixins should be remapped to the
         proper concrete models where these mixins are injected.
         """
-        cls = self.env.registry[self._name]
+        cls = type(self)
         for klass in cls.__bases__:
-            if (
-                not hasattr(klass, "_name")
-                or not hasattr(klass, "_fields")
-                or klass._name is None
-                or not klass._name.startswith(self.env[cls._name]._schema_name)
-            ):
+            if not hasattr(klass, "_is_spec_driven"):
                 continue
             if klass._name != cls._name:
                 cls._map_concrete(self.env.cr.dbname, klass._name, cls._name)
@@ -243,43 +241,55 @@ class StackedModel(SpecModel):
 
     @classmethod
     def _build_model(cls, pool, cr):
-        mod = import_module(".".join(cls.__module__.split(".")[:-1]))
-        if hasattr(cls, "_schema_name"):
+        if hasattr(cls, "_schema_name"):  # when called via _register_hook
             schema = cls._schema_name
             version = cls._schema_version.replace(".", "")[:2]
         else:
             mod = import_module(".".join(cls.__module__.split(".")[:-1]))
             schema = mod.spec_schema
             version = mod.spec_version.replace(".", "")[:2]
+            cls._spec_schema = schema
+            cls._spec_version = version
         spec_prefix = cls._spec_prefix(spec_schema=schema, spec_version=version)
-        stacking_settings = getattr(cls, "_%s_spec_settings" % (spec_prefix,))
+        setattr(cls, f"_{spec_prefix}_stacking_points", {})
+        stacking_settings = {
+            "odoo_module": getattr(cls, f"_{spec_prefix}_odoo_module"),  # TODO inherit?
+            "stacking_mixin": getattr(cls, f"_{spec_prefix}_stacking_mixin"),
+            "stacking_points": getattr(cls, f"_{spec_prefix}_stacking_points"),
+            "stacking_skip_paths": getattr(
+                cls, f"_{spec_prefix}_stacking_skip_paths", []
+            ),
+            "stacking_force_paths": getattr(
+                cls, f"_{spec_prefix}_stacking_force_paths", []
+            ),
+        }
         # inject all stacked m2o as inherited classes
-        if cls._stacked:
-            
         _logger.info(f"building StackedModel {cls._name} {cls}")
-            node = cls._odoo_name_to_class(
-                stacking_settings["stacking_mixin"], stacking_settings["module"]
-            )
-            env = api.Environment(cr, SUPERUSER_ID, {})
-            for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
-                env, node, stacking_settings
-            ):
-                if kind == "stacked" and klass not in cls.__bases__:
-                    cls.__bases__ = (klass,) + cls.__bases__
+        node = cls._odoo_name_to_class(
+            stacking_settings["stacking_mixin"], stacking_settings["odoo_module"]
+        )
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
+            env, node, stacking_settings
+        ):
+            if kind == "stacked" and klass not in cls.__bases__:
+                cls.__bases__ = (klass,) + cls.__bases__
         return super()._build_model(pool, cr)
 
     @api.model
     def _add_field(self, name, field):
-        for cls in type(self).mro():
-            if issubclass(cls, StackedModel):
-                if hasattr(self, "_schema_name"):
-                    prefix = self._spec_prefix(
-                        None, self._schema_name, self._schema_version
-                    )
-                    key = f"_{prefix}_spec_settings"
-                    stacking_points = getattr(self, key)["stacking_points"]
-                    if name in stacking_points.keys():
-                        return
+        """
+        Overriden to avoid adding many2one fields that are in fact "stacking points"
+        """
+        if field.type == "many2one":
+            for cls in type(self).mro():
+                if issubclass(cls, StackedModel):
+                    for attr in dir(cls):
+                        if attr != "_get_stacking_points" and attr.endswith(
+                            "_stacking_points"
+                        ):
+                            if name in getattr(cls, attr).keys():
+                                return
         return super()._add_field(name, field)
 
     @classmethod
@@ -296,7 +306,7 @@ class StackedModel(SpecModel):
         node._description = None
         if path is None:
             path = stacking_settings["stacking_mixin"].split(".")[-1]
-        SpecModel._map_concrete(env.cr.dbname, node._name, cls._name, quiet=True)
+        cls._map_concrete(env.cr.dbname, node._name, cls._name, quiet=True)
         yield "stacked", node, path, None, None
 
         fields = OrderedDict()
@@ -326,12 +336,12 @@ class StackedModel(SpecModel):
                 # TODO change for view or export
                 continue
             child = cls._odoo_name_to_class(
-                f["comodel_name"], stacking_settings["module"]
+                f["comodel_name"], stacking_settings["odoo_module"]
             )
             if child is None:  # Not a spec field
                 continue
             child_concrete = SPEC_MIXIN_MAPPINGS[env.cr.dbname].get(child._name)
-            field_path = name.replace(env[node._name]._field_prefix, "")
+            field_path = name.split("_")[1]  # remove schema prefix
 
             if f["type"] == "one2many":
                 yield "one2many", node, path, field_path, child_concrete
@@ -339,7 +349,7 @@ class StackedModel(SpecModel):
 
             force_stacked = any(
                 stack_path in path + "." + field_path
-                for stack_path in stacking_settings.get("stacking_force_paths", "")
+                for stack_path in stacking_settings.get("stacking_force_paths", [])
             )
 
             # many2one
