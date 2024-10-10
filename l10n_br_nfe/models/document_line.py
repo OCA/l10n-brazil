@@ -70,14 +70,12 @@ class NFeLine(spec_models.StackedModel):
 
     _name = "l10n_br_fiscal.document.line"
     _inherit = ["l10n_br_fiscal.document.line", "nfe.40.det"]
-    _nfe40_spec_settings = {
-        "module": "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-        "stacking_mixin": "nfe.40.det",
-        "stacking_points": {},
-        # all m2o below this level will be stacked even if not required:
-        "stacking_force_paths": ("det.imposto.",),
-        "stacking_skip_paths": ("nfe40_det_infNFe_id",),
-    }
+
+    _nfe40_odoo_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
+    _nfe40_stacking_mixin = "nfe.40.det"
+    # all m2o below this level will be stacked even if not required:
+    _nfe40_stacking_force_paths = ("det.imposto.",)
+    _nfe40_stacking_skip_paths = ("nfe40_det_infNFe_id",)
 
     # When dynamic stacking is applied, the NFe line has the following structure:
     DET_TREE = """
@@ -527,7 +525,7 @@ class NFeLine(spec_models.StackedModel):
             .replace("ICMS", "Icms")
             .replace("IcmsSN", "Icmssn")
         )
-        binding_module = sys.modules[self._binding_module]
+        binding_module = sys.modules[self._get_spec_property("binding_module")]
         # Tnfe.InfNfe.Det.Imposto.Icms.Icms00
         # see https://stackoverflow.com/questions/31174295/
         # getattr-and-setattr-on-nested-subobjects-chained-properties

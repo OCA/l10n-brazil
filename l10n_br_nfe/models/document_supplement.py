@@ -9,8 +9,6 @@ class NFeSupplement(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.supplement"
     _description = "NFe Supplement Document"
     _inherit = "nfe.40.infnfesupl"
-    _nfe40_spec_settings = {
-        "module": "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00",
-        "stacking_mixin": "nfe.40.infnfesupl",
-        "stacking_points": {},
-    }
+
+    _nfe40_odoo_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
+    _nfe40_stacking_mixin = "nfe.40.infnfesupl"
