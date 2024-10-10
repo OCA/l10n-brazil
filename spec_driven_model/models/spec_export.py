@@ -1,5 +1,6 @@
 # Copyright 2019 KMEE
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
+
 import logging
 import sys
 
@@ -14,7 +15,7 @@ class SpecMixinExport(models.AbstractModel):
 
     @api.model
     def _get_binding_class(self, class_obj):
-        binding_module = sys.modules[self._binding_module]
+        binding_module = sys.modules[self._get_spec_property("binding_module")]
         for attr in class_obj._binding_type.split("."):
             binding_module = getattr(binding_module, attr)
         return binding_module
@@ -72,7 +73,7 @@ class SpecMixinExport(models.AbstractModel):
                 not self._fields.get(xsd_field)
             ) and xsd_field not in self._get_stacking_points().keys():
                 continue
-            field_spec_name = xsd_field.replace(class_obj._field_prefix, "")
+            field_spec_name = xsd_field.split("_")[1]  # remove schema prefix
             field_spec = False
             for fname, fspec in binding_class_spec.items():
                 if fspec.metadata.get("name", {}) == field_spec_name:
@@ -200,24 +201,18 @@ class SpecMixinExport(models.AbstractModel):
         """
         self.ensure_one()
         if spec_schema and spec_version:
-            self = self.with_context(
-                spec_schema=spec_schema, spec_version=spec_version
-            )
-        spec_prefix = self._spec_prefix(self._context)
+            self = self.with_context(spec_schema=spec_schema, spec_version=spec_version)
         if not class_name:
-            if hasattr(self, f"_{spec_prefix}_spec_settings"):
-                class_name = getattr(self, f"_{spec_prefix}_spec_settings")[
-                    "stacking_mixin"
-                ]
-            else:
-                class_name = self._name
+            class_name = self._get_spec_property("stacking_mixin", self._name)
 
         class_obj = self.env[class_name]
 
         xsd_fields = (
             i
             for i in class_obj._fields
-            if class_obj._fields[i].name.startswith(class_obj._field_prefix)
+            if class_obj._fields[i].name.startswith(
+                f"{self._spec_prefix(self._context)}_"
+            )
             and "_choice" not in class_obj._fields[i].name
         )
 

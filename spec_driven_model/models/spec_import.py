@@ -73,10 +73,8 @@ class SpecMixinImport(models.AbstractModel):
         value = getattr(node, attr[0])
         if value is None or value == []:
             return False
-        key = "{}{}".format(
-            self._field_prefix,
-            attr[1].metadata.get("name", attr[0]),
-        )
+        prefix = f"{self._spec_prefix(self._context)}"
+        key = f"{prefix}_{attr[1].metadata.get('name', attr[0])}"
         child_path = f"{path}.{key}"
 
         # Is attr a xsd SimpleType or a ComplexType?
@@ -120,8 +118,8 @@ class SpecMixinImport(models.AbstractModel):
             else:
                 clean_type = binding_type.lower()
                 comodel_name = "{}.{}.{}".format(
-                    self._schema_name,
-                    self._schema_version.replace(".", "")[0:2],
+                    self._context["spec_schema"],
+                    self._context["spec_version"].replace(".", "")[0:2],
                     clean_type.split(".")[-1],
                 )
 
@@ -195,9 +193,10 @@ class SpecMixinImport(models.AbstractModel):
 
         related_many2ones = {}
         fields = model._fields
+        field_prefix = f"{self._spec_prefix(self._context)}_"
         for k, v in fields.items():
             # select schema choices for a friendly UI:
-            if k.startswith(f"{self._field_prefix}choice"):
+            if k.startswith(f"{field_prefix}choice"):
                 for item in v.selection or []:
                     if vals.get(item[0]) not in [None, []]:
                         vals[k] = item[0]
@@ -207,7 +206,7 @@ class SpecMixinImport(models.AbstractModel):
             elif v.related is not None and vals.get(k) is not None:
                 if len(v.related) == 1:
                     vals[v.related[0]] = vals.get(k)
-                elif len(v.related) == 2 and k.startswith(self._field_prefix):
+                elif len(v.related) == 2 and k.startswith(field_prefix):
                     related_m2o = v.related[0]
                     # don't mess with _inherits write system
                     if not any(related_m2o == i[1] for i in model._inherits.items()):
@@ -256,7 +255,7 @@ class SpecMixinImport(models.AbstractModel):
         if model is None:
             model = self
         default_key = [model._rec_name or "name"]
-        search_keys = "_%s_search_keys" % (self._schema_name)
+        search_keys = "_%s_search_keys" % (self._context["spec_schema"])
         if hasattr(model, search_keys):
             keys = getattr(model, search_keys) + default_key
         else:

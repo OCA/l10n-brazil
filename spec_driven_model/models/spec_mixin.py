@@ -21,6 +21,7 @@ class SpecMixin(models.AbstractModel):
     _description = "root abstract model meant for xsd generated fiscal models"
     _name = "spec.mixin"
     _inherit = ["spec.mixin_export", "spec.mixin_import"]
+    _is_spec_driven = True
 
     def _valid_field_parameter(self, field, name):
         if name in (
