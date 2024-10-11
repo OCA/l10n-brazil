@@ -91,7 +91,11 @@
                         name="movement_type"
                         attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
                     />
+                    <!-- TODO: Remover o campo na próxima versão, usando
+                         apenas para migração para o l10n_br_cnab.code
                     <field name="mov_instruction_code_id" readonly="1" />
+                    -->
+                    <field name="instruction_move_code_id" readonly="1" />
                     <field
                         name="doc_finality_code"
                         attrs="{'invisible': [('payment_type', '=', 'inbound')]}"

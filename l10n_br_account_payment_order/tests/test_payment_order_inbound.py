@@ -73,8 +73,8 @@ class TestPaymentOrderInbound(TransactionCase):
             assert (
                 line.own_number
             ), "own_number field is not filled in created Move Line."
-            assert line.mov_instruction_code_id, (
-                "mov_instruction_code_id field is not filled" " in created Move Line."
+            assert line.instruction_move_code_id, (
+                "instruction_move_code_id field is not filled" " in created Move Line."
             )
             # testar com a parcela 700
             if line.debit == 700.0:
@@ -90,8 +90,8 @@ class TestPaymentOrderInbound(TransactionCase):
         for line in payment_order.payment_line_ids:
             assert line.own_number, "own_number field is not filled in Payment Line."
             assert (
-                line.mov_instruction_code_id
-            ), "mov_instruction_code_id field are not filled in Payment Line."
+                line.instruction_move_code_id
+            ), "instruction_move_code_id field are not filled in Payment Line."
 
         # Ordem de Pagto CNAB não pode ser apagada
         with self.assertRaises(UserError):
@@ -112,8 +112,8 @@ class TestPaymentOrderInbound(TransactionCase):
         for line in payment_order.payment_line_ids:
             assert line.own_number, "own_number field is not filled in Payment Line."
             assert (
-                line.mov_instruction_code_id
-            ), "mov_instruction_code_id field are not filled in Payment Line."
+                line.instruction_move_code_id
+            ), "instruction_move_code_id field are not filled in Payment Line."
 
         # Ordem de Pagto CNAB não pode ser Cancelada
         with self.assertRaises(UserError):
@@ -333,9 +333,9 @@ class TestPaymentOrderInbound(TransactionCase):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_payment_inbound_payment_in_cash_twice(self):
         """Pay a invoice in cash, with a payment already registred to in the bank.
@@ -429,9 +429,9 @@ class TestPaymentOrderInbound(TransactionCase):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"
 
     def test_payment_inbound_cancel_invoice_alread_registred(self):
         """Cancel the invoice with a payment that is already registred at the bank.
@@ -477,6 +477,6 @@ class TestPaymentOrderInbound(TransactionCase):
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
             ).id
             in change_payment_order.payment_line_ids.mapped(
-                "mov_instruction_code_id"
+                "instruction_move_code_id"
             ).ids
-        ), "Payment Order with wrong mov_instruction_code_id"
+        ), "Payment Order with wrong instruction_move_code_id"

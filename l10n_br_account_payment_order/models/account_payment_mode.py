@@ -89,10 +89,21 @@ class AccountPaymentMode(models.Model):
     # TODO: Ligação com o payment_mode_id não permite extrair para o objeto
     #  l10n_br_cnab.boleto.fields, teria alguma forma de fazer ?
     # Podem existir diferentes codigos, mesmo no 240
+
+    # TODO: Remover o campo na próxima versão,
+    #  usando apenas para migração para o l10n_br_cnab.code
     cnab_liq_return_move_code_ids = fields.Many2many(
         comodel_name="l10n_br_cnab.return.move.code",
         relation="l10n_br_cnab_return_liquidity_move_code_rel",
         column1="cnab_liq_return_move_code_id",
+        column2="payment_mode_id",
+        string="CNAB Liquidity Return Move Code",
+        tracking=True,
+    )
+    liq_return_move_code_ids = fields.Many2many(
+        comodel_name="l10n_br_cnab.code",
+        relation="l10n_br_cnab_liq_return_move_code_rel",
+        column1="liq_return_move_code_id",
         column2="payment_mode_id",
         string="CNAB Liquidity Return Move Code",
         tracking=True,
