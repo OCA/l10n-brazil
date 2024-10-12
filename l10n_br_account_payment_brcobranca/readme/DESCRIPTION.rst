@@ -1,7 +1,4 @@
-**Português**
-Esse modulo implementa o CNAB usando a biblioteca BRCobranca
-https://github.com/kivanio/brcobranca .
+O módulo implementa o CNAB, a geração do Boleto, do Arquivo de Remessa e importa o Arquivo de Retorno usando a Biblioteca BRCobranca_ através do Micro-Serviço Boleto_CNAB_API_.
 
-**English**
-This module implement brazilian bank splips('Boletos Bancarios') by using
-BRCobranca(https://github.com/kivanio/brcobranca).
+.. _BRCobranca: https://github.com/kivanio/brcobranca
+.. _Boleto_CNAB_API: https://github.com/akretion/boleto_cnab_api
