@@ -640,3 +640,44 @@ class L10nBrSaleBaseTest(TransactionCase):
                 invoice.fiscal_document_id,
                 "International case should not has Fiscal Document.",
             )
+
+    def test_sale_with_partner_to_invoice(self):
+        """Test brazilian Sale Order with Partner to Invoice."""
+        sale = self.env.ref("l10n_br_sale.main_company-sale_2")
+        self._run_sale_order_onchanges(sale)
+        for line in sale.order_line:
+            self._run_sale_line_onchanges(line)
+
+        self._invoice_sale_order(sale)
+        for invoice in sale.invoice_ids:
+            self.assertEqual(
+                invoice.partner_id,
+                sale.partner_invoice_id,
+                "The Invoice Partner should be the same as Partner "
+                "to Invoice in Sale Order.",
+            )
+            self.assertNotEqual(
+                invoice.partner_id,
+                sale.partner_id,
+                "The Invoice should not be created with the Partner of Sale.",
+            )
+            self.assertEqual(
+                invoice.partner_shipping_id,
+                sale.partner_shipping_id,
+                "The Invoice Partner to Shipping should be the same of Sale Order.",
+            )
+
+    def test_sale_with_partner_to_shipping(self):
+        """Test brazilian Sale Order with Partner to Shipping."""
+        sale = self.env.ref("l10n_br_sale.main_company-sale_3")
+        self._run_sale_order_onchanges(sale)
+        for line in sale.order_line:
+            self._run_sale_line_onchanges(line)
+
+        self._invoice_sale_order(sale)
+        for invoice in sale.invoice_ids:
+            self.assertEqual(
+                invoice.partner_shipping_id,
+                sale.partner_shipping_id,
+                "The Invoice Partner to Shipping should be the same of Sale Order.",
+            )
