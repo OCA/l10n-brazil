@@ -2481,12 +2481,6 @@ msgid "Document Fiscal Mixin Fields"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line_mixin_methods
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_mixin_methods
-msgid "Document Fiscal Mixin Methods"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Document Info"
 msgstr ""
@@ -2966,6 +2960,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_comment__object_id__l10n_br_fiscal_document_line_mixin
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 msgid "Fiscal Document Line"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line_mixin_methods
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_mixin_methods
+msgid "Fiscal Document Mixin Methods"
 msgstr ""
 
 #. module: l10n_br_fiscal
