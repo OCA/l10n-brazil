@@ -2547,12 +2547,6 @@ msgid "Document Fiscal Mixin Fields"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line_mixin_methods
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_mixin_methods
-msgid "Document Fiscal Mixin Methods"
-msgstr "Métodos de Mixina Fiscal de Documentos"
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Document Info"
 msgstr "Informações do Documento"
@@ -3035,6 +3029,12 @@ msgstr "E-mail de Documentos Fiscais"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 msgid "Fiscal Document Line"
 msgstr "Linha de Documento Fiscal"
+
+#. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line_mixin_methods
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_mixin_methods
+msgid "Fiscal Document Mixin Methods"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_related
@@ -8933,6 +8933,9 @@ msgstr ""
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#~ msgid "Document Fiscal Mixin Methods"
+#~ msgstr "Métodos de Mixina Fiscal de Documentos"
 
 #~ msgid "<strong style=\"font-size:18px;\">CNPJ:</strong>"
 #~ msgstr "<strong style=\"font-size:18px;\">CNPJ:</strong>"
