@@ -25,104 +25,9 @@ class TestTestSerPro(TestCnpjCommon):
         self.set_param("serpro_schema", "basica")
 
     def test_serpro_basica(self):
-        mocked_response = {
-            "ni": "34238864000168",
-            "nomeEmpresarial": "UHIEQKX WHNHIWD NH  FIXKHUUWPHMVX NH NWNXU (UHIFIX)",
-            "nomeFantasia": "UHIFIX UHNH",
-            "telefones": [
-                {"ddd": "61", "numero": "22222222"},
-                {"ddd": "61", "numero": "22222222"},
-            ],
-            "cep": "70836900",
-            "correioEletronico": "EMPRESA@XXXXXX.BR",
-            "socios": [
-                {
-                    "tipoSocio": "2",
-                    "cpf": "07119488449",
-                    "nome": "LUIZA ARAUJO DE OLIVEIRA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "23982012600",
-                    "nome": "JOANA ALVES MUNDIM PENA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "13946994415",
-                    "nome": "LUIZA BARBOSA BEZERRA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "00031298702",
-                    "nome": "MARCELO ANTONIO BARROS DE CICCO",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "76822320300",
-                    "nome": "LUIZA ALDENORA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-            ],
-            "endereco": {
-                "tipoLogradouro": "SETOR",
-                "logradouro": "NH BIWMNH WIHW MXIVH",
-                "numero": "Q.601",
-                "complemento": "LOTE V",
-                "cep": "70836900",
-                "bairro": "ASA NORTE",
-                "municipio": {"codigo": "9701", "descricao": "BRASILIA"},
-                "uf": "DF",
-                "pais": {"codigo": "105", "descricao": "BRASIL"},
-            },
-            "naturezaJuridica": {"codigo": "2011", "descricao": "Empresa Pública"},
-            "capitalSocial": 0,
-            "cnaePrincipal": {
-                "codigo": "6204000",
-                "descricao": "Consultoria em tecnologia da informação",
-            },
-        }
         with mock.patch(
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=mocked_response,
+            return_value=self.mocked_response_serpro_1,
         ):
             dummy_basica = self.model.create(
                 {"name": "Dummy Basica", "cnpj_cpf": "34.238.864/0001-68"}
@@ -207,104 +112,9 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(socios, expected_socios)
 
     def test_serpro_empresa(self):
-        mocked_response = {
-            "ni": "34238864000249",
-            "nomeEmpresarial": "UHIEQKX WHNHIWD NH  FIXKHUUWPHMVX NH NWNXU (UHIFIX)",
-            "nomeFantasia": "UHIFIX UHNH",
-            "telefones": [
-                {"ddd": "61", "numero": "22222222"},
-                {"ddd": "61", "numero": "22222222"},
-            ],
-            "cep": "70836900",
-            "correioEletronico": "EMPRESA@XXXXXX.BR",
-            "socios": [
-                {
-                    "tipoSocio": "2",
-                    "cpf": "07119488449",
-                    "nome": "LUIZA ARAUJO DE OLIVEIRA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "23982012600",
-                    "nome": "JOANA ALVES MUNDIM PENA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "13946994415",
-                    "nome": "LUIZA BARBOSA BEZERRA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "00031298702",
-                    "nome": "MARCELO ANTONIO BARROS DE CICCO",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "76822320300",
-                    "nome": "LUIZA ALDENORA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-            ],
-            "endereco": {
-                "tipoLogradouro": "SETOR",
-                "logradouro": "NH BIWMNH WIHW MXIVH",
-                "numero": "Q.601",
-                "complemento": "LOTE V",
-                "cep": "70836900",
-                "bairro": "ASA NORTE",
-                "municipio": {"codigo": "9701", "descricao": "BRASILIA"},
-                "uf": "DF",
-                "pais": {"codigo": "105", "descricao": "BRASIL"},
-            },
-            "naturezaJuridica": {"codigo": "2011", "descricao": "Empresa Pública"},
-            "capitalSocial": 0,
-            "cnaePrincipal": {
-                "codigo": "6204000",
-                "descricao": "Consultoria em tecnologia da informação",
-            },
-        }
         with mock.patch(
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=mocked_response,
+            return_value=self.mocked_response_serpro_2,
         ):
             self.model.search([("cnpj_cpf", "=", "34.238.864/0002-49")]).write(
                 {"active": False}
@@ -337,73 +147,9 @@ class TestTestSerPro(TestCnpjCommon):
         dummy_empresa.unlink()
 
     def test_serpro_qsa(self):
-        mocked_response = {
-            "nomeEmpresarial": "UHIEQKX WHNHIWD NH  FIXKHUUWPHMVX NH NWNXU (UHIFIX)",
-            "nomeFantasia": "UHIFIX UHNH",
-            "telefones": [
-                {"ddd": "61", "numero": "22222222"},
-                {"ddd": "61", "numero": "22222222"},
-            ],
-            "cep": "70836900",
-            "correioEletronico": "EMPRESA@XXXXXX.BR",
-            "socios": [
-                {
-                    "tipoSocio": "2",
-                    "nome": "LUIZA ARAUJO DE OLIVEIRA",
-                    "qualificacao": "49",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {"nome": "", "qualificacao": "00"},
-                },
-                {
-                    "tipoSocio": "2",
-                    "nome": "JOANA ALVES MUNDIM PENA",
-                    "qualificacao": "49",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {"nome": "", "qualificacao": "00"},
-                },
-                {
-                    "tipoSocio": "2",
-                    "nome": "LUIZA BARBOSA BEZERRA",
-                    "qualificacao": "49",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {"nome": "", "qualificacao": "00"},
-                },
-                {
-                    "tipoSocio": "2",
-                    "nome": "MARCELO ANTONIO BARROS DE CICCO",
-                    "qualificacao": "49 ",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {"nome": "", "qualificacao": "00"},
-                },
-                {
-                    "tipoSocio": "2",
-                    "nome": "LUIZA ALDENORA",
-                    "qualificacao": "49",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {"nome": "", "qualificacao": "00"},
-                },
-            ],
-            "endereco": {
-                "tipoLogradouro": "SETOR",
-                "logradouro": "NH BIWMNH WIHW MXIVH",
-                "numero": "Q.601",
-                "complemento": "LOTE V",
-                "cep": "70836900",
-                "bairro": "ASA NORTE",
-                "municipio": {"codigo": "9701", "descricao": "BRASILIA"},
-                "uf": "DF",
-                "pais": {"codigo": "105", "descricao": "BRASIL"},
-            },
-            "naturezaJuridica": {"codigo": "2011", "descricao": "Empresa Pública"},
-            "capitalSocial": 0,
-            "cnaePrincipal": {
-                "codigo": "6204000",
-                "descricao": "Consultoria em tecnologia da informação",
-            },
-        }
         with mock.patch(
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=mocked_response,
+            return_value=self.mocked_response_serpro_3,
         ):
             self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
                 {"active": False}
