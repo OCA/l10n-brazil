@@ -16,7 +16,6 @@ class NFeStructure(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env["spec.mixin.nfe"]._register_hook()
 
     @classmethod
     def get_stacked_tree(cls, klass):
