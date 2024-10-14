@@ -94,7 +94,7 @@ class Partner(models.Model):
                         for partner in record.env["res.partner"].search(domain):
                             if (
                                 partner.inscr_est == record.inscr_est
-                                and not record.inscr_est
+                                and record.inscr_est
                             ):
                                 raise ValidationError(
                                     _(
