@@ -8,8 +8,6 @@ class TestAccountNFCeContingency(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # this hook is required to test l10n_br_account_nfe alone:
-        cls.env["spec.mixin.nfe"]._register_hook()
         cls.document_id = cls.env.ref("l10n_br_nfe.demo_nfce_same_state")
         cls.prepare_account_move_nfce()
 
