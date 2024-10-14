@@ -68,20 +68,12 @@ class SpecModel(models.Model):
         return res
 
     @classmethod
-    def _spec_prefix(cls, context=None, spec_schema=None, spec_version=None):
+    def _ensure_spec_prefix(cls, context=None, spec_schema=None, spec_version=None):
         if context and context.get("spec_schema"):
             spec_schema = context.get("spec_schema")
         if context and context.get("spec_version"):
             spec_version = context.get("spec_version")
         return "%s%s" % (spec_schema, spec_version.replace(".", "")[:2])
-
-    def _get_spec_property(self, spec_property="", fallback=None):
-        return getattr(
-            self, f"_{self._spec_prefix(self._context)}_{spec_property}", fallback
-        )
-
-    def _get_stacking_points(self):
-        return self._get_spec_property("stacking_points", {})
 
     @classmethod
     def _build_model(cls, pool, cr):
@@ -241,14 +233,14 @@ class StackedModel(SpecModel):
     @classmethod
     def _build_model(cls, pool, cr):
         mod = import_module(".".join(cls.__module__.split(".")[:-1]))
-        if hasattr(cls, "_schema_name"):
-            schema = cls._schema_name
-            version = cls._schema_version.replace(".", "")[:2]
+        if hasattr(cls, "_spec_schema"):
+            schema = cls._spec_schema
+            version = cls._spec_version.replace(".", "")[:2]
         else:
             mod = import_module(".".join(cls.__module__.split(".")[:-1]))
             schema = mod.spec_schema
             version = mod.spec_version.replace(".", "")[:2]
-        spec_prefix = cls._spec_prefix(spec_schema=schema, spec_version=version)
+        spec_prefix = cls._ensure_spec_prefix(spec_schema=schema, spec_version=version)
         setattr(cls, f"_{spec_prefix}_stacking_points", {})
         stacking_settings = {
             "odoo_module": getattr(cls, f"_{spec_prefix}_odoo_module"),  # TODO inherit?

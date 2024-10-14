@@ -33,7 +33,7 @@ class SpecMixinExport(models.AbstractModel):
         for c in set(classes):
             if c is None:
                 continue
-            if not c.startswith(f"{self._schema_name}."):
+            if not c.startswith(f"{self._context['spec_schema']}."):
                 continue
             # the following filter to fields to show
             # when several XSD class are injected in the same object
@@ -202,6 +202,7 @@ class SpecMixinExport(models.AbstractModel):
         self.ensure_one()
         if spec_schema and spec_version:
             self = self.with_context(spec_schema=spec_schema, spec_version=spec_version)
+            self.env[f"spec.mixin.{spec_schema}"]._register_hook()
         if not class_name:
             class_name = self._get_spec_property("stacking_mixin", self._name)
 
@@ -210,9 +211,7 @@ class SpecMixinExport(models.AbstractModel):
         xsd_fields = (
             i
             for i in class_obj._fields
-            if class_obj._fields[i].name.startswith(
-                f"{self._spec_prefix(self._context)}_"
-            )
+            if class_obj._fields[i].name.startswith(f"{self._spec_prefix()}_")
             and "_choice" not in class_obj._fields[i].name
         )
 

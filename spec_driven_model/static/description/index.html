@@ -372,7 +372,7 @@ ul.auto-toc {
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"><img alt="License: LGPL-3" src="https://img.shields.io/badge/licence-LGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/14.0/spec_driven_model"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-spec_driven_model"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=14.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <div class="section" id="intro">
 <h1>Intro</h1>
-<p>This module is a databinding framework for Odoo and XML data: it allows to go from XML to Odoo objects back and forth. This module started with the <a class="reference external" href="https://www.davekuhlman.org/generateDS.html">GenerateDS</a>  pure Python databinding framework and is now being migrated to xsdata. So a good starting point is to read <a class="reference external" href="https://xsdata.readthedocs.io/">the xsdata documentation here</a></p>
+<p>This module is a databinding framework for Odoo and XML data: it allows to go from XML to Odoo objects back and forth. While having no hard dependency with it, it has been designed to be used with xsdata. So a good starting point is to read <a class="reference external" href="https://xsdata.readthedocs.io/">the xsdata documentation here</a></p>
 <p>But what if instead of only generating Python structures from XML files you could actually generate full blown Odoo objects or serialize Odoo objects back to XML? This is what this module is for!</p>
 <p>First you should generate xsdata Python binding libraries you would generate for your specific XSD grammar, the Brazilian Electronic Invoicing for instance, or UBL.</p>
 <p>Second you should generate Odoo abstract mixins for all these pure Python bindings. This can be achieved using <a class="reference external" href="https://github.com/akretion/xsdata-odoo">xsdata-odoo</a>. An example is OCA/l10n-brazil/l10n_br_nfe_spec for the Brazilian Electronic Invoicing.</p>
@@ -391,13 +391,13 @@ class ResPartner(spec_models.SpecModel):
     ]
 </pre>
 <p>Notice you should inherit from <cite>spec_models.SpecModel</cite> and not the usual <cite>models.Model</cite>.</p>
-<p><strong>Field mapping</strong>: You can then define two ways mapping between fields by overriding fields from Odoo or from the binding and using <cite>_compute=</cite> , <cite>_inverse=</cite> or simply <cite>related=</cite>.</p>
+<p><strong>Field mapping</strong>: You can then define two ways mapping between fields by overriding fields from Odoo or from the binding using <cite>_compute=</cite> , <cite>_inverse=</cite> or simply <cite>related=</cite>.</p>
 <p><strong>Relational fields</strong>: simple fields are easily mapped this way. However what about relational fields? In your XSD schema, your electronic invoice is related to the <cite>partner.binding.mixin</cite> not to an Odoo <cite>res.partner</cite>. Don’t worry, when <cite>SpecModel</cite> classes are instanciated for all relational fields, we look if their comodel have been injected into some existing Odoo model and if so we remap them to the proper Odoo model.</p>
 <p><strong>Field prefixes</strong>: to avoid field collision between the Odoo fields and the XSD fields, the XSD fields are prefixed with the name of the schema and a few digits representing the schema version (typically 2 digits). So if your schema get a minor version upgrade, the same fields and classes are used. For a major upgrade however new fields and classes may be used so data of several major versions could co-exist inside your Odoo database.</p>
 </div>
 <div class="section" id="stackedmodel">
 <h1>StackedModel</h1>
-<p>Sadly real life XML is a bit more complex than that. Often XML structures are deeply nested just because it makes it easier for XSD schemas to validate them! for instance an electronic invoice line can be a nested structure with lots of tax details and product details. In a relational model like Odoo however you often want flatter data structures. This is where <cite>StackedModel</cite> comes to the rescue! It inherits from <cite>SpecModel</cite> and when you inherit from <cite>StackedModel</cite> you can inherit from all the generated mixins corresponding to the nested XML tags below some tag (here <cite>invoice.line.binding.mixin</cite>). All the fields corresponding to these XML tag attributes will be collected in your model and the XML parsing and serialization will happen as expected:</p>
+<p>Sadly real life XML is a bit more complex than that. Often XML structures are deeply nested just because it makes it easier for XSD schemas to validate them! for instance an electronic invoice line can be a nested structure with lots of tax details and product details. In a relational model like Odoo however you often want flatter data structures. This is where <cite>StackedModel</cite> comes to the rescue! It inherits from <cite>SpecModel</cite> and when you inherit from <cite>StackedModel</cite> you can inherit from all the generated mixins corresponding to the nested XML tags below some tag (here <cite>invoice.line.binding.mixin</cite>). All the fields corresponding to these XML tag attributes will be collected in your model and the XML parsing and serialization will happen as expected. Here is an example inspired from the Brazilian Electronic Invoice where the schema is called <cite>nfe</cite> and where we use the 2 digits <cite>40</cite> for its short version:</p>
 <pre class="literal-block">
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -405,15 +405,22 @@ from odoo.addons.spec_driven_model.models import spec_models
 class InvoiceLine(spec_models.StackedModel):
     _inherit = [
         'account.move.line',
-        'invoice.line.binding.mixin',
+        'nfe.40.det',
     ]
-    _stacked = 'invoice.line.binding.mixin'
+    _nfe40_spec_settings = {
+        &quot;module&quot;: &quot;odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00&quot;,
+        &quot;stacking_mixin&quot;: &quot;nfe.40.det&quot;,
+        &quot;stacking_points&quot;: {},
+        # all m2o below this level will be stacked even if not required:
+        &quot;stacking_force_paths&quot;: (&quot;det.imposto.&quot;,),
+        &quot;stacking_skip_paths&quot;: (&quot;nfe40_det_infNFe_id&quot;,),
+    }
 </pre>
-<p>All many2one fields that are required in the XSD (xsd_required=True) will get their model stacked automatically and recursively. You can force non required many2one fields to be stacked using the <cite>_force_stack_paths</cite> attribute. On the contrary, you can avoid some required many2one fields to be stacked using the <cite>stack_skip</cite> attribute.</p>
+<p>All many2one fields that are required in the XSD (xsd_required=True) will get their model stacked automatically and recursively. You can force non required many2one fields to be stacked using the <cite>stacking_force_paths</cite> attribute. On the contrary, you can avoid some required many2one fields to be stacked using the <cite>stacking_skip_paths</cite> attribute.</p>
 </div>
-<div class="section" id="hooks">
-<h1>Hooks</h1>
-<p>Because XSD schemas can define lot’s of different models, spec_driven_model comes with handy hooks that will automatically make all XSD mixins turn into concrete Odoo model (eg with a table) if you didn’t inject them into existing Odoo models.</p>
+<div class="section" id="initialization-hook">
+<h1>Initialization hook</h1>
+<p>Because XSD schemas can define lot’s of different models, spec_driven_model comes with a handy _register_hook that will automatically make all XSD mixins turn into concrete Odoo model (eg with a table) if you didn’t inject them into existing Odoo models.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
