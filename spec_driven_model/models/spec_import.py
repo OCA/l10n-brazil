@@ -42,12 +42,12 @@ class SpecMixinImport(models.AbstractModel):
 
         Defaults values and control options are meant to be passed in the context.
         """
-        model = self.with_context(
-            spec_schema=spec_schema, spec_version=spec_version
-        )._get_concrete_model(self._name)
-        attrs = model.with_context(
-            dry_run=dry_run, spec_schema=spec_schema, spec_version=spec_version
-        ).build_attrs(node)
+        self = self.with_context(
+            spec_schema=spec_schema, spec_version=spec_version, dry_run=dry_run
+        )
+        self._register_hook()
+        model = self._get_concrete_model(self._name)
+        attrs = model.build_attrs(node)
         if dry_run:
             return model.new(attrs)
         else:
@@ -73,7 +73,7 @@ class SpecMixinImport(models.AbstractModel):
         value = getattr(node, attr[0])
         if value is None or value == []:
             return False
-        prefix = f"{self._spec_prefix(self._context)}"
+        prefix = f"{self._spec_prefix()}"
         key = f"{prefix}_{attr[1].metadata.get('name', attr[0])}"
         child_path = f"{path}.{key}"
 
@@ -196,7 +196,7 @@ class SpecMixinImport(models.AbstractModel):
 
         related_many2ones = {}
         fields = model._fields
-        field_prefix = f"{self._spec_prefix(self._context)}_"
+        field_prefix = f"{self._spec_prefix()}_"
         for k, v in fields.items():
             # select schema choices for a friendly UI:
             if k.startswith(f"{field_prefix}choice"):
