@@ -18,7 +18,6 @@ _logger = logging.getLogger(__name__)
 class TestNFeExport(TransactionCase):
     def setUp(self, nfe_list):
         super().setUp()
-        self.env["spec.mixin.nfe"]._register_hook()
         self.nfe_list = nfe_list
         for nfe_data in self.nfe_list:
             nfe = self.env.ref(nfe_data["record_ref"])
@@ -39,6 +38,7 @@ class TestNFeExport(TransactionCase):
             line._onchange_fiscal_operation_line_id()
 
         nfe._compute_fiscal_amount()
+        nfe._register_hook()  # required in v16 for next statement
         nfe.nfe40_detPag = [
             (5, 0, 0),
             (
