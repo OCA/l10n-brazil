@@ -4,7 +4,7 @@
 from odoo import api, fields, models
 
 
-class AccountInvoice(models.Model):
+class AccountMove(models.Model):
     _inherit = "account.move"
 
     financial_move_line_ids = fields.Many2many(
