@@ -11,11 +11,6 @@ _logger = logging.getLogger(__name__)
 
 
 class NFeImportTest(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env["spec.mixin.nfe"]._register_hook()
-
     def test_import_in_nfe_dry_run(self):
         res_items = (
             "nfe",
