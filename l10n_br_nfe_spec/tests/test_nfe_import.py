@@ -15,7 +15,7 @@ from odoo.models import BaseModel, NewId
 from odoo.tests import TransactionCase
 from odoo.tools import OrderedSet
 
-from ..models import spec_models
+from ..models import spec_mixin
 
 tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
 
@@ -38,10 +38,7 @@ def build_attrs_fake(self, node, create_m2o=False):
         value = getattr(node, fname)
         if value is None:
             continue
-        key = "{}{}".format(
-            self._field_prefix,
-            fspec.metadata.get("name", fname),
-        )
+        key = f"nfe40_{fspec.metadata.get('name', fname)}"
         if (
             fspec.type == str or not any(["." in str(i) for i in fspec.type.__args__])
         ) and not str(fspec.type).startswith("typing.List"):
@@ -66,12 +63,8 @@ def build_attrs_fake(self, node, create_m2o=False):
                 key = fields[key]["related"][0]
                 comodel_name = fields[key]["relation"]
             else:
-                clean_type = binding_type.lower()  # TODO double check
-                comodel_name = "{}.{}.{}".format(
-                    self._schema_name,
-                    self._schema_version.replace(".", "")[0:2],
-                    clean_type.split(".")[-1],
-                )
+                clean_type = binding_type.lower()
+                comodel_name = f"nfe.40.{clean_type.split('.')[-1]}"
             comodel = self.env.get(comodel_name)
             if comodel is None:  # example skip ICMS100 class
                 continue
@@ -114,9 +107,9 @@ def match_or_create_m2o_fake(self, comodel, new_value, create_m2o=False):
     return comodel.new(new_value)._ids[0]
 
 
-spec_models.NfeSpecMixin.build_fake = build_fake
-spec_models.NfeSpecMixin.build_attrs_fake = build_attrs_fake
-spec_models.NfeSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
+spec_mixin.NfeSpecMixin.build_fake = build_fake
+spec_mixin.NfeSpecMixin.build_attrs_fake = build_attrs_fake
+spec_mixin.NfeSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
 
 
 # in version 12, 13 and 14, the code above would properly allow loading NFe XMLs
@@ -159,6 +152,7 @@ def fields_convert_to_cache(self, value, record, validate=True):
 
             def browse(it):
                 return comodel.browse((it and NewId(it),))
+
         else:
             browse = comodel.browse
         # determine the value ids
