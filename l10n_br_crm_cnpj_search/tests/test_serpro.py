@@ -4,6 +4,6 @@
 from odoo.tests import TransactionCase
 
 
-class TestCRMReceitaws(TransactionCase):
-    def test_crm_receita_ws_success(self):
-        pass
+class TestCRMSerpro(TransactionCase):
+    def test_crm_serpro_basica(self):
+        self.assertTrue(True)
