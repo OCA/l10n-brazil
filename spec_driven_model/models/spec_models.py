@@ -64,16 +64,8 @@ class SpecModel(models.Model):
         res = super()._compute_display_name()
         for rec in self:
             if rec.display_name == "False" or not rec.display_name:
-                rec.display_name = _("Abrir...")
+                rec.display_name = _("Open...")
         return res
-
-    @classmethod
-    def _ensure_spec_prefix(cls, context=None, spec_schema=None, spec_version=None):
-        if context and context.get("spec_schema"):
-            spec_schema = context.get("spec_schema")
-        if context and context.get("spec_version"):
-            spec_version = context.get("spec_version")
-        return "%s%s" % (spec_schema, spec_version.replace(".", "")[:2])
 
     @classmethod
     def _build_model(cls, pool, cr):
@@ -181,7 +173,6 @@ class SpecModel(models.Model):
 
     @classmethod
     def _map_concrete(cls, dbname, key, target, quiet=False):
-        # TODO bookkeep according to a key to allow multiple injection contexts
         if not quiet:
             _logger.debug(f"{key} ---> {target}")
         global SPEC_MIXIN_MAPPINGS
@@ -233,15 +224,14 @@ class StackedModel(SpecModel):
 
     @classmethod
     def _build_model(cls, pool, cr):
-        mod = import_module(".".join(cls.__module__.split(".")[:-1]))
-        if hasattr(cls, "_spec_schema"):
+        if hasattr(cls, "_spec_schema"):  # when called via _register_hook
             schema = cls._spec_schema
             version = cls._spec_version.replace(".", "")[:2]
         else:
             mod = import_module(".".join(cls.__module__.split(".")[:-1]))
             schema = mod.spec_schema
             version = mod.spec_version.replace(".", "")[:2]
-        spec_prefix = cls._ensure_spec_prefix(spec_schema=schema, spec_version=version)
+        spec_prefix = f"{schema}{version}"
         setattr(cls, f"_{spec_prefix}_stacking_points", {})
         stacking_settings = {
             "odoo_module": getattr(cls, f"_{spec_prefix}_odoo_module"),  # TODO inherit?
