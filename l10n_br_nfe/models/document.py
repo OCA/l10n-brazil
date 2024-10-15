@@ -1337,7 +1337,7 @@ class NFe(spec_models.StackedModel):
         }
         report = self.env.ref("l10n_br_nfe.report_danfe")
         pdf_data = report._render_qweb_pdf(
-            "l10n_br_nfe.main_template_danfe", self.fiscal_line_ids.document_id.ids
+            "main_template_danfe", self.fiscal_line_ids.document_id.ids
         )
         attachment_data["datas"] = base64.b64encode(pdf_data[0])
         file_pdf = self.file_report_id
