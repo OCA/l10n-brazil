@@ -18,7 +18,9 @@ class TestDanfe(TransactionCase):
         danfe_report = self.env["ir.actions.report"].search(
             [("report_name", "=", "main_template_danfe_account")]
         )
-        danfe_pdf = danfe_report._render_qweb_pdf([nfe.id])
+        danfe_pdf = danfe_report._render_qweb_pdf(
+            "main_template_danfe_account", [nfe.id]
+        )
         self.assertTrue(danfe_pdf)
 
     def test_generate_danfe_erpbrasil_edoc(self):
@@ -33,5 +35,7 @@ class TestDanfe(TransactionCase):
             danfe_report = self.env["ir.actions.report"].search(
                 [("report_name", "=", "main_template_danfe_account")]
             )
-            danfe_pdf = danfe_report._render_qweb_pdf([nfe.id])
+            danfe_pdf = danfe_report._render_qweb_pdf(
+                "main_template_danfe_account", [nfe.id]
+            )
             self.assertTrue(danfe_pdf)
