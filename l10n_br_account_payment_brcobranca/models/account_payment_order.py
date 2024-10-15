@@ -40,7 +40,7 @@ class PaymentOrder(models.Model):
     def _prepare_remessa_santander(self, remessa_values, cnab_type):
         remessa_values.update(
             {
-                "codigo_carteira": self.payment_mode_id.boleto_wallet_code_id.code,
+                "codigo_carteira": self.payment_mode_id.wallet_code_id.code,
                 "codigo_transmissao": self.payment_mode_id.cnab_company_bank_code,
                 "conta_corrente": misc.punctuation_rm(
                     self.journal_id.bank_account_id.acc_number
