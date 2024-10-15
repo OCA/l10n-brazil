@@ -127,7 +127,9 @@ class MDFeStructure(SavepointCase):
             "mdfe30_veicTracao",
             "mdfe30_infBanc",
         ]
-        keys = [k for k in self.env["l10n_br_fiscal.document"]._stacking_points.keys()]
+        keys = [
+            k for k in self.env["l10n_br_fiscal.document"]._get_stacking_points().keys()
+        ]
         self.assertEqual(sorted(keys), sorted(doc_keys))
 
     def test_doc_tree(self):

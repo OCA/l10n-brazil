@@ -10,17 +10,12 @@ from odoo.addons.spec_driven_model.models import spec_models
 class MDFeModalFerroviario(spec_models.StackedModel):
     _name = "l10n_br_mdfe.modal.ferroviario"
     _inherit = "mdfe.30.ferrov"
-    _stacked = "mdfe.30.ferrov"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_ferroviario_v3_00"
-    _field_prefix = "mdfe30_"
-    _schema_name = "mdfe"
-    _schema_version = "3.0.0"
-    _odoo_module = "l10n_br_mdfe"
-    _spec_module = (
+    _description = "Modal Ferroviário MDFe"
+
+    _mdfe30_odoo_module = (
         "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_ferroviario_v3_00"
     )
-    _spec_tab_name = "MDFe"
-    _description = "Modal Ferroviário MDFe"
+    _mdfe30_stacking_mixin = "mdfe.30.ferrov"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -40,8 +35,8 @@ class MDFeModalFerroviario(spec_models.StackedModel):
 class MDFeModalFerroviarioVagao(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.ferroviario.vagao"
     _inherit = "mdfe.30.vag"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_ferroviario_v3_00"
     _description = "Informações do Vagão no Modal Ferroviário MDFe"
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_ferroviario_v3_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 

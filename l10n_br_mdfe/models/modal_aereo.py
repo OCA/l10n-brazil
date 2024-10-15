@@ -9,15 +9,12 @@ from odoo.addons.spec_driven_model.models import spec_models
 class MDFeModalAereo(spec_models.StackedModel):
     _name = "l10n_br_mdfe.modal.aereo"
     _inherit = "mdfe.30.aereo"
-    _stacked = "mdfe.30.aereo"
-    _binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aereo_v3_00"
-    _field_prefix = "mdfe30_"
-    _schema_name = "mdfe"
-    _schema_version = "3.0.0"
-    _odoo_module = "l10n_br_mdfe"
-    _spec_module = "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aereo_v3_00"
-    _spec_tab_name = "MDFe"
     _description = "Modal Aereo MDFe"
+
+    _mdfe30_odoo_module = (
+        "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aereo_v3_00"
+    )
+    _mdfe30_stacking_mixin = "mdfe.30.aereo"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
