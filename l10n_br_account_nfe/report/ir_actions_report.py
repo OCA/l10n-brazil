@@ -10,14 +10,14 @@ class IrActionsReport(models.Model):
     def temp_xml_autorizacao(self, xml_string):
         return super().temp_xml_autorizacao(xml_string=xml_string)
 
-    def _render_qweb_html(self, res_ids, data=None):
-        if self.report_name == "main_template_danfe_account":
+    def _render_qweb_html(self, report_ref, res_ids, data=None):
+        if report_ref == "main_template_danfe_account":
             return
-        return super()._render_qweb_html(res_ids, data=data)
+        return super()._render_qweb_html(report_ref, res_ids, data=data)
 
-    def _render_qweb_pdf(self, res_ids, data=None):
-        if self.report_name not in ["main_template_danfe_account"]:
-            return super()._render_qweb_pdf(res_ids, data=data)
+    def _render_qweb_pdf(self, report_ref, res_ids, data=None):
+        if report_ref not in ["main_template_danfe_account"]:
+            return super()._render_qweb_pdf(report_ref, res_ids, data=data)
 
         nfe = self.env["account.move"].search([("id", "in", res_ids)])
 
