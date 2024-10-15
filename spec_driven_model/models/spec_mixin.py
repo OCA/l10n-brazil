@@ -1,6 +1,8 @@
 # Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+from importlib import import_module
+
 from odoo import api, models
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
@@ -43,12 +45,31 @@ class SpecMixin(models.AbstractModel):
         else:
             return self.env.get(model_name)
 
-    def _spec_prefix(self):
+    def _spec_prefix(self, split=False):
         """
-        _spec_prefix should be available for all generated specs mixins
-        and it should be defined in SpecModel to avoid circular imports.
+        Get spec_schema and spec_version from context or from class module
         """
-        return SpecModel._ensure_spec_prefix(self._context)
+        if self._context.get("spec_schema") and self._context.get("spec_version"):
+            spec_schema = self._context.get("spec_schema")
+            spec_version = self._context.get("spec_version")
+            if spec_schema and spec_version:
+                spec_version = spec_version.replace(".", "")[:2]
+                if split:
+                    return spec_schema, spec_version
+                return f"{spec_schema}{spec_version}"
+
+        for ancestor in type(self).mro():
+            if not ancestor.__module__.startswith("odoo.addons."):
+                continue
+            mod = import_module(".".join(ancestor.__module__.split(".")[:-1]))
+            if hasattr(mod, "spec_schema"):
+                spec_schema = mod.spec_schema
+                spec_version = mod.spec_version.replace(".", "")[:2]
+                if split:
+                    return spec_schema, spec_version
+                return f"{spec_schema}{spec_version}"
+
+        return None, None if split else None
 
     def _get_spec_property(self, spec_property="", fallback=None):
         """
@@ -67,22 +88,21 @@ class SpecMixin(models.AbstractModel):
         their _auto_init method that will create their SQL DDL structure.
         """
         res = super()._register_hook()
-        if "spec_schema" not in self._context:
+        spec_schema, spec_version = self._spec_prefix(split=True)
+        if not spec_schema:
             return res
+
         spec_module = self._get_spec_property("odoo_module")
-        if not spec_module:
-            return res
         odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
         load_key = f"_{spec_module}_loaded"
-        if hasattr(self.env.registry, load_key):  # already done for registry
+        if hasattr(self.env.registry, load_key):  # hook already done for registry
             return res
         setattr(self.env.registry, load_key, True)
+
         access_data = []
         access_fields = []
-        relation_prefix = (
-            f"{self._context['spec_schema']}.{self._context['spec_version']}.%"
-        )
-        field_prefix = f"{self._context['spec_schema']}{self._context['spec_version']}_"
+        field_prefix = f"{spec_schema}{spec_version}"
+        relation_prefix = f"{spec_schema}.{spec_version}.%"
         self.env.cr.execute(
             """SELECT DISTINCT relation FROM ir_model_fields
                    WHERE relation LIKE %s;""",
@@ -99,7 +119,6 @@ class SpecMixin(models.AbstractModel):
             spec_class = StackedModel._odoo_name_to_class(name, spec_module)
             if spec_class is None:
                 continue
-            spec_class._module = "fiscal"  # TODO use python_module ?
             fields = self.env[spec_class._name]._fields
             rec_name = next(
                 filter(
@@ -120,8 +139,8 @@ class SpecMixin(models.AbstractModel):
             )
             # we set _spec_schema and _spec_version because
             # _build_model will not have context access:
-            model_type._spec_schema = self._context["spec_schema"]
-            model_type._spec_version = self._context["spec_version"]
+            model_type._spec_schema = spec_schema
+            model_type._spec_version = spec_version
             models.MetaModel.module_to_models[odoo_module] += [model_type]
 
             # now we init these models properly

@@ -3,12 +3,11 @@
 
 {
     "name": "Spec Driven Model",
-    "summary": """
-        Tools for specifications driven mixins (from xsd for instance)""",
+    "summary": """XML binding for Odoo: XML to Odoo models and models to XML.""",
     "version": "16.0.1.3.2",
     "maintainers": ["rvalyi"],
     "license": "LGPL-3",
-    "author": "Akretion,Odoo Community Association (OCA)",
+    "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [],
     "data": [],
