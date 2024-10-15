@@ -37,7 +37,7 @@ class TestDanfeGeneration(TransactionCase):
         nfe.document_type_id = self.env.ref("l10n_br_fiscal.document_01")
         nfe.action_document_confirm()
         with self.assertRaises(UserError) as captured_exception:
-            danfe_report._render_qweb_pdf("l10n_br_nfe.main_template_danfe", [nfe.id])
+            danfe_report._render_qweb_pdf("main_template_danfe", [nfe.id])
         self.assertEqual(
             captured_exception.exception.args[0],
             "You can only print a DANFE of a NFe(55).",

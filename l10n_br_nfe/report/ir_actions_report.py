@@ -38,13 +38,13 @@ class IrActionsReport(models.Model):
         return etree.tostring(new_root)
 
     def _render_qweb_html(self, report_ref, res_ids, data=None):
-        if report_ref == "l10n_br_nfe.main_template_danfe":
+        if report_ref == "main_template_danfe":
             return
 
         return super()._render_qweb_html(report_ref, res_ids, data=data)
 
     def _render_qweb_pdf(self, report_ref, res_ids, data=None):
-        if report_ref not in ["l10n_br_nfe.main_template_danfe"]:
+        if report_ref not in ["main_template_danfe"]:
             return super()._render_qweb_pdf(report_ref, res_ids, data=data)
 
         nfe = self.env["l10n_br_fiscal.document"].search([("id", "in", res_ids)])
