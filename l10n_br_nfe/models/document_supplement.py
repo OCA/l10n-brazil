@@ -2,13 +2,19 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 
+from odoo import fields
+
 from odoo.addons.spec_driven_model.models import spec_models
 
 
 class NFeSupplement(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.supplement"
     _description = "NFe Supplement Document"
-    _inherit = "nfe.40.infnfesupl"
+    _inherit = ["l10n_br_fiscal.document.supplement", "nfe.40.infnfesupl"]
     _stacked = "nfe.40.infnfesupl"
     _stacking_points = {}
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
+
+    nfe40_qrCode = fields.Char(related="qrcode")
+
+    nfe40_urlChave = fields.Char(related="url_key")
