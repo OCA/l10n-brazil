@@ -7,6 +7,7 @@ from odoo.osv import expression
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
+    _nfe40_odoo_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
     _nfe_search_keys = ["default_code", "barcode"]
 
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
