@@ -2,11 +2,10 @@
 # Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
 # @author Cristiano Mafra Junior
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-import os
 from datetime import timedelta
+from unittest import mock
 from unittest.mock import patch
 
-import vcr
 from erpbrasil.assinatura import misc
 
 from odoo import fields
@@ -105,30 +104,61 @@ class TestSefaz(TransactionCase):
             }
         )
 
-    @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_sefaz.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
-        ignore_localhost=True,
-    )
     def test_sefaz(self):
-        with patch(
-            "odoo.addons.l10n_br_ie_search.models.sefaz_webservice.SefazWebservice.sefaz_search"
-        ) as mock_get_partner_ie:
-            mock_get_partner_ie.return_value = self.retorno
-            dummy = self.model.create(
-                {
-                    "name": "Dummy",
-                    "cnpj_cpf": "88.570.377/0001-27",
-                    "certificate_ecnpj_id": self.cert.id,
-                }
-            )
-            dummy._onchange_cnpj_cpf()
-            action_wizard = dummy.action_open_cnpj_search_wizard()
-            wizard_context = action_wizard.get("context")
-            wizard = Form(
-                self.env["partner.search.wizard"]
-                .with_context(**wizard_context)
-                .create({})
-            ).save()
-            wizard.action_update_partner()
+        mock_response = {
+            "abertura": "24/11/2021",
+            "situacao": "BAIXADA",
+            "tipo": "MATRIZ",
+            "nome": "Dummy Empresa",
+            "porte": "MICRO EMPRESA",
+            "natureza_juridica": "213-5 - Empresário (Individual)",
+            "logradouro": "RUA DUMMY",
+            "numero": "250",
+            "complemento": "BLOCO E;APT 302",
+            "municipio": "SAO PAULO",
+            "bairro": "VILA FELIZ",
+            "uf": "SP",
+            "cep": "01222001",
+            "email": "kilian.melcher@gmail.com",
+            "telefone": "(83) 8665-0905",
+            "data_situacao": "18/12/2023",
+            "motivo_situacao": "EXTINÇÃO POR ENCERRAMENTO LIQUIDAÇÃO VOLUNTÁRIA",
+            "cnpj": "88570377000127",
+            "ultima_atualizacao": "2024-01-13T23:59:59.000Z",
+            "status": "OK",
+            "fantasia": "",
+            "efr": "",
+            "situacao_especial": "",
+            "data_situacao_especial": "",
+            "atividade_principal": [{"code": "4751-2/01", "text": "********"}],
+            "atividades_secundarias": [{"code": "00.00-0-00", "text": "Não informada"}],
+            "capital_social": "3000.00",
+            "qsa": [],
+            "extra": {},
+            "billing": {"free": True, "database": True},
+        }
+        with mock.patch(
+            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+            return_value=mock_response,
+        ):
+            with patch(
+                "odoo.addons.l10n_br_ie_search.models.sefaz_webservice.SefazWebservice.sefaz_search"
+            ) as mock_get_partner_ie:
+                mock_get_partner_ie.return_value = self.retorno
+                dummy = self.model.create(
+                    {
+                        "name": "Dummy",
+                        "cnpj_cpf": "88.570.377/0001-27",
+                        "certificate_ecnpj_id": self.cert.id,
+                    }
+                )
+                dummy._onchange_cnpj_cpf()
+                action_wizard = dummy.action_open_cnpj_search_wizard()
+                wizard_context = action_wizard.get("context")
+                wizard = Form(
+                    self.env["partner.search.wizard"]
+                    .with_context(**wizard_context)
+                    .create({})
+                ).save()
+                wizard.action_update_partner()
             self.assertEqual(dummy.inscr_est, "528388258640")
