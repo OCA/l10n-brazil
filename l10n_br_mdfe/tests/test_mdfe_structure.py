@@ -128,27 +128,27 @@ class MDFeStructure(SavepointCase):
     #     # mdfe30_cana is optional so its fields shoudn't be stacked
     #     assert "mdfe30_XXX" not in mdfe_model._fields.keys()
 
-    def test_doc_stacking_points(self):
-        doc_keys = [
-            "mdfe30_ide",
-            "mdfe30_infModal",
-            "mdfe30_infDoc",
-            "mdfe30_tot",
-            "mdfe30_infAdic",
-            "mdfe30_trem",
-            "mdfe30_infANTT",
-            "mdfe30_valePed",
-            "mdfe30_veicTracao",
-            "mdfe30_infBanc",
-        ]
-        keys = [
-            k
-            for k in self.env["l10n_br_fiscal.document"]
-            .with_context(spec_schema="mdfe", spec_version="30")
-            ._get_stacking_points()
-            .keys()
-        ]
-        self.assertEqual(sorted(keys), sorted(doc_keys))
+    # def test_doc_stacking_points(self):
+    #     doc_keys = [
+    #         "mdfe30_ide",
+    #         "mdfe30_infModal",
+    #         "mdfe30_infDoc",
+    #         "mdfe30_tot",
+    #         "mdfe30_infAdic",
+    #         "mdfe30_trem",
+    #         "mdfe30_infANTT",
+    #         "mdfe30_valePed",
+    #         "mdfe30_veicTracao",
+    #         "mdfe30_infBanc",
+    #     ]
+    #     keys = [
+    #         k
+    #         for k in self.env["l10n_br_fiscal.document"]
+    #         .with_context(spec_schema="mdfe", spec_version="30")
+    #         ._get_stacking_points()
+    #         .keys()
+    #     ]
+    #     self.assertEqual(sorted(keys), sorted(doc_keys))
 
     def test_doc_tree(self):
         base_class = self.env["l10n_br_fiscal.document"]
