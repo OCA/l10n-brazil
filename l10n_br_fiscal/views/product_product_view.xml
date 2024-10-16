@@ -102,6 +102,11 @@
                                 name="ipi_control_seal_id"
                                 attrs="{'invisible': [('fiscal_type', '=', '09')]}"
                             />
+                            <field
+                                name="operation_line_tag_ids"
+                                widget="many2many_tags"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
                         </group>
                         <group string="Tax UOM">
                             <field name="uoe_id" />
