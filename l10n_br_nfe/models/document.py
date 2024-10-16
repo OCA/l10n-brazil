@@ -78,19 +78,19 @@ def filter_processador_edoc_nfe(record):
 
 class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
-    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe", "nfe.40.fat"]
-    _stacked = "nfe.40.infnfe"
-    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-    _nfe_search_keys = ["nfe40_Id"]
+    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
 
+    _nfe40_odoo_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
+    _nfe40_stacking_mixin = "nfe.40.infnfe"
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = (
+    _nfe40_stacking_force_paths = (
         "infnfe.total",
         "infnfe.infAdic",
         "infnfe.exporta",
         "infnfe.cobr",
         "infnfe.cobr.fat",
     )
+    _nfe_search_keys = ["nfe40_Id"]
 
     # When dynamic stacking is applied the NFe structure is:
     INFNFE_TREE = """
@@ -671,7 +671,7 @@ class NFe(spec_models.StackedModel):
         denormalized inner attribute has been set.
         """
         self.ensure_one()
-        if field_name in self._stacking_points.keys():
+        if field_name in self._get_stacking_points().keys():
             if field_name == "nfe40_ISSQNtot" and not any(
                 t == "issqn"
                 for t in self.nfe40_det.mapped("product_id.tax_icms_or_issqn")
@@ -679,21 +679,23 @@ class NFe(spec_models.StackedModel):
                 return False
 
             elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
-                comodel = self.env[self._stacking_points.get(field_name).comodel_name]
+                comodel = self.env[
+                    self._get_stacking_points().get(field_name).comodel_name
+                ]
                 fields = [
                     f
                     for f in comodel._fields
-                    if f.startswith(self._field_prefix)
+                    if f.startswith(self._spec_prefix())
                     and f in self._fields.keys()
                     and f
                     # don't try to nfe40_fat id when reading nfe40_cobr for instance
-                    not in self._stacking_points.keys()
+                    not in self._get_stacking_points().keys()
                 ]
                 sub_tag_read = self.read(fields)[0]
                 if not any(
                     v
                     for k, v in sub_tag_read.items()
-                    if k.startswith(self._field_prefix)
+                    if k.startswith(self._spec_prefix())
                 ):
                     return False
 
@@ -894,11 +896,11 @@ class NFe(spec_models.StackedModel):
         ):
             record.flush()
             record.invalidate_cache()
-            inf_nfe = record.export_ds()[0]
+            inf_nfe = record._build_binding("nfe", "40")
 
             inf_nfe_supl = None
             if record.nfe40_infNFeSupl:
-                inf_nfe_supl = record.nfe40_infNFeSupl.export_ds()[0]
+                inf_nfe_supl = record.nfe40_infNFeSupl._build_binding("nfe", "40")
 
             nfe = Nfe(infNFe=inf_nfe, infNFeSupl=inf_nfe_supl, signature=None)
             edocs.append(nfe)
@@ -1067,9 +1069,8 @@ class NFe(spec_models.StackedModel):
         return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
+        super()._generate_key()
         for record in self.filtered(filter_processador_edoc_nfe):
-            date = fields.Datetime.context_timestamp(record, record.document_date)
-
             required_fields_gen_edoc = []
             if not record.company_cnpj_cpf:
                 required_fields_gen_edoc.append("CNPJ/CPF")
@@ -1087,6 +1088,7 @@ class NFe(spec_models.StackedModel):
                     _("To Generate EDoc Key, you need to fill the %s field.") % field
                 )
 
+            date = fields.Datetime.context_timestamp(record, record.document_date)
             chave_edoc = ChaveEdoc(
                 ano_mes=date.strftime("%y%m").zfill(4),
                 cnpj_cpf_emitente=record.company_cnpj_cpf,
@@ -1343,7 +1345,7 @@ class NFe(spec_models.StackedModel):
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
-            .build_from_binding(binding.NFe.infNFe)
+            .build_from_binding("nfe", "40", binding.NFe.infNFe)
         )
 
         if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(

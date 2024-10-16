@@ -11,11 +11,6 @@ _logger = logging.getLogger(__name__)
 
 
 class NFeImportTest(SavepointCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env["spec.mixin.nfe"]._register_hook()
-
     def test_import_in_nfe_dry_run(self):
         res_items = (
             "nfe",
@@ -32,7 +27,7 @@ class NFeImportTest(SavepointCase):
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in")
-            .build_from_binding(binding.NFe.infNFe, dry_run=True)
+            .build_from_binding("nfe", "40", binding.NFe.infNFe, dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
         self._check_nfe(nfe)
@@ -51,7 +46,7 @@ class NFeImportTest(SavepointCase):
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in")
-            .build_from_binding(binding.NFe.infNFe, dry_run=False)
+            .build_from_binding("nfe", "40", binding.NFe.infNFe, dry_run=False)
         )
 
         assert isinstance(nfe.id, int)

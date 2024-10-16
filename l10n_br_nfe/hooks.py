@@ -14,7 +14,6 @@ _logger = logging.getLogger(__name__)
 
 def post_init_hook(cr, registry):
     env = api.Environment(cr, SUPERUSER_ID, {})
-    env["nfe.40.infnfe"]._register_hook()
     cr.execute("select demo from ir_module_module where name='l10n_br_nfe';")
     is_demo = cr.fetchone()[0]
     if is_demo:
@@ -37,7 +36,7 @@ def post_init_hook(cr, registry):
             nfe = (
                 env["nfe.40.infnfe"]
                 .with_context(tracking_disable=True, edoc_type="in")
-                .build_from_binding(binding.NFe.infNFe)
+                .build_from_binding("nfe", "40", binding.NFe.infNFe)
             )
             _logger.info(nfe.nfe40_emit.nfe40_CNPJ)
         except ValidationError:
