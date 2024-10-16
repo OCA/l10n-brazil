@@ -18,16 +18,10 @@ msgstr ""
 msgid ""
 "\n"
 "    A recursive Odoo object builder that works along with the\n"
-"    GenerateDS object builder from the parsed XML.\n"
+"    xsdata object builder from the parsed XML.\n"
 "    Here we take into account the concrete Odoo objects where the schema\n"
 "    mixins where injected and possible matcher or builder overrides.\n"
 "    "
-msgstr ""
-
-#. module: spec_driven_model
-#: code:addons/spec_driven_model/models/spec_models.py:0
-#, python-format
-msgid "Abrir..."
 msgstr ""
 
 #. module: spec_driven_model
@@ -49,6 +43,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin_export____last_update
 #: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin_import____last_update
 msgid "Last Modified on"
+msgstr ""
+
+#. module: spec_driven_model
+#: code:addons/spec_driven_model/models/spec_models.py:0
+#, python-format
+msgid "Open..."
 msgstr ""
 
 #. module: spec_driven_model
