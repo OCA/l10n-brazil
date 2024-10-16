@@ -19,7 +19,7 @@ class Company(models.Model):
         return partner_fields + [
             "legal_name",
             "cnpj_cpf",
-            "inscr_est",
+            "l10n_br_ie_code",
             "inscr_mun",
             "district",
             "city_id",

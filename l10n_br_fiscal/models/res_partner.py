@@ -76,7 +76,7 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
-    inscr_est = fields.Char(
+    l10n_br_ie_code = fields.Char(
         tracking=True,
     )
 
