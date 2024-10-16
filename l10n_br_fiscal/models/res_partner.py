@@ -101,6 +101,11 @@ class ResPartner(models.Model):
         string="Anonymous Consumer",
     )
 
+    edoc_send_email = fields.Boolean(
+        string="Edoc Send",
+        track_visibility="onchange",
+    )
+
     def _inverse_fiscal_profile(self):
         for p in self:
             p._onchange_fiscal_profile_id()
