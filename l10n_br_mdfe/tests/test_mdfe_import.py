@@ -11,7 +11,6 @@ class MDFeImportTest(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env["spec.mixin.mdfe"]._register_hook()
 
     # def test_import_in_mdfe_dry_run(self):
     #     binding = self._get_xml_binding()

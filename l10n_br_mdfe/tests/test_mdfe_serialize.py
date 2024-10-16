@@ -19,7 +19,6 @@ _logger = logging.getLogger(__name__)
 class TestMDFeSerialize(TransactionCase):
     def setUp(self, mdfe_list):
         super().setUp()
-        self.env["spec.mixin.mdfe"]._register_hook()
         self.mdfe_list = mdfe_list
         for mdfe_data in self.mdfe_list:
             mdfe = self.env.ref(mdfe_data["record_ref"])

@@ -26,11 +26,25 @@ class MDFeStructure(SavepointCase):
         spec_module = (
             "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
         )
-        node = SpecModel._odoo_name_to_class(klass._stacked, spec_module)
+        spec_prefix = "mdfe30"
+        stacking_settings = {
+            "odoo_module": getattr(klass, f"_{spec_prefix}_odoo_module"),
+            "stacking_mixin": getattr(klass, f"_{spec_prefix}_stacking_mixin"),
+            "stacking_points": getattr(klass, f"_{spec_prefix}_stacking_points"),
+            "stacking_skip_paths": getattr(
+                klass, f"_{spec_prefix}_stacking_skip_paths", []
+            ),
+            "stacking_force_paths": getattr(
+                klass, f"_{spec_prefix}_stacking_force_paths", []
+            ),
+        }
+        node = SpecModel._odoo_name_to_class(
+            stacking_settings["stacking_mixin"], spec_module
+        )
         tree = StringIO()
         visited = set()
         for kind, n, path, field_path, child_concrete in klass._visit_stack(
-            cls.env, node
+            cls.env, node, stacking_settings
         ):
             visited.add(n)
             path_items = path.split(".")
@@ -128,7 +142,11 @@ class MDFeStructure(SavepointCase):
             "mdfe30_infBanc",
         ]
         keys = [
-            k for k in self.env["l10n_br_fiscal.document"]._get_stacking_points().keys()
+            k
+            for k in self.env["l10n_br_fiscal.document"]
+            .with_context(spec_schema="mdfe", spec_version="30")
+            ._get_stacking_points()
+            .keys()
         ]
         self.assertEqual(sorted(keys), sorted(doc_keys))
 
@@ -137,3 +155,59 @@ class MDFeStructure(SavepointCase):
         tree, visited = self.get_stacked_tree(base_class)
         self.assertEqual(tree, MDFe.INFMDFE_TREE)
         self.assertEqual(len(visited), 6)  # all stacked classes
+
+    # def test_doc_line_stacking_points(self):
+    #     line_keys = [
+    #         "nfe40_COFINS",
+    #         "nfe40_COFINSAliq",
+    #         "nfe40_COFINSNT",
+    #         "nfe40_COFINSOutr",
+    #         "nfe40_COFINSQtde",
+    #         "nfe40_COFINSST",
+    #         "nfe40_ICMS",
+    #         "nfe40_ICMSPart",
+    #         "nfe40_ICMSST",
+    #         "nfe40_ICMSUFDest",
+    #         "nfe40_II",
+    #         "nfe40_IPI",
+    #         "nfe40_IPINT",
+    #         "nfe40_IPITrib",
+    #         "nfe40_ISSQN",
+    #         "nfe40_PIS",
+    #         "nfe40_PISAliq",
+    #         "nfe40_PISNT",
+    #         "nfe40_PISOutr",
+    #         "nfe40_PISQtde",
+    #         "nfe40_PISST",
+    #         "nfe40_imposto",
+    #         "nfe40_prod",
+    #     ]
+    #     keys = [
+    #         k
+    #         for k in self.env["l10n_br_fiscal.document.line"]
+    #         .with_context(spec_schema="nfe", spec_version="40")
+    #         ._get_stacking_points()
+    #         .keys()
+    #     ]
+    #     self.assertEqual(sorted(keys), line_keys)
+
+    # def test_doc_line_tree(self):
+    #     base_class = self.env["l10n_br_fiscal.document.line"]
+    #     tree, visited = self.get_stacked_tree(base_class)
+    #     self.assertEqual(tree, NFeLine.DET_TREE)
+    #     self.assertEqual(len(visited), 24)
+
+    # def test_nfref_tree(self):
+    #     base_class = self.env["l10n_br_fiscal.document.related"]
+    #     tree, visited = self.get_stacked_tree(base_class)
+    #     self.assertEqual(tree, NFeRelated.NFREF_TREE)
+    #     self.assertEqual(len(visited), 4)
+
+    # def test_m2o_force_stack(self):
+    #     pass
+
+    # def test_doc_visit_stack(self):
+    #     pass
+
+    # def test_doc_line_visit_stack(self):
+    #     pass
