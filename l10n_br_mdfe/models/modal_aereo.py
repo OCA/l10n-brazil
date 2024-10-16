@@ -14,6 +14,7 @@ class MDFeModalAereo(spec_models.StackedModel):
     _mdfe30_odoo_module = (
         "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aereo_v3_00"
     )
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aereo_v3_00"
     _mdfe30_stacking_mixin = "mdfe.30.aereo"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")

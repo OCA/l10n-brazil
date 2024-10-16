@@ -16,6 +16,7 @@ class MDFeModalAquaviario(spec_models.StackedModel):
     _mdfe30_odoo_module = (
         "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aquaviario_v3_00"
     )
+    _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_aquaviario_v3_00"
     _mdfe30_stacking_mixin = "mdfe.30.aquav"
     _mdfe_search_keys = ["mdfe30_irin", "mdfe30_cEmbar", "mdfe30_nViag"]
 
