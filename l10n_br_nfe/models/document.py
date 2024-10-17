@@ -907,7 +907,7 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
-        if self.document_type != MODELO_FISCAL_NFE:
+        if not self.filtered(filter_processador_edoc_nfe):
             return super()._processador()
 
         self._check_nfe_environment()
@@ -1051,7 +1051,7 @@ class NFe(spec_models.StackedModel):
     def _valida_xml(self, xml_file):
         self.ensure_one()
 
-        if self.document_type != MODELO_FISCAL_NFE:
+        if not self.filtered(filter_processador_edoc_nfe):
             return super()._valida_xml(xml_file)
 
         erros = Nfe.schema_validation(xml_file)
