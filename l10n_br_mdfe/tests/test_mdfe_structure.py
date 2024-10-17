@@ -14,7 +14,6 @@ class MDFeStructure(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env["spec.mixin.mdfe"]._register_hook()
 
     @classmethod
     def get_stacked_tree(cls, klass):
