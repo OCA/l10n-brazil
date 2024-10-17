@@ -62,6 +62,8 @@ class TestTestSerPro(TestCnpjCommon):
 
     def test_serpro_not_found(self):
         # In the Trial version there are only a few registered CNPJ records
+        self.model.search([("cnpj_cpf", "=", "44.356.113/0001-08")]).unlink()
+        self.set_param("serpro_schema", "basica")
         invalid = self.model.create(
             {"name": "invalid", "cnpj_cpf": "44.356.113/0001-08"}
         )
@@ -77,7 +79,6 @@ class TestTestSerPro(TestCnpjCommon):
             [("id", "in", partner.child_ids.ids)],
             fields=["name", "cnpj_cpf", "company_type"],
         )
-
         for s in socios:
             s.pop("id")
 
@@ -112,13 +113,21 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(socios, expected_socios)
 
     def test_serpro_empresa(self):
+        self.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_base.allow_cnpj_multi_ie", "True"
+        )
+        expected_cnpjs = {
+            "Joana": "50745238000114",
+            "Aldenora": "62157094000245",
+            "Araujo": "42806249000562",
+            "Barbosa": "42887406000340",
+            "Marcelo": "39367267000157",
+        }
         with mock.patch(
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
             return_value=self.mocked_response_serpro_2,
         ):
-            self.model.search([("cnpj_cpf", "=", "34.238.864/0002-49")]).write(
-                {"active": False}
-            )
+            self.model.search([("cnpj_cpf", "=", "34.238.864/0002-49")]).unlink()
             self.set_param("serpro_schema", "empresa")
 
             dummy_empresa = self.model.create(
@@ -134,14 +143,6 @@ class TestTestSerPro(TestCnpjCommon):
                 .create({})
             )
             wizard.action_update_partner()
-
-        expected_cnpjs = {
-            "Joana": "23982012600",
-            "Aldenora": "76822320300",
-            "Araujo": "07119488449",
-            "Barbosa": "13946994415",
-            "Marcelo": "00031298702",
-        }
 
         self.assert_socios(dummy_empresa, expected_cnpjs)
         dummy_empresa.unlink()

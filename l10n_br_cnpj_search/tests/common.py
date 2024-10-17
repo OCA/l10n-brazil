@@ -67,60 +67,8 @@ class TestCnpjCommon(TransactionCase):
             "socios": [
                 {
                     "tipoSocio": "2",
-                    "cpf": "07119488449",
+                    "cpf": "38729752000160",
                     "nome": "LUIZA ARAUJO DE OLIVEIRA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "23982012600",
-                    "nome": "JOANA ALVES MUNDIM PENA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "13946994415",
-                    "nome": "LUIZA BARBOSA BEZERRA",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "00031298702",
-                    "nome": "MARCELO ANTONIO BARROS DE CICCO",
-                    "qualificacao": "49",
-                    "dataInclusao": "2014-01-01",
-                    "pais": {"codigo": "105", "descricao": "BRASIL"},
-                    "representanteLegal": {
-                        "cpf": "00000000000",
-                        "nome": "",
-                        "qualificacao": "00",
-                    },
-                },
-                {
-                    "tipoSocio": "2",
-                    "cpf": "76822320300",
-                    "nome": "LUIZA ALDENORA",
                     "qualificacao": "49",
                     "dataInclusao": "2014-01-01",
                     "pais": {"codigo": "105", "descricao": "BRASIL"},
@@ -163,7 +111,7 @@ class TestCnpjCommon(TransactionCase):
             "socios": [
                 {
                     "tipoSocio": "2",
-                    "cpf": "07119488449",
+                    "cpf": "42806249000562",
                     "nome": "LUIZA ARAUJO DE OLIVEIRA",
                     "qualificacao": "49",
                     "dataInclusao": "2014-01-01",
@@ -176,7 +124,7 @@ class TestCnpjCommon(TransactionCase):
                 },
                 {
                     "tipoSocio": "2",
-                    "cpf": "23982012600",
+                    "cpf": "50745238000114",
                     "nome": "JOANA ALVES MUNDIM PENA",
                     "qualificacao": "49",
                     "dataInclusao": "2014-01-01",
@@ -189,7 +137,7 @@ class TestCnpjCommon(TransactionCase):
                 },
                 {
                     "tipoSocio": "2",
-                    "cpf": "13946994415",
+                    "cpf": "42887406000340",
                     "nome": "LUIZA BARBOSA BEZERRA",
                     "qualificacao": "49",
                     "dataInclusao": "2014-01-01",
@@ -202,7 +150,7 @@ class TestCnpjCommon(TransactionCase):
                 },
                 {
                     "tipoSocio": "2",
-                    "cpf": "00031298702",
+                    "cpf": "39367267000157",
                     "nome": "MARCELO ANTONIO BARROS DE CICCO",
                     "qualificacao": "49",
                     "dataInclusao": "2014-01-01",
@@ -215,7 +163,7 @@ class TestCnpjCommon(TransactionCase):
                 },
                 {
                     "tipoSocio": "2",
-                    "cpf": "76822320300",
+                    "cpf": "62157094000245",
                     "nome": "LUIZA ALDENORA",
                     "qualificacao": "49",
                     "dataInclusao": "2014-01-01",

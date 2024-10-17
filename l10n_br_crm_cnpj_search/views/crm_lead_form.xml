@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="crm_lead_cnpj_search_form_view">
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="l10n_br_crm.l10n_br_crm_leads_form" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <field name="cnpj" position="replace">
+                <!--Não encontrei uma maneira que não desformatasse campo do CNPJ, mas mantém um padrão-->
+                <div class="o_row" colspan="2">
+                    <label for='cnpj'>CNPJ</label>
+                    <field name="cnpj" nolabel="1" />
+                    <button
+                        name="action_open_cnpj_search_wizard"
+                        type="object"
+                        attrs="{'invisible':
+                                [
+                                    ('country_id', '!=', %(base.br)d)
+                                ]}"
+                        class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
+                        aria-label="Pesquisar CNPJ"
+                        title="Pesquisar CNPJ"
+                    />
+                </div>
+            </field>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="crm_lead_fiscal_page_view_form">
+        <field name="name">Add fiscal page</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <page name="extra" position="after">
+                <page name="fiscal" string="Fiscal">
+                    <group string="Fiscal">
+                        <field name="legal_nature" string="Natureza jurídica" />
+                        <field name="equity_capital" string="Capital social" />
+                        <field name="cnae_main_id" string="CNAE Principal" />
+                    </group>
+                    <group name="cnae_secondary">
+                            <field name="cnae_secondary_ids" />
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>
