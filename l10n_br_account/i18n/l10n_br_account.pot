@@ -645,6 +645,12 @@ msgid "Cancel Reason"
 msgstr ""
 
 #. module: l10n_br_account
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "Canceled due to the denial of document %(document_number)s"
+msgstr ""
+
+#. module: l10n_br_account
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "Cannot import in non draft Account Move!"
@@ -1515,22 +1521,6 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_company_id
-msgid "Fiscal Company"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_currency_id
-msgid "Fiscal Currency"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_deductions_value
 msgid "Fiscal Deductions"
 msgstr ""
@@ -1652,6 +1642,30 @@ msgid "Fiscal Product Genre Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_company_id
+msgid "Fiscal Proxy Company"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_currency_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_currency_id
+msgid "Fiscal Proxy Currency"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_user_id
+msgid "Fiscal Proxy User"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_quantity
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_quantity
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_quantity
@@ -1679,14 +1693,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_type
 msgid "Fiscal Type"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_user_id
-msgid "Fiscal User"
 msgstr ""
 
 #. module: l10n_br_account
