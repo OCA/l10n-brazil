@@ -658,6 +658,13 @@ msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "Canceled due to the denial of document %(document_number)s"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
 #: code:addons/l10n_br_account/models/account_move.py:0
 #, python-format
 msgid "Cannot import in non draft Account Move!"
