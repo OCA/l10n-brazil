@@ -1076,7 +1076,9 @@ class NFe(spec_models.StackedModel):
         return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
-        super()._generate_key()
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super()._generate_key()
+
         for record in self.filtered(filter_processador_edoc_nfe):
             required_fields_gen_edoc = []
             if not record.company_cnpj_cpf:
