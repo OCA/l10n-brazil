@@ -150,14 +150,6 @@
                             <field name="piscofins_ids" />
                         </page>
                         <page string="Estimate Taxes" name="tax_estimate">
-                            <group>
-                                <group>
-                                    <field name="estimate_tax_national" />
-                                </group>
-                                <group>
-                                    <field name="estimate_tax_imported" />
-                                </group>
-                            </group>
                             <field name="tax_estimate_ids" />
                         </page>
                     </notebook>
