@@ -354,7 +354,7 @@ class ResPartner(spec_models.SpecModel):
                 return "EX"
 
             if xsd_field == "nfe40_idEstrangeiro":
-                return self.vat or self.cnpj_cpf or self.rg or "EXTERIOR"
+                return self.vat or self.cnpj_cpf or self.l10n_br_rg_code or "EXTERIOR"
 
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 

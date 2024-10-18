@@ -54,7 +54,7 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user",
     )
 
-    rg = fields.Char(
+    l10n_br_rg_code = fields.Char(
         string="RG",
         store=True,
         related="address_home_id.inscr_est",
