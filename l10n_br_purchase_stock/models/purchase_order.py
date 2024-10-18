@@ -17,6 +17,19 @@ class PurchaseOrder(models.Model):
         compute="_compute_get_button_create_invoice_invisible"
     )
 
+    total_cost_of_goods_purchased = fields.Monetary(
+        string="Cost of Goods Purchased",
+        compute="_compute_cogp_amount",
+    )
+
+    @api.depends("order_line", "order_line.stock_price_br")
+    def _compute_cogp_amount(self):
+        for record in self:
+            cogp = 0
+            for line in record.order_line:
+                cogp += line.stock_price_br
+            record.total_cost_of_goods_purchased = cogp
+
     @api.depends("state", "invoice_status")
     def _compute_get_button_create_invoice_invisible(self):
         for record in self:

@@ -31,6 +31,13 @@ class CST(models.Model):
         store=True,
     )
 
+    default_creditable_tax = fields.Boolean(
+        string="Creditable Tax Default?",
+        default=True,
+        help="Defines default value for creditable tax boolean for tax_ids that have"
+        "self as CST In",
+    )
+
     _sql_constraints = [
         (
             "l10n_br_fiscal_cst_code_tax_group_id_uniq",
