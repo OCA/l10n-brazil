@@ -5,7 +5,7 @@ class PartyMixin(models.AbstractModel):
     _inherit = "l10n_br_base.party.mixin"
 
     def action_open_cnpj_search_wizard(self):
-        res = super(PartyMixin, self).action_open_cnpj_search_wizard()
+        res = super().action_open_cnpj_search_wizard()
         if self._name == "crm.lead":
             default_lead_id = self.id
         else:
