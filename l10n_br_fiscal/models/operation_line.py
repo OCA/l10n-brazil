@@ -105,6 +105,14 @@ class OperationLine(models.Model):
         selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"
     )
 
+    product_fiscal_tag_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.product.tag",
+        string="Fiscal Product Tags",
+        help="If enabled, only products that share a product tag with this line can "
+        "auto-select this operation line. When other factors are equal, a match will "
+        "be preferred over a line without this setting.",
+    )
+
     company_tax_framework = fields.Selection(selection=TAX_FRAMEWORK)
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)

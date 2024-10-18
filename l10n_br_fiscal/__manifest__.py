@@ -57,6 +57,7 @@
         "views/ncm_view.xml",
         "views/nbm_view.xml",
         "views/nbs_view.xml",
+        "views/product_tag_view.xml",
         "views/service_type_view.xml",
         "views/cest_view.xml",
         "views/product_genre_view.xml",
