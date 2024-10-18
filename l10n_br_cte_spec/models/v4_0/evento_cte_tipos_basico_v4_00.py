@@ -25,13 +25,16 @@ TMODTRANSP = [
 
 class Tevento(models.AbstractModel):
     "Tipo Evento"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tevento"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tevento"
 
     cte40_infEvento = fields.Many2one(
-        comodel_name="cte.40.tevento_infevento", string="infEvento", xsd_required=True
+        comodel_name="cte.40.tevento_infevento",
+        string="infEvento",
+        xsd_required=True,
     )
 
     cte40_versao = fields.Char(
@@ -142,6 +145,7 @@ class TeventoInfEvento(models.AbstractModel):
 
 class DetEvento(models.AbstractModel):
     "Detalhamento do evento específico"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.detevento"
     _inherit = "spec.mixin.cte"
@@ -172,6 +176,7 @@ class TeventoInfSolicNff(models.AbstractModel):
 
 class TeventoInfPaa(models.AbstractModel):
     "Grupo de Informação do Provedor de Assinatura e Autorização"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tevento_infpaa"
     _inherit = "spec.mixin.cte"
@@ -194,6 +199,7 @@ class TeventoInfPaa(models.AbstractModel):
 
 class TeventoPaasignature(models.AbstractModel):
     "Assinatura RSA do Emitente para DFe gerados por PAA"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tevento_paasignature"
     _inherit = "spec.mixin.cte"
@@ -220,6 +226,7 @@ class TeventoPaasignature(models.AbstractModel):
 
 class TretEvento(models.AbstractModel):
     "Tipo retorno do Evento"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tretevento"
     _inherit = "spec.mixin.cte"
@@ -309,6 +316,7 @@ class TretEventoInfEvento(models.AbstractModel):
 
 class TprocEvento(models.AbstractModel):
     "Tipo procEvento"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tprocevento"
     _inherit = "spec.mixin.cte"
@@ -335,7 +343,9 @@ class TprocEvento(models.AbstractModel):
     cte40_ipTransmissor = fields.Char(
         string="IP do transmissor",
         xsd_type="TIPv4",
-        help=("IP do transmissor do documento fiscal para o ambiente autorizador"),
+        help=(
+            "IP do transmissor do documento fiscal para o ambiente autorizador"
+        ),
     )
 
     cte40_nPortaCon = fields.Char(

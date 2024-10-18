@@ -10,6 +10,7 @@ __NAMESPACE__ = "http://www.portalfiscal.inf.br/cte"
 
 class Duto(models.AbstractModel):
     "Informações do modal Dutoviário"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.duto"
     _inherit = "spec.mixin.cte"
