@@ -28,7 +28,8 @@ Brazilian Localization CRM CNPJ Search
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Módulo que adiciona um botão para preencher automaticamente os campos de um lead a partir do seu CNPJ.
+Módulo que adiciona um botão para preencher automaticamente os campos de
+um lead a partir do seu CNPJ.
 
 **Table of contents**
 
@@ -43,17 +44,21 @@ Este módulo depende do módulo l10n_br_cnpj_search e l10n_br_crm.
 Configuration
 =============
 
-Esta busca de informações a partir do cnpj é realizada com base no provedor configurado na aba de configurações, vale ressaltar que o provedor receitaws permite a realização de três consultas por minuto, enquanto que o SERPRO é pago e permite consultas ilimitadas em seus planos.
+Esta busca de informações a partir do cnpj é realizada com base no
+provedor configurado na aba de configurações, vale ressaltar que o
+provedor receitaws permite a realização de três consultas por minuto,
+enquanto que o SERPRO é pago e permite consultas ilimitadas em seus
+planos.
 
 Usage
 =====
 
-#. Acesse  Configurações
-#. Escolha um provedor para a busca
-#. Habilite o Lead nas configurações do CRM
-#. Acesse CRM > Lead  > Criar
-#. Preencha o nome do Lead, insira no campo de CNPJ o CNPJ que deseja buscar e clique na lupa ao lado do campo para buscar
-
+1. Acesse Configurações
+2. Escolha um provedor para a busca
+3. Habilite o Lead nas configurações do CRM
+4. Acesse CRM > Lead > Criar
+5. Preencha o nome do Lead, insira no campo de CNPJ o CNPJ que deseja
+   buscar e clique na lupa ao lado do campo para buscar
 
 Bug Tracker
 ===========
@@ -69,19 +74,19 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Bruno Corredato Botti <bruno.botti@kmee.com.br>
+   -  Bruno Corredato Botti <bruno.botti@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
