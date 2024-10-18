@@ -178,7 +178,7 @@ class SpecModel(models.Model):
     def _map_concrete(cls, dbname, key, target, quiet=False):
         # TODO bookkeep according to a key to allow multiple injection contexts
         if not quiet:
-            _logger.debug("%s ---> %s" % (key, target))
+            _logger.debug(f"{key} ---> {target}")
         global SPEC_MIXIN_MAPPINGS
         SPEC_MIXIN_MAPPINGS[dbname][key] = target
 
@@ -188,7 +188,7 @@ class SpecModel(models.Model):
         Cache the list of spec_module classes to save calls to
         slow reflection API.
         """
-        spec_module_attr = "_spec_cache_%s" % (spec_module.replace(".", "_"),)
+        spec_module_attr = f"_spec_cache_{spec_module.replace('.', '_')}"
         if not hasattr(cls, spec_module_attr):
             setattr(
                 cls, spec_module_attr, getmembers(sys.modules[spec_module], isclass)
@@ -239,7 +239,7 @@ class StackedModel(SpecModel):
     def _build_model(cls, pool, cr):
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            _logger.info("building StackedModel %s %s" % (cls._name, cls))
+            _logger.info(f"building StackedModel {cls._name} {cls}")
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             env = api.Environment(cr, SUPERUSER_ID, {})
             for kind, klass, _path, _field_path, _child_concrete in cls._visit_stack(
@@ -318,7 +318,7 @@ class StackedModel(SpecModel):
             ):
                 # then we will STACK the child in the current class
                 child._stack_path = path
-                child_path = "%s.%s" % (path, field_path)
+                child_path = f"{path}.{field_path}"
                 cls._stacking_points[name] = env[node._name]._fields.get(name)
                 yield from cls._visit_stack(env, child, child_path)
             else:
