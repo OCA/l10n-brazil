@@ -193,11 +193,23 @@ class Tax(models.Model):
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
         other_value = kwargs.get("other_value", 0.00)
+        operation_line = kwargs.get("operation_line", False)
 
+        # Initialize additional value to be added to the base
+        add_value_to_base = 0
+
+        # Check if the tax group allows additional values to be included in the base
         if tax.tax_group_id.base_with_additional_values:
-            tax_dict["add_to_base"] += sum(
-                [freight_value, insurance_value, other_value]
-            )
+            add_value_to_base = sum([freight_value, insurance_value, other_value])
+
+        # If oper. line is set, adjust the additional values based on its definition
+        if operation_line:
+            if operation_line.additional_values_definition == "do_not_add":
+                add_value_to_base = 0
+            elif operation_line.additional_values_definition == "add":
+                add_value_to_base = sum([freight_value, insurance_value, other_value])
+
+        tax_dict["add_to_base"] += add_value_to_base
         tax_dict["remove_from_base"] += sum([discount_value])
 
         base = 0.00
