@@ -357,6 +357,22 @@ class AccountMove(models.Model):
                                 amount_currency = (
                                     invoice.amount_total - invoice.amount_ipi_value
                                 ) * sign
+
+                            # Embora seja improvável que haja um caso real disso,
+                            # estou convertendo os valores para a moeda da empresa,
+                            # caso seja diferente da moeda da fatura, para manter a
+                            # consistência. Os montantes brasileiros acima estão na
+                            # moeda da fatura. Assim, o amount_currency fica na moeda
+                            # da empresa, conforme o comportamento nativo.
+                            amount_currency = invoice.currency_id._convert(
+                                from_amount=amount_currency,
+                                to_currency=invoice.company_currency_id,
+                                company=invoice.company_id,
+                                date=invoice.invoice_date or invoice.date,
+                            )
+                            amount_currency = invoice.company_id.currency_id.round(
+                                amount_currency
+                            )
                             untaxed_amount_currency = amount_currency * sign
                             untaxed_amount = amount_currency * sign
 
