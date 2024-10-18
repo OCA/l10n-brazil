@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import models
 
 
 class StockInvoiceOnshipping(models.TransientModel):
@@ -15,88 +15,47 @@ class StockInvoiceOnshipping(models.TransientModel):
         """
         invoice, values = super()._build_invoice_values_from_pickings(pickings)
 
-        pick = fields.first(pickings)
-        if pick.sale_id:
-            values.update(
-                {
-                    "partner_id": pick.sale_id.partner_invoice_id.id,
-                }
-            )
+        sale_pickings = pickings.filtered(lambda pk: pk.sale_id)
 
-            if pick.sale_id.payment_term_id.id != values.get("invoice_payment_term_id"):
-                values.update(
-                    {"invoice_payment_term_id": pick.sale_id.payment_term_id.id}
-                )
-
-            # O campo payment_mode_id é implementado com a instalação do
-            # l10n_br_account_nfe mas o l10n_br_sale_stock não tem
-            # dependencia direta desse modulo, para evitar a necessidade
-            # de um 'glue' modulo para resolver isso é feita a verificação
-            # se o campo existe antes de preenche-lo
-            if hasattr(pick.sale_id, "payment_mode_id"):
-                if pick.sale_id.payment_mode_id.id != values.get("payment_mode_id"):
-                    values.update({"payment_mode_id": pick.sale_id.payment_mode_id.id})
-            if pick.sale_id.incoterm.id != values.get("invoice_incoterm_id"):
-                values.update({"invoice_incoterm_id": pick.sale_id.incoterm.id})
-
-            if pick.sale_id.copy_note and pick.sale_id.note:
+        # Refund case don't get values from Sale Dict
+        # TODO: Should get any value?
+        if sale_pickings and self._get_invoice_type() != "out_refund":
+            # Case more than one Sale Order the fields below will be join
+            # the others will be overwritting, as done in sale module,
+            # one more field include here Note
+            customer_data = set()
+            fiscal_data = set()
+            for picking in sale_pickings:
+                # TODO: Avaliar se isso deveria ser feito no l10n_br_sale,
+                #  porque dessa forma evitaria a necessidade de ser feito aqui
+                picking.sale_id._prepare_invoice()
+                # Fields to Join
                 # Evita enviar False quando não tem nada
+                # {False}     {''}
                 additional_data = ""
-                if pick.sale_id.manual_customer_additional_data:
+                if picking.sale_id.manual_customer_additional_data:
                     additional_data = "{}".format(
-                        pick.sale_id.manual_customer_additional_data
+                        picking.sale_id.manual_customer_additional_data
                     )
+                customer_data.add(additional_data)
+                values["manual_customer_additional_data"] = additional_data
 
+                # Evita enviar False quando não tem nada
+                fiscal_additional_data = ""
+                if picking.sale_id.manual_fiscal_additional_data:
+                    fiscal_additional_data = "{}".format(
+                        picking.sale_id.manual_fiscal_additional_data
+                    )
+                fiscal_data.add(fiscal_additional_data)
+                values["manual_fiscal_additional_data"] = fiscal_additional_data
+
+            # Fields to join
+            if len(sale_pickings) > 1:
                 values.update(
                     {
-                        "manual_customer_additional_data": additional_data
-                        + " TERMOS E CONDIÇÕES: {}".format(pick.sale_id.note),
+                        "manual_customer_additional_data": ", ".join(customer_data),
+                        "manual_fiscal_additional_data": ", ".join(fiscal_data),
                     }
                 )
 
         return invoice, values
-
-    def _get_move_key(self, move):
-        """
-        Get the key based on the given move
-        :param move: stock.move recordset
-        :return: key
-        """
-        key = super()._get_move_key(move)
-        if move.sale_line_id:
-            # Apesar da linha da Fatura permitir ter mais de uma linha de
-            # pedido de venda associada(campo sale_line_ids na invoice line)
-            # existe um erro a ser resolvido
-            # Issue https://github.com/odoo/odoo/issues/77028
-            # PR https://github.com/odoo/odoo/pull/77195
-            # Além disso é preciso verificar outras questões
-            # por exemplo datas de entrega diferentes, informações
-            # comerciais que são discriminadas por itens e etc.
-            key = key + (move.sale_line_id,)
-
-        return key
-
-    def _get_invoice_line_values(self, moves, invoice_values, invoice):
-        """
-        Create invoice line values from given moves
-        :param moves: stock.move
-        :param invoice: account.invoice
-        :return: dict
-        """
-
-        values = super()._get_invoice_line_values(moves, invoice_values, invoice)
-        # Devido ao KEY com sale_line_id aqui
-        # vem somente um registro
-        if len(moves) == 1:
-            # Caso venha apenas uma linha porem sem
-            # sale_line_id é preciso ignora-la
-            if moves.sale_line_id:
-                values["sale_line_ids"] = [(6, 0, moves.sale_line_id.ids)]
-                values[
-                    "analytic_account_id"
-                ] = moves.sale_line_id.order_id.analytic_account_id.id
-                values["analytic_tag_ids"] = [
-                    (6, 0, moves.sale_line_id.analytic_tag_ids.ids)
-                ]
-
-        return values
