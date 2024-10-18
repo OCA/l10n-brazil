@@ -118,7 +118,7 @@ class NFeRelated(spec_models.StackedModel):
                         rec.nfe40_CPF = rec.cnpj_cpf
                     else:
                         rec.nfe40_CNPJ = rec.cnpj_cpf
-                    rec.nfe40_IE = rec.inscr_est
+                    rec.nfe40_IE = rec.l10n_br_ie_code
                     rec.nfe40_mod = rec.document_type_id.code
                     rec.nfe40_serie = document.document_serie
                     rec.nfe40_nNF = document.document_number
