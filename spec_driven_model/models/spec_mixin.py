@@ -59,7 +59,7 @@ class SpecMixin(models.AbstractModel):
         if not hasattr(self, "_spec_module"):
             return res
 
-        load_key = "_%s_loaded" % (self._spec_module,)
+        load_key = f"_{self._spec_module}_loaded"
         if hasattr(self.env.registry, load_key):  # already done for registry
             return res
         setattr(self.env.registry, load_key, True)
