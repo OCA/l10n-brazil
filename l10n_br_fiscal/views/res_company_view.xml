@@ -37,11 +37,19 @@
                                     <field name="payroll_amount" />
                                 </group>
                                 <group>
-                                    <field name="simplified_tax_id" />
-                                    <field name="simplified_tax_range_id" />
                                     <field name="coefficient_r" />
                                     <field name="coefficient_r_percent" />
-                                    <field name="simplified_tax_percent" />
+                                </group>
+                                <group
+                                    colspan="4"
+                                    string="Current Effective Taxes for Simples Nacional"
+                                >
+                                    <field
+                                        colspan="4"
+                                        nolabel="1"
+                                        name="sn_effective_tax_ids"
+                                        readonly="True"
+                                    />
                                 </group>
                             </group>
                             <group
