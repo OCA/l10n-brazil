@@ -785,13 +785,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__create_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe__create_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__create_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__create_uid
@@ -842,13 +839,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__create_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe__create_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__create_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__create_date
@@ -1074,7 +1068,6 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_cStat
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_cStat
 msgid "Código do status da mensagem enviada"
 msgstr ""
 
@@ -1140,7 +1133,6 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_infrec
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_infRec
 msgid "Dados do Recibo do Lote"
 msgstr ""
 
@@ -1299,16 +1291,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_dhRecbto
-msgid "Data e hora do recebimento"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_dhRecbto
-msgid "Data e hora do recebimento, no formato AAAA-MM-DDTHH:MM:SSTZD"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_deduc
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_cana__nfe40_deduc
 msgid "Deduções - Taxas e Contribuições"
@@ -1389,13 +1371,11 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_xMotivo
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_xMotivo
 msgid "Descrição literal do status"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_xMotivo
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_xMotivo
 msgid "Descrição literal do status do serviço solicitado."
 msgstr ""
 
@@ -1458,13 +1438,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__display_name
@@ -1822,7 +1799,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_detpag__nfe40_indPag
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_detpag__nfe40_tPag
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
 msgid "Forma de Pagamento"
@@ -2138,13 +2114,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe__id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__id
@@ -2245,17 +2218,13 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpAmb
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__nfe40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_tpAmb
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_tpAmb
 msgid "Identificação do Ambiente"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpAmb
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tconsrecinfe__nfe40_tpAmb
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_tpAmb
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_tpAmb
 msgid ""
 "Identificação do Ambiente:\n"
 "1 - Produção\n"
@@ -2409,8 +2378,14 @@ msgid "Indicador"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Indicador da Forma"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Indicador da Forma de Pagamento"
+msgid ""
+"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2769,13 +2744,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol____last_update
@@ -2826,13 +2798,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__write_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe__write_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__write_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__write_uid
@@ -2883,13 +2852,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__write_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe__write_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__write_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__write_date
@@ -3049,13 +3015,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rastro__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfe__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tveiculo__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__brl_currency_id
@@ -3125,7 +3088,6 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__nfe40_NFe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__nfe40_NFe
 msgid "NFe"
 msgstr ""
 
@@ -3552,7 +3514,6 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_infrec__nfe40_nRec
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__nfe40_nRec
 msgid "Número do Recibo"
 msgstr ""
 
@@ -3930,18 +3891,12 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_protNFe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_protNFe
 msgid "Protocolo de status resultado"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_protNFe
 msgid "Protocolo de status resultado do processamento da NF-e"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_protNFe
-msgid "Protocolo de status resultado do processamento sincrono da NFC-e"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4323,20 +4278,8 @@ msgid "Tipo Pedido de Concessão de Autorização da Nota Fiscal Eletrônica"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_nfe_40_tconsrecinfe
-msgid ""
-"Tipo Pedido de Consulta do Recido do Lote de Notas Fiscais\n"
-"Eletrônicas"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_tprotnfe
 msgid "Tipo Protocolo de status resultado do processamento da NF-e"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_nfe_40_tretenvinfe
-msgid "Tipo Retorno do Pedido de Autorização da Nota Fiscal Eletrônica"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4344,11 +4287,6 @@ msgstr ""
 msgid ""
 "Tipo Retorno do Pedido de Consulta do Recido do Lote de Notas Fiscais\n"
 "Eletrônicas"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_nfe_40_tnfeproc
-msgid "Tipo da NF-e processada"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -5069,11 +5007,6 @@ msgid "Versão do Aplicativo que processou a NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_verAplic
-msgid "Versão do Aplicativo que recebeu o Lote"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_versao
 msgid "Versão do leiaute (v4.00)"
 msgstr ""
@@ -5180,7 +5113,6 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_cUF
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_cUF
 msgid "código da UF de atendimento"
 msgstr ""
 
@@ -5372,11 +5304,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__nfe40_protNFe
-msgid "protNFe"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_cofinsoutr__nfe40_qbcprod
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_pisoutr__nfe40_qbcprod
 msgid "qBCProd"
@@ -5463,12 +5390,9 @@ msgid "valor do COFINS (NFe)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tconsrecinfe__nfe40_versao
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__nfe40_versao
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tnfeproc__nfe40_versao
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tprotnfe__nfe40_versao
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_versao
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretenvinfe__nfe40_versao
 msgid "versao"
 msgstr ""
 
