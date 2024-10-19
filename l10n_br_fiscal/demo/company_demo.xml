@@ -108,6 +108,7 @@
         <field name="is_industry" eval="True" />
         <field name="ripi" eval="True" />
         <field name="icms_regulation_id" ref="tax_icms_regulation" />
+        <field name="icms_difal_regulation_id" ref="tax_icms_difal_regulation" />
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200" />
         <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_columativo" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
