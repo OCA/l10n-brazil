@@ -132,11 +132,6 @@ msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Forma de Pagamento"
-msgstr ""
-
-#. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_detPag
@@ -154,8 +149,14 @@ msgid "Grupo de detalhamento da forma de pagamento."
 msgstr ""
 
 #. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Indicador da Forma"
+msgstr ""
+
+#. module: l10n_br_account_nfe
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Indicador da Forma de Pagamento"
+msgid ""
+"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
 msgstr ""
 
 #. module: l10n_br_account_nfe
