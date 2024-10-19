@@ -131,22 +131,9 @@ msgid "Dados das duplicatas NT 2011/004"
 msgstr "Dados das duplicatas NT 2011/004"
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_ir_actions_report__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
-
-#. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document
 msgid "Fiscal Document"
 msgstr "Documento Fiscal"
-
-#. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Forma de Pagamento"
-msgstr "Forma de Pagamento"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
@@ -166,25 +153,15 @@ msgid "Grupo de detalhamento da forma de pagamento."
 msgstr "Grupo de detalhamento da forma de pagamento."
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__id
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_ir_actions_report__id
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__id
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__id
-msgid "ID"
-msgstr "ID"
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Indicador da Forma"
+msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Indicador da Forma de Pagamento"
-msgstr "Indicador da Forma de Pagamento"
-
-#. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_ir_actions_report____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
+msgid ""
+"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__fiscal_payment_mode
@@ -213,6 +190,16 @@ msgid "Pagamento à Vista"
 msgstr "Pagamento à Vista"
 
 #. module: l10n_br_account_nfe
+#. odoo-python
+#: code:addons/l10n_br_account_nfe/models/document.py:0
+#, python-format
+msgid ""
+"Payment Mode %(mode)s should have a Fiscal Payment Mode filled to be used in "
+"the Fiscal Document!"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#. odoo-python
 #: code:addons/l10n_br_account_nfe/models/document.py:0
 #, python-format
 msgid "Payment Mode cannot be empty for this NF-e/NFC-e"
@@ -224,7 +211,7 @@ msgid "Payment Modes"
 msgstr "Modos de Pagamento"
 
 #. module: l10n_br_account_nfe
-#: model:account.payment.term,note:l10n_br_account_nfe.account_payment_term_30_60_90
+#: model_terms:account.payment.term,note:l10n_br_account_nfe.account_payment_term_30_60_90
 msgid "Payment terms: 30/60/90"
 msgstr "Condição de pagamento: 30/60/90"
 
@@ -232,6 +219,21 @@ msgstr "Condição de pagamento: 30/60/90"
 #: model:ir.model,name:l10n_br_account_nfe.model_ir_actions_report
 msgid "Report Action"
 msgstr "Relatar ação"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "Forma de Pagamento"
+#~ msgstr "Forma de Pagamento"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Indicador da Forma de Pagamento"
+#~ msgstr "Indicador da Forma de Pagamento"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
 
 #~ msgid "Journal Item"
 #~ msgstr "Item de Diário"
