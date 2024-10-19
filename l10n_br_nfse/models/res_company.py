@@ -28,6 +28,11 @@ class ResCompany(models.Model):
     nfse_website = fields.Char(
         string="NFSe Website",
     )
+    nfse_direct_print = fields.Boolean(
+        string="NFS-e direct print",
+        help="Enable the printing of the NFS-e directly from the provider.",
+        default=False,
+    )
     nfse_ssl_verify = fields.Boolean(
         string="NFSe SSL Verify",
         default=False,
