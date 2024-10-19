@@ -3,6 +3,7 @@ brazilcep
 brazilfiscalreport
 email-validator
 erpbrasil.assinatura>=1.7.0
+erpbrasil.bank.inter
 erpbrasil.base>=2.3.0
 erpbrasil.edoc.pdf
 erpbrasil.edoc>=2.5.2
