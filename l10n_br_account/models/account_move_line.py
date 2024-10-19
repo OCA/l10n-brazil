@@ -325,6 +325,19 @@ class AccountMoveLine(models.Model):
                 if line.currency_id == line.company_id.currency_id:
                     line.balance = amount_currency
 
+                # Os totais nas linhas foram atualizadas, mas o total da fatura
+                # não foi recalculado automaticamente, já que o método compute_amount
+                # não foi acionado após as alterações nas linhas.
+                # Por esse motivo, estou adicionando manualmente os campos no
+                # add_to_compute do account_move.
+                # Questão: Por que o compute_amount não foi acionado automaticamente?
+                # Isso ocorre apenas quando os valores são diretamente informados
+                # no create? Realizar um teste isolado para confirmar esse
+                # comportamento.
+                move_id = line.move_id
+                self.env.add_to_compute(move_id._fields["amount_total"], move_id)
+                self.env.add_to_compute(move_id._fields["amount_untaxed"], move_id)
+
         after = existing()
         for line in after:
             if (
@@ -536,4 +549,4 @@ class AccountMoveLine(models.Model):
             user_type=user_type, fiscal_operation=self.fiscal_operation_id
         )
 
-        return result
+        return result  #
