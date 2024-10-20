@@ -1,6 +1,3 @@
-from erpbrasil.base import misc
-from erpbrasil.base.misc import punctuation_rm
-
 from odoo import models
 
 
@@ -14,23 +11,6 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             res = super(models.TransientModel, self).default_get(
                 fields
             )  # Parece que não mas esse else precisa existir.
-        partner_id = self.env.context.get("default_partner_id")
-        lead_id = self.env.context.get("default_lead_id")
-        if partner_id:
-            partner_model = self.env["res.partner"]
-            partner = partner_model.browse(partner_id)
-            cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
-            misc.punctuation_rm(self.zip)
-            values = self._get_partner_values(cnpj_cpf)
-            res.update(values)
-        else:
-            lead_id = self.env.context.get("default_lead_id")
-            lead_model = self.env["crm.lead"]
-            lead = lead_model.browse(lead_id)
-            cnpj_cpf = punctuation_rm(lead.cnpj_cpf)
-            misc.punctuation_rm(self.zip)
-            values = self._get_partner_values(cnpj_cpf)
-            res.update(values)
         return res
 
     def action_update_partner(self):
