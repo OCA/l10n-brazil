@@ -143,7 +143,11 @@ class AccountMoveLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        inv_line_index = -1
         for values in vals_list:
+            inv_line_index_old = inv_line_index
+            if values.get("product_id"):
+                inv_line_index += 1
             if values.get("fiscal_document_line_id"):
                 fiscal_line_data = (
                     self.env["l10n_br_fiscal.document.line"]
@@ -207,16 +211,28 @@ class AccountMoveLine(models.Model):
                     else False
                 )
 
+                if move_id.imported_document and inv_line_index != inv_line_index_old:
+                    # this will fix the the Debit side for imported fiscal documents
+                    amount_tax_included = move_id.fiscal_document_id.fiscal_line_ids[
+                        inv_line_index
+                    ].amount_tax_included_from_tax_values
+                    amount_tax_not_included = (
+                        move_id.fiscal_document_id.fiscal_line_ids[
+                            inv_line_index
+                        ].amount_tax_excluded_from_tax_values
+                    )
+                else:
+                    amount_tax_included = values.get("amount_tax_included")
+                    amount_tax_not_included = values.get("amount_tax_not_included")
+
                 values.update(
                     self._get_amount_credit_debit_model(
                         move_id,
                         exclude_from_invoice_tab=values.get(
                             "exclude_from_invoice_tab", False
                         ),
-                        amount_tax_included=values.get("amount_tax_included", 0),
-                        amount_tax_not_included=values.get(
-                            "amount_tax_not_included", 0
-                        ),
+                        amount_tax_included=amount_tax_included,
+                        amount_tax_not_included=amount_tax_not_included,
                         amount_tax_withholding=values.get("amount_tax_withholding", 0),
                         amount_total=fiscal_line.amount_total,
                         currency_id=move_id.currency_id,
@@ -447,7 +463,7 @@ class AccountMoveLine(models.Model):
 
         insurance_value = self.env.context.get("insurance_value", 0)
         other_value = self.env.context.get("other_value", 0)
-        freight_value = self.env.context.get("other_value", 0)
+        freight_value = self.env.context.get("freight_value", 0)
         ii_customhouse_charges = self.env.context.get("ii_customhouse_charges", 0)
         icms_relief_value = self.env.context.get("icms_relief_value", 0)
 
@@ -616,6 +632,11 @@ class AccountMoveLine(models.Model):
         # The formatting was a little strange, but I tried to make it as close as
         # possible to the logic adopted by native Odoo.
         # Example: _get_fields_onchange_subtotal
+        if self._is_imported():
+            # this will get the Credit side correct for imported fiscal documents:
+            amount_tax_included = self.amount_tax_included_from_tax_values
+            amount_tax_not_included = self.amount_tax_excluded_from_tax_values
+
         return self._get_amount_credit_debit_model(
             move_id=self.move_id if move_id is None else move_id,
             exclude_from_invoice_tab=self.exclude_from_invoice_tab
