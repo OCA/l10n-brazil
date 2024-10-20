@@ -109,11 +109,8 @@ class DocumentImportWizardMixin(models.TransientModel):
 
     @api.model
     def _parse_file_data(self, file_data):
-        try:
-            binding = XmlParser().from_bytes(base64.b64decode(file_data))
-        except Exception as e:
-            raise UserError(_("Invalid file!")) from e
-        return binding
+        # NOTE: no try and a stacktrace does help for debug/support
+        return XmlParser().from_bytes(base64.b64decode(file_data))
 
     @api.model
     def _detect_binding(self, binding):
