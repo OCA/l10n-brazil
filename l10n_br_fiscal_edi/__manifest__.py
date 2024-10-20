@@ -32,8 +32,6 @@
         "views/l10n_br_fiscal_action.xml",
         # Menus
         "views/l10n_br_fiscal_menu.xml",
-        # Wizards
-        "wizards/document_import_wizard_mixin.xml",
     ],
     "installable": True,
 }
