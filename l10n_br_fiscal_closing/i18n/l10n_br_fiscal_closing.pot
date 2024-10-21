@@ -109,6 +109,16 @@ msgid "CSLL"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
+msgid "CTE"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__document_cte_ids
+msgid "CTE Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
 #. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
