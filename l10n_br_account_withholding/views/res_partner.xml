@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="partner_form_view">
+        <field
+            name="name"
+        >l10n_br_fiscal.partner.form (in l10n_br_account_withholding)</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='other_infos']" position="inside">
+                <field name="wh_cityhall" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

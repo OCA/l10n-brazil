@@ -77,8 +77,22 @@ class AccountMove(models.Model):
         """
         wh_date_invoice = move_line.move_id.date
         wh_due_invoice = wh_date_invoice.replace(day=fiscal_group.wh_due_day)
+
+        if fiscal_group.tax_scope == "city":
+            city_id = (
+                self.invoice_line_ids[0].issqn_fg_city_id
+                if self.invoice_line_ids[0].issqn_fg_city_id
+                else self.partner_id.city_id
+            )
+            partner_wh = self.env["res.partner"].search(
+                [("city_id", "=", city_id.id), ("wh_cityhall", "=", True)], limit=1
+            )
+            partner_id = partner_wh if partner_wh else fiscal_group.partner_id
+        else:
+            partner_id = fiscal_group.partner_id
+
         values = {
-            "partner_id": fiscal_group.partner_id.id,
+            "partner_id": partner_id.id,
             "date": wh_date_invoice,
             "invoice_date": wh_date_invoice,
             "invoice_date_due": wh_due_invoice + relativedelta(months=1),
