@@ -254,6 +254,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return taxes
 
     def _remove_all_fiscal_tax_ids(self):
+        if self._is_imported():
+            return
         for line in self:
             to_update = {"fiscal_tax_ids": False}
             for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
@@ -317,8 +319,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
-        computed_taxes = compute_result.get("taxes", {})
         tax_values = {}
+        if self._is_imported():
+            return tax_values
+        computed_taxes = compute_result.get("taxes", {})
         for tax in self.fiscal_tax_ids:
             computed_tax = computed_taxes.get(tax.tax_domain, {})
             tax_field_name = f"{tax.tax_domain}_tax_id"
@@ -397,6 +401,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
 
             self.cfop_id = mapping_result["cfop"]
+            if self._is_imported():
+                return
             self._process_fiscal_mapping(mapping_result)
 
         if not self.fiscal_operation_line_id:
@@ -917,3 +923,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
+
+    def _is_imported(self):
+        # When the mixin is used for instance
+        # in a PO line or SO line, there is no document_id
+        # and we consider the document is not imported
+        return hasattr(self, "document_id") and self.document_id.imported_document
