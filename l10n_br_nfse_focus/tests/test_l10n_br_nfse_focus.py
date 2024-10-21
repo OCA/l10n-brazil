@@ -380,38 +380,27 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
     def test_document_export(self):
         """Tests export of document data."""
-        record = self.nfse_demo
-        record.processador_edoc = PROCESSADOR_OCA  # Setting document processor to OCA
-        record.document_type_id.code = MODELO_FISCAL_NFE  # Setting document type to NFe
 
         # Testing with non-filtered conditions
         record = self.nfse_demo
-        record.company_id.provedor_nfse = None  # Resetting NFSe provider
+        record.processador_edoc = PROCESSADOR_OCA
+        record.company_id.provedor_nfse = None
 
-        record._document_export()  # Exporting document data
+        record.action_document_confirm()
 
-        self.assertFalse(
-            record.company_id.provedor_nfse
-        )  # Asserting NFSe provider not set
+        self.assertFalse(record.company_id.provedor_nfse)
+
+        self.assertEqual(record.state, SITUACAO_EDOC_A_ENVIAR)
 
         # Testing with filtered conditions
         record = self.nfse_demo
-        record.company_id.provedor_nfse = (
-            "focusnfe"  # Setting NFSe provider to focusnfe
-        )
-        record.processador_edoc = PROCESSADOR_OCA  # Setting processor to OCA
-        record.document_type_id.code = (
-            MODELO_FISCAL_NFSE  # Setting document type to NFSe
-        )
+        record.company_id.provedor_nfse = "focusnfe"
 
-        record._document_export()  # Exporting document data again
+        record._document_export()
 
-        self.assertTrue(
-            record.company_id.provedor_nfse
-        )  # Asserting NFSe provider is set
-        self.assertTrue(
-            record.authorization_event_id
-        )  # Asserting authorization event is set
+        self.assertTrue(record.company_id.provedor_nfse)
+
+        self.assertTrue(record.authorization_event_id)
 
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.document.FocusnfeNfse.query_focus_nfse_by_rps"

@@ -907,6 +907,9 @@ class NFe(spec_models.StackedModel):
         return edocs
 
     def _processador(self):
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super()._processador()
+
         self._check_nfe_environment()
         certificado = self.company_id._get_br_ecertificate()
         session = Session()
@@ -1047,6 +1050,10 @@ class NFe(spec_models.StackedModel):
 
     def _valida_xml(self, xml_file):
         self.ensure_one()
+
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super()._valida_xml(xml_file)
+
         erros = Nfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
@@ -1069,7 +1076,12 @@ class NFe(spec_models.StackedModel):
         return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
-        super()._generate_key()
+        if self.document_type_id.code not in [
+            MODELO_FISCAL_NFE,
+            MODELO_FISCAL_NFCE,
+        ]:
+            return super()._generate_key()
+
         for record in self.filtered(filter_processador_edoc_nfe):
             required_fields_gen_edoc = []
             if not record.company_cnpj_cpf:

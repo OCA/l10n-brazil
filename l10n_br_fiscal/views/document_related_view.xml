@@ -68,6 +68,16 @@
                         attrs="{'invisible': [('document_type_code', '!=', '04')]}"
                     />
         </group>
+        <group
+                    string="Totais"
+                    attrs="{'invisible': [('document_type_code', 'not in', ('55', '57', '58'))]}"
+                >
+            <field name="document_total_weight" />
+            <field
+                        name="document_total_amount"
+                        attrs="{'invisible': [('document_related_id', '!=', False)]}"
+                    />
+        </group>
       </form>
     </field>
   </record>
