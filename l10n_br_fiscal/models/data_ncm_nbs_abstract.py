@@ -31,47 +31,32 @@ class DataNcmNbsAbstract(models.AbstractModel):
         readonly=True,
     )
 
-    estimate_tax_national = fields.Float(
-        string="Estimate Tax Nacional Percent",
-        store=True,
-        readonly=True,
-        digits="Fiscal Tax Percent",
-        compute="_compute_amount",
-    )
+    def get_estimated_taxes(self):
+        self.ensure_one()
+        object_field = OBJECT_FIELDS.get(self._name)
+        last_estimated = self.env["l10n_br_fiscal.tax.estimate"].search(
+            [
+                (object_field, "=", self.id),
+                ("state_id", "=", self.env.company.state_id.id),
+            ],
+            order="create_date DESC",
+            limit=1,
+        )
 
-    estimate_tax_imported = fields.Float(
-        string="Estimate Tax Imported Percent",
-        store=True,
-        readonly=True,
-        digits="Fiscal Tax Percent",
-        compute="_compute_amount",
-    )
-
-    @api.depends("tax_estimate_ids")
-    def _compute_amount(self):
-        for record in self:
-            object_field = OBJECT_FIELDS.get(record._name)
-            last_estimated = record.env["l10n_br_fiscal.tax.estimate"].search(
-                [
-                    (object_field, "=", record.id),
-                    ("company_id", "=", record.env.company.id),
-                ],
-                order="create_date DESC",
-                limit=1,
+        if last_estimated:
+            estimate_tax_imported = (
+                last_estimated.federal_taxes_import
+                + last_estimated.state_taxes
+                + last_estimated.municipal_taxes
             )
-
-            if last_estimated:
-                record.estimate_tax_imported = (
-                    last_estimated.federal_taxes_import
-                    + last_estimated.state_taxes
-                    + last_estimated.municipal_taxes
-                )
-
-                record.estimate_tax_national = (
-                    last_estimated.federal_taxes_national
-                    + last_estimated.state_taxes
-                    + last_estimated.municipal_taxes
-                )
+            estimate_tax_national = (
+                last_estimated.federal_taxes_national
+                + last_estimated.state_taxes
+                + last_estimated.municipal_taxes
+            )
+            return estimate_tax_national, estimate_tax_imported
+        else:
+            return 0, 0
 
     def _get_ibpt(self, config, code_unmasked):
         return False
