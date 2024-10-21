@@ -284,6 +284,11 @@ msgid "Base vBC/pIPI/qUnid/vUnid"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_margin_bottom
+msgid "Bottom margin in mm for the DANFE layout."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__danfe_library__brazil_fiscal_report
 msgid "Brazil Fiscal Report"
 msgstr ""
@@ -1180,6 +1185,26 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_library
 msgid "Danfe Library"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_margin_bottom
+msgid "Danfe Margin Bottom"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_margin_left
+msgid "Danfe Margin Left"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_margin_right
+msgid "Danfe Margin Right"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_margin_top
+msgid "Danfe Margin Top"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2863,6 +2888,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_margin_left
+msgid "Left margin in mm for the DANFE layout."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_di__nfe40_xLocDesemb
 msgid "Local do desembaraço aduaneiro"
 msgstr ""
@@ -2897,6 +2927,26 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_vol__nfe40_marca
 msgid "Marca dos volumes transportados"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "Margin Bottom"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "Margin Left"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "Margin Right"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
+msgid "Margin Top"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4074,6 +4124,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_margin_right
+msgid "Right margin in mm for the DANFE layout."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__rps_number
 msgid "Rps Number"
 msgstr ""
@@ -4400,6 +4455,11 @@ msgstr ""
 msgid ""
 "Token CSC (Código de Segurança do Contribuinte) fornecido pela SEFAZ para a "
 "NFC-e"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_margin_top
+msgid "Top margin in mm for the DANFE layout."
 msgstr ""
 
 #. module: l10n_br_nfe
