@@ -32,6 +32,7 @@ TRAFMUT_RESPFAT = [
 
 class TenderFer(models.AbstractModel):
     "Tipo Dados do Endereço"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.tenderfer"
     _inherit = "spec.mixin.cte"
@@ -58,7 +59,10 @@ class TenderFer(models.AbstractModel):
     cte40_xMun = fields.Char(
         string="Nome do município",
         xsd_required=True,
-        help=("Nome do município\nInformar EXTERIOR para operações com o " "exterior."),
+        help=(
+            "Nome do município\nInformar EXTERIOR para operações com o "
+            "exterior."
+        ),
     )
 
     cte40_CEP = fields.Char(string="CEP", xsd_required=True)
@@ -74,6 +78,7 @@ class TenderFer(models.AbstractModel):
 
 class Ferrov(models.AbstractModel):
     "Informações do modal Ferroviário"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.ferrov"
     _inherit = "spec.mixin.cte"
@@ -108,6 +113,7 @@ class Ferrov(models.AbstractModel):
 
 class TrafMut(models.AbstractModel):
     "Detalhamento de informações para o tráfego mútuo"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.trafmut"
     _inherit = "spec.mixin.cte"
@@ -157,6 +163,7 @@ class TrafMut(models.AbstractModel):
 
 class FerroEnv(models.AbstractModel):
     "Informações das Ferrovias Envolvidas"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.ferroenv"
     _inherit = "spec.mixin.cte"
