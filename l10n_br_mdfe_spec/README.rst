@@ -28,7 +28,7 @@ mdfe spec
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este módulo contem a estrutura de dados do ​Manifesto Eletrônico de Documentos Fiscais (CT-e).
+Este módulo contem a estrutura de dados do ​Manifesto Eletrônico de Documentos Fiscais (MDF-e).
 Este módulo não faz nada sozinho, ele precisaria de um modulo `l10n_br_mdfe` que mapearia esses mixins
 nos documentos fiscais Odoo de forma semlhante a forma como o módulo `l10n_br_nfe` faz como o módulo `l10n_br_nfe_spec`.
 
