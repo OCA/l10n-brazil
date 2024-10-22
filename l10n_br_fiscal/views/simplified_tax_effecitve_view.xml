@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="simplified_tax_effecitve_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.simplified.tax.effecitve.tree</field>
+        <field name="model">l10n_br_fiscal.simplified.tax.effective</field>
+        <field name="arch" type="xml">
+            <tree create="0" delete="0">
+                <field name="simplified_tax_id" />
+                <field name="current_range_id" />
+                <field name="current_effective_tax" />
+                <field name="tax_irpj_percent" />
+                <field name="tax_csll_percent" />
+                <field name="tax_cofins_percent" />
+                <field name="tax_pis_percent" />
+                <field name="tax_cpp_percent" />
+                <field name="tax_icms_percent" />
+                <field name="tax_iss_percent" />
+                <field name="tax_ipi_percent" />
+            </tree>
+        </field>
+    </record>
+</odoo>
