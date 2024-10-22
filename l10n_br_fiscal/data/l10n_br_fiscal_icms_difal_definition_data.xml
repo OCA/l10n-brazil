@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+    <record id="tax_icms_difal_regulation" model="l10n_br_fiscal.icms.difal.regulation">
+        <field name="name">Regulamento do ICMS Difal</field>
+        <field
+            name="unique_base_state_ids"
+            eval="[(6, 0, [
+                ref('base.state_br_ac'),
+                ref('base.state_br_al'),
+                ref('base.state_br_am'),
+                ref('base.state_br_ap'),
+                ref('base.state_br_ba'),
+                ref('base.state_br_ce'),
+                ref('base.state_br_df'),
+                ref('base.state_br_es'),
+                ref('base.state_br_go'),
+                ref('base.state_br_ma'),
+                ref('base.state_br_mg'),
+                ref('base.state_br_ms'),
+                ref('base.state_br_mt'),
+                ref('base.state_br_pa'),
+                ref('base.state_br_pb'),
+                ref('base.state_br_pe'),
+                ref('base.state_br_pi'),
+                ref('base.state_br_pr'),
+                ref('base.state_br_rj'),
+                ref('base.state_br_rn'),
+                ref('base.state_br_ro'),
+                ref('base.state_br_rr'),
+                ref('base.state_br_rs'),
+                ref('base.state_br_sc'),
+                ref('base.state_br_se'),
+                ref('base.state_br_sp'),
+                ref('base.state_br_to')
+            ])]"
+        />
+    </record>
+
+</odoo>

@@ -30,6 +30,7 @@
         "data/res_partner_data.xml",
         "data/l10n_br_fiscal.tax.group.csv",
         "data/l10n_br_fiscal.icms.relief.csv",
+        "data/l10n_br_fiscal_icms_difal_definition_data.xml",
         "data/l10n_br_fiscal.document.type.csv",
         "data/l10n_br_fiscal.product.genre.csv",
         "data/l10n_br_fiscal.cst.csv",

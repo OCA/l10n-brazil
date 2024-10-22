@@ -1,6 +1,7 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from odoo.exceptions import UserError
 from odoo.tests import SavepointCase, tagged
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES, TAX_DOMAIN_ICMS
@@ -75,3 +76,16 @@ class TestICMSRegulation(SavepointCase):
             ind_final=ind_final,
         )
         return tax_icms.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS)
+
+    def test_state_difal_base_duplicity(self):
+
+        demo_state = self.env.ref("base.state_br_sc")
+
+        with self.assertRaises(UserError):
+            self.env["l10n_br_fiscal.icms.difal.regulation"].create(
+                {
+                    "name": "Difal Test",
+                    "unique_base_state_ids": [(4, demo_state.id, 0)],
+                    "double_base_state_ids": [(4, demo_state.id, 0)],
+                }
+            )
