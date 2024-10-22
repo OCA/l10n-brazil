@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="schedule_action_bank_inter" model="ir.cron">
+                <field name="name">Banco Inter Consulta Boleto</field>
+                <field name="model_id" ref="model_account_move_line" />
+                <field name="state">code</field>
+                <field name="code">model.all_search_bank_slip()</field>
+                <field name="user_id" ref="base.user_root" />
+                <field name='interval_number'>1</field>
+                <field name='interval_type'>days</field>
+                <field name="numbercall">-1</field>
+                <field name="doall" eval="False" />
+        </record>
+    </data>
+</odoo>

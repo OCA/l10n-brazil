@@ -1,0 +1,25 @@
+<!--# Copyright 2023 Tiago Amaral <https://www.kmee.com.br>
+    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).-->
+<odoo>
+        <record model="ir.ui.view" id="bank_api_inter_baixa">
+            <field name="name">Motivo da Baixa</field>
+            <field name="model">bank.api.inter.baixa</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="write_off_choice" />
+                    </group>
+                    <footer>
+                        <button string="Cancel" special="cancel" class="oe_highlight" />
+                        <button
+                        name="baixar"
+                        string="Baixar"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </odoo>

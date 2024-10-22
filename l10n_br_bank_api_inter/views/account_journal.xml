@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="account_journal_form_view">
+        <field
+            name="name"
+        >account.journal.form (in l10n_br_account_payment_order)</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <group name="outgoing_payment" position="after">
+                <group
+                    name="bank_inter"
+                    string="Bank Inter API"
+                    attrs="{'invisible': ['|', ('type', '!=', 'bank'),('bank_code_bc', '!=', '077')]}"
+                >
+                    <field name="bank_inter_cert" />
+                    <field name="bank_inter_key" />
+                    <field name="bank_client_id" />
+                    <field name="bank_secret_id" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>
