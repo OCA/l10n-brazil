@@ -93,7 +93,7 @@ class NFe(spec_models.StackedModel):
 
     # When dynamic stacking is applied the NFe structure is:
     INFNFE_TREE = """
-> <infnfe>
+    > <infnfe>
     > <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
     - <emit> res.company
