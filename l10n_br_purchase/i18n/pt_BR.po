@@ -433,6 +433,16 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_number
 msgid "Document Number"
 msgstr "Número do Documento"
@@ -1602,6 +1612,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_total
 msgid "Total"
 msgstr "Total"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__total_weight
+msgid "Total Weight"
+msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__total_with_taxes
