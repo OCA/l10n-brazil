@@ -394,7 +394,7 @@ class DocumentWorkflow(models.AbstractModel):
     def _document_qrcode(self):
         pass
 
-    def _processador(self):
+    def _edoc_processor(self):
         pass
 
     def _validate_xml(self, xml_file):
