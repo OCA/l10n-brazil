@@ -62,22 +62,22 @@ class MDFeDocumentTest(SavepointCase):
         )
 
     def test_mdfe_processor(self):
-        processor = self.mdfe_id._processador()
+        processor = self.mdfe_id._edoc_processor()
         self.assertTrue(isinstance(processor, MDFeAdapter))
 
         self.mdfe_id.document_type_id = False
-        processor = self.mdfe_id._processador()
+        processor = self.mdfe_id._edoc_processor()
         self.assertFalse(isinstance(processor, MDFeAdapter))
 
         self.mdfe_id.document_type_id = self.mdfe_document_type_id
 
         self.mdfe_id.company_id.certificate_nfe_id = False
-        processor = self.mdfe_id._processador()
+        processor = self.mdfe_id._edoc_processor()
         self.assertTrue(isinstance(processor, MDFeAdapter))
 
         self.mdfe_id.company_id.certificate_ecnpj_id = False
         with self.assertRaises(UserError):
-            processor = self.mdfe_id._processador()
+            processor = self.mdfe_id._edoc_processor()
 
     def test_generate_key(self):
         self.mdfe_id._generate_key()
