@@ -153,7 +153,9 @@ class MDFe(spec_models.StackedModel):
     # MDF-e tag: ide
     ##########################
 
-    mdfe30_cUF = fields.Selection(compute="_compute_uf", inverse="_inverse_uf")
+    mdfe30_cUF = fields.Selection(
+        compute="_compute_mdfe30_uf", inverse="_inverse_mdfe30_uf"
+    )
 
     mdfe30_tpAmb = fields.Selection(related="mdfe_environment")
 
@@ -219,11 +221,13 @@ class MDFe(spec_models.StackedModel):
     )
 
     mdfe30_UFIni = fields.Selection(
-        compute="_compute_initial_final_state", inverse="_inverse_initial_final_state"
+        compute="_compute_mdfe30_initial_final_state",
+        inverse="_inverse_mdfe30_initial_final_state",
     )
 
     mdfe30_UFFim = fields.Selection(
-        compute="_compute_initial_final_state", inverse="_inverse_initial_final_state"
+        compute="_compute_mdfe30_initial_final_state",
+        inverse="_inverse_mdfe30_initial_final_state",
     )
 
     mdfe_initial_state_id = fields.Many2one(
@@ -243,8 +247,8 @@ class MDFe(spec_models.StackedModel):
     mdfe30_cDV = fields.Char(related="key_check_digit")
 
     mdfe30_infMunCarrega = fields.One2many(
-        compute="_compute_inf_carrega",
-        inverse="_inverse_inf_carrega",
+        compute="_compute_mdfe30_inf_carrega",
+        inverse="_inverse_mdfe30_inf_carrega",
         string="Informações dos Municipios de Carregamento",
     )
 
@@ -252,7 +256,7 @@ class MDFe(spec_models.StackedModel):
         comodel_name="res.city", string="Loading Cities"
     )
 
-    mdfe30_infPercurso = fields.One2many(compute="_compute_inf_percurso")
+    mdfe30_infPercurso = fields.One2many(compute="_compute_mdfe30_inf_percurso")
 
     mdfe_route_state_ids = fields.Many2many(
         comodel_name="res.country.state",
@@ -266,18 +270,18 @@ class MDFe(spec_models.StackedModel):
     ##########################
 
     @api.depends("company_id")
-    def _compute_uf(self):
+    def _compute_mdfe30_uf(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_cUF = record.company_id.partner_id.state_id.ibge_code
 
     @api.depends("mdfe_initial_state_id", "mdfe_final_state_id")
-    def _compute_initial_final_state(self):
+    def _compute_mdfe30_initial_final_state(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_UFIni = record.mdfe_initial_state_id.code
             record.mdfe30_UFFim = record.mdfe_final_state_id.code
 
     @api.depends("mdfe_loading_city_ids")
-    def _compute_inf_carrega(self):
+    def _compute_mdfe30_inf_carrega(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_infMunCarrega = [(5, 0, 0)]
             record.mdfe30_infMunCarrega = [
@@ -292,7 +296,7 @@ class MDFe(spec_models.StackedModel):
                 for city in record.mdfe_loading_city_ids
             ]
 
-    def _inverse_inf_carrega(self):
+    def _inverse_mdfe30_inf_carrega(self):
         for record in self:
             city_ids = self.env["res.city"].search(
                 [("ibge_code", "=", record.mdfe30_infMunCarrega.mdfe30_cMunCarrega)]
@@ -300,7 +304,7 @@ class MDFe(spec_models.StackedModel):
             if city_ids:
                 record.mdfe_loading_city_ids = [(6, 0, city_ids.ids)]
 
-    def _inverse_initial_final_state(self):
+    def _inverse_mdfe30_initial_final_state(self):
         for record in self:
             initial_state_id = self.env["res.country.state"].search(
                 [("code", "=", record.mdfe30_UFIni)], limit=1
@@ -315,7 +319,7 @@ class MDFe(spec_models.StackedModel):
             if final_state_id:
                 record.mdfe_final_state_id = final_state_id
 
-    def _inverse_uf(self):
+    def _inverse_mdfe30_uf(self):
         for record in self:
             state_id = self.env["res.country.state"].search(
                 [("code", "=", record.mdfe30_cUF)], limit=1
@@ -324,7 +328,7 @@ class MDFe(spec_models.StackedModel):
                 record.company_id.partner_id.state_id = state_id
 
     @api.depends("mdfe_route_state_ids")
-    def _compute_inf_percurso(self):
+    def _compute_mdfe30_inf_percurso(self):
         for record in self:
             record.mdfe30_infPercurso = [(5, 0, 0)]
             record.mdfe30_infPercurso = [
@@ -519,7 +523,7 @@ class MDFe(spec_models.StackedModel):
         size=3,
     )
 
-    mdfe30_UF = fields.Selection(selection=TUF, compute="_compute_rodo_uf")
+    mdfe30_UF = fields.Selection(selection=TUF, compute="_compute_mdfe30_rodo_uf")
 
     rodo_vehicle_state_id = fields.Many2one(
         comodel_name="res.country.state",
@@ -533,7 +537,7 @@ class MDFe(spec_models.StackedModel):
     ##########################
 
     @api.depends("rodo_vehicle_state_id")
-    def _compute_rodo_uf(self):
+    def _compute_mdfe30_rodo_uf(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_UF = record.rodo_vehicle_state_id.code
 
@@ -681,15 +685,15 @@ class MDFe(spec_models.StackedModel):
     # NF-e tag: tot
     ##########################
 
-    mdfe30_qCTe = fields.Char(compute="_compute_tot")
+    mdfe30_qCTe = fields.Char(compute="_compute_mdfe30_tot")
 
-    mdfe30_qNFe = fields.Char(compute="_compute_tot")
+    mdfe30_qNFe = fields.Char(compute="_compute_mdfe30_tot")
 
-    mdfe30_qMDFe = fields.Char(compute="_compute_tot")
+    mdfe30_qMDFe = fields.Char(compute="_compute_mdfe30_tot")
 
-    mdfe30_qCarga = fields.Float(compute="_compute_tot")
+    mdfe30_qCarga = fields.Float(compute="_compute_mdfe30_tot")
 
-    mdfe30_vCarga = fields.Float(compute="_compute_tot")
+    mdfe30_vCarga = fields.Float(compute="_compute_mdfe30_tot")
 
     mdfe30_cUnid = fields.Selection(default="01")
 
@@ -703,7 +707,7 @@ class MDFe(spec_models.StackedModel):
         "mdfe30_infMunDescarga.nfe_ids",
         "mdfe30_infMunDescarga.mdfe_ids",
     )
-    def _compute_tot(self):
+    def _compute_mdfe30_tot(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_qCarga = 0
             record.mdfe30_vCarga = 0
