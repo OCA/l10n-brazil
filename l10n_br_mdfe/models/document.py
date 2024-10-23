@@ -899,14 +899,14 @@ class MDFe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
             xml_assinado = processador.assina_raiz(edoc, edoc.infMDFe.Id)
-            self._valida_xml(xml_assinado)
+            self._validate_xml(xml_assinado)
         return result
 
-    def _valida_xml(self, xml_file):
+    def _validate_xml(self, xml_file):
         self.ensure_one()
 
         if self.document_type != MODELO_FISCAL_MDFE:
-            return super()._valida_xml(xml_file)
+            return super()._validate_xml(xml_file)
 
         erros = Mdfe.schema_validation(xml_file)
         erros = "\n".join(erros)
