@@ -24,6 +24,16 @@ class AccountJournal(models.Model):
         help="Enable automatic payment return reconciliation.",
         default=False,
     )
+    floating_days = fields.Integer(
+        help=(
+            "Specifies the number of 'floating days' - the time period between when a "
+            "payment is initiated and when the funds become available in the"
+            "recipient's account. During these days, the funds are being processed by "
+            "the banking system and are not yet accessible to the recipient. Please "
+            "enter the typical number of days it takes for transactions with your bank "
+            "to be fully processed and cleared."
+        ),
+    )
 
     def multi_move_import(self, file_stream, ftype="csv"):
         """Create multiple bank statements from values given by the parser for
@@ -178,18 +188,6 @@ class AccountJournal(models.Model):
                     )
 
             move_vals = self.prepare_move_vals(result_row, parser)
-
-            # O campo referente a Data de Credito no account.move é o date que
-            # no account.move.line existe um related desse campo a forma de
-            # obter e preencher ele por enquanto e feito da forma abaixo,
-            # verificar se possível melhorar isso.
-            data_credito = ""
-            for row in result_row:
-                if row.get("type") == "liquidado":
-                    data_credito = row.get("date")
-                    break
-            move_vals["date"] = data_credito
-
             move = move_obj.create(move_vals)
             moves |= move
             try:
