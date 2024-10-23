@@ -52,6 +52,12 @@ Usage
 
 O menu de NF-e se encontra dentro do menu fiscal.
 
+Known issues / Roadmap
+======================
+
+* Implementar a transmissão do MDF-e
+* Implementar o cancelamento do MDF-e
+
 Bug Tracker
 ===========
 
