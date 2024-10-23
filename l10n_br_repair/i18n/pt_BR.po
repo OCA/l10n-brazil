@@ -599,6 +599,16 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_number
 msgid "Document Number"
 msgstr "Número do Documento"
@@ -2025,6 +2035,11 @@ msgstr "Impostos"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_total
 msgid "Total"
 msgstr "Total"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__total_weight
+msgid "Total Weight"
+msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__financial_total_gross
