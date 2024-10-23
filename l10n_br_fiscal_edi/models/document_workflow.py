@@ -397,5 +397,5 @@ class DocumentWorkflow(models.AbstractModel):
     def _processador(self):
         pass
 
-    def _valida_xml(self, xml_file):
+    def _validate_xml(self, xml_file):
         pass
