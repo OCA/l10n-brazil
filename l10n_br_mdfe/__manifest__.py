@@ -8,7 +8,7 @@
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "KMEE,Escodoo,Odoo Community Association (OCA)",
-    "maintainers": ["ygcarvalh", "marcelsavegnago"],
+    "maintainers": ["mileo", "marcelsavegnago"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
     "depends": [
