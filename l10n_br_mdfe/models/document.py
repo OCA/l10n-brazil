@@ -834,9 +834,9 @@ class MDFe(spec_models.StackedModel):
             edocs.append(mdfe)
         return edocs
 
-    def _processador(self):
+    def _edoc_processor(self):
         if self.document_type != MODELO_FISCAL_MDFE:
-            return super()._processador()
+            return super()._edoc_processor()
 
         certificado = self.company_id._get_br_ecertificate()
 
@@ -877,7 +877,7 @@ class MDFe(spec_models.StackedModel):
         result = super()._document_export()
         for record in self.filtered(filtered_processador_edoc_mdfe):
             edoc = record.serialize()[0]
-            processador = record._processador()
+            processador = record._edoc_processor()
             xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
                 0
             ]
