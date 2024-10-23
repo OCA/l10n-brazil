@@ -76,6 +76,7 @@ Authors
 ~~~~~~~
 
 * KMEE
+* Escodoo
 
 Contributors
 ~~~~~~~~~~~~
@@ -109,10 +110,13 @@ promote its widespread use.
 .. |maintainer-ygcarvalh| image:: https://github.com/ygcarvalh.png?size=40px
     :target: https://github.com/ygcarvalh
     :alt: ygcarvalh
+.. |maintainer-marcelsavegnago| image:: https://github.com/marcelsavegnago.png?size=40px
+    :target: https://github.com/marcelsavegnago
+    :alt: marcelsavegnago
 
-Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-ygcarvalh| 
+|maintainer-ygcarvalh| |maintainer-marcelsavegnago| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_mdfe>`_ project on GitHub.
 
