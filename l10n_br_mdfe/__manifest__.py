@@ -7,8 +7,8 @@
     "version": "14.0.1.0.0",
     "category": "Localisation",
     "license": "AGPL-3",
-    "author": "KMEE,Odoo Community Association (OCA)",
-    "maintainers": ["ygcarvalh"],
+    "author": "KMEE,Escodoo,Odoo Community Association (OCA)",
+    "maintainers": ["ygcarvalh", "marcelsavegnago"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
     "depends": [
