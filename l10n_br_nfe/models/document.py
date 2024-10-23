@@ -906,9 +906,9 @@ class NFe(spec_models.StackedModel):
             edocs.append(nfe)
         return edocs
 
-    def _processador(self):
+    def _edoc_processor(self):
         if not self.filtered(filter_processador_edoc_nfe):
-            return super()._processador()
+            return super()._edoc_processor()
 
         self._check_nfe_environment()
         certificado = self.company_id._get_br_ecertificate()
@@ -952,7 +952,7 @@ class NFe(spec_models.StackedModel):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
-            processador = record._processador()
+            processador = record._edoc_processor()
             xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
                 0
             ]
@@ -1117,7 +1117,7 @@ class NFe(spec_models.StackedModel):
 
     def _nfe_consult_receipt(self):
         self.ensure_one()
-        processor = self._processador()
+        processor = self._edoc_processor()
         # Consult receipt and process the response
         rec_num = self.authorization_event_id.lot_receipt_number
         receipt_process = processor.consulta_recibo(numero=rec_num)
@@ -1170,7 +1170,7 @@ class NFe(spec_models.StackedModel):
             )
             return None
 
-        processor = self._processador()
+        processor = self._edoc_processor()
 
         # Extract the <NFe> tag from the `enviNFe` message, which represents the NF-e
         nfe_send_xml = base64.b64decode(self.send_file_id.datas)
@@ -1209,7 +1209,7 @@ class NFe(spec_models.StackedModel):
             """
             return c_stat in ["100", "101", "110"]
 
-        nfe_manager = self._processador()
+        nfe_manager = self._edoc_processor()
         check_response = nfe_manager.consulta_documento(chave=self.document_key)
         status = check_response.resposta.xMotivo
 
@@ -1251,7 +1251,7 @@ class NFe(spec_models.StackedModel):
         Serialize and send a NFe for authorizaion
         """
         serialized_nfe = self.serialize()[0]
-        nfe_manager = self._processador()
+        nfe_manager = self._edoc_processor()
         authorization_response = None
         for service_response in nfe_manager.processar_documento(serialized_nfe):
             if service_response.webservice not in [
@@ -1396,7 +1396,7 @@ class NFe(spec_models.StackedModel):
 
     def _nfe_cancel(self):
         self.ensure_one()
-        processador = self._processador()
+        processador = self._edoc_processor()
 
         if not self.authorization_protocol:
             raise UserError(_("Authorization Protocol Not Found!"))
@@ -1452,7 +1452,7 @@ class NFe(spec_models.StackedModel):
 
     def _nfe_correction(self, justificative):
         self.ensure_one()
-        processador = self._processador()
+        processador = self._edoc_processor()
 
         numeros = self.event_ids.filtered(
             lambda e: e.type == "14" and e.state == "done"
@@ -1512,7 +1512,7 @@ class NFe(spec_models.StackedModel):
     def get_nfce_qrcode(self):
         if self.document_type != MODELO_FISCAL_NFCE:
             return
-        processador = self._processador()
+        processador = self._edoc_processor()
         if self.nfe_transmission == "1":
             return processador.monta_qrcode(self.document_key)
 
@@ -1524,7 +1524,7 @@ class NFe(spec_models.StackedModel):
         if self.document_type != MODELO_FISCAL_NFCE:
             return
 
-        return self._processador().consulta_qrcode_url
+        return self._edoc_processor().consulta_qrcode_url
 
     def _prepare_payments_for_nfce(self):
         for rec in self.filtered(lambda d: d.document_type == MODELO_FISCAL_NFCE):
