@@ -35,6 +35,7 @@ msgid "Last Modified on"
 msgstr "Última Modificação em"
 
 #. module: l10n_br_product_contract
+#: model:product.product,mdfe30_xProd:l10n_br_product_contract.recurrency_service_product
 #: model:product.product,name:l10n_br_product_contract.recurrency_service_product
 #: model:product.template,name:l10n_br_product_contract.recurrency_service_product_product_template
 msgid "Recurrency Service"
