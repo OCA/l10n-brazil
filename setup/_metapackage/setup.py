@@ -34,6 +34,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_hr',
         'odoo14-addon-l10n_br_hr_expense_invoice',
         'odoo14-addon-l10n_br_ie_search',
+        'odoo14-addon-l10n_br_mdfe',
         'odoo14-addon-l10n_br_mdfe_spec',
         'odoo14-addon-l10n_br_mis_report',
         'odoo14-addon-l10n_br_nfe',
