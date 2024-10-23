@@ -406,12 +406,27 @@ Only for development or testing purpose, do not use in production.
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
-<p>To use this module, you need to:</p>
+<p>Para utilizar o módulo <cite>l10n_br_mdfe</cite> em conjunto com o módulo <cite>l10n_br_account</cite>, é necessário configurar uma linha de operação fiscal que não adicione valor ao montante do documento, uma vez que o MDF-e (Manifesto Eletrônico de Documentos Fiscais) não possui valor financeiro.</p>
+<p><strong>Passo a Passo:</strong></p>
 <ol class="arabic simple">
-<li>Go to Fiscal menu</li>
-<li>Go to Documents submenu</li>
-<li>Go to MDF-e submenu</li>
+<li><strong>Criar uma Fatura:</strong>
+- Defina o tipo de documento como <strong>58 (MDFe)</strong>.</li>
+<li><strong>Configurar o Parceiro da Fatura:</strong>
+- Configure o parceiro para ser o mesmo da empresa emissora do MDF-e.</li>
+<li><strong>Adicionar uma Linha na Aba Produtos:</strong>
+- Adicione uma linha de fatura com a operação fiscal previamente configurada.
+- <strong>Não recomedamos que informe um produto</strong> ou utilize um produto que <strong>não possua CFOP</strong> (Código Fiscal de Operações e Prestações), ou que o CFOP esteja configurado para <strong>não gerar valor financeiro</strong> e esteja atento a dados como impostos e afins.</li>
+<li><strong>Acesse os detalhes fiscais da fatura e informe os demais dados necessário para emissão do MDF-e:</strong>
+- Preencha os campos obrigatórios para emissão do MDF-e, como UF de descarregamento, município de descarregamento, etc.</li>
+<li><strong>Valide o MDF-e, verifique os dados do XML e envie para a SEFAZ:</strong>
+- Após preencher todos os dados necessários, valide o MDF-e e envie para a SEFAZ.</li>
 </ol>
+<p><strong>Considerações Adicionais</strong></p>
+<ul class="simple">
+<li><strong>Operação Fiscal:</strong> Certifique-se de que a operação fiscal esteja parametrizada corretamente para evitar a adição de valores financeiros ao documento.</li>
+<li><strong>CFOP:</strong> No caso de utilização de um produto cadastrado e que carregue o CFOP para a linha da fatura, verifique a configuração do CFOP para garantir que ele não gere impacto financeiro no montante da fatura.</li>
+</ul>
+<p>Seguindo esses passos, o módulo <cite>l10n_br_mdfe</cite> funcionará corretamente em conjunto com o <cite>l10n_br_account</cite>, permitindo a emissão de MDF-e sem valores financeiros associados.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h1>
