@@ -974,7 +974,7 @@ class NFe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
             xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
-            self._valida_xml(xml_assinado)
+            self._validate_xml(xml_assinado)
         return result
 
     def _nfe_update_status_and_save_data(self, process):
@@ -1048,11 +1048,11 @@ class NFe(spec_models.StackedModel):
             file_response_xml=nfe_proc_xml,
         )
 
-    def _valida_xml(self, xml_file):
+    def _validate_xml(self, xml_file):
         self.ensure_one()
 
         if not self.filtered(filter_processador_edoc_nfe):
-            return super()._valida_xml(xml_file)
+            return super()._validate_xml(xml_file)
 
         erros = Nfe.schema_validation(xml_file)
         erros = "\n".join(erros)
