@@ -888,6 +888,16 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_number
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_rps_number
 msgid "Document Number"
@@ -2695,6 +2705,11 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_total
 msgid "Total"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__total_weight
+msgid "Total Weight"
 msgstr ""
 
 #. module: l10n_br_pos
