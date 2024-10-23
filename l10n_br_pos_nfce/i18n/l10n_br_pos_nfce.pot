@@ -163,6 +163,7 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_pos_nfce
+#: model:product.product,mdfe30_xProd:l10n_br_pos_nfce.product_led_lamp
 #: model:product.product,name:l10n_br_pos_nfce.product_led_lamp
 #: model:product.template,name:l10n_br_pos_nfce.product_led_lamp_product_template
 msgid "Led Lamp"
