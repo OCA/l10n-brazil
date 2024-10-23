@@ -538,8 +538,6 @@ class MDFe(spec_models.StackedModel):
             record.mdfe30_UF = record.rodo_vehicle_state_id.code
 
     def _export_fields_mdfe_30_infmodal(self, xsd_fields, class_obj, export_dict):
-        self = self.with_context(module="l10n_br_mdfe")
-
         if self.mdfe_modal == "1":
             export_dict["any_element"] = self._export_modal_rodoviario()
         elif self.mdfe_modal == "2":
@@ -823,7 +821,6 @@ class MDFe(spec_models.StackedModel):
         for record in self.with_context(lang="pt_BR").filtered(
             filtered_processador_edoc_mdfe
         ):
-            record = record.with_context(module="l10n_br_mdfe")
             inf_mdfe = record._build_binding("mdfe", "30")
 
             inf_mdfe_supl = None
