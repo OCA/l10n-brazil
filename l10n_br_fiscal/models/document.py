@@ -207,12 +207,12 @@ class Document(models.Model):
 
     transport_modal = fields.Selection(
         selection=[
-            ("1", "Rodoviário"),
-            ("2", "Aéreo"),
-            ("3", "Aquaviário"),
-            ("4", "Ferroviário"),
-            ("5", "Dutoviário"),
-            ("6", "Multimodal"),
+            ("01", "Rodoviário"),
+            ("02", "Aéreo"),
+            ("03", "Aquaviário"),
+            ("04", "Ferroviário"),
+            ("05", "Dutoviário"),
+            ("06", "Multimodal"),
         ],
         string="Modal de Transporte",
     )
