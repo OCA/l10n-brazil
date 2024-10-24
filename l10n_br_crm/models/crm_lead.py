@@ -143,7 +143,7 @@ class Lead(models.Model):
                 result["suframa"] = self.partner_id.parent_id.suframa or False
                 result["website"] = self.partner_id.parent_id.website or False
                 result["cpf"] = self.partner_id.cnpj_cpf
-                result["rg"] = self.partner_id.rg
+                result["l10n_br_rg_code"] = self.partner_id.l10n_br_rg_code
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
         return result
@@ -178,8 +178,8 @@ class Lead(models.Model):
             values.update(
                 {
                     "cnpj_cpf": self.cpf,
-                    "inscr_est": self.rg,
-                    "rg": self.rg,
+                    "inscr_est": self.inscr_est,
+                    "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
             )
         return values

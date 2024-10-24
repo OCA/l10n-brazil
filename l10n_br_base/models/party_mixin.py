@@ -32,7 +32,7 @@ class PartyMixin(models.AbstractModel):
         unaccent=False,
     )
 
-    rg = fields.Char(
+    l10n_br_rg_code = fields.Char(
         string="RG",
         unaccent=False,
     )
