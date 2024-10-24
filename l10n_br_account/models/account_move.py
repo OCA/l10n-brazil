@@ -454,6 +454,20 @@ class AccountMove(models.Model):
             icms_origin=base_line.icms_origin,
             ind_final=base_line.ind_final,
         )
+        if self.imported_document:
+            # then force the manual base and amount taxes:
+            for tax_item in balance_taxes_res["taxes"]:
+                if not tax_item.get("fiscal_tax_id") and not isinstance(
+                    tax_item["fiscal_tax_id"], models.NewId
+                ):
+                    continue
+                tax_domain = (
+                    self.env["l10n_br_fiscal.tax"]
+                    .browse(tax_item["fiscal_tax_id"].origin)
+                    .tax_domain
+                )
+                tax_item["base"] = getattr(base_line, "%s_base" % (tax_domain,))
+                tax_item["amount"] = getattr(base_line, "%s_value" % (tax_domain,))
         return balance_taxes_res
 
     def _preprocess_taxes_map(self, taxes_map):
@@ -791,4 +805,7 @@ class AccountMove(models.Model):
                 line_form.fiscal_operation_id = self.fiscal_operation_id
                 line_form.fiscal_document_line_id = line
         move_form.save()
+        move = self.env["account.move"].browse(move_form.id)
+        for line in move.invoice_line_ids:
+            line.product_uom_id = line.fiscal_document_line_id.uom_id.id
         return move_form
