@@ -31,8 +31,8 @@ msgstr ""
 "    Um construtor de objetos Odoo recursivo que funciona junto com o\n"
 "    Construtor de objetos GenerateDS a partir do XML analisado.\n"
 "    Aqui levamos em consideração os objetos Odoo concretos onde o esquema\n"
-"    mixins onde injetados e possíveis substituições de matcher ou construtor."
-"\n"
+"    mixins onde injetados e possíveis substituições de matcher ou "
+"construtor.\n"
 "    "
 
 #. module: spec_driven_model
@@ -51,6 +51,13 @@ msgstr "um mixin que fornece recursos de serialização"
 #: model:ir.model,name:spec_driven_model.model_spec_mixin
 msgid "root abstract model meant for xsd generated fiscal models"
 msgstr "modelo abstrato raiz destinado a modelos fiscais gerados por xsd"
+
+#. module: spec_driven_model
+#. odoo-python
+#: code:addons/spec_driven_model/tests/test_spec_model.py:0
+#, python-format
+msgid "xsdata Python lib not installed, skipping XML test!"
+msgstr ""
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
