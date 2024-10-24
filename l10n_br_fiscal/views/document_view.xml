@@ -285,6 +285,10 @@
               <field name="state_fiscal" />
             </group>
           </group>
+          <group name="CT-e Info">
+            <field name="transport_modal" />
+            <field name="service_provider" />
+          </group>
           <notebook>
             <page name="document" string="Document Info">
               <group name="Document">
