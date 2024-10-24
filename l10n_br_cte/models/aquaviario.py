@@ -23,7 +23,9 @@ class Aquav(spec_models.StackedModel):
 
     cte40_vAFRMM = fields.Monetary(related="document_id.cte40_vAFRMM")
 
-    cte40_vPrest = fields.Monetary(related="document_id.cte40_vPrest")
+    cte40_vPrest = fields.Monetary(
+        related="document_id.cte40_vTPrest"
+    )  # TODO: avaliar melhor
 
     cte40_xNavio = fields.Char(related="document_id.cte40_xNavio")
 

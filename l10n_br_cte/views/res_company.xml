@@ -12,19 +12,17 @@
                 <page name="cte" string="CT-e">
                     <group string="CT-e Default Settings">
                         <group>
-                            <fields name="cte_version" />
-                            <fields name="cte_environment" />
+                            <field name="cte_version" />
+                            <field name="cte_environment" />
                             <field name="cte_type" />
                             <field name="cte_transmission" />
                             <field name="cte_dacte_layout" />
                             <field name="cte_default_serie_id" />
                         </group>
                     </group>
-                        <group string="CT-e Settings">
-                        <group>
-                            <fields name="rntrc_code" />
-                        </group>
-                        </group>
+                    <group string="CT-e Settings">
+
+                    </group>
                 </page>
             </xpath>
         </field>

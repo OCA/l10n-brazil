@@ -56,7 +56,12 @@ class CTeNormalInfos(spec_models.StackedModel):
 
     cte40_infNFe = fields.One2many(
         comodel_name="l10n_br_fiscal.document.related",
-        related="document_id.document_related_ids",
+        related="document_id.cte40_infNFe",
+    )
+
+    cte40_infOutros = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        related="document_id.cte40_infOutros",
     )
 
     cte40_versaoModal = fields.Char(related="document_id.cte40_versaoModal")
@@ -91,7 +96,9 @@ class CTeNormalInfos(spec_models.StackedModel):
         related="document_id.modal_aquaviario_id",
     )
 
-    cte40_vPrest = fields.Monetary(related="document_id.cte40_vPrest")
+    cte40_vPrest = fields.Monetary(
+        related="document_id.cte40_vTPrest"
+    )  # TODO: avaliar melhor
 
     cte40_vAFRMM = fields.Monetary(related="document_id.cte40_vAFRMM")
 
