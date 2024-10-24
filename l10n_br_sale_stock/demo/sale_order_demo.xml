@@ -7,22 +7,6 @@
      no exemplo SP
      -->
 
-    <!-- Show partner_shipping_id in Sale Order -->
-    <record
-        id="group_sale_delivery_address_config_settings"
-        model="res.config.settings"
-    >
-        <field name="group_sale_delivery_address">True</field>
-    </record>
-
-    <function model="res.config.settings" name="execute">
-        <value
-            model="res.config.settings"
-            search="[('id', '=',
-                ref('group_sale_delivery_address_config_settings'))]"
-        />
-    </function>
-
     <!-- Testar quando o Cliente possui o Termo de Pagamento diferente do Pedido de Venda -->
     <record id="l10n_br_base.res_partner_akretion" model="res.partner">
         <field
@@ -32,7 +16,7 @@
     </record>
 
     <!-- Main Company Simples Nacional -->
-    <record id="main_so_l10n_br_sale_stock_1" model="sale.order">
+    <record id="main_company-sale_order_1" model="sale.order">
         <field
             name="name"
         >l10n_br_sale_stock - Endereço de Entrega e Faturamento diferentes</field>
@@ -45,20 +29,33 @@
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
         <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
-        <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES 1</field>
         <field
             name="manual_customer_additional_data"
-        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        >TESTE - CUSTOMER ADDITIONAL DATA 1</field>
         <field
             name="manual_fiscal_additional_data"
-        >TESTE - FISCAL ADDITIONAL DATA</field>
+        >TESTE - FISCAL ADDITIONAL DATA 1</field>
+        <field name="client_order_ref">Cliente Ref Test 1</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor1'))]" />
     </record>
 
-    <record id="main_sl_l10n_br_sale_stock_1_1" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
-        <field name="name">Gaveta Preta</field>
+    <record id="main_company-sale_order_line_1_1" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_16').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -69,12 +66,17 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]" />
+        <value eval="[ref('main_company-sale_order_line_1_1')]" />
     </function>
 
-    <record id="main_sl_l10n_br_sale_stock_1_2" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
-        <field name="name">Cadeira de Escritório Preta</field>
+    <record id="main_company-sale_order_line_1_2" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
+
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -85,12 +87,28 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]" />
+        <value eval="[ref('main_company-sale_order_line_1_2')]" />
     </function>
 
-    <record id="main_sl_l10n_br_sale_stock_1_3" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
-        <field name="name">Cadeira de Escritório Preta</field>
+    <record id="main_company-sale_order_line_1_3" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field name="name">This is a Note 1</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="main_company-sale_order_line_1_4" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field name="name">This is a Section 1</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="main_company-sale_order_line_1_5" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -104,11 +122,11 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]" />
+        <value eval="[ref('main_company-sale_order_line_1_5')]" />
     </function>
 
     <!-- Pedido de Venda com Produto e Serviço -->
-    <record id="main_so_l10n_br_sale_stock_2" model="sale.order">
+    <record id="main_company-sale_order_2" model="sale.order">
         <field name="name">l10n_br_sale_stock - Produto e Serviço</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
@@ -119,20 +137,36 @@
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
         <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
         <field
             name="manual_customer_additional_data"
-        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        >TESTE - CUSTOMER ADDITIONAL DATA 2</field>
         <field
             name="manual_fiscal_additional_data"
-        >TESTE - FISCAL ADDITIONAL DATA</field>
+        >TESTE - FISCAL ADDITIONAL DATA 2</field>
+        <field name="client_order_ref">Customer Ref Test 2</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field
+            name="tag_ids"
+            eval="[(4, ref('sales_team.categ_oppor1')), (4, ref('sales_team.categ_oppor3'))]"
+        />
     </record>
 
-    <record id="main_sl_l10n_br_sale_stock_2_1" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_2" />
-        <field name="name">Gaveta Preta</field>
+    <record id="main_company-sale_order_line_2_1" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_2" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_16').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -143,12 +177,28 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]" />
+        <value eval="[ref('main_company-sale_order_line_2_1')]" />
     </function>
 
-    <record id="main_sl_l10n_br_sale_stock_2_2" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_2" />
-        <field name="name">Customized Odoo Development</field>
+    <record id="main_company-sale_order_line_2_2" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_2" />
+        <field name="name">This is a Note 2</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="main_company-sale_order_line_2_3" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_2" />
+        <field name="name">This is a Section 2</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="main_company-sale_order_line_2_4" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_2" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('l10n_br_fiscal.customized_development_sale').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
         <field name="product_uom_qty">10</field>
         <field name="product_uom" ref="uom.product_uom_hour" />
@@ -162,11 +212,11 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]" />
+        <value eval="[ref('main_company-sale_order_line_2_4')]" />
     </function>
 
     <!-- Teste de Agrupamento -->
-    <record id="main_so_l10n_br_sale_stock_3" model="sale.order">
+    <record id="main_company-sale_order_3" model="sale.order">
         <field name="name">l10n_br_sale_stock - Agrupamento dos Pickings</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
@@ -177,20 +227,33 @@
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
         <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
-        <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES 3</field>
         <field
             name="manual_customer_additional_data"
-        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        >TESTE - CUSTOMER ADDITIONAL DATA 3</field>
         <field
             name="manual_fiscal_additional_data"
-        >TESTE - FISCAL ADDITIONAL DATA</field>
+        >TESTE - FISCAL ADDITIONAL DATA 3</field>
+        <field name="client_order_ref">Cliente Ref Test 3</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor1'))]" />
     </record>
 
-    <record id="main_sl_l10n_br_sale_stock_3_1" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
-        <field name="name">[FURN_8900] Gaveta Preta</field>
+    <record id="main_company-sale_order_line_3_1" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_16').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -201,12 +264,16 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]" />
+        <value eval="[ref('main_company-sale_order_line_3_1')]" />
     </function>
 
-    <record id="main_sl_l10n_br_sale_stock_3_2" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
-        <field name="name">Cadeira de Escritório Preta</field>
+    <record id="main_company-sale_order_line_3_2" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -217,12 +284,28 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]" />
+        <value eval="[ref('main_company-sale_order_line_3_2')]" />
     </function>
 
-    <record id="main_sl_l10n_br_sale_stock_3_3" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
-        <field name="name">Cadeira de Escritório Preta</field>
+    <record id="main_company-sale_order_line_3_3" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field name="name">This is a Note 3</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="main_company-sale_order_line_3_4" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field name="name">This is a Section 3</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="main_company-sale_order_line_3_5" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_3" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -236,11 +319,11 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]" />
+        <value eval="[ref('main_company-sale_order_line_3_5')]" />
     </function>
 
     <!-- Teste de Agrupamento -->
-    <record id="main_so_l10n_br_sale_stock_4" model="sale.order">
+    <record id="main_company-sale_order_4" model="sale.order">
         <field name="name">l10n_br_sale_stock - Agrupamento dos Pickings</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
@@ -251,20 +334,33 @@
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
         <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
-        <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES 4</field>
         <field
             name="manual_customer_additional_data"
-        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        >TESTE - CUSTOMER ADDITIONAL DATA 4</field>
         <field
             name="manual_fiscal_additional_data"
-        >TESTE - FISCAL ADDITIONAL DATA</field>
+        >TESTE - FISCAL ADDITIONAL DATA 4</field>
+        <field name="client_order_ref">Cliente Ref Test 4</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor1'))]" />
     </record>
 
-    <record id="main_sl_l10n_br_sale_stock_4_1" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
-        <field name="name">Gaveta Preta</field>
+    <record id="main_company-sale_order_line_4_1" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_16').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -275,12 +371,16 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]" />
+        <value eval="[ref('main_company-sale_order_line_4_1')]" />
     </function>
 
-    <record id="main_sl_l10n_br_sale_stock_4_2" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
-        <field name="name">Cadeira de Escritório Preta</field>
+    <record id="main_company-sale_order_line_4_2" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -291,12 +391,28 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]" />
+        <value eval="[ref('main_company-sale_order_line_4_2')]" />
     </function>
 
-    <record id="main_sl_l10n_br_sale_stock_4_3" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
-        <field name="name">Cadeira de Escritório Preta</field>
+    <record id="main_company-sale_order_line_4_3" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field name="name">This is a Note 4</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="main_company-sale_order_line_4_4" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field name="name">This is a Section 4</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="main_company-sale_order_line_4_5" model="sale.order.line">
+        <field name="order_id" ref="main_company-sale_order_4" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -310,12 +426,12 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
+        <value eval="[ref('main_company-sale_order_line_4_5')]" />
     </function>
 
     <!-- Empresa Lucro Presumido -->
     <!-- Sale Order with only products test -->
-    <record id="l10n_br_sale_stock_lucro_presumido" model="sale.order">
+    <record id="lucro_presumido-sale_order_1" model="sale.order">
         <field name="name">LC l10n_br_sale - Produtos</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
@@ -325,13 +441,33 @@
         <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
-        <field name="note">TESTE</field>
+        <!-- Necessario para corrigir o campo ind_final, por padrão vem com o
+         valor Sim, o que está errado, porque deve ser Não -->
+        <field name="ind_final">0</field>
+        <field name="copy_note">True</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES 1</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA 1</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA 1</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="client_order_ref">Customer Ref Test 1</field>
+        <field name="campaign_id" ref="utm.utm_campaign_christmas_special" />
+        <field name="medium_id" ref="utm.utm_medium_banner" />
+        <field name="source_id" ref="utm.utm_source_monster" />
+        <field name="incoterm" ref="account.incoterm_FOB" />
+        <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor1'))]" />
     </record>
 
-    <record id="l10n_br_sale_stock_lucro_presumido_1_2" model="sale.order.line">
-        <field name="order_id" ref="l10n_br_sale_stock_lucro_presumido" />
-        <field name="name">Cadeira de Escritório Preta</field>
+    <record id="lucro_presumido-sale_order_line_1_1" model="sale.order.line">
+        <field name="order_id" ref="lucro_presumido-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -342,12 +478,28 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_1_2')]" />
+        <value eval="[ref('lucro_presumido-sale_order_line_1_1')]" />
     </function>
 
-    <record id="l10n_br_sale_stock_lucro_presumido_2_2" model="sale.order.line">
-        <field name="order_id" ref="l10n_br_sale_stock_lucro_presumido" />
-        <field name="name">Cadeira de Escritório Preta</field>
+    <record id="lucro_presumido-sale_order_line_1_2" model="sale.order.line">
+        <field name="order_id" ref="lucro_presumido-sale_order_1" />
+        <field name="name">This is a Note 1</field>
+        <field name="display_type">line_note</field>
+    </record>
+
+    <record id="lucro_presumido-sale_order_line_1_3" model="sale.order.line">
+        <field name="order_id" ref="lucro_presumido-sale_order_1" />
+        <field name="name">This is a Section 1</field>
+        <field name="display_type">line_section</field>
+    </record>
+
+    <record id="lucro_presumido-sale_order_line_1_4" model="sale.order.line">
+        <field name="order_id" ref="lucro_presumido-sale_order_1" />
+        <field
+            name="name"
+            model="sale.order.line"
+            eval="obj().env.ref('product.product_product_12').get_product_multiline_description_sale()"
+        />
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
@@ -361,7 +513,7 @@
     </record>
 
     <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_sale_stock_lucro_presumido_2_2')]" />
+        <value eval="[ref('lucro_presumido-sale_order_line_1_4')]" />
     </function>
 
 </odoo>
