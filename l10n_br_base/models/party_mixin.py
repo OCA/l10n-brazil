@@ -43,11 +43,14 @@ class PartyMixin(models.AbstractModel):
         inverse_name="partner_id",
     )
 
-    inscr_mun = fields.Char(
+    l10n_br_im_code = fields.Char(
         string="Municipal Tax Number",
         size=18,
         unaccent=False,
     )
+
+    # compat with legacy code:
+    inscr_est = fields.Char(related="l10n_br_im_code", readonly=False)
 
     suframa = fields.Char(
         size=18,
