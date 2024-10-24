@@ -103,6 +103,9 @@ estes passos:
    se necessário. Se um diário não for especificado, o módulo usará o
    diário da fatura de compra original.
 
+3. **Definir uma Prefeitura para o ISSQN:** Crie ou edite um parceiro,
+   vá até a aba "Fiscal" e marque a opção "É Prefeitura".
+
 Usage
 =====
 
@@ -114,6 +117,12 @@ impostos no Odoo:
 
 2. **Confirmação da Fatura:** Ao confirmar a fatura de compra, o módulo
    gera automaticamente as faturas de retenção de impostos.
+
+3. **Definir uma Prefeitura para o ISSQN:** Ao incluir um imposto de
+   retenção e informar a cidade correspondente para o ISSQN, o módulo
+   busca automaticamente o parceiro marcado como Prefeitura para essa
+   cidade. Caso não o encontre, ele retorna o parceiro padrão definido
+   no Grupo de Impostos.
 
 Bug Tracker
 ===========

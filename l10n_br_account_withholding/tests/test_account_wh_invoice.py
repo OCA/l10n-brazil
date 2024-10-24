@@ -310,3 +310,118 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             2,
             "The invoice should have 2 withholding invoices (PIS and COFINS).",
         )
+
+    def test_with_partner_issqn_without_city_partner(self):
+        "Test move with Partner defined and no ISSQN City Partner"
+        self.env.ref("l10n_br_fiscal.tax_group_pis_wh").generate_wh_invoice = False
+        self.env.ref("l10n_br_fiscal.tax_group_cofins_wh").generate_wh_invoice = False
+        product = self.env.ref("l10n_br_sale_commission.service_commission")
+        product.write(
+            {
+                "standard_price": 1000.0,
+                "tax_icms_or_issqn": "issqn",
+                "ncm_id": self.env.ref("l10n_br_fiscal.ncm_00000000").id,
+                "fiscal_genre_id": self.env.ref("l10n_br_fiscal.product_genre_00").id,
+                "fiscal_type": "09",
+                "taxes_id": False,
+            }
+        )
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_issqn_wh")
+        tax_group.generate_wh_invoice = True
+        tax_group.journal_id = self.company_data["default_journal_purchase"].id
+        move_issqn = self.init_invoice(
+            "in_invoice",
+            products=[product],
+            partner=self.env.ref("l10n_br_base.res_partner_amd"),
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_compras"),
+            fiscal_operation_lines=[self.env.ref("l10n_br_fiscal.fo_compras_servico")],
+            document_serie="1",
+            document_number="56",
+        )
+
+        for line_ids in move_issqn.invoice_line_ids:
+            line_ids.issqn_tax_id = None
+            line_ids.issqn_fg_city_id = self.env.ref("l10n_br_base.city_3550308")
+            line_ids.issqn_wh_tax_id = (
+                self.env["l10n_br_fiscal.tax"]
+                .search([("name", "=", "ISSQN RET 5%")], order="id DESC", limit=1)
+                .id
+            )
+
+        move_issqn.action_post()
+        move_issqn._compute_wh_invoice_ids()
+
+        partner_wh = self.env["res.partner"].search(
+            [
+                ("city_id", "=", move_issqn.invoice_line_ids[0].issqn_fg_city_id.id),
+                ("wh_cityhall", "=", True),
+            ],
+            limit=1,
+        )
+
+        expected_partner_id = partner_wh if partner_wh else tax_group.partner_id
+
+        self.assertTrue(
+            all(
+                wh_inv.partner_id == expected_partner_id
+                for wh_inv in move_issqn.wh_invoice_ids
+            )
+        )
+
+    def test_with_partner_issqn_with_city_partner(self):
+        "Test move with Partner and ISSQN City Partner"
+        self.env.ref("l10n_br_fiscal.tax_group_pis_wh").generate_wh_invoice = False
+        self.env.ref("l10n_br_fiscal.tax_group_cofins_wh").generate_wh_invoice = False
+        product = self.env.ref("l10n_br_sale_commission.service_commission")
+        product.write(
+            {
+                "standard_price": 1000.0,
+                "tax_icms_or_issqn": "issqn",
+                "ncm_id": self.env.ref("l10n_br_fiscal.ncm_00000000").id,
+                "fiscal_genre_id": self.env.ref("l10n_br_fiscal.product_genre_00").id,
+                "fiscal_type": "09",
+                "taxes_id": False,
+            }
+        )
+        tax_group = self.env.ref("l10n_br_fiscal.tax_group_issqn_wh")
+        tax_group.generate_wh_invoice = True
+        tax_group.journal_id = self.company_data["default_journal_purchase"].id
+        partner_cityhall = self.env["res.partner"].create(
+            {
+                "name": "Prefeitura de São Paulo",
+                "city_id": self.env.ref("l10n_br_base.city_3550308").id,
+                "state_id": self.env.ref("base.state_br_sp").id,
+                "country_id": self.env.ref("base.br").id,
+                "wh_cityhall": True,
+            }
+        )
+        move_issqn = self.init_invoice(
+            "in_invoice",
+            products=[product],
+            partner=partner_cityhall,
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_compras"),
+            fiscal_operation_lines=[self.env.ref("l10n_br_fiscal.fo_compras_servico")],
+            document_serie="1",
+            document_number="56",
+        )
+
+        for line_ids in move_issqn.invoice_line_ids:
+            line_ids.issqn_tax_id = None
+            line_ids.issqn_fg_city_id = self.env.ref("l10n_br_base.city_3550308")
+            line_ids.issqn_wh_tax_id = (
+                self.env["l10n_br_fiscal.tax"]
+                .search([("name", "=", "ISSQN RET 5%")], order="id DESC", limit=1)
+                .id
+            )
+
+        move_issqn.action_post()
+        move_issqn._compute_wh_invoice_ids()
+
+        self.assertTrue(
+            all(
+                wh_inv.partner_id == partner_cityhall.id
+                for wh_inv in move_issqn.wh_invoice_ids
+            )
+        )

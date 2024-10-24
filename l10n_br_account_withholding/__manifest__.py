@@ -14,6 +14,7 @@
         "l10n_br_account",
     ],
     "data": [
+        "views/res_partner.xml",
         "views/l10n_br_fiscal_tax_group.xml",
         "views/account_move.xml",
     ],
