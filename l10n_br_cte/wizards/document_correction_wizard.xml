@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="document_correction_wizard_form" model="ir.ui.view">
+        <field name="model">l10n_br_fiscal.document.correction.wizard</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_fiscal_edi.document_correction_wizard_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="before">
+                <field name="document_type" invisible="1" />
+                <field name="document_type_id" invisible="1" readonly="1" />
+                <group attrs="{'invisible': [('document_type', '!=', '57')]}">
+                    <!-- TODO: Melhorar -->
+                    <div>
+                        Por favor, para carta de correção de CT-e, no campo Justificativa informe por linha (Grupo Alterado;Campo Alterado;Valor Alterado).<br
+                        />
+                        <strong>Exemplo:</strong><br />
+                        compl;xObs;Nova Observação<br />
+                        ide;cfop;6353
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
