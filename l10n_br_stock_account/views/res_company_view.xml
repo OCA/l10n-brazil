@@ -13,6 +13,7 @@
                             <field name="stock_fiscal_operation_id" />
                             <field name="stock_in_fiscal_operation_id" />
                             <field name="stock_out_fiscal_operation_id" />
+                            <field name="stock_valuation_via_stock_price" />
                         </group>
                     </group>
                 </page>
