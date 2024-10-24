@@ -2,7 +2,6 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 import logging
 import sys
-from io import StringIO
 
 from odoo import api, fields, models
 
@@ -41,18 +40,6 @@ class SpecMixinExport(models.AbstractModel):
                 continue
             spec_classes.append(c)
         return spec_classes
-
-    @api.model
-    def _print_xml(self, binding_instance):
-        if not binding_instance:
-            return
-        output = StringIO()
-        binding_instance.export(
-            output,
-            0,
-            pretty_print=True,
-        )
-        output.close()
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         """
@@ -241,25 +228,15 @@ class SpecMixinExport(models.AbstractModel):
             binding_instance = binding_class(**sliced_kwargs)
             return binding_instance
 
-    def export_xml(self, print_xml=True):
+    def export_xml(self):
         self.ensure_one()
         result = []
 
         if hasattr(self, "_stacked"):
             binding_instance = self._build_generateds()
-            if print_xml:
-                self._print_xml(binding_instance)
             result.append(binding_instance)
-
-        else:
-            spec_classes = self._get_spec_classes()
-            for class_name in spec_classes:
-                binding_instance = self._build_generateds(class_name)
-                if print:
-                    self._print_xml(binding_instance)
-                result.append(binding_instance)
         return result
 
-    def export_ds(self):
+    def export_ds(self):  # TODO rename export_binding!
         self.ensure_one()
-        return self.export_xml(print_xml=False)
+        return self.export_xml()
