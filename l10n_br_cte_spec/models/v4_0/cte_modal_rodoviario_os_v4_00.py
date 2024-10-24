@@ -25,6 +25,7 @@ PROP_TPPROP = [
 
 class RodoOs(models.AbstractModel):
     "Informações do modal Rodoviário"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.rodoos"
     _inherit = "spec.mixin.cte"
@@ -53,7 +54,9 @@ class RodoOs(models.AbstractModel):
         ),
     )
 
-    cte40_veic = fields.Many2one(comodel_name="cte.40.veic", string="Dados do Veículo")
+    cte40_veic = fields.Many2one(
+        comodel_name="cte.40.veic", string="Dados do Veículo"
+    )
 
     cte40_infFretamento = fields.Many2one(
         comodel_name="cte.40.inffretamento",
@@ -64,6 +67,7 @@ class RodoOs(models.AbstractModel):
 
 class Veic(models.AbstractModel):
     "Dados do Veículo"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.veic"
     _inherit = "spec.mixin.cte"
@@ -163,6 +167,7 @@ class Prop(models.AbstractModel):
 
 class InfFretamento(models.AbstractModel):
     "Dados do fretamento (apenas para Transporte de Pessoas)"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.inffretamento"
     _inherit = "spec.mixin.cte"

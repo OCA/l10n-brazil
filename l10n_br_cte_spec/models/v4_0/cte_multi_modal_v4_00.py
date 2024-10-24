@@ -16,6 +16,7 @@ MULTIMODAL_INDNEGOCIAVEL = [
 
 class Multimodal(models.AbstractModel):
     "Informações do Multimodal"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.multimodal"
     _inherit = "spec.mixin.cte"
@@ -32,7 +33,8 @@ class Multimodal(models.AbstractModel):
         string="Indicador Negociável",
         xsd_required=True,
         help=(
-            "Indicador Negociável\nPreencher com: 0 - Não Negociável; 1 - " "Negociável"
+            "Indicador Negociável\nPreencher com: 0 - Não Negociável; 1 - "
+            "Negociável"
         ),
     )
 
@@ -44,6 +46,7 @@ class Multimodal(models.AbstractModel):
 
 class MultimodalSeg(models.AbstractModel):
     "Informações de Seguro do Multimodal"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.multimodal_seg"
     _inherit = "spec.mixin.cte"
@@ -73,6 +76,7 @@ class MultimodalSeg(models.AbstractModel):
 
 class InfSeg(models.AbstractModel):
     "Informações da seguradora"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.infseg"
     _inherit = "spec.mixin.cte"

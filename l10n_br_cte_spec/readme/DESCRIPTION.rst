@@ -2,11 +2,7 @@ Este módulo contem a estrutura de dados do Conhecimento de Transporte Eletrôni
 Este módulo não faz nada sozinho, ele precisaria de um modulo `l10n_br_cte` que mapearia esses mixins
 nos documentos fiscais Odoo de forma semelhante a forma como o módulo `l10n_br_nfe` faz como o módulo `l10n_br_nfe_spec`.
 
-Este módulo inclue os principais leiautes persistantes de CT-e:
-
-* CT-e (Conhecimento de Transporte Eletrônico)
-* CT-e OS (Conhecimento de transporte eletrônico para outros serviço
-
+Este módulo inclui os principais layouts persistentes do CT-e (Conhecimento de Transporte Eletrônico).
 
 Geração
 ~~~~~~~
@@ -18,5 +14,5 @@ https://github.com/akretion/xsdata-odoo
 
 O comando usado foi::
 
-  export XSDATA_SCHEMA=cte; export XSDATA_VERSION=30; export XSDATA_SKIP="^ICMS\d+|^ICMSSN+|ICMSOutraUF|ICMSUFFim"; export XSDATA_LANG="portuguese"
+  export XSDATA_SCHEMA=cte; export XSDATA_VERSION=40; export XSDATA_SKIP="^ICMS\d+|^ICMSSN+|ICMSOutraUF|ICMSUFFim"; export XSDATA_LANG="portuguese"
   xsdata generate nfelib/cte/schemas/v4_0 --package nfelib.cte.odoo.v4_0 --output=odoo

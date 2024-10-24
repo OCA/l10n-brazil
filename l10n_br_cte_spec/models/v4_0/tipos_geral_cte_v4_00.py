@@ -194,6 +194,7 @@ TTIPOUNIDTRANSP = [
 
 class TrsakeyValueType(models.AbstractModel):
     "Tipo que representa uma chave publica padrão RSA"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "cte.40.trsakeyvaluetype"
     _inherit = "spec.mixin.cte"
