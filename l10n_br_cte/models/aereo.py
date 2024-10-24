@@ -54,9 +54,9 @@ class Peri(spec_models.StackedModel):
     _odoo_module = "l10n_br_cte"
     _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_aereo_v4_00"
     _spec_tab_name = "CTe"
-    _description = """Preenchido quando for transporte de produtos classificados pela ONU como
-    perigosos. O preenchimento desses campos não desobriga a empresa aérea de emitir os demais
-    documentos que constam na legislação vigente."""
+    _description = """Preenchido quando for transporte de produtos classificados pela
+    ONU como perigosos. O preenchimento desses campos não desobriga a empresa aérea de
+    emitir os demais documentos que constam na legislação vigente."""
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
