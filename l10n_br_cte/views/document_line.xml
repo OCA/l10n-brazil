@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).-->
+<odoo>
+
+    <record model="ir.ui.view" id="document_line_cte_form_view">
+        <field name="model">document.line</field>
+        <field name="inherit_id" ref="TODO othermodule.form_view" />
+        <field name="arch" type="xml">
+        </field>
+    </record>
+
+</odoo>
