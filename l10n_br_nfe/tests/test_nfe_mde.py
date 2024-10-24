@@ -6,7 +6,7 @@ from unittest import mock
 
 from erpbrasil.edoc.resposta import analisar_retorno_raw
 from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
-from nfelib.v4_00 import retEnvEvento
+from nfelib.nfe_evento_generico.bindings.v1_0.ret_env_evento_v1_00 import RetEnvEvento
 
 from odoo.exceptions import ValidationError
 from odoo.tests.common import SavepointCase
@@ -42,7 +42,7 @@ def mocked_post_confirmacao(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_confirmacao_operacao),
-        retEnvEvento,
+        RetEnvEvento,
     )
 
 
@@ -52,7 +52,7 @@ def mocked_post_confirmacao_status_code_error(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_confirmacao_operacao, status_code="500"),
-        retEnvEvento,
+        RetEnvEvento,
     )
 
 
@@ -62,7 +62,7 @@ def mocked_post_confirmacao_invalid_status_error(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_confirmacao_operacao_rejeicao),
-        retEnvEvento,
+        RetEnvEvento,
     )
 
 
@@ -72,7 +72,7 @@ def mocked_post_ciencia(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_ciencia_operacao),
-        retEnvEvento,
+        RetEnvEvento,
     )
 
 
@@ -82,7 +82,7 @@ def mocked_post_desconhecimento(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_desconhecimento_operacao),
-        retEnvEvento,
+        RetEnvEvento,
     )
 
 
@@ -92,7 +92,7 @@ def mocked_post_nao_realizada(*args, **kwargs):
         object(),
         b"<fake_post/>",
         FakeRetorno(response_operacao_nao_realizada),
-        retEnvEvento,
+        RetEnvEvento,
     )
 
 
