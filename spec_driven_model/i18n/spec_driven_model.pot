@@ -40,3 +40,10 @@ msgstr ""
 #: model:ir.model,name:spec_driven_model.model_spec_mixin
 msgid "root abstract model meant for xsd generated fiscal models"
 msgstr ""
+
+#. module: spec_driven_model
+#. odoo-python
+#: code:addons/spec_driven_model/tests/test_spec_model.py:0
+#, python-format
+msgid "xsdata Python lib not installed, skipping XML test!"
+msgstr ""
