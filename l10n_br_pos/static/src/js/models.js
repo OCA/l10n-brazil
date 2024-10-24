@@ -326,11 +326,11 @@ odoo.define("l10n_br_pos.models", function (require) {
             return false;
         },
         get_cnpj_cpf: function () {
-            var partner_vat = null;
+            let partner_vat = "";
             if (this.get_client() && this.get_client().vat) {
                 partner_vat = this.get_client().vat;
             }
-            return this.cnpj_cpf || partner_vat;
+            return this.cnpj_cpf || this.customer_tax_id || partner_vat;
         },
         get_taxes_and_percentages: function (order) {
             var taxes = {
@@ -581,18 +581,9 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     models.PosModel = models.PosModel.extend({
         initialize: function (session, attributes) {
-            this.cnpj_cpf = null;
-
             this.last_document_session_number = null;
 
             return _super_posmodel.initialize.call(this, session, attributes);
-        },
-        get_cnpj_cpf: function () {
-            var order = this.get_order();
-            if (order) {
-                return order.get_cnpj_cpf();
-            }
-            return null;
         },
     });
 });
