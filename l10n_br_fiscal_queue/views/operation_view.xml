@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="operation_inherited_queue_form">
+        <field
+            name="name"
+        >l10n_br_fiscal.operation.inherited_form in (l10n_br_fiscal_queue)</field>
+        <field name="model">l10n_br_fiscal.operation</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_form" />
+        <field name="arch" type="xml">
+            <field name="default_price_unit" position="after">
+                <field name="queue_document_send" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
