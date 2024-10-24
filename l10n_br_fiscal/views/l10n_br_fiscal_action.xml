@@ -516,6 +516,23 @@
         </field>
     </record>
 
+    <!-- Product Tag -->
+    <record id="product_tag_action" model="ir.actions.act_window">
+        <field name="name">Product Tag</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.product.tag</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="product_tag_tree" />
+        <field name="search_view_id" ref="product_tag_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Product Tag
+            </p><p>
+                Product Tags assist in matching Operation Lines with their corresponding products, ensuring accurate identification and organization within the system.
+            </p>
+        </field>
+    </record>
+
     <!-- Subsequent Document-->
     <record id="subsequent_document_action" model="ir.actions.act_window">
         <field name="name">Subsequent Document</field>
