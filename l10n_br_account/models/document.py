@@ -193,6 +193,11 @@ class FiscalDocument(models.Model):
             self.move_ids.button_draft()
         return result
 
+    def _edoc_subscribe(self):
+        if self.move_ids:
+            self.move_ids._edoc_subscribe()
+        return
+
     def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
         self.ensure_one()
         models_cancel_on_deny = [MODELO_FISCAL_NFE, MODELO_FISCAL_CTE]

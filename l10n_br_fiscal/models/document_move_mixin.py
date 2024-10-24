@@ -259,3 +259,10 @@ class DocumentMoveMixin(models.AbstractModel):
                 )
             self.document_subsequent_ids = subsequent_documents
         return result
+
+    def _edoc_subscribe(self):
+        partner_ids = self.partner_id.filtered("edoc_send_email")
+        partner_child_ids = self.partner_id.child_ids.filtered("edoc_send_email")
+        all_partner_ids = partner_ids | partner_child_ids
+
+        self.message_subscribe(partner_ids=all_partner_ids.ids)
