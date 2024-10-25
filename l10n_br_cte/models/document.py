@@ -83,29 +83,24 @@ class CTe(spec_models.StackedModel):
         "cte.40.tcte_imp",
         "cte.40.tcte_fat",
     ]
-    _stacked = "cte.40.tcte_infcte"
-    _field_prefix = "cte40_"
-    _schema_name = "cte"
-    _schema_version = "4.0.0"
-    _odoo_module = "l10n_br_cte"
-    _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
-    _spec_tab_name = "CTe"
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
-    _stack_skip = (
+    _cte40_odoo_module = (
+        "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
+    )
+    _cte40_stacking_mixin = "cte.40.tcte_infcte"
+    _cte40_stacking_skip_paths = (
         "cte40_fluxo",
         "cte40_semData",
         "cte40_noInter",
         "cte40_comHora",
         "cte40_noPeriodo",
     )
-    _cte_search_keys = ["cte40_Id"]
-
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = (
+    _cte40_stacking_force_paths = (
         "infcte.compl",
         "infcte.compl.entrega" "infcte.vprest",
         "infcte.imp",
     )
+    _cte_search_keys = ["cte40_Id"]
 
     INFCTE_TREE = """
     > infCte
@@ -1107,7 +1102,6 @@ class CTe(spec_models.StackedModel):
     ##########################
 
     def _export_fields_cte_40_tcte_infmodal(self, xsd_fields, class_obj, export_dict):
-        self = self.with_context(module="l10n_br_cte")
         if self.cte40_modal == "01":
             export_dict["any_element"] = self._export_modal_rodoviario()
         elif self.cte40_modal == "02":
@@ -1123,7 +1117,7 @@ class CTe(spec_models.StackedModel):
         if not self.modal_aereo_id:
             self.modal_aereo_id = self.modal_aereo_id.create({"document_id": self.id})
 
-        return self.modal_aereo_id.export_ds()[0]
+        return self.modal_aereo_id._build_binding("cte", "40")
 
     def _export_modal_ferroviario(self):
         if not self.modal_ferroviario_id:
@@ -1131,7 +1125,7 @@ class CTe(spec_models.StackedModel):
                 {"document_id": self.id}
             )
 
-        return self.modal_ferroviario_id.export_ds()[0]
+        return self.modal_ferroviario_id._build_binding("cte", "40")
 
     def _export_modal_aquaviario(self):
         if not self.modal_aquaviario_id:
@@ -1139,7 +1133,7 @@ class CTe(spec_models.StackedModel):
                 {"document_id": self.id}
             )
 
-        return self.modal_aquaviario_id.export_ds()[0]
+        return self.modal_aquaviario_id._build_binding("cte", "40")
 
     def _export_modal_rodoviario(self):
         if not self.modal_rodoviario_id:
@@ -1147,7 +1141,7 @@ class CTe(spec_models.StackedModel):
                 {"document_id": self.id}
             )
 
-        return self.modal_rodoviario_id.export_ds()[0]
+        return self.modal_rodoviario_id._build_binding("cte", "40")
 
     def _export_modal_dutoviario(self):
         if not self.modal_dutoviario_id:
@@ -1155,7 +1149,7 @@ class CTe(spec_models.StackedModel):
                 {"document_id": self.id}
             )
 
-        return self.modal_dutoviario_id.export_ds()[0]
+        return self.modal_dutoviario_id._build_binding("cte", "40")
 
     ################################
     # Framework Spec model's methods
@@ -1182,15 +1176,15 @@ class CTe(spec_models.StackedModel):
         for record in self.with_context(lang="pt_BR").filtered(
             filter_processador_edoc_cte
         ):
-            inf_cte = record.export_ds()[0]
+            inf_cte = record._build_binding("cte", "40")
             inf_cte_supl = None
             if record.cte40_infCTeSupl:
-                inf_cte_supl = record.cte40_infCTeSupl.export_ds()[0]
+                inf_cte_supl = record.cte40_infCTeSupl._build_binding("cte", "40")
             cte = Cte(infCte=inf_cte, infCTeSupl=inf_cte_supl, signature=None)
             edocs.append(cte)
         return edocs
 
-    def _processador(self):
+    def _edoc_processor(self):
         if not self.company_id.certificate_nfe_id:
             raise UserError(_("Certificado não encontrado"))
 
@@ -1209,7 +1203,7 @@ class CTe(spec_models.StackedModel):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
             edoc = record.serialize()[0]
-            processador = record._processador()
+            processador = record._edoc_processor()
             xml_file = edoc.to_xml()
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
@@ -1222,26 +1216,26 @@ class CTe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
             xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
-            self._valida_xml(xml_assinado)
+            self._validate_xml(xml_assinado)
         return result
 
-    def _valida_xml(self, xml_file):
+    def _validate_xml(self, xml_file):
         self.ensure_one()
         erros = Cte.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 
-    def atualiza_status_cte(self, processo):
+    def update_status_cte(self, process):
         self.ensure_one()
 
-        if hasattr(processo, "protocolo"):
-            infProt = processo.protocolo.infProt
+        if hasattr(process, "protocolo"):
+            infProt = process.protocolo.infProt
         else:
-            infProt = processo.resposta.protCTe.infProt
+            infProt = process.resposta.protCTe.infProt
 
         if infProt.cStat in AUTORIZADO:
             state = SITUACAO_EDOC_AUTORIZADA
-            self._cte_response_add_proc(processo)
+            self._cte_response_add_proc(process)
         elif infProt.cStat in DENEGADO:
             state = SITUACAO_EDOC_DENEGADA
         else:
@@ -1259,7 +1253,7 @@ class CTe(spec_models.StackedModel):
                 response=infProt.xMotivo,
                 protocol_date=protocol_date,
                 protocol_number=infProt.nProt,
-                file_response_xml=processo.processo_xml.decode("utf-8"),
+                file_response_xml=process.processo_xml.decode("utf-8"),
             )
         self.write(
             {
@@ -1274,25 +1268,25 @@ class CTe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_cte):
             if record.xml_error_message:
                 return
-            processador = record._processador()
+            processador = record._edoc_processor()
             for edoc in record.serialize():
-                processo = None
+                process = None
                 for p in processador.processar_documento(edoc):
-                    processo = p
-                    if processo.webservice == "cteRecepcaoLote":
+                    process = p
+                    if process.webservice == "cteRecepcaoLote":
                         record.authorization_event_id._save_event_file(
-                            processo.envio_xml, "xml"
+                            process.envio_xml, "xml"
                         )
 
-            if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
-                record.atualiza_status_cte(processo)
+            if process.resposta.cStat in LOTE_PROCESSADO + ["100"]:
+                record.update_status_cte(process)
 
-            elif processo.resposta.cStat in DENEGADO:
+            elif process.resposta.cStat in DENEGADO:
                 record._change_state(SITUACAO_EDOC_DENEGADA)
                 record.write(
                     {
-                        "status_code": processo.resposta.cStat,
-                        "status_name": processo.resposta.xMotivo,
+                        "status_code": process.resposta.cStat,
+                        "status_name": process.resposta.xMotivo,
                     }
                 )
 
@@ -1300,8 +1294,8 @@ class CTe(spec_models.StackedModel):
                 record._change_state(SITUACAO_EDOC_REJEITADA)
                 record.write(
                     {
-                        "status_code": processo.resposta.cStat,
-                        "status_name": processo.resposta.xMotivo,
+                        "status_code": process.resposta.cStat,
+                        "status_name": process.resposta.xMotivo,
                     }
                 )
 
@@ -1314,7 +1308,7 @@ class CTe(spec_models.StackedModel):
 
     def _cte_cancel(self):
         self.ensure_one()
-        processador = self._processador()
+        processador = self._edoc_processor()
 
         if not self.authorization_protocol:
             raise UserError(_("Authorization Protocol Not Found!"))
@@ -1324,17 +1318,17 @@ class CTe(spec_models.StackedModel):
             protocolo_autorizacao=self.authorization_protocol,
             justificativa=self.cancel_reason.replace("\n", "\\n"),
         )
-        processo = processador.enviar_lote_evento(lista_eventos=[evento])
+        process = processador.enviar_lote_evento(lista_eventos=[evento])
 
         self.cancel_event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment=(EVENT_ENV_PROD if self.cte40_tpAmb == "1" else EVENT_ENV_HML),
             event_type="2",
-            xml_file=processo.envio_xml,
+            xml_file=process.envio_xml,
             document_id=self,
         )
 
-        resposta = processo.resposta.infEvento
+        resposta = process.resposta.infEvento
 
         if resposta.cStat not in CANCELADO:
             mensagem = "Erro no cancelamento"
@@ -1356,7 +1350,7 @@ class CTe(spec_models.StackedModel):
                     datetime.fromisoformat(resposta.dhRegEvento)
                 ),
                 protocol_number=resposta.nProt,
-                file_response_xml=processo.retorno.content.decode("utf-8"),
+                file_response_xml=process.retorno.content.decode("utf-8"),
             )
 
     def _document_correction(self, justificative):
@@ -1368,7 +1362,7 @@ class CTe(spec_models.StackedModel):
 
     def _cte_correction(self, justificative):
         self.ensure_one()
-        processador = self._processador()
+        processador = self._edoc_processor()
 
         numeros = self.event_ids.filtered(
             lambda e: e.type == "14" and e.state == "done"
@@ -1382,19 +1376,19 @@ class CTe(spec_models.StackedModel):
             justificativa=justificative.replace("\n", "\\n"),
             sequencia=sequence,
         )
-        processo = processador.enviar_lote_evento(lista_eventos=[evento])
+        process = processador.enviar_lote_evento(lista_eventos=[evento])
         # Gravamos o arquivo no disco e no filestore ASAP.
         event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment=(EVENT_ENV_PROD if self.cte40_tpAmb == "1" else EVENT_ENV_HML),
             event_type="14",
-            xml_file=processo.envio_xml,
+            xml_file=process.envio_xml,
             document_id=self,
             sequence=sequence,
             justification=justificative,
         )
 
-        resposta = processo.resposta.infEvento
+        resposta = process.resposta.infEvento
 
         if resposta.cStat not in EVENTO_RECEBIDO and not (
             resposta.chCTe == self.document_key
@@ -1411,7 +1405,7 @@ class CTe(spec_models.StackedModel):
                 datetime.fromisoformat(resposta.dhRegEvento)
             ),
             protocol_number=resposta.nProt,
-            file_response_xml=processo.retorno.content.decode("utf-8"),
+            file_response_xml=process.retorno.content.decode("utf-8"),
         )
 
     def _document_qrcode(self):
@@ -1430,7 +1424,7 @@ class CTe(spec_models.StackedModel):
         # if self.document_type != MODELO_FISCAL_CTE:
         #     return
 
-        processador = self._processador()
+        processador = self._edoc_processor()
         # if self.nfe_transmission == "1":
         #     return processador.monta_qrcode(self.document_key)
         return processador.monta_qrcode(self.document_key)
@@ -1544,7 +1538,7 @@ class CTe(spec_models.StackedModel):
             )
             return None
 
-        processor = self._processador()
+        processor = self._edoc_processor()
 
         # Extract the <CTe> tag from the `enviCTe` message, which represents the CT-e
         xml_send = base64.b64decode(self.send_file_id.datas)
