@@ -9,7 +9,6 @@ from odoo.addons.spec_driven_model.models import spec_models
 class CTeCargoQuantityInfos(spec_models.SpecModel):
     _name = "l10n_br_cte.transported.vehicles"
     _inherit = "cte.40.veicnovos"
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
     _description = "Informações dos veículos transportados"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
