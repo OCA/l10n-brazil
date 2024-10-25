@@ -128,4 +128,4 @@ class CTeImportTest(SavepointCase):
             .build_fake(binding.infCte, create=False)
         )
 
-        self.assertEqual(cte.cte40_infCte.cte40_exped.cte40_CNPJ, "78408960000182")
+        self.assertEqual(cte.cte40_exped.cte40_CNPJ, "78408960000182")
