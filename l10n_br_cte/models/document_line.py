@@ -9,16 +9,14 @@ from odoo.addons.spec_driven_model.models import spec_models
 class CTeLine(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.line"
     _inherit = ["l10n_br_fiscal.document.line", "cte.40.tcte_vprest_comp"]
-    _stacked = "cte.40.tcte_vprest_comp"
-    _field_prefix = "cte40_"
-    _schema_name = "cte"
-    _schema_version = "4.0.0"
-    _odoo_module = "l10n_br_cte"
-    _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
-    _spec_tab_name = "CTe"
-    _stacking_points = {}
-    _stack_skip = ("cte40_Comp_vPrest_id",)
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
+
+    _cte40_odoo_module = (
+        "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
+    )
+    _cte40_stacking_mixin = "cte.40.tcte_vprest_comp"
+
+    # _stacking_points = {}
+    _cte40_stacking_skip_paths = ("cte40_Comp_vPrest_id",)
 
     ##########################
     # CT-e tag: comp

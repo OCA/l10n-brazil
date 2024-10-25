@@ -11,15 +11,12 @@ from ..constants.modal import TUF
 class Rodo(spec_models.StackedModel):
     _name = "l10n_br_cte.modal.rodo"
     _inherit = "cte.40.rodo"
-    _stacked = "cte.40.rodo"
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_rodoviario_v4_00"
-    _field_prefix = "cte40_"
-    _schema_name = "cte"
-    _schema_version = "4.0.0"
-    _odoo_module = "l10n_br_cte"
-    _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_rodoviario_v4_00"
-    _spec_tab_name = "CTe"
     _description = "Modal Rodoviario CTe"
+
+    _cte40_stacking_mixin = "cte.40.rodo"
+    _cte40_odoo_module = (
+        "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_rodoviario_v4_00"
+    )
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -31,15 +28,12 @@ class Rodo(spec_models.StackedModel):
 class Occ(spec_models.StackedModel):
     _name = "l10n_br_cte.modal.rodo.occ"
     _inherit = "cte.40.occ"
-    _stacked = "cte.40.occ"
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_modal_rodoviario_v4_00"
-    _field_prefix = "cte40_"
-    _schema_name = "cte"
-    _schema_version = "4.0.0"
-    _odoo_module = "l10n_br_cte"
-    _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_rodoviario_v4_00"
-    _spec_tab_name = "CTe"
     _description = "Ordens de Coleta associados"
+
+    _cte40_stacking_mixin = "cte.40.occ"
+    _cte40_odoo_module = (
+        "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_rodoviario_v4_00"
+    )
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
