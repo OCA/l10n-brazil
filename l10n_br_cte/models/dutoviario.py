@@ -12,7 +12,9 @@ class Duto(spec_models.StackedModel):
     _description = "Modal Dutoviario CTe"
 
     _cte40_stacking_mixin = "cte.40.duto"
-    _cte40_odoo_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_duto_v4_00"
+    _cte40_odoo_module = (
+        "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_dutoviario_v4_00"
+    )
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 

@@ -20,13 +20,13 @@ def post_init_hook(cr, registry):
         res_items = (
             "cte",
             "samples",
-            "v3_0",
+            "v4_0",
             "43120178408960000182570010000000041000000047-cte.xml",
         )
         resource_path = "/".join(res_items)
         doc_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
         binding = Tcte.from_xml(doc_stream.read().decode())
-        document_number = binding.infCte.ide.nCTE
+        document_number = binding.infCte.ide.nCT
         existing_docs = env["l10n_br_fiscal.document"].search(
             [("document_number", "=", document_number)]
         )
@@ -35,7 +35,7 @@ def post_init_hook(cr, registry):
             doc = (
                 env["cte.40.tcte_infcte"]
                 .with_context(tracking_disable=True, edoc_type="in")
-                .build_from_binding("cte", "40", binding.infMDFe)
+                .build_from_binding("cte", "40", binding.infCte)
             )
             _logger.info(doc.cte40_emit.cte40_CNPJ)
         except ValidationError:
