@@ -29,7 +29,7 @@
         "views/cte_document.xml",
         "wizards/document_correction_wizard.xml",
     ],
-    "post_init_hook": "post_init_hook",
+    # "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,
     "external_dependencies": {
