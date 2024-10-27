@@ -379,6 +379,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 nbs=self.nbs_id,
                 cest=self.cest_id,
                 city_taxation_code=self.city_taxation_code_id,
+                service_type=self.service_type_id,
                 ind_final=self.ind_final,
             )
 
