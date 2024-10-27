@@ -216,6 +216,14 @@ class TaxDefinition(models.Model):
         string="City Taxation Codes",
     )
 
+    service_type_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.service.type",
+        relation="tax_definition_service_type_rel",
+        column1="tax_definition_id",
+        column2="service_type_id",
+        string="Fiscal Service Types",
+    )
+
     ind_final = fields.Selection(
         selection=FINAL_CUSTOMER,
         string="Final Consumption Operation",
@@ -423,6 +431,7 @@ class TaxDefinition(models.Model):
         nbs=None,
         cest=None,
         city_taxation_code=None,
+        service_type=None,
     ):
         if not ncm:
             ncm = product.ncm_id
@@ -451,6 +460,9 @@ class TaxDefinition(models.Model):
             "|",
             ("city_taxation_code_ids", "=", False),
             ("city_taxation_code_ids", "=", city_taxation_code.id),
+            "|",
+            ("service_type_ids", "=", False),
+            ("service_type_ids", "=", service_type.id),
             "|",
             ("product_ids", "=", False),
             ("product_ids", "=", product.id),

@@ -108,15 +108,12 @@
                         string="Tax Benefit"
                         attrs="{'invisible': [('is_benefit', '=', False)]}"
                     >
-                <field
-                            name="code"
-                            attrs="{'required': [('is_benefit', '!=', False)]}"
-                        />
-                <field
+            <field name="code" attrs="{'required': [('is_benefit', '!=', False)]}" />
+            <field
                             name="description"
                             attrs="{'required': [('is_benefit', '!=', False)]}"
                         />
-                <field
+            <field
                             name="benefit_type"
                             attrs="{'required': [('is_benefit', '!=', False)]}"
                         />
@@ -210,22 +207,27 @@
                                 />
               </group>
             </page>
+            <page name="service_types_page" string="Fiscal Service Type">
+              <group name="service_types" string="Fiscal Service Types">
+                <field name="service_type_ids" force_save="1" nolabel="1" colspan="2" />
+              </group>
+            </page>
             <page name="products_page" string="Product">
               <group name="products" string="Products">
                 <field name="product_ids" force_save="1" nolabel="1" colspan="2" />
               </group>
             </page>
             <page name="fiscal_profile_page" string="Fiscal Profile">
-                <group name="fiscal_profile" string="Fiscal Profile">
-                    <field name="ind_final" />
-                </group>
+              <group name="fiscal_profile" string="Fiscal Profile">
+                <field name="ind_final" />
+              </group>
             </page>
           </notebook>
         </sheet>
         <div class="oe_chatter">
-            <field name="message_follower_ids" groups="base.group_user" />
-            <field name="activity_ids" />
-            <field name="message_ids" />
+          <field name="message_follower_ids" groups="base.group_user" />
+          <field name="activity_ids" />
+          <field name="message_ids" />
         </div>
       </form>
     </field>
