@@ -143,6 +143,7 @@
                                     name="tax_definition_ids"
                                     nolabel="1"
                                     context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_company_id': id}"
+                                    colspan="2"
                                 />
                             </group>
                         </page>
