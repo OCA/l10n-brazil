@@ -12,7 +12,7 @@ from xsdata.formats.dataclass.parsers import XmlParser
 from odoo import api
 from odoo.tests import TransactionCase
 
-from ..models import spec_models
+from ..models import spec_mixin
 
 tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
 
@@ -116,10 +116,10 @@ def match_or_create_m2o_fake(self, comodel, new_value, create_m2o=False):
     return comodel.new(new_value).id
 
 
-# spec_models.CteSpecMixin._update_cache = _update_cache
-spec_models.CteSpecMixin.build_fake = build_fake
-spec_models.CteSpecMixin.build_attrs_fake = build_attrs_fake
-spec_models.CteSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
+# spec_mixin.CteSpecMixin._update_cache = _update_cache
+spec_mixin.CteSpecMixin.build_fake = build_fake
+spec_mixin.CteSpecMixin.build_attrs_fake = build_attrs_fake
+spec_mixin.CteSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
 
 
 class CTeImportTest(TransactionCase):
