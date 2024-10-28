@@ -37,7 +37,7 @@ def build_attrs_fake(self, node, create_m2o=False):
         value = getattr(node, fname)
         if value is None:
             continue
-        key = f"cte40_{fspec.metadata.get('name', fname)}"
+        key = f"cte40_{fname}"
         if (
             fspec.type == str or not any(["." in str(i) for i in fspec.type.__args__])
         ) and not str(fspec.type).startswith("typing.List"):
@@ -65,8 +65,12 @@ def build_attrs_fake(self, node, create_m2o=False):
                 clean_type = binding_type.lower()
                 comodel_name = f"cte.40.{clean_type.split('.')[-1]}"
             comodel = self.env.get(comodel_name)
+
             if comodel is None:  # example skip ICMS100 class
-                continue
+                comodel_name = f"cte.40.tcte_{clean_type.split('.')[-1]}"
+                comodel = self.env.get(comodel_name)
+                if comodel is None:
+                    continue
 
             if not str(fspec.type).startswith("typing.List"):
                 # m2o
