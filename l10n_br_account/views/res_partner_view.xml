@@ -23,7 +23,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 >
                     <field name="show_l10n_br" invisible="1" />
-                    <field name="pix_key_ids" nolabel="1">
+                    <field name="pix_key_ids" nolabel="1" colspan="2">
                         <tree editable="bottom">
                             <field name="partner_id" invisible="1" />
                             <field name="sequence" widget="handle" />
