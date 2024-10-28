@@ -72,7 +72,7 @@
                         <field name="tax_cofins_st_id" />
                     </group>
                     <group name="ncms" string="Related NCMs">
-                        <field name="ncm_ids" nolabel="1" />
+                        <field name="ncm_ids" nolabel="1" colspan="2" />
                     </group>
                 </sheet>
             </form>

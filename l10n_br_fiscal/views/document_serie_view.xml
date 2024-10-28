@@ -46,6 +46,7 @@
                             name="invalidate_number_id"
                             nolabel="1"
                             context="{'default_document_serie_id': id}"
+                            colspan="2"
                         />
                     </group>
                 </sheet>
