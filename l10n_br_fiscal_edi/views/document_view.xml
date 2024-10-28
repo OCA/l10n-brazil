@@ -59,7 +59,7 @@
                         </field>
                     </group>
                     <group name="events" string="Events and Services" colspan="4">
-                        <field name="event_ids" nolabel="1">
+                        <field name="event_ids" nolabel="1" colspan="2">
                             <tree>
                                 <field name="id" />
                                 <field name="type" />
