@@ -891,10 +891,10 @@ class TunidCarga(models.AbstractModel):
     _binding_type = "TunidCarga"
 
     cte40_infUnidCarga_infNF_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infnf", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infnf", xsd_implicit=True, ondelete="cascade"
     )
     cte40_infUnidCarga_infNFe_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infnfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infnfe", xsd_implicit=True, ondelete="cascade"
     )
     cte40_infUnidCarga_infOutros_id = fields.Many2one(
         comodel_name="cte.40.infoutros", xsd_implicit=True, ondelete="cascade"
@@ -3023,10 +3023,10 @@ class TunidadeTransp(models.AbstractModel):
     _binding_type = "TunidadeTransp"
 
     cte40_infUnidTransp_infNF_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infnf", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infnf", xsd_implicit=True, ondelete="cascade"
     )
     cte40_infUnidTransp_infNFe_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infnfe", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infnfe", xsd_implicit=True, ondelete="cascade"
     )
     cte40_infUnidTransp_infOutros_id = fields.Many2one(
         comodel_name="cte.40.infoutros", xsd_implicit=True, ondelete="cascade"
@@ -3103,13 +3103,13 @@ class Tcte(models.AbstractModel):
     _binding_type = "Tcte"
 
     cte40_infCte = fields.Many2one(
-        comodel_name="cte.40.tcte_infcte",
+        comodel_name="cte.40.infcte",
         string="Informações do CT-e",
         xsd_required=True,
     )
 
     cte40_infCTeSupl = fields.Many2one(
-        comodel_name="cte.40.tcte_infctesupl",
+        comodel_name="cte.40.infctesupl",
         string="Informações suplementares do CT-e",
     )
 
@@ -3117,30 +3117,30 @@ class Tcte(models.AbstractModel):
 class TcteInfCte(models.AbstractModel):
     "Informações do CT-e do tipo GTV-e"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infcte"
+    _name = "cte.40.infcte"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte"
 
     cte40_ide = fields.Many2one(
-        comodel_name="cte.40.tcte_ide",
+        comodel_name="cte.40.ide",
         string="Identificação do CT-e",
         xsd_required=True,
     )
 
     cte40_compl = fields.Many2one(
-        comodel_name="cte.40.tcte_compl",
+        comodel_name="cte.40.compl",
         string="Dados complementares do CT-e",
         help=("Dados complementares do CT-e para fins operacionais ou comerciais"),
     )
 
     cte40_emit = fields.Many2one(
-        comodel_name="cte.40.tcte_emit",
+        comodel_name="cte.40.emit",
         string="Identificação do Emitente do CT-e",
         xsd_required=True,
     )
 
     cte40_rem = fields.Many2one(
-        comodel_name="cte.40.tcte_rem",
+        comodel_name="cte.40.rem",
         string="Informações do Remetente",
         help=(
             "Informações do Remetente das mercadorias transportadas pelo "
@@ -3159,7 +3159,7 @@ class TcteInfCte(models.AbstractModel):
     )
 
     cte40_dest = fields.Many2one(
-        comodel_name="cte.40.tcte_dest",
+        comodel_name="cte.40.dest",
         string="Informações do Destinatário do CT-e",
         help=(
             "Informações do Destinatário do CT-e\nPoderá não ser informado "
@@ -3169,19 +3169,19 @@ class TcteInfCte(models.AbstractModel):
     )
 
     cte40_vPrest = fields.Many2one(
-        comodel_name="cte.40.tcte_vprest",
+        comodel_name="cte.40.vprest",
         string="Valores da Prestação de Serviço",
         xsd_required=True,
     )
 
     cte40_imp = fields.Many2one(
-        comodel_name="cte.40.tcte_imp",
+        comodel_name="cte.40.imp",
         string="Informações relativas aos Impostos",
         xsd_required=True,
     )
 
     cte40_infCTeNorm = fields.Many2one(
-        comodel_name="cte.40.tcte_infctenorm",
+        comodel_name="cte.40.infctenorm",
         string="Grupo de informações do CT-e Normal",
         choice="infcte",
         xsd_choice_required=True,
@@ -3189,7 +3189,7 @@ class TcteInfCte(models.AbstractModel):
     )
 
     cte40_infCteComp = fields.One2many(
-        "cte.40.tcte_infctecomp",
+        "cte.40.infctecomp",
         "cte40_infCteComp_infCte_id",
         string="Detalhamento do CT-e complementado",
         choice="infcte",
@@ -3197,7 +3197,7 @@ class TcteInfCte(models.AbstractModel):
     )
 
     cte40_autXML = fields.One2many(
-        "cte.40.tcte_autxml",
+        "cte.40.autxml",
         "cte40_autXML_infCte_id",
         string="Autorizados para download do XML do DF-e",
         help=(
@@ -3214,13 +3214,13 @@ class TcteInfCte(models.AbstractModel):
     )
 
     cte40_infSolicNFF = fields.Many2one(
-        comodel_name="cte.40.tcte_infsolicnff",
+        comodel_name="cte.40.infsolicnff",
         string="Grupo de informações do pedido",
         help=("Grupo de informações do pedido de emissão da Nota Fiscal Fácil"),
     )
 
     cte40_infPAA = fields.Many2one(
-        comodel_name="cte.40.tcte_infpaa",
+        comodel_name="cte.40.infpaa",
         string="Grupo de Informação do Provedor",
         help="Grupo de Informação do Provedor de Assinatura e Autorização",
     )
@@ -3244,7 +3244,7 @@ class TcteInfCte(models.AbstractModel):
 class TcteIde(models.AbstractModel):
     "Identificação da GTV-e"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_ide"
+    _name = "cte.40.ide"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Ide"
 
@@ -3527,7 +3527,7 @@ class TcteIde(models.AbstractModel):
     )
 
     cte40_toma4 = fields.Many2one(
-        comodel_name="cte.40.tcte_toma4",
+        comodel_name="cte.40.toma4",
         string="Indicador do 'papel' do tomador (toma4)",
         choice="ide",
         xsd_choice_required=True,
@@ -3572,7 +3572,7 @@ class TcteToma4(models.AbstractModel):
     """Indicador do "papel" do tomador do serviço no CT-e"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_toma4"
+    _name = "cte.40.toma4"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Ide.Toma4"
 
@@ -3638,7 +3638,7 @@ class TcteToma4(models.AbstractModel):
 class TcteCompl(models.AbstractModel):
     "Dados complementares da GTV-e para fins operacionais ou comerciais"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_compl"
+    _name = "cte.40.compl"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Compl"
 
@@ -3689,7 +3689,7 @@ class TcteCompl(models.AbstractModel):
     cte40_xObs = fields.Char(string="Observações Gerais")
 
     cte40_obsCont = fields.One2many(
-        "cte.40.tcte_obscont",
+        "cte.40.obscont",
         "cte40_ObsCont_compl_id",
         string="Campo de uso livre do contribuinte",
         help=(
@@ -3699,7 +3699,7 @@ class TcteCompl(models.AbstractModel):
     )
 
     cte40_obsFisco = fields.One2many(
-        "cte.40.tcte_obsfisco",
+        "cte.40.obsfisco",
         "cte40_ObsFisco_compl_id",
         string="ObsFisco",
         help=(
@@ -3974,12 +3974,12 @@ class TcteObsCont(models.AbstractModel):
     Informar o nome do campo no atributo xCampo e o conteúdo do campo no XTexto"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_obscont"
+    _name = "cte.40.obscont"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Compl.ObsCont"
 
     cte40_ObsCont_compl_id = fields.Many2one(
-        comodel_name="cte.40.tcte_compl", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.compl", xsd_implicit=True, ondelete="cascade"
     )
     cte40_xTexto = fields.Char(string="Conteúdo do campo", xsd_required=True)
 
@@ -3991,12 +3991,12 @@ class TcteObsFisco(models.AbstractModel):
     Informar o nome do campo no atributo xCampo e o conteúdo do campo no XTexto"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_obsfisco"
+    _name = "cte.40.obsfisco"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Compl.ObsFisco"
 
     cte40_ObsFisco_compl_id = fields.Many2one(
-        comodel_name="cte.40.tcte_compl", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.compl", xsd_implicit=True, ondelete="cascade"
     )
     cte40_xTexto = fields.Char(string="Conteúdo do campo", xsd_required=True)
 
@@ -4006,7 +4006,7 @@ class TcteObsFisco(models.AbstractModel):
 class TcteEmit(models.AbstractModel):
     "Identificação do Emitente da GTV-e"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_emit"
+    _name = "cte.40.emit"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Emit"
 
@@ -4073,7 +4073,7 @@ class TcteRem(models.AbstractModel):
     vinculado a multimodal. Nos demais casos deverá sempre ser informado."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_rem"
+    _name = "cte.40.rem"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Rem"
 
@@ -4236,7 +4236,7 @@ class TcteDest(models.AbstractModel):
     vinculado a multimodal. Nos demais casos deverá sempre ser informado."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_dest"
+    _name = "cte.40.dest"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Dest"
 
@@ -4298,7 +4298,7 @@ class TcteDest(models.AbstractModel):
 class TcteVPrest(models.AbstractModel):
     "Valores da Prestação de Serviço"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_vprest"
+    _name = "cte.40.vprest"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.VPrest"
 
@@ -4321,7 +4321,7 @@ class TcteVPrest(models.AbstractModel):
     )
 
     cte40_comp = fields.One2many(
-        "cte.40.tcte_vprest_comp",
+        "cte.40.vprest_comp",
         "cte40_Comp_vPrest_id",
         string="Componentes do Valor da Prestação",
     )
@@ -4330,12 +4330,12 @@ class TcteVPrest(models.AbstractModel):
 class TcteVPrestComp(models.AbstractModel):
     "Componentes do Valor da Prestação"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_vprest_comp"
+    _name = "cte.40.vprest_comp"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.VPrest.Comp"
 
     cte40_Comp_vPrest_id = fields.Many2one(
-        comodel_name="cte.40.tcte_vprest", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.vprest", xsd_implicit=True, ondelete="cascade"
     )
     cte40_xNome = fields.Char(
         string="Nome do componente",
@@ -4357,7 +4357,7 @@ class TcteVPrestComp(models.AbstractModel):
 class TcteImp(models.AbstractModel):
     "Informações relativas aos Impostos"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_imp"
+    _name = "cte.40.imp"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.Imp"
 
@@ -4388,12 +4388,12 @@ class TcteAutXml(models.AbstractModel):
     Informar CNPJ ou CPF. Preencher os zeros não significativos."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_autxml"
+    _name = "cte.40.autxml"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.AutXml"
 
     cte40_autXML_infCte_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infcte", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infcte", xsd_implicit=True, ondelete="cascade"
     )
     cte40_CNPJ = fields.Char(
         string="CNPJ do autorizado",
@@ -4415,7 +4415,7 @@ class TcteAutXml(models.AbstractModel):
 class TcteInfSolicNff(models.AbstractModel):
     "Grupo de informações do pedido de emissão da Nota Fiscal Fácil"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infsolicnff"
+    _name = "cte.40.infsolicnff"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfSolicNff"
 
@@ -4433,7 +4433,7 @@ class TcteInfSolicNff(models.AbstractModel):
 class TcteInfPaa(models.AbstractModel):
     "Grupo de Informação do Provedor de Assinatura e Autorização"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infpaa"
+    _name = "cte.40.infpaa"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfPaa"
 
@@ -4445,7 +4445,7 @@ class TcteInfPaa(models.AbstractModel):
     )
 
     cte40_PAASignature = fields.Many2one(
-        comodel_name="cte.40.tcte_paasignature",
+        comodel_name="cte.40.paasignature",
         string="Assinatura RSA do Emitente",
         xsd_required=True,
         help="Assinatura RSA do Emitente para DFe gerados por PAA",
@@ -4455,7 +4455,7 @@ class TcteInfPaa(models.AbstractModel):
 class TctePaasignature(models.AbstractModel):
     "Assinatura RSA do Emitente para DFe gerados por PAA"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_paasignature"
+    _name = "cte.40.paasignature"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfPaa.Paasignature"
 
@@ -4481,7 +4481,7 @@ class TctePaasignature(models.AbstractModel):
 class TcteInfCteNorm(models.AbstractModel):
     "Grupo de informações do CT-e Normal e Substituto"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infctenorm"
+    _name = "cte.40.infctenorm"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm"
 
@@ -4492,7 +4492,7 @@ class TcteInfCteNorm(models.AbstractModel):
     )
 
     cte40_infDoc = fields.Many2one(
-        comodel_name="cte.40.tcte_infdoc",
+        comodel_name="cte.40.infdoc",
         string="Informações dos documentos transportados",
         help=(
             "Informações dos documentos transportados pelo CT-e\nOpcional para"
@@ -4508,7 +4508,7 @@ class TcteInfCteNorm(models.AbstractModel):
     )
 
     cte40_infModal = fields.Many2one(
-        comodel_name="cte.40.tcte_infmodal",
+        comodel_name="cte.40.infmodal",
         string="Informações do modal",
         xsd_required=True,
     )
@@ -4520,11 +4520,11 @@ class TcteInfCteNorm(models.AbstractModel):
     )
 
     cte40_cobr = fields.Many2one(
-        comodel_name="cte.40.tcte_cobr", string="Dados da cobrança do CT-e"
+        comodel_name="cte.40.cobr", string="Dados da cobrança do CT-e"
     )
 
     cte40_infCteSub = fields.Many2one(
-        comodel_name="cte.40.tcte_infctesub",
+        comodel_name="cte.40.infctesub",
         string="Informações do CT-e de substituição",
     )
 
@@ -4571,7 +4571,7 @@ class InfCarga(models.AbstractModel):
     )
 
     cte40_infQ = fields.One2many(
-        "cte.40.tcte_infq",
+        "cte.40.infq",
         "cte40_infQ_infCarga_id",
         string="Informações de quantidades da Carga",
         help=(
@@ -4610,7 +4610,7 @@ class TcteInfQ(models.AbstractModel):
     Aéreo)."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infq"
+    _name = "cte.40.infq"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.InfCarga.InfQ"
 
@@ -4659,12 +4659,12 @@ class TcteInfDoc(models.AbstractModel):
     vinculado a multimodal. Nos demais casos deverá sempre ser informado."""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infdoc"
+    _name = "cte.40.infdoc"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.InfDoc"
 
     cte40_infNF = fields.One2many(
-        "cte.40.tcte_infnf",
+        "cte.40.infnf",
         "cte40_infNF_infDoc_id",
         string="Informações das NF",
         choice="infdoc",
@@ -4676,7 +4676,7 @@ class TcteInfDoc(models.AbstractModel):
     )
 
     cte40_infNFe = fields.One2many(
-        "cte.40.tcte_infnfe",
+        "cte.40.infnfe",
         "cte40_infNFe_infDoc_id",
         string="Informações das NF-e",
         choice="infdoc",
@@ -4697,12 +4697,12 @@ class TcteInfNf(models.AbstractModel):
     Este grupo deve ser informado quando o documento originário for NF"""
 
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infnf"
+    _name = "cte.40.infnf"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.InfDoc.InfNf"
 
     cte40_infNF_infDoc_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infdoc", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infdoc", xsd_implicit=True, ondelete="cascade"
     )
     cte40_nRoma = fields.Char(string="Número do Romaneio da NF")
 
@@ -4836,12 +4836,12 @@ class TcteInfNf(models.AbstractModel):
 class TcteInfNfe(models.AbstractModel):
     "Informações das NF-e"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infnfe"
+    _name = "cte.40.infnfe"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.InfDoc.InfNfe"
 
     cte40_infNFe_infDoc_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infdoc", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infdoc", xsd_implicit=True, ondelete="cascade"
     )
     cte40_chave = fields.Char(
         string="Chave de acesso da NF-e", xsd_required=True, xsd_type="TChDFe"
@@ -4897,7 +4897,7 @@ class InfOutros(models.AbstractModel):
     _binding_type = "Tcte.InfCte.InfCteNorm.InfDoc.InfOutros"
 
     cte40_infOutros_infDoc_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infdoc", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infdoc", xsd_implicit=True, ondelete="cascade"
     )
     cte40_tpDoc = fields.Selection(
         INFOUTROS_TPDOC,
@@ -5113,7 +5113,7 @@ class IdDocAntEle(models.AbstractModel):
 class TcteInfModal(models.AbstractModel):
     "Informações do modal"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infmodal"
+    _name = "cte.40.infmodal"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.InfModal"
 
@@ -5132,7 +5132,7 @@ class VeicNovos(models.AbstractModel):
     _binding_type = "Tcte.InfCte.InfCteNorm.VeicNovos"
 
     cte40_veicNovos_infCTeNorm_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infctenorm", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infctenorm", xsd_implicit=True, ondelete="cascade"
     )
     cte40_chassi = fields.Char(string="Chassi do veículo", xsd_required=True)
 
@@ -5168,23 +5168,23 @@ class VeicNovos(models.AbstractModel):
 class TcteCobr(models.AbstractModel):
     "Dados da cobrança do CT-e"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_cobr"
+    _name = "cte.40.cobr"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.Cobr"
 
     cte40_fat = fields.Many2one(
-        comodel_name="cte.40.tcte_fat", string="Dados da fatura"
+        comodel_name="cte.40.fat", string="Dados da fatura"
     )
 
     cte40_dup = fields.One2many(
-        "cte.40.tcte_dup", "cte40_dup_cobr_id", string="Dados das duplicatas"
+        "cte.40.dup", "cte40_dup_cobr_id", string="Dados das duplicatas"
     )
 
 
 class TcteFat(models.AbstractModel):
     "Dados da fatura"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_fat"
+    _name = "cte.40.fat"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.Cobr.Fat"
 
@@ -5212,12 +5212,12 @@ class TcteFat(models.AbstractModel):
 class TcteDup(models.AbstractModel):
     "Dados das duplicatas"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_dup"
+    _name = "cte.40.dup"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.Cobr.Dup"
 
     cte40_dup_cobr_id = fields.Many2one(
-        comodel_name="cte.40.tcte_cobr", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.cobr", xsd_implicit=True, ondelete="cascade"
     )
     cte40_nDup = fields.Char(string="Número da duplicata")
 
@@ -5237,7 +5237,7 @@ class TcteDup(models.AbstractModel):
 class TcteInfCteSub(models.AbstractModel):
     "Informações do CT-e de substituição"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infctesub"
+    _name = "cte.40.infctesub"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteNorm.InfCteSub"
 
@@ -5300,12 +5300,12 @@ class InfCteMultimodal(models.AbstractModel):
 class TcteInfCteComp(models.AbstractModel):
     "Detalhamento do CT-e complementado"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infctecomp"
+    _name = "cte.40.infctecomp"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCte.InfCteComp"
 
     cte40_infCteComp_infCte_id = fields.Many2one(
-        comodel_name="cte.40.tcte_infcte", xsd_implicit=True, ondelete="cascade"
+        comodel_name="cte.40.infcte", xsd_implicit=True, ondelete="cascade"
     )
     cte40_chCTe = fields.Char(
         string="Chave do CT-e complementado", xsd_required=True, xsd_type="TChDFe"
@@ -5315,7 +5315,7 @@ class TcteInfCteComp(models.AbstractModel):
 class TcteInfCteSupl(models.AbstractModel):
     "Informações suplementares da GTV-e"
     _description = textwrap.dedent("    %s" % (__doc__,))
-    _name = "cte.40.tcte_infctesupl"
+    _name = "cte.40.infctesupl"
     _inherit = "spec.mixin.cte"
     _binding_type = "Tcte.InfCteSupl"
 
