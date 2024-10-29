@@ -141,7 +141,7 @@ class ResPartner(spec_models.SpecModel):
     def _inverse_cte40_fone(self):
         for rec in self:
             if rec.cte40_fone:
-                rec.phone = rec.nfe40_fone
+                rec.phone = rec.cte40_fone
 
     def _compute_cep(self):
         for rec in self:
