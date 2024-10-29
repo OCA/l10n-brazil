@@ -26,7 +26,7 @@ class CTeImportTest(SavepointCase):
         binding = Tcte.from_xml(cte_stream.read().decode())
 
         cte = (
-            self.env["cte.40.tcte_infcte"]
+            self.env["cte.40.infcte"]
             .with_context(tracking_disable=True, edoc_type="in")
             .build_from_binding("cte", "40", binding.infCte, dry_run=True)
         )
@@ -44,7 +44,7 @@ class CTeImportTest(SavepointCase):
         cte_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
         binding = Tcte.from_xml(cte_stream.read().decode())
         cte = (
-            self.env["cte.40.tcte_infcte"]
+            self.env["cte.40.infcte"]
             .with_context(tracking_disable=True, edoc_type="in")
             .build_from_binding("cte", "40", binding.infCte, dry_run=False)
         )

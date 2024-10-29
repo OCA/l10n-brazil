@@ -4,7 +4,9 @@ import logging
 
 import nfelib
 import pkg_resources
-from nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00 import Tcte
+
+# from nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00 import Tcte
+from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo import SUPERUSER_ID, api
 from odoo.exceptions import ValidationError
@@ -33,7 +35,7 @@ def post_init_hook(cr, registry):
         try:
             existing_docs.unlink()
             doc = (
-                env["cte.40.tcte_infcte"]
+                env["cte.40.infcte"]
                 .with_context(tracking_disable=True, edoc_type="in")
                 .build_from_binding("cte", "40", binding.infCte)
             )

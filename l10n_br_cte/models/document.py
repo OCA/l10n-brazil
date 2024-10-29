@@ -1549,3 +1549,44 @@ class CTe(spec_models.StackedModel):
         proc_xml = processor.monta_cte_proc(doc=doc_element, prot=prot_element)
 
         return proc_xml
+
+    # @api.model
+    # def _get_attr_name(self, attr):
+    #     if self._module != "l10n_br_cte":
+    #         return super()._get_attr_name(attr)
+    #     return attr[0]
+
+    # @api.model
+    # def _get_concrete_model(self, model_name):
+    #     result = super()._get_concrete_model(model_name)
+    #     if self._module == "l10n_br_cte" and not result:
+    #         model_type = model_name.split(".")[-1]
+    #         model_name = model_name.rpartition(".")[0] + ".tcte_" + model_type
+    #         result = self.env.get(model_name)
+    #     return result
+
+    # def _build_attr(self, node, fields, vals, path, attr):
+    #     key = "cte40_%s" % (attr[0],)  # TODO schema wise
+    #     value = getattr(node, attr[0])
+
+    #     # if attr[0] == "any_element":  # build modal
+    #     #     modal_id = self._get_modal_to_build(node.any_element.__module__)
+    #     #     if modal_id is False:
+    #     #         return
+
+    #     #     modal_attrs = modal_id.build_attrs(value, path=path)
+    #     #     for chave, valor in modal_attrs.items():
+    #     #         vals[chave] = valor
+    #     #     return
+
+    #     if key == "cte40_mod":
+    #         if isinstance(value, Enum):
+    #             value = value.value
+
+    #         vals["document_type_id"] = (
+    #             self.env["l10n_br_fiscal.document.type"]
+    #             .search([("code", "=", value)], limit=1)
+    #             .id
+    #         )
+
+    #     return super()._build_attr(node, fields, vals, path, attr)
