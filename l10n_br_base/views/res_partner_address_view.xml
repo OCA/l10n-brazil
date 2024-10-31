@@ -6,7 +6,8 @@
         <field name="model">res.partner</field>
         <field name="priority">999</field>
         <field name="arch" type="xml">
-            <form>
+            <!-- Leaving padding as 0 because it is getting unnecessary spacing -->
+            <form style="padding: 0 !important;">
                 <div class="o_address_format">
                     <field name="street" class="oe_read_only" invisible="1" />
                     <field
