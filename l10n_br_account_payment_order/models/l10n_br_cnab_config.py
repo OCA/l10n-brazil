@@ -43,6 +43,7 @@ class L10nBRCNABConfig(models.Model):
         comodel_name="ir.sequence",
         string="Sequencia do Arquivo CNAB",
         tracking=True,
+        copy=False,
     )
 
     bank_id = fields.Many2one(
