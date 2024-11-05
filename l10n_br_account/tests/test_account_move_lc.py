@@ -675,6 +675,82 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             move_vals,
         )
 
+    def test_venda_additional_values_included(self):
+        """Tests the inclusion of additional values in IPI tax base and price."""
+        fopl_id = self.env.ref("l10n_br_fiscal.fo_venda_venda")
+
+        # Setup invoice
+        additional_values_invoice = self.init_invoice(
+            "out_invoice",
+            products=[self.product_a],
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            document_serie_id=self.empresa_lc_document_55_serie_1,
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_venda"),
+            fiscal_operation_lines=[fopl_id],
+        )
+
+        additional_values_invoice.invoice_line_ids[0].freight_value = 100
+        additional_values_invoice.invoice_line_ids[0].insurance_value = 100
+        additional_values_invoice.invoice_line_ids[0].other_value = 100
+
+        additional_values_invoice.invoice_line_ids._onchange_fiscal_taxes()
+        additional_values_invoice.line_ids._compute_amounts()
+        additional_values_invoice.invoice_line_ids.with_context(
+            check_move_validity=False
+        )._onchange_price_subtotal()
+        additional_values_invoice.with_context(
+            check_move_validity=False
+        )._recompute_dynamic_lines(recompute_all_taxes=True)
+        additional_values_invoice.line_ids._onchange_price_subtotal()
+        additional_values_invoice._check_balanced()
+
+        # Expected inclusive value calculation
+        # expected = (1 + ipi_mult) * (price_unit + additional_value)
+        # expected = (1 + 0.05) * (1000 + 300)
+        expected = 1365
+
+        self.assertEqual(additional_values_invoice.amount_total, expected)
+
+    def test_venda_additional_values_force_excluded(self):
+        """Tests forced exclusion of additional values in IPI tax base."""
+        fopl_id = self.env.ref("l10n_br_fiscal.fo_venda_venda")
+        fopl_id.additional_values_definition = "do_not_add"
+
+        # Setup invoice
+        additional_values_invoice = self.init_invoice(
+            "out_invoice",
+            products=[self.product_a],
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            document_serie_id=self.empresa_lc_document_55_serie_1,
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_venda"),
+            fiscal_operation_lines=[fopl_id],
+        )
+
+        additional_values_invoice.invoice_line_ids[0].freight_value = 100
+        additional_values_invoice.invoice_line_ids[0].insurance_value = 100
+        additional_values_invoice.invoice_line_ids[0].other_value = 100
+
+        additional_values_invoice.invoice_line_ids._onchange_fiscal_taxes()
+        additional_values_invoice.line_ids._compute_amounts()
+        additional_values_invoice.invoice_line_ids.with_context(
+            check_move_validity=False
+        )._onchange_price_subtotal()
+        additional_values_invoice.with_context(
+            check_move_validity=False
+        )._recompute_dynamic_lines(recompute_all_taxes=True)
+        additional_values_invoice.line_ids._onchange_price_subtotal()
+        additional_values_invoice._check_balanced()
+
+        # Expected non-inclusive value calculation
+        # expected = (1 + ipi_mult) * price_unit + additional_value
+        # expected = (1 + 0.05) * 1000 + 300
+        expected = 1350
+
+        self.assertEqual(additional_values_invoice.amount_total, expected)
+
+        # Reset FOPL additional values config
+        fopl_id.additional_values_definition = "tax"
+
     def test_simples_remessa(self):
         product_line_vals_1 = {
             "name": self.product_a.display_name,
