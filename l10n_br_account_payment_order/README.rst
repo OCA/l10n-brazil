@@ -50,10 +50,10 @@ Installation
 
 This module depends on:
 
--  l10n_br_base
--  account_payment_order
--  account_due_list
--  account_cancel
+- l10n_br_base
+- account_payment_order
+- account_due_list
+- account_cancel
 
 Configuration
 =============
@@ -61,10 +61,10 @@ Configuration
 Verifique se o Banco e o tipo CNAB usado 240 ou 400 possuem os Códigos
 de Instrução do Movimento e os Códigos de Retorno do Movimento em:
 
--  Faturamento > Configurações > Administração > CNAB Código de
-   Movimento de Instrução
--  Faturamento > Configurações > Administração > CNAB Código de Retorno
-   do Movimento
+- Faturamento > Configurações > Administração > CNAB Código de Movimento
+  de Instrução
+- Faturamento > Configurações > Administração > CNAB Código de Retorno
+  do Movimento
 
 Caso seja preciso cadastrar por favor considere fazer um PR nesse modulo
 acrescentando em
@@ -73,7 +73,7 @@ em proximas implementações já não será preciso cadastra-los.
 
 Informe os dados do CNAB usado no cadastro do:
 
-   -  Faturamento > Configurações > Administração > Modos de Pagamento
+   - Faturamento > Configurações > Administração > Modos de Pagamento
 
 Verifique as permissões de acesso dos usuários que vão utilizar o CNAB,
 existe o Usuário e o Gerente CNAB.
@@ -109,48 +109,47 @@ modulo onde é definida a biblioteca a ser utilizada.
 Known issues / Roadmap
 ======================
 
--  Verificar a questão do campos many2many que não estão sendo
-   registrados pelo track_visibility e se será incluída a dependendecia
-   https://github.com/OCA/social/tree/12.0/mail_improved_tracking_value
-   ( confirmar o problema na v14 ).
--  Processo de Alteração de Carteira, falta informações sobre o
-   processo.
--  Mapear e incluir os codigos dos bancos de cada CNAB 240 / 400, aqui
-   devido a quantidade de possibilidades se trata de um "roadmap"
-   constante onde contamos com PRs de outros contribuidores que irão
-   implementar um caso que ainda não esteja cadastrado, apesar do codigo
-   permitir que o cadastro seja feito na tela nesses casos.
--  Processo de "Antecipação do Título junto ao Banco" ou "Venda do
-   Título junto a Factoring" ver as alterações feitas na v14
-   https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592
-   .
--  CNAB de Pagamento, verificar a integração com o PR
-   https://github.com/OCA/l10n-brazil/pull/972 e a possibilidade de
-   multiplos modos de pagamento na mesma Ordem de Pagamento
-   https://github.com/odoo-brazil/l10n-brazil/pull/112
--  Verificar a possibilidade na v14 de remoção do ondele='restrict' no
-   campo "move_line_id" e o campo "related" "ml_maturity_date" do
-   account.payment.line no modulo dependente
-   https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39
-   para permitir o processo de Cancelamento de uma Fatura quando existe
-   uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes
-   l10n_br_account_payment_order/models/account_payment_line.py#L130 )
--  Funcionalidade de Agrupar Por/Group By não funciona em campos do tipo
-   Many2Many, aparentemente isso foi resolvido na v15(verfificar na
-   migração), isso é usado nos objetos referentes aos Codigos CNAB de
-   Instrução e Retorno.
--  Confirmar se existem Bancos que usam os mesmos conjuntos de Codigos
-   CNAB de Instrução e Retorno para caso não existir remover o many2many
-   do Banco e deixar apenas o many2one.
--  Na migração remover o objeto bank.payment.line, que está vazio, porém
-   é necessário para evitar erro na atualização do modulo ver detalhes
-   em l10n_br_account_payment_order/models/account_payment_line.py:291 e
-   referencia do problema https://github.com/odoo/odoo/issues/44767 .
--  Verificar a possibilidade de usar o objeto account.payment no caso
-   CNAB e o modulo
-   https://github.com/OCA/bank-payment/tree/14.0/account_payment_order_return
-   para tratar o LOG de Retorno do CNAB, RFC
-   https://github.com/OCA/l10n-brazil/issues/2272 .
+- Verificar a questão do campos many2many que não estão sendo
+  registrados pelo track_visibility e se será incluída a dependendecia
+  https://github.com/OCA/social/tree/12.0/mail_improved_tracking_value (
+  confirmar o problema na v14 ).
+- Processo de Alteração de Carteira, falta informações sobre o processo.
+- Mapear e incluir os codigos dos bancos de cada CNAB 240 / 400, aqui
+  devido a quantidade de possibilidades se trata de um "roadmap"
+  constante onde contamos com PRs de outros contribuidores que irão
+  implementar um caso que ainda não esteja cadastrado, apesar do codigo
+  permitir que o cadastro seja feito na tela nesses casos.
+- Processo de "Antecipação do Título junto ao Banco" ou "Venda do Título
+  junto a Factoring" ver as alterações feitas na v14
+  https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592
+  .
+- CNAB de Pagamento, verificar a integração com o PR
+  https://github.com/OCA/l10n-brazil/pull/972 e a possibilidade de
+  multiplos modos de pagamento na mesma Ordem de Pagamento
+  https://github.com/odoo-brazil/l10n-brazil/pull/112
+- Verificar a possibilidade na v14 de remoção do ondele='restrict' no
+  campo "move_line_id" e o campo "related" "ml_maturity_date" do
+  account.payment.line no modulo dependente
+  https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39
+  para permitir o processo de Cancelamento de uma Fatura quando existe
+  uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes
+  l10n_br_account_payment_order/models/account_payment_line.py#L130 )
+- Funcionalidade de Agrupar Por/Group By não funciona em campos do tipo
+  Many2Many, aparentemente isso foi resolvido na v15(verfificar na
+  migração), isso é usado nos objetos referentes aos Codigos CNAB de
+  Instrução e Retorno.
+- Confirmar se existem Bancos que usam os mesmos conjuntos de Codigos
+  CNAB de Instrução e Retorno para caso não existir remover o many2many
+  do Banco e deixar apenas o many2one.
+- Na migração remover o objeto bank.payment.line, que está vazio, porém
+  é necessário para evitar erro na atualização do modulo ver detalhes em
+  l10n_br_account_payment_order/models/account_payment_line.py:291 e
+  referencia do problema https://github.com/odoo/odoo/issues/44767 .
+- Verificar a possibilidade de usar o objeto account.payment no caso
+  CNAB e o modulo
+  https://github.com/OCA/bank-payment/tree/14.0/account_payment_order_return
+  para tratar o LOG de Retorno do CNAB, RFC
+  https://github.com/OCA/l10n-brazil/issues/2272 .
 
 Changelog
 =========
@@ -158,59 +157,58 @@ Changelog
 14.0.1.0.0 (2022-04-29)
 -----------------------
 
--  [MIG] Migração para a versão 14.0.
+- [MIG] Migração para a versão 14.0.
 
 13.0.1.0.0 (2022-01-28)
 -----------------------
 
--  [MIG] Migração para a versão 13.0.
+- [MIG] Migração para a versão 13.0.
 
 12.0.3.0.0 (2021-05-13)
 -----------------------
 
--  [MIG] Migração para a versão 12.0.
--  Incluído a possibilidade de parametrizar o CNAB 240 e 400, devido a
-   falta de padrão cada Banco e CNAB podem ter e usar codigos
-   diferentes.
--  Incluído os metodos para fazer alterações em CNAB já enviados.
--  Incluído dados de demo e testes.
--  Separado o objeto que fazia o Retorno do arquivo e registrava as
-   informações para ter um objeto especifico que registra o Log e assim
-   os modulos que implementam a biblioteca escolhida podem ter um
-   metodo/objeto especifico para essa função.
+- [MIG] Migração para a versão 12.0.
+- Incluído a possibilidade de parametrizar o CNAB 240 e 400, devido a
+  falta de padrão cada Banco e CNAB podem ter e usar codigos diferentes.
+- Incluído os metodos para fazer alterações em CNAB já enviados.
+- Incluído dados de demo e testes.
+- Separado o objeto que fazia o Retorno do arquivo e registrava as
+  informações para ter um objeto especifico que registra o Log e assim
+  os modulos que implementam a biblioteca escolhida podem ter um
+  metodo/objeto especifico para essa função.
 
 12.0.1.0.0 (2019-06-06)
 -----------------------
 
--  [MIG] Inicio da Migração para a versão 12.0.
+- [MIG] Inicio da Migração para a versão 12.0.
 
 10.0.2.0.0 (2018-05-17)
 -----------------------
 
--  [REF] Modulo unido com o l10n_br_account_payment_mode e renomeado
-   para l10n_br_account_payment_order.
+- [REF] Modulo unido com o l10n_br_account_payment_mode e renomeado para
+  l10n_br_account_payment_order.
 
 10.0.1.0.0 (2018-08-29)
 -----------------------
 
--  [MIG] Migração para a versão 10.
+- [MIG] Migração para a versão 10.
 
 8.0.1.0.1 (2017-07-14)
 ----------------------
 
--  [NEW] Refatoração e melhorias para suportar a geração de boletos
-   através do br-cobranca (ruby)
+- [NEW] Refatoração e melhorias para suportar a geração de boletos
+  através do br-cobranca (ruby)
 
 8.0.1.0.0 (2017-07-14)
 ----------------------
 
--  [NEW] Melhorias para suportar a geração de pagamento da folha de
-   pagamento;
+- [NEW] Melhorias para suportar a geração de pagamento da folha de
+  pagamento;
 
 8.0.0.0.0 (2016-01-18)
 ----------------------
 
--  [NEW] Primeira versão
+- [NEW] Primeira versão
 
 Bug Tracker
 ===========
@@ -234,31 +232,31 @@ Authors
 Contributors
 ------------
 
--  `KMEE <https://www.kmee.com.br>`__:
+- `KMEE <https://www.kmee.com.br>`__:
 
-   -  Luis Felipe Mileo
-   -  Fernando Marcato
-   -  Hendrix Costa
+  - Luis Felipe Mileo
+  - Fernando Marcato
+  - Hendrix Costa
 
--  `Akretion <https://www.akretion.com/pt-BR>`__:
+- `Akretion <https://www.akretion.com/pt-BR>`__:
 
-   -  Magno Costa
+  - Magno Costa
 
--  `Engenere <https://engenere.one>`__:
+- `Engenere <https://engenere.one>`__:
 
-   -  Antônio S. Pereira Neto
+  - Antônio S. Pereira Neto
 
--  `Escodoo <https://www.escodoo.com.br>`__:
+- `Escodoo <https://www.escodoo.com.br>`__:
 
-   -  Marcel Savegnago
+  - Marcel Savegnago
 
 Other credits
 -------------
 
 The development of this module has been financially supported by:
 
--  KMEE INFORMATICA LTDA - `www.kmee.com.br <http://www.kmee.com.br>`__
--  AKRETION LTDA - `www.akretion.com <http://www.akretion.com>`__
+- KMEE INFORMATICA LTDA - `www.kmee.com.br <http://www.kmee.com.br>`__
+- AKRETION LTDA - `www.akretion.com <http://www.akretion.com>`__
 
 Maintainers
 -----------
