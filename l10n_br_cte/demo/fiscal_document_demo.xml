@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- CTe Test - Modal Ferroviário - LC -->
+    <!-- <record id="demo_cte_lc_modal_ferroviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">2</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">43120178408960000182570010000000041000000047</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record> -->
+
+    <!-- CTe Test - Modal Rodoviário - LC -->
+    <record id="demo_cte_lc_modal_rodoviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">3</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35240708318053000167570010000000311040645898</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+
+        <!--Remetente-->
+        <field name="partner_sendering_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+
+        <!--Expedidor-->
+        <field
+            name="partner_shippering_id"
+            ref="l10n_br_base.res_partner_cliente2_sp"
+        />
+
+        <!--Destinatario-->
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_cliente3_am" />
+
+        <!--Recebedor-->
+        <field
+            name="partner_receivering_id"
+            ref="l10n_br_base.res_partner_cliente4_am"
+        />
+
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_cte_lc_modal_rodoviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
+        <field name="name">Frete</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_cte.demo_cte_lc_modal_rodoviario_1-1')]" />
+    </function>
+
+    <function
+        model="l10n_br_fiscal.document.line"
+        name="_onchange_fiscal_operation_line_id"
+    >
+        <value eval="[ref('l10n_br_cte.demo_cte_lc_modal_rodoviario_1-1')]" />
+    </function>
+
+    <!-- CTe Test - Modal Rodoviário - SN -->
+    <record id="demo_cte_sn_modal_rodoviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="document_number">9</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35240708318053000167570010000000311040445899</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+
+        <!--Remetente-->
+        <field name="partner_sendering_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+
+        <!--Expedidor-->
+        <field
+            name="partner_shippering_id"
+            ref="l10n_br_base.res_partner_cliente2_sp"
+        />
+
+        <!--Destinatario-->
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_cliente3_am" />
+
+        <!--Recebedor-->
+        <field
+            name="partner_receivering_id"
+            ref="l10n_br_base.res_partner_cliente4_am"
+        />
+
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_cte_sn_modal_rodoviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
+        <field name="name">Frete</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_cte.demo_cte_sn_modal_rodoviario_1-1')]" />
+    </function>
+
+    <function
+        model="l10n_br_fiscal.document.line"
+        name="_onchange_fiscal_operation_line_id"
+    >
+        <value eval="[ref('l10n_br_cte.demo_cte_sn_modal_rodoviario_1-1')]" />
+    </function>
+
+    <!-- CTe Test - Modal Aéreo - SN -->
+    <!-- <record id="demo_cte_sn_modal_aereo" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="document_number">4</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">43120178408960000182570010000000041000000047</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record> -->
+
+    <!-- CTe Test - Modal Aquaviário - SN -->
+    <!-- <record id="demo_cte_sn_modal_aquaviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="document_number">5</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">43120178408960000182570010000000041000000047</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+    </record> -->
+
+
+</odoo>

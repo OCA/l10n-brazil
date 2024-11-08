@@ -11,12 +11,8 @@ class TestCTeExportSN(TestCTeSerialize):
     def setUp(self):
         cte_list = [
             {
-                "record_ref": "l10n_br_cte.demo_cte_sn_modal_aereo",
-                "xml_file": "CTe35230905472475000102580200000602081550195716.xml",
-            },
-            {
-                "record_ref": "l10n_br_cte.demo_cte_sn_modal_aquaviario",
-                "xml_file": "CTe35231005472475000102580200000602161434590525.xml",
+                "record_ref": "l10n_br_cte.demo_cte_sn_modal_rodoviario",
+                "xml_file": "CTe35240708318053000167570010000000311040445899.xml",
             },
         ]
 

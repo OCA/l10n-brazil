@@ -23,7 +23,7 @@ def post_init_hook(cr, registry):
             "cte",
             "samples",
             "v4_0",
-            "43120178408960000182570010000000041000000047-cte.xml",
+            "51160624686092000173570010000000031000000020-cte.XML",
         )
         resource_path = "/".join(res_items)
         doc_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
@@ -34,11 +34,11 @@ def post_init_hook(cr, registry):
         )
         try:
             existing_docs.unlink()
-            doc = (
+            cte = (
                 env["cte.40.infcte"]
                 .with_context(tracking_disable=True, edoc_type="in")
                 .build_from_binding("cte", "40", binding.infCte)
             )
-            _logger.info(doc.cte40_emit.cte40_CNPJ)
+            _logger.info(cte.cte40_rem.cte40_CNPJ)
         except ValidationError:
             _logger.info(f"CTE-e already {document_number} imported by hooks")

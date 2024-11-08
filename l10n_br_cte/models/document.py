@@ -4,9 +4,12 @@
 import base64
 import logging
 import re
+import string
 import sys
 from datetime import datetime
+from enum import Enum
 
+from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.edoc.cte import TransmissaoCTE
 from lxml import etree
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
@@ -38,6 +41,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
     LOTE_PROCESSADO,
+    MODELO_FISCAL_CTE,
     PROCESSADOR_OCA,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
@@ -51,7 +55,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.spec_driven_model.models import spec_models
 
-from ..constants.modal import CTE_MODAL_VERSION_DEFAULT
+from ..constants.modal import (
+    CTE_MODAL_DEFAULT,
+    CTE_MODAL_VERSION_DEFAULT,
+    CTE_MODALS,
+)
 
 CTE_XML_NAMESPACE = {"cte": "http://www.portalfiscal.inf.br/cte"}
 
@@ -60,10 +68,6 @@ CTE_XML_NAMESPACE = {"cte": "http://www.portalfiscal.inf.br/cte"}
 
 
 _logger = logging.getLogger(__name__)
-try:
-    pass
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não in stalada")
 
 
 def filter_processador_edoc_cte(record):
@@ -79,21 +83,23 @@ class CTe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = [
         "l10n_br_fiscal.document",
-        "cte.40.tcte_infcte",
-        "cte.40.tcte_imp",
-        "cte.40.tcte_fat",
+        "cte.40.infcte",
+        "cte.40.imp",
+        "cte.40.fat",
     ]
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     )
-    _cte40_stacking_mixin = "cte.40.tcte_infcte"
+    _cte40_stacking_mixin = "cte.40.infcte"
     _cte40_stacking_skip_paths = (
         "cte40_fluxo",
         "cte40_semData",
         "cte40_noInter",
         "cte40_comHora",
         "cte40_noPeriodo",
+        "cte40_NFref_ide_id",
     )
+
     # all m2o at this level will be stacked even if not required:
     _cte40_stacking_force_paths = (
         "infcte.compl",
@@ -133,6 +139,18 @@ class CTe(spec_models.StackedModel):
         > <infRespTec>
     > <infCTeSupl>"""
 
+    cte_version = fields.Selection(
+        string="CT-e Version",
+        related="company_id.cte_version",
+        readonly=False,
+    )
+
+    cte_environment = fields.Selection(
+        string="CT-e Environment",
+        related="company_id.cte_environment",
+        readonly=False,
+    )
+
     ##########################
     # CT-e spec related fields
     ##########################
@@ -150,12 +168,15 @@ class CTe(spec_models.StackedModel):
 
     ##########################
     # CT-e tag: Id
-    # Methods
+    # Compute Methods
     ##########################
 
     @api.depends("document_type_id", "document_key")
     def _compute_cte40_Id(self):
+        """Set schema data which are not just related fields"""
+
         for record in self.filtered(filter_processador_edoc_cte):
+            # id
             if (
                 record.document_type_id
                 and record.document_type_id.prefix
@@ -166,6 +187,11 @@ class CTe(spec_models.StackedModel):
                 )
             else:
                 record.cte40_Id = False
+
+    ##########################
+    # CT-e tag: id
+    # Inverse Methods
+    ##########################
 
     def _inverse_cte40_Id(self):
         for record in self:
@@ -181,9 +207,9 @@ class CTe(spec_models.StackedModel):
         string="cte40_cUF",
     )
 
-    cte40_cCT = fields.Char(compute="_compute_cct")
+    cte40_cCT = fields.Char(compute="_compute_cte40_cct")
 
-    cte40_CFOP = fields.Char(compute="_compute_CFOP", store=True)
+    cte40_CFOP = fields.Char(compute="_compute_cte40_CFOP", store=True)
 
     cte40_natOp = fields.Char(related="operation_name")
 
@@ -195,7 +221,7 @@ class CTe(spec_models.StackedModel):
 
     cte40_dhEmi = fields.Datetime(related="document_date")
 
-    cte40_cDV = fields.Char(compute="_compute_cDV", store=True)
+    cte40_cDV = fields.Char(compute="_compute_cte40_cDV", store=True)
 
     cte40_procEmi = fields.Selection(default="0")
 
@@ -208,7 +234,10 @@ class CTe(spec_models.StackedModel):
 
     cte40_cMunEnv = fields.Char(compute="_compute_cte40_data", store=True)
 
-    cte40_xMunEnv = fields.Char(compute="_compute_cte40_data", store=True)
+    # cte40_xMunEnv = fields.Char(compute="_compute_cte40_data", store=True)
+    cte40_xMunEnv = fields.Char(
+        compute="_compute_cte40_data",
+    )
 
     cte40_UFEnv = fields.Char(compute="_compute_cte40_data", store=True)
 
@@ -225,13 +254,17 @@ class CTe(spec_models.StackedModel):
 
     cte40_xMunIni = fields.Char(compute="_compute_cte40_data")
 
-    cte40_UFIni = fields.Char(compute="_compute_cte40_data")
+    cte40_UFIni = fields.Char()
+    # cte40_UFIni = fields.Char(compute="_compute_cte40_data")
+    # cte40_UFIni = fields.Char(related="partner_sendering_id.state_id.code")
 
     cte40_cMunFim = fields.Char(compute="_compute_cte40_data")
 
     cte40_xMunFim = fields.Char(compute="_compute_cte40_data")
 
-    cte40_UFFim = fields.Char(compute="_compute_cte40_data")
+    cte40_UFFim = fields.Char()
+    # cte40_UFFim = fields.Char(compute="_compute_cte40_data")
+    # cte40_UFFim = fields.Char(related="partner_shipping_id.state_id.code")
 
     cte40_retira = fields.Selection(selection=[("0", "Sim"), ("1", "Não")], default="1")
 
@@ -278,15 +311,15 @@ class CTe(spec_models.StackedModel):
         if self.cte40_choice_toma == "cte40_toma4":
             xsd_fields.remove("cte40_toma")
 
-    def _export_fields_cte_40_tcte_toma4(self, xsd_fields, class_obj, export_dict):
-        if self.cte40_choice_toma == "cte40_toma3":
-            xsd_fields.remove("cte40_toma")
-            xsd_fields.remove("cte40_CNPJ")
-            xsd_fields.remove("cte40_CPF")
-            xsd_fields.remove("cte40_IE")
-            xsd_fields.remove("cte40_xNome")
-            xsd_fields.remove("cte40_xFant")
-            xsd_fields.remove("cte40_enderToma")
+    # def _export_fields_cte_40_tcte_toma4(self, xsd_fields, class_obj, export_dict):
+    #     if self.cte40_choice_toma == "cte40_toma3":
+    #         xsd_fields.remove("cte40_toma")
+    #         xsd_fields.remove("cte40_CNPJ")
+    #         xsd_fields.remove("cte40_CPF")
+    #         xsd_fields.remove("cte40_IE")
+    #         xsd_fields.remove("cte40_xNome")
+    #         xsd_fields.remove("cte40_xFant")
+    #         xsd_fields.remove("cte40_enderToma")
 
     # toma
     cte40_choice_toma = fields.Selection(
@@ -294,13 +327,14 @@ class CTe(spec_models.StackedModel):
             ("cte40_toma3", "toma3"),
             ("cte40_toma4", "toma4"),
         ],
-        compute="_compute_toma",
+        compute="_compute_cte40_toma",
         store=True,
     )
 
     cte40_toma = fields.Selection(related="service_provider")
 
     cte40_enderToma = fields.Many2one(comodel_name="res.partner", related="partner_id")
+    cte40_enderReme = fields.Many2one(comodel_name="res.partner")
 
     ##########################
     # CT-e tag: ide
@@ -308,26 +342,26 @@ class CTe(spec_models.StackedModel):
     ##########################
 
     @api.depends("service_provider")
-    def _compute_toma(self):
+    def _compute_cte40_toma(self):
         for doc in self:
             if doc.service_provider in ["0", "1", "2", "3"]:
                 doc.cte40_choice_toma = "cte40_toma3"
             else:
                 doc.cte40_choice_toma = "cte40_toma4"
 
-    @api.depends("fiscal_line_ids")
-    def _compute_CFOP(self):
+    @api.depends("fiscal_line_ids", "fiscal_line_ids.cfop_id")
+    def _compute_cte40_CFOP(self):
         for rec in self:
             if rec.fiscal_line_ids:
                 rec.cte40_CFOP = rec.fiscal_line_ids[0].cfop_id.code
 
     @api.depends("document_key")
-    def _compute_cDV(self):
+    def _compute_cte40_cDV(self):
         for rec in self:
             if rec.document_key:
                 rec.cte40_cDV = rec.document_key[-1]
 
-    def _compute_cct(self):
+    def _compute_cte40_cct(self):
         for rec in self:
             if rec.document_key:
                 rec.cte40_cCT = rec.document_key[35:43]
@@ -335,6 +369,10 @@ class CTe(spec_models.StackedModel):
     @api.depends(
         "partner_id",
         "company_id",
+        # "partner_sendering_id",
+        # "partner_shippering_id",
+        # "partner_shipping_id",
+        # "partner_receivering_id",
         "cte40_rem",
         "cte40_dest",
         "cte40_exped",
@@ -343,9 +381,15 @@ class CTe(spec_models.StackedModel):
     def _compute_cte40_data(self):
         for doc in self:
             if doc.company_id.partner_id.country_id == doc.partner_id.country_id:
-                doc.cte40_xMunEnv = (
-                    doc.company_id.partner_id.city_id.name
-                )  # TODO: provavelmente vai depender de quem é o emissor
+                if doc.issuer == DOCUMENT_ISSUER_COMPANY:
+                    doc.cte40_xMunEnv = (
+                        doc.company_id.partner_id.city_id.name
+                    )  # TODO: provavelmente vai depender de quem é o emissor
+                else:
+                    doc.cte40_xMunEnv = (
+                        doc.partner_id.city_id.name
+                    )  # TODO: provavelmente vai depender de quem é o emissor
+
                 doc.cte40_cMunEnv = doc.company_id.partner_id.city_id.ibge_code
                 doc.cte40_UFEnv = doc.company_id.partner_id.state_id.code
                 doc.cte40_xMunIni = (
@@ -381,6 +425,25 @@ class CTe(spec_models.StackedModel):
                 doc.cte40_cMunFim = "9999999"
                 doc.cte40_xMunFim = "EXTERIOR"
                 doc.cte40_UFFim = "EX"
+
+    # TODO: nao esta rodando direto.. corrigir
+    def _compute_cte40_infQ(self):
+        for record in self:
+            cargo_info_vals = [
+                {"cte40_cUnid": "01", "cte40_tpMed": "Peso Bruto", "cte40_qCarga": 0},
+                {
+                    "cte40_cUnid": "01",
+                    "cte40_tpMed": "Peso Base Calculado",
+                    "cte40_qCarga": 0,
+                },
+                {"cte40_cUnid": "01", "cte40_tpMed": "Peso Aferido", "cte40_qCarga": 0},
+                {"cte40_cUnid": "00", "cte40_tpMed": "Cubagem", "cte40_qCarga": 0},
+                {"cte40_cUnid": "03", "cte40_tpMed": "Unidade", "cte40_qCarga": 0},
+            ]
+
+            record.cte40_infQ = self.env["l10n_br_cte.cargo.quantity.infos"].create(
+                cargo_info_vals
+            )
 
     ##########################
     # CT-e tag: compl
@@ -437,27 +500,15 @@ class CTe(spec_models.StackedModel):
     # CT-e tag: emit
     ##########################
 
-    cte40_CNPJ = fields.Char(
+    cte40_emit = fields.Many2one(
+        comodel_name="res.company",
         compute="_compute_emit_data",
-    )
-    cte40_CPF = fields.Char(
-        compute="_compute_emit_data",
-    )
-    cte40_IE = fields.Char(
-        compute="_compute_emit_data",
-    )
-    cte40_xNome = fields.Char(
-        compute="_compute_emit_data",
-    )
-    cte40_xFant = fields.Char(
-        compute="_compute_emit_data",
-    )
-    cte40_enderEmit = fields.Many2one(
-        comodel_name="res.partner", compute="_compute_emit_data"
+        string="Emit",
     )
 
     cte40_CRT = fields.Selection(
-        compute="_compute_emit_data",
+        related="company_tax_framework",
+        string="Código de Regime Tributário (CTe)",
     )
 
     ##########################
@@ -465,25 +516,23 @@ class CTe(spec_models.StackedModel):
     # Compute Methods
     ##########################
 
-    @api.depends("company_id", "partner_id", "issuer")
+    @api.depends("partner_id", "company_id")
     def _compute_emit_data(self):
-        for doc in self:
-            if doc.issuer == DOCUMENT_ISSUER_COMPANY:
-                doc.cte40_CNPJ = doc.company_id.partner_id.cte40_CNPJ
-                doc.cte40_CPF = doc.company_id.partner_id.cte40_CPF
-                doc.cte40_IE = doc.company_id.partner_id.cte40_IE
-                doc.cte40_xNome = doc.company_id.partner_id.legal_name
-                doc.cte40_xFant = doc.company_id.partner_id.name
-                doc.cte40_enderEmit = doc.company_id.partner_id
-                doc.cte40_CRT = doc.company_tax_framework
-            else:
-                doc.cte40_CNPJ = doc.partner_id.cte40_CNPJ
-                doc.cte40_CPF = doc.partner_id.cte40_CPF
-                doc.cte40_IE = doc.partner_id.cte40_IE
-                doc.cte40_xNome = doc.partner_id.legal_name
-                doc.cte40_xFant = doc.partner_id.name
-                doc.cte40_enderEmit = doc.partner_id
-                doc.cte40_CRT = doc.partner_tax_framework
+        for doc in self:  # TODO if out
+            doc.cte40_emit = doc.company_id
+
+    def _set_cte40_IEST(self):
+        self.ensure_one()
+        iest = ""
+        if self.partner_id:
+            dest_state_id = self.partner_id.state_id
+            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
+                stn_id = self.company_id.state_tax_number_ids.filtered(
+                    lambda stn: stn.state_id == dest_state_id
+                )
+                iest = stn_id.inscr_est
+                iest = re.sub("[^0-9]+", "", iest)
+        self.company_inscr_est_st = iest
 
     ##########################
     # CT-e tag: rem
@@ -492,6 +541,7 @@ class CTe(spec_models.StackedModel):
     cte40_rem = fields.Many2one(
         comodel_name="res.partner",
         string="Remetente",
+        related="partner_sendering_id",
     )
 
     ##########################
@@ -501,15 +551,34 @@ class CTe(spec_models.StackedModel):
     cte40_exped = fields.Many2one(
         comodel_name="res.partner",
         string="Expedidor",
+        related="partner_shippering_id",
     )
 
     ##########################
     # CT-e tag: dest
     ##########################
 
+    # cte40_dest = fields.Many2one(
+    #     comodel_name="res.partner", string="Destinatário",
+    #     # related="partner_shipping_id",
+    # )
+
     cte40_dest = fields.Many2one(
-        comodel_name="res.partner", string="Destinatário", related="partner_shipping_id"
+        comodel_name="res.partner",
+        compute="_compute_dest_data",
+        readonly=True,
+        string="Dest",
     )
+
+    ##########################
+    # NF-e tag: dest
+    # Compute Methods
+    ##########################
+
+    @api.depends("partner_shipping_id")
+    def _compute_dest_data(self):
+        for doc in self:  # TODO if out
+            doc.cte40_dest = doc.partner_shipping_id
 
     ##########################
     # CT-e tag: receb
@@ -518,6 +587,7 @@ class CTe(spec_models.StackedModel):
     cte40_receb = fields.Many2one(
         comodel_name="res.partner",
         string="Recebedor",
+        related="partner_receivering_id",
     )
 
     ##########################
@@ -689,7 +759,7 @@ class CTe(spec_models.StackedModel):
             .replace("ICMSSN", "Icmssn")
             .replace("ICMS", "Icms")
         )
-        binding_module = sys.modules[self._binding_module]
+        binding_module = sys.modules[self._get_spec_property("binding_module")]
         icms = binding_module.Timp
         icms_binding = getattr(icms, icms_tag)
         icms_dict = self._export_fields_icms()
@@ -739,10 +809,19 @@ class CTe(spec_models.StackedModel):
         default="cte40_infCTeNorm",
     )
 
-    cte40_infCTeNorm = fields.One2many(
+    cte40_infCTeNorm = fields.Many2one(
         comodel_name="l10n_br_cte.normal.infos",
-        inverse_name="document_id",
     )
+
+    # cte40_infCTeNorm = fields.Many2one(
+    #     comodel_name="l10n_br_cte.normal.infos",
+    #     compute="_compute_cte40_infDoc",
+    #     string="Informações dos documentos transportados",
+    # )
+
+    # def _compute_cte40_infDoc(self):
+    #     for doc in self:
+    #         doc.cte40_infDoc = doc
 
     # cte40_infCTeComp = fields.One2many(
     #     comodel_name="l10n_br_fiscal.document.related",
@@ -860,25 +939,28 @@ class CTe(spec_models.StackedModel):
 
     cte40_infRespTec = fields.Many2one(
         comodel_name="res.partner",
-        compute="_compute_infresptec",
-        string="Responsável Técnico CTe",
+        related="company_id.technical_support_id",
     )
 
-    ##########################
-    # MDF-e tag: infRespTec
-    # Methods
-    ##########################
+    # ##########################
+    # # MDF-e tag: infRespTec
+    # # Methods
+    # ##########################
 
-    @api.depends("company_id.technical_support_id")
-    def _compute_infresptec(self):
-        for record in self.filtered(filter_processador_edoc_cte):
-            record.cte40_infRespTec = record.company_id.technical_support_id
+    # @api.depends("company_id.technical_support_id")
+    # def _compute_infresptec(self):
+    #     for record in self.filtered(filter_processador_edoc_cte):
+    #         record.cte40_infRespTec = record.company_id.technical_support_id
 
     ##########################
     # CT-e tag: infmodal
     ##########################
 
     cte40_modal = fields.Selection(related="transport_modal")
+
+    cte_modal = fields.Selection(
+        selection=CTE_MODALS, string="Transport Modal", default=CTE_MODAL_DEFAULT
+    )
 
     cte40_versaoModal = fields.Char(default=CTE_MODAL_VERSION_DEFAULT)
 
@@ -1167,6 +1249,185 @@ class CTe(spec_models.StackedModel):
             return False
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
+    def _export_many2one(self, field_name, xsd_required, class_obj=None):
+        """
+        Overriden to avoid creating inner tag for m2o if none of the
+        denormalized inner attribute has been set.
+        """
+        self.ensure_one()
+        if field_name in self._get_stacking_points().keys():
+            if field_name == "cte40_ISSQNtot" and not any(
+                t == "issqn"
+                for t in self.cte40_det.mapped("product_id.tax_icms_or_issqn")
+            ):
+                return False
+
+            elif (not xsd_required) and field_name not in ["cte40_enderDest"]:
+                comodel = self.env[
+                    self._get_stacking_points().get(field_name).comodel_name
+                ]
+                fields = [
+                    f
+                    for f in comodel._fields
+                    if f.startswith(self._spec_prefix())
+                    and f in self._fields.keys()
+                    and f
+                    # don't try to cte40_fat id when reading cte40_cobr for instance
+                    not in self._get_stacking_points().keys()
+                ]
+                sub_tag_read = self.read(fields)[0]
+                if not any(
+                    v
+                    for k, v in sub_tag_read.items()
+                    if k.startswith(self._spec_prefix())
+                ):
+                    return False
+
+        if (
+            field_name == "cte40_emit"
+            and self.fiscal_operation_type == "out"
+            and self.issuer == "company"
+        ):
+            self._set_cte40_IEST()
+            res = super()._export_many2one(field_name, xsd_required, class_obj)
+            if self.company_inscr_est_st:
+                res.IEST = self.company_inscr_est_st
+            return res
+
+        return super()._export_many2one(field_name, xsd_required, class_obj)
+
+    @api.model
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        return {
+            **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
+            "imported_document": True,
+        }
+
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = f"cte40_{attr[0]}"  # TODO schema wise
+        value = getattr(node, attr[0])
+
+        # if attr[0] == "any_element":  # build modal
+        #     modal_id = self._get_modal_to_build(node.any_element.__module__)
+        #     if modal_id is False:
+        #         return
+
+        #     modal_attrs = modal_id.build_attrs(value, path=path)
+        #     for chave, valor in modal_attrs.items():
+        #         vals[chave] = valor
+        #     return
+
+        if key == "cte40_mod":
+            if isinstance(value, Enum):
+                value = value.value
+
+            vals["document_type_id"] = (
+                self.env["l10n_br_fiscal.document.type"]
+                .search([("code", "=", value)], limit=1)
+                .id
+            )
+
+        return super()._build_attr(node, fields, vals, path, attr)
+
+    def _build_many2one(self, comodel, vals, new_value, key, value, path):
+        # if key == "cte40_entrega" and self.env.context.get("edoc_type") == "in":
+        #     enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
+        #     new_value.update(enderEntreg_value)
+        #     parent_domain = [("cte40_CNPJ", "=", new_value.get("cte40_CNPJ"))]
+        #     parent_partner_match = self.env["res.partner"].search(
+        #         parent_domain, limit=1
+        #     )
+        #     new_vals = {
+        #         "cte40_CNPJ": False,
+        #         "type": "delivery",
+        #         "parent_id": parent_partner_match.id,
+        #         "company_type": "person",
+        #     }
+        #     new_value.update(new_vals)
+        #     super()._build_many2one(
+        #         self.env["res.partner"], vals, new_value, key, value, path
+        #     )
+        if key == "cte40_emit" and self.env.context.get("edoc_type") == "in":
+            enderEmit_value = self.env["res.partner"].build_attrs(
+                value.enderEmit, path=path
+            )
+            new_value.update(enderEmit_value)
+            company_cnpj = self.env.company.cnpj_cpf.translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            emit_cnpj = new_value.get("cte40_CNPJ").translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            if company_cnpj != emit_cnpj:
+                vals["issuer"] = "partner"
+            new_value["is_company"] = True
+            new_value["cnpj_cpf"] = emit_cnpj
+            super()._build_many2one(
+                self.env["res.partner"], vals, new_value, "partner_id", value, path
+            )
+        elif key == "cte40_dest" and self.env.context.get("edoc_type") == "out":
+            enderDest_value = self.env["res.partner"].build_attrs(
+                value.enderDest, path=path
+            )
+            new_value.update(enderDest_value)
+            company_cnpj = self.env.company.cnpj_cpf.translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            dest_cnpj = new_value.get("cte40_CNPJ").translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            if company_cnpj != dest_cnpj:
+                vals["issuer"] = "partner"
+            new_value["is_company"] = True
+            new_value["cnpj_cpf"] = dest_cnpj
+            super()._build_many2one(
+                self.env["res.partner"], vals, new_value, "partner_id", value, path
+            )
+        elif (
+            self.env.context.get("edoc_type") == "in"
+            and key
+            in [
+                "cte40_dest",
+                "cte40_enderDest",
+            ]
+        ) or (
+            self.env.context.get("edoc_type") == "out"
+            and key
+            in [
+                "cte40_emit",
+                "cte40_enderEmit",
+            ]
+        ):
+            # this would be the emit/company data, but we won't update it on
+            # CTe import so just do nothing
+            return
+        elif (
+            self._name == "account.invoice"
+            and comodel._name == "l10n_br_fiscal.document"
+        ):
+            # module l10n_br_account_nfe
+            # stacked m2o
+            vals.update(new_value)
+        else:
+            super()._build_many2one(comodel, vals, new_value, key, value, path)
+
+    # @api.model
+    # def _get_attr_name(self, attr):
+    #     if self._module != "l10n_br_cte":
+    #         return super()._get_attr_name(attr)
+    #     return attr[0]
+
+    # @api.model
+    # def _get_concrete_model(self, model_name):
+    #     result = super()._get_concrete_model(model_name)
+    #     if self._module == "l10n_br_cte" and not result:
+    #         model_type = model_name.split(".")[-1]
+    #         model_name = model_name.rpartition(".")[0] + ".tcte_" + model_type
+    #         result = self.env.get(model_name)
+    #     return result
+
     ################################
     # Business Model Methods
     ################################
@@ -1177,14 +1438,19 @@ class CTe(spec_models.StackedModel):
             filter_processador_edoc_cte
         ):
             inf_cte = record._build_binding("cte", "40")
+
             inf_cte_supl = None
             if record.cte40_infCTeSupl:
                 inf_cte_supl = record.cte40_infCTeSupl._build_binding("cte", "40")
+
             cte = Cte(infCte=inf_cte, infCTeSupl=inf_cte_supl, signature=None)
             edocs.append(cte)
         return edocs
 
     def _edoc_processor(self):
+        if self.document_type != MODELO_FISCAL_CTE:
+            return super()._edoc_processor()
+
         if not self.company_id.certificate_nfe_id:
             raise UserError(_("Certificado não encontrado"))
 
@@ -1221,6 +1487,10 @@ class CTe(spec_models.StackedModel):
 
     def _validate_xml(self, xml_file):
         self.ensure_one()
+
+        if not self.filtered(filter_processador_edoc_cte):
+            return super()._validate_xml(xml_file)
+
         erros = Cte.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
@@ -1433,25 +1703,6 @@ class CTe(spec_models.StackedModel):
         # xml = processador.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
         # return processador._generate_qrcode_contingency(serialized_doc, xml)
 
-    # TODO: nao esta rodando direto.. corrigir
-    def _compute_cte40_infQ(self):
-        for record in self:
-            cargo_info_vals = [
-                {"cte40_cUnid": "01", "cte40_tpMed": "Peso Bruto", "cte40_qCarga": 0},
-                {
-                    "cte40_cUnid": "01",
-                    "cte40_tpMed": "Peso Base Calculado",
-                    "cte40_qCarga": 0,
-                },
-                {"cte40_cUnid": "01", "cte40_tpMed": "Peso Aferido", "cte40_qCarga": 0},
-                {"cte40_cUnid": "00", "cte40_tpMed": "Cubagem", "cte40_qCarga": 0},
-                {"cte40_cUnid": "03", "cte40_tpMed": "Unidade", "cte40_qCarga": 0},
-            ]
-
-            record.cte40_infQ = self.env["l10n_br_cte.cargo.quantity.infos"].create(
-                cargo_info_vals
-            )
-
     def _need_compute_cte_tags(self):
         if (
             self.state_edoc in [SITUACAO_EDOC_EM_DIGITACAO, SITUACAO_EDOC_A_ENVIAR]
@@ -1462,8 +1713,6 @@ class CTe(spec_models.StackedModel):
             return True
         else:
             return False
-
-    # cte40_infAdFisco = fields.Text(related="additional_data")
 
     # def make_pdf(self):
     #     if not self.filtered(filter_processador_edoc_cte):
@@ -1550,43 +1799,17 @@ class CTe(spec_models.StackedModel):
 
         return proc_xml
 
-    # @api.model
-    # def _get_attr_name(self, attr):
-    #     if self._module != "l10n_br_cte":
-    #         return super()._get_attr_name(attr)
-    #     return attr[0]
+    def import_binding_cte(self, binding, edoc_type="out"):
+        document = (
+            self.env["cte.40.infcte"]
+            .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
+            .build_from_binding("cte", "40", binding.CTe.infCte)
+        )
 
-    # @api.model
-    # def _get_concrete_model(self, model_name):
-    #     result = super()._get_concrete_model(model_name)
-    #     if self._module == "l10n_br_cte" and not result:
-    #         model_type = model_name.split(".")[-1]
-    #         model_name = model_name.rpartition(".")[0] + ".tcte_" + model_type
-    #         result = self.env.get(model_name)
-    #     return result
+        if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
+            binding.CTe.infCte.emit.CNPJ
+        ):
+            document.fiscal_operation_type = "in"
+            document.issuer = "partner"
 
-    # def _build_attr(self, node, fields, vals, path, attr):
-    #     key = "cte40_%s" % (attr[0],)  # TODO schema wise
-    #     value = getattr(node, attr[0])
-
-    #     # if attr[0] == "any_element":  # build modal
-    #     #     modal_id = self._get_modal_to_build(node.any_element.__module__)
-    #     #     if modal_id is False:
-    #     #         return
-
-    #     #     modal_attrs = modal_id.build_attrs(value, path=path)
-    #     #     for chave, valor in modal_attrs.items():
-    #     #         vals[chave] = valor
-    #     #     return
-
-    #     if key == "cte40_mod":
-    #         if isinstance(value, Enum):
-    #             value = value.value
-
-    #         vals["document_type_id"] = (
-    #             self.env["l10n_br_fiscal.document.type"]
-    #             .search([("code", "=", value)], limit=1)
-    #             .id
-    #         )
-
-    #     return super()._build_attr(node, fields, vals, path, attr)
+        return document

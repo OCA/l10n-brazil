@@ -10,13 +10,13 @@ class CTeRelated(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document.related"
     _inherit = [
         "l10n_br_fiscal.document.related",
-        "cte.40.tcte_infdoc",
+        "cte.40.infdoc",
     ]
 
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     )
-    _cte40_stacking_mixin = "cte.40.tcte_infdoc"
+    _cte40_stacking_mixin = "cte.40.infdoc"
 
     # InfNFe
     cte40_chave = fields.Char(
@@ -107,3 +107,5 @@ class CTeRelated(spec_models.StackedModel):
         for rec in self:
             if rec.cte40_choice_infNF_infNFE_infOutros == "cte40_infNFe":
                 rec.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+            if rec.cte40_choice_infNF_infNFE_infOutros == "infOutros":
+                rec.document_type_id = self.env.ref("l10n_br_fiscal.document_01")

@@ -18,6 +18,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "data/ir_config_parameter.xml",
         # "views/document_line.xml",
         # 'views/document_related.xml',
         # 'views/res_partner.xml',
@@ -28,6 +29,10 @@
         "views/res_company.xml",
         "views/cte_document.xml",
         "wizards/document_correction_wizard.xml",
+    ],
+    "demo": [
+        "demo/fiscal_document_demo.xml",
+        "demo/company_demo.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,
