@@ -28,7 +28,7 @@
             ref="l10n_br_fiscal.empresa_lc_document_57_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="document_number">3</field>
+        <field name="document_number">573</field>
         <field name="document_serie">1</field>
         <field name="document_key">35240708318053000167570010000000311040645898</field>
         <field name="cte_environment">2</field>
@@ -89,7 +89,7 @@
             ref="l10n_br_fiscal.empresa_sn_document_57_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
-        <field name="document_number">9</field>
+        <field name="document_number">574</field>
         <field name="document_serie">1</field>
         <field name="document_key">35240708318053000167570010000000311040445899</field>
         <field name="cte_environment">2</field>

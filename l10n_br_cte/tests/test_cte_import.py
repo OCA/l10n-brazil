@@ -2,12 +2,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
 
-import nfelib
 import pkg_resources
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo.models import NewId
 from odoo.tests import SavepointCase
+
+from odoo.addons import l10n_br_cte
 
 _logger = logging.getLogger(__name__)
 
@@ -15,14 +16,15 @@ _logger = logging.getLogger(__name__)
 class CTeImportTest(SavepointCase):
     def test_import_in_cte_dry_run(self):
         res_items = (
+            "tests",
             "cte",
-            "samples",
-            "v4_0",
-            "51160624686092000173570010000000031000000020-cte.XML",
+            "v4_00",
+            "leiauteCTe",
+            "CTe51160724686092000173570010000000031000000024.xml",
         )
 
         resource_path = "/".join(res_items)
-        cte_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
+        cte_stream = pkg_resources.resource_stream(l10n_br_cte.__name__, resource_path)
         binding = Tcte.from_xml(cte_stream.read().decode())
         cte = (
             self.env["cte.40.infcte"]
@@ -34,13 +36,15 @@ class CTeImportTest(SavepointCase):
 
     def test_import_in_cte(self):
         res_items = (
+            "tests",
             "cte",
-            "samples",
-            "v4_0",
-            "51160624686092000173570010000000031000000020-cte.XML",
+            "v4_00",
+            "leiauteCTe",
+            "CTe51160724686092000173570010000000031000000024.xml",
         )
+
         resource_path = "/".join(res_items)
-        cte_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
+        cte_stream = pkg_resources.resource_stream(l10n_br_cte.__name__, resource_path)
         binding = Tcte.from_xml(cte_stream.read().decode())
         cte = (
             self.env["cte.40.infcte"]
@@ -55,7 +59,7 @@ class CTeImportTest(SavepointCase):
         self.assertEqual(type(cte)._name, "l10n_br_fiscal.document")
 
         # ide
-        self.assertEqual(cte.cte40_nCT, "3")
+        self.assertEqual(cte.cte40_nCT, "571")
         # self.assertEqual(cte.cte40_infMunCarrega[0].cte40_xMunCarrega, "IVINHEMA")
         self.assertEqual(cte.cte40_UFIni, "MT")
         self.assertEqual(cte.cte40_UFFim, "MT")
