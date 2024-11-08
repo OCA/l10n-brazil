@@ -175,7 +175,10 @@ IDE_TPIMP = [
 
 "Tipo do Serviço"
 IDE_TPSERV = [
-    ("9", "9"),
+    ("0", "0"),
+    ("1", "1"),
+    ("3", "3"),
+    ("4", "4"),
 ]
 
 "Indicador de CT-e Alteração de Tomador"
