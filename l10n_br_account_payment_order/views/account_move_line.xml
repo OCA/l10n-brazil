@@ -62,8 +62,9 @@
                 <group
                     string="Linhas de Ordem de Pagamentos"
                     attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                    colspan="2"
                 >
-                    <field name="payment_line_ids" nolabel="1">
+                    <field name="payment_line_ids" nolabel="1" colspan="2">
                         <tree>
                             <field name="communication" />
                             <field name="partner_bank_id" />
@@ -80,8 +81,9 @@
                 <group
                     string="Linhas de Retorno do CNAB"
                     attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                    colspan="2"
                 >
-                    <field name="cnab_return_line_ids" nolabel="1">
+                    <field name="cnab_return_line_ids" nolabel="1" colspan="2">
                         <tree>
                             <field name="lot_id" />
                             <field name="invoice_id" />
