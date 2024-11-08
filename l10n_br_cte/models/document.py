@@ -11,13 +11,14 @@ from enum import Enum
 
 from erpbrasil.base.fiscal import cnpj_cpf
 
+# TODO: precisa tratar
 # from erpbrasil.edoc.cte import TransmissaoCTE
-from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
-from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
-from requests import Session
+
+# TODO: precisa tratar nfelib
+# from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
 from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import _, api, fields
@@ -43,7 +44,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
     LOTE_PROCESSADO,
-    MODELO_FISCAL_CTE,
     PROCESSADOR_OCA,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
@@ -1449,6 +1449,7 @@ class CTe(spec_models.StackedModel):
             edocs.append(cte)
         return edocs
 
+    # TODO: precisa tratar a lib nfelib
     # def _edoc_processor(self):
     #     if self.document_type != MODELO_FISCAL_CTE:
     #         return super()._edoc_processor()
@@ -1468,27 +1469,13 @@ class CTe(spec_models.StackedModel):
     #     )
 
     def _edoc_processor(self):
-        if self.document_type != MODELO_FISCAL_CTE:
-            return super()._edoc_processor()
-
-        certificado = self.company_id._get_br_ecertificate()
-
-        session = Session()
-        session.verify = False
-
-        params = {
-            "transmissao": TransmissaoSOAP(certificado, session),
-            "uf": self.company_id.state_id.ibge_code,
-            "versao": self.cte_version,
-            "ambiente": self.cte_environment,
-        }
-        return edoc_cte(**params)
+        pass
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
             edoc = record.serialize()[0]
-            processador = record._edoc_processor()
+            # processador = record._edoc_processor()
             xml_file = edoc.to_xml()
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
@@ -1500,8 +1487,10 @@ class CTe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
-            self._validate_xml(xml_assinado)
+
+            # TODO: precisa tratar
+            # xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
+            # self._validate_xml(xml_assinado)
         return result
 
     def _validate_xml(self, xml_file):
