@@ -89,7 +89,7 @@ class L10nBrCNABCode(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            result.append((record.id, "%s - %s" % (record.code, record.name)))
+            result.append((record.id, f"{record.code} - {record.name}"))
         return result
 
     @api.depends("bank_ids")
