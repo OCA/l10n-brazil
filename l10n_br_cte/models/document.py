@@ -276,6 +276,7 @@ class CTe(spec_models.StackedModel):
             ("1", "Subcontratação"),
             ("2", "Redespacho"),
             ("3", "Redespacho Intermediário"),
+            ("4", "Serviço Vinculado a Multimodal"),
         ],
         default="0",
     )
