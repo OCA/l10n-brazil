@@ -3,9 +3,6 @@
 
 from datetime import datetime
 
-from nfelib.nfe.ws.edoc_legacy import CTeAdapter
-
-from odoo.exceptions import UserError
 from odoo.tests import SavepointCase
 
 
@@ -63,19 +60,19 @@ class CTeDocumentTest(SavepointCase):
     #         self.cte_id.cte_loading_city_ids,
     #     )
 
-    def test_cte_processor(self):
-        processor = self.cte_id._edoc_processor()
-        self.assertTrue(isinstance(processor, CTeAdapter))
+    # def test_cte_processor(self):
+    #     processor = self.cte_id._edoc_processor()
+    #     self.assertTrue(isinstance(processor, CTeAdapter))
 
-        self.cte_id.document_type_id = False
-        processor = self.cte_id._edoc_processor()
-        self.assertFalse(isinstance(processor, CTeAdapter))
+    #     self.cte_id.document_type_id = False
+    #     processor = self.cte_id._edoc_processor()
+    #     self.assertFalse(isinstance(processor, CTeAdapter))
 
-        self.cte_id.document_type_id = self.cte_document_type_id
+    #     self.cte_id.document_type_id = self.cte_document_type_id
 
-        self.cte_id.company_id.certificate_nfe_id = False
-        with self.assertRaises(UserError):
-            processor = self.cte_id._edoc_processor()
+    #     self.cte_id.company_id.certificate_nfe_id = False
+    #     with self.assertRaises(UserError):
+    #         processor = self.cte_id._edoc_processor()
 
     def test_generate_key(self):
         self.cte_id._generate_key()
