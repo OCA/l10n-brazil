@@ -42,7 +42,7 @@ class TestCTeSerialize(TransactionCase):
         cte.document_date = datetime.strptime(
             "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
         )
-        cte.cte40_cCT = "00000003"
+        cte.cte40_cCT = "57000111"
 
         if cte.cte_modal == "01":
             self.prepare_modal_rodoviario_data(cte)
