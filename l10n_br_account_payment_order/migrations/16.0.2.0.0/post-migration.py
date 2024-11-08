@@ -270,29 +270,98 @@ def update_payment_mode(env):
         openupgrade.logged_query(env.cr, sql)
 
 
-def uptade_payment_mode_return_code(env):
-    openupgrade.logged_query(
-        env.cr,
+def get_cnab_return_code(env, payment_mode_id):
+    env.cr.execute(
         """
-        INSERT INTO l10n_br_cnab_liq_return_move_code_rel (
-            payment_mode_id,
-            liq_return_move_code_id
-        )
-        SELECT
-            cc.id,
-            old_rel.cnab_liq_return_move_code_id
-        FROM
-            l10n_br_cnab_return_liquidity_move_code_rel AS old_rel
-        JOIN
-            l10n_br_cnab_return_move_code AS crmc ON crmc.id = old_rel.payment_mode_id
-        JOIN
-            l10n_br_cnab_code AS cc
-            ON cc.code = crmc.code
-            AND cc.bank_id = crmc.bank_id
-            AND cc.payment_method_id = crmc.payment_method_id
-            AND cc.code_type = 'return_move_code'
-        """,
+        SELECT *
+        FROM l10n_br_cnab_return_liquidity_move_code_rel
+        """
     )
+    liq_codes = env["l10n_br_cnab.code"]
+    for row in env.cr.fetchall():
+        if row[0] != payment_mode_id:
+            continue
+        env.cr.execute(
+            f"""
+            SELECT name, code, bank_id, payment_method_id
+            FROM l10n_br_cnab_return_move_code
+            WHERE id = {row[1]}
+            """
+        )
+        for old_code in env.cr.fetchall():
+            new_code = env["l10n_br_cnab.code"].search(
+                [
+                    ("name", "=", old_code[0]),
+                    ("code", "=", old_code[1]),
+                    ("bank_id", "=", old_code[2]),
+                    ("payment_method_id", "=", old_code[3]),
+                ]
+            )
+
+            if new_code:
+                liq_codes |= new_code
+
+    return liq_codes
+
+
+def get_wallet_code(env, payment_mode_id):
+    env.cr.execute(
+        f"""
+        SELECT boleto_wallet_code_id
+        FROM account_payment_mode
+        WHERE id = {payment_mode_id}
+        """
+    )
+    wallet_code = env["l10n_br_cnab.code"]
+    for row in env.cr.fetchall():
+        if row[0] is None:
+            continue
+
+        env.cr.execute(
+            f"""
+            SELECT name, code, bank_id, payment_method_id
+            FROM l10n_br_cnab_boleto_wallet_code
+            WHERE id = {row[0]}
+            """
+        )
+        for old_code in env.cr.fetchall():
+            new_code = env["l10n_br_cnab.code"].search(
+                [
+                    ("name", "=", old_code[0]),
+                    ("code", "=", old_code[1]),
+                    ("bank_id", "=", old_code[2]),
+                    ("payment_method_id", "=", old_code[3]),
+                    ("code_type", "=", "wallet_code"),
+                ]
+            )
+            if new_code:
+                wallet_code = new_code
+
+    return wallet_code
+
+
+def uptade_payment_mode_return_code(env):
+    env.cr.execute(
+        """
+        SELECT id FROM account_payment_mode WHERE payment_method_id IN
+        (SELECT id FROM account_payment_method WHERE code IN ('240', '400', '500')
+        AND payment_type = 'inbound');
+        """
+    )
+    for row in env.cr.fetchall():
+        payment_mode = env["account.payment.mode"].browse(row[0])
+        liq_codes = get_cnab_return_code(env, row[0])
+        if liq_codes:
+            payment_mode.liq_return_move_code_ids = liq_codes
+
+        wallet_code = get_wallet_code(env, row[0])
+        if wallet_code:
+            sql = f"""
+               UPDATE account_payment_mode
+               SET wallet_code_id = {wallet_code.id}
+               WHERE id = {payment_mode.id}
+            """
+            openupgrade.logged_query(env.cr, sql)
 
 
 def update_move_lines(env):
@@ -333,6 +402,17 @@ def update_payment_lines(env):
 def migrate(env, version):
     if not version:
         return
+
+    # Verifica se já houve migração, banco de dados migrados na v14
+    payment_mode_migrated = env["account.payment.mode"].search(
+        [
+            ("sending_code_id", "!=", False),
+        ],
+        limit=1,
+    )
+    if payment_mode_migrated:
+        return
+
     unifying_cnab_codes(env)
     update_payment_mode(env)
     uptade_payment_mode_return_code(env)
