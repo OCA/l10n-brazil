@@ -24,7 +24,6 @@ class CTeImportTest(SavepointCase):
         resource_path = "/".join(res_items)
         cte_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
         binding = Tcte.from_xml(cte_stream.read().decode())
-
         cte = (
             self.env["cte.40.infcte"]
             .with_context(tracking_disable=True, edoc_type="in")
@@ -67,7 +66,7 @@ class CTeImportTest(SavepointCase):
         # self.assertEqual(cte.cte40_condutor[0].cte40_xNome, "TESTE")
         # self.assertEqual(len(cte.cte40_veicReboque), 0)
 
-        self.assertEqual(cte.cte40_verProc, "104")
+        self.assertEqual(cte.cte40_verProc, "2.0.1")
 
     def test_import_out_cte(self):
         "(can be useful after an ERP migration)"

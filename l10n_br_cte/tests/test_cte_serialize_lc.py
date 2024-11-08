@@ -11,14 +11,11 @@ class TestCTeExportLC(TestCTeSerialize):
     def setUp(self):
         cte_list = [
             {
-                "record_ref": "l10n_br_cte.demo_cte_lc_modal_ferroviario",
-                "xml_file": "CTe35230905472475000102580200000602011208018449.xml",
-            },
-            {
                 "record_ref": "l10n_br_cte.demo_cte_lc_modal_rodoviario",
-                "xml_file": "CTe35230905472475000102580200000602071611554500.xml",
+                "xml_file": "CTe35240708318053000167570010000000311040645898.xml",
             },
         ]
+
         super().setUp(cte_list)
 
     def test_serialize_xml(self):
