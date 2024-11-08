@@ -25,10 +25,10 @@
                 <group
                     string="Configurações Brasileiras - CNAB"
                     name='l10n-br-config'
-                    col="4"
+                    col="2"
                     attrs="{'invisible': [('payment_method_code', 'not in', ('240','400', '500', 'manual_test') )]}"
                 >
-                    <notebook name="l10n_br_account_payment_order">
+                    <notebook name="l10n_br_account_payment_order" colspan="2">
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
                                 <!-- Forma encontrada para evitar ter diversos
