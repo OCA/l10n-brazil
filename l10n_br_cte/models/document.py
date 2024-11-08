@@ -10,7 +10,9 @@ from datetime import datetime
 from enum import Enum
 
 from erpbrasil.base.fiscal import cnpj_cpf
-from erpbrasil.edoc.cte import TransmissaoCTE
+
+# from erpbrasil.edoc.cte import TransmissaoCTE
+from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
@@ -1447,23 +1449,40 @@ class CTe(spec_models.StackedModel):
             edocs.append(cte)
         return edocs
 
+    # def _edoc_processor(self):
+    #     if self.document_type != MODELO_FISCAL_CTE:
+    #         return super()._edoc_processor()
+
+    #     if not self.company_id.certificate_nfe_id:
+    #         raise UserError(_("Certificado não encontrado"))
+
+    #     certificado = self.env.company._get_br_ecertificate()
+    #     session = Session()
+    #     session.verify = False
+    #     transmissao = TransmissaoCTE(certificado, session)
+    #     return edoc_cte(
+    #         transmissao,
+    #         self.company_id.state_id.ibge_code,
+    #         self.cte40_versao,
+    #         self.cte40_tpAmb,
+    #     )
+
     def _edoc_processor(self):
         if self.document_type != MODELO_FISCAL_CTE:
             return super()._edoc_processor()
 
-        if not self.company_id.certificate_nfe_id:
-            raise UserError(_("Certificado não encontrado"))
+        certificado = self.company_id._get_br_ecertificate()
 
-        certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
-        transmissao = TransmissaoCTE(certificado, session)
-        return edoc_cte(
-            transmissao,
-            self.company_id.state_id.ibge_code,
-            self.cte40_versao,
-            self.cte40_tpAmb,
-        )
+
+        params = {
+            "transmissao": TransmissaoSOAP(certificado, session),
+            "uf": self.company_id.state_id.ibge_code,
+            "versao": self.cte_version,
+            "ambiente": self.cte_environment,
+        }
+        return edoc_cte(**params)
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
