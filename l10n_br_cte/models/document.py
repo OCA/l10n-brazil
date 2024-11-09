@@ -346,7 +346,7 @@ class CTe(spec_models.StackedModel):
 
     @api.depends("service_provider")
     def _compute_cte40_toma(self):
-        for doc in self:
+        for doc in self.filtered(filter_processador_edoc_cte):
             if doc.service_provider in ["0", "1", "2", "3"]:
                 doc.cte40_choice_toma = "cte40_toma3"
             else:
@@ -354,18 +354,18 @@ class CTe(spec_models.StackedModel):
 
     @api.depends("fiscal_line_ids", "fiscal_line_ids.cfop_id")
     def _compute_cte40_CFOP(self):
-        for rec in self:
+        for rec in self.filtered(filter_processador_edoc_cte):
             if rec.fiscal_line_ids:
                 rec.cte40_CFOP = rec.fiscal_line_ids[0].cfop_id.code
 
     @api.depends("document_key")
     def _compute_cte40_cDV(self):
-        for rec in self:
+        for rec in self.filtered(filter_processador_edoc_cte):
             if rec.document_key:
                 rec.cte40_cDV = rec.document_key[-1]
 
     def _compute_cte40_cct(self):
-        for rec in self:
+        for rec in self.filtered(filter_processador_edoc_cte):
             if rec.document_key:
                 rec.cte40_cCT = rec.document_key[35:43]
 
@@ -382,7 +382,7 @@ class CTe(spec_models.StackedModel):
         "cte40_receb",
     )
     def _compute_cte40_data(self):
-        for doc in self:
+        for doc in self.filtered(filter_processador_edoc_cte):
             if doc.company_id.partner_id.country_id == doc.partner_id.country_id:
                 if doc.issuer == DOCUMENT_ISSUER_COMPANY:
                     doc.cte40_xMunEnv = (
@@ -431,7 +431,7 @@ class CTe(spec_models.StackedModel):
 
     # TODO: nao esta rodando direto.. corrigir
     def _compute_cte40_infQ(self):
-        for record in self:
+        for record in self.filtered(filter_processador_edoc_cte):
             cargo_info_vals = [
                 {"cte40_cUnid": "01", "cte40_tpMed": "Peso Bruto", "cte40_qCarga": 0},
                 {
@@ -468,7 +468,7 @@ class CTe(spec_models.StackedModel):
 
     @api.depends("comment_ids")
     def _compute_cte40_obsCont(self):
-        for doc in self:
+        for doc in self.filtered(filter_processador_edoc_cte):
             doc.cte40_obsCont = doc.comment_ids.filtered(
                 lambda c: c.comment_type == "commercial"
             )
@@ -477,7 +477,7 @@ class CTe(spec_models.StackedModel):
             )
 
     def _compute_cte40_compl(self):
-        for doc in self:
+        for doc in self.filtered(filter_processador_edoc_cte):
             fiscal_data = (
                 doc.fiscal_additional_data if doc.fiscal_additional_data else ""
             )
@@ -617,7 +617,7 @@ class CTe(spec_models.StackedModel):
     def _compute_cte40_vPrest(self):
         vTPrest = 0
         vRec = 0
-        for doc in self:
+        for doc in self.filtered(filter_processador_edoc_cte):
             for line in self.fiscal_line_ids:
                 vTPrest += line.amount_total
                 vRec += line.price_gross
@@ -870,17 +870,17 @@ class CTe(spec_models.StackedModel):
     )
 
     def _compute_cte40_infDoc(self):
-        for doc in self:
+        for doc in self.filtered(filter_processador_edoc_cte):
             doc.cte40_infDoc = doc
 
     def _compute_cte40_infNFe(self):
-        for record in self:
+        for record in self.filtered(filter_processador_edoc_cte):
             record.cte40_infNFe = record.document_related_ids.filtered(
                 lambda r: r.cte40_infDoc == "cte40_infNFe"
             )
 
     def _compute_cte40_infOutros(self):
-        for record in self:
+        for record in self.filtered(filter_processador_edoc_cte):
             record.cte40_infOutros = record.document_related_ids.filtered(
                 lambda r: r.cte40_infDoc == "cte40_infOutros"
             )
@@ -1168,7 +1168,7 @@ class CTe(spec_models.StackedModel):
     )
 
     def _compute_cte40_RNTRC(self):
-        for record in self:
+        for record in self.filtered(filter_processador_edoc_cte):
             if record.issuer == DOCUMENT_ISSUER_COMPANY:
                 record.cte40_RNTRC = record.company_id.partner_id.rntrc_code
             else:
@@ -1690,7 +1690,7 @@ class CTe(spec_models.StackedModel):
     def _document_qrcode(self):
         super()._document_qrcode()
 
-        for record in self:
+        for record in self.filtered(filter_processador_edoc_cte):
             record.cte40_infCTeSupl = self.env[
                 "l10n_br_fiscal.document.supplement"
             ].create(
