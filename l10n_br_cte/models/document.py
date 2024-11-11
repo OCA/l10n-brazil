@@ -1468,7 +1468,7 @@ class CTe(spec_models.StackedModel):
     #     )
 
     def _edoc_processor(self):
-        pass
+        super()._edoc_processor()
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
