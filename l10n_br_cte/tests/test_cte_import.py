@@ -20,7 +20,7 @@ class CTeImportTest(SavepointCase):
             "cte",
             "v4_00",
             "leiauteCTe",
-            "CTe51160724686092000173570010000000031000000024.xml",
+            "CTe51160824686092000173570010000000031000000024.xml",
         )
 
         resource_path = "/".join(res_items)
@@ -59,7 +59,7 @@ class CTeImportTest(SavepointCase):
         self.assertEqual(type(cte)._name, "l10n_br_fiscal.document")
 
         # ide
-        self.assertEqual(cte.cte40_nCT, "571")
+        self.assertEqual(cte.cte40_nCT, "575")
         # self.assertEqual(cte.cte40_infMunCarrega[0].cte40_xMunCarrega, "IVINHEMA")
         self.assertEqual(cte.cte40_UFIni, "MT")
         self.assertEqual(cte.cte40_UFFim, "MT")
