@@ -62,6 +62,8 @@ def build_attrs_fake(self, node, create_m2o=False):
             if fields.get(key) and fields[key].get("related"):
                 key = fields[key]["related"][0]
                 comodel_name = fields[key]["relation"]
+            elif fields.get(key) and fields[key].get("relation"):
+                comodel_name = fields[key]["relation"]
             else:
                 clean_type = binding_type.lower()
                 comodel_name = f"cte.40.{clean_type.split('.')[-1]}"
@@ -129,4 +131,18 @@ class CTeImportTest(SavepointCase):
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
             .build_fake(binding.infCte, create=False)
         )
+
+        self.assertEqual(cte.cte40_ide.cte40_cCT, "00000004")
+        self.assertEqual(
+            cte.cte40_Id, "CTe43120178408960000182570010000000041000000047"
+        )
+
         self.assertEqual(cte.cte40_emit.cte40_CNPJ, "78408960000182")
+        self.assertEqual(cte.cte40_receb.cte40_CNPJ, "81639791000104")
+
+        self.assertEqual(cte.cte40_exped.cte40_CNPJ, "78408960000182")
+        self.assertEqual(cte.cte40_dest.cte40_CNPJ, "81639791000104")
+
+        self.assertEqual(
+            cte.cte40_infCTeNorm.cte40_infCarga.cte40_proPred, "Pedra Brita"
+        )
