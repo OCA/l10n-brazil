@@ -37,7 +37,8 @@ def build_attrs_fake(self, node, create_m2o=False):
         value = getattr(node, fname)
         if value is None:
             continue
-        key = f"cte40_{fname}"
+        key = f"cte40_{fspec.metadata.get('name', fname)}"
+        # key = f"cte40_{fname}"
         if (
             fspec.type == str or not any(["." in str(i) for i in fspec.type.__args__])
         ) and not str(fspec.type).startswith("typing.List"):
@@ -124,7 +125,7 @@ class CTeImportTest(SavepointCase):
         cte_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
         binding = Tcte.from_xml(cte_stream.read().decode())
         cte = (
-            self.env["cte.40.infcte"]
+            self.env["cte.40.tcte_infcte"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
             .build_fake(binding.infCte, create=False)
         )
