@@ -74,8 +74,8 @@ class SpecMixinImport(models.AbstractModel):
         if value is None or value == []:
             return False
         prefix = f"{self._spec_prefix()}"
-        # key = f"{prefix}_{attr[1].metadata.get('name', attr[0])}"
-        key = f"{prefix}_{attr[0]}"
+        key = f"{prefix}_{attr[1].metadata.get('name', attr[0])}"
+        # key = f"{prefix}_{attr[0]}"
         child_path = f"{path}.{key}"
 
         # Is attr a xsd SimpleType or a ComplexType?
