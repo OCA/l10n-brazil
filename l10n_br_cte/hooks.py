@@ -38,7 +38,7 @@ def post_init_hook(cr, registry):
         try:
             existing_docs.unlink()
             cte = (
-                env["cte.40.infcte"]
+                env["cte.40.tcte_infcte"]
                 .with_context(tracking_disable=True, edoc_type="in")
                 .build_from_binding("cte", "40", binding.infCte)
             )

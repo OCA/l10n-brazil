@@ -64,7 +64,11 @@ class CTeStructure(SavepointCase):
     def test_concrete_spec(self):
         # this ensure basic SQL is set up
         self.assertEqual(
-            len(self.env["cte.40.infnfe"].search([("cte40_chave", "=", "NO_RECORD")])),
+            len(
+                self.env["cte.40.tcte_infnfe"].search(
+                    [("cte40_chave", "=", "NO_RECORD")]
+                )
+            ),
             0,
         )
 
@@ -79,7 +83,7 @@ class CTeStructure(SavepointCase):
 
     def test_o2m_concrete_to_concrete_spec(self):
         self.assertEqual(
-            self.env["cte.40.infdoc"]._fields["cte40_infOutros"].comodel_name,
+            self.env["cte.40.tcte_infdoc"]._fields["cte40_infOutros"].comodel_name,
             "cte.40.infoutros",
         )
 
@@ -110,7 +114,7 @@ class CTeStructure(SavepointCase):
             ._fields["cte40_infSolicNFF"]
             .comodel_name
         )
-        self.assertEqual(model, "cte.40.infsolicnff")
+        self.assertEqual(model, "cte.40.tcte_infsolicnff")
 
     # def test_m2o_stacked(self):
     #     # not stacked because optional

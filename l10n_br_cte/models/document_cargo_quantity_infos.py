@@ -8,7 +8,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 class CTeCargoQuantityInfos(spec_models.SpecModel):
     _name = "l10n_br_cte.cargo.quantity.infos"
-    _inherit = "cte.40.infq"
+    _inherit = "cte.40.tcte_infq"
     _description = "Informações de quantidades da Carga do CT-e"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")

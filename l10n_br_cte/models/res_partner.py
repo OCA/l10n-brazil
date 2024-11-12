@@ -24,12 +24,12 @@ class ResPartner(spec_models.SpecModel):
         "cte.40.tendereco",
         "cte.40.tlocal",
         "cte.40.tendeemi",
-        "cte.40.dest",
-        "cte.40.rem",
+        "cte.40.tcte_dest",
+        "cte.40.tcte_rem",
         "cte.40.exped",
         "cte.40.receb",
         "cte.40.tresptec",
-        "cte.40.autxml",
+        "cte.40.tcte_autxml",
         "cte.40.tenderfer",
     ]
     _cte_search_keys = ["cte40_CNPJ", "cte40_CPF", "cte40_xNome"]
@@ -662,7 +662,7 @@ class ResPartner(spec_models.SpecModel):
         if (
             xsd_field == "cte40_xNome"
             and class_obj._name
-            in ["cte.40.rem", "cte.40.dest", "cte.40.exped", "cte.40.receb"]
+            in ["cte.40.tcte_rem", "cte.40.tcte_dest", "cte.40.exped", "cte.40.receb"]
             and self.env.context.get("tpAmb") == "2"
         ):
             return "CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"

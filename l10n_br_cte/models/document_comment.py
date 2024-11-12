@@ -8,12 +8,12 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 class CTeComment(spec_models.StackedModel):
     _name = "l10n_br_fiscal.comment"
-    _inherit = ["l10n_br_fiscal.comment", "cte.40.obscont", "cte.40.obsfisco"]
+    _inherit = ["l10n_br_fiscal.comment", "cte.40.tcte_obscont", "cte.40.tcte_obsfisco"]
 
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     )
-    _cte40_stacking_mixin = "cte.40.obscont"
+    _cte40_stacking_mixin = "cte.40.tcte_obscont"
 
     # _stacking_points = {}
     _cte40_stacking_skip_paths = ("cte40_ObsCont_compl_id", "cte40_ObsFisco_compl_id")

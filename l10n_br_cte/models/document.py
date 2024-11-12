@@ -85,20 +85,22 @@ class CTe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = [
         "l10n_br_fiscal.document",
-        "cte.40.infcte",
+        "cte.40.tcte_infcte",
+        "cte.40.tcte_imp",
+        "cte.40.tcte_fat",
     ]
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     )
-    _cte40_stacking_mixin = "cte.40.infcte"
-    # _cte40_stacking_skip_paths = (
-    #     "cte40_fluxo",
-    #     "cte40_semData",
-    #     "cte40_noInter",
-    #     "cte40_comHora",
-    #     "cte40_noPeriodo",
-    #     "cte40_NFref_ide_id",
-    # )
+    _cte40_stacking_mixin = "cte.40.tcte_infcte"
+    _cte40_stacking_skip_paths = (
+        "cte40_fluxo",
+        "cte40_semData",
+        "cte40_noInter",
+        "cte40_comHora",
+        "cte40_noPeriodo",
+        "cte40_NFref_ide_id",
+    )
 
     # all m2o at this level will be stacked even if not required:
     _cte40_stacking_force_paths = (
@@ -1420,14 +1422,14 @@ class CTe(spec_models.StackedModel):
     #         return super()._get_attr_name(attr)
     #     return attr[0]
 
-    # @api.model
-    # def _get_concrete_model(self, model_name):
-    #     result = super()._get_concrete_model(model_name)
-    #     if self._module == "l10n_br_cte" and not result:
-    #         model_type = model_name.split(".")[-1]
-    #         model_name = model_name.rpartition(".")[0] + ".tcte_" + model_type
-    #         result = self.env.get(model_name)
-    #     return result
+    @api.model
+    def _get_concrete_model(self, model_name):
+        result = super()._get_concrete_model(model_name)
+        if self._module == "l10n_br_cte" and not result:
+            model_type = model_name.split(".")[-1]
+            model_name = model_name.rpartition(".")[0] + ".tcte_" + model_type
+            result = super()._get_concrete_model(model_name)
+        return result
 
     ################################
     # Business Model Methods
@@ -1808,7 +1810,7 @@ class CTe(spec_models.StackedModel):
 
     def import_binding_cte(self, binding, edoc_type="out"):
         document = (
-            self.env["cte.40.infcte"]
+            self.env["cte.40.tcte_infcte"]
             .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
             .build_from_binding("cte", "40", binding.CTe.infCte)
         )

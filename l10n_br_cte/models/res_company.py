@@ -8,7 +8,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 class ResCompany(spec_models.SpecModel):
     _name = "res.company"
-    _inherit = ["res.company", "cte.40.emit"]
+    _inherit = ["res.company", "cte.40.tcte_emit"]
     _cte_search_keys = ["cte40_CNPJ", "cte40_xNome", "cte40_xFant"]
 
     ##########################

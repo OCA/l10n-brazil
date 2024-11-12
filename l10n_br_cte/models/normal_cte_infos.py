@@ -8,10 +8,10 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 class CTeNormalInfos(spec_models.StackedModel):
     _name = "l10n_br_cte.normal.infos"
-    _inherit = ["cte.40.infctenorm"]
+    _inherit = ["cte.40.tcte_infctenorm"]
     _description = "Grupo de informações do CTe Normal e Substituto"
 
-    _cte40_stacking_mixin = "cte.40.infctenorm"
+    _cte40_stacking_mixin = "cte.40.tcte_infctenorm"
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     )
