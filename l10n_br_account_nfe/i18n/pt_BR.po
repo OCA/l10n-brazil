@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-11 02:06+0000\n"
+"PO-Revision-Date: 2024-11-13 16:06+0000\n"
 "Last-Translator: Rodrigo Sottomaior Macedo "
 "<sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: none\n"
@@ -155,13 +155,14 @@ msgstr "Grupo de detalhamento da forma de pagamento."
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
 msgid "Indicador da Forma"
-msgstr ""
+msgstr "Indicador da Forma"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
 msgid ""
 "Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
 msgstr ""
+"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__fiscal_payment_mode
@@ -197,6 +198,8 @@ msgid ""
 "Payment Mode %(mode)s should have a Fiscal Payment Mode filled to be used in "
 "the Fiscal Document!"
 msgstr ""
+"Modo de Pagamento %(mode)s deve ter um Modo de Pagamento Fiscal preenchido "
+"para ser usado no Documento Fiscal!"
 
 #. module: l10n_br_account_nfe
 #. odoo-python
