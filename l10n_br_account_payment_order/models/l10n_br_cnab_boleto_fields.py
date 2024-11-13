@@ -144,6 +144,7 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
 
     own_number_sequence_id = fields.Many2one(
         comodel_name="ir.sequence",
+        copy=False,
         string="Sequência do Nosso Número",
         help="Para usar essa Sequencia é preciso definir o campo Tipo do "
         "Nosso Número como Sequencial Único por Carteira no cadastro da "

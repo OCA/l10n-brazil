@@ -54,6 +54,7 @@ class AccountPaymentMode(models.Model):
         comodel_name="ir.sequence",
         string="Sequencia do Arquivo CNAB",
         tracking=True,
+        copy=False,
     )
 
     # Fields used to make invisible banks specifics fields
