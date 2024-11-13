@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-08-07 01:58+0000\n"
+"PO-Revision-Date: 2024-11-13 16:06+0000\n"
 "Last-Translator: Rodrigo Sottomaior Macedo "
 "<sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: none\n"
@@ -57,7 +57,7 @@ msgstr "modelo abstrato raiz destinado a modelos fiscais gerados por xsd"
 #: code:addons/spec_driven_model/tests/test_spec_model.py:0
 #, python-format
 msgid "xsdata Python lib not installed, skipping XML test!"
-msgstr ""
+msgstr "Biblioteca Python xsdata não instalada, pulando teste XML!"
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
