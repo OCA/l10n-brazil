@@ -766,6 +766,9 @@ class CTe(spec_models.StackedModel):
             if "cte40_ICMSOutraUF" in xsd_fields:
                 xsd_fields.remove("cte40_ICMSOutraUF")
 
+            # TODO: Tive que forçar o calcuçp dp campo
+            record._compute_cte40_choice_icms()
+
             xsd_fields = [record.cte40_choice_icms]
             icms_tag = (
                 record.cte40_choice_icms.replace("cte40_", "")
