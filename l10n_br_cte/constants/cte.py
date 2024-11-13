@@ -37,8 +37,10 @@ CTE_EMISSION_PROCESSES = [("0", "Emissão de CTe com aplicativo do contribuinte"
 
 CTE_EMISSION_PROCESS_DEFAULT = "0"
 
+CTE_TYPE = [
+    ("0", "CT-e Normal"),
+    ("1", "CT-e de Complemento de Valores"),
+    ("3", "CT-e de Substituição"),
+]
 
-# CTE_TYPE
-# 	0 - CT-e Normal;
-#  1 - CT-e de Complemento de Valores;
-#  3 - CT-e de Substituição
+CTE_TYPE_DEFAULT = "0"

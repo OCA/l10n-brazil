@@ -13,6 +13,7 @@ from erpbrasil.base.fiscal import cnpj_cpf
 
 # TODO: precisa tratar
 # from erpbrasil.edoc.cte import TransmissaoCTE
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from lxml import etree
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
@@ -22,7 +23,7 @@ from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
 from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import _, api, fields
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_ferroviario_v4_00 import (
     FERROV_TPTRAF,
@@ -57,6 +58,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
 from odoo.addons.spec_driven_model.models import spec_models
 
+from ..constants.cte import (
+    CTE_TRANSMISSIONS,
+)
 from ..constants.modal import (
     CTE_MODAL_DEFAULT,
     CTE_MODAL_VERSION_DEFAULT,
@@ -86,27 +90,24 @@ class CTe(spec_models.StackedModel):
     _inherit = [
         "l10n_br_fiscal.document",
         "cte.40.tcte_infcte",
-        "cte.40.tcte_imp",
-        "cte.40.tcte_fat",
     ]
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     )
     _cte40_stacking_mixin = "cte.40.tcte_infcte"
     _cte40_stacking_skip_paths = (
-        "cte40_fluxo",
         "cte40_semData",
-        "cte40_noInter",
-        "cte40_comHora",
         "cte40_noPeriodo",
-        "cte40_NFref_ide_id",
+        "cte40_comHora",
+        "cte40_noInter",
+        #     "cte40_NFref_ide_id",
     )
 
     # all m2o at this level will be stacked even if not required:
     _cte40_stacking_force_paths = (
         "infcte.compl",
-        "infcte.compl.entrega" "infcte.vprest",
-        "infcte.imp",
+        "infcte.compl.entrega",
+        "infcte.fluxo",
     )
     _cte_search_keys = ["cte40_Id"]
 
@@ -223,7 +224,8 @@ class CTe(spec_models.StackedModel):
 
     cte40_dhEmi = fields.Datetime(related="document_date")
 
-    cte40_cDV = fields.Char(compute="_compute_cte40_cDV", store=True)
+    # cte40_cDV = fields.Char(compute="_compute_cte40_cDV", store=True)
+    # cte40_cDV = fields.Char(related="key_check_digit")
 
     cte40_procEmi = fields.Selection(default="0")
 
@@ -306,6 +308,13 @@ class CTe(spec_models.StackedModel):
         default="1",
     )
 
+    cte_transmission = fields.Selection(
+        selection=CTE_TRANSMISSIONS,
+        string="CTE Transmission",
+        copy=False,
+        default=lambda self: self.env.company.cte_transmission,
+    )
+
     cte40_tpImp = fields.Selection(
         selection=[("1", "Retrato"), ("2", "Paisagem")], default="1"
     )
@@ -358,11 +367,11 @@ class CTe(spec_models.StackedModel):
             if rec.fiscal_line_ids:
                 rec.cte40_CFOP = rec.fiscal_line_ids[0].cfop_id.code
 
-    @api.depends("document_key")
-    def _compute_cte40_cDV(self):
-        for rec in self.filtered(filter_processador_edoc_cte):
-            if rec.document_key:
-                rec.cte40_cDV = rec.document_key[-1]
+    # @api.depends("document_key")
+    # def _compute_cte40_cDV(self):
+    #     for rec in self.filtered(filter_processador_edoc_cte):
+    #         if rec.document_key:
+    #             rec.cte40_cDV = rec.document_key[-1]
 
     def _compute_cte40_cct(self):
         for rec in self.filtered(filter_processador_edoc_cte):
@@ -655,7 +664,7 @@ class CTe(spec_models.StackedModel):
             ("cte40_ICMSSN", "ICMSSN"),
         ],
         string="Tipo de ICMS",
-        compute="_compute_choice_icms",
+        compute="_compute_cte40_choice_icms",
         store=True,
     )
 
@@ -670,7 +679,7 @@ class CTe(spec_models.StackedModel):
             ("01", "01 - Simples Nacional"),
         ],
         string="Classificação Tributária do Serviço",
-        compute="_compute_choice_icms",
+        compute="_compute_cte40_choice_icms",
         store=True,
     )
 
@@ -686,8 +695,8 @@ class CTe(spec_models.StackedModel):
     ##########################
 
     @api.depends("fiscal_line_ids")
-    def _compute_choice_icms(self):
-        for record in self:
+    def _compute_cte40_choice_icms(self):
+        for record in self.filtered(filter_processador_edoc_cte):
             record.cte40_choice_icms = None
             record.cte40_CST = None
             if not record.fiscal_line_ids:
@@ -1704,7 +1713,7 @@ class CTe(spec_models.StackedModel):
         #     return
 
         processador = self._edoc_processor()
-        # if self.nfe_transmission == "1":
+        # if self.cte_transmission == "1":
         #     return processador.monta_qrcode(self.document_key)
         return processador.monta_qrcode(self.document_key)
 
@@ -1822,3 +1831,23 @@ class CTe(spec_models.StackedModel):
             document.issuer = "partner"
 
         return document
+
+    def _document_number(self):
+        # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
+        # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
+        result = super()._document_number()
+        for record in self.filtered(filter_processador_edoc_cte):
+            if record.document_key:
+                try:
+                    chave = ChaveEdoc(record.document_key)
+                    record.cte40_cCT = chave.codigo_aleatorio
+                    record.cte40_cDV = chave.digito_verificador
+                except Exception as e:
+                    raise ValidationError(
+                        _(
+                            "%(name)s:\n %(error)s",
+                            name=record.document_type_id.name,
+                            error=e,
+                        )
+                    ) from e
+        return result

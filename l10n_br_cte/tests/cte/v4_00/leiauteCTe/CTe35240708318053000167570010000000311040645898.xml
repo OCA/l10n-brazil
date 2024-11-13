@@ -31,7 +31,18 @@
       <indIEToma>1</indIEToma>
       <toma3 />
       <toma4>
-        <enderToma />
+        <enderToma>
+          <xLgr>Rua Samuel Morse</xLgr>
+          <nro>135</nro>
+          <xCpl>20º andar - Conjunto 151</xCpl>
+          <xBairro>Brooklin</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <CEP>04576060</CEP>
+          <UF>SP</UF>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+        </enderToma>
       </toma4>
     </ide>
     <compl>
@@ -41,7 +52,20 @@
       </ObsFisco>
     </compl>
     <emit>
-      <enderEmit />
+      <CNPJ>81583054000129</CNPJ>
+      <IE>078016350838</IE>
+      <xNome>Empresa Lucro Presumido Ltda</xNome>
+      <xFant>Empresa Lucro Presumido</xFant>
+      <enderEmit>
+        <xLgr>Avenida Paulista</xLgr>
+        <nro>1</nro>
+        <xBairro>Bela Vista</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>São Paulo</xMun>
+        <CEP>01311000</CEP>
+        <UF>SP</UF>
+        <fone>551199999999</fone>
+      </enderEmit>
       <CRT>3</CRT>
     </emit>
     <rem>

@@ -5,6 +5,17 @@ from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
+from ..constants.cte import (
+    CTE_ENVIRONMENT_DEFAULT,
+    CTE_ENVIRONMENTS,
+    CTE_TRANSMISSION_DEFAULT,
+    CTE_TRANSMISSIONS,
+    CTE_TYPE,
+    CTE_TYPE_DEFAULT,
+    CTE_VERSION_DEFAULT,
+    CTE_VERSIONS,
+)
+
 
 class ResCompany(spec_models.SpecModel):
     _name = "res.company"
@@ -27,38 +38,28 @@ class ResCompany(spec_models.SpecModel):
     )
 
     cte_transmission = fields.Selection(
-        selection=[
-            ("1", "Normal"),
-            ("2", "Regime Especial NFF"),
-            ("4", "EPEC pela SVC"),
-            ("5", "Contingência FSDA"),
-            ("7", "Contingência SVC-RS"),
-            ("8", "Contingência SVC-SP"),
-        ],
-        string="CT-e Transmission Type",
-        default="1",
+        selection=CTE_TRANSMISSIONS,
+        string="CTe Transmission",
+        copy=False,
+        default=CTE_TRANSMISSION_DEFAULT,
     )
 
     cte_type = fields.Selection(
-        selection=[
-            ("0", "CT-e Normal"),
-            ("1", "CT-e de Complemento de Valores"),
-            ("3", "CT-e de Substituição"),
-        ],
-        string="CT-e Type",
-        default="0",
+        selection=CTE_TYPE,
+        string="CTe Type",
+        default=CTE_TYPE_DEFAULT,
     )
 
     cte_environment = fields.Selection(
-        selection=[("1", "Produção"), ("2", "Homologação")],
-        string="CT-e Environment",
-        default="2",
+        selection=CTE_ENVIRONMENTS,
+        string="CTe Environment",
+        default=CTE_ENVIRONMENT_DEFAULT,
     )
 
     cte_version = fields.Selection(
-        selection=[("3.00", "3.00"), ("4.00", "4.00")],
-        string="CT-e Version",
-        default="4.00",
+        selection=CTE_VERSIONS,
+        string="CTe Version",
+        default=CTE_VERSION_DEFAULT,
     )
 
     # processador_edoc = fields.Selection(

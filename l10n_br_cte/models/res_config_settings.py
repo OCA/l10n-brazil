@@ -10,3 +10,9 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.cte_authorize_accountant_download_xml",
         readonly=False,
     )
+
+    cte_transmission = fields.Selection(
+        string="NFe Transmission",
+        related="company_id.cte_transmission",
+        readonly=False,
+    )
