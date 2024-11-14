@@ -2,13 +2,13 @@
 <CTe xmlns="http://www.portalfiscal.inf.br/cte">
   <infCte Id="CTe43120178408960000182570010000000041000000047" versao="3.00">
     <ide>
-      <cUF>43</cUF>
-      <cCT>00000004</cCT>
+      <cUF>3</cUF>
+      <cCT>00000572</cCT>
       <CFOP>6353</CFOP>
       <natOp>SERV. TRANSPORTE</natOp>
       <mod>57</mod>
       <serie>1</serie>
-      <nCT>4</nCT>
+      <nCT>572</nCT>
       <dhEmi>2012-01-06T17:25:56-02:00</dhEmi>
       <tpImp>1</tpImp>
       <tpEmis>1</tpEmis>
@@ -21,7 +21,7 @@
       <xMunEnv>PORTO UNIAO</xMunEnv>
       <UFEnv>SC</UFEnv>
       <modal>01</modal>
-      <tpServ />
+      <tpServ>0</tpServ>
       <cMunIni>4213609</cMunIni>
       <xMunIni>PORTO UNIAO</xMunIni>
       <UFIni>SC</UFIni>

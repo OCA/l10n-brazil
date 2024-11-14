@@ -16,6 +16,7 @@ class Aereo(spec_models.StackedModel):
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_aereo_v4_00"
     )
+    _cte40_binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aereo_v4_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -51,6 +52,7 @@ class Peri(spec_models.StackedModel):
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_aereo_v4_00"
     )
+    _cte40_binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aereo_v4_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
