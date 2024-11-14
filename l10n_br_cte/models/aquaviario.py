@@ -15,6 +15,7 @@ class Aquav(spec_models.StackedModel):
     _cte40_odoo_module = (
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_aquaviario_v4_00"
     )
+    _cte40_binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aquaviario_v4_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
@@ -45,6 +46,12 @@ class Balsa(spec_models.SpecModel):
     _name = "l10n_br_cte.modal.aquav.balsa"
     _inherit = "cte.40.balsa"
     _description = "Grupo de informações das balsas"
+
+    _cte40_stacking_mixin = "cte.40.balsa"
+    _cte40_odoo_module = (
+        "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_modal_aquaviario_v4_00"
+    )
+    _cte40_binding_module = "nfelib.cte.bindings.v4_0.cte_modal_aquaviario_v4_00"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 

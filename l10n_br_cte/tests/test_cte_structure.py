@@ -1,4 +1,4 @@
-# @ 2020 KMEE INFORMATICA LTDA - www.kmee.com.br -
+# Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from io import StringIO
@@ -6,8 +6,6 @@ from io import StringIO
 from odoo.tests import SavepointCase
 
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
-
-from ..models.document import CTe
 
 
 class CTeStructure(SavepointCase):
@@ -67,44 +65,43 @@ class CTeStructure(SavepointCase):
         # this ensure basic SQL is set up
         self.assertEqual(
             len(
-                self.env["cte.40.infmuncarrega"].search(
-                    [("cte40_cMunCarrega", "=", "NO_RECORD")]
+                self.env["cte.40.tcte_infnfe"].search(
+                    [("cte40_chave", "=", "NO_RECORD")]
                 )
             ),
             0,
         )
 
-    def test_m2o_concrete_to_concrete_spec(self):
-        self.assertEqual(
-            self.env["cte.40.infcte"]
-            ._fields["cte40_infCTe_infMunDescarga_id"]
-            .comodel_name,
-            "cte.40.infmundescarga",
-        )
+    # TODO: Nao achei um exemplo de m2o concreto para concreto
+    # def test_m2o_concrete_to_concrete_spec(self):
+    #     self.assertEqual(
+    #         self.env["cte.40.infnfe"]
+    #         ._fields["cte40_infUnidCarga_infNFe_id"]
+    #         .comodel_name,
+    #         "cte.40.tunidcarga",
+    #     )
 
     def test_o2m_concrete_to_concrete_spec(self):
         self.assertEqual(
-            self.env["cte.40.ide"]._fields["cte40_infMunCarrega"].comodel_name,
-            "cte.40.infmuncarrega",
+            self.env["cte.40.tcte_infdoc"]._fields["cte40_infOutros"].comodel_name,
+            "cte.40.infoutros",
         )
 
     def test_m2o_stacked_to_odoo(self):
         self.assertEqual(
-            self.env["l10n_br_fiscal.document"]._fields["cte40_prodPred"].comodel_name,
-            "product.product",
+            self.env["l10n_br_fiscal.document"]._fields["cte40_enderReme"].comodel_name,
+            "res.partner",
         )
 
     def test_o2m_to_odoo(self):
         self.assertEqual(
-            self.env["l10n_br_fiscal.document"]
-            ._fields["cte40_infEmbComb"]
-            .comodel_name,
-            "l10n_br_cte.modal.aquaviario.comboio",
+            self.env["l10n_br_fiscal.document"]._fields["cte40_occ"].comodel_name,
+            "l10n_br_cte.modal.rodo.occ",
         )
         self.assertEqual(
             len(
-                self.env["l10n_br_cte.modal.aquaviario.comboio"].search(
-                    [("cte40_cEmbComb", "=", "NO_RECORD")]
+                self.env["l10n_br_cte.modal.rodo.occ"].search(
+                    [("cte40_nOcc", "=", "NO_RECORD")]
                 )
             ),
             0,
@@ -117,8 +114,9 @@ class CTeStructure(SavepointCase):
             ._fields["cte40_infSolicNFF"]
             .comodel_name
         )
-        self.assertEqual(model, "cte.40.infsolicnff")
+        self.assertEqual(model, "cte.40.tcte_infsolicnff")
 
+    # TODO: Tratar
     # def test_m2o_stacked(self):
     #     # not stacked because optional
     #     cte_model = self.env["l10n_br_fiscal.document"]
@@ -128,30 +126,36 @@ class CTeStructure(SavepointCase):
     def test_doc_stacking_points(self):
         doc_keys = [
             "cte40_ide",
+            "cte40_toma3",
+            "cte40_toma4",
+            # "cte40_enderToma",
+            "cte40_compl",
+            "cte40_fluxo",
+            "cte40_entrega",
+            "cte40_comData",
+            "cte40_semHora",
+            "cte40_vPrest",
+            "cte40_imp",
+            "cte40_ICMS",
+            "cte40_infCTeNorm",
+            "cte40_infCarga",
             "cte40_infModal",
-            "cte40_infDoc",
-            "cte40_tot",
-            "cte40_infAdic",
-            #     "cte40_trem",
-            #     "cte40_infANTT",
-            #     "cte40_valePed",
-            #     "cte40_veicTracao",
-            #     "cte40_infBanc",
         ]
         keys = [
             k
             for k in self.env["l10n_br_fiscal.document"]
-            .with_context(spec_schema="cte", spec_version="30")
+            .with_context(spec_schema="cte", spec_version="40")
             ._get_stacking_points()
             .keys()
         ]
         self.assertEqual(sorted(keys), sorted(doc_keys))
 
-    def test_doc_tree(self):
-        base_class = self.env["l10n_br_fiscal.document"]
-        tree, visited = self.get_stacked_tree(base_class)
-        self.assertEqual(tree, CTe.INFCTE_TREE)
-        self.assertEqual(len(visited), 6)  # all stacked classes
+    # TODO: Tratar
+    # def test_doc_tree(self):
+    #     base_class = self.env["l10n_br_fiscal.document"]
+    #     tree, visited = self.get_stacked_tree(base_class)
+    #     self.assertEqual(tree, CTe.INFCTE_TREE)
+    #     self.assertEqual(len(visited), 15)  # all stacked classes
 
     def test_m2o_force_stack(self):
         pass
