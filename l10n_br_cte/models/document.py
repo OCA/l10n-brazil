@@ -825,9 +825,9 @@ class CTe(spec_models.StackedModel):
         default="cte40_infCTeNorm",
     )
 
-    cte40_infCTeNorm = fields.Many2one(
-        comodel_name="l10n_br_cte.normal.infos",
-    )
+    # cte40_infCTeNorm = fields.Many2one(
+    #     comodel_name="l10n_br_cte.normal.infos",
+    # )
 
     # cte40_infCTeNorm = fields.Many2one(
     #     comodel_name="l10n_br_cte.normal.infos",

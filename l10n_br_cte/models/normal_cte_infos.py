@@ -16,7 +16,6 @@ class CTeNormalInfos(spec_models.StackedModel):
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     )
     _cte40_stacking_force_paths = "infctenorm.infdoc"
-    _cte40_stacking_skip_paths = "cte40_docAnt"
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
