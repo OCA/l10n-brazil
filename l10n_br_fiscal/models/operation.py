@@ -268,3 +268,17 @@ class Operation(models.Model):
     def _onchange_operation_subsequent_ids(self):
         for sub_operation in self.operation_subsequent_ids:
             sub_operation.fiscal_operation_id = self.id
+
+    def copy(self, default=None):
+        """
+        Inherit copy to edit field code. This is needed because the field is
+        Unique and Required.
+        """
+        self.ensure_one()
+        if default is None:
+            default = {}
+        if self.code:
+            default["code"] = self.code + _(" (Copy)")
+
+        res = super().copy(default)
+        return res
