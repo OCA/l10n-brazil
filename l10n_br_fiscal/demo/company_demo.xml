@@ -161,6 +161,14 @@
         <field name="active">True</field>
     </record>
 
+    <record id="empresa_lc_document_57_serie_1" model="l10n_br_fiscal.document.serie">
+        <field name="code">1</field>
+        <field name="name">Série 1</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="active">True</field>
+    </record>
+
     <record id="empresa_lc_document_58_serie_1" model="l10n_br_fiscal.document.serie">
         <field name="code">1</field>
         <field name="name">Série 1</field>
@@ -197,6 +205,14 @@
         <field name="code">1</field>
         <field name="name">Série 1</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="active">True</field>
+    </record>
+
+    <record id="empresa_sn_document_57_serie_1" model="l10n_br_fiscal.document.serie">
+        <field name="code">1</field>
+        <field name="name">Série 1</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="active">True</field>
     </record>
