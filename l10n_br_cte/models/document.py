@@ -236,14 +236,23 @@ class CTe(spec_models.StackedModel):
         .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA v14"),
     )
 
-    cte40_cMunEnv = fields.Char(compute="_compute_cte40_data", store=True)
-
-    # cte40_xMunEnv = fields.Char(compute="_compute_cte40_data", store=True)
-    cte40_xMunEnv = fields.Char(
+    cte40_cMunEnv = fields.Char(
         compute="_compute_cte40_data",
+        store=True,
+        compute_sudo=True,
     )
 
-    cte40_UFEnv = fields.Char(compute="_compute_cte40_data", store=True)
+    cte40_xMunEnv = fields.Char(
+        compute="_compute_cte40_data",
+        store=True,
+        compute_sudo=True,
+    )
+
+    cte40_UFEnv = fields.Char(
+        compute="_compute_cte40_data",
+        store=True,
+        compute_sudo=True,
+    )
 
     cte40_indIEToma = fields.Selection(
         selection=[
@@ -254,17 +263,29 @@ class CTe(spec_models.StackedModel):
         default="1",
     )
 
-    cte40_cMunIni = fields.Char(compute="_compute_cte40_data")
+    cte40_cMunIni = fields.Char(
+        compute="_compute_cte40_data",
+        compute_sudo=True,
+    )
 
-    cte40_xMunIni = fields.Char(compute="_compute_cte40_data")
+    cte40_xMunIni = fields.Char(
+        compute="_compute_cte40_data",
+        compute_sudo=True,
+    )
 
     cte40_UFIni = fields.Char()
     # cte40_UFIni = fields.Char(compute="_compute_cte40_data")
     # cte40_UFIni = fields.Char(related="partner_sendering_id.state_id.code")
 
-    cte40_cMunFim = fields.Char(compute="_compute_cte40_data")
+    cte40_cMunFim = fields.Char(
+        compute="_compute_cte40_data",
+        compute_sudo=True,
+    )
 
-    cte40_xMunFim = fields.Char(compute="_compute_cte40_data")
+    cte40_xMunFim = fields.Char(
+        compute="_compute_cte40_data",
+        compute_sudo=True,
+    )
 
     cte40_UFFim = fields.Char()
     # cte40_UFFim = fields.Char(compute="_compute_cte40_data")
