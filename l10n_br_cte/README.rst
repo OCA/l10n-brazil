@@ -28,10 +28,12 @@ CT-e
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-[ This file must be max 2-3 paragraphs, and is required. ]
+Este módulo permite a emissão de CT-e (Conhecimento de Transporte).
 
-This module extends the functionality of ... to support ...
-and to allow you to ...
+Mais especificamente ele:
+  * mapea os campos de CT-e do módulo ``l10n_br_cte_spec`` com os campos Odoo.
+  * usa a logica do módulo ``spec_driven_model`` para realizar esse mapeamento de forma dinâmica, em especial ele usa o sistema de modelos com várias camadas, ou ``StackedModel``, com os modelos ``l10n_br_fiscal.document`` e ``l10n_br_fiscal.document.related`` que tem varios niveis hierarquicos de elementos XML que estão sendo denormalizados dentro desses modelos Odoo 
+  * tem wizards para implementar a comunicação SOAP de CT-e com a SEFAZ (Autorização, Cancelamento, Encerramento...)
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -46,31 +48,27 @@ and to allow you to ...
 Configuration
 =============
 
-[ This file is optional, it should explain how to configure
-  the module before using it; it is aimed at advanced users. ]
-
-To configure this module, you need to:
-
-#. Go to ...
-
-.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/14.0/l10n_br_cte/static/description/image.png
-   :alt: alternative description
-   :width: 600 px
+Para configurar este módulo, você precisa definir um certificado digital na empresa e também definir o processador edoc da empresa.
 
 Usage
 =====
 
-[ This file must be present and contains the usage instructions
-  for end-users. As all other rst files included in the README,
-  it MUST NOT contain reStructuredText sections
-  only body text (paragraphs, lists, tables, etc). Should you need
-  a more elaborate structure to explain the addon, please create a
-  Sphinx documentation (which may include this file as a "quick start"
-  section). ]
+**Passo a Passo:**
 
-To use this module, you need to:
+1. **Criar uma Fatura:**
+   - Defina o tipo de documento como **57 (CTe - Conhecimento de Transporte)**.
 
-#. Go to ...
+2. **Configurar o Parceiro da Fatura:**
+   - Configure o parceiro responsável pelo pagamento do CTe e os parceiros como Rementente, Expedidor, Destinatário e Recebedor.
+
+3. **Adicionar uma Linha na Aba Produtos:**
+   - Adicione uma linha de fatura e selecione o produto Frete ou outro que esteja previamente configurado.
+
+4. **Acesse os detalhes fiscais da fatura e informe os demais dados necessário para emissão do CT-e:**
+   - Preencha os campos obrigatórios para emissão do CT-e.
+
+5. **Valide o CT-e, verifique os dados do XML e envie para a SEFAZ:**
+   - Após preencher todos os dados necessários, valide o CT-e e envie para a SEFAZ.
 
 Bug Tracker
 ===========
@@ -89,11 +87,24 @@ Authors
 ~~~~~~~
 
 * KMEE
+* Escodoo
 
 Contributors
 ~~~~~~~~~~~~
 
-* Ygor Carvalho <ygor.carvalho@kmee.com.br>
+
+* `KMEE <https://kmee.com.br>`_:
+
+  * Luis Felipe Mileo <mileo@kmee.com.br>
+  * Ygor Carvalho <ygor.carvalho@kmee.com.br>
+
+* `ESCODOO <https://escodoo.com.br>`_:
+
+  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+
+* `AKRETION <https://akretion.com/pt-BR/>`_:
+
+  * Raphaël Valyi <raphael.valyi@akretion.com.br>
 
 Maintainers
 ~~~~~~~~~~~
@@ -107,6 +118,17 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
+    :target: https://github.com/mileo
+    :alt: mileo
+.. |maintainer-marcelsavegnago| image:: https://github.com/marcelsavegnago.png?size=40px
+    :target: https://github.com/marcelsavegnago
+    :alt: marcelsavegnago
+
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-mileo| |maintainer-marcelsavegnago| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_cte>`_ project on GitHub.
 

@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <CTe xmlns="http://www.portalfiscal.inf.br/cte">
-  <infCte Id="CTe51160624686092000173570010000000031000000020" versao="3.00">
+  <infCte Id="CTe51160824686092000173570010000000031000000024" versao="3.00">
     <ide>
       <cUF>51</cUF>
-      <cCT>00000002</cCT>
+      <cCT>570005757</cCT>
       <CFOP>5353</CFOP>
       <natOp>PREST. DE SERV. TRANSPORTE A ESTAB. COMERCIAL..</natOp>
       <mod>57</mod>
       <serie>1</serie>
-      <nCT>3</nCT>
-      <dhEmi>2016-06-07T17:58:40-02:00</dhEmi>
+      <nCT>575</nCT>
+      <dhEmi>2016-07-07T17:58:40-02:00</dhEmi>
       <tpImp>1</tpImp>
       <tpEmis>1</tpEmis>
       <cDV>0</cDV>
@@ -21,7 +21,7 @@
       <xMunEnv>VARZEA GRANDE</xMunEnv>
       <UFEnv>MT</UFEnv>
       <modal>01</modal>
-      <tpServ>9</tpServ>
+      <tpServ>0</tpServ>
       <cMunIni>5101407</cMunIni>
       <xMunIni>ARIPUANA</xMunIni>
       <UFIni>MT</UFIni>
@@ -116,7 +116,7 @@
           <tpDoc>99</tpDoc>
           <descOutros>NOTA FISCAL MANUAL</descOutros>
           <nDoc>123456</nDoc>
-          <dEmi>2016-06-05</dEmi>
+          <dEmi>2016-07-05</dEmi>
           <vDocFisc>79400.00</vDocFisc>
         </infOutros>
       </infDoc>
