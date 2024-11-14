@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2023 KMEE
+     Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
 
-    <record model="ir.ui.view" id="cte_document_form_inherit">
-        <field name="name">l10n_br_cte.document.form.inherit</field>
+    <record model="ir.ui.view" id="cte_document_form_view">
+        <field name="name">>cte.document.form.view (in l10n_br_cte)</field>
         <field name="model">l10n_br_fiscal.document</field>
-        <field name="priority">10</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="priority">5</field>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='l10n_br_fiscal']" position="attributes">
                 <attribute
@@ -26,12 +27,12 @@
                 <field name="cte40_dProg" />
                 <field name="cte40_tpHor" />
             </field>
-            <field name="partner_shipping_id" position="before">
-                <field name="cte40_rem" />
-                <field name="cte40_exped" />
+            <field name="partner_shipping_id" position="before"> <!--cte40_dest-->
+                <field name="partner_sendering_id" /> <!--cte40_rem-->
+                <field name="partner_shippering_id" /> <!--cte40_exped-->
             </field>
             <field name="partner_shipping_id" position="after">
-                <field name="cte40_receb" />
+                <field name="partner_receivering_id" /> <!--cte40_receb-->
             </field>
             <page name="delivery" position="inside">
                 <separator name="cargo_infos_sep" string="Cargo Infos" />

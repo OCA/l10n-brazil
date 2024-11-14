@@ -1,4 +1,5 @@
 # Copyright 2023 KMEE INFORMATICA LTDA
+# Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields
@@ -11,6 +12,7 @@ class CTeRelated(spec_models.StackedModel):
     _inherit = [
         "l10n_br_fiscal.document.related",
         "cte.40.tcte_infdoc",
+        "cte.40.tcte_infctecomp",
     ]
 
     _cte40_odoo_module = (
@@ -107,3 +109,5 @@ class CTeRelated(spec_models.StackedModel):
         for rec in self:
             if rec.cte40_choice_infNF_infNFE_infOutros == "cte40_infNFe":
                 rec.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+            if rec.cte40_choice_infNF_infNFE_infOutros == "infOutros":
+                rec.document_type_id = self.env.ref("l10n_br_fiscal.document_01")

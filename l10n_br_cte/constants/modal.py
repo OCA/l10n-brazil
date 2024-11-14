@@ -1,3 +1,14 @@
+CTE_MODALS = [
+    ("01", "Rodoviário"),
+    ("02", "Aéreo"),
+    ("03", "Aquaviário"),
+    ("04", "Ferroviário"),
+    ("05", "Dutoviário"),
+    ("06", "Multimodal"),
+]
+
+CTE_MODAL_DEFAULT = "01"
+
 CTE_MODAL_VERSION_DEFAULT = "4.00"
 
 TUF = [
