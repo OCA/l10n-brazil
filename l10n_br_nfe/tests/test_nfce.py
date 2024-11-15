@@ -228,8 +228,8 @@ class TestNFCe(TestNFeExport):
         self.document_id.partner_id.cnpj_cpf = False
         self.document_id.partner_shipping_id = self.document_id.partner_id
 
-        self.document_id._compute_entrega_data()
+        self.document_id._compute_nfe_entrega_data()
         self.assertFalse(self.document_id.nfe40_entrega)
 
-        self.document_id._compute_dest_data()
+        self.document_id._compute_nfe_dest_data()
         self.assertFalse(self.document_id.nfe40_dest)
