@@ -355,7 +355,7 @@ class MDFe(spec_models.StackedModel):
     mdfe30_versaoModal = fields.Char(default=MDFE_MODAL_VERSION_DEFAULT)
 
     # Campos do Modal Aéreo
-    modal_aereo_id = fields.Many2one(
+    mdfe_modal_aereo_id = fields.Many2one(
         comodel_name="l10n_br_mdfe.modal.aereo", copy=False
     )
 
@@ -376,7 +376,7 @@ class MDFe(spec_models.StackedModel):
     )
 
     # Campos do Modal Aquaviário
-    modal_aquaviario_id = fields.Many2one(
+    mdfe_modal_aquaviario_id = fields.Many2one(
         comodel_name="l10n_br_mdfe.modal.aquaviario", copy=False
     )
 
@@ -433,7 +433,7 @@ class MDFe(spec_models.StackedModel):
     )
 
     # Campos do Modal Ferroviário
-    modal_ferroviario_id = fields.Many2one(
+    mdfe_modal_ferroviario_id = fields.Many2one(
         comodel_name="l10n_br_mdfe.modal.ferroviario", copy=False
     )
 
@@ -452,7 +452,7 @@ class MDFe(spec_models.StackedModel):
     )
 
     # Campos do Modal Rodoviário
-    modal_rodoviario_id = fields.Many2one(
+    mdfe_modal_rodoviario_id = fields.Many2one(
         comodel_name="l10n_br_mdfe.modal.rodoviario", copy=False
     )
 
@@ -543,43 +543,45 @@ class MDFe(spec_models.StackedModel):
 
     def _export_fields_mdfe_30_infmodal(self, xsd_fields, class_obj, export_dict):
         if self.mdfe_modal == "1":
-            export_dict["any_element"] = self._export_modal_rodoviario()
+            export_dict["any_element"] = self._export_mdfe_modal_rodoviario()
         elif self.mdfe_modal == "2":
-            export_dict["any_element"] = self._export_modal_aereo()
+            export_dict["any_element"] = self._export_mdfe_modal_aereo()
         elif self.mdfe_modal == "3":
-            export_dict["any_element"] = self._export_modal_aquaviario()
+            export_dict["any_element"] = self._export_mdfe_modal_aquaviario()
         elif self.mdfe_modal == "4":
-            export_dict["any_element"] = self._export_modal_ferroviario()
+            export_dict["any_element"] = self._export_mdfe_modal_ferroviario()
 
-    def _export_modal_aereo(self):
-        if not self.modal_aereo_id:
-            self.modal_aereo_id = self.modal_aereo_id.create({"document_id": self.id})
-
-        return self.modal_aereo_id._build_binding("mdfe", "30")
-
-    def _export_modal_ferroviario(self):
-        if not self.modal_ferroviario_id:
-            self.modal_ferroviario_id = self.modal_ferroviario_id.create(
+    def _export_mdfe_modal_aereo(self):
+        if not self.mdfe_modal_aereo_id:
+            self.mdfe_modal_aereo_id = self.mdfe_modal_aereo_id.create(
                 {"document_id": self.id}
             )
 
-        return self.modal_ferroviario_id._build_binding("mdfe", "30")
+        return self.mdfe_modal_aereo_id._build_binding("mdfe", "30")
 
-    def _export_modal_aquaviario(self):
-        if not self.modal_aquaviario_id:
-            self.modal_aquaviario_id = self.modal_aquaviario_id.create(
+    def _export_mdfe_modal_ferroviario(self):
+        if not self.mdfe_modal_ferroviario_id:
+            self.mdfe_modal_ferroviario_id = self.mdfe_modal_ferroviario_id.create(
                 {"document_id": self.id}
             )
 
-        return self.modal_aquaviario_id._build_binding("mdfe", "30")
+        return self.mdfe_modal_ferroviario_id._build_binding("mdfe", "30")
 
-    def _export_modal_rodoviario(self):
-        if not self.modal_rodoviario_id:
-            self.modal_rodoviario_id = self.modal_rodoviario_id.create(
+    def _export_mdfe_modal_aquaviario(self):
+        if not self.mdfe_modal_aquaviario_id:
+            self.mdfe_modal_aquaviario_id = self.mdfe_modal_aquaviario_id.create(
                 {"document_id": self.id}
             )
 
-        return self.modal_rodoviario_id._build_binding("mdfe", "30")
+        return self.mdfe_modal_aquaviario_id._build_binding("mdfe", "30")
+
+    def _export_mdfe_modal_rodoviario(self):
+        if not self.mdfe_modal_rodoviario_id:
+            self.mdfe_modal_rodoviario_id = self.mdfe_modal_rodoviario_id.create(
+                {"document_id": self.id}
+            )
+
+        return self.mdfe_modal_rodoviario_id._build_binding("mdfe", "30")
 
     ##########################
     # MDF-e tag: seg
@@ -749,7 +751,7 @@ class MDFe(spec_models.StackedModel):
         value = getattr(node, attr[0])
 
         # if attr[0] == "any_element":  # build modal
-        #     modal_id = self._get_modal_to_build(node.any_element.__module__)
+        #     modal_id = self._get_mdfe_modal_to_build(node.any_element.__module__)
         #     if modal_id is False:
         #         return
 
@@ -770,12 +772,12 @@ class MDFe(spec_models.StackedModel):
 
         return super()._build_attr(node, fields, vals, path, attr)
 
-    def _get_modal_to_build(self, module):
+    def _get_mdfe_modal_to_build(self, module):
         modal_by_binding_module = {
-            self.modal_rodoviario_id._binding_module: self.modal_rodoviario_id,
-            self.modal_aereo_id._binding_module: self.modal_aereo_id,
-            self.modal_aquaviario_id._binding_module: self.modal_aquaviario_id,
-            self.modal_ferroviario_id._binding_module: self.modal_ferroviario_id,
+            self.mdfe_modal_rodoviario_id._binding_module: self.mdfe_modal_rodoviario_id,  # noqa: E501
+            self.mdfe_modal_aereo_id._binding_module: self.mdfe_modal_aereo_id,  # noqa: E501
+            self.mdfe_modal_aquaviario_id._binding_module: self.mdfe_modal_aquaviario_id,  # noqa: E501
+            self.mdfe_modal_ferroviario_id._binding_module: self.mdfe_modal_ferroviario_id,  # noqa: E501
         }
         if module not in modal_by_binding_module:
             return False
