@@ -49,7 +49,7 @@
 
     <!-- CTe Cargo Quantity Infos - Demo Data -->
     <record
-        id="demo_cte_lc_cargo_quantity_info_1"
+        id="demo_cte_lc_modal_rodoviario_cargo_quantity_info_1"
         model="l10n_br_cte.cargo.quantity.infos"
     >
         <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
@@ -59,7 +59,7 @@
     </record>
 
     <record
-        id="demo_cte_lc_cargo_quantity_info_2"
+        id="demo_cte_lc_modal_rodoviario_cargo_quantity_info_2"
         model="l10n_br_cte.cargo.quantity.infos"
     >
         <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
@@ -69,7 +69,7 @@
     </record>
 
     <record
-        id="demo_cte_lc_cargo_quantity_info_3"
+        id="demo_cte_lc_modal_rodoviario_cargo_quantity_info_3"
         model="l10n_br_cte.cargo.quantity.infos"
     >
         <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
@@ -151,7 +151,7 @@
 
     <!-- CTe Cargo Quantity Infos - Demo Data -->
     <record
-        id="demo_cte_sn_cargo_quantity_info_1"
+        id="demo_cte_sn_modal_rodoviario_cargo_quantity_info_1"
         model="l10n_br_cte.cargo.quantity.infos"
     >
         <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
@@ -161,7 +161,7 @@
     </record>
 
     <record
-        id="demo_cte_sn_cargo_quantity_info_2"
+        id="demo_cte_sn_modal_rodoviario_cargo_quantity_info_2"
         model="l10n_br_cte.cargo.quantity.infos"
     >
         <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
@@ -171,7 +171,7 @@
     </record>
 
     <record
-        id="demo_cte_sn_cargo_quantity_info_3"
+        id="demo_cte_sn_modal_rodoviario_cargo_quantity_info_3"
         model="l10n_br_cte.cargo.quantity.infos"
     >
         <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
