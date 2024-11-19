@@ -15,8 +15,6 @@ class CTeLine(spec_models.StackedModel):
         "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
     )
     _cte40_stacking_mixin = "cte.40.tcte_vprest_comp"
-
-    # _stacking_points = {}
     _cte40_stacking_skip_paths = ("cte40_Comp_vPrest_id",)
 
     ##########################
