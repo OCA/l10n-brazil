@@ -6,10 +6,18 @@
         <field name="processador_edoc">oca</field>
     </record>
 
+    <record id="l10n_br_base.lucro_presumido_partner" model="res.partner">
+        <field name="rntrc_code">07946021</field>
+    </record>
+
 
     <!-- Empresa Simples Nacional -->
     <record id="l10n_br_base.empresa_simples_nacional" model="res.company">
         <field name="processador_edoc">oca</field>
+    </record>
+
+    <record id="l10n_br_base.simples_nacional_partner" model="res.partner">
+        <field name="rntrc_code">07946021</field>
     </record>
 
 
