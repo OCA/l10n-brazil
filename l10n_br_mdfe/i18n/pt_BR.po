@@ -307,7 +307,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__mdfe30_cAerDes
 msgid ""
 "Aeródromo de Destino\n"
-"O código de três letras IATA do aeroporto de destino deverá ser incluído como primeira anotação. Quando não for possível, utilizar a sigla OACI."
+"O código de três letras IATA do aeroporto de destino deverá ser incluído "
+"como primeira anotação. Quando não for possível, utilizar a sigla OACI."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -320,7 +321,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__mdfe30_cAerEmb
 msgid ""
 "Aeródromo de Embarque\n"
-"O código de três letras IATA do aeroporto de partida deverá ser incluído como primeira anotação. Quando não for possível, utilizar a sigla OACI."
+"O código de três letras IATA do aeroporto de partida deverá ser incluído "
+"como primeira anotação. Quando não for possível, utilizar a sigla OACI."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -869,7 +871,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_CNPJForn
 msgid ""
 "CNPJ da empresa fornecedora do Vale-Pedágio\n"
-"- CNPJ da Empresa Fornecedora do Vale-Pedágio, ou seja, empresa que fornece ao Responsável pelo Pagamento do Vale-Pedágio os dispositivos do Vale-Pedágio.\n"
+"- CNPJ da Empresa Fornecedora do Vale-Pedágio, ou seja, empresa que fornece "
+"ao Responsável pelo Pagamento do Vale-Pedágio os dispositivos do Vale-"
+"Pedágio.\n"
 "\t\t\t\t\t\t\t\t\t- Informar os zeros não significativos."
 msgstr ""
 
@@ -918,7 +922,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_CNPJPg
 msgid ""
 "CNPJ do responsável pelo pagamento do Vale-Pedágio\n"
-"- responsável pelo pagamento do Vale Pedágio. Informar somente quando o responsável não for o emitente do MDF-e.\n"
+"- responsável pelo pagamento do Vale Pedágio. Informar somente quando o "
+"responsável não for o emitente do MDF-e.\n"
 "\t\t\t\t\t\t\t\t\t- Informar os zeros não significativos."
 msgstr ""
 
@@ -1058,7 +1063,8 @@ msgid ""
 "CPF do emitente\n"
 "Informar zeros não significativos.\n"
 "\n"
-"Usar com série específica 920-969 para emitente pessoa física com inscrição estadual.\n"
+"Usar com série específica 920-969 para emitente pessoa física com inscrição "
+"estadual.\n"
 "Poderá ser usado também para emissão do Regime Especial da Nota Fiscal Fácil"
 msgstr ""
 
@@ -1182,7 +1188,8 @@ msgstr ""
 msgid ""
 "Chave PIX\n"
 "Informar a chave PIX para recebimento do frete. \n"
-"Pode ser email, CPF/ CNPJ (somente numeros), Telefone com a seguinte formatação (+5599999999999) ou a chave aleatória gerada pela instituição."
+"Pode ser email, CPF/ CNPJ (somente numeros), Telefone com a seguinte "
+"formatação (+5599999999999) ou a chave aleatória gerada pela instituição."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1267,8 +1274,8 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga__mdfe30_infCTe
 msgid ""
-"Conhecimentos de Tranporte - usar este grupo quando for prestador de serviço"
-" de transporte"
+"Conhecimentos de Tranporte - usar este grupo quando for prestador de serviço "
+"de transporte"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1477,7 +1484,8 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cUnid
 msgid ""
-"Código da unidade de medida do Peso Bruto da Carga / Mercadorias transportadas\n"
+"Código da unidade de medida do Peso Bruto da Carga / Mercadorias "
+"transportadas\n"
 "01 – KG;  02 - TON"
 msgstr ""
 
@@ -1524,7 +1532,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_cPrtDest
 msgid ""
 "Código do Porto de Destino\n"
-"Preencher de acordo com Tabela de Portos definida no Ministério dos Transportes"
+"Preencher de acordo com Tabela de Portos definida no Ministério dos "
+"Transportes"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1536,7 +1545,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_cPrtEmb
 msgid ""
 "Código do Porto de Embarque\n"
-"Preencher de acordo com Tabela de Portos definida no Ministério dos Transportes"
+"Preencher de acordo com Tabela de Portos definida no Ministério dos "
+"Transportes"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1548,7 +1558,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carregamento__mdfe30_cTermCarreg
 msgid ""
 "Código do Terminal de Carregamento\n"
-"Preencher de acordo com a Tabela de Terminais de Carregamento. O código de cada Porto está definido no Ministério de Transportes."
+"Preencher de acordo com a Tabela de Terminais de Carregamento. O código de "
+"cada Porto está definido no Ministério de Transportes."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1560,7 +1571,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_descarregamento__mdfe30_cTermDescarreg
 msgid ""
 "Código do Terminal de Descarregamento\n"
-"Preencher de acordo com a Tabela de Terminais de Descarregamento. O código de cada Porto está definido no Ministério de Transportes."
+"Preencher de acordo com a Tabela de Terminais de Descarregamento. O código "
+"de cada Porto está definido no Ministério de Transportes."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1605,7 +1617,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_tpEmb
 msgid ""
 "Código do tipo de embarcação\n"
-"Preencher com código da Tabela de Tipo de Embarcação definida no Ministério dos Transportes"
+"Preencher com código da Tabela de Tipo de Embarcação definida no Ministério "
+"dos Transportes"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1618,7 +1631,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cMDF
 msgid ""
 "Código numérico que compõe a Chave de Acesso.\n"
-"Código aleatório gerado pelo emitente, com o objetivo de evitar acessos indevidos ao documento."
+"Código aleatório gerado pelo emitente, com o objetivo de evitar acessos "
+"indevidos ao documento."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1806,7 +1820,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_cDV
 msgid ""
 "Digito verificador da chave de acesso do Manifesto\n"
-"Informar o dígito  de controle da chave de acesso do MDF-e, que deve ser calculado com a aplicação do algoritmo módulo 11 (base 2,9) da chave de acesso."
+"Informar o dígito  de controle da chave de acesso do MDF-e, que deve ser "
+"calculado com a aplicação do algoritmo módulo 11 (base 2,9) da chave de "
+"acesso."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2245,7 +2261,9 @@ msgid ""
 "Grupo de Embalagem\n"
 "Ver a legislação de transporte de produtos perigosos aplicadas ao modal\n"
 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tPreenchimento obrigatório para o modal aéreo.\n"
-"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tA legislação para o modal rodoviário e ferroviário não atribui grupo de embalagem para todos os produtos, portanto haverá casos de não preenchimento desse campo."
+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tA legislação para o modal rodoviário e "
+"ferroviário não atribui grupo de embalagem para todos os produtos, portanto "
+"haverá casos de não preenchimento desse campo."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2312,9 +2330,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_hashCSRT
 msgid ""
 "Hash do token do código de segurança do responsável técnico\n"
-"O hashCSRT é o resultado das funções SHA-1 e base64 do token CSRT fornecido pelo fisco + chave de acesso do DF-e. (Implementação em futura NT)\n"
+"O hashCSRT é o resultado das funções SHA-1 e base64 do token CSRT fornecido "
+"pelo fisco + chave de acesso do DF-e. (Implementação em futura NT)\n"
 "\n"
-"Observação: 28 caracteres são representados no schema como 20 bytes do tipo base64Binary"
+"Observação: 28 caracteres são representados no schema como 20 bytes do tipo "
+"base64Binary"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2548,7 +2568,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_transporte_carga_inf__mdfe30_idUnidCarga
 msgid ""
 "Identificação da Unidade de Carga\n"
-"Informar a identificação da unidade de carga, por exemplo: número do container."
+"Informar a identificação da unidade de carga, por exemplo: número do "
+"container."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2561,7 +2582,8 @@ msgstr ""
 msgid ""
 "Identificação da Unidade de Transporte\n"
 "Informar a identificação conforme o tipo de unidade de transporte.\n"
-"Por exemplo: para rodoviário tração ou reboque deverá preencher com a placa do veículo."
+"Por exemplo: para rodoviário tração ou reboque deverá preencher com a placa "
+"do veículo."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2630,8 +2652,10 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_indAltoDesemp
 msgid ""
 "Indicador de operação de transporte de alto desempenho\n"
-"Operação de transporte com utilização de veículos de frotas dedicadas ou fidelizadas.\n"
-"Preencher com “1” para indicar operação de transporte de alto desempenho, demais casos não informar a tag"
+"Operação de transporte com utilização de veículos de frotas dedicadas ou "
+"fidelizadas.\n"
+"Preencher com “1” para indicar operação de transporte de alto desempenho, "
+"demais casos não informar a tag"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2695,8 +2719,7 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao__mdfe30_infLocalDescarrega
-msgid ""
-"Informações da localização de descarregamento do MDF-e de carga lotação"
+msgid "Informações da localização de descarregamento do MDF-e de carga lotação"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2733,7 +2756,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__mdfe30_infUnidCarga
 msgid ""
 "Informações das Unidades de Carga (Containeres/ULD/Outros)\n"
-"Dispositivo de carga utilizada (Unit Load Device - ULD) significa todo tipo de contêiner de carga, vagão, contêiner de avião, palete de aeronave com rede ou palete de aeronave com rede sobre um iglu."
+"Dispositivo de carga utilizada (Unit Load Device - ULD) significa todo tipo "
+"de contêiner de carga, vagão, contêiner de avião, palete de aeronave com "
+"rede ou palete de aeronave com rede sobre um iglu."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2747,7 +2772,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_transporte__mdfe30_infUnidTransp
 msgid ""
 "Informações das Unidades de Transporte (Carreta/Reboque/Vagão)\n"
-"Dispositivo de carga utilizada (Unit Load Device - ULD) significa todo tipo de contêiner de carga, vagão, contêiner de avião, palete de aeronave com rede ou palete de aeronave com rede sobre um iglu."
+"Dispositivo de carga utilizada (Unit Load Device - ULD) significa todo tipo "
+"de contêiner de carga, vagão, contêiner de avião, palete de aeronave com "
+"rede ou palete de aeronave com rede sobre um iglu."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3617,6 +3644,26 @@ msgid "Mdfe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_aereo_id
+msgid "Mdfe Modal Aereo"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_aquaviario_id
+msgid "Mdfe Modal Aquaviario"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_ferroviario_id
+msgid "Mdfe Modal Ferroviario"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_rodoviario_id
+msgid "Mdfe Modal Rodoviario"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_autXML_infMDFe_id
 msgid "Mdfe30 Autxml Infmdfe"
 msgstr ""
@@ -3890,18 +3937,8 @@ msgid "Modal"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__modal_aereo_id
-msgid "Modal Aereo"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_mdfe_modal_aereo
 msgid "Modal Aereo MDFe"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__modal_aquaviario_id
-msgid "Modal Aquaviario"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3910,18 +3947,8 @@ msgid "Modal Aquaviário MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__modal_ferroviario_id
-msgid "Modal Ferroviario"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_mdfe_modal_ferroviario
 msgid "Modal Ferroviário MDFe"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__modal_rodoviario_id
-msgid "Modal Rodoviario"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4121,7 +4148,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__mdfe30_xNomeAE
 msgid ""
 "Nome apropriado para embarque do produto\n"
-"Ver a legislação de transporte de produtos perigosos aplicada ao modo de transporte"
+"Ver a legislação de transporte de produtos perigosos aplicada ao modo de "
+"transporte"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4154,7 +4182,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_users__mdfe30_xContato
 msgid ""
 "Nome da pessoa a ser contatada\n"
-"Informar o nome da pessoa a ser contatada na empresa desenvolvedora do sistema utilizado na emissão do documento fiscal eletrônico. No caso de pessoa física, informar o respectivo nome."
+"Informar o nome da pessoa a ser contatada na empresa desenvolvedora do "
+"sistema utilizado na emissão do documento fiscal eletrônico. No caso de "
+"pessoa física, informar o respectivo nome."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4399,7 +4429,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__mdfe30_nVoo
 msgid ""
 "Número do Voo\n"
-"Formato = AB1234, sendo AB a designação da empresa e 1234 o número do voo. Quando não for possível incluir as marcas de nacionalidade e matrícula sem hífen."
+"Formato = AB1234, sendo AB a designação da empresa e 1234 o número do voo. "
+"Quando não for possível incluir as marcas de nacionalidade e matrícula sem "
+"hífen."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4416,7 +4448,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_nCompra
 msgid ""
 "Número do comprovante de compra\n"
-"Número de ordem do comprovante de compra do Vale-Pedágio fornecido para cada veículo ou combinação veicular, por viagem."
+"Número de ordem do comprovante de compra do Vale-Pedágio fornecido para cada "
+"veículo ou combinação veicular, por viagem."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4997,7 +5030,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__mdfe30_qVolTipo
 msgid ""
 "Quantidade e Tipo de volumes\n"
-"Preencher conforme a legislação de transporte de produtos perigosos aplicada ao modal"
+"Preencher conforme a legislação de transporte de produtos perigosos aplicada "
+"ao modal"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5050,7 +5084,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__mdfe30_qTotProd
 msgid ""
 "Quantidade total por produto\n"
-"Preencher conforme a legislação de transporte de produtos perigosos aplicada ao modal"
+"Preencher conforme a legislação de transporte de produtos perigosos aplicada "
+"ao modal"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5195,14 +5230,18 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario__mdfe30_RNTRC
 msgid ""
 "Registro Nacional de Transportadores Rodoviários de Carga\n"
-"Registro obrigatório do emitente do MDF-e junto à ANTT para exercer a atividade de transportador rodoviário de cargas por conta de terceiros e mediante remuneração."
+"Registro obrigatório do emitente do MDF-e junto à ANTT para exercer a "
+"atividade de transportador rodoviário de cargas por conta de terceiros e "
+"mediante remuneração."
 msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_res_partner__mdfe30_RNTRC
 msgid ""
 "Registro Nacional dos Transportadores Rodoviários de Carga\n"
-"Registro obrigatório do proprietário, co-proprietário ou arrendatário do veículo junto à ANTT para exercer a atividade de transportador rodoviário de cargas por conta de terceiros e mediante remuneração."
+"Registro obrigatório do proprietário, co-proprietário ou arrendatário do "
+"veículo junto à ANTT para exercer a atividade de transportador rodoviário de "
+"cargas por conta de terceiros e mediante remuneração."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5239,7 +5278,8 @@ msgid ""
 "22 - Responsável pela contratação do serviço de transporte (contratante)\t\n"
 "\n"
 "\n"
-"Dados obrigatórios apenas no modal Rodoviário, depois da lei 11.442/07. Para os demais modais esta informação é opcional."
+"Dados obrigatórios apenas no modal Rodoviário, depois da lei 11.442/07. Para "
+"os demais modais esta informação é opcional."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5621,7 +5661,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_mdfe_30_infsolicnff__mdfe30_xSolic
 msgid ""
 "Solicitação do pedido de emissão da NFF.\n"
-"Será preenchido com a totalidade de campos informados no aplicativo emissor serializado."
+"Será preenchido com a totalidade de campos informados no aplicativo emissor "
+"serializado."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5692,7 +5733,8 @@ msgstr ""
 msgid ""
 "Série do Manifesto\n"
 "Informar a série do documento fiscal (informar zero se inexistente).\n"
-"Série na faixa [920-969]: Reservada para emissão por contribuinte pessoa física com inscrição estadual."
+"Série na faixa [920-969]: Reservada para emissão por contribuinte pessoa "
+"física com inscrição estadual."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6038,7 +6080,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_transporte_vazio__mdfe30_tpUnidTranspVazia
 msgid ""
 "Tipo da unidade de transporte vazia\n"
-"Deve ser preenchido com “1” para Rodoviário Tração do tipo caminhão ou “2” para Rodoviário reboque do tipo carreta"
+"Deve ser preenchido com “1” para Rodoviário Tração do tipo caminhão ou “2” "
+"para Rodoviário reboque do tipo carreta"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6167,9 +6210,13 @@ msgstr ""
 msgid ""
 "Tipo do Emitente\n"
 "1 - Prestador de serviço de transporte \n"
-"2 - Transportador de Carga Própria 3 - Prestador de serviço de transporte que emitirá CT-e Globalizado \n"
+"2 - Transportador de Carga Própria 3 - Prestador de serviço de transporte "
+"que emitirá CT-e Globalizado \n"
 "\n"
-"OBS: Deve ser preenchido com 2 para emitentes de NF-e e pelas transportadoras quando estiverem fazendo transporte de carga própria. Deve ser preenchido com 3 para transportador de carga que emitirá à posteriori CT-e Globalizado relacionando as NF-e."
+"OBS: Deve ser preenchido com 2 para emitentes de NF-e e pelas "
+"transportadoras quando estiverem fazendo transporte de carga própria. Deve "
+"ser preenchido com 3 para transportador de carga que emitirá à posteriori CT-"
+"e Globalizado relacionando as NF-e."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6224,7 +6271,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario_vagao__mdfe30_TU
 msgid ""
 "Tonelada Útil\n"
-"Unidade de peso referente à carga útil (apenas o peso da carga transportada), expressa em toneladas."
+"Unidade de peso referente à carga útil (apenas o peso da carga "
+"transportada), expressa em toneladas."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6469,7 +6517,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_vValePed
 msgid ""
 "Valor do Vale-Pedagio\n"
-"Valor do Vale-Pedágio obrigatório necessário à livre circulação, desde a origem da operação de transporte até o destino, do transportador contratado."
+"Valor do Vale-Pedágio obrigatório necessário à livre circulação, desde a "
+"origem da operação de transporte até o destino, do transportador contratado."
 msgstr ""
 
 #. module: l10n_br_mdfe
