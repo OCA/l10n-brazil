@@ -21,11 +21,26 @@
                 >[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]</attribute>
             </xpath>
             <field name="document_serie_id" position="after">
-                <field name="service_provider" />
-                <field name="cte40_tpServ" />
-                <field name="cte40_tpPer" />
-                <field name="cte40_dProg" />
-                <field name="cte40_tpHor" />
+                <field
+                    name="service_provider"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                />
+                <field
+                    name="cte40_tpServ"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                />
+                <field
+                    name="cte40_tpPer"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                />
+                <field
+                    name="cte40_dProg"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                />
+                <field
+                    name="cte40_tpHor"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                />
             </field>
             <field name="partner_shipping_id" position="before"> <!--cte40_dest-->
                 <field name="partner_sendering_id" /> <!--cte40_rem-->
@@ -35,8 +50,15 @@
                 <field name="partner_receivering_id" /> <!--cte40_receb-->
             </field>
             <page name="delivery" position="inside">
-                <separator name="cargo_infos_sep" string="Cargo Infos" />
-                <group name="cargo_infos">
+                <separator
+                    name="cargo_infos_sep"
+                    string="Cargo Infos"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                />
+                <group
+                    name="cargo_infos"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                >
                     <field name="cte40_vCarga" />
                     <field name="cte40_proPred" />
                     <field name="cte40_xOutCat" />
@@ -59,9 +81,16 @@
                 <separator
                     name="transported_vehicles_infos_sep"
                     string="Transported Vehicles"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
                 />
-                <group name="transported_vehicles_infos">
-                    <field name="cte40_veicNovos">
+                <group
+                    name="transported_vehicles_infos"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                >
+                    <field
+                        name="cte40_veicNovos"
+                        attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                    >
                         <tree>
                             <field name="cte40_chassi" />
                             <field name="cte40_cCor" />
@@ -84,7 +113,11 @@
                 </group>
             </page>
             <page name="delivery" position="after">
-                <page string="Modais" name="modais">
+                <page
+                    string="Modais"
+                    name="modais"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                >
                      <group>
                         <field name="transport_modal" widget="radio" />
                     </group>
