@@ -3614,6 +3614,26 @@ msgid "Mdfe"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_aereo_id
+msgid "Mdfe Modal Aereo"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_aquaviario_id
+msgid "Mdfe Modal Aquaviario"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_ferroviario_id
+msgid "Mdfe Modal Ferroviario"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal_rodoviario_id
+msgid "Mdfe Modal Rodoviario"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_autXML_infMDFe_id
 msgid "Mdfe30 Autxml Infmdfe"
 msgstr ""
@@ -3887,18 +3907,8 @@ msgid "Modal"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__modal_aereo_id
-msgid "Modal Aereo"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_mdfe_modal_aereo
 msgid "Modal Aereo MDFe"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__modal_aquaviario_id
-msgid "Modal Aquaviario"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3907,18 +3917,8 @@ msgid "Modal Aquaviário MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__modal_ferroviario_id
-msgid "Modal Ferroviario"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_mdfe_modal_ferroviario
 msgid "Modal Ferroviário MDFe"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__modal_rodoviario_id
-msgid "Modal Rodoviario"
 msgstr ""
 
 #. module: l10n_br_mdfe
