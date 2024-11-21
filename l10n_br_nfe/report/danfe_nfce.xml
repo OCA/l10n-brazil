@@ -4,9 +4,9 @@
         <t t-call="web.html_container">
             <div style="font-size: 12px; max-width: 90mm; margin-top: 2mm;">
                 <div style="text-align: center; margin: 0 auto">
-                    <h2
+                    <h3
                         style="text-transform: uppercase; font-size: 18px; font-weight: bold;"
-                    ><t t-esc="company_legal_name" /></h2>
+                    ><t t-esc="company_legal_name" /></h3>
                     <div style="max-width: 20.5em; text-align: center; margin: 0 auto;">
                         <p style="margin-bottom: 0;"><t t-esc="company_street" />, <t
                                 t-esc="company_district"
@@ -15,14 +15,10 @@
                             /></p>
                     </div>
                     <div
-                        style="display: flex; justify-content: space-between; max-width: 20em; margin: 0 auto;"
+                        style="justify-content: space-between; max-width: 20em; margin: 0;"
                     >
-                        <p style="margin-bottom: 0; padding: 0;">CNPJ: <t
-                                t-esc="company_cnpj"
-                            /></p>
-                        <p style="margin-bottom: 0; padding: 0;">IE: <t
-                                t-esc="company_ie"
-                            /></p>
+                        <p style="padding: 0;">CNPJ: <t t-esc="company_cnpj" /></p>
+                        <p style="padding: 0;">IE: <t t-esc="company_ie" /></p>
                     </div>
                     <div>
                         <p
