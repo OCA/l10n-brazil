@@ -8,12 +8,10 @@ class CteSpecMixin(models.AbstractModel):
     _description = "Abstract Model"
     _name = "spec.mixin.cte"
     _field_prefix = "cte40_"
-    _schema_name = "cte"
-    _schema_version = "4.0.0"
-    _odoo_module = "l10n_br_cte"
-    _spec_module = "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
-    _binding_module = "nfelib.cte.bindings.v4_0.cte_v4_00"
-    _spec_tab_name = "cte"
+    _cte40_odoo_module = (
+        "odoo.addons.l10n_br_cte_spec.models.v4_0.cte_tipos_basico_v4_00"
+    )
+    _cte40_binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
 
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
