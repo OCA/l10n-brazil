@@ -10,6 +10,7 @@ import sys
 from datetime import datetime
 from enum import Enum
 
+from brazilfiscalreport.dacte import Dacte
 from erpbrasil.base.fiscal import cnpj_cpf
 
 # TODO: precisa tratar
@@ -82,9 +83,6 @@ from ..constants.modal import (
 )
 
 CTE_XML_NAMESPACE = {"cte": "http://www.portalfiscal.inf.br/cte"}
-
-# TODO: https://github.com/Engenere/BrazilFiscalReport/pull/23
-# from brazilfiscalreport.dacte import Dacte
 
 
 _logger = logging.getLogger(__name__)
@@ -1755,33 +1753,32 @@ class CTe(spec_models.StackedModel):
                     ) from e
         return result
 
-    # TODO: Tratar
-    # def make_pdf(self):
-    #     if not self.filtered(filter_processador_edoc_cte):
-    #         return super().make_pdf()
+    def make_pdf(self):
+        if not self.filtered(filter_processador_edoc_cte):
+            return super().make_pdf()
 
-    #     file_pdf = self.file_report_id
-    #     self.file_report_id = False
-    #     file_pdf.unlink()
+        file_pdf = self.file_report_id
+        self.file_report_id = False
+        file_pdf.unlink()
 
-    #     if self.authorization_file_id:
-    #         arquivo = self.authorization_file_id
-    #         xml_string = base64.b64decode(arquivo.datas).decode()
-    #     else:
-    #         arquivo = self.send_file_id
-    #         xml_string = base64.b64decode(arquivo.datas).decode()
-    #         # TODO: implementar temp_xml_autorizacao igual nfe ?
-    #         # xml_string = self.temp_xml_autorizacao(xml_string)
+        if self.authorization_file_id:
+            arquivo = self.authorization_file_id
+            xml_string = base64.b64decode(arquivo.datas).decode()
+        else:
+            arquivo = self.send_file_id
+            xml_string = base64.b64decode(arquivo.datas).decode()
+            # TODO: implementar temp_xml_autorizacao igual nfe ?
+            # xml_string = self.temp_xml_autorizacao(xml_string)
 
-    #     pdf = Dacte(xml=xml_string).output()
+        pdf = Dacte(xml=xml_string).output()
 
-    #     self.file_report_id = self.env["ir.attachment"].create(
-    #         {
-    #             "name": self.document_key + ".pdf",
-    #             "res_model": self._name,
-    #             "res_id": self.id,
-    #             "datas": base64.b64encode(pdf),
-    #             "mimetype": "application/pdf",
-    #             "type": "binary",
-    #         }
-    #     )
+        self.file_report_id = self.env["ir.attachment"].create(
+            {
+                "name": self.document_key + ".pdf",
+                "res_model": self._name,
+                "res_id": self.id,
+                "datas": base64.b64encode(pdf),
+                "mimetype": "application/pdf",
+                "type": "binary",
+            }
+        )
