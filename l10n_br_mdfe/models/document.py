@@ -2,24 +2,43 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
+import logging
 import re
 import string
+from datetime import datetime
 from enum import Enum
 from unicodedata import normalize
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
+from lxml import etree
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
+from nfelib.mdfe.bindings.v3_0.proc_mdfe_v3_00 import MdfeProc
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
 from requests import Session
+from xsdata.formats.dataclass.parsers import XmlParser
 
-from odoo import api, fields
+from odoo import _, api, fields
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    AUTORIZADO,
+    CANCELADO,
+    CANCELADO_DENTRO_PRAZO,
+    CANCELADO_FORA_PRAZO,
+    DENEGADO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
+    EVENTO_RECEBIDO,
+    LOTE_PROCESSADO,
     MODELO_FISCAL_MDFE,
     PROCESSADOR_OCA,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_REJEITADA,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_modal_aquaviario_v3_00 import (
     AQUAV_TPNAV,
@@ -48,6 +67,11 @@ from ..constants.modal import (
     MDFE_MODAL_VERSION_DEFAULT,
     MDFE_MODALS,
 )
+
+MDFE_XML_NAMESPACE = {"mdfe": "http://www.portalfiscal.inf.br/mdfe"}
+
+
+_logger = logging.getLogger(__name__)
 
 
 def filtered_processador_edoc_mdfe(record):
@@ -935,3 +959,262 @@ class MDFe(spec_models.StackedModel):
         file_pdf.unlink()
 
         self.file_report_id = self.env["ir.attachment"].create(attachment_data)
+
+    def update_status_mdfe(self, process):
+        self.ensure_one()
+
+        if hasattr(process, "protocolo"):
+            infProt = process.protocolo.infProt
+        else:
+            infProt = process.resposta.protMDFe.infProt
+
+        if infProt.cStat in AUTORIZADO:
+            state = SITUACAO_EDOC_AUTORIZADA
+            self._mdfe_response_add_proc(process)
+        elif infProt.cStat in DENEGADO:
+            state = SITUACAO_EDOC_DENEGADA
+        else:
+            state = SITUACAO_EDOC_REJEITADA
+        if self.authorization_event_id and infProt.nProt:
+            if type(infProt.dhRecbto) == datetime:
+                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
+            else:
+                protocol_date = fields.Datetime.to_string(
+                    datetime.fromisoformat(infProt.dhRecbto)
+                )
+
+            self.authorization_event_id.set_done(
+                status_code=infProt.cStat,
+                response=infProt.xMotivo,
+                protocol_date=protocol_date,
+                protocol_number=infProt.nProt,
+                file_response_xml=process.processo_xml.decode("utf-8"),
+            )
+        self.write(
+            {
+                "status_code": infProt.cStat,
+                "status_name": infProt.xMotivo,
+            }
+        )
+        self._change_state(state)
+
+    def _eletronic_document_send(self):
+        super(MDFe, self)._eletronic_document_send()
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            if record.xml_error_message:
+                return
+            processador = record._edoc_processor()
+            for edoc in record.serialize():
+                process = None
+                for p in processador.processar_documento(edoc):
+                    process = p
+                    if process.webservice == "mdfeRecepcaoLote":
+                        record.authorization_event_id._save_event_file(
+                            process.envio_xml, "xml"
+                        )
+
+            if process.resposta.cStat in LOTE_PROCESSADO + ["100"]:
+                record.update_status_mdfe(process)
+
+            elif process.resposta.cStat in DENEGADO:
+                record._change_state(SITUACAO_EDOC_DENEGADA)
+                record.write(
+                    {
+                        "status_code": process.resposta.cStat,
+                        "status_name": process.resposta.xMotivo,
+                    }
+                )
+
+            else:
+                record._change_state(SITUACAO_EDOC_REJEITADA)
+                record.write(
+                    {
+                        "status_code": process.resposta.cStat,
+                        "status_name": process.resposta.xMotivo,
+                    }
+                )
+
+    def _document_cancel(self, justificative):
+        result = super(MDFe, self)._document_cancel(justificative)
+        online_event = self.filtered(filtered_processador_edoc_mdfe)
+        if online_event:
+            online_event._mdfe_cancel()
+        return result
+
+    def _document_qrcode(self):
+        super()._document_qrcode()
+
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record.mdfe30_infMDFeSupl = self.env[
+                "l10n_br_fiscal.document.supplement"
+            ].create(
+                {
+                    "qrcode": record.get_mdfe_qrcode(),
+                }
+            )
+
+    def get_mdfe_qrcode(self):
+        # TODO: Tratar
+        # if self.document_type != MODELO_FISCAL_MDFE:
+        #     return
+
+        processador = self._edoc_processor()
+        # if self.mdfe_transmission == "1":
+        #     return processador.monta_qrcode(self.document_key)
+        return processador.monta_qrcode(self.document_key)
+
+        # serialized_doc = self.serialize()[0]
+        # xml = processador.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
+        # return processador._generate_qrcode_contingency(serialized_doc, xml)
+
+    def _mdfe_cancel(self):
+        self.ensure_one()
+        processador = self._edoc_processor()
+
+        if not self.authorization_protocol:
+            raise UserError(_("Authorization Protocol Not Found!"))
+
+        evento = processador.cancela_documento(
+            chave=self.document_key,
+            protocolo_autorizacao=self.authorization_protocol,
+            justificativa=self.cancel_reason.replace("\n", "\\n"),
+        )
+        process = processador.enviar_lote_evento(lista_eventos=[evento])
+
+        self.cancel_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(EVENT_ENV_PROD if self.mdfe30_tpAmb == "1" else EVENT_ENV_HML),
+            event_type="2",
+            xml_file=process.envio_xml,
+            document_id=self,
+        )
+
+        resposta = process.resposta.infEvento
+
+        if resposta.cStat not in CANCELADO:
+            mensagem = "Erro no cancelamento"
+            mensagem += "\nCódigo: " + resposta.cStat
+            mensagem += "\nMotivo: " + resposta.xMotivo
+            raise UserError(mensagem)
+
+        if resposta.chMDFe == self.document_key:
+            if resposta.cStat in CANCELADO_FORA_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+            elif resposta.cStat in CANCELADO_DENTRO_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO
+
+            self.state_edoc = SITUACAO_EDOC_CANCELADA
+            self.cancel_event_id.set_done(
+                status_code=resposta.cStat,
+                response=resposta.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(resposta.dhRegEvento)
+                ),
+                protocol_number=resposta.nProt,
+                file_response_xml=process.retorno.content.decode("utf-8"),
+            )
+
+    def _mdfe_correction(self, justificative):
+        self.ensure_one()
+        processador = self._edoc_processor()
+
+        numeros = self.event_ids.filtered(
+            lambda e: e.type == "14" and e.state == "done"
+        ).mapped("sequence")
+
+        sequence = str(int(max(numeros)) + 1) if numeros else "1"
+
+        evento = processador.carta_correcao(
+            chave=self.document_key,
+            protocolo_autorizacao=self.authorization_protocol,
+            justificativa=justificative.replace("\n", "\\n"),
+            sequencia=sequence,
+        )
+        process = processador.enviar_lote_evento(lista_eventos=[evento])
+        # Gravamos o arquivo no disco e no filestore ASAP.
+        event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(EVENT_ENV_PROD if self.mdfe30_tpAmb == "1" else EVENT_ENV_HML),
+            event_type="14",
+            xml_file=process.envio_xml,
+            document_id=self,
+            sequence=sequence,
+            justification=justificative,
+        )
+
+        resposta = process.resposta.infEvento
+
+        if resposta.cStat not in EVENTO_RECEBIDO and not (
+            resposta.chMDFe == self.document_key
+        ):
+            mensagem = "Erro na carta de correção"
+            mensagem += "\nCódigo: " + resposta.cStat
+            mensagem += "\nMotivo: " + resposta.xMotivo
+            raise UserError(mensagem)
+
+        event_id.set_done(
+            status_code=resposta.cStat,
+            response=resposta.xMotivo,
+            protocol_date=fields.Datetime.to_string(
+                datetime.fromisoformat(resposta.dhRegEvento)
+            ),
+            protocol_number=resposta.nProt,
+            file_response_xml=process.retorno.content.decode("utf-8"),
+        )
+
+    def _mdfe_response_add_proc(self, ws_response_process):
+        """
+        Inject the final NF-e, tag `mdfeProc`, into the response.
+        """
+        xml_soap = ws_response_process.retorno.content
+        tree_soap = etree.fromstring(xml_soap)
+        prot_element = tree_soap.xpath(
+            "//mdfe:protMDFe", namespaces=MDFE_XML_NAMESPACE
+        )[0]
+        proc_xml = self._mdfe_create_proc(prot_element)
+        if proc_xml:
+            # it is not always possible to create mdfeProc.
+            parser = XmlParser()
+            proc = parser.from_string(proc_xml.decode(), MdfeProc)
+            ws_response_process.processo = proc
+            ws_response_process.processo_xml = proc_xml
+
+    def _mdfe_create_proc(self, prot_element):
+        """
+        Create the `mdfeProc` XML by combining the MDF-e and the authorization protocol.
+
+        This method decodes the saved `enviMDFe` message, extracts the MDFe> tag,
+        and combines it with the provided authorization protocol element to create
+        the `mdfeProc` XML, which represents the finalized MDF-e document.
+
+        Args:
+            prot_element: The XML element containing the authorization protocol.
+
+        Returns:
+            The assembled `mdfeProc` XML, or None if the `send_file_id` data is not
+            found.
+
+        Note:
+            Useful for recreating the final MDF-e XML, as SEFAZ does not provide the
+            complete XML upon consultation, only the authorization protocol.
+        """
+        self.ensure_one()
+
+        if not self.send_file_id.datas:
+            _logger.info(
+                "MDF-e data not found when trying to assemble the "
+                "xml with the authorization protocol (mdfeProc)"
+            )
+            return None
+
+        processor = self._edoc_processor()
+
+        # Extract the <MDFe> tag from the `enviMDFe` message, which represents the MDF-e
+        xml_send = base64.b64decode(self.send_file_id.datas)
+        tree_send = etree.fromstring(xml_send)
+        doc_element = tree_send.xpath("//mdfe:MDFe", namespaces=MDFE_XML_NAMESPACE)[0]
+
+        # Assemble the `mdfeProc` using the erpbrasil.edoc library.
+        proc_xml = processor.monta_mdfe_proc(doc=doc_element, prot=prot_element)
+
+        return proc_xml
