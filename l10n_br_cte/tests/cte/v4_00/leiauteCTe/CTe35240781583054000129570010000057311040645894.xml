@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <CTe xmlns="http://www.portalfiscal.inf.br/cte">
-  <infCte versao="4.00" Id="CTe35240708318053000167570010000000311040645898">
+  <infCte versao="4.00" Id="CTe35240781583054000129570010000057311040645894">
     <ide>
       <cUF>35</cUF>
       <cCT>57000111</cCT>
@@ -12,7 +12,7 @@
       <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
       <tpImp>1</tpImp>
       <tpEmis>1</tpEmis>
-      <cDV>8</cDV>
+      <cDV>4</cDV>
       <tpAmb>2</tpAmb>
       <tpCTe>0</tpCTe>
       <procEmi>0</procEmi>
@@ -173,7 +173,11 @@
         </infQ>
         <vCargaAverb>1000.00</vCargaAverb>
       </infCarga>
-      <infDoc />
+      <infDoc>
+        <infNFe>
+          <chave>41190806117473000150550010000586251016759484</chave>
+        </infNFe>
+      </infDoc>
       <infModal versaoModal="4.00">
         <rodo>
           <RNTRC>12345678</RNTRC>
