@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <CTe xmlns="http://www.portalfiscal.inf.br/cte">
-  <infCte versao="4.00" Id="CTe35240708318053000167570010000000311040445899">
+  <infCte versao="4.00" Id="CTe35240781583054000129570010000057611040645893">
     <ide>
       <cUF>35</cUF>
       <cCT>57000111</cCT>
@@ -8,19 +8,19 @@
       <natOp>Venda</natOp>
       <mod>57</mod>
       <serie>1</serie>
-      <nCT>574</nCT>
+      <nCT>576</nCT>
       <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
       <tpImp>1</tpImp>
       <tpEmis>1</tpEmis>
-      <cDV>9</cDV>
+      <cDV>3</cDV>
       <tpAmb>2</tpAmb>
       <tpCTe>0</tpCTe>
       <procEmi>0</procEmi>
       <verProc>Odoo Brasil OCA v14</verProc>
-      <cMunEnv>3501152</cMunEnv>
-      <xMunEnv>Alumínio</xMunEnv>
+      <cMunEnv>3550308</cMunEnv>
+      <xMunEnv>São Paulo</xMunEnv>
       <UFEnv>SP</UFEnv>
-      <modal>01</modal>
+      <modal>04</modal>
       <tpServ>0</tpServ>
       <cMunIni>3550308</cMunIni>
       <xMunIni>São Paulo</xMunIni>
@@ -41,21 +41,21 @@
       </ObsFisco>
     </compl>
     <emit>
-      <CNPJ>59594315000157</CNPJ>
-      <IE>755338250133</IE>
-      <xNome>TESTE - Simples Nacional</xNome>
-      <xFant>TESTE - Simples Nacional</xFant>
+      <CNPJ>81583054000129</CNPJ>
+      <IE>078016350838</IE>
+      <xNome>Empresa Lucro Presumido Ltda</xNome>
+      <xFant>Empresa Lucro Presumido</xFant>
       <enderEmit>
-        <xLgr>Rua Paulo Dias</xLgr>
-        <nro>586</nro>
-        <xBairro>Vila Santa Luzia</xBairro>
-        <cMun>3501152</cMun>
-        <xMun>Alumínio</xMun>
-        <CEP>18125000</CEP>
+        <xLgr>Avenida Paulista</xLgr>
+        <nro>1</nro>
+        <xBairro>Bela Vista</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>São Paulo</xMun>
+        <CEP>01311000</CEP>
         <UF>SP</UF>
-        <fone>2130109965</fone>
+        <fone>551199999999</fone>
       </enderEmit>
-      <CRT>1</CRT>
+      <CRT>3</CRT>
     </emit>
     <rem>
       <CNPJ>12046835000161</CNPJ>
@@ -143,10 +143,12 @@
     </vPrest>
     <imp>
       <ICMS>
-        <ICMSSN>
-          <CST>90</CST>
-          <indSN>1</indSN>
-        </ICMSSN>
+        <ICMS00>
+          <CST>00</CST>
+          <vBC>47.00</vBC>
+          <pICMS>18.00</pICMS>
+          <vICMS>8.46</vICMS>
+        </ICMS00>
       </ICMS>
     </imp>
     <infCTeNorm>
@@ -171,25 +173,16 @@
         </infQ>
         <vCargaAverb>1000.00</vCargaAverb>
       </infCarga>
-      <infDoc />
+      <infDoc>
+        <infNFe>
+          <chave>41190806117473000150550010000586251016759484</chave>
+        </infNFe>
+      </infDoc>
       <infModal versaoModal="4.00">
-        <rodo>
-          <RNTRC>12345678</RNTRC>
-          <occ>
-            <serie>01</serie>
-            <nOcc>01</nOcc>
-            <emiOcc>
-              <cInt>XYZ</cInt>
-            </emiOcc>
-          </occ>
-          <occ>
-            <serie>02</serie>
-            <nOcc>02</nOcc>
-            <emiOcc>
-              <cInt>ABC</cInt>
-            </emiOcc>
-          </occ>
-        </rodo>
+        <ferrov>
+          <tpTraf>1</tpTraf>
+          <fluxo>Fluxo Norte-Sul</fluxo>
+        </ferrov>
       </infModal>
     </infCTeNorm>
   </infCte>

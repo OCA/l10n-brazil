@@ -12,7 +12,7 @@ class TestCTeExportSN(TestCTeSerialize):
         cte_list = [
             {
                 "record_ref": "l10n_br_cte.demo_cte_sn_modal_rodoviario",
-                "xml_file": "CTe35240708318053000167570010000000311040445899.xml",
+                "xml_file": "CTe35240759594315000157570010000057311040445890.xml",
             },
         ]
 
