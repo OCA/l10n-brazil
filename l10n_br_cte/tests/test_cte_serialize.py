@@ -51,6 +51,8 @@ class TestCTeSerialize(TransactionCase):
             self.prepare_modal_aquaviario_data(cte)
         elif cte.cte_modal == "04":
             self.prepare_modal_ferroviario_data(cte)
+        elif cte.cte_modal == "05":
+            self.prepare_modal_dutoviario_data(cte)
 
         cte._document_export()
 
@@ -78,65 +80,114 @@ class TestCTeSerialize(TransactionCase):
         ]
 
     def prepare_modal_aereo_data(self, cte):
-        pass
-        # cte.cte40_nac = "TEST"
-        # cte.cte40_matr = "TEST"
-        # cte.cte40_nVoo = "123456789"
-        # cte.cte40_cAerEmb = "OACI"
-        # cte.cte40_cAerDes = "OACI"
-        # cte.cte40_dVoo = datetime.strptime("2020-01-01", "%Y-%m-%d")
+        # Dados gerais do modal aéreo
+        cte.cte40_nMinu = "TEST123"  # Número do Minuta
+        cte.cte40_nOCA = "OCA56789"  # Número do OCA
+        cte.cte40_dPrevAereo = datetime.strptime(
+            "2024-11-22", "%Y-%m-%d"
+        ).date()  # Data prevista de entrega
+        cte.cte40_CL = "TEST_CL"  # Código de Localidade
+        cte.cte40_cTar = "TAR123"  # Código da Tarifa
+        cte.cte40_vTar = 2500.00  # Valor da Tarifa
+        cte.cte40_xDime = "Dimensão Padrão"  # Dimensões do volume
+
+        # Lista de produtos perigosos
+        cte.cte40_peri = [
+            (
+                0,
+                0,
+                {
+                    "cte40_nONU": "1234",  # Número ONU do produto perigoso
+                    "cte40_qTotEmb": "15",  # Quantidade total de volumes embarcados
+                    "cte40_qTotProd": 300.0,  # Quantidade total do produto perigoso
+                    "cte40_uniAP": "1",  # Unidade de Medida do Produto
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "cte40_nONU": "5678",
+                    "cte40_qTotEmb": "20",
+                    "cte40_qTotProd": 500.0,
+                    "cte40_uniAP": "3",
+                },
+            ),
+        ]
 
     def prepare_modal_aquaviario_data(self, cte):
-        pass
-        # cte.cte40_irin = "1234567899"
-        # cte.cte40_tpEmb = "01"
-        # cte.cte40_cEmbar = "123456"
-        # cte.cte40_xEmbar = "teste"
-        # cte.cte40_nViag = "123456"
-        # cte.cte40_cPrtEmb = "BRADR"
-        # cte.cte40_cPrtDest = "BRAFU"
-        # cte.cte40_infTermCarreg = [
-        #     (0, 0, {"loading_harbor": "BRADR"}),
-        #     (0, 0, {"loading_harbor": "BRANT"}),
-        # ]
-        # cte.cte40_infTermDescarreg = [
-        #     (0, 0, {"unloading_harbor": "BRAFU"}),
-        #     (0, 0, {"unloading_harbor": "BRBZC"}),
-        # ]
+        # Dados gerais do modal aquaviário
+        cte.cte40_vAFRMM = (
+            1200.00
+        )  # Valor do Adicional de Frete para Renovação da Marinha Mercante
+        # cte.cte40_vPrest = 3500.00  # Valor total do frete aquaviário
+        cte.cte40_xNavio = "Navio Mercante 123"  # Nome do navio
+        cte.cte40_nViag = "Viagem001"  # Número da viagem
+        cte.cte40_direc = "S"  # Direção de navegação: 1 = Cabotagem, 2 = Longo curso
+        cte.cte40_irin = "IRIN12345"  # Inscrição do Registro Internacional de Navios
+        cte.cte40_tpNav = "0"  # Tipo de navegação: 01 = Interior, 02 = Cabotagem, etc.
+
+        # Informações das balsas transportadas
+        cte.cte40_balsa = [
+            (
+                0,
+                0,
+                {
+                    "cte40_xBalsa": "Balsa A",  # Identificador da primeira balsa
+                },
+            ),
+            (
+                0,
+                0,
+                {
+                    "cte40_xBalsa": "Balsa B",  # Identificador da segunda balsa
+                },
+            ),
+        ]
+
+    def prepare_modal_dutoviario_data(self, cte):
+        # Dados gerais do modal dutoviário
+        cte.cte40_dIni = "2024-01-01"  # Data de início da operação dutoviária
+        cte.cte40_dFim = "2024-12-31"  # Data de término da operação dutoviária
+        cte.cte40_vTar = 1500.00  # Valor da tarifa aplicada no transporte
 
     def prepare_modal_ferroviario_data(self, cte):
-        pass
-        # cte.cte40_dhTrem = datetime.strptime(
-        #   "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S")
-        # cte.cte40_xPref = "TES"
-        # cte.cte40_xOri = "TES"
-        # cte.cte40_xDest = "TES"
-        # cte.cte40_qVag = 2
-        # cte.cte40_vag = [
+        # Dados gerais do modal ferroviário
+        cte.cte40_tpTraf = "1"  # Tipo de Tráfego: 1 = Nacional, 2 = Internacional
+        cte.cte40_fluxo = "Fluxo Norte-Sul"  # Fluxo de transporte
+        cte.cte40_vFrete = 5000.00  # Valor do frete ferroviário
+        cte.cte40_chCTeFerroOrigem = (
+            "CTE123456789"
+        )  # Chave do CTe Ferroviário de origem
+        cte.cte40_respFat = (
+            "1"
+        )  # Responsável pelo Faturamento: 1 = Emitente, 2 = Receptor
+        cte.cte40_ferrEmi = (
+            "1"
+        )  # Emissor do documento: 1 = Ferrovia Emitente, 2 = Outro
+        # cte.cte40_ferroEnv = [
         #     (
         #         0,
         #         0,
         #         {
-        #             "cte40_pesoBC": 500,
-        #             "cte40_pesoR": 1,
-        #             "cte40_tpVag": 123,
-        #             "cte40_serie": 123,
-        #             "cte40_nVag": 123,
-        #             "cte40_nSeq": 123,
-        #             "cte40_TU": 1,
-        #         },
-        #     ),
-        #     (
-        #         0,
-        #         0,
-        #         {
-        #             "cte40_pesoBC": 500,
-        #             "cte40_pesoR": 1,
-        #             "cte40_tpVag": 321,
-        #             "cte40_serie": 321,
-        #             "cte40_nVag": 321,
-        #             "cte40_nSeq": 321,
-        #             "cte40_TU": 1,
+        #             "cte40_CNPJ": "12345678000199",  # CNPJ da ferrovia envolvida
+        #             "cte40_cInt": "FERRO001",  # Código interno da ferrovia
+        #             "cte40_IE": "ISENTO",  # Inscrição Estadual
+        #             "cte40_xNome": "Ferrovia Teste LTDA",  # Nome ou razão social
+        #             "cte40_enderFerro": (
+        #                 0,
+        #                 0,
+        #                 {
+        #                     "cte40_xLgr": "Rua da Ferrovia",
+        #                     "cte40_nro": "123",
+        #                     "cte40_xCpl": "Prédio 2",
+        #                     "cte40_xBairro": "Centro",
+        #                     "cte40_cMun": "1234567",  # Código do município IBGE
+        #                     "cte40_xMun": "Cidade Ferrovia",
+        #                     "cte40_CEP": "12345000",
+        #                     "cte40_UF": "SP",  # Unidade Federativa
+        #                 },
+        #             ),
         #         },
         #     ),
         # ]
