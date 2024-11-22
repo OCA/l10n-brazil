@@ -124,7 +124,8 @@ class SpecMixin(models.AbstractModel):
                 filter(
                     lambda x: (x.startswith(field_prefix) and "_choice" not in x),
                     fields,
-                )
+                ),
+                None,
             )
             model_type = type(
                 name,
