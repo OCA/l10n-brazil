@@ -77,9 +77,7 @@ from ..constants.cte import (
     CTE_TYPE_DEFAULT,
 )
 from ..constants.modal import (
-    CTE_MODAL_DEFAULT,
     CTE_MODAL_VERSION_DEFAULT,
-    CTE_MODALS,
 )
 
 CTE_XML_NAMESPACE = {"cte": "http://www.portalfiscal.inf.br/cte"}
@@ -904,9 +902,7 @@ class CTe(spec_models.StackedModel):
 
     cte40_modal = fields.Selection(related="transport_modal")
 
-    cte_modal = fields.Selection(
-        selection=CTE_MODALS, string="Transport Modal", default=CTE_MODAL_DEFAULT
-    )
+    cte_modal = fields.Selection(related="transport_modal")
 
     cte40_versaoModal = fields.Char(default=CTE_MODAL_VERSION_DEFAULT)
 

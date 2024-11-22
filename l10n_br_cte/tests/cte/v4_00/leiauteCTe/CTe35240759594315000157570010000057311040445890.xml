@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CTe xmlns="http://www.portalfiscal.inf.br/cte">
+  <infCte versao="4.00" Id="CTe35240759594315000157570010000057311040445890">
+    <ide>
+      <cUF>35</cUF>
+      <cCT>57000111</cCT>
+      <CFOP>5352</CFOP>
+      <natOp>Venda</natOp>
+      <mod>57</mod>
+      <serie>1</serie>
+      <nCT>573</nCT>
+      <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+      <tpImp>1</tpImp>
+      <tpEmis>1</tpEmis>
+      <cDV>0</cDV>
+      <tpAmb>2</tpAmb>
+      <tpCTe>0</tpCTe>
+      <procEmi>0</procEmi>
+      <verProc>Odoo Brasil OCA v14</verProc>
+      <cMunEnv>3501152</cMunEnv>
+      <xMunEnv>Alumínio</xMunEnv>
+      <UFEnv>SP</UFEnv>
+      <modal>01</modal>
+      <tpServ>0</tpServ>
+      <cMunIni>3550308</cMunIni>
+      <xMunIni>São Paulo</xMunIni>
+      <UFIni>SP</UFIni>
+      <cMunFim>1302603</cMunFim>
+      <xMunFim>Manaus</xMunFim>
+      <UFFim>AM</UFFim>
+      <retira>1</retira>
+      <indIEToma>1</indIEToma>
+      <toma3>
+        <toma>3</toma>
+      </toma3>
+    </ide>
+    <compl>
+      <xObs>Documento emitido por: Marc Demo</xObs>
+      <ObsFisco xCampo="Usuário emissor">
+        <xTexto>Documento emitido por: Marc Demo</xTexto>
+      </ObsFisco>
+    </compl>
+    <emit>
+      <CNPJ>59594315000157</CNPJ>
+      <IE>755338250133</IE>
+      <xNome>TESTE - Simples Nacional</xNome>
+      <xFant>TESTE - Simples Nacional</xFant>
+      <enderEmit>
+        <xLgr>Rua Paulo Dias</xLgr>
+        <nro>586</nro>
+        <xBairro>Vila Santa Luzia</xBairro>
+        <cMun>3501152</cMun>
+        <xMun>Alumínio</xMun>
+        <CEP>18125000</CEP>
+        <UF>SP</UF>
+        <fone>2130109965</fone>
+      </enderEmit>
+      <CRT>1</CRT>
+    </emit>
+    <rem>
+      <CNPJ>12046835000161</CNPJ>
+      <IE>887273429152</IE>
+      <xNome>CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <xFant>Cliente 2 -SP - Simples Nacional</xFant>
+      <fone>1177777777</fone>
+      <enderReme>
+        <xLgr>Avenida Doutor Chucri Zaidan</xLgr>
+        <nro>950</nro>
+        <xBairro>Vila Cordeiro</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>São Paulo</xMun>
+        <CEP>04583110</CEP>
+        <UF>SP</UF>
+        <cPais>1058</cPais>
+        <xPais>Brasil</xPais>
+      </enderReme>
+      <email>cliente2@cliente2.com.br</email>
+    </rem>
+    <exped>
+      <CNPJ>12046835000161</CNPJ>
+      <IE>887273429152</IE>
+      <xNome>CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <fone>1177777777</fone>
+      <enderExped>
+        <xLgr>Avenida Doutor Chucri Zaidan</xLgr>
+        <nro>950</nro>
+        <xBairro>Vila Cordeiro</xBairro>
+        <cMun>3550308</cMun>
+        <xMun>São Paulo</xMun>
+        <CEP>04583110</CEP>
+        <UF>SP</UF>
+        <cPais>1058</cPais>
+        <xPais>Brasil</xPais>
+      </enderExped>
+      <email>cliente2@cliente2.com.br</email>
+    </exped>
+    <receb>
+      <CNPJ>84148732000113</CNPJ>
+      <IE>095693211</IE>
+      <xNome>CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <fone>9221458888</fone>
+      <enderReceb>
+        <xLgr>Avenida Javari</xLgr>
+        <nro>s/n</nro>
+        <xCpl>Lote 9.45/15E</xCpl>
+        <xBairro>Distrito Industrial</xBairro>
+        <cMun>1302603</cMun>
+        <xMun>Manaus</xMun>
+        <CEP>69075110</CEP>
+        <UF>AM</UF>
+        <cPais>1058</cPais>
+        <xPais>Brasil</xPais>
+      </enderReceb>
+      <email>cliente4@cliente4.com.br</email>
+    </receb>
+    <dest>
+      <CNPJ>46081676000158</CNPJ>
+      <IE>782175040</IE>
+      <xNome>CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
+      <fone>9221459999</fone>
+      <ISUF>101362102</ISUF>
+      <enderDest>
+        <xLgr>Avenida Javari</xLgr>
+        <nro>s/n</nro>
+        <xCpl>Lote 8.45/30E</xCpl>
+        <xBairro>Distrito Industrial</xBairro>
+        <cMun>1302603</cMun>
+        <xMun>Manaus</xMun>
+        <CEP>69075110</CEP>
+        <UF>AM</UF>
+        <cPais>1058</cPais>
+        <xPais>Brasil</xPais>
+      </enderDest>
+      <email>cliente3@cliente3.com.br</email>
+    </dest>
+    <vPrest>
+      <vTPrest>47.00</vTPrest>
+      <vRec>47.00</vRec>
+      <Comp>
+        <xNome>Frete</xNome>
+        <vComp>47.00</vComp>
+      </Comp>
+    </vPrest>
+    <imp>
+      <ICMS>
+        <ICMSSN>
+          <CST>90</CST>
+          <indSN>1</indSN>
+        </ICMSSN>
+      </ICMS>
+    </imp>
+    <infCTeNorm>
+      <infCarga>
+        <vCarga>1000.00</vCarga>
+        <proPred>XYZ Product</proPred>
+        <xOutCat>Other Product Data</xOutCat>
+        <infQ>
+          <cUnid>00</cUnid>
+          <tpMed>Volume</tpMed>
+          <qCarga>1000.0000</qCarga>
+        </infQ>
+        <infQ>
+          <cUnid>01</cUnid>
+          <tpMed>Peso Bruto</tpMed>
+          <qCarga>500.0000</qCarga>
+        </infQ>
+        <infQ>
+          <cUnid>03</cUnid>
+          <tpMed>Unidade</tpMed>
+          <qCarga>2.0000</qCarga>
+        </infQ>
+        <vCargaAverb>1000.00</vCargaAverb>
+      </infCarga>
+      <infDoc>
+        <infNFe>
+          <chave>41190806117473000150550010000586251016759484</chave>
+        </infNFe>
+      </infDoc>
+      <infModal versaoModal="4.00">
+        <rodo>
+          <RNTRC>12345678</RNTRC>
+          <occ>
+            <serie>01</serie>
+            <nOcc>01</nOcc>
+            <emiOcc>
+              <cInt>XYZ</cInt>
+            </emiOcc>
+          </occ>
+          <occ>
+            <serie>02</serie>
+            <nOcc>02</nOcc>
+            <emiOcc>
+              <cInt>ABC</cInt>
+            </emiOcc>
+          </occ>
+        </rodo>
+      </infModal>
+    </infCTeNorm>
+  </infCte>
+</CTe>
