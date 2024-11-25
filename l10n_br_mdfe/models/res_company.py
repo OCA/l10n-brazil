@@ -82,6 +82,28 @@ class ResCompany(spec_models.SpecModel):
         compute="_compute_mdfe_data",
     )
 
+    mdfe_authorize_accountant_download_xml = fields.Boolean(
+        string="Include Accountant Partner data in persons authorized to "
+        "download MDFe XML",
+        default=False,
+    )
+
+    damdfe_margin_top = fields.Integer(
+        default=5, help="Top margin in mm for the DAMDFE layout."
+    )
+
+    damdfe_margin_right = fields.Integer(
+        default=5, help="Right margin in mm for the DAMDFE layout."
+    )
+
+    damdfe_margin_bottom = fields.Integer(
+        default=5, help="Bottom margin in mm for the DAMDFE layout."
+    )
+
+    damdfe_margin_left = fields.Integer(
+        default=5, help="Left margin in mm for the DAMDFE layout."
+    )
+
     def _compute_mdfe_data(self):
         for rec in self:
             if rec.partner_id.is_company:
