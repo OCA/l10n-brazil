@@ -29,7 +29,7 @@ class IrActionsReport(models.Model):
 
     def _render_damdfe(self, mdfe):
         if mdfe.document_type != "58":
-            raise UserError(_("You can only print a DAMDFE of a MDF-e(58)."))
+            raise UserError(_("You can only print a DAMDFE of a MDFe(58)."))
 
         mdfe_xml = False
         if mdfe.authorization_file_id:
