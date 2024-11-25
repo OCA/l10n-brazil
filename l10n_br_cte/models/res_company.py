@@ -102,6 +102,22 @@ class ResCompany(spec_models.SpecModel):
 
     cte40_CRT = fields.Selection(related="tax_framework")
 
+    dacte_margin_top = fields.Integer(
+        default=5, help="Top margin in mm for the DACTE layout."
+    )
+
+    dacte_margin_right = fields.Integer(
+        default=5, help="Right margin in mm for the DACTE layout."
+    )
+
+    dacte_margin_bottom = fields.Integer(
+        default=5, help="Bottom margin in mm for the DACTE layout."
+    )
+
+    dacte_margin_left = fields.Integer(
+        default=5, help="Left margin in mm for the DACTE layout."
+    )
+
     def _compute_cte_data(self):
         # compute because a simple related field makes the match_record fail
         for rec in self:

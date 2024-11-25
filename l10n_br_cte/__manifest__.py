@@ -18,17 +18,25 @@
         "spec_driven_model",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        # Data
         "data/ir_config_parameter.xml",
+        # Security
+        "security/ir.model.access.csv",
+        # Views
         "views/document.xml",
-        "views/cte_action.xml",
-        "views/cte_menu.xml",
         "views/res_company.xml",
         "views/modal/modal_rodoviario.xml",
         "views/modal/modal_aquaviario.xml",
         "views/modal/modal_ferroviario.xml",
         "views/modal/modal_aereo.xml",
+        # Report
+        "report/dacte_report.xml",
+        # Wizards
         "wizards/document_correction_wizard.xml",
+        # Actions
+        "views/cte_action.xml",
+        # Menus
+        "views/cte_menu.xml",
     ],
     "demo": [
         "demo/company_demo.xml",
