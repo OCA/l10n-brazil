@@ -10,7 +10,6 @@ import sys
 from datetime import datetime
 from enum import Enum
 
-from brazilfiscalreport.dacte import Dacte
 from erpbrasil.base.fiscal import cnpj_cpf
 
 # TODO: precisa tratar
@@ -1753,28 +1752,18 @@ class CTe(spec_models.StackedModel):
         if not self.filtered(filter_processador_edoc_cte):
             return super().make_pdf()
 
+        attachment_data = {
+            "name": self.document_key + ".pdf",
+            "res_model": self._name,
+            "res_id": self.id,
+            "mimetype": "application/pdf",
+            "type": "binary",
+        }
+        report = self.env.ref("l10n_br_cte.report_dacte")
+        pdf_data = report._render_qweb_pdf(self.fiscal_line_ids.document_id.ids)
+        attachment_data["datas"] = base64.b64encode(pdf_data[0])
         file_pdf = self.file_report_id
         self.file_report_id = False
         file_pdf.unlink()
 
-        if self.authorization_file_id:
-            arquivo = self.authorization_file_id
-            xml_string = base64.b64decode(arquivo.datas).decode()
-        else:
-            arquivo = self.send_file_id
-            xml_string = base64.b64decode(arquivo.datas).decode()
-            # TODO: implementar temp_xml_autorizacao igual nfe ?
-            # xml_string = self.temp_xml_autorizacao(xml_string)
-
-        pdf = Dacte(xml=xml_string).output()
-
-        self.file_report_id = self.env["ir.attachment"].create(
-            {
-                "name": self.document_key + ".pdf",
-                "res_model": self._name,
-                "res_id": self.id,
-                "datas": base64.b64encode(pdf),
-                "mimetype": "application/pdf",
-                "type": "binary",
-            }
-        )
+        self.file_report_id = self.env["ir.attachment"].create(attachment_data)
