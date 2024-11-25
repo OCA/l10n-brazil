@@ -1,6 +1,7 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
 import re
 import string
 from enum import Enum
@@ -914,3 +915,23 @@ class MDFe(spec_models.StackedModel):
         erros = Mdfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
+
+    def make_pdf(self):
+        if not self.filtered(filtered_processador_edoc_mdfe):
+            return super().make_pdf()
+
+        attachment_data = {
+            "name": self.document_key + ".pdf",
+            "res_model": self._name,
+            "res_id": self.id,
+            "mimetype": "application/pdf",
+            "type": "binary",
+        }
+        report = self.env.ref("l10n_br_mdfe.report_damdfe")
+        pdf_data = report._render_qweb_pdf(self.fiscal_line_ids.document_id.ids)
+        attachment_data["datas"] = base64.b64encode(pdf_data[0])
+        file_pdf = self.file_report_id
+        self.file_report_id = False
+        file_pdf.unlink()
+
+        self.file_report_id = self.env["ir.attachment"].create(attachment_data)
