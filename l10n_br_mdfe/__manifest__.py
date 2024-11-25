@@ -18,8 +18,11 @@
         "spec_driven_model",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        # Data
         "data/ir_config_parameter.xml",
+        # Security
+        "security/ir.model.access.csv",
+        # Views
         "views/document.xml",
         "views/mdfe_action.xml",
         "views/mdfe_menu.xml",
@@ -30,6 +33,8 @@
         "views/modal/modal_aquaviario.xml",
         "views/modal/modal_rodoviario.xml",
         "views/modal/modal_ferroviario.xml",
+        # Report
+        "report/damdfe_report.xml",
     ],
     "demo": [
         "demo/fiscal_document_demo.xml",
