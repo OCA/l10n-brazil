@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
                 <page name="cte" string="CT-e">
-                    <group string="CT-e Default Settings">
+                    <group name="cte_settings" string="CT-e Default Settings">
                         <group>
                             <field name="cte_version" />
                             <field name="cte_environment" />
@@ -20,8 +20,13 @@
                             <field name="cte_default_serie_id" />
                         </group>
                     </group>
-                    <group string="CT-e Settings">
-
+                    <group name="dacte_settings" string="DACTE Settings">
+                        <group>
+                            <field name="dacte_margin_top" string="Margin Top" />
+                            <field name="dacte_margin_right" string="Margin Right" />
+                            <field name="dacte_margin_bottom" string="Margin Bottom" />
+                            <field name="dacte_margin_left" string="Margin Left" />
+                        </group>
                     </group>
                 </page>
             </xpath>
