@@ -16,6 +16,14 @@
                             <field name="mdfe_environment" required="1" />
                         </group>
                     </group>
+                    <group name="damdfe_settings" string="DAMDFE Settings">
+                        <group>
+                            <field name="damdfe_margin_top" string="Margin Top" />
+                            <field name="damdfe_margin_right" string="Margin Right" />
+                            <field name="damdfe_margin_bottom" string="Margin Bottom" />
+                            <field name="damdfe_margin_left" string="Margin Left" />
+                        </group>
+                    </group>
                 </page>
             </xpath>
         </field>
