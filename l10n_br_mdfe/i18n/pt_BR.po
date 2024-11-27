@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_mdfe
+#: model:ir.actions.report,print_report_name:l10n_br_mdfe.report_damdfe
+msgid "'%s' % (object.document_key)"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__02
 msgid "02"
 msgstr "02"
@@ -597,6 +602,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_choice_tpayment__mdfe30_codbanco
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_rodoviario_pagamento__payment_type__bank
 msgid "Banco"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__damdfe_margin_bottom
+msgid "Bottom margin in mm for the DAMDFE layout."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1636,6 +1646,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.actions.report,name:l10n_br_mdfe.report_damdfe
+msgid "DAMDFE"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
+msgid "DAMDFE Settings"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__porto
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtEmb__porto
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_aquaviario_carregamento__loading_harbor__porto
@@ -1677,6 +1697,26 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario__mdfe30_veicReboque
 msgid "Dados dos reboques"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__damdfe_margin_bottom
+msgid "Damdfe Margin Bottom"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__damdfe_margin_left
+msgid "Damdfe Margin Left"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__damdfe_margin_right
+msgid "Damdfe Margin Right"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__damdfe_margin_top
+msgid "Damdfe Margin Top"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1826,6 +1866,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_supplement__display_name
@@ -2352,6 +2393,7 @@ msgid "IAURETÊ"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_supplement__id
@@ -2624,6 +2666,12 @@ msgstr ""
 msgid ""
 "Identificação do processo de emissão do Manifesto\n"
 "0 - emissão de MDF-e com aplicativo do contribuinte"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_authorize_accountant_download_xml
+msgid ""
+"Include Accountant Partner data in persons authorized to download MDFe XML"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3140,6 +3188,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_ir_actions_report____last_update
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related____last_update
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_supplement____last_update
@@ -3296,6 +3345,11 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_product_lotacao_local__mdfe30_choice_tlocal__mdfe30_latitude
 msgid "Latitude/Longitude"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__damdfe_margin_left
+msgid "Left margin in mm for the DAMDFE layout."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3631,6 +3685,26 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__mdfe30_matr
 msgid "Marca de Matrícula da aeronave"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
+msgid "Margin Bottom"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
+msgid "Margin Left"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
+msgid "Margin Right"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
+msgid "Margin Top"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -4123,6 +4197,12 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga__nfe_ids
 msgid "Nfe"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: code:addons/l10n_br_mdfe/report/ir_actions_report.py:0
+#, python-format
+msgid "No xml file was found."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -5250,6 +5330,11 @@ msgid "Related Documents"
 msgstr "Documento Relacionado"
 
 #. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_infRespTec
 msgid "Responsável Técnico MDFe"
 msgstr ""
@@ -5280,6 +5365,11 @@ msgid ""
 "\n"
 "Dados obrigatórios apenas no modal Rodoviário, depois da lei 11.442/07. Para "
 "os demais modais esta informação é opcional."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__damdfe_margin_right
+msgid "Right margin in mm for the DAMDFE layout."
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6276,6 +6366,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_res_company__damdfe_margin_top
+msgid "Top margin in mm for the DAMDFE layout."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Totais"
 msgstr ""
@@ -6591,6 +6686,12 @@ msgstr "A série do vagão deve ter exatamente 3 dígitos."
 #, python-format
 msgid "Wagon type must have exactly 3 digits."
 msgstr "O tipo do vagão deve ter exatamente 3 dígitos."
+
+#. module: l10n_br_mdfe
+#: code:addons/l10n_br_mdfe/report/ir_actions_report.py:0
+#, python-format
+msgid "You can only print a DAMDFE of a MDFe(58)."
+msgstr ""
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_choice_tresponsible__mdfe40_idestrangeiro
