@@ -35,6 +35,8 @@
         "views/modal/modal_ferroviario.xml",
         # Report
         "report/damdfe_report.xml",
+        # Wizards
+        "wizards/document_closure_wizard.xml",
     ],
     "demo": [
         "demo/fiscal_document_demo.xml",

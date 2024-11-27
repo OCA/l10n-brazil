@@ -1,6 +1,8 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import sys
+
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode, punctuation_rm
 
@@ -206,6 +208,9 @@ class ResPartner(spec_models.SpecModel):
         compute_sudo=True,
     )
 
+    # Modelo Rodoviario - VeicTracaoProp - Proprietário ou possuidor do Veículo.
+    mdfe30_RNTRC = fields.Char(related="rntrc_code")
+
     @api.depends("company_type", "l10n_br_ie_code", "cnpj_cpf", "country_id")
     def _compute_mdfe_data(self):
         """Set schema data which are not just related fields"""
@@ -338,3 +343,15 @@ class ResPartner(spec_models.SpecModel):
                 rec.city_id = city_id
                 rec.country_id = country_id
                 rec.state_id = state_id
+
+    @api.model
+    def _get_binding_class(self, class_obj):
+        if class_obj._name in ["mdfe.30.veictracao_prop" or "mdfe.30.veicreboque_prop"]:
+            binding_module = sys.modules[
+                "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
+            ]
+            for attr in class_obj._binding_type.split("."):
+                binding_module = getattr(binding_module, attr)
+            return binding_module
+        else:
+            return super()._get_binding_class(class_obj)

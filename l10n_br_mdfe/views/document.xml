@@ -162,6 +162,7 @@
                 >
                     <group>
                         <field name="mdfe_modal" widget="radio" />
+                        <field name="mdfe_transp_type" />
                     </group>
                     <group
                         attrs="{'invisible': [('mdfe_modal', '!=', '1')]}"
@@ -420,6 +421,17 @@
                     </group> -->
                 </page>
             </xpath>
+
+            <xpath expr="//button[@name='action_document_cancel']" position="before">
+                <button
+                    name="action_document_closure"
+                    type="object"
+                    string="Encerrar"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
+                />
+            </xpath>
+
         </field>
     </record>
 </odoo>
