@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,12 +14,14 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/tools.py:0
 #, python-format
 msgid "%(d_type)s %(d_id)s is invalid!"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid ""
@@ -2292,6 +2294,7 @@ msgid "Bank Branch Digit"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid "Bank branch code must be four caracteres."
@@ -3932,6 +3935,7 @@ msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__cnpj_cpf
 #, python-format
@@ -6019,6 +6023,7 @@ msgid "Chaves"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__checking
 #, python-format
@@ -6137,10 +6142,14 @@ msgid "City"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__city_id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__city_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__city_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__city_id
+msgid "City ID"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__city_id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__city_id
 msgid "City of Address"
 msgstr ""
 
@@ -6610,6 +6619,7 @@ msgid "Constantina"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__11
 #, python-format
@@ -6617,6 +6627,7 @@ msgid "Conta corrente conjunta"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__01
 #, python-format
@@ -6624,6 +6635,7 @@ msgid "Conta corrente individual"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__13
 #, python-format
@@ -6631,6 +6643,7 @@ msgid "Conta depósito judicial/Depósito em consignação conjunta"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__03
 #, python-format
@@ -6638,6 +6651,7 @@ msgid "Conta depósito judicial/Depósito em consignação individual"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__12
 #, python-format
@@ -6645,6 +6659,7 @@ msgid "Conta poupança conjunta"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__02
 #, python-format
@@ -7734,16 +7749,6 @@ msgid "Disable IE validation"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__display_name
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__display_name
 msgid "Display Name"
@@ -8124,6 +8129,7 @@ msgid "Dário Meira"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__email
 #, python-format
@@ -8464,6 +8470,7 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/tools.py:0
 #, python-format
 msgid "Estadual Inscription %(inscr)s Invalid for State %(state)s!"
@@ -10259,16 +10266,6 @@ msgid "IBGE Code"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__id
 msgid "ID"
@@ -10904,6 +10901,12 @@ msgid "Indiavaí"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__is_br_partner
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__is_br_partner
+msgid "Indicate if is a Brazilian partner"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__show_l10n_br
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__show_l10n_br
 msgid "Indicates if Brazilian localization fields should be displayed."
@@ -11285,6 +11288,12 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3202652
 msgid "Irupi"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__is_br_partner
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_br_partner
+msgid "Is Br Partner"
 msgstr ""
 
 #. module: l10n_br_base
@@ -13562,16 +13571,6 @@ msgid "Lassance"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_city____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner____last_update
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_pix____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers____last_update
 msgid "Last Modified on"
@@ -18562,6 +18561,7 @@ msgid "Peçanha"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__phone
 #, python-format
@@ -19758,6 +19758,7 @@ msgid "Pratânia"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__payment
 #, python-format
@@ -20238,6 +20239,7 @@ msgid "Rancho Queimado"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_pix.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__evp
 #, python-format
@@ -22592,6 +22594,7 @@ msgid "Saudades"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__transactional_acc_type__saving
 #, python-format
@@ -23323,6 +23326,7 @@ msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "State Tax Number already used {}"
@@ -23342,6 +23346,16 @@ msgstr ""
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "State..."
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street_name
+msgid "Street Name"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__street_number
+msgid "Street Number"
 msgstr ""
 
 #. module: l10n_br_base
@@ -25672,8 +25686,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__vat
 msgid ""
-"The Tax Identification Number. Complete it if the contact is subjected to "
-"government taxes. Used in some legal statements."
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
 msgstr ""
 
 #. module: l10n_br_base
@@ -25682,24 +25697,28 @@ msgid "Theobroma"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this CPF/RG!"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
@@ -27395,6 +27414,7 @@ msgid "Zé Doca"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid ""
