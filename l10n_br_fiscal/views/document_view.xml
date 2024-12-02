@@ -78,7 +78,7 @@
                 <field
                     name="state_edoc"
                     widget="badge"
-                    decoration-success="state_edoc == 'autorizada'"
+                    decoration-success="state_edoc in ['autorizada', 'encerrada']"
                     decoration-info="state == 'a_enviar'"
                     decoration-warning="state_edoc == 'cancelada'"
                     decoration-danger="state_edoc == 'rejeitada'"
@@ -207,6 +207,13 @@
                 >Fiscal Document:
                 <field name="document_type_id" readonly="1" />is
                 <strong>Authorized</strong></div>
+                <div
+                    class="alert alert-success"
+                    role="alert"
+                    attrs="{'invisible': [('state_edoc','!=','encerrada')]}"
+                >Fiscal Document:
+                <field name="document_type_id" readonly="1" />is
+                <strong>Closed</strong></div>
                 <div
                     class="alert alert-warning"
                     role="alert"
