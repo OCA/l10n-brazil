@@ -1116,7 +1116,7 @@ class MDFe(spec_models.StackedModel):
         self._change_state(state)
 
     def _eletronic_document_send(self):
-        super(MDFe, self)._eletronic_document_send()
+        super()._eletronic_document_send()
         for record in self.filtered(filtered_processador_edoc_mdfe):
             if record.xml_error_message:
                 return
@@ -1252,7 +1252,7 @@ class MDFe(spec_models.StackedModel):
                         "long."
                     )
                 )
-        result = super(MDFe, self)._document_cancel(justificative)
+        result = super()._document_cancel(justificative)
         online_event = self.filtered(filtered_processador_edoc_mdfe)
         if online_event:
             online_event._mdfe_cancel()
@@ -1276,8 +1276,7 @@ class MDFe(spec_models.StackedModel):
         )
 
     def _document_qrcode(self):
-        super()._document_qrcode()
-
+        res = super()._document_qrcode()
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_infMDFeSupl = self.env[
                 "l10n_br_fiscal.document.supplement"
@@ -1286,6 +1285,7 @@ class MDFe(spec_models.StackedModel):
                     "qrcode": record.get_mdfe_qrcode(),
                 }
             )
+        return res
 
     def get_mdfe_qrcode(self):
         # TODO: Tratar
