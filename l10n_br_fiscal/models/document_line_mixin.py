@@ -151,6 +151,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         readonly=True,
     )
 
+    operation_fiscal_type = fields.Selection(
+        related="fiscal_operation_id.fiscal_type",
+        readonly=True,
+    )
+
     fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
         string="Operation Line",
@@ -567,6 +572,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain="['|', ('cst_in_id', '=', ipi_cst_id),"
         "('cst_out_id', '=', ipi_cst_id)]",
     )
+
+    # IPI Devolvido Fields
+    p_devol = fields.Float(string="Percentual de mercadoria devolvida")
+
+    ipi_devol_value = fields.Monetary(string="Valor do IPI devolvido")
 
     # II Fields
     ii_tax_id = fields.Many2one(
