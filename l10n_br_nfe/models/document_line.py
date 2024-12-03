@@ -9,6 +9,8 @@ from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
+    EDOC_PURPOSE_COMPLEMENTAR,
+    EDOC_PURPOSE_DEVOLUCAO,
     FINAL_CUSTOMER_NO,
 )
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
@@ -968,7 +970,44 @@ class NFeLine(spec_models.StackedModel):
     # Grupo UA. Tributos Devolvidos (para o item da NF-e)
     #####################################################
 
-    # TODO
+    nfe40_impostoDevol = fields.Many2one(
+        comodel_name="nfe.40.impostodevol",
+        string="impostoDevol",
+        compute="_compute_nfe40_impostoDevol",
+        store=True,
+    )
+
+    ##########################
+    # NF-e tag: impostoDevol
+    # Compute Methods
+    ##########################
+
+    @api.depends("p_devol", "ipi_devol_value")
+    def _compute_nfe40_impostoDevol(self):
+        for record in self:
+            if record.nfe40_impostoDevol:
+                if record.nfe40_impostoDevol.nfe40_IPI:
+                    record.nfe40_impostoDevol.nfe40_IPI.unlink()
+                record.nfe40_impostoDevol.unlink()
+            if (
+                record.document_id.edoc_purpose
+                in (
+                    EDOC_PURPOSE_DEVOLUCAO,
+                    EDOC_PURPOSE_COMPLEMENTAR,
+                )
+                and record.p_devol
+                and record.ipi_devol_value
+            ):
+                ipi_devol = self.env["nfe.40.ipi"].create(
+                    {"nfe40_vIPIDevol": record.ipi_devol_value}
+                )
+                impostoDevol = record.nfe40_impostoDevol.create(
+                    {
+                        "nfe40_pDevol": record.p_devol,
+                        "nfe40_IPI": ipi_devol.id,
+                    }
+                )
+                record.nfe40_impostoDevol = impostoDevol
 
     ########################
     # NF-e tag: total
