@@ -95,15 +95,15 @@ class SaleOrder(models.Model):
         """Get object lines instaces used to compute fields"""
         return self.mapped("order_line")
 
-    @api.depends("order_line")
-    def _compute_amount(self):
-        return super()._compute_amount()
-
-    @api.depends("order_line.price_total")
-    def _amount_all(self):
+    @api.depends(
+        "order_line.price_subtotal", "order_line.price_tax", "order_line.price_total"
+    )
+    def _compute_amounts(self):
         """Compute the total amounts of the SO."""
         for order in self:
             order._compute_amount()
+
+    # TODO v16 override _compute_tax_totals ?
 
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
