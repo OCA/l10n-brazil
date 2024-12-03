@@ -1226,13 +1226,22 @@ class NFe(spec_models.StackedModel):
 
     def _prepare_nfce_send(self):
         self.ensure_one()
-        self._prepare_payments_for_nfce()
-        self.nfe40_infNFeSupl = self.env["l10n_br_fiscal.document.supplement"].create(
-            {
-                "nfe40_qrCode": self.get_nfce_qrcode(),
-                "nfe40_urlChave": self.get_nfce_qrcode_url(),
-            }
+        self.nfe40_detPag.filtered(lambda p: p.nfe40_tPag == "99").write(
+            {"nfe40_xPag": "Outros"}
         )
+
+    def _document_qrcode(self):
+        super()._document_qrcode()
+
+        for record in self.filtered(lambda d: d.document_type == MODELO_FISCAL_NFCE):
+            record.nfe40_infNFeSupl = self.env[
+                "l10n_br_fiscal.document.supplement"
+            ].create(
+                {
+                    "qrcode": record.get_nfce_qrcode(),
+                    "url_key": record.get_nfce_qrcode_url(),
+                }
+            )
 
     def _eletronic_document_send(self):
         super()._eletronic_document_send()
@@ -1527,12 +1536,6 @@ class NFe(spec_models.StackedModel):
             return
 
         return self._edoc_processor().consulta_qrcode_url
-
-    def _prepare_payments_for_nfce(self):
-        for rec in self.filtered(lambda d: d.document_type == MODELO_FISCAL_NFCE):
-            rec.nfe40_detPag.filtered(lambda p: p.nfe40_tPag == "99").write(
-                {"nfe40_xPag": "Outros"}
-            )
 
     def action_danfe_nfce_report(self):
         return (
