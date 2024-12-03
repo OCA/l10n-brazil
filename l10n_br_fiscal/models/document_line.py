@@ -46,3 +46,7 @@ class DocumentLine(models.Model):
     force_compute_delivery_costs_by_total = fields.Boolean(
         related="document_id.force_compute_delivery_costs_by_total"
     )
+
+    edoc_purpose = fields.Selection(
+        related="document_id.edoc_purpose",
+    )

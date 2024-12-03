@@ -9,6 +9,7 @@
         <group name="fiscal_fields" invisible="1">
           <field name="currency_id" force_save="1" invisible="1" />
           <field name="fiscal_operation_type" force_save="1" invisible="1" />
+          <field name="operation_fiscal_type" force_save="1" invisible="1" />
           <field name="company_id" force_save="1" invisible="1" />
           <field name="partner_id" force_save="1" invisible="1" />
           <field name="fiscal_type" force_save="1" invisible="1" />
@@ -495,6 +496,13 @@
                                             attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"
                                         />
                       </group>
+                  </group>
+                  <group
+                                    string="Devolução do IPI"
+                                    attrs="{'invisible': [('operation_fiscal_type', 'in', ['purchase', 'sale'])]}"
+                                >
+                    <field name="p_devol" />
+                    <field name="ipi_devol_value" />
                   </group>
               </page>
               <page
