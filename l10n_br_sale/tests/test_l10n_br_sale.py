@@ -520,8 +520,7 @@ class L10nBrSaleBaseTest(TransactionCase):
         # Devem existir duas Faturas/Documentos Fiscais
         self.assertEqual(2, self.so_product_service.invoice_count)
 
-    # TODO MIGRATE TO v16!
-    def TODO_test_fields_freight_insurance_other_costs(self):
+    def test_fields_freight_insurance_other_costs(self):
         """Test fields Freight, Insurance and Other Costs when
         defined or By Line or By Total in Sale Order.
         """
