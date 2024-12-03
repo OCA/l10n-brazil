@@ -353,13 +353,6 @@ class Document(models.Model):
     def _compute_fiscal_amount(self):
         return super()._compute_fiscal_amount()
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for values in vals_list:
-            if not values.get("document_date"):
-                values["document_date"] = self._date_server_format()
-        return super().create(vals_list)
-
     def unlink(self):
         forbidden_states_unlink = [
             SITUACAO_EDOC_AUTORIZADA,
