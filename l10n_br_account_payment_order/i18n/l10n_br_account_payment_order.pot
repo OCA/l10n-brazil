@@ -663,6 +663,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction
@@ -734,6 +735,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_attachment_count
@@ -798,16 +800,16 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__bank_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__bank_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__bank_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__bank_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__bank_id
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_boleto_wallet_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
 msgid "Bank"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__bank_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__bank_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__bank_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__bank_ids
 msgid "Banks"
@@ -827,6 +829,16 @@ msgid "Boleto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__boleto_accept
+msgid "Boleto Accept"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__boleto_modality
+msgid "Boleto Modality"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__file_boleto_pdf_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__file_boleto_pdf_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__file_boleto_pdf_id
@@ -834,8 +846,23 @@ msgid "Boleto PDF"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_wallet_code_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_wallet_code_id
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__boleto_species
+msgid "Boleto Species"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__boleto_variation
+msgid "Boleto Variation"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__boleto_wallet
+msgid "Boleto Wallet"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__wallet_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__wallet_code_id
 msgid "Boleto Wallet Code"
 msgstr ""
 
@@ -888,17 +915,22 @@ msgid "CNAB - Payment Fields."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.actions.act_window,name:l10n_br_account_payment_order.l10n_br_cnab_boleto_wallet_code_action
 #: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_boleto_wallet_code
-#: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_boleto_wallet_code
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_boleto_wallet_code_form_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_boleto_wallet_code_search_view
 msgid "CNAB Boleto Wallet Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.actions.act_window,name:l10n_br_account_payment_order.account_move_line_change_act_window
 msgid "CNAB Change Account Move Line"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.actions.act_window,name:l10n_br_account_payment_order.l10n_br_cnab_code_action
+#: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_code
+#: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_code
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
+msgid "CNAB Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -932,7 +964,7 @@ msgid "CNAB Informations"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_liq_return_move_code_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__liq_return_move_code_ids
 msgid "CNAB Liquidity Return Move Code"
 msgstr ""
 
@@ -942,65 +974,61 @@ msgid "CNAB Manager"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.actions.act_window,name:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_action
 #: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_mov_instruction_code
-#: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_mov_instruction_code
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_form_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_search_view
 msgid "CNAB Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_cancel_discount_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_cancel_discount_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cancel_discount_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cancel_discount_code_id
 msgid "CNAB Movement Instruction Code for Cancel Discount."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_cancel_rebate_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_cancel_rebate_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cancel_rebate_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cancel_rebate_code_id
 msgid "CNAB Movement Instruction Code for Cancel Rebate."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_change_maturity_date_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_change_maturity_date_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__change_maturity_date_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_maturity_date_code_id
 msgid "CNAB Movement Instruction Code for Change Maturity Date."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_change_title_value_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_change_title_value_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__change_title_value_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_title_value_code_id
 msgid "CNAB Movement Instruction Code for Change Title Value."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_grant_discount_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_grant_discount_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__grant_discount_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__grant_discount_code_id
 msgid "CNAB Movement Instruction Code for Grant Discount."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_grant_rebate_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_grant_rebate_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__grant_rebate_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__grant_rebate_code_id
 msgid "CNAB Movement Instruction Code for Grant Rebate."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_protest_title_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_protest_title_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__protest_title_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__protest_title_code_id
 msgid "CNAB Movement Instruction Code for Protest Tittle."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_suspend_protest_keep_wallet_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_suspend_protest_keep_wallet_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__suspend_protest_keep_wallet_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__suspend_protest_keep_wallet_code_id
 msgid "CNAB Movement Instruction Code for Suspend Protest and Keep in Wallet."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_suspend_protest_write_off_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_suspend_protest_write_off_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__suspend_protest_write_off_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__suspend_protest_write_off_code_id
 msgid "CNAB Movement Instruction Code for Suspend Protest and Writte Off."
 msgstr ""
 
@@ -1045,18 +1073,12 @@ msgid "CNAB Return Lot"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.actions.act_window,name:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_action
 #: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_return_move_code
-#: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_return_move_code
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_form_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_search_view
 msgid "CNAB Return Move Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_boleto_wallet_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
 msgid "CNAB Type"
 msgstr ""
 
@@ -1122,8 +1144,8 @@ msgid "Campo G060 do CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move_line__mov_instruction_code_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__mov_instruction_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move_line__instruction_move_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__instruction_move_code_id
 msgid "Campo G061 do CNAB"
 msgstr ""
 
@@ -1177,14 +1199,14 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_cancel_discount_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_cancel_discount_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cancel_discount_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cancel_discount_code_id
 msgid "Cancel Discount Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_cancel_rebate_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_cancel_rebate_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cancel_rebate_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cancel_rebate_code_id
 msgid "Cancel Rebate Instruction Code"
 msgstr ""
 
@@ -1212,14 +1234,14 @@ msgid "Carteira no banco Itaú é obrigatória"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_change_maturity_date_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_change_maturity_date_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__change_maturity_date_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_maturity_date_code_id
 msgid "Change Maturity Date Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_change_title_value_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_change_title_value_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__change_title_value_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_title_value_code_id
 msgid "Change Title Value Movement Instruction Code"
 msgstr ""
 
@@ -1361,6 +1383,7 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__code
@@ -1374,7 +1397,14 @@ msgid "Code (Do Not Modify)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__code_type
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
+msgid "Code Type"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__comment
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__comment
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__comment
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__comment
 msgid "Comment"
@@ -1383,6 +1413,11 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__communication_type
 msgid "Communication Type"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__complementary_finality_code
+msgid "Complementary Finality Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1536,6 +1571,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__create_uid
@@ -1549,6 +1585,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__create_date
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__create_date
@@ -1601,8 +1638,8 @@ msgid "Código da Empresa no Banco"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__mov_instruction_code_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__mov_instruction_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__instruction_move_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__instruction_move_code_id
 msgid "Código da Instrução para Movimento"
 msgstr ""
 
@@ -1703,6 +1740,11 @@ msgid "DOC"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__doc_finality_code
+msgid "DOC Finality Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__15
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__15
 msgid "DOCUMENTO DE DÍVIDA"
@@ -1762,10 +1804,16 @@ msgid "Dinheiro"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__discount_code
+msgid "Discount Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__display_name
@@ -1824,9 +1872,15 @@ msgid "Favorecido"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__fee_code
+msgid "Fee Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_follower_ids
@@ -1838,6 +1892,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_partner_ids
@@ -1874,21 +1929,19 @@ msgid "Gerar relatorio na conclusão da fatura?"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_grant_discount_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_grant_discount_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__grant_discount_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__grant_discount_code_id
 msgid "Grant Discount Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_grant_rebate_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_grant_rebate_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__grant_rebate_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__grant_rebate_code_id
 msgid "Grant Rebate Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_boleto_wallet_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_mov_instruction_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_return_move_code_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
 msgid "Group By..."
 msgstr ""
 
@@ -1896,6 +1949,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__has_message
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__has_message
@@ -1913,6 +1967,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__id
@@ -1946,6 +2001,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction
@@ -1957,6 +2013,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_has_error
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error
@@ -1987,6 +2044,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__pix_key
 #, python-format
 msgid "Instant Payment Key (Chave Pix)"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__instruction_move_code
+msgid "Instruction Move Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2021,6 +2083,11 @@ msgid "Instruções de cobrança"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__interest_code
+msgid "Interest Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__is_cnab_lot
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__is_cnab_lot
 msgid "Is CNAB Lot?"
@@ -2037,6 +2104,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_is_follower
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_is_follower
@@ -2093,6 +2161,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log____last_update
@@ -2106,6 +2175,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__write_uid
@@ -2119,6 +2189,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__write_date
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__write_date
@@ -2163,6 +2234,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_main_attachment_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_main_attachment_id
@@ -2179,6 +2251,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_has_error
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error
@@ -2190,6 +2263,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_ids
@@ -2287,6 +2361,7 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__name
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__name
@@ -2343,6 +2418,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction_counter
@@ -2354,6 +2430,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error_counter
@@ -2365,6 +2442,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction_counter
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction_counter
@@ -2376,6 +2454,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_has_error_counter
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error_counter
@@ -2518,6 +2597,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__payment_method_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__payment_method_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__payment_method_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__payment_method_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__payment_method_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__payment_method_id
 msgid "Payment Method"
@@ -2532,6 +2612,7 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__payment_method_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__payment_method_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__payment_method_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__payment_method_ids
 msgid "Payment Methods"
@@ -2665,8 +2746,13 @@ msgid "Print Boleto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_protest_title_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_protest_title_id
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__protest_code
+msgid "Protest Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__protest_title_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__protest_title_code_id
 msgid "Protest Tittle Instruction Code"
 msgstr ""
 
@@ -2687,6 +2773,11 @@ msgid "RECIBO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__release_form
+msgid "Release Form"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__activity_user_id
 msgid "Responsible User"
 msgstr ""
@@ -2694,6 +2785,11 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__cnab_return_line_ids
 msgid "Retornos CNAB"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__return_move_code
+msgid "Return Move Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2724,10 +2820,10 @@ msgid "Segmento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_sending_code_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_sending_code_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_sending_code_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_sending_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__sending_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__sending_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__sending_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__sending_code_id
 msgid "Sending Movement Instruction Code"
 msgstr ""
 
@@ -2759,6 +2855,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__own_number_sequence_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__own_number_sequence_id
 msgid "Sequência do Nosso Número"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__service_type
+msgid "Service Type"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2794,14 +2895,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_suspend_protest_keep_wallet_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_suspend_protest_keep_wallet_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__suspend_protest_keep_wallet_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__suspend_protest_keep_wallet_code_id
 msgid "Suspend Protest an Keep in Wallet Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_suspend_protest_write_off_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_suspend_protest_write_off_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__suspend_protest_write_off_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__suspend_protest_write_off_code_id
 msgid "Suspend Protest an Writte Off Instruction Code"
 msgstr ""
 
@@ -2819,6 +2920,11 @@ msgid "TED"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__ted_finality_code
+msgid "TED Finality Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_ted
 msgid "TED Transferência"
 msgstr ""
@@ -2826,6 +2932,15 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__tariff_charge
 msgid "Tarifa"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_code.py:0
+#, python-format
+msgid ""
+"The Code %(code)s %(name)s already exists for Bank %(bank)s and CNAB "
+"%(type_code)s type."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2850,6 +2965,15 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid "The amount for Partner '%(name)s' is negative or null (%(total).2f) !"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_code.py:0
+#, python-format
+msgid ""
+"The field Code in 'Instruction and Return Move Code' should have two "
+"characters."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2908,11 +3032,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__change_type
 msgid "Tipo Alteração"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
-msgid "Tipo de Cobrança ou Código da Carteira"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -3061,9 +3180,15 @@ msgid "Vencimento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__wallet_code
+msgid "Wallet Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__website_message_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__website_message_ids
@@ -3075,6 +3200,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__website_message_ids
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__website_message_ids
@@ -3093,10 +3219,10 @@ msgid "Wizard to create payment lines"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_write_off_code_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_write_off_code_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_write_off_code_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_write_off_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__write_off_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__write_off_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__write_off_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__write_off_code_id
 msgid "Write Off Movement Instruction Code"
 msgstr ""
 
