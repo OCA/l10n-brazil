@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-12-02 18:06+0000\n"
+"PO-Revision-Date: 2024-12-04 16:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -568,7 +568,7 @@ msgstr "Valor do Frete"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__price_gross
 msgid "Gross Product/Service Amount"
-msgstr ""
+msgstr "Valor Bruto do Produto/Serviço"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_percent
@@ -1474,7 +1474,7 @@ msgstr "Impostos"
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__total_weight
 msgid "Total Weight"
-msgstr ""
+msgstr "Peso Total"
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__financial_total_gross
