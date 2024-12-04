@@ -395,18 +395,21 @@ class Document(models.Model):
                 cnpj_prest=misc.punctuation_rm(record.company_id.partner_id.cnpj_cpf),
             )
             consulta = processador.analisa_retorno_consulta(processo)
+            data_emissao = datetime.strptime(
+                consulta["data_emissao"], "%Y-%m-%dT%H:%M:%S"
+            )
             if isinstance(consulta, dict):
                 record.write(
                     {
                         "verify_code": consulta["codigo_verificacao"],
                         "document_number": consulta["numero"],
-                        "authorization_date": consulta["data_emissao"],
+                        "authorization_date": data_emissao,
                     }
                 )
                 record.authorization_event_id.set_done(
                     status_code=4,
                     response=_("Procesado com Sucesso"),
-                    protocol_date=consulta["data_emissao"],
+                    protocol_date=data_emissao,
                     protocol_number=record.authorization_protocol,
                     file_response_xml=processo.retorno,
                 )
