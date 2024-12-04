@@ -400,13 +400,13 @@ class Document(models.Model):
                     {
                         "verify_code": consulta["codigo_verificacao"],
                         "document_number": consulta["numero"],
-                        "authorization_date": consulta["data_emissao"],
+                        "authorization_date": consulta["data_emissao"].split("T", 1)[0],
                     }
                 )
                 record.authorization_event_id.set_done(
                     status_code=4,
                     response=_("Procesado com Sucesso"),
-                    protocol_date=consulta["data_emissao"],
+                    protocol_date=consulta["data_emissao"].split("T", 1)[0],
                     protocol_number=record.authorization_protocol,
                     file_response_xml=processo.retorno,
                 )
