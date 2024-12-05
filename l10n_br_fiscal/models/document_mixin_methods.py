@@ -237,7 +237,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         Set landed costs values to the document lines; rate by amount.
 
         Args:
-              field_name: "freight_value|insurance_value|other_value"
+            field_name: "freight_value|insurance_value|other_value"
         """
         for record in self.filtered(lambda doc: doc._get_product_amount_lines()):
             if (
@@ -293,14 +293,17 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             for line in record._get_product_amount_lines():
                 line._onchange_fiscal_taxes()
             record._fields["amount_total"].compute_value(record)
-            record.write(
-                {
-                    name: value
-                    for name, value in record._cache.items()
-                    if record._fields[name].compute == "_amount_all"
+
+            # Case Sale, Purchase or POS
+            vals = {}
+            for name, value in record._cache.items():
+                if (
+                    record._fields[name].compute == "_amount_all"
                     and not record._fields[name].inverse
-                }
-            )
+                ):
+                    vals[name] = value
+            if vals:
+                record.write(vals)
 
     def _inverse_amount_freight(self):
         return self._inverse_amount_landed_cost("freight_value")
