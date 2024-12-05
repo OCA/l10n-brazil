@@ -384,6 +384,7 @@ class Document(models.Model):
     def _document_status(self):
         status = super()._document_status()
         for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
+            vals = dict()
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
                 numero_rps=record.rps_number,
@@ -394,25 +395,31 @@ class Document(models.Model):
                 or None,
                 cnpj_prest=misc.punctuation_rm(record.company_id.partner_id.cnpj_cpf),
             )
+
             consulta = processador.analisa_retorno_consulta(processo)
-            data_emissao = datetime.strptime(
-                consulta["data_emissao"], "%Y-%m-%dT%H:%M:%S"
-            )
-            if isinstance(consulta, dict):
-                record.write(
-                    {
-                        "verify_code": consulta["codigo_verificacao"],
-                        "document_number": consulta["numero"],
-                        "authorization_date": data_emissao,
-                    }
-                )
-                record.authorization_event_id.set_done(
-                    status_code=4,
-                    response=_("Procesado com Sucesso"),
-                    protocol_date=data_emissao,
-                    protocol_number=record.authorization_protocol,
-                    file_response_xml=processo.retorno,
-                )
+            retorno = ET.fromstring(processo.retorno)
+
+            if processo.webservice in CONSULTA_LOTE:
+                if processo.resposta.Cabecalho.Sucesso:
+                    nfse = retorno.find(".//NFe")
+
+                    vals["document_number"] = nfse.find(".//NumeroNFe").text
+                    vals["authorization_date"] = nfse.find(".//DataEmissaoRPS").text
+                    vals["verify_code"] = nfse.find(".//CodigoVerificacao").text
+                    vals["status_name"] = _("Procesado com Sucesso")
+                    vals["status_code"] = 4
+                    vals["edoc_error_message"] = ""
+
+                    record.authorization_event_id.set_done(
+                        status_code=4,
+                        response=vals["status_name"],
+                        protocol_date=vals["authorization_date"],
+                        protocol_number=nfse.find(".//CodigoVerificacao").text,
+                        file_response_xml=processo.retorno,
+                    )
+
+                    record._change_state(SITUACAO_EDOC_AUTORIZADA)
+                    record.write(vals)
             status = _(consulta)
         return status
 
