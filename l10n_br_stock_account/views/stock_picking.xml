@@ -226,26 +226,42 @@
 
                 </group>
             </xpath>
-            <xpath expr="//page[@name='page_invoicing']" position="inside">
+            <xpath expr="//group[div[field[@name='scheduled_date']]]" position="after">
                 <!-- Estes campos são read only momentaneamente, pode ser que em
                 um segundo momento essas informações também sejam relevantes para
                 pickings de entrada com relação com documentos fiscais ainda não
                 importados no sistema.
-            -->
-                <!--group name="document_info" string="Fiscal Document Info">
-                    <field name="document_key" readonly="1" />
+                -->
+                <group
+                    name="document_info"
+                    string="Fiscal Document"
+                    colspan="2"
+                    attrs="{'invisible': ['|', ('invoice_state', 'in', ['none', False]), ('fiscal_operation_id', '=', False)]}"
+                >
+                    <group colspan="2">
+                        <field name="document_type_id" string="Type" readonly="1" />
+                        <field name="document_key" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="document_serie_id" string="Serie" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="document_number" string="Number" readonly="1" />
+                    </group>
                 </group>
-                <group>
-                    <group>
-                        <field name="document_type_id" readonly="1" />
-                        <field name="document_serie_id" readonly="1" />
-                    </group>
-                    <group>
-                        <field name="document_serie" readonly="1" />
-                        <field name="document_number" readonly="1" />
-                    </group>
-                </group-->
             </xpath>
+        </field>
+    </record>
+
+    <record id="stock_picking_tree" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.picking.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="company_id" position="before">
+                <field name="document_number" readonly="1" />
+            </field>
         </field>
     </record>
 
