@@ -35,8 +35,6 @@
         "wizards/document_correction_wizard.xml",
         # Actions
         "views/cte_action.xml",
-        # Menus
-        "views/cte_menu.xml",
     ],
     "demo": [
         "demo/company_demo.xml",
