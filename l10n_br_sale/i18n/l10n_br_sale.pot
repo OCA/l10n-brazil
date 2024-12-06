@@ -501,6 +501,16 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_number
 msgid "Document Number"
 msgstr ""
@@ -1721,6 +1731,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_total
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_total
 msgid "Total"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__total_weight
+msgid "Total Weight"
 msgstr ""
 
 #. module: l10n_br_sale

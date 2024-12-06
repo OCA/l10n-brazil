@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2024-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Desconto Padrão UNICRED -->
+    <record id="unicred_240_400_boleto_discount_code_0" model="l10n_br_cnab.code">
+        <field name="name">Isento</field>
+        <field name="code">0</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="unicred_240_400_boleto_discount_code_1" model="l10n_br_cnab.code">
+        <field name="name">Valor Fixo</field>
+        <field name="code">1</field>
+        <field name="code_type">discount_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+</odoo>

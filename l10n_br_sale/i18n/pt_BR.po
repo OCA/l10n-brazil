@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2024-08-28 19:06+0000\n"
+"PO-Revision-Date: 2024-12-04 16:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -514,6 +514,16 @@ msgstr "Desconto no Pedido de Vendas por Valor"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr "Dígito de Verificação da Chave do Documento"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_random_code
+msgid "Document Key Random Code"
+msgstr "Código Aleatório da Chave do Documento"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_number
@@ -1745,6 +1755,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_total
 msgid "Total"
 msgstr "Total"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__total_weight
+msgid "Total Weight"
+msgstr "Peso Total"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__financial_total_gross

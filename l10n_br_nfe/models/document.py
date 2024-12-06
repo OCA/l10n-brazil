@@ -78,24 +78,19 @@ def filter_processador_edoc_nfe(record):
 
 class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
-    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe", "nfe.40.fat"]
-    _stacked = "nfe.40.infnfe"
-    _field_prefix = "nfe40_"
-    _schema_name = "nfe"
-    _schema_version = "4.0.0"
-    _odoo_module = "l10n_br_nfe"
-    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
-    _spec_tab_name = "NFe"
-    _nfe_search_keys = ["nfe40_Id"]
+    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
 
+    _nfe40_odoo_module = "odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00"
+    _nfe40_stacking_mixin = "nfe.40.infnfe"
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = (
+    _nfe40_stacking_force_paths = (
         "infnfe.total",
         "infnfe.infAdic",
         "infnfe.exporta",
         "infnfe.cobr",
         "infnfe.cobr.fat",
     )
+    _nfe_search_keys = ["nfe40_Id"]
 
     # When dynamic stacking is applied the NFe structure is:
     INFNFE_TREE = """
@@ -382,7 +377,7 @@ class NFe(spec_models.StackedModel):
     # specially when importing (ERP NFe migration vs supplier Nfe).
     nfe40_emit = fields.Many2one(
         comodel_name="res.company",
-        compute="_compute_emit_data",
+        compute="_compute_nfe_emit_data",
         string="Emit",
     )
 
@@ -396,9 +391,22 @@ class NFe(spec_models.StackedModel):
     # Compute Methods
     ##########################
 
-    def _compute_emit_data(self):
+    def _compute_nfe_emit_data(self):
         for doc in self:  # TODO if out
             doc.nfe40_emit = doc.company_id
+
+    def _set_nfe40_IEST(self):
+        self.ensure_one()
+        iest = ""
+        if self.partner_id:
+            dest_state_id = self.partner_id.state_id
+            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
+                stn_id = self.company_id.state_tax_number_ids.filtered(
+                    lambda stn: stn.state_id == dest_state_id
+                )
+                iest = stn_id.inscr_est
+                iest = re.sub("[^0-9]+", "", iest)
+        self.company_inscr_est_st = iest
 
     ##########################
     # NF-e tag: dest
@@ -406,7 +414,7 @@ class NFe(spec_models.StackedModel):
 
     nfe40_dest = fields.Many2one(
         comodel_name="res.partner",
-        compute="_compute_dest_data",
+        compute="_compute_nfe_dest_data",
         readonly=True,
         string="Dest",
     )
@@ -422,7 +430,7 @@ class NFe(spec_models.StackedModel):
     ##########################
 
     @api.depends("partner_id")
-    def _compute_dest_data(self):
+    def _compute_nfe_dest_data(self):
         for doc in self:  # TODO if out
             if (
                 doc.partner_id.is_anonymous_consumer
@@ -432,19 +440,6 @@ class NFe(spec_models.StackedModel):
                 doc.nfe40_dest = None
             else:
                 doc.nfe40_dest = doc.partner_id
-            doc._set_nfe40_IEST()
-
-    def _set_nfe40_IEST(self):
-        self.ensure_one()
-        iest = ""
-        if self.partner_id:
-            dest_state_id = self.partner_id.state_id
-            if dest_state_id in self.company_id.state_tax_number_ids.mapped("state_id"):
-                stn_id = self.company_id.state_tax_number_ids.filtered(
-                    lambda stn: stn.state_id == dest_state_id
-                )
-                iest = stn_id.inscr_est
-        self.company_inscr_est_st = iest
 
     ##########################
     # NF-e tag: entrega
@@ -452,7 +447,7 @@ class NFe(spec_models.StackedModel):
 
     nfe40_entrega = fields.Many2one(
         comodel_name="res.partner",
-        compute="_compute_entrega_data",
+        compute="_compute_nfe_entrega_data",
         string="Entrega",
     )
 
@@ -462,7 +457,7 @@ class NFe(spec_models.StackedModel):
     ##########################
 
     @api.depends("partner_shipping_id")
-    def _compute_entrega_data(self):
+    def _compute_nfe_entrega_data(self):
         for rec in self:
             if (
                 rec.document_type == MODELO_FISCAL_NFCE
@@ -676,7 +671,7 @@ class NFe(spec_models.StackedModel):
         denormalized inner attribute has been set.
         """
         self.ensure_one()
-        if field_name in self._stacking_points.keys():
+        if field_name in self._get_stacking_points().keys():
             if field_name == "nfe40_ISSQNtot" and not any(
                 t == "issqn"
                 for t in self.nfe40_det.mapped("product_id.tax_icms_or_issqn")
@@ -684,23 +679,36 @@ class NFe(spec_models.StackedModel):
                 return False
 
             elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
-                comodel = self.env[self._stacking_points.get(field_name).comodel_name]
+                comodel = self.env[
+                    self._get_stacking_points().get(field_name).comodel_name
+                ]
                 fields = [
                     f
                     for f in comodel._fields
-                    if f.startswith(self._field_prefix)
+                    if f.startswith(self._spec_prefix())
                     and f in self._fields.keys()
                     and f
                     # don't try to nfe40_fat id when reading nfe40_cobr for instance
-                    not in self._stacking_points.keys()
+                    not in self._get_stacking_points().keys()
                 ]
                 sub_tag_read = self.read(fields)[0]
                 if not any(
                     v
                     for k, v in sub_tag_read.items()
-                    if k.startswith(self._field_prefix)
+                    if k.startswith(self._spec_prefix())
                 ):
                     return False
+
+        if (
+            field_name == "nfe40_emit"
+            and self.fiscal_operation_type == "out"
+            and self.issuer == "company"
+        ):
+            self._set_nfe40_IEST()
+            res = super()._export_many2one(field_name, xsd_required, class_obj)
+            if self.company_inscr_est_st:
+                res.IEST = self.company_inscr_est_st
+            return res
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
@@ -845,7 +853,9 @@ class NFe(spec_models.StackedModel):
                 key_date_str = rec.document_key[2:6]
                 key_date = datetime.strptime(key_date_str, "%y%m")
 
-                document_date = fields.Datetime.from_string(rec.document_date)
+                document_date = fields.Datetime.context_timestamp(
+                    rec, rec.document_date
+                )
                 if (
                     rec.document_type in ["55", "65"]
                     and rec.state_edoc in ["a_enviar", "autorizada"]
@@ -888,17 +898,20 @@ class NFe(spec_models.StackedModel):
         ):
             record.flush()
             record.invalidate_cache()
-            inf_nfe = record.export_ds()[0]
+            inf_nfe = record._build_binding("nfe", "40")
 
             inf_nfe_supl = None
             if record.nfe40_infNFeSupl:
-                inf_nfe_supl = record.nfe40_infNFeSupl.export_ds()[0]
+                inf_nfe_supl = record.nfe40_infNFeSupl._build_binding("nfe", "40")
 
             nfe = Nfe(infNFe=inf_nfe, infNFeSupl=inf_nfe_supl, signature=None)
             edocs.append(nfe)
         return edocs
 
-    def _processador(self):
+    def _edoc_processor(self):
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super()._edoc_processor()
+
         self._check_nfe_environment()
         certificado = self.company_id._get_br_ecertificate()
         session = Session()
@@ -941,7 +954,7 @@ class NFe(spec_models.StackedModel):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
-            processador = record._processador()
+            processador = record._edoc_processor()
             xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
                 0
             ]
@@ -963,7 +976,7 @@ class NFe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
             xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
-            self._valida_xml(xml_assinado)
+            self._validate_xml(xml_assinado)
         return result
 
     def _nfe_update_status_and_save_data(self, process):
@@ -1037,8 +1050,12 @@ class NFe(spec_models.StackedModel):
             file_response_xml=nfe_proc_xml,
         )
 
-    def _valida_xml(self, xml_file):
+    def _validate_xml(self, xml_file):
         self.ensure_one()
+
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super()._validate_xml(xml_file)
+
         erros = Nfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
@@ -1061,9 +1078,13 @@ class NFe(spec_models.StackedModel):
         return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
 
     def _generate_key(self):
-        for record in self.filtered(filter_processador_edoc_nfe):
-            date = fields.Datetime.context_timestamp(record, record.document_date)
+        if self.document_type_id.code not in [
+            MODELO_FISCAL_NFE,
+            MODELO_FISCAL_NFCE,
+        ]:
+            return super()._generate_key()
 
+        for record in self.filtered(filter_processador_edoc_nfe):
             required_fields_gen_edoc = []
             if not record.company_cnpj_cpf:
                 required_fields_gen_edoc.append("CNPJ/CPF")
@@ -1081,6 +1102,7 @@ class NFe(spec_models.StackedModel):
                     _("To Generate EDoc Key, you need to fill the %s field.") % field
                 )
 
+            date = fields.Datetime.context_timestamp(record, record.document_date)
             chave_edoc = ChaveEdoc(
                 ano_mes=date.strftime("%y%m").zfill(4),
                 cnpj_cpf_emitente=record.company_cnpj_cpf,
@@ -1097,7 +1119,7 @@ class NFe(spec_models.StackedModel):
 
     def _nfe_consult_receipt(self):
         self.ensure_one()
-        processor = self._processador()
+        processor = self._edoc_processor()
         # Consult receipt and process the response
         rec_num = self.authorization_event_id.lot_receipt_number
         receipt_process = processor.consulta_recibo(numero=rec_num)
@@ -1150,7 +1172,7 @@ class NFe(spec_models.StackedModel):
             )
             return None
 
-        processor = self._processador()
+        processor = self._edoc_processor()
 
         # Extract the <NFe> tag from the `enviNFe` message, which represents the NF-e
         nfe_send_xml = base64.b64decode(self.send_file_id.datas)
@@ -1189,7 +1211,7 @@ class NFe(spec_models.StackedModel):
             """
             return c_stat in ["100", "101", "110"]
 
-        nfe_manager = self._processador()
+        nfe_manager = self._edoc_processor()
         check_response = nfe_manager.consulta_documento(chave=self.document_key)
         status = check_response.resposta.xMotivo
 
@@ -1231,7 +1253,7 @@ class NFe(spec_models.StackedModel):
         Serialize and send a NFe for authorizaion
         """
         serialized_nfe = self.serialize()[0]
-        nfe_manager = self._processador()
+        nfe_manager = self._edoc_processor()
         authorization_response = None
         for service_response in nfe_manager.processar_documento(serialized_nfe):
             if service_response.webservice not in [
@@ -1337,7 +1359,7 @@ class NFe(spec_models.StackedModel):
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
-            .build_from_binding(binding.NFe.infNFe)
+            .build_from_binding("nfe", "40", binding.NFe.infNFe)
         )
 
         if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
@@ -1376,7 +1398,7 @@ class NFe(spec_models.StackedModel):
 
     def _nfe_cancel(self):
         self.ensure_one()
-        processador = self._processador()
+        processador = self._edoc_processor()
 
         if not self.authorization_protocol:
             raise UserError(_("Authorization Protocol Not Found!"))
@@ -1432,7 +1454,7 @@ class NFe(spec_models.StackedModel):
 
     def _nfe_correction(self, justificative):
         self.ensure_one()
-        processador = self._processador()
+        processador = self._edoc_processor()
 
         numeros = self.event_ids.filtered(
             lambda e: e.type == "14" and e.state == "done"
@@ -1492,7 +1514,7 @@ class NFe(spec_models.StackedModel):
     def get_nfce_qrcode(self):
         if self.document_type != MODELO_FISCAL_NFCE:
             return
-        processador = self._processador()
+        processador = self._edoc_processor()
         if self.nfe_transmission == "1":
             return processador.monta_qrcode(self.document_key)
 
@@ -1504,7 +1526,7 @@ class NFe(spec_models.StackedModel):
         if self.document_type != MODELO_FISCAL_NFCE:
             return
 
-        return self._processador().consulta_qrcode_url
+        return self._edoc_processor().consulta_qrcode_url
 
     def _prepare_payments_for_nfce(self):
         for rec in self.filtered(lambda d: d.document_type == MODELO_FISCAL_NFCE):

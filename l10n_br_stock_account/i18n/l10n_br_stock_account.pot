@@ -440,6 +440,16 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
 msgid "Document Number"
 msgstr ""
@@ -1616,6 +1626,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__2binvoiced
 #, python-format
 msgid "To Be Invoiced"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__total_weight
+msgid "Total Weight"
 msgstr ""
 
 #. module: l10n_br_stock_account

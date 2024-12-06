@@ -14,6 +14,39 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "Create"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
+msgid "Create Volumes"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__create_uid
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__create_uid
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__create_uid
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__create_uid
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__create_date
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__create_date
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__create_date
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__create_date
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_transporta
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__nfe40_transporta
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_payment__nfe40_transporta
@@ -23,7 +56,29 @@ msgstr ""
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_product__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__display_name
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "Esp."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_esp
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_esp
+msgid "Espécie dos volumes transportados"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
@@ -32,13 +87,73 @@ msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model:ir.actions.act_window,name:l10n_br_delivery_nfe.action_generate_volume_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "Generate Draft Volumes"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__has_vol
+msgid "Has Vol IDs"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_product__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_product____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_template____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres____last_update
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol____last_update
 msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__write_uid
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__write_uid
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__write_uid
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__write_uid
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__write_date
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__write_date
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__write_date
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__write_date
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "Marca"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_marca
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_marca
+msgid "Marca dos volumes transportados"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
@@ -65,9 +180,183 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "N. Vol."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__nfe40_lacres_vol_id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__nfe40_lacres_vol_id
+msgid "Nfe40 Lacres Vol"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_vol_transp_id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_vol_transp_id
+msgid "Nfe40 Vol Transp"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: code:addons/l10n_br_delivery_nfe/wizards/stock_invoice_onshipping.py:0
+#: code:addons/l10n_br_delivery_nfe/wizards/stock_invoice_onshipping.py:0
+#, python-format
+msgid "No picking 2binvoiced!"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: code:addons/l10n_br_delivery_nfe/wizards/stock_generate_volumes.py:0
+#, python-format
+msgid "No picking to generate vols!"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__number_of_volumes
+msgid "Number of Volumes"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_nVol
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_nVol
+msgid "Numeração dos volumes transportados"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__nfe40_nLacre
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__nfe40_nLacre
+msgid "Número dos Lacres"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "Peso B."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "Peso L."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_pesoB
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_pesoB
+msgid "Peso bruto (em kg)"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_pesoL
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_pesoL
+msgid "Peso líquido (em kg)"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model,name:l10n_br_delivery_nfe.model_product_product
+msgid "Product"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model,name:l10n_br_delivery_nfe.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "Qt Vol"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_qVol
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_qVol
+msgid "Quantidade de volumes transportados"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model,name:l10n_br_delivery_nfe.model_stock_generate_volumes
+msgid "Stock Generate Volumes"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model,name:l10n_br_delivery_nfe.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__picking_id
+msgid "Stock Picking"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_stock_picking__has_vol
+msgid "Technical Field: True if the picking has already generated Volume IDs."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_transporta
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_move__nfe40_transporta
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_payment__nfe40_transporta
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_transporta
 msgid "The partner that is doing the delivery service."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model,name:l10n_br_delivery_nfe.model_stock_picking
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__picking_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_product_product__product_volume_type
+#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_product_template__product_volume_type
+msgid "Type of transported volumes: Mapped onto 'nfe40_esp'"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model,name:l10n_br_delivery_nfe.model_stock_invoice_onshipping_vol
+#: model:ir.model,name:l10n_br_delivery_nfe.model_stock_picking_vol
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__vol_ids
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping__vol_ids
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__vol_ids
+msgid "Volume Data"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_product__product_volume_type
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_template__product_volume_type
+msgid "Volume Type"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
+msgid "Volumes"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model,name:l10n_br_delivery_nfe.model_stock_invoice_onshipping_lacres
+#: model:ir.model,name:l10n_br_delivery_nfe.model_stock_picking_lacres
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_lacres
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_lacres
+msgid "lacres"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+msgid "or"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__generate_vols_wizard_id
+msgid "stock.generate.volumes"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__invoice_wizard_id
+msgid "stock.invoice.onshipping"
 msgstr ""

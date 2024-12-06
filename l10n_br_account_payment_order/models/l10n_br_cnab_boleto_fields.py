@@ -145,6 +145,7 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     own_number_sequence_id = fields.Many2one(
         comodel_name="ir.sequence",
         string="Sequência do Nosso Número",
+        copy=False,
         help="Para usar essa Sequencia é preciso definir o campo Tipo do "
         "Nosso Número como Sequencial Único por Carteira no cadastro da "
         "empresa",
@@ -176,6 +177,12 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     boleto_fee_perc = fields.Float(
         string="Percentual de Multa",
         digits="Account",
+        tracking=True,
+    )
+
+    boleto_discount_code_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.code",
+        string="Boleto Discount Code",
         tracking=True,
     )
 
@@ -228,14 +235,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     # Codigos de Instrução do Movimento
 
     # Codigo de Remessa/Inclusão de Registro Detalhe Liberado
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_sending_code_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Sending Movement Instruction Code",
-        help="Sending Movement Instruction Code",
-        tracking=True,
-    )
     sending_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Sending Movement Instruction Code",
@@ -244,14 +243,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Título/Pagamento Direto ao Fornecedor -Baixar
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_write_off_code_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Write Off Movement Instruction Code",
-        help="Write Off Movement Instruction Code",
-        tracking=True,
-    )
     write_off_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Write Off Movement Instruction Code",
@@ -260,14 +251,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Alteração do Valor do Titulo
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_change_title_value_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Change Title Value Movement Instruction Code",
-        help="CNAB Movement Instruction Code for Change Title Value.",
-        tracking=True,
-    )
     change_title_value_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Change Title Value Movement Instruction Code",
@@ -276,14 +259,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Alteração da Data de Vencimento
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_change_maturity_date_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Change Maturity Date Movement Instruction Code",
-        help="CNAB Movement Instruction Code for Change Maturity Date.",
-        tracking=True,
-    )
     change_maturity_date_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Change Maturity Date Movement Instruction Code",
@@ -292,14 +267,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Protestar Título
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_protest_title_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Protest Tittle Instruction Code",
-        help="CNAB Movement Instruction Code for Protest Tittle.",
-        tracking=True,
-    )
     protest_title_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Protest Tittle Instruction Code",
@@ -308,15 +275,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Suspender Protesto e Manter em Carteira
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_suspend_protest_keep_wallet_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Suspend Protest an Keep in Wallet Instruction Code",
-        help="CNAB Movement Instruction Code for"
-        " Suspend Protest and Keep in Wallet.",
-        tracking=True,
-    )
     suspend_protest_keep_wallet_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Suspend Protest an Keep in Wallet Instruction Code",
@@ -326,14 +284,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Suspender Protesto e Baixar Título
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_suspend_protest_write_off_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Suspend Protest an Writte Off Instruction Code",
-        help="CNAB Movement Instruction Code for" " Suspend Protest and Writte Off.",
-        tracking=True,
-    )
     suspend_protest_write_off_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Suspend Protest an Writte Off Instruction Code",
@@ -342,14 +292,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Conceder Abatimento
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_grant_rebate_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Grant Rebate Instruction Code",
-        help="CNAB Movement Instruction Code for" " Grant Rebate.",
-        tracking=True,
-    )
     grant_rebate_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Grant Rebate Instruction Code",
@@ -358,14 +300,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Cancelar Abatimento
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_cancel_rebate_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Cancel Rebate Instruction Code",
-        help="CNAB Movement Instruction Code for" " Cancel Rebate.",
-        tracking=True,
-    )
     cancel_rebate_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Cancel Rebate Instruction Code",
@@ -374,14 +308,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Conceder Desconto
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_grant_discount_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Grant Discount Instruction Code",
-        help="CNAB Movement Instruction Code for" " Grant Discount.",
-        tracking=True,
-    )
     grant_discount_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Grant Discount Instruction Code",
@@ -390,14 +316,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     )
 
     # Codigo para Cancelar Desconto
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    cnab_code_cancel_discount_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.mov.instruction.code",
-        string="Cancel Discount Instruction Code",
-        help="CNAB Movement Instruction Code for Cancel Discount.",
-        tracking=True,
-    )
     cancel_discount_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Cancel Discount Instruction Code",
@@ -428,13 +346,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     # Código da Carteira ou Tipo de Cobrança usado por
     # Santanter 400 e 240
     # Bradesco 240
-    # TODO: Remover o campo na próxima versão,
-    #  usando apenas para migração para o l10n_br_cnab.code
-    boleto_wallet_code_id = fields.Many2one(
-        comodel_name="l10n_br_cnab.boleto.wallet.code",
-        string="Boleto Wallet Code",
-        tracking=True,
-    )
     wallet_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Boleto Wallet Code",

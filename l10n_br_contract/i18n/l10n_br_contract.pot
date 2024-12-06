@@ -433,6 +433,16 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_number
 msgid "Document Number"
 msgstr ""
@@ -1448,6 +1458,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
 msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__total_weight
+msgid "Total Weight"
 msgstr ""
 
 #. module: l10n_br_contract

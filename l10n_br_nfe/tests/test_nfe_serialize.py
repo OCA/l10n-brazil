@@ -18,7 +18,6 @@ _logger = logging.getLogger(__name__)
 class TestNFeExport(TransactionCase):
     def setUp(self, nfe_list):
         super().setUp()
-        self.env["spec.mixin.nfe"]._register_hook()
         self.nfe_list = nfe_list
         for nfe_data in self.nfe_list:
             nfe = self.env.ref(nfe_data["record_ref"])

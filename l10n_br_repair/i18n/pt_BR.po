@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-28 01:20+0000\n"
-"PO-Revision-Date: 2024-08-28 19:06+0000\n"
+"PO-Revision-Date: 2024-12-04 16:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -597,6 +597,16 @@ msgstr "Valor do Desconto"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr "Dígito de Verificação da Chave do Documento"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__key_random_code
+msgid "Document Key Random Code"
+msgstr "Código Aleatório da Chave do Documento"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_number
@@ -2025,6 +2035,11 @@ msgstr "Impostos"
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_total
 msgid "Total"
 msgstr "Total"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__total_weight
+msgid "Total Weight"
+msgstr "Peso Total"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__financial_total_gross

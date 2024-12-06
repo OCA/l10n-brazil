@@ -3,11 +3,13 @@
 
 {
     "name": "Brazilian Localization WMS Accounting",
+    "summary": "Invoice from Picking (nota fiscal de remessa) and other WMS overrides",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "14.0.3.9.2",
+    "maintainers": ["renatonlima", "mbcosta"],
+    "version": "14.0.3.11.1",
     "depends": [
         "stock_account",
         "stock_picking_invoicing",

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2024-08-28 19:06+0000\n"
+"PO-Revision-Date: 2024-12-04 16:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -444,6 +444,16 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__key_check_digit
+msgid "Document Key Check Digit"
+msgstr "Dígito de Verificação da Chave do Documento"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__key_random_code
+msgid "Document Key Random Code"
+msgstr "Código Aleatório da Chave do Documento"
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_number
 msgid "Document Number"
 msgstr "Número do Documento"
@@ -583,7 +593,7 @@ msgstr "Valor do Frete"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__price_gross
 msgid "Gross Product/Service Amount"
-msgstr ""
+msgstr "Valor Bruto do Produto/Serviço"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__group
@@ -1642,6 +1652,11 @@ msgstr ""
 #, python-format
 msgid "To Be Invoiced"
 msgstr "Para ser Faturado"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__total_weight
+msgid "Total Weight"
+msgstr "Peso Total"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__financial_total_gross

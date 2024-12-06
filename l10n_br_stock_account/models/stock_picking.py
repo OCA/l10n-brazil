@@ -9,23 +9,6 @@ class StockPicking(models.Model):
     _inherit = [_name, "l10n_br_fiscal.document.mixin"]
 
     @api.model
-    def _default_fiscal_operation(self):
-        company = self.env.company
-        fiscal_operation = False
-        if self.env.company.country_id == self.env.ref("base.br"):
-            fiscal_operation = company.stock_fiscal_operation_id
-            picking_type_id = self.env.context.get("default_picking_type_id")
-            if picking_type_id:
-                picking_type = self.env["stock.picking.type"].browse(picking_type_id)
-                fiscal_operation = picking_type.fiscal_operation_id or (
-                    company.stock_in_fiscal_operation_id
-                    if picking_type.code == "incoming"
-                    else company.stock_out_fiscal_operation_id
-                )
-
-        return fiscal_operation
-
-    @api.model
     def _fiscal_operation_domain(self):
         # TODO Check in context to define in or out move default.
         domain = [("state", "=", "approved")]
@@ -35,7 +18,6 @@ class StockPicking(models.Model):
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
         states={"draft": [("readonly", False)]},
-        default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
@@ -121,3 +103,75 @@ class StockPicking(models.Model):
             )
             self.document_serie = self.document_serie_id.code
             self.document_number = self.document_serie_id.next_seq_number()
+
+    def _get_fiscal_partner(self):
+        """
+        Adjust the partner, both for an invoice from picking with
+        no related SO or PO,
+        https://github.com/OCA/account-invoicing/blob/14.0/
+        stock_picking_invoicing/models/stock_picking.py#L38
+        and also in the case of a picking originating from a PO:
+        https://github.com/OCA/OCB/blob/14.0/addons/purchase/
+        models/purchase.py#L556
+        """
+        self.ensure_one()
+        partner = super()._get_fiscal_partner()
+        if partner.id != partner.address_get(["invoice"]).get("invoice"):
+            partner = self.env["res.partner"].browse(
+                partner.address_get(["invoice"]).get("invoice")
+            )
+        return partner
+
+    def _get_default_fiscal_operation(self):
+        """
+        Meant to be overriden in modules such as
+        l10n_br_sale_stock
+        l10n_br_purchase_stock
+        """
+        company = self.env.company
+        fiscal_operation = company.stock_fiscal_operation_id
+        picking_type_id = self.picking_type_id.id
+        if not picking_type_id:
+            # Quando isso é necessário? Testes não passam aqui,
+            # dependendo ver de remover
+            picking_type_id = self.env.context.get("default_picking_type_id")
+        if picking_type_id:
+            picking_type = self.env["stock.picking.type"].browse(picking_type_id)
+            fiscal_operation = picking_type.fiscal_operation_id or (
+                company.stock_in_fiscal_operation_id
+                if picking_type.code == "incoming"
+                else company.stock_out_fiscal_operation_id
+            )
+
+        return fiscal_operation
+
+    @api.onchange("invoice_state")
+    def _onchange_invoice_state(self):
+        for record in self:
+            # TODO: Na v16 chamar o super() o update_invoice_state já é
+            #  chamado https://github.com/OCA/account-invoicing/blob/16.0/
+            #  stock_picking_invoicing/models/stock_picking.py#L47
+            record._update_invoice_state(record.invoice_state)
+            record.mapped("move_lines")._update_invoice_state(record.invoice_state)
+
+            if record.partner_id and record.env.company.country_id == record.env.ref(
+                "base.br"
+            ):
+                fiscal_operation = record._get_default_fiscal_operation()
+                if fiscal_operation:
+                    record.fiscal_operation_id = fiscal_operation
+                    for line in record.move_lines:
+                        line.fiscal_operation_id = fiscal_operation
+                        line._onchange_product_id_fiscal()
+
+    def set_to_be_invoiced(self):
+        """
+        Update invoice_state of current pickings to "2binvoiced".
+        :return: dict
+        """
+        # Necessário para preencher a OP Fiscal Padrão quando
+        # ao inves de selecionar o invoice_state pelo campo
+        # é feito pelo botão
+        self._onchange_invoice_state()
+
+        return super().set_to_be_invoiced()

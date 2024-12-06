@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- MDFe Test - Fiscal Operation - Comment Dummy-->
+    <record id="l10n_br_fiscal.fo_manifesto" model="l10n_br_fiscal.operation">
+        <field
+            name="comment_ids"
+            eval="[(6,0,[ref('l10n_br_fiscal.fiscal_comment_dummy')])]"
+        />
+    </record>
+
+    <!-- MDFe Test - NFe Related -->
+    <record id="demo_mdfe_related_nfe" model="l10n_br_fiscal.document.related">
+        <field name="document_key">41190806117473000150550010000586251016759484</field>
+        <field name="document_total_weight">10</field>
+        <field name="document_total_amount">33.19</field>
+    </record>
+
+
+    <!-- MDFe Test - Modal Ferroviário - LC -->
+    <record id="demo_mdfe_lc_modal_ferroviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_58_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">2</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35230905472475000102580200000602011208018449</field>
+        <field name="mdfe_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+        <field name="mdfe_initial_state_id" ref="base.state_br_ac" />
+        <field name="mdfe_final_state_id" ref="base.state_br_ac" />
+        <field
+            name="mdfe_loading_city_ids"
+            eval="[(6, 0, [ref('l10n_br_base.city_1200013')])]"
+        />
+        <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+        <field name="mdfe_modal">4</field>
+    </record>
+
+    <record
+        id="demo_mdfe_lc_descarga_ferroviario"
+        model="l10n_br_mdfe.municipio.descarga"
+    >
+        <field name="document_id" ref="demo_mdfe_lc_modal_ferroviario" />
+        <field name="state_id" ref="base.state_br_ac" />
+        <field name="city_id" ref="l10n_br_base.city_1200013" />
+        <field name="document_type">nfe</field>
+        <field
+            name="nfe_ids"
+            eval="[(6, 0, [ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
+        />
+    </record>
+
+    <!-- MDFe Test - Modal Ferroviário - LC - Document Lines -->
+    <record
+        id="demo_mdfe_lc_modal_ferroviario_1-1"
+        model="l10n_br_fiscal.document.line"
+    >
+        <field name="document_id" ref="demo_mdfe_lc_modal_ferroviario" />
+        <field name="name">Manifesto</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">0</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_manifesto_manifesto"
+        />
+    </record>
+
+
+    <!-- MDFe Test - Modal Rodoviário - LC -->
+    <record id="demo_mdfe_lc_modal_rodoviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_58_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">3</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35230905472475000102580200000602071611554500</field>
+        <field name="mdfe_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+        <field name="mdfe_initial_state_id" ref="base.state_br_ac" />
+        <field name="mdfe_final_state_id" ref="base.state_br_ac" />
+        <field
+            name="mdfe_loading_city_ids"
+            eval="[(6, 0, [ref('l10n_br_base.city_1200013')])]"
+        />
+        <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+        <field name="mdfe_modal">1</field>
+    </record>
+
+    <record
+        id="demo_mdfe_lc_descarga_rodoviario"
+        model="l10n_br_mdfe.municipio.descarga"
+    >
+        <field name="document_id" ref="demo_mdfe_lc_modal_rodoviario" />
+        <field name="state_id" ref="base.state_br_ac" />
+        <field name="city_id" ref="l10n_br_base.city_1200013" />
+        <field name="document_type">nfe</field>
+        <field
+            name="nfe_ids"
+            eval="[(6, 0, [ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
+        />
+    </record>
+
+    <!-- MDFe Test - Modal Rodoviário - LC - Document Lines -->
+    <record id="demo_mdfe_lc_modal_rodoviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_mdfe_lc_modal_rodoviario" />
+        <field name="name">Manifesto</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">0</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_manifesto_manifesto"
+        />
+    </record>
+
+
+    <!-- MDFe Test - Modal Aéreo - SN -->
+    <record id="demo_mdfe_sn_modal_aereo" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_58_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="document_number">4</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35230905472475000102580200000602081550195716</field>
+        <field name="mdfe_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+        <field name="mdfe_initial_state_id" ref="base.state_br_ac" />
+        <field name="mdfe_final_state_id" ref="base.state_br_ac" />
+        <field
+            name="mdfe_loading_city_ids"
+            eval="[(6, 0, [ref('l10n_br_base.city_1200013')])]"
+        />
+        <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+        <field name="mdfe_modal">2</field>
+    </record>
+
+    <record id="demo_mdfe_lc_descarga_aereo" model="l10n_br_mdfe.municipio.descarga">
+        <field name="document_id" ref="demo_mdfe_sn_modal_aereo" />
+        <field name="state_id" ref="base.state_br_ac" />
+        <field name="city_id" ref="l10n_br_base.city_1200013" />
+        <field name="document_type">nfe</field>
+        <field
+            name="nfe_ids"
+            eval="[(6, 0, [ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
+        />
+    </record>
+
+    <!-- MDFe Test - Modal Aéreo - SN - Document Lines -->
+    <record id="demo_mdfe_sn_modal_aereo_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_mdfe_sn_modal_aereo" />
+        <field name="name">Manifesto</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">0</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_manifesto_manifesto"
+        />
+    </record>
+
+
+    <!-- MDFe Test - Modal Aquaviário - SN -->
+    <record id="demo_mdfe_sn_modal_aquaviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_58" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_58_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="document_number">5</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35231005472475000102580200000602161434590525</field>
+        <field name="mdfe_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+        <field name="mdfe_initial_state_id" ref="base.state_br_ac" />
+        <field name="mdfe_final_state_id" ref="base.state_br_ac" />
+        <field
+            name="mdfe_loading_city_ids"
+            eval="[(6, 0, [ref('l10n_br_base.city_1200013')])]"
+        />
+        <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+        <field name="mdfe_modal">3</field>
+    </record>
+
+    <record
+        id="demo_mdfe_lc_descarga_aquaviario"
+        model="l10n_br_mdfe.municipio.descarga"
+    >
+        <field name="document_id" ref="demo_mdfe_sn_modal_aquaviario" />
+        <field name="state_id" ref="base.state_br_ac" />
+        <field name="city_id" ref="l10n_br_base.city_1200013" />
+        <field name="document_type">nfe</field>
+        <field
+            name="nfe_ids"
+            eval="[(6, 0, [ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
+        />
+    </record>
+
+    <!-- MDFe Test - Modal Aquaviário - SN - Document Lines -->
+    <record id="demo_mdfe_sn_modal_aquaviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_mdfe_sn_modal_aquaviario" />
+        <field name="name">Manifesto</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">0</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_manifesto_manifesto"
+        />
+    </record>
+
+</odoo>

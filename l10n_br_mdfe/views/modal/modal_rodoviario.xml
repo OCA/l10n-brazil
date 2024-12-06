@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="modal_rodoviario_reboque_form_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.reboque.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.reboque</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="mdfe30_cInt" />
+                            <field name="mdfe30_placa" />
+                            <field name="mdfe30_RENAVAM" />
+                            <field name="mdfe30_tpCar" />
+                            <field
+                                name="mdfe30_prop"
+                                context="{
+                                    'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view'
+                                }"
+                                domain="[
+                                    ('cnpj_cpf', '!=', False),
+                                    ('mdfe30_RNTRC', '!=', False),
+                                ]"
+                            />
+                            <field name="mdfe30_UF" />
+                        </group>
+
+                        <group>
+                            <field name="mdfe30_tara" />
+                            <field name="mdfe30_capKG" />
+                            <field name="mdfe30_capM3" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_reboque_tree_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.reboque.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.reboque</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_cInt" />
+                <field name="mdfe30_placa" />
+                <field name="mdfe30_tpCar" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_partner_prop_form_view" model="ir.ui.view">
+        <field name="name">res.partner.reboque.prop.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="is_company" />
+                            <field
+                                name="mdfe30_CNPJ"
+                                attrs="{
+                                'invisible': [('is_company', '=', False)],
+                                'required': [('is_company', '=', True)],
+                            }"
+                            />
+                            <field
+                                name="mdfe30_CPF"
+                                attrs="{
+                                'invisible': [('is_company', '=', True)],
+                                'required': [('is_company', '=', False)],
+                            }"
+                            />
+                            <field name="legal_name" />
+                            <field
+                                name="inscr_est"
+                                attrs="{
+                                'invisible': [('is_company', '=', False)],
+                            }"
+                            />
+                            <field name="country_id" />
+                            <field name="state_id" />
+                        </group>
+
+                        <group>
+                            <field name="mdfe30_RNTRC" required="1" />
+                            <field name="mdfe30_tpProp" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_ciot_form_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.ciot.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.ciot</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="is_company" />
+                        <field
+                            name="mdfe30_CNPJ"
+                            attrs="{
+                                'invisible': [('is_company', '=', False)],
+                                'required': [('is_company', '=', True)],
+                            }"
+                        />
+                        <field
+                            name="mdfe30_CPF"
+                            attrs="{
+                                'invisible': [('is_company', '=', True)],
+                                'required': [('is_company', '=', False)],
+                            }"
+                        />
+                        <field name="mdfe30_CIOT" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_ciot_tree_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.ciot.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.ciot</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_CIOT" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_vale_pedagio_dispositivo_form_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.vale_pedagio.dispositivo.form.view (in l10n_br_mdfe)</field>
+        <field
+            name="model"
+        >l10n_br_mdfe.modal.rodoviario.vale_pedagio.dispositivo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="mdfe30_nCompra" />
+                            <field name="mdfe30_CNPJForn" />
+                            <field name="mdfe30_CNPJPg" />
+                            <field name="mdfe30_CPFPg" />
+                        </group>
+                        <group>
+                            <field name="mdfe30_vValePed" />
+                            <field name="mdfe30_tpValePed" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_vale_pedagio_dispositivo_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.vale_pedagio.dispositivo.tree.view (in l10n_br_mdfe)</field>
+        <field
+            name="model"
+        >l10n_br_mdfe.modal.rodoviario.vale_pedagio.dispositivo</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_nCompra" />
+                <field name="mdfe30_tpValePed" />
+                <field name="mdfe30_vValePed" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_partner_contratante_form_view" model="ir.ui.view">
+        <field name="name">res.partner.contratante.form.view (in l10n_br_mdfe)</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="is_company" />
+                        <field name="cnpj_cpf" required="1" />
+                        <field name="legal_name" required="1" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_partner_contratante_tree_view" model="ir.ui.view">
+        <field name="name">res.partner.contratante.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="legal_name" required="1" />
+                <field name="cnpj_cpf" required="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_pagamento_form_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.pagamento.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id" />
+                            <field name="mdfe30_indAltoDesemp" />
+                            <field name="mdfe30_indPag" />
+                        </group>
+                        <group>
+                            <field name="mdfe30_vContrato" />
+                            <field name="mdfe30_vAdiant" />
+                        </group>
+                        <group>
+                            <field name="payment_type" />
+                            <field
+                                name="mdfe30_codBanco"
+                                attrs="{'invisible': [('payment_type', '!=', 'bank')]}"
+                            />
+                            <field
+                                name="mdfe30_codAgencia"
+                                attrs="{'invisible': [('payment_type', '!=', 'bank')]}"
+                            />
+                            <field
+                                name="mdfe30_PIX"
+                                attrs="{'invisible': [('payment_type', '!=', 'pix')]}"
+                            />
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Informações do Prazo">
+                            <field name="mdfe30_infPrazo" nolabel="1" />
+                        </page>
+
+                        <page string="Frete">
+                            <field name="mdfe30_comp" nolabel="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_pagamento_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.pagamento.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id" />
+                <field name="mdfe30_vContrato" />
+                <field name="mdfe30_vAdiant" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_pagamento_prazo_form_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.pagamento.prazo.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento.prazo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="mdfe30_nParcela" />
+                        <field name="mdfe30_vParcela" />
+                        <field name="mdfe30_dVenc" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_pagamento_prazo_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.pagamento.prazo.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento.prazo</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_nParcela" />
+                <field name="mdfe30_vParcela" />
+                <field name="mdfe30_dVenc" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_pagamento_frete_form_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.pagamento.frete.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento.frete</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="mdfe30_tpComp" />
+                        <field name="mdfe30_vComp" />
+                        <field name="mdfe30_xComp" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_pagamento_frete_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.pagamento.frete.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento.frete</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_tpComp" />
+                <field name="mdfe30_vComp" />
+                <field name="mdfe30_xComp" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_veiculo_condutor_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.veiculo.condutor.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.veiculo.condutor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_xNome" />
+                <field name="mdfe30_CPF" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_veiculo_condutor_form_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.veiculo.condutor.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.veiculo.condutor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="mdfe30_xNome" />
+                        <field name="mdfe30_CPF" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_lacre_tree_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.lacre.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.lacre</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mdfe30_nLacre" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="modal_rodoviario_lacre_form_view" model="ir.ui.view">
+        <field name="name">modal.rodoviario.lacre.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.lacre</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="mdfe30_nLacre" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="modal_rodoviario_contratante_form_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.contratante.form.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.contratante</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="partner_id" />
+                        <field name="mdfe30_CNPJ" />
+                        <field name="mdfe30_CPF" />
+                        <field name="mdfe30_idEstrangeiro" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>

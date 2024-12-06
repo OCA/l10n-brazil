@@ -51,18 +51,6 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
         cls.loader.restore_registry()
         super(TestSpecModel, cls).tearDownClass()
 
-    # def test_loading_hook(self):
-    #
-    #     remaining_spec_models = get_remaining_spec_models(
-    #         self.env.cr,
-    #         self.env.registry,
-    #         "spec_driven_model",
-    #         "odoo.addons.spec_driven_model.tests.spec_poxsd",
-    #     )
-    #     self.assertEqual(
-    #         remaining_spec_models, {"poxsd.10.purchaseorder", "poxsd.10.comment"}
-    #     )
-
     def test_spec_models(self):
         self.assertTrue(
             set(self.env["res.partner"]._fields.keys()).issuperset(
@@ -79,7 +67,11 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
     def test_stacked_model(self):
         po_fields_or_stacking = set(self.env["fake.purchase.order"]._fields.keys())
         po_fields_or_stacking.update(
-            set(self.env["fake.purchase.order"]._stacking_points.keys())
+            set(
+                self.env["fake.purchase.order"]
+                ._poxsd10_stacking_points
+                .keys()
+            )
         )
         self.assertTrue(
             po_fields_or_stacking.issuperset(
@@ -87,7 +79,11 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
             )
         )
         self.assertEqual(
-            list(self.env["fake.purchase.order"]._stacking_points.keys()),
+            list(
+                self.env["fake.purchase.order"]
+                ._poxsd10_stacking_points
+                .keys()
+            ),
             ["poxsd10_items"],
         )
 
@@ -112,6 +108,7 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
         po = self.env["fake.purchase.order"].create(
             {
                 "name": "PO XSD",
+                "date_order": "2024-10-08",
                 "partner_id": self.env.ref("base.res_partner_1").id,
                 "dest_address_id": self.env.ref("base.res_partner_1").id,
             }
@@ -127,21 +124,65 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
 
         # 2nd we serialize it into a binding object:
         # (that could be further XML serialized)
-        po_binding = po._build_generateds()
+        po_binding = po._build_binding(spec_schema="poxsd", spec_version="10")
+        self.assertEqual(
+            [s.__name__ for s in type(po_binding).mro()],
+            ["PurchaseOrderType", "object"],
+        )
         self.assertEqual(po_binding.bill_to.name, "Wood Corner")
         self.assertEqual(po_binding.items.item[0].product_name, "Some product desc")
         self.assertEqual(po_binding.items.item[0].quantity, 42)
         self.assertEqual(po_binding.items.item[0].usprice, "13")  # FIXME
 
-        # 3rd we import an Odoo PO from this binding object
+        # 3rd we serialize po_binding as XML and check the output:
+        try:
+            from xsdata.formats.dataclass.serializers import XmlSerializer
+            from xsdata.formats.dataclass.serializers.config import SerializerConfig
+
+            serializer = XmlSerializer(config=SerializerConfig(indent="  "))
+            xml = serializer.render(obj=po_binding, ns_map=None)
+            expected_xml = """<?xml version="1.0" encoding="UTF-8"?>
+<PurchaseOrderType orderDate="2024-10-08">
+  <ns0:shipTo xmlns:ns0="http://tempuri.org/PurchaseOrderSchema.xsd" country="US">
+    <ns0:name>Wood Corner</ns0:name>
+    <ns0:street>1839 Arbor Way</ns0:street>
+    <ns0:city>Turlock</ns0:city>
+    <ns0:state>California</ns0:state>
+    <ns0:zip>0</ns0:zip>
+  </ns0:shipTo>
+  <ns0:billTo xmlns:ns0="http://tempuri.org/PurchaseOrderSchema.xsd" country="US">
+    <ns0:name>Wood Corner</ns0:name>
+    <ns0:street>1839 Arbor Way</ns0:street>
+    <ns0:city>Turlock</ns0:city>
+    <ns0:state>California</ns0:state>
+    <ns0:zip>0</ns0:zip>
+  </ns0:billTo>
+  <ns0:items xmlns:ns0="http://tempuri.org/PurchaseOrderSchema.xsd">
+    <ns0:item>
+      <ns0:productName>Some product desc</ns0:productName>
+      <ns0:quantity>42</ns0:quantity>
+      <ns0:USPrice>13</ns0:USPrice>
+      <ns0:comment>0</ns0:comment>
+    </ns0:item>
+  </ns0:items>
+</PurchaseOrderType>
+"""
+            self.assertEqual(xml, expected_xml)
+
+        except ImportError:
+            _logger.error(_("xsdata Python lib not installed, skipping XML test!"))
+
+        # 4th we import an Odoo PO from this binding object
         # first we will do a dry run import:
         imported_po_dry_run = self.env["fake.purchase.order"].build_from_binding(
-            po_binding, dry_run=True
+            "poxsd", "10", po_binding, dry_run=True
         )
         assert isinstance(imported_po_dry_run.id, NewId)
 
         # now a real import:
-        imported_po = self.env["fake.purchase.order"].build_from_binding(po_binding)
+        imported_po = self.env["fake.purchase.order"].build_from_binding(
+            "poxsd", "10", po_binding
+        )
         self.assertEqual(imported_po.partner_id.name, "Wood Corner")
         self.assertEqual(
             imported_po.partner_id.id, self.env.ref("base.res_partner_1").id

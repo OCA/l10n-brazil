@@ -17,7 +17,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV
 class InvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.invalidate.number"
 
-    def _processador(self):
+    def _edoc_processor(self):
         certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
@@ -38,7 +38,7 @@ class InvalidateNumber(models.Model):
         return edoc_nfe(**params)
 
     def _invalidate(self, document_id=False):
-        processador = self._processador()
+        processador = self._edoc_processor()
         evento = processador.inutilizacao(
             cnpj=punctuation_rm(self.company_id.cnpj_cpf),
             mod=self.document_type_id.code,

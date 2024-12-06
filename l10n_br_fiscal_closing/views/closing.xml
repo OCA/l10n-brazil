@@ -135,6 +135,9 @@
                         <page string="RL">
                             <field name="document_rl_ids" readonly="1" />
                         </page>
+                        <page string="CTE">
+                            <field name="document_cte_ids" readonly="1" />
+                        </page>
                     </notebook>
                 </group>
 

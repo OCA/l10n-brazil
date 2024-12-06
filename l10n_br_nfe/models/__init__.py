@@ -21,3 +21,6 @@ from . import cfop
 from . import invalidate_number
 from . import dfe
 from . import mde
+
+spec_schema = "nfe"
+spec_version = "40"

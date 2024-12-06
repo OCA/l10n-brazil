@@ -58,8 +58,7 @@ msgstr "Operação Fiscal Brasileira Padrão para Pagamento de Comissão."
 #. module: l10n_br_sale_commission
 #: model:ir.model.fields,help:l10n_br_sale_commission.field_res_config_settings__commission_fiscal_operation_id
 msgid ""
-"Default Brazilian Fiscal Operation for Fiscal Document at Commission "
-"payment."
+"Default Brazilian Fiscal Operation for Fiscal Document at Commission payment."
 msgstr ""
 "Operação Fiscal Brasileira Padrão para Documento Fiscal no Pagamento de "
 "Comissão."
@@ -154,6 +153,7 @@ msgid "Sales Order Line"
 msgstr "Linha do Pedido de Vendas"
 
 #. module: l10n_br_sale_commission
+#: model:product.product,mdfe30_xProd:l10n_br_sale_commission.service_commission
 #: model:product.product,name:l10n_br_sale_commission.service_commission
 #: model:product.template,name:l10n_br_sale_commission.service_commission_product_template
 msgid "Serviço de Comissão"

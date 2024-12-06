@@ -133,7 +133,7 @@ class SpecViewMixin(models.AbstractModel):
     # TODO required only if visible
     @api.model
     def build_arch(self, lib_node, view_node, fields, depth=0):
-        """Creates a view arch from an generateds lib model arch"""
+        """Creates a view arch from an xsdata lib model arch"""
         # _logger.info("BUILD ARCH", lib_node)
         choices = set()
         wrapper_group = None

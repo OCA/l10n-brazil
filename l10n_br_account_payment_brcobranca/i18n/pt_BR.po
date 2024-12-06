@@ -82,7 +82,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config__display_name
@@ -99,7 +98,6 @@ msgstr "Habilitar reconciliação do retorno de pagamento automático."
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config__id
@@ -147,7 +145,6 @@ msgstr "Item de Diário"
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_mode____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_payment_order____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_credit_statement_import____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_l10n_br_cnab_config____last_update
@@ -173,11 +170,6 @@ msgstr "Nada a importar: O arquivo está vazio"
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_line
 msgid "Payment Lines"
 msgstr "Linhas de Pagamento"
-
-#. module: l10n_br_account_payment_brcobranca
-#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_mode
-msgid "Payment Modes"
-msgstr "Modos de Pagamento"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_order
@@ -208,6 +200,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr "Tipo de importação"
+
+#~ msgid "Payment Modes"
+#~ msgstr "Modos de Pagamento"
 
 #, python-format
 #~ msgid "Statement import error The statement cannot be created: %s"

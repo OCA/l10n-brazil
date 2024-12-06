@@ -146,6 +146,7 @@ msgid "Sales Order Line"
 msgstr ""
 
 #. module: l10n_br_sale_commission
+#: model:product.product,mdfe30_xProd:l10n_br_sale_commission.service_commission
 #: model:product.product,name:l10n_br_sale_commission.service_commission
 #: model:product.template,name:l10n_br_sale_commission.service_commission_product_template
 msgid "Serviço de Comissão"

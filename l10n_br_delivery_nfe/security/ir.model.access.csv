@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+l10n_br_delivery_nfe_onshipping_vol,l10n_br_delivery_nfe.onshipping_vol,l10n_br_delivery_nfe.model_stock_invoice_onshipping_vol,stock.group_stock_user,1,1,1,1
+l10n_br_delivery_nfe_onshipping_lacres,l10n_br_delivery_nfe.onshipping_lacres,l10n_br_delivery_nfe.model_stock_invoice_onshipping_lacres,stock.group_stock_user,1,1,1,1
+l10n_br_delivery_nfe_stock_generate_volumes,l10n_br_delivery_nfe.stock_generate_volumes,l10n_br_delivery_nfe.model_stock_generate_volumes,stock.group_stock_user,1,1,1,1
+l10n_br_delivery_nfe_stock_picking_vol,l10n_br_delivery_nfe.stock_picking_vol,l10n_br_delivery_nfe.model_stock_picking_vol,stock.group_stock_user,1,1,1,1
+l10n_br_delivery_nfe_stock_picking_lacres,l10n_br_delivery_nfe.stock_picking_lacres,l10n_br_delivery_nfe.model_stock_picking_lacres,stock.group_stock_user,1,1,1,1

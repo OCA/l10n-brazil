@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-23 14:30+0000\n"
-"PO-Revision-Date: 2024-09-11 18:06+0000\n"
+"PO-Revision-Date: 2024-12-04 16:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -631,7 +631,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_pos_form
 msgid "Cancellation"
-msgstr ""
+msgstr "Cancelamento"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cashier_number
@@ -802,9 +802,8 @@ msgstr "Operação Padrão de Retorno"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__out_pos_fiscal_operation_id
-#, fuzzy
 msgid "Default Sales Operation"
-msgstr "Operações Fiscais de Reembolso do POS"
+msgstr "Operação Fiscal de Venda no POS"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__uom_id
@@ -893,6 +892,16 @@ msgstr "Valor do Desconto"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_stock_return_picking__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr "Dígito de Verificação da Chave do Documento"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__key_random_code
+msgid "Document Key Random Code"
+msgstr "Código Aleatório da Chave do Documento"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_number
@@ -1157,7 +1166,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_gross
 msgid "Gross Product/Service Amount"
-msgstr ""
+msgstr "Valor Bruto do Produto/Serviço"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__res_company__environment_sat__homologation
@@ -2716,6 +2725,11 @@ msgstr "Impostos"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_total
 msgid "Total"
 msgstr "Total"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__total_weight
+msgid "Total Weight"
+msgstr "Peso Total"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total_gross

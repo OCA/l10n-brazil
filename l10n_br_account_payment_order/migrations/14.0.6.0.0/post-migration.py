@@ -6,264 +6,325 @@ from openupgradelib import openupgrade
 
 
 def unifying_cnab_codes(env):
-    "Unifica os Codigos CNAB"
-
     # Codigo de Instrução do Movimento
     env.cr.execute(
         """
-        SELECT id FROM l10n_br_cnab_mov_instruction_code
-        """
+    SELECT lcmic.id, lcmic.name, lcmic.code, lcmic.bank_id, lcmic.payment_method_id
+    FROM l10n_br_cnab_mov_instruction_code AS lcmic
+    WHERE NOT EXISTS (
+        SELECT 1 FROM l10n_br_cnab_code AS lcc
+        WHERE lcc.code = lcmic.code
+        AND lcc.code_type = 'instruction_move_code'
+        AND lcc.bank_id = lcmic.bank_id
+        AND lcc.payment_method_id = lcmic.payment_method_id
+    );
+    """
     )
     for row in env.cr.fetchall():
-        mov_instruction = env["l10n_br_cnab.mov.instruction.code"].browse(row[0])
-        existing_code = env["l10n_br_cnab.code"].search(
-            [("code", "=", mov_instruction.code)], limit=1
+        # Inserir na tabela l10n_br_cnab_code
+        env.cr.execute(
+            """
+            INSERT INTO l10n_br_cnab_code (
+                name, code, bank_id, payment_method_id,  code_type
+            )
+            VALUES (%s, %s, %s, %s, %s)
+            RETURNING id
+            """,
+            (row[1], row[2], row[3], row[4], "instruction_move_code"),
         )
-        if existing_code:
-            continue  # Skip
-        env["l10n_br_cnab.code"].create(
-            {
-                "name": mov_instruction.name,
-                "code": mov_instruction.code,
-                "code_type": "instruction_move_code",
-                "bank_ids": mov_instruction.bank_ids,
-                "payment_method_ids": mov_instruction.payment_method_ids,
-            }
+        new_id = env.cr.fetchone()[0]
+
+        # Relação com bancos
+        env.cr.execute(
+            f"""
+            SELECT l10n_br_cnab_mov_instruction_code_id
+            FROM l10n_br_cnab_mov_instruction_code_bank_rel
+            WHERE bank_id = {row[0]}
+        """
         )
+        bank_ids = [bank_id[0] for bank_id in env.cr.fetchall()]
+        if bank_ids:
+            bank_values = [(bank_id, new_id) for bank_id in bank_ids]
+            env.cr.executemany(
+                """
+                INSERT INTO l10n_br_cnab_code_bank_rel (l10n_br_cnab_code_id, bank_id)
+                VALUES (%s, %s)
+                """,
+                bank_values,
+            )
+
+        # Relação com métodos de pagamento
+        env.cr.execute(
+            f"""
+            SELECT l10n_br_cnab_mov_instruction_code_id
+            FROM l10n_br_cnab_mov_instruction_code_payment_method_rel
+            WHERE payment_method_id = {row[0]}
+        """
+        )
+        payment_method_ids = [
+            payment_method_id[0] for payment_method_id in env.cr.fetchall()
+        ]
+        if payment_method_ids:
+            pm_values = [(pm_id, new_id) for pm_id in payment_method_ids]
+            env.cr.executemany(
+                """
+                INSERT INTO l10n_br_cnab_code_payment_method_rel (
+                l10n_br_cnab_code_id, payment_method_id)
+                VALUES (%s, %s)
+                """,
+                pm_values,
+            )
 
     # Codigo de Retorno do Movimento
     env.cr.execute(
         """
-        SELECT id FROM l10n_br_cnab_return_move_code
-        """
+    SELECT lcmic.id, lcmic.name, lcmic.code
+    FROM l10n_br_cnab_return_move_code AS lcmic
+    WHERE NOT EXISTS (
+        SELECT 1 FROM l10n_br_cnab_code AS lcc
+        WHERE lcc.code = lcmic.code
+        AND lcc.code_type = 'return_move_code'
+        AND lcc.bank_id = lcmic.bank_id
+        AND lcc.payment_method_id = lcmic.payment_method_id
+    );
+    """
     )
     for row in env.cr.fetchall():
-        return_code = env["l10n_br_cnab.return.move.code"].browse(row[0])
-        existing_code = env["l10n_br_cnab.code"].search(
-            [("code", "=", return_code.code)], limit=1
+        # Relação bank_ids x return_move_code
+        bank_id_colunm = "l10n_br_cnab_return_move_code_id"
+        return_move_code_id_colunm = "bank_id"
+        env.cr.execute(
+            f"""
+            SELECT {bank_id_colunm}
+            FROM l10n_br_cnab_return_move_code_bank_rel
+            WHERE {return_move_code_id_colunm} = {row[0]}
+        """
         )
-        if existing_code:
-            continue  # Skip
+        bank_ids = [bank_id[0] for bank_id in env.cr.fetchall()]
+
+        # Relação payment_method_ids x return_move_code
+        payment_method_id_colunm = (
+            "l10n_br_cnab_mov_instruction_code_id"
+        )  # nome tava errado
+        return_move_code_id_colunm = "payment_method_id"
+        env.cr.execute(
+            f"""
+            SELECT {payment_method_id_colunm}
+            FROM l10n_br_cnab_return_move_code_payment_method_rel
+            WHERE {return_move_code_id_colunm} = {row[0]}
+        """
+        )
+        payment_method_ids = [
+            payment_method_id[0] for payment_method_id in env.cr.fetchall()
+        ]
         env["l10n_br_cnab.code"].create(
             {
-                "name": return_code.name,
-                "code": return_code.code,
+                "name": row[1],
+                "code": row[2],
                 "code_type": "return_move_code",
-                "bank_ids": return_code.bank_ids,
-                "payment_method_ids": return_code.payment_method_ids,
+                "bank_ids": [(6, 0, bank_ids)],
+                "payment_method_ids": [(6, 0, payment_method_ids)],
             }
         )
 
     # Codigo da Carteira
     env.cr.execute(
         """
-        SELECT id FROM l10n_br_cnab_boleto_wallet_code
-        """
+    SELECT lcmic.id, lcmic.name, lcmic.code, lcmic.bank_id, lcmic.payment_method_id
+    FROM l10n_br_cnab_boleto_wallet_code AS lcmic
+    WHERE NOT EXISTS (
+        SELECT 1 FROM l10n_br_cnab_code AS lcc
+        WHERE lcc.code = lcmic.code
+        AND lcc.code_type = 'wallet_code'
+        AND lcc.bank_id = lcmic.bank_id
+        AND lcc.payment_method_id = lcmic.payment_method_id
+    );
+    """
     )
     for row in env.cr.fetchall():
-        wallet_code = env["l10n_br_cnab.boleto.wallet.code"].browse(row[0])
-        existing_code = env["l10n_br_cnab.code"].search(
-            [("code", "=", wallet_code.code)], limit=1
+        # Relação bank_ids x boleto_wallet_code
+        bank_id_colunm = "l10n_br_cnab_boleto_wallet_code_id"
+        boleto_wallet_id_colunm = "bank_id"
+        env.cr.execute(
+            f"""
+            SELECT {bank_id_colunm}
+            FROM l10n_br_cnab_boleto_wallet_code_bank_rel
+            WHERE {boleto_wallet_id_colunm} = {row[0]}
+        """
         )
-        if existing_code:
-            continue  # Skip
+        bank_ids = [bank_id[0] for bank_id in env.cr.fetchall()]
+
+        # Relação payment_method_ids x boleto_wallet_code
+        payment_method_id_colunm = "l10n_br_cnab_boleto_wallet_code_id"
+        boleto_wallet_id_colunm = "payment_method_id"
+        env.cr.execute(
+            f"""
+            SELECT {payment_method_id_colunm}
+            FROM l10n_br_cnab_boleto_wallet_code_payment_method_rel
+            WHERE {boleto_wallet_id_colunm} = {row[0]}
+        """
+        )
+        payment_method_ids = [
+            payment_method_id[0] for payment_method_id in env.cr.fetchall()
+        ]
         env["l10n_br_cnab.code"].create(
             {
-                "name": wallet_code.name,
-                "code": wallet_code.code,
+                "name": row[1],
+                "code": row[2],
                 "code_type": "wallet_code",
-                "bank_ids": wallet_code.bank_ids,
-                "payment_method_ids": wallet_code.payment_method_ids,
+                "bank_ids": [(6, 0, bank_ids)],
+                "payment_method_ids": [(6, 0, payment_method_ids)],
             }
         )
 
 
-def get_new_code(env, payment_mode, payment_mode_code, code_type):
-    """Retorna o Codigo no novo objeto"""
-    new_code = env["l10n_br_cnab.code"].search(
-        [
-            ("bank_ids", "in", payment_mode.bank_id.ids),
-            ("payment_method_ids", "in", payment_mode.payment_method_id.ids),
-            ("code", "=", payment_mode_code.code),
-            ("code_type", "=", code_type),
-        ]
-    )
-    return new_code
-
-
-def update_payment_mode_inbound(env):
-    """Atualiza o Modo de Pagamento"""
-    env.cr.execute(
-        """
-        SELECT id FROM account_payment_mode WHERE payment_method_id IN
-        (SELECT id FROM account_payment_method WHERE code IN ('240', '400', '500')
-        AND payment_type = 'inbound');
-        """
-    )
-    for row in env.cr.fetchall():
-        payment_mode = env["account.payment.mode"].browse(row[0])
-
-        # Atualizando os Codigos CNAB
-
-        # Instrução de Envio
-        sending_code = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_sending_code_id,
+def update_payment_mode(env):
+    fields = [
+        (
+            "cnab_sending_code_id",
+            "sending_code_id",
             "instruction_move_code",
-        )
-        payment_mode.sending_code_id = sending_code
-
-        # Solicitação de Baixa
-        write_off = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_write_off_code_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_write_off_code_id",
+            "write_off_code_id",
             "instruction_move_code",
-        )
-        payment_mode.write_off_code_id = write_off
-
-        # Alteração do Valor do título
-        change_title = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_change_title_value_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_change_title_value_id",
+            "change_title_value_code_id",
             "instruction_move_code",
-        )
-        payment_mode.change_title_value_code_id = change_title
-
-        # Alteração da Data de Vencimento
-        change_maturity = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_change_maturity_date_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_change_maturity_date_id",
+            "change_maturity_date_code_id",
             "instruction_move_code",
-        )
-        payment_mode.change_maturity_date_code_id = change_maturity
-
-        # Protesta o Título
-        protest_title = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_protest_title_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_protest_title_id",
+            "protest_title_code_id",
             "instruction_move_code",
-        )
-        payment_mode.protest_title_code_id = protest_title
-
-        # Suspende o Protesto e mantem a Carteira
-        suspend_protest_keep_wallet = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_suspend_protest_keep_wallet_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_suspend_protest_keep_wallet_id",
+            "suspend_protest_keep_wallet_code_id",
             "instruction_move_code",
-        )
-        payment_mode.suspend_protest_keep_wallet_code_id = suspend_protest_keep_wallet
-
-        # Suspende o Protesto e Baixa
-        suspend_protest_write_off = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_suspend_protest_write_off_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_suspend_protest_write_off_id",
+            "suspend_protest_write_off_code_id",
             "instruction_move_code",
-        )
-        payment_mode.suspend_protest_write_off_code_id = suspend_protest_write_off
-
-        # Concede Abatimento
-        grant_rebate = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_grant_rebate_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_grant_rebate_id",
+            "grant_rebate_code_id",
             "instruction_move_code",
-        )
-        payment_mode.grant_rebate_code_id = grant_rebate
-
-        # Cancela Abatimento
-        cancel_rebate = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_cancel_rebate_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_cancel_rebate_id",
+            "cancel_rebate_code_id",
             "instruction_move_code",
-        )
-        payment_mode.cancel_rebate_code_id = cancel_rebate
-
-        # Concede Desconto
-        grant_discount = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_grant_discount_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_grant_discount_id",
+            "grant_discount_code_id",
             "instruction_move_code",
-        )
-        payment_mode.grant_discount_code_id = grant_discount
-
-        # Cancela Desconto
-        cancel_discount = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.cnab_code_cancel_discount_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "cnab_code_cancel_discount_id",
+            "cancel_discount_code_id",
             "instruction_move_code",
-        )
-        payment_mode.cancel_discount_code_id = cancel_discount
-
-        # Codigo da Carteira
-        wallet_code = get_new_code(
-            env,
-            payment_mode,
-            payment_mode.boleto_wallet_code_id,
+            "l10n_br_cnab_mov_instruction_code",
+        ),
+        (
+            "boleto_wallet_code_id",
+            "wallet_code_id",
             "wallet_code",
+            "l10n_br_cnab_boleto_wallet_code",
+        ),
+    ]
+    for old_field, new_field, code_type, old_table in fields:
+        sql = f"""
+            UPDATE account_payment_mode AS apm
+            SET {new_field} = lcc.id
+            FROM {old_table} AS ot
+            JOIN l10n_br_cnab_code AS lcc
+                ON lcc.code = ot.code
+                AND lcc.code_type = '{code_type}'
+                AND lcc.bank_id = ot.bank_id
+                AND lcc.payment_method_id = ot.payment_method_id
+            WHERE apm.{old_field} = ot.id;
+        """
+        openupgrade.logged_query(env.cr, sql)
+
+
+def uptade_payment_mode_return_code(env):
+    openupgrade.logged_query(
+        env.cr,
+        """
+        INSERT INTO l10n_br_cnab_liq_return_move_code_rel (
+            payment_mode_id,
+            liq_return_move_code_id
         )
-        payment_mode.wallet_code_id = wallet_code
-
-        # Codigos de Return
-        if payment_mode.cnab_liq_return_move_code_ids:
-            liq_codes = env["l10n_br_cnab.code"]
-            for code in payment_mode.cnab_liq_return_move_code_ids:
-                liq_code = get_new_code(env, payment_mode, code, "return_move_code")
-                liq_codes |= liq_code
-
-            payment_mode.liq_return_move_code_ids = liq_codes
+        SELECT
+            cc.id,
+            old_rel.cnab_liq_return_move_code_id
+        FROM
+            l10n_br_cnab_return_liquidity_move_code_rel AS old_rel
+        JOIN
+            l10n_br_cnab_return_move_code AS crmc ON crmc.id = old_rel.payment_mode_id
+        JOIN
+            l10n_br_cnab_code AS cc
+            ON cc.code = crmc.code
+            AND cc.bank_id = crmc.bank_id
+            AND cc.payment_method_id = crmc.payment_method_id
+            AND cc.code_type = 'return_move_code'
+        """,
+    )
 
 
 def update_move_lines(env):
-    """
-    Atualiza as account move lines
-    """
-    env.cr.execute(
+    openupgrade.logged_query(
+        env.cr,
         """
-        SELECT id FROM account_move_line WHERE payment_mode_id IN (
-        SELECT id FROM account_payment_mode WHERE payment_method_id IN
-        (SELECT id FROM account_payment_method WHERE code IN ('240', '400', '500')
-        AND payment_type = 'inbound'));
-        """
+        UPDATE account_move_line AS aml
+        SET instruction_move_code_id = lcc.id
+        FROM l10n_br_cnab_mov_instruction_code AS lcmic
+        JOIN l10n_br_cnab_code AS lcc
+            ON lcc.code = lcmic.code
+            AND lcc.code_type = 'instruction_move_code'
+            AND lcc.bank_id = lcmic.bank_id
+            AND lcc.payment_method_id = lcmic.payment_method_id
+        WHERE aml.mov_instruction_code_id = lcmic.id
+        """,
     )
-    for row in env.cr.fetchall():
-        line = env["account.move.line"].browse(row[0])
-        new_code = get_new_code(
-            env,
-            line.payment_mode_id,
-            line.mov_instruction_code_id,
-            "instruction_move_code",
-        )
-        line.instruction_move_code_id = new_code
 
 
 def update_payment_lines(env):
-    """
-    Atualiza as account payment lines
-    """
-    env.cr.execute(
+    openupgrade.logged_query(
+        env.cr,
         """
-        SELECT id FROM account_payment_line WHERE mov_instruction_code_id IS NOT NULL;
-        """
+        UPDATE account_payment_line AS apl
+        SET instruction_move_code_id = lcc.id
+        FROM l10n_br_cnab_mov_instruction_code AS lcmic
+        JOIN l10n_br_cnab_code AS lcc
+            ON lcc.code = lcmic.code
+            AND lcc.code_type = 'instruction_move_code'
+            AND lcc.bank_id = lcmic.bank_id
+            AND lcc.payment_method_id = lcmic.payment_method_id
+        WHERE apl.mov_instruction_code_id = lcmic.id;
+        """,
     )
-    for row in env.cr.fetchall():
-        line = env["account.payment.line"].browse(row[0])
-        new_code = get_new_code(
-            env,
-            line.payment_mode_id,
-            line.mov_instruction_code_id,
-            "instruction_move_code",
-        )
-        line.instruction_move_code_id = new_code
 
 
 @openupgrade.migrate()
@@ -271,6 +332,7 @@ def migrate(env, version):
     if not version:
         return
     unifying_cnab_codes(env)
-    update_payment_mode_inbound(env)
+    update_payment_mode(env)
+    uptade_payment_mode_return_code(env)
     update_move_lines(env)
     update_payment_lines(env)

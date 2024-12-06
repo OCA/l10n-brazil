@@ -9,6 +9,7 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     MODELO_FISCAL_CTE,
+    MODELO_FISCAL_MDFE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
@@ -73,6 +74,7 @@ class DocumentWorkflow(models.AbstractModel):
         self._document_number()
         self._document_comment()
         self._document_check()
+        self._document_qrcode()
         self._document_export()
         return True
 
@@ -236,6 +238,7 @@ class DocumentWorkflow(models.AbstractModel):
                 MODELO_FISCAL_NFE,
                 MODELO_FISCAL_NFCE,
                 MODELO_FISCAL_CTE,
+                MODELO_FISCAL_MDFE,
             ):
                 date = fields.Datetime.context_timestamp(record, record.document_date)
                 chave_edoc = ChaveEdoc(
@@ -252,6 +255,9 @@ class DocumentWorkflow(models.AbstractModel):
                     numero_serie=record.document_serie or "",
                     validar=False,
                 )
+                record.key_random_code = chave_edoc.codigo_aleatorio
+                record.key_check_digit = chave_edoc.digito_verificador
+
                 # TODO: Implementar campos no Odoo
                 # record.key_number = chave_edoc.campos
                 # record.key_formated = ' '.joint(chave_edoc.partes())
@@ -385,3 +391,12 @@ class DocumentWorkflow(models.AbstractModel):
                     "this fical document you are not the document issuer"
                 )
             )
+
+    def _document_qrcode(self):
+        pass
+
+    def _edoc_processor(self):
+        pass
+
+    def _validate_xml(self, xml_file):
+        pass

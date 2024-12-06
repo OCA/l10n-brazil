@@ -379,8 +379,18 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         self.assertEqual(invoice_pick_1.partner_id, sale_order_1.partner_invoice_id)
         # Fatura criada com o Partner Shipping usado no Picking
         self.assertEqual(invoice_pick_1.partner_shipping_id, picking.partner_id)
+
+        # TODO: O processo de criação a partir de um Pedido de Venda vem
+        #  preenchido o campo partner_shipping_id, isso deve ser mantido por
+        #  ser considerado o padrão ou é melhor remover o partner_shipping_id
+        #  quando o valor é igual ao partner_id?
+
         # Fatura Agrupada, não deve ter o partner_shipping_id preenchido
-        invoice_pick_3_4 = invoices.filtered(lambda t: not t.partner_shipping_id)
+        # invoice_pick_3_4 = invoices.filtered(lambda t: not t.partner_shipping_id)
+
+        invoice_pick_3_4 = invoices.filtered(
+            lambda t: t.partner_shipping_id == t.partner_id
+        )
         self.assertIn(invoice_pick_3_4, picking3.invoice_ids)
         self.assertIn(invoice_pick_3_4, picking4.invoice_ids)
 
@@ -409,15 +419,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         sale_order = sale_order_form.save()
         sale_order.incoterm = self.env.ref("account.incoterm_FOB")
 
-        if hasattr(self.env["sale.order"], "payment_mode_id"):
-            payment_mode = self.env["account.payment.mode"].search(
-                [
-                    ("payment_type", "=", "inbound"),
-                    ("company_id", "=", self.env.company.id),
-                ],
-                limit=1,
-            )
-            sale_order.payment_mode_id = payment_mode
         sale_order.action_confirm()
         picking = sale_order_1.picking_ids
         self.picking_move_state(picking)
@@ -469,3 +470,45 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             "Field to make invisible the Button Create Bill should be"
             " False when the Sale Order has Service and Product.",
         )
+
+    def test_compatible_with_international_case(self):
+        """
+        Test compatibility with international cases or
+        without Fiscal Operation.
+        """
+        so_international = self.env.ref("sale.sale_order_3")
+        so_international.fiscal_operation_id = False
+        so_international.action_confirm()
+        picking = so_international.picking_ids
+        self.picking_move_state(picking)
+        invoice = self.create_invoice_wizard(picking)
+        invoice.action_post()
+        # Caso Internacional não deve ter Documento Fiscal associado
+        self.assertFalse(
+            invoice.fiscal_document_id,
+            "International case should not has Fiscal Document.",
+        )
+        # Teste Retorno
+        picking_devolution = self.return_picking_wizard(picking)
+        invoice_devolution = self.create_invoice_wizard(picking_devolution)
+        self.assertFalse(
+            invoice_devolution.fiscal_document_id,
+            "International case should not has Fiscal Document.",
+        )
+
+    def test_form_stock_picking(self):
+        """Test Stock Picking with Form"""
+
+        sale_order = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_1")
+        sale_order.action_confirm()
+        picking = sale_order.picking_ids
+        self.picking_move_state(picking)
+        picking_form = Form(picking)
+
+        # Apesar do metodo onchange retornar uma OP Fiscal padrão,
+        # quando existe um Pedido de Venda associado deve usar retornar
+        # a mesma OP Fiscal do Pedido.
+        picking_form.invoice_state = "none"
+        picking_form.invoice_state = "2binvoiced"
+        self.assertEqual(sale_order.fiscal_operation_id, picking.fiscal_operation_id)
+        picking_form.save()

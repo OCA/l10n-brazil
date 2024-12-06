@@ -9,7 +9,7 @@
     "maintainers": ["renatonlima", "rvalyi", "mileo"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "14.0.1.0.2",
+    "version": "14.0.1.2.1",
     "depends": [
         "l10n_br_fiscal",
     ],
@@ -20,11 +20,9 @@
         "views/document_view.xml",
         "views/invalidate_number_view.xml",
         "views/document_event_view.xml",
-        "views/document_event_report.xml",
         "views/document_event_template.xml",
         # Reports
         "views/document_event_report.xml",
-        "views/document_event_template.xml",
         # Wizards
         "wizards/document_cancel_wizard.xml",
         "wizards/document_correction_wizard.xml",
