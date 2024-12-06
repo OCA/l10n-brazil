@@ -47,6 +47,15 @@
         sequence="11"
     />
 
+    <!-- CTe Fiscal Documents-->
+    <menuitem
+        id="document_cte_menu"
+        action="cte_document_action"
+        name="CT-e"
+        parent="document_menu"
+        sequence="20"
+    />
+
     <!-- Sub Menu for All Documents-->
     <menuitem
         id="document_sub_menu"
