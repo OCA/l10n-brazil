@@ -50,3 +50,44 @@ class TestNFeWithIPI(AccountMoveBRCommon):
         self.assertEqual(self.move_out_venda.nfe40_vIPI, 50.0)
         self.assertEqual(self.move_out_venda.nfe40_vProd, 1000.00)
         self.assertEqual(self.move_out_venda.nfe40_vNF, 1050.00)
+
+    def test_nfe_credit_note(self):
+        """
+        Test fiscal document field: nfe40_impostoDevol (no demo)
+        """
+        partner_a = self.env["res.partner"].create({"name": "Test partner A"})
+        fiscal_doc = self.env["l10n_br_fiscal.document"].create(
+            {
+                "fiscal_operation_id": self.env.ref(
+                    "l10n_br_fiscal.fo_devolucao_venda"
+                ).id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "edoc_purpose": "4",
+                "issuer": "company",
+                "partner_id": partner_a.id,
+                "fiscal_operation_type": "in",
+            }
+        )
+        product_id = self.env.ref("product.product_product_10")
+        fiscal_doc_line = self.env["l10n_br_fiscal.document.line"].create(
+            {
+                "document_id": fiscal_doc.id,
+                "name": "Return - credit note",
+                "product_id": product_id.id,
+                "fiscal_operation_type": "in",
+                "fiscal_operation_id": self.env.ref(
+                    "l10n_br_fiscal.fo_devolucao_venda"
+                ).id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_devolucao_venda_devolucao_venda"
+                ).id,
+                "p_devol": 50,
+                "ipi_devol_value": 1,
+            }
+        )
+        fiscal_doc_line._onchange_product_id_fiscal()
+
+        self.assertEqual(fiscal_doc_line.nfe40_impostoDevol.nfe40_pDevol, 50.00)
+        self.assertEqual(
+            fiscal_doc_line.nfe40_impostoDevol.nfe40_IPI.nfe40_vIPIDevol, 1.00
+        )
