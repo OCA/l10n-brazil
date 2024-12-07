@@ -5,11 +5,11 @@
 from psycopg2 import IntegrityError
 
 from odoo.exceptions import ValidationError
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
 
 
-class ValidCreatePIXTest(SavepointCase):
+class ValidCreatePIXTest(TransactionCase):
     """Test if ValidationError is raised well during create({})"""
 
     @classmethod
