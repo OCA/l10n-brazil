@@ -164,9 +164,12 @@ class SaleOrder(models.Model):
                 moves |= super()._create_invoices(
                     grouped=grouped, final=final, date=date
                 )
-            except UserError:
-                # TODO: Avoid only when it is "nothing to invoice error"
-                pass
+            except UserError as e:
+                if "There is nothing to invoice!" in str(e):
+                    # Skip for now, will review later
+                    pass
+                else:
+                    raise
 
         if not moves and self._context.get("raise_if_nothing_to_invoice", True):
             raise UserError(self._nothing_to_invoice_error_message())
