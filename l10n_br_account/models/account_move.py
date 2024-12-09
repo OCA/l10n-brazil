@@ -115,6 +115,21 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
+    @api.constrains("fiscal_document_id", "fiscal_operation_id")
+    def _check_fiscal_operation(self):
+        for rec in self:
+            if (
+                rec.fiscal_operation_id
+                and not rec.fiscal_operation_id.create_account_move
+            ):
+                raise UserError(
+                    _(
+                        "You cannot create an invoice when the fiscal operation is set "
+                        "to not create account move. You can use this operation to "
+                        "create a fiscal document only from the Fiscal App."
+                    )
+                )
+
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
         for rec in self:

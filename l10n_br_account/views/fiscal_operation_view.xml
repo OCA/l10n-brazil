@@ -49,6 +49,10 @@
                                 name="deductible_taxes"
                                 attrs="{'readonly': [('state', '!=', 'draft')]}"
                             />
+                            <field
+                                name="create_account_move"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
                         </group>
                     </group>
                 </page>

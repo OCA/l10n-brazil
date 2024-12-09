@@ -39,6 +39,8 @@ class Operation(models.Model):
         company_dependent=True,
     )
 
+    create_account_move = fields.Boolean(string="Create Account Move", default=True)
+
     def _change_action_view(self, action):
         fiscal_op_type = action.get("context")
         if fiscal_op_type == "out":
@@ -51,7 +53,9 @@ class Operation(models.Model):
         # TODO FIXME migrate!
         journal_type = "TODO"  # TYPE2JOURNAL[invoice_type]
         new_action["context"] = {
+            "create": False,
             "move_type": invoice_type,
+            "default_company_id": self.env.company.id,
             "default_fiscal_operation_type": self.fiscal_operation_type,
             "default_fiscal_operation_id": self.id,
             "journal_type": journal_type,
@@ -61,14 +65,17 @@ class Operation(models.Model):
 
     def action_create_new(self):
         action = super().action_create_new()
-        action["res_model"] = "account.move"
-        action["view_id"] = self.env.ref("l10n_br_account.fiscal_invoice_form").id
-        action["context"] = self._change_action_view(action)["context"]
+        if self.create_account_move:
+            action["res_model"] = "account.move"
+            action["view_id"] = self.env.ref("l10n_br_account.fiscal_invoice_form").id
+            action["context"] = self._change_action_view(action)["context"]
         return action
 
     def open_action(self):
         action = super().open_action()
-        return self._change_action_view(action)
+        if self.create_account_move:
+            return self._change_action_view(action)
+        return action
 
     def _fiscal_document_object(self):
         return self.env["account.move"]
