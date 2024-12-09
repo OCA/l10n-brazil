@@ -11,10 +11,9 @@ from datetime import datetime
 from enum import Enum
 
 from erpbrasil.base.fiscal import cnpj_cpf
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
 # TODO: precisa tratar
-# from erpbrasil.edoc.cte import TransmissaoCTE
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from lxml import etree
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
@@ -46,6 +45,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
     LOTE_PROCESSADO,
+    MODELO_FISCAL_CTE,
     PROCESSADOR_OCA,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
@@ -1384,7 +1384,6 @@ class CTe(spec_models.StackedModel):
             edocs.append(cte)
         return edocs
 
-    # TODO: precisa tratar a lib nfelib
     # def _edoc_processor(self):
     #     if self.document_type != MODELO_FISCAL_CTE:
     #         return super()._edoc_processor()
@@ -1395,16 +1394,17 @@ class CTe(spec_models.StackedModel):
     #     certificado = self.env.company._get_br_ecertificate()
     #     session = Session()
     #     session.verify = False
-    #     transmissao = TransmissaoCTE(certificado, session)
-    #     return edoc_cte(
-    #         transmissao,
-    #         self.company_id.state_id.ibge_code,
-    #         self.cte40_versao,
-    #         self.cte40_tpAmb,
-    #     )
+
+    #     params = {
+    #         "transmissao": TransmissaoCTE(certificado, session),
+    #         "uf": self.company_id.state_id.ibge_code,
+    #         "versao": self.cte_version,
+    #         "ambiente": self.cte_environment,
+    #     }
+    #     return edoc_cte(**params)
 
     def _edoc_processor(self):
-        super()._edoc_processor()
+        pass
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
@@ -1423,7 +1423,6 @@ class CTe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
 
-            # TODO: precisa tratar
             # xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
             # self._validate_xml(xml_assinado)
         return result
@@ -1621,31 +1620,23 @@ class CTe(spec_models.StackedModel):
             file_response_xml=process.retorno.content.decode("utf-8"),
         )
 
-    def _document_qrcode(self):
-        super()._document_qrcode()
+    # def _document_qrcode(self):
+    #     super()._document_qrcode()
 
-        for record in self.filtered(filter_processador_edoc_cte):
-            record.cte40_infCTeSupl = self.env[
-                "l10n_br_fiscal.document.supplement"
-            ].create(
-                {
-                    "qrcode": record.get_cte_qrcode(),
-                }
-            )
+    #     for record in self.filtered(filter_processador_edoc_cte):
+    #         record.cte40_infCTeSupl = self.env[
+    #             "l10n_br_fiscal.document.supplement"
+    #         ].create(
+    #             {
+    #                 "qrcode": record.get_cte_qrcode(),
+    #             }
+    #         )
 
     def get_cte_qrcode(self):
-        # TODO: Tratar
-        # if self.document_type != MODELO_FISCAL_CTE:
-        #     return
-
+        if self.document_type != MODELO_FISCAL_CTE:
+            return
         processador = self._edoc_processor()
-        # if self.cte_transmission == "1":
-        #     return processador.monta_qrcode(self.document_key)
         return processador.monta_qrcode(self.document_key)
-
-        # serialized_doc = self.serialize()[0]
-        # xml = processador.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
-        # return processador._generate_qrcode_contingency(serialized_doc, xml)
 
     def _need_compute_cte_tags(self):
         if (
