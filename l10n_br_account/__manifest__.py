@@ -22,6 +22,7 @@
         # data
         "data/account_tax_group.xml",
         "data/account_tax_template.xml",
+        "data/fiscal_operation.xml",
         # Views
         "views/account_tax_view.xml",
         "views/account_tax_template_view.xml",
