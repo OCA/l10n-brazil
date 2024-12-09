@@ -2,7 +2,8 @@
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 # from odoo.addons.account.models.account_invoice import TYPE2JOURNAL
 
@@ -66,27 +67,34 @@ class Operation(models.Model):
     def action_create_new(self):
         action = super().action_create_new()
         if self.create_account_move:
-            action["res_model"] = "account.move"
-            action["view_id"] = self.env.ref("l10n_br_account.fiscal_invoice_form").id
-            action["context"] = self._change_action_view(action)["context"]
+            raise UserError(
+                _(
+                    "This is a fiscal operation that generates account move, please "
+                    "create the document through the Account App"
+                )
+            )
+            # action["res_model"] = "account.move"
+            # action["view_id"] = self.env.ref("l10n_br_account.fiscal_invoice_form").id
+            # action["context"] = self._change_action_view(action)["context"]
         return action
 
-    def open_action(self):
-        action = super().open_action()
-        if self.create_account_move:
-            return self._change_action_view(action)
-        return action
+    # def open_action(self):
+    #     action = super().open_action()
+    #     if self.create_account_move:
+    #         return self._change_action_view(action)
+    #     return action
 
-    def _fiscal_document_object(self):
-        return self.env["account.move"]
+    # def _fiscal_document_object(self):
+    #     return self.env["account.move"]
 
     def _line_domain(self, company, partner, product):
         domain = super()._line_domain(company=company, partner=partner, product=product)
 
-        domain += [
-            "|",
-            ("fiscal_position_id", "=", partner.property_account_position_id.id),
-            ("fiscal_position_id", "=", False),
-        ]
+        if self.create_account_move:
+            domain += [
+                "|",
+                ("fiscal_position_id", "=", partner.property_account_position_id.id),
+                ("fiscal_position_id", "=", False),
+            ]
 
         return domain

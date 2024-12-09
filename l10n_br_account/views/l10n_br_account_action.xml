@@ -13,7 +13,7 @@
         />
         <field
             name="context"
-            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_55')}"
+            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_55'), 'create': False}"
         />
         <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
         <field name="help" type="html">
@@ -52,7 +52,7 @@
         />
         <field
             name="context"
-            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_SE')}"
+            eval="{'default_document_type_id': ref('l10n_br_fiscal.document_SE'), 'create': False}"
         />
         <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
         <field name="help" type="html">
