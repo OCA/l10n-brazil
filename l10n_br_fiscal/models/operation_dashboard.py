@@ -102,6 +102,14 @@ class Operation(models.Model):
     def action_create_new(self):
         ctx = self._context.copy()
         model = "l10n_br_fiscal.document"
+        if self.document_type_ids:
+            ctx.update(
+                {
+                    "default_document_type_id": self.document_type_ids[
+                        0
+                    ].document_type_id.id,
+                }
+            )
         if self.fiscal_operation_type == "out":
             ctx.update(
                 {
@@ -154,6 +162,7 @@ class Operation(models.Model):
         ctx.update(
             {
                 "default_fiscal_operation_type": fiscal_operation_type,
+                "create": False,
             }
         )
 

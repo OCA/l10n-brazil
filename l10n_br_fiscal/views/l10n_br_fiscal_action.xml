@@ -597,6 +597,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search" />
         <field name="view_id" ref="document_tree" />
+        <field name="context">{'create': False}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
             Create a new Document
@@ -616,7 +617,9 @@
         <field name="search_view_id" ref="document_search" />
         <field name="view_id" ref="document_tree" />
         <field name="domain">[('fiscal_operation_type', '=', 'in')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'in'}</field>
+        <field
+            name="context"
+        >{'default_fiscal_operation_type': 'in', 'create': False}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
             Create a new Document
@@ -636,7 +639,9 @@
         <field name="search_view_id" ref="document_search" />
         <field name="view_id" ref="document_tree" />
         <field name="domain">[('fiscal_operation_type', '=', 'out')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'out'}</field>
+        <field
+            name="context"
+        >{'default_fiscal_operation_type': 'out', 'create': False}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
             Create a new Document
