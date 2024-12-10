@@ -18,7 +18,8 @@ class MDFeModalRodoviario(spec_models.StackedModel):
     _mdfe30_binding_module = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
     _mdfe30_stacking_mixin = "mdfe.30.rodo"
     # all m2o at this level will be stacked even if not required:
-    _mdfe30_stacking_force_paths = ["rodo.infANTT", "rodo.infANTT.ValePed"]
+    _mdfe30_stacking_force_paths = ["rodo.infANTT", "rodo.infANTT.InfContratante"]
+    _mdfe30_stacking_skip_paths = ("mdfe30_valePed",)
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
