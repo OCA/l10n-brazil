@@ -30,7 +30,7 @@ class Partner(models.Model):
             partner.street = street
         return super(Partner, not_br_partner)._inverse_street_data()
 
-    vat = fields.Char(compute="_compute_vat_from_cnpj_cpf", store=True)
+    vat = fields.Char(compute="_compute_vat_from_cnpj_cpf", store=True, recursive=True)
 
     is_accountant = fields.Boolean(string="Is accountant?")
 
