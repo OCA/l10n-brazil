@@ -49,16 +49,6 @@
                         <CIOT>123456789101</CIOT>
                         <CPF>99999999999</CPF>
                     </infCIOT>
-                    <valePed>
-                        <disp>
-                            <CNPJForn>99999999999999</CNPJForn>
-                            <CNPJPg>99999999999999</CNPJPg>
-                            <nCompra>1234</nCompra>
-                            <vValePed>5.00</vValePed>
-                            <tpValePed>01</tpValePed>
-                        </disp>
-                        <categCombVeic>02</categCombVeic>
-                    </valePed>
                     <infPag>
                         <xNome>Intel do Brasil</xNome>
                         <CNPJ>86144802000190</CNPJ>
@@ -124,4 +114,8 @@
             <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
         </infAdic>
     </infMDFe>
+    <infMDFeSupl>
+        <qrCodMDFe
+        >https://dfe-portal.svrs.rs.gov.br/mdfe/qrCode?chMDFe=35230905472475000102580200000602071611554500&amp;tpAmb=2</qrCodMDFe>
+    </infMDFeSupl>
 </MDFe>
