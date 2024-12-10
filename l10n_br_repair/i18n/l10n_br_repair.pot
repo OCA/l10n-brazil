@@ -738,8 +738,11 @@ msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__operation_fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__operation_fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr ""
 
@@ -1739,6 +1742,13 @@ msgid "Partner Order Line (nItemPed)"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__p_devol
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__p_devol
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_repair
 #: code:addons/l10n_br_repair/models/repair_order.py:0
 #, python-format
 msgid "Please define an accounting sales journal for the company {} ({})."
@@ -2073,6 +2083,13 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__icms_substitute
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__ipi_devol_value
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__ipi_devol_value
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
 msgstr ""
 
 #. module: l10n_br_repair
