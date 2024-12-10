@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-26 14:06+0000\n"
+"PO-Revision-Date: 2024-12-10 19:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -526,7 +526,7 @@ msgstr ""
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tresptec__mdfe30_CNPJ
 msgid "CNPJ"
-msgstr ""
+msgstr "CNPJ"
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_disp__mdfe30_CNPJForn
