@@ -102,6 +102,20 @@
                     attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
                 />
             </xpath>
+
+            <xpath expr="//page[@name='others']" position="inside">
+                 <separator
+                    colspan="4"
+                    string="Authorized to Download XML"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+                <field
+                    name="mdfe30_autXML"
+                    widget="many2many"
+                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                />
+            </xpath>
+
         </field>
     </record>
 
@@ -162,7 +176,6 @@
                 >
                     <group>
                         <field name="mdfe_modal" widget="radio" />
-                        <field name="mdfe_transp_type" />
                     </group>
                     <group
                         attrs="{'invisible': [('mdfe_modal', '!=', '1')]}"
