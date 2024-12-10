@@ -1106,7 +1106,9 @@ msgstr "Impostos Fiscais"
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__operation_fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr "Tipo Fiscal"
 
@@ -2246,6 +2248,12 @@ msgid "Partner Order Line (nItemPed)"
 msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__p_devol
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:stock.picking.type,name:l10n_br_pos.picking_type_posout_presumido
 msgid "PoS Orders Presumido"
 msgstr ""
@@ -2837,6 +2845,12 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_devol_value
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:pos.payment.method,name:l10n_br_pos.presumido_voucher
