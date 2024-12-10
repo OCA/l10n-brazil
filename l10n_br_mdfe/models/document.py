@@ -332,12 +332,21 @@ class MDFe(spec_models.StackedModel):
                 record.mdfe_loading_city_ids = [Command.set(city_ids.ids)]
 
     def _inverse_mdfe30_initial_final_state(self):
+        country_id = self.env["res.country"].search([("code", "=", "BR")])
         for record in self:
             initial_state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_UFIni)], limit=1
+                [
+                    ("code", "=", record.mdfe30_UFIni),
+                    ("country_id", "=", country_id.id),
+                ],
+                limit=1,
             )
             final_state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_UFFim)], limit=1
+                [
+                    ("code", "=", record.mdfe30_UFFim),
+                    ("country_id", "=", country_id.id),
+                ],
+                limit=1,
             )
 
             if initial_state_id:
@@ -347,9 +356,11 @@ class MDFe(spec_models.StackedModel):
                 record.mdfe_final_state_id = final_state_id
 
     def _inverse_mdfe30_uf(self):
+        country_id = self.env["res.country"].search([("code", "=", "BR")])
         for record in self:
             state_id = self.env["res.country.state"].search(
-                [("code", "=", record.mdfe30_cUF)], limit=1
+                [("code", "=", record.mdfe30_cUF), ("country_id", "=", country_id.id)],
+                limit=1,
             )
             if state_id:
                 record.company_id.partner_id.state_id = state_id
