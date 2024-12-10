@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-11-21 11:58+0000\n"
+"PO-Revision-Date: 2024-12-10 19:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -870,7 +870,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_tcontractor__mdfe30_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_trailer_owner__mdfe30_cnpj
 msgid "CNPJ"
-msgstr ""
+msgstr "CNPJ"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_CNPJForn
