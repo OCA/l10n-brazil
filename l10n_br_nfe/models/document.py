@@ -1234,6 +1234,8 @@ class NFe(spec_models.StackedModel):
         super()._document_qrcode()
 
         for record in self.filtered(lambda d: d.document_type == MODELO_FISCAL_NFCE):
+            if record.nfe40_infNFeSupl:
+                record.nfe40_infNFeSupl.unlink()
             record.nfe40_infNFeSupl = self.env[
                 "l10n_br_fiscal.document.supplement"
             ].create(
