@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2024-12-10 19:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpHor__0
@@ -110,11 +112,13 @@ msgid ""
 "Actor who receives the goods. He is considered an intermediary             "
 "between the issuer and the final recipient."
 msgstr ""
+"Ator que recebe a mercadoria. Ele é considerado um intermediário             "
+"entre o emissor e o destinatário final."
 
 #. module: l10n_br_cte
 #: model_terms:ir.actions.act_window,help:l10n_br_cte.cte_document_action
 msgid "Add a new CTe"
-msgstr ""
+msgstr "Adicionar um novo CTe"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vRec
@@ -258,7 +262,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_toma__cte40_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_partner__cte40_choice_transporta__cte40_cnpj
 msgid "CNPJ"
-msgstr ""
+msgstr "CNPJ"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infpaa__cte40_CNPJPAA
@@ -2314,7 +2318,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_country_state__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome Exibido"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__document_id
@@ -2328,17 +2332,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__document_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__document_id
 msgid "Document"
-msgstr ""
+msgstr "Documento"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dhEmi
 msgid "Document Date"
-msgstr ""
+msgstr "Data do Documento"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
-msgstr ""
+msgstr "Dados do Documento Suplementar"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_iddocant__cte40_idDocAntEle
