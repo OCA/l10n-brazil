@@ -19,6 +19,13 @@ msgid "Accounting"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_receivering_id
+msgid ""
+"Actor who receives the goods. He is considered an intermediary             "
+"between the issuer and the final recipient."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__additional_data
 msgid "Additional Data"
 msgstr ""
@@ -1059,6 +1066,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_insurance_id
+msgid "Insurance Partner"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__insurance_value
 msgid "Insurance Value"
@@ -1303,6 +1315,21 @@ msgid "Public Entity"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_receivering_id
+msgid "Receiver Address"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_sendering_id
+msgid "Responsible for sending the goods, usually the issuer of the NFe."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_sendering_id
+msgid "Sender Address"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__document_serie
 msgid "Serie Number"
 msgstr ""
@@ -1310,6 +1337,11 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__service_type_id
 msgid "Service Type LC 166"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_shippering_id
+msgid "Shipper Address"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1469,6 +1501,13 @@ msgstr ""
 msgid ""
 "Terms and conditions... (note: you can setup default ones in the "
 "Configuration menu)"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_shippering_id
+msgid ""
+"The one responsible for delivering the cargo to the carrier when"
+"             the shipment is not carried out by the sender."
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
