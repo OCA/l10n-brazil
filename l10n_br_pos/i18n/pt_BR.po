@@ -105,6 +105,13 @@ msgid "Activity Type Icon"
 msgstr "Ícone do Tipo de Atividade"
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order__partner_receivering_id
+msgid ""
+"Actor who receives the goods. He is considered an intermediary             "
+"between the issuer and the final recipient."
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__additional_data
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__additional_data
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__additional_data
@@ -1795,6 +1802,11 @@ msgstr ""
 "organizações controladas pelo governo."
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__partner_insurance_id
+msgid "Insurance Partner"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__insurance_value
@@ -2377,6 +2389,11 @@ msgid "Reason for Cancellation?"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__partner_receivering_id
+msgid "Receiver Address"
+msgstr ""
+
+#. module: l10n_br_pos
 #. openerp-web
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #, python-format
@@ -2392,6 +2409,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__activity_user_id
 msgid "Responsible User"
 msgstr "Usuário Responsável"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order__partner_sendering_id
+msgid "Responsible for sending the goods, usually the issuer of the NFe."
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model,name:l10n_br_pos.model_stock_return_picking
@@ -2431,6 +2453,11 @@ msgid "Save new client"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__partner_sendering_id
+msgid "Sender Address"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__fiscal_printer_type__serialconnection
 msgid "Serial"
 msgstr ""
@@ -2449,6 +2476,11 @@ msgstr "Tipo de Serviço LC 166"
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_session_number
 msgid "Session identifier number"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__partner_shippering_id
+msgid "Shipper Address"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2728,6 +2760,13 @@ msgstr "Código de Tributação da Cidade"
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.l10n_br_pos_product_fiscal_map_form_view
 msgid "Taxes"
 msgstr "Impostos"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order__partner_shippering_id
+msgid ""
+"The one responsible for delivering the cargo to the carrier when             "
+"the shipment is not carried out by the sender."
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_total
