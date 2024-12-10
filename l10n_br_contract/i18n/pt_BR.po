@@ -17,6 +17,13 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__partner_receivering_id
+msgid ""
+"Actor who receives the goods. He is considered an intermediary             "
+"between the issuer and the final recipient."
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__additional_data
 msgid "Additional Data"
 msgstr "Dados Adicionais"
@@ -1070,6 +1077,11 @@ msgstr ""
 "organizações controladas pelo governo."
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_insurance_id
+msgid "Insurance Partner"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__insurance_value
 msgid "Insurance Value"
@@ -1317,9 +1329,24 @@ msgid "Recalculate taxes before invoicing"
 msgstr "Recalcular impostos antes do faturamento"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_receivering_id
+msgid "Receiver Address"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__line_recurrence
 msgid "Recurrence at line level?"
 msgstr "Recorrência no nível da linha?"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__partner_sendering_id
+msgid "Responsible for sending the goods, usually the issuer of the NFe."
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_sendering_id
+msgid "Sender Address"
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_serie
@@ -1330,6 +1357,11 @@ msgstr "Número de Série"
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__service_type_id
 msgid "Service Type LC 166"
 msgstr "Tipo de Serviço LC 166"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__partner_shippering_id
+msgid "Shipper Address"
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmssn_range_id
@@ -1476,6 +1508,13 @@ msgstr "Imposto Retido"
 #: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
 msgid "Taxes"
 msgstr "Impostos"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__partner_shippering_id
+msgid ""
+"The one responsible for delivering the cargo to the carrier when             "
+"the shipment is not carried out by the sender."
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__total_weight
