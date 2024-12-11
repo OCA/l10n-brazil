@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-12-10 19:06+0000\n"
+"PO-Revision-Date: 2024-12-11 15:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -422,12 +422,12 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_default_serie_id
 msgid "CT-e Default Serie"
-msgstr ""
+msgstr "Série Padrão do CT-e"
 
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "CT-e Default Settings"
-msgstr ""
+msgstr "Configurações Padrões do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpCTe__0
@@ -438,7 +438,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_version
 msgid "CT-e Version"
-msgstr ""
+msgstr "Versão do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpCTe__1
@@ -455,28 +455,28 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_transmission
 msgid "CTE Transmission"
-msgstr ""
+msgstr "Transmissão do CTE"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_environment
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_environment
 msgid "CTe Environment"
-msgstr ""
+msgstr "Ambiente do CTe"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_transmission
 msgid "CTe Transmission"
-msgstr ""
+msgstr "Transmissão do CTe"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_type
 msgid "CTe Type"
-msgstr ""
+msgstr "Tipo de CTe"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_version
 msgid "CTe Version"
-msgstr ""
+msgstr "Versão do CTe"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpNav__1
@@ -658,7 +658,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_res_city
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_CL
@@ -685,7 +685,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xCpl
@@ -712,12 +712,12 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Ajustes de Configurações"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contato"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_obscont__cte40_xTexto
@@ -765,12 +765,12 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_res_country
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_res_country_state
 msgid "Country state"
-msgstr ""
+msgstr "Estado do país"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__create_uid
@@ -899,7 +899,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__create_uid
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Criado por"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__create_date
@@ -1028,7 +1028,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__create_date
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Criado em"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_modal_aereo_id
@@ -2459,7 +2459,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trsakeyvaluetype__cte40_Exponent
 msgid "Exponent"
-msgstr ""
+msgstr "Expoente"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__cte40_ferrEmi
@@ -2494,27 +2494,27 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_comment
 msgid "Fiscal Comment"
-msgstr ""
+msgstr "Comentário Fiscal"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document
 msgid "Fiscal Document"
-msgstr ""
+msgstr "Documento Fiscal"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_line
 msgid "Fiscal Document Line"
-msgstr ""
+msgstr "Linha de Documento Fiscal"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_related
 msgid "Fiscal Document Related"
-msgstr ""
+msgstr "Documento Fiscal Relacionado"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_type
 msgid "Fiscal Document Type"
-msgstr ""
+msgstr "Tipo de Documento Fiscal"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_fluxo
@@ -2749,7 +2749,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model_terms:ir.actions.act_window,help:l10n_br_cte.cte_document_action
 msgid "Here you can create CT-es"
-msgstr ""
+msgstr "Aqui você pode criar CT-es"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte_environment__2
@@ -2975,7 +2975,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotcteos_infprot__cte40_Id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve_infprot__cte40_Id
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav_balsa__cte40_xBalsa
@@ -3941,7 +3941,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_country_state____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__write_uid
@@ -4070,7 +4070,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__write_uid
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última Atualização por"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__write_date
@@ -4199,7 +4199,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__write_date
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última Atualização em"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_margin_left
