@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-12-10 19:06+0000\n"
+"PO-Revision-Date: 2024-12-11 15:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -2444,7 +2444,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__bribe
@@ -2550,7 +2550,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__mdfe30_Id
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_comboio__mdfe30_xBalsa
@@ -3239,7 +3239,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_config_settings____last_update
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__write_uid
@@ -3284,7 +3284,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última Atualização por"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__write_date
@@ -3329,7 +3329,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última Atualização em"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao_local__mdfe30_latitude
