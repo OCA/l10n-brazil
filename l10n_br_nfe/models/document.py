@@ -1528,6 +1528,8 @@ class NFe(spec_models.StackedModel):
         processador = self._edoc_processor()
         if self.nfe_transmission == "1":
             return processador.monta_qrcode(self.document_key)
+        if not self.serialize() or not len(self.serialize()):
+            return
 
         serialized_doc = self.serialize()[0]
         xml = processador.assina_raiz(serialized_doc, serialized_doc.infNFe.Id)
@@ -1535,6 +1537,8 @@ class NFe(spec_models.StackedModel):
 
     def get_nfce_qrcode_url(self):
         if self.document_type != MODELO_FISCAL_NFCE:
+            return
+        if self._edoc_processor() is None:
             return
 
         return self._edoc_processor().consulta_qrcode_url

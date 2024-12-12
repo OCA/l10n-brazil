@@ -162,5 +162,7 @@ class DocumentNfe(models.Model):
         res = super()._update_nfce_for_offline_contingency()
         if self.move_ids:
             copy_invoice = self.move_ids[0].copy()
+            copy_invoice.fiscal_document_id.processador_edoc = self.processador_edoc
+            copy_invoice.fiscal_document_id.nfe_transmission = self.nfe_transmission
             copy_invoice.action_post()
         return res
