@@ -36,8 +36,6 @@
         "report/reports.xml",
         "report/danfe_nfce.xml",
         "report/danfe_report.xml",
-        # Wizards
-        "wizards/import_document.xml",
         # Actions,
         "views/nfe_action.xml",
         # Menus
