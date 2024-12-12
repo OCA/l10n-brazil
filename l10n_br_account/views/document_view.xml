@@ -18,9 +18,9 @@
                     <field name="move_count" widget="statinfo" string="Invoices" />
                 </button>
             </xpath>
-            <field name="state_fiscal" position="after">
-                <field name="move_ids" invisible="1" />
-            </field>
+          <field name="state_fiscal" position="after">
+              <field name="move_ids" invisible="1" />
+          </field>
         </field>
     </record>
 
