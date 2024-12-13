@@ -1708,11 +1708,11 @@ class CTe(spec_models.StackedModel):
         document = (
             self.env["cte.40.tcte_infcte"]
             .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
-            .build_from_binding("cte", "40", binding.CTe.infCte)
+            .build_from_binding("cte", "40", binding.infCte)
         )
 
         if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
-            binding.CTe.infCte.emit.CNPJ
+            binding.infCte.emit.CNPJ
         ):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
