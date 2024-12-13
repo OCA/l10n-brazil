@@ -123,6 +123,7 @@ class Operation(models.Model):
         string="Operation Line",
         readonly=True,
         states={"draft": [("readonly", False)]},
+        copy=True,
     )
 
     comment_ids = fields.Many2many(

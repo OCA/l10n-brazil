@@ -115,6 +115,7 @@ class OperationLine(models.Model):
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="fiscal_operation_line_id",
         string="Tax Definition",
+        copy=True,
     )
 
     comment_ids = fields.Many2many(
