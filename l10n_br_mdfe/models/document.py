@@ -742,6 +742,15 @@ class MDFe(spec_models.StackedModel):
     # Framework Spec model's methods
     ################################
 
+    @api.model
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        return {
+            **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
+            "imported_document": True,
+        }
+
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name == "mdfe30_prodPred":
             if self.mdfe30_prodPred.mdfe30_infLotacao:
