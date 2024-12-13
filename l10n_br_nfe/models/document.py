@@ -896,9 +896,16 @@ class NFe(spec_models.StackedModel):
         for record in self.with_context(lang="pt_BR").filtered(
             filter_processador_edoc_nfe
         ):
+            processor = record.processador_edoc
+
+            # TODO: Avaliar a possibilidade de remover esse flush e invalidate
             record.flush()
             record.invalidate_cache()
             inf_nfe = record._build_binding("nfe", "40")
+
+            if hasattr(record, "move_ids") and record.move_ids:
+                record.move_ids.processador_edoc = processor
+            record.processador_edoc = processor
 
             inf_nfe_supl = None
             if record.nfe40_infNFeSupl:
