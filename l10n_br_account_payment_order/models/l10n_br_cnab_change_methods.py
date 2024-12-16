@@ -164,7 +164,7 @@ class L10nBrCNABChangeMethods(models.Model):
                 "CNAB Config %(cnab_config_name)s in Payment Mode"
                 " %(payment_mode_name)s don't has %(missing)s for"
                 " making CNAB change, check if should have.",
-                cnab_config_name=payment_mode.cnab_config.name,
+                cnab_config_name=payment_mode.cnab_config_id.name,
                 payment_mode_name=payment_mode.name,
                 missing=missing,
             )
