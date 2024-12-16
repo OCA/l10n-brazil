@@ -1,33 +1,21 @@
-# @ 2021 Akretion - www.akretion.com.br -
-#   Magno Costa <magno.costa@akretion.com.br>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
+# Copyright (C) 2021-Today - Akretion (<http://www.akretion.com>).
+# @author Magno Costa <magno.costa@akretion.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import os
-from datetime import date, timedelta
-from unittest import mock
 
 from odoo.exceptions import UserError
-from odoo.modules import get_resource_path
-from odoo.tests import Form, TransactionCase, tagged
+from odoo.tests import tagged
 
-_module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
-_provider_class_pay_order = (
-    _module_ns + ".models.account_payment_order" + ".PaymentOrder"
+from odoo.addons.l10n_br_account_payment_brcobranca.tests.common import (
+    TestBrAccountPaymentOderCommon,
 )
-_provider_class_acc_invoice = _module_ns + ".models.account_move" + ".AccountMove"
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrder(TransactionCase):
+class TestPaymentOrder(TestBrAccountPaymentOderCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-
-        cls.register_payments_model = cls.env["account.payment.register"].with_context(
-            active_model="account.move"
-        )
-        cls.payment_model = cls.env["account.payment"]
-        cls.aml_cnab_change_model = cls.env["account.move.line.cnab.change"]
 
         # Get Invoice for test
         cls.invoice_unicred = cls.env.ref(
@@ -37,10 +25,8 @@ class TestPaymentOrder(TransactionCase):
         cls.invoice_cef = cls.env.ref(
             "l10n_br_account_payment_order." "demo_invoice_payment_order_cef_cnab240"
         )
-        cls.partner_akretion = cls.env.ref("l10n_br_base.res_partner_akretion")
         # I validate invoice by creating on
         cls.invoice_cef.action_post()
-
         payment_order = cls.env["account.payment.order"].search(
             [("payment_mode_id", "=", cls.invoice_cef.payment_mode_id.id)]
         )
@@ -48,98 +34,15 @@ class TestPaymentOrder(TransactionCase):
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-1.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
+        cls._check_mocked_method(
+            cls, payment_order, "teste_remessa-cef_240-1.REM", "open2generated"
+        )
 
         # Confirm Upload
         payment_order.generated2uploaded()
 
-        # Journal
-        cls.journal_cash = cls.env["account.journal"].search(
-            [("type", "=", "cash"), ("company_id", "=", cls.invoice_cef.company_id.id)],
-            limit=1,
-        )
-        cls.payment_method_manual_in = cls.env.ref(
-            "account.account_payment_method_manual_in"
-        )
-
+        # Move Line para alterar
         cls.aml_to_change = cls.invoice_cef.financial_move_line_ids[0]
-        cls.ctx_change_cnab = {
-            "active_model": "account.move.line",
-            "active_ids": [cls.aml_to_change.id],
-        }
-
-    def _run_boleto_remessa(self, invoice, boleto_file, remessa_file):
-        # I validate invoice
-        invoice.action_post()
-
-        # I check that the invoice state is "Posted"
-        self.assertEqual(invoice.state, "posted")
-
-        # Imprimir Boleto
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                boleto_file,
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_acc_invoice + "._get_brcobranca_boleto",
-                    return_value=mocked_response,
-                ):
-                    invoice.view_boleto_pdf()
-        else:
-            invoice.view_boleto_pdf()
-
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", invoice.payment_mode_id.id)]
-        )
-
-        self.assertEqual(len(payment_order.payment_line_ids), 2)
-
-        # Open payment order
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                remessa_file,
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
 
     def test_banco_brasil_cnab_400(self):
         """Teste Boleto e Remessa Banco do Brasil - CNAB 400"""
@@ -289,28 +192,7 @@ class TestPaymentOrder(TransactionCase):
         Caso de Pagamento com CNAB já iniciado sendo necessário fazer a Baixa
         de uma Parcela e a Alteração de Valor de Titulo por pagto parcial.
         """
-
-        payment = (
-            self.env["account.payment"]
-            .with_context(
-                active_model="account.move",
-                active_ids=self.invoice_cef.ids,
-            )
-            .create(
-                {
-                    "payment_type": "inbound",
-                    "payment_method_id": self.env.ref(
-                        "account.account_payment_method_manual_in"
-                    ).id,
-                    "partner_type": "customer",
-                    "partner_id": self.partner_akretion.id,
-                    "amount": 600,
-                    "journal_id": self.journal_cash.id,
-                }
-            )
-        )
-        payment.action_post()
-
+        self._make_payment(self.invoice_cef, 600)
         # Ordem de PAgto com alterações
         payment_order = self.env["account.payment.order"].search(
             [
@@ -339,392 +221,78 @@ class TestPaymentOrder(TransactionCase):
         """
         Test CNAB Change Due Date
         """
-
-        dict_change_due_date = {
-            "change_type": "change_date_maturity",
-        }
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create(dict_change_due_date)
-        # Teste alteração com a mesma data não permitido
-        # with self.assertRaises(UserError):
-        #    aml_cnab_change.doit()
-        # TODO ao rodar 2 vezes o metodo doit por algum motivo, ainda desconhecido,
-        #  no teste o campo company_id na Order de Debito vem False, o que causa o
-        #  erro abaixo:
-        #  ###
-        #  odoo.exceptions.UserError: Incompatible companies on records:
-        #  - 'P00228' belongs to company False and 'Journal Item' (move_line_id:
-        #  'Teste Caixa Economica Federal CNAB240 Teste Caixa Economica Federal CNAB240'
-        #  ) belongs to another company.
-        #  ###
-        #  Porém esse campo é um related do payment_mode_id
-        #  https://github.com/OCA/bank-payment/blob/14.0/
-        #  account_payment_order/models/account_payment_order.py#L42
-        #  e ao verificar no metodo que busca ou cria uma nova Ordem de Debito
-        #  https://github.com/OCA/l10n-brazil/blob/14.0/
-        #  l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py#L67
-        #  é possível validar que o payment_mode_id está preechido:
-        #  print('PAYMENT ORDER =====', payorder, payorder.name,
-        #  payorder.payment_mode_id.name, payorder.payment_mode_id.company_id.name,
-        #  payorder.company_id.name)
-        #  PAYMENT ORDER ===== account.payment.order(139,) PAY0139
-        #  Cobrança Caixa Economica Federal 240 Sua Empresa
-        #  False
-
-        new_date = date.today() + timedelta(days=30)
-
-        dict_change_due_date.update({"date_maturity": new_date})
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create(dict_change_due_date)
-
-        aml_cnab_change.doit()
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
+        self._send_new_cnab_code(self.aml_to_change, "change_date_maturity")
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-2-data_venc.REM",
+            self.invoice_cef.cnab_config_id.change_maturity_date_code_id,
         )
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.change_maturity_date_code_id.name,
-            )
-
-        # Open payment order
-        payment_order.draft2open()
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-2-data_venc.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
 
     def test_cnab_protest(self):
         """
         Test CNAB Protesto
         """
-        # Protesto
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create({"change_type": "protest_tittle"})
-        aml_cnab_change.doit()
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
+        self._send_new_cnab_code(self.aml_to_change, "protest_tittle")
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-3-protesto.REM",
+            self.invoice_cef.cnab_config_id.protest_title_code_id,
         )
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.protest_title_code_id.name,
-            )
-        # Open payment order
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-3-protesto.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
 
     def test_cnab_suspend_protest_and_keep_wallet(self):
         """
         Test CNAB Suspend Protest and Keep Wallet
         """
-        # Suspender Protesto e manter em carteira
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create({"change_type": "suspend_protest_keep_wallet"})
-        aml_cnab_change.doit()
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
+        self._send_new_cnab_code(self.aml_to_change, "suspend_protest_keep_wallet")
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-4-sust_prot_mant_carteira.REM",
+            self.invoice_cef.cnab_config_id.suspend_protest_keep_wallet_code_id,
         )
-
-        suspend_protest_keep_wallet_code = (
-            self.aml_to_change.cnab_config_id.suspend_protest_keep_wallet_code_id
-        )
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                suspend_protest_keep_wallet_code.name,
-            )
-        # Open payment order
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-4-sust_prot_mant_carteira.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
 
     def test_cnab_grant_rebate(self):
         """
         Test CNAB Grant Rebate
         """
-        # Caso Conceder Abatimento
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create(
-            {
-                "change_type": "grant_rebate",
-                "rebate_value": 10.0,
-            }
+        self._send_new_cnab_code(self.aml_to_change, "grant_rebate")
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-5-conceder_abatimento.REM",
+            self.invoice_cef.cnab_config_id.grant_rebate_code_id,
         )
-        aml_cnab_change.doit()
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
-        )
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.grant_rebate_code_id.name,
-            )
-            self.assertEqual(line.rebate_value, 10.0)
-
-        # Open payment order
-        payment_order.draft2open()
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.grant_rebate_code_id.name,
-            )
-            self.assertEqual(line.rebate_value, 10.0)
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-5-conceder_abatimento.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
 
     def test_cnab_cancel_rebate(self):
         """
         Test CNAB Cancel Rebate
         """
-        # Caso Cancelar Abatimento
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create({"change_type": "cancel_rebate"})
-        aml_cnab_change.doit()
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
+        self._send_new_cnab_code(self.aml_to_change, "cancel_rebate")
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-6-cancelar_abatimento.REM",
+            self.invoice_cef.cnab_config_id.cancel_rebate_code_id,
         )
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.cancel_rebate_code_id.name,
-            )
-
-        # Open payment order
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-6-cancelar_abatimento.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
 
     def test_cnab_grant_discount(self):
         """
         Test CNAB Grant Discount
         """
-        # Caso Conceder Desconto
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create(
-            {
-                "change_type": "grant_discount",
-                "discount_value": 10.0,
-            }
+        self._send_new_cnab_code(self.aml_to_change, "grant_discount")
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-7-conceder_desconto.REM",
+            self.invoice_cef.cnab_config_id.grant_discount_code_id,
         )
-        aml_cnab_change.doit()
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
-        )
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.grant_discount_code_id.name,
-            )
-            self.assertEqual(line.discount_value, 10.0)
-
-        # Open payment order
-        payment_order.draft2open()
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.grant_discount_code_id.name,
-            )
-            self.assertEqual(line.discount_value, 10.0)
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-7-conceder_desconto.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
 
     def test_cnab_cancel_discount(self):
         """
         Test CNAB Cancel Discount
         """
-        # Caso Cancelar discount
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create({"change_type": "cancel_discount"})
-        aml_cnab_change.doit()
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
+        self._send_new_cnab_code(self.aml_to_change, "cancel_discount")
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-8-cancelar_desconto.REM",
+            self.invoice_cef.cnab_config_id.cancel_discount_code_id,
         )
-        for line in payment_order.payment_line_ids:
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.cancel_discount_code_id.name,
-            )
-
-        # Open payment order
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-8-cancelar_desconto.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
-
         # Suspender Protesto e dar Baixa
         # TODO: Especificar melhor esse caso
 
@@ -732,10 +300,7 @@ class TestPaymentOrder(TransactionCase):
         """
         Test CNAB Change Method Not Payment
         """
-        aml_cnab_change = self.aml_cnab_change_model.with_context(
-            **self.ctx_change_cnab
-        ).create({"change_type": "not_payment"})
-        aml_cnab_change.doit()
+        self._send_new_cnab_code(self.aml_to_change, "not_payment")
         self.assertEqual(self.aml_to_change.payment_situation, "nao_pagamento")
         self.assertEqual(self.aml_to_change.cnab_state, "done")
         self.assertEqual(self.aml_to_change.reconciled, True)
@@ -756,52 +321,15 @@ class TestPaymentOrder(TransactionCase):
         """
         Caso de Pagamento com CNAB
         """
-        self.partner_akretion = self.env.ref("l10n_br_base.res_partner_akretion")
+        self._make_payment(self.invoice_cef, 100)
 
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-9-alt_valor_titulo.REM",
+            self.invoice_cef.cnab_config_id.change_title_value_code_id,
         )
 
-        # Open payment order
-        payment_order.action_cancel()
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-1.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
-
-        payment_register = Form(
-            self.env["account.payment.register"].with_context(
-                active_model="account.move",
-                active_ids=self.invoice_cef.ids,
-            )
-        )
-        payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
-
-        # Perform the partial payment by setting the amount at 300 instead of 500
-        payment_register.amount = 100
-        payment_register.save()._create_payments()
-
+        self._make_payment(self.invoice_cef, 100)
         # Ordem de PAgto com alterações
         payment_order = self.env["account.payment.order"].search(
             [
@@ -818,106 +346,16 @@ class TestPaymentOrder(TransactionCase):
             )
             self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
-        # Open payment order
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-9-alt_valor_titulo.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
-
-        payment_register = Form(
-            self.env["account.payment.register"].with_context(
-                active_model="account.move",
-                active_ids=self.invoice_cef.ids,
-            )
-        )
-        payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_id = self.payment_method_manual_in
-
-        # Perform the partial payment by setting the amount at 300 instead of 500
-        payment_register.amount = 50
-        payment_register.save()._create_payments()
-
         # Ordem de PAgto com alterações
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
+        self._run_remessa(
+            self.invoice_cef,
+            "teste_remessa-cef_240-10-alt_valor_titulo.REM",
+            self.invoice_cef.cnab_config_id.change_title_value_code_id,
+            check_amount=True,
         )
-        for line in payment_order.payment_line_ids:
-            # Caso de alteração do valor do titulo por pagamento parcial
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.change_title_value_code_id.name,
-            )
-            self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
-        # Open payment order
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        if os.environ.get("CI_NO_BRCOBRANCA"):
-            # Generate
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                "teste_remessa-cef_240-10-alt_valor_titulo.REM",
-            )
-            with open(file_name, "rb") as f:
-                mocked_response = f.read()
-                with mock.patch(
-                    _provider_class_pay_order + "._get_brcobranca_remessa",
-                    return_value=mocked_response,
-                ):
-                    payment_order.open2generated()
-        else:
-            payment_order.open2generated()
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-        self.assertEqual(payment_order.state, "uploaded")
-
-        payment = (
-            self.env["account.payment"]
-            .with_context(
-                active_model="account.move",
-                active_ids=self.invoice_cef.ids,
-            )
-            .create(
-                {
-                    "payment_type": "inbound",
-                    "payment_method_id": self.env.ref(
-                        "account.account_payment_method_manual_in"
-                    ).id,
-                    "partner_type": "customer",
-                    "partner_id": self.partner_akretion.id,
-                    "amount": 150,
-                    "journal_id": self.journal_cash.id,
-                }
-            )
-        )
-        payment.action_post()
+        # Perform the payment of Amount Residual to Write Off
+        self._make_payment(self.invoice_cef, self.invoice_cef.amount_residual)
 
         # Ordem de PAgto com alterações
         payment_order = self.env["account.payment.order"].search(
