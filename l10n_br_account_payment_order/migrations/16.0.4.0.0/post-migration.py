@@ -38,4 +38,9 @@ def update_payment_mode_discount_code(env):
 def migrate(env, version):
     if not version:
         return
+    is_already_migrated = env["l10n_br_cnab.config"].search(
+        [("boleto_discount_code_id", "!=", False)]
+    )
+    if is_already_migrated:
+        return
     update_payment_mode_discount_code(env)
