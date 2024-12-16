@@ -122,31 +122,28 @@ class L10nBRCNABConfig(models.Model):
                     _("O percentual deve ser um valor entre 0 a 100.")
                 )
 
+    def _check_sequence_already_in_use(self, field):
+        for record in self:
+            sequence = getattr(record, f"{field}")
+            if sequence:
+                already_in_use = record.search(
+                    [
+                        ("id", "!=", record.id),
+                        "|",
+                        ("own_number_sequence_id", "=", sequence.id),
+                        ("cnab_sequence_id", "=", sequence.id),
+                    ],
+                    limit=1,
+                )
+                if already_in_use:
+                    raise ValidationError(
+                        _(
+                            f"Sequence {sequence.name} already in"
+                            f" use by {already_in_use.name}!",
+                        )
+                    )
+
     @api.constrains("own_number_sequence_id", "cnab_sequence_id")
     def _check_sequences(self):
-        for record in self:
-            already_in_use = self.search(
-                [
-                    ("id", "!=", record.id),
-                    "|",
-                    ("own_number_sequence_id", "=", record.own_number_sequence_id.id),
-                    ("cnab_sequence_id", "=", record.cnab_sequence_id.id),
-                ],
-                limit=1,
-            )
-
-            if already_in_use.own_number_sequence_id:
-                raise ValidationError(
-                    _(
-                        "Sequence Own Number already in use by %(cnab_config)s!",
-                        cnab_config=already_in_use.name,
-                    )
-                )
-
-            if already_in_use.cnab_sequence_id:
-                raise ValidationError(
-                    _(
-                        "Sequence CNAB Sequence already in use by %(cnab_config)s!",
-                        cnab_config=already_in_use.name,
-                    )
-                )
+        self._check_sequence_already_in_use("own_number_sequence_id")
+        self._check_sequence_already_in_use("cnab_sequence_id")
