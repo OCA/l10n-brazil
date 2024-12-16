@@ -74,6 +74,9 @@ class TestPaymentMode(TransactionCase):
                 "group_lines": False,
             }
         )
+        cls.unicred_payment_mode = cls.env.ref(
+            "l10n_br_account_payment_order." "payment_mode_cobranca_unicred400"
+        )
 
     def test_onchange(self):
         """Test account.payment.mode Onchange methods"""
@@ -87,3 +90,20 @@ class TestPaymentMode(TransactionCase):
                     "group_lines": True,
                 }
             )
+
+        with self.assertRaises(ValidationError):
+            self.unicred_payment_mode.cnab_config_id.cnab_sequence_id = self.env.ref(
+                "l10n_br_account_payment_order." "sequence_cnab_number_unicred_240"
+            )
+        with self.assertRaises(ValidationError):
+            self.unicred_payment_mode.cnab_config_id.own_number_sequence_id = (
+                self.env.ref(
+                    "l10n_br_account_payment_order." "sequence_own_number_unicred_240"
+                )
+            )
+        with self.assertRaises(ValidationError):
+            self.unicred_payment_mode.cnab_config_id.boleto_discount_perc = 101
+        with self.assertRaises(ValidationError):
+            self.env.ref(
+                "l10n_br_account_payment_order.cnab_config_itau_400"
+            ).boleto_wallet = False

@@ -1,10 +1,14 @@
-# @ 2021 KMEE - kmee.com.br
-#   Luis Felipe Mileo <mileo@kmee.com.br>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
+# Copyright (C) 2021-Today - KMEE (<http://kmee.com.br>).
+# @author Luis Felipe Mileo <mileo@kmee.com.br>
+# Copyright (C) 2024-Today - Akretion (<http://www.akretion.com>).
+# @author Magno Costa <magno.costa@akretion.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from datetime import date, timedelta
 
 from odoo.exceptions import UserError
 from odoo.fields import Date
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -36,13 +40,6 @@ class TestL10nBrAccountPaymentOder(TransactionCase):
         assert payment_order_id, "Payment Order not created."
         self._payment_order_all_workflow(payment_order_id)
         return payment_order_id
-
-    def _prepare_change_view(self, financial_move_line_ids):
-        """Prepare context of the change view"""
-        ctx = dict(
-            active_ids=financial_move_line_ids.ids, active_model="account.move.line"
-        )
-        return self.move_line_change_id.with_context(**ctx)
 
     def import_with_po_wizard(self, payment_mode_id, payment_type="inbound", aml=False):
         order_vals = {
@@ -87,3 +84,69 @@ class TestL10nBrAccountPaymentOder(TransactionCase):
         self._payment_order_all_workflow(order)
         self.assertEqual(order.state, "uploaded")
         return order
+
+    def _send_new_cnab_code(
+        self,
+        aml_to_change,
+        code_to_send,
+        warning_error=False,
+    ):
+        with Form(
+            self.env["account.move.line.cnab.change"].with_context(
+                **dict(
+                    active_ids=aml_to_change.ids,
+                    active_model="account.move.line",
+                )
+            ),
+            view=self.chance_view_id,
+        ) as f:
+            f.change_type = code_to_send
+            if code_to_send == "change_date_maturity":
+                new_date = date.today() + timedelta(days=30)
+                payment_cheque = self.env.ref(
+                    "l10n_br_account_payment_order." "payment_mode_cheque"
+                )
+
+                if warning_error and aml_to_change.payment_mode_id != payment_cheque:
+                    # Testa caso Sem Codigo
+                    new_date = aml_to_change.date_maturity
+                # Testa caso com Codigo e Data de Vencimento igual
+                f.date_maturity = new_date
+            if code_to_send == "grant_rebate":
+                f.rebate_value = 10.00
+            if code_to_send == "grant_discount":
+                f.discount_value = 10.00
+
+        change_wizard = f.save()
+
+        if warning_error:
+            with self.assertRaises(UserError):
+                change_wizard.doit()
+        else:
+            change_wizard.doit()
+
+    def _send_and_check_new_cnab_code(
+        self,
+        invoice,
+        aml_to_change,
+        code_to_send,
+        xml_code=False,
+        warning_error=False,
+    ):
+        self._send_new_cnab_code(aml_to_change, code_to_send, warning_error)
+
+        if not warning_error:
+            change_payment_order = self.env["account.payment.order"].search(
+                [
+                    ("state", "=", "draft"),
+                    ("payment_mode_id", "=", invoice.payment_mode_id.id),
+                ]
+            )
+            self._payment_order_all_workflow(change_payment_order)
+
+            assert (
+                self.env.ref(xml_code).id
+                in change_payment_order.payment_line_ids.mapped(
+                    "instruction_move_code_id"
+                ).ids
+            ), f"Payment Order with wrong instruction_move_code_id for {code_to_send}"
