@@ -98,7 +98,7 @@ class PurchaseOrderLine(models.Model):
                 # Update taxes fields
                 line._update_fiscal_taxes()
                 # Call mixin compute method
-                line._compute_amounts()
+                line._compute_fiscal_amounts()
                 # Update record
                 line.update(
                     {
