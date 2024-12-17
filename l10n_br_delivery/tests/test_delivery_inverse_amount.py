@@ -110,9 +110,11 @@ class TestDeliveryInverseAmount(TransactionCase):
             110.0,
             "Unexpected value for the field amount_price_gross from Sale Order",
         )
+        # No amount_untaxed é esperado o valor total dos produtos + frete, seguro
+        # e outros.
         self.assertEqual(
             self.sale_order_total_id.amount_untaxed,
-            110.0,
+            410.0,
             "Unexpected value for the field amount_untaxed from Sale Order",
         )
         self.assertEqual(
@@ -143,9 +145,11 @@ class TestDeliveryInverseAmount(TransactionCase):
             110.0,
             "Unexpected value for the field amount_price_gross from Sale Order",
         )
+        # No amount_untaxed é esperado o valor total dos produtos + frete, seguro
+        # e outros.
         self.assertEqual(
             self.sale_order_line_id.amount_untaxed,
-            110.0,
+            410.0,
             "Unexpected value for the field amount_untaxed from Sale Order",
         )
         self.assertEqual(

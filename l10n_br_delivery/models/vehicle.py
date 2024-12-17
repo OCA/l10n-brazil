@@ -8,10 +8,15 @@ class CarrierVehicle(models.Model):
     _name = "l10n_br_delivery.carrier.vehicle"
     _description = "Carrier Vehicle"
 
-    name = fields.Char(required=True, size=32)
+    name = fields.Char(
+        required=True,
+        size=32,
+        unaccent=False,
+    )
 
     description = fields.Char(
         size=132,
+        unaccent=False,
     )
 
     plate = fields.Char(
@@ -21,6 +26,7 @@ class CarrierVehicle(models.Model):
 
     driver = fields.Char(
         size=64,
+        unaccent=False,
     )
 
     rntc_code = fields.Char(

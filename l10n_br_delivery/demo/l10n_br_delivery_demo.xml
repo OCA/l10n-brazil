@@ -67,7 +67,7 @@
         <field name="fixed_price">10.0</field>
         <field name="sequence">3</field>
         <field name="delivery_type">fixed</field>
-        <field name="product_id" ref="delivery.product_product_delivery_normal" />
+        <field name="product_id" ref="delivery.product_product_local_delivery" />
         <field name="partner_id" ref="test_carrier" />
         <field name="antt_code">Teste - Código ANTT</field>
         <field
@@ -78,35 +78,26 @@
         />
     </record>
 
-    <!-- Resource: stock.inventory -->
+    <!-- Resource: stock.quant -->
 
-    <record id="l10n_br_delivery_stock_inventory_0" model="stock.inventory">
-        <field name="name">Starting Inventory - l10n_br_delivery</field>
-        <field name="state">confirm</field>
-    </record>
-
-    <!-- Resource: stock.inventory.line -->
-
-    <record id="l10n_br_delivery_stock_inventory_line_1" model="stock.inventory.line">
+    <record id="l10n_br_delivery_stock_quant_1" model="stock.quant">
         <field name="product_id" ref="product.product_delivery_01" />
-        <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="inventory_id" ref="l10n_br_delivery_stock_inventory_0" />
-        <field name="product_qty">100</field>
+        <field name="inventory_quantity">100</field>
         <field name="location_id" ref="stock.stock_location_stock" />
     </record>
 
-    <record id="l10n_br_delivery_stock_inventory_line_2" model="stock.inventory.line">
+    <record id="l10n_br_delivery_stock_quant_2" model="stock.quant">
         <field name="product_id" ref="product.product_delivery_02" />
-        <field name="product_uom_id" ref="uom.product_uom_unit" />
-        <field name="inventory_id" ref="l10n_br_delivery_stock_inventory_0" />
-        <field name="product_qty">100</field>
+        <field name="inventory_quantity">100</field>
         <field name="location_id" ref="stock.stock_location_stock" />
     </record>
 
-    <function model="stock.inventory" name="action_validate">
-        <function
-            eval="[[('state','=','draft'),('id', '=', ref('l10n_br_delivery_stock_inventory_0'))]]"
-            model="stock.inventory"
+    <function model="stock.quant" name="action_apply_inventory">
+            <function
+            eval="[[('id', 'in', (ref('l10n_br_delivery_stock_quant_1'),
+                                            ref('l10n_br_delivery_stock_quant_2'),
+                                            ))]]"
+            model="stock.quant"
             name="search"
         />
     </function>

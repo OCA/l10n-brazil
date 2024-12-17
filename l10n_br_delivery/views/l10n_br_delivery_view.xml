@@ -58,7 +58,7 @@
     <menuitem
         name="Vehicle"
         id="menu_l10n_br_delivery_carrier_vehicle_form"
-        parent="delivery.menu_delivery"
+        parent="stock.menu_delivery"
         action="action_l10n_br_delivery_carrier_vehicle_form"
         sequence="10"
     />
