@@ -66,7 +66,7 @@
                     name="fiscal"
                     string="Fiscal"
                     attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)]}"
-                    colspan="4"
+                    colspan="2"
                 >
                     <field name="invoice_state" readonly="1" force_save="1" />
                     <field name="fiscal_operation_type" invisible="1" />
@@ -118,9 +118,10 @@
                     <field name="partner_id" invisible="1" />
                     <field name="company_id" invisible="1" />
                 </group>
-                <group colspan="4">
+                <group>
                     <notebook
                         attrs="{'invisible': ['|', ('invoice_state', 'in', [False, 'none']), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                        colspan="2"
                     >
                         <group name="fiscal_fields" invisible="1">
                             <field
@@ -161,7 +162,6 @@
                             <group
                                 name="invoice_lines"
                                 string="Invoicing"
-                                colspan="4"
                                 groups="base.group_no_one"
                                 attrs="{'invisible': [('invoice_state', 'in', [False, 'none'])]}"
                             >
@@ -169,6 +169,7 @@
                                     name="invoice_line_ids"
                                     readonly="1"
                                     nolabel="1"
+                                    colspan="2"
                                 />
                             </group>
                         </page>
@@ -193,7 +194,7 @@
                 <group
                     name="invoice_lines"
                     string="Invoicing"
-                    colspan="4"
+                    colspan="2"
                     groups="base.group_no_one"
                     attrs="{'invisible': ['|', ('fiscal_operation_line_id', '!=', False), ('invoice_state', 'in', [False, 'none'])]}"
                 >
