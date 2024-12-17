@@ -128,7 +128,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "price_unit",
         "quantity",
     )
-    def _compute_amounts(self):
+    def _compute_fiscal_amounts(self):
         for record in self:
             round_curr = record.currency_id or self.env.ref("base.BRL")
 
