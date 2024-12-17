@@ -350,8 +350,8 @@ class Document(models.Model):
         "fiscal_line_ids.amount_tax_not_included",
         "fiscal_line_ids.amount_tax_withholding",
     )
-    def _compute_amount(self):
-        return super()._compute_amount()
+    def _compute_fiscal_amount(self):
+        return super()._compute_fiscal_amount()
 
     @api.model_create_multi
     def create(self, vals_list):
