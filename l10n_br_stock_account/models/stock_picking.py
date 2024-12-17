@@ -48,30 +48,10 @@ class StockPicking(models.Model):
             picking._compute_fiscal_amount()
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
-
-        if view_type == "form":
-            view = self.env["ir.ui.view"]
-
-            sub_form_view = order_view["fields"]["move_ids_without_package"]["views"][
-                "form"
-            ]["arch"]
-
-            sub_form_node = self.env["stock.move"].inject_fiscal_fields(sub_form_view)
-
-            sub_arch, sub_fields = view.postprocess_and_fields(
-                sub_form_node, "stock.move"
-            )
-
-            order_view["fields"]["move_ids_without_package"]["views"]["form"] = {
-                "fields": sub_fields,
-                "arch": sub_arch,
-            }
-
-        return order_view
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        arch = self.env["stock.move"].inject_fiscal_fields(arch)
+        return arch, view
 
     def _put_in_pack(self, move_line_ids, create_package_level=True):
         package = super()._put_in_pack(move_line_ids, create_package_level)
