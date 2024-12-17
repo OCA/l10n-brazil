@@ -38,7 +38,7 @@ class TestNFeExport(TransactionCase):
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_operation_line_id()
 
-        nfe._compute_amount()
+        nfe._compute_fiscal_amount()
         nfe.nfe40_detPag = [
             (5, 0, 0),
             (
