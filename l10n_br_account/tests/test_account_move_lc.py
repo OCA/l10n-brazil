@@ -480,7 +480,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         # Testando com Alivio do ICMS
         self.move_out_venda_with_icms_reduction.invoice_line_ids[0].icms_relief_id = 1
         self.move_out_venda_with_icms_reduction.invoice_line_ids._onchange_fiscal_taxes()
-        self.move_out_venda_with_icms_reduction.line_ids._compute_amounts()
+        self.move_out_venda_with_icms_reduction.line_ids._compute_fiscal_amounts()
 
         product_line_vals_1 = {
             "name": self.product_a.display_name,
