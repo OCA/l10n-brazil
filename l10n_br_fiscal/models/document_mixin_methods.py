@@ -40,7 +40,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         amount_fields = [f for f in fields if f.startswith("amount_")]
         return amount_fields
 
-    def _compute_amount(self):
+    def _compute_fiscal_amount(self):
         fields = self._get_amount_fields()
         for doc in self:
             values = {key: 0.0 for key in fields}
