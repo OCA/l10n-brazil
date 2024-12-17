@@ -20,6 +20,7 @@
                         name="product_id"
                         context="{'tree_view_ref': 'product_template_tree', 'form_view_ref': 'product.product_template_only_form_view'}"
                     />
+          <field name="default_code" />
           <field name="name" required="1" />
         </group>
         <notebook>

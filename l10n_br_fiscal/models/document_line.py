@@ -17,6 +17,8 @@ class DocumentLine(models.Model):
 
     name = fields.Char()
 
+    default_code = fields.Char()
+
     company_id = fields.Many2one(
         comodel_name="res.company",
         related="document_id.company_id",
