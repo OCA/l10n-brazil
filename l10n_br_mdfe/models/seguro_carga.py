@@ -1,7 +1,7 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields
+from odoo import fields, models
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -22,3 +22,17 @@ class MDFeSeguroCarga(spec_models.SpecModel):
             ("cnpj_cpf", "!=", False),
         ],
     )
+
+    mdfe30_nAver = fields.Many2one(
+        comodel_name="l10n_br_mdfe.seguro.carga.naver",
+        string="Número da Averbação",
+        help="Número da Averbação\nInformar as averbações do seguro",
+    )
+
+
+class MDFENaver(models.Model):
+    _name = "l10n_br_mdfe.seguro.carga.naver"
+    _description = "Número da Averbação"
+    _rec_name = "mdfe30_nAver"
+
+    mdfe30_nAver = fields.Char(string="Nome da Averbação", xsd_required=True)
