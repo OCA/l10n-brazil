@@ -17,27 +17,36 @@ delivery module Brazilian Localization
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/15.0/l10n_br_delivery
+    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_delivery
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-15-0/l10n-brazil-15-0-l10n_br_delivery
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_delivery
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=15.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-*(summary: extends the delivery module to comply with the fiscal documents requirements)*
+*(summary: extends the delivery module to comply with the fiscal
+documents requirements)*
 
-Esse módulo localiza o módulo *delivery* para adequar as necessidades do Brasil. Em especial ele:
+Esse módulo localiza o módulo *delivery* para adequar as necessidades do
+Brasil. Em especial ele:
 
-  * acrescenta informações para os Documentos Fiscais: Transportadora, responsabilidade do frete, volume e peso bruto.
-  * acrescenta na Transportadora o código ANTT e a lista de veículos.
-  * cria um modelo simples de veículo com os campos fiscais (placa, código ANTT, modelo, ano de fabricação...)
-  * desativa o método *_add_delivery_cost_to_so* da Expedição, pois o frete já esta corretamente informado no pedido.
-  * vale a pena notar que o rateamento do frete, seguro e outros custos já esta sendo feito pelo módulo l10n_br_fiscal, tanto para notas de saída como de entrada.
-  * se você for emitir NF-e, você precisa do módulo *l10n_br_delivery_nfe* que faz a integração deste módulo com o módulo *l10n_br_nfe*.
+   -  acrescenta informações para os Documentos Fiscais: Transportadora,
+      responsabilidade do frete, volume e peso bruto.
+   -  acrescenta na Transportadora o código ANTT e a lista de veículos.
+   -  cria um modelo simples de veículo com os campos fiscais (placa,
+      código ANTT, modelo, ano de fabricação...)
+   -  desativa o método *\_add_delivery_cost_to_so* da Expedição, pois o
+      frete já esta corretamente informado no pedido.
+   -  vale a pena notar que o rateamento do frete, seguro e outros
+      custos já esta sendo feito pelo módulo l10n_br_fiscal, tanto para
+      notas de saída como de entrada.
+   -  se você for emitir NF-e, você precisa do módulo
+      *l10n_br_delivery_nfe* que faz a integração deste módulo com o
+      módulo *l10n_br_nfe*.
 
 **Table of contents**
 
@@ -49,50 +58,55 @@ Installation
 
 This module depends on:
 
-* l10n_br_sale_stock
-* delivery
-* delivery_carrier_partner
+-  l10n_br_sale_stock
+-  delivery
+-  delivery_carrier_partner
 
 Configuration
 =============
 
-Cadastre os Métodos de Envio que poderão ser selecionados nos Pedidos de Vendas, em:
+Cadastre os Métodos de Envio que poderão ser selecionados nos Pedidos de
+Vendas, em:
 
-  * Inventário > Configuração > Entrega > Métodos de Envio
+   -  Inventário > Configuração > Entrega > Métodos de Envio
 
-Veja que cada método é referente a uma Transportadora, também é possível cadastrar os Veículos da Transportadora em:
+Veja que cada método é referente a uma Transportadora, também é possível
+cadastrar os Veículos da Transportadora em:
 
-  * Inventário > Configuração > Entrega > Veículo
+   -  Inventário > Configuração > Entrega > Veículo
 
 Usage
 =====
 
 Para usar esse modulo você precisa:
 
-* Criar um Pedido de Venda informar o Método de Entrega e o valor do Frete, se necessário os valores de Seguro e Outros Custos.
+-  Criar um Pedido de Venda informar o Método de Entrega e o valor do
+   Frete, se necessário os valores de Seguro e Outros Custos.
 
 Known issues / Roadmap
 ======================
 
-* Integrar o modulo com os metódos de calculo automáticos do modulo delivery, hoje o usuário deve informar a Transportadora e o valor do Frete é informado manualmente.
+-  Integrar o modulo com os metódos de calculo automáticos do modulo
+   delivery, hoje o usuário deve informar a Transportadora e o valor do
+   Frete é informado manualmente.
 
 Changelog
 =========
 
 14.0.1.0.0 (2022-09-29)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* Migration.
+-  Migration.
 
 12.0.1.0.0 (2021-08-28)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* Migration
+-  Migration
 
 8.0.1.0.0 (2021-01-06)
-~~~~~~~~~~~~~~~~~~~~~~
+----------------------
 
-* 1st version
+-  1st version
 
 Bug Tracker
 ===========
@@ -100,7 +114,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_delivery%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_delivery%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -108,26 +122,26 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Akretion <https://www.akretion.com/pt-BR>`_:
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  * Renato Lima <renato.lima@akretion.com.br>
-  * Magno Costa <magno.costa@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Magno Costa <magno.costa@akretion.com.br>
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Diego Paradeda <diego.paradeda@kmee.com.br>
-  * Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
-  * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+   -  Diego Paradeda <diego.paradeda@kmee.com.br>
+   -  Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+   -  Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -150,6 +164,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-renatonlima| |maintainer-mbcosta| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/15.0/l10n_br_delivery>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_delivery>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

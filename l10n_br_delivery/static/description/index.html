@@ -369,17 +369,26 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:b0564c2ed26c303d101f4b85c1de5fe736f4c251e8c2e3deda8d76e870315b4d
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/15.0/l10n_br_delivery"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-15-0/l10n-brazil-15-0-l10n_br_delivery"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=15.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p><em>(summary: extends the delivery module to comply with the fiscal documents requirements)</em></p>
-<p>Esse módulo localiza o módulo <em>delivery</em> para adequar as necessidades do Brasil. Em especial ele:</p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_delivery"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_delivery"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p><em>(summary: extends the delivery module to comply with the fiscal
+documents requirements)</em></p>
+<p>Esse módulo localiza o módulo <em>delivery</em> para adequar as necessidades do
+Brasil. Em especial ele:</p>
 <blockquote>
 <ul class="simple">
-<li>acrescenta informações para os Documentos Fiscais: Transportadora, responsabilidade do frete, volume e peso bruto.</li>
+<li>acrescenta informações para os Documentos Fiscais: Transportadora,
+responsabilidade do frete, volume e peso bruto.</li>
 <li>acrescenta na Transportadora o código ANTT e a lista de veículos.</li>
-<li>cria um modelo simples de veículo com os campos fiscais (placa, código ANTT, modelo, ano de fabricação…)</li>
-<li>desativa o método <em>_add_delivery_cost_to_so</em> da Expedição, pois o frete já esta corretamente informado no pedido.</li>
-<li>vale a pena notar que o rateamento do frete, seguro e outros custos já esta sendo feito pelo módulo l10n_br_fiscal, tanto para notas de saída como de entrada.</li>
-<li>se você for emitir NF-e, você precisa do módulo <em>l10n_br_delivery_nfe</em> que faz a integração deste módulo com o módulo <em>l10n_br_nfe</em>.</li>
+<li>cria um modelo simples de veículo com os campos fiscais (placa,
+código ANTT, modelo, ano de fabricação…)</li>
+<li>desativa o método <em>_add_delivery_cost_to_so</em> da Expedição, pois o
+frete já esta corretamente informado no pedido.</li>
+<li>vale a pena notar que o rateamento do frete, seguro e outros
+custos já esta sendo feito pelo módulo l10n_br_fiscal, tanto para
+notas de saída como de entrada.</li>
+<li>se você for emitir NF-e, você precisa do módulo
+<em>l10n_br_delivery_nfe</em> que faz a integração deste módulo com o
+módulo <em>l10n_br_nfe</em>.</li>
 </ul>
 </blockquote>
 <p><strong>Table of contents</strong></p>
@@ -415,13 +424,15 @@ ul.auto-toc {
 </div>
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
-<p>Cadastre os Métodos de Envio que poderão ser selecionados nos Pedidos de Vendas, em:</p>
+<p>Cadastre os Métodos de Envio que poderão ser selecionados nos Pedidos de
+Vendas, em:</p>
 <blockquote>
 <ul class="simple">
 <li>Inventário &gt; Configuração &gt; Entrega &gt; Métodos de Envio</li>
 </ul>
 </blockquote>
-<p>Veja que cada método é referente a uma Transportadora, também é possível cadastrar os Veículos da Transportadora em:</p>
+<p>Veja que cada método é referente a uma Transportadora, também é possível
+cadastrar os Veículos da Transportadora em:</p>
 <blockquote>
 <ul class="simple">
 <li>Inventário &gt; Configuração &gt; Entrega &gt; Veículo</li>
@@ -432,13 +443,16 @@ ul.auto-toc {
 <h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
 <p>Para usar esse modulo você precisa:</p>
 <ul class="simple">
-<li>Criar um Pedido de Venda informar o Método de Entrega e o valor do Frete, se necessário os valores de Seguro e Outros Custos.</li>
+<li>Criar um Pedido de Venda informar o Método de Entrega e o valor do
+Frete, se necessário os valores de Seguro e Outros Custos.</li>
 </ul>
 </div>
 <div class="section" id="known-issues-roadmap">
 <h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
 <ul class="simple">
-<li>Integrar o modulo com os metódos de calculo automáticos do modulo delivery, hoje o usuário deve informar a Transportadora e o valor do Frete é informado manualmente.</li>
+<li>Integrar o modulo com os metódos de calculo automáticos do modulo
+delivery, hoje o usuário deve informar a Transportadora e o valor do
+Frete é informado manualmente.</li>
 </ul>
 </div>
 <div class="section" id="changelog">
@@ -467,7 +481,7 @@ ul.auto-toc {
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_delivery%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_delivery%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -505,7 +519,7 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
 <p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
 <p><a class="reference external image-reference" href="https://github.com/renatonlima"><img alt="renatonlima" src="https://github.com/renatonlima.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/mbcosta"><img alt="mbcosta" src="https://github.com/mbcosta.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/15.0/l10n_br_delivery">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_delivery">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>
