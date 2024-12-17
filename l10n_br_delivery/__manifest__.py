@@ -7,7 +7,8 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "14.0.2.2.1",
+    "version": "15.0.1.0.0",
+    "development_status": "Beta",
     "depends": [
         "l10n_br_sale_stock",
         "delivery",
