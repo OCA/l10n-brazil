@@ -80,12 +80,12 @@ class PurchaseOrder(models.Model):
         return self.mapped("order_line")
 
     @api.depends("order_line")
-    def _compute_amount(self):
-        return super()._compute_amount()
+    def _compute_fiscal_amount(self):
+        return super()._compute_fiscal_amount()
 
     @api.depends("order_line.price_total")
     def _amount_all(self):
-        self._compute_amount()
+        self._compute_fiscal_amount()
 
     def _prepare_invoice(self):
         self.ensure_one()
