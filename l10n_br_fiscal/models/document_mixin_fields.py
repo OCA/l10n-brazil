@@ -474,6 +474,35 @@ class FiscalDocumentMixinFields(models.AbstractModel):
 
     ## CTE
 
+    transport_modal = fields.Selection(
+        selection=[
+            ("01", "Road"),
+            ("02", "Air"),
+            ("03", "Water"),
+            ("04", "Rail"),
+            ("05", "Pipeline"),
+            ("06", "Multimodal"),
+        ],
+        string="Transport Mode",
+        help="Select the transport mode used. This field is primarily used by CT-e: "
+        "Road (01), Air (02), Water (03), Rail (04), Pipeline (05), or "
+        "Multimodal (06).",
+    )
+
+    service_provider = fields.Selection(
+        selection=[
+            ("0", "Sender"),
+            ("1", "Dispatcher"),
+            ("2", "Receiver"),
+            ("3", "Consignee"),
+            ("4", "Other"),
+        ],
+        string="Service Provider",
+        help="Indicate the service provider responsible for the transport. "
+        "This field is primarily used by CT-e: "
+        "Sender (0), Dispatcher (1), Receiver (2), Consignee (3), or Other (4).",
+    )
+
     # commitment_date = fields.Datetime("Delivery Date")
     # expected_date = fields.Datetime("Expected Date")
 
