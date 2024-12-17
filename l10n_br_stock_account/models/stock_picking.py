@@ -38,14 +38,14 @@ class StockPicking(models.Model):
         return self.mapped("move_ids")
 
     @api.depends("move_ids")
-    def _compute_amount(self):
-        return super()._compute_amount()
+    def _compute_fiscal_amount(self):
+        return super()._compute_fiscal_amount()
 
     @api.depends("move_ids.price_unit")
     def _amount_all(self):
         """Compute the total amounts of the Picking."""
         for picking in self:
-            picking._compute_amount()
+            picking._compute_fiscal_amount()
 
     @api.model
     def fields_view_get(
