@@ -304,3 +304,21 @@ class SaleOrderLine(models.Model):
             partner = self.order_id.partner_invoice_id
 
         return partner
+
+    @api.depends("product_id", "company_id", "fiscal_tax_ids")
+    def _compute_tax_id(self):
+        """Compute taxes based on fiscal operation or fallback to default behavior."""
+        lines_with_fiscal_operation = self.filtered(
+            lambda line: line.fiscal_operation_line_id
+        )
+        lines_without_fiscal_operation = self - lines_with_fiscal_operation
+
+        for line in lines_with_fiscal_operation:
+            line.tax_id = line.fiscal_tax_ids.account_taxes(
+                user_type="sale", fiscal_operation=line.fiscal_operation_id
+            )
+
+        if lines_without_fiscal_operation:
+            return super(
+                SaleOrderLine, lines_without_fiscal_operation
+            )._compute_tax_id()
