@@ -101,7 +101,7 @@ class SaleOrder(models.Model):
     def _compute_amounts(self):
         """Compute the total amounts of the SO."""
         for order in self:
-            order._compute_amount()
+            order._compute_fiscal_amount()
 
     # TODO v16 override _compute_tax_totals ?
 
