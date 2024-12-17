@@ -45,9 +45,15 @@ class DocumentImporterWizardMixin(models.TransientModel):
     def _create_edoc_from_file(self):
         if self.document_type == MODELO_FISCAL_NFE:
             binding = self._parse_file()
-            edoc = self.env["l10n_br_fiscal.document"].import_binding_nfe(
-                binding,
-                edoc_type=self.fiscal_operation_type,
+            edoc = (
+                self.env["l10n_br_fiscal.document"]
+                .with_context(
+                    dont_create_product_product=True,
+                )
+                .import_binding_nfe(
+                    binding,
+                    edoc_type=self.fiscal_operation_type,
+                )
             )
             # edoc.fiscal_operation_id = self.fiscal_operation_id
             # for line in edoc.fiscal_line_ids:

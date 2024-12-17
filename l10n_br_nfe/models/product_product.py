@@ -43,6 +43,9 @@ class ProductProduct(models.Model):
         if match:
             return match.id
 
+        if self._context.get("dont_create_product_product"):
+            return False
+
         if self._context.get("dry_run"):
             rec_id = self.new(rec_dict).id
         else:

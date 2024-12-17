@@ -1059,6 +1059,7 @@ class NFeLine(spec_models.StackedModel):
         )
         if not values.get("name"):
             values["name"] = values.get("nfe40_xProd")
+            values["default_code"] = values.get("nfe40_cProd")
             if values.get("product_id"):
                 values["ncm_id"] = (
                     self.env["product.product"].browse(values["product_id"]).ncm_id.id
