@@ -285,6 +285,7 @@ class AccountMove(models.Model):
     )
     def _compute_amount(self):
         for move in self.filtered(lambda m: m.fiscal_operation_id):
+            move._compute_fiscal_amount()
             for line in move.line_ids:
                 if (
                     move.is_invoice(include_receipts=True)
