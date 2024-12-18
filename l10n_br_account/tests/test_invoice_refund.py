@@ -109,18 +109,19 @@ class TestInvoiceRefund(TransactionCase):
         with self.assertRaises(UserError):
             move_reversal.reverse_moves()
 
-        invoice["fiscal_operation_id"] = (self.env.ref("l10n_br_fiscal.fo_venda").id,)
+        invoice.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
 
         with self.assertRaises(UserError):
             move_reversal.reverse_moves()
 
-        for line_id in invoice.invoice_line_ids:
-            line_id["fiscal_operation_id"] = (
-                self.env.ref("l10n_br_fiscal.fo_venda").id,
-            )
-            line_id["fiscal_operation_line_id"] = self.env.ref(
-                "l10n_br_fiscal.fo_venda_venda"
-            ).id
+        invoice.invoice_line_ids.write(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "fiscal_operation_line_id": (
+                    self.env.ref("l10n_br_fiscal.fo_venda_venda").id,
+                ),
+            }
+        )
 
         reversal = move_reversal.reverse_moves()
         reverse_move = self.env["account.move"].browse(reversal["res_id"])
@@ -137,15 +138,15 @@ class TestInvoiceRefund(TransactionCase):
         reverse_vals = self.reverse_vals
         invoice = self.invoice
 
-        invoice["fiscal_operation_id"] = (self.env.ref("l10n_br_fiscal.fo_venda").id,)
-
-        for line_id in invoice.invoice_line_ids:
-            line_id["fiscal_operation_id"] = (
-                self.env.ref("l10n_br_fiscal.fo_venda").id,
-            )
-            line_id["fiscal_operation_line_id"] = self.env.ref(
-                "l10n_br_fiscal.fo_venda_venda"
-            ).id
+        invoice.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        invoice.invoice_line_ids.write(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_venda_venda"
+                ).id,
+            }
+        )
 
         invoice.action_post()
         self.assertEqual(
