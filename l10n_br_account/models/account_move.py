@@ -594,6 +594,11 @@ class AccountMove(models.Model):
             move.ensure_one_doc()
             return move.fiscal_document_id.action_view_invoice()
 
+    def action_import_confirm(self):
+        for move in self.filtered(lambda d: d.document_type_id):
+            move.ensure_one_doc()
+            return move.fiscal_document_id.action_import_confirm()
+
     def _post(self, soft=True):
         for move in self.with_context(skip_post=True):
             move.fiscal_document_ids.filtered(

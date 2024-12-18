@@ -675,6 +675,9 @@ class Document(models.Model):
     def action_document_correction(self):
         pass
 
+    def action_import_confirm(self):
+        pass
+
     def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
         # see https://github.com/OCA/l10n-brazil/pull/3272
         pass
