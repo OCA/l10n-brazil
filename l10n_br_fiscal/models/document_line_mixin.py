@@ -169,6 +169,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain="[('type_in_out', '=', fiscal_operation_type)]",
     )
 
+    cfop_inverse_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cfop",
+        string="CFOP Entrada",
+    )
+
     cfop_destination = fields.Selection(
         related="cfop_id.destination",
         string="CFOP Destination",

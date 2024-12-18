@@ -161,8 +161,13 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
-            self.operation_name = self.fiscal_operation_id.name
-            self.comment_ids = self.fiscal_operation_id.comment_ids
+            if self.imported_document:
+                for line in self.fiscal_line_ids:
+                    line.fiscal_operation_id = self.fiscal_operation_id
+                    line._onchange_fiscal_operation_id()
+            else:
+                self.operation_name = self.fiscal_operation_id.name
+                self.comment_ids = self.fiscal_operation_id.comment_ids
 
     def _inverse_amount_landed_cost(self, field_name):
         """

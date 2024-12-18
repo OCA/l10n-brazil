@@ -56,3 +56,7 @@ class DocumentLine(models.Model):
     edoc_purpose = fields.Selection(
         related="document_id.edoc_purpose",
     )
+
+    imported_document = fields.Boolean(
+        related="document_id.imported_document",
+    )

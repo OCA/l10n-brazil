@@ -375,9 +375,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     )
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
-            if not self.price_unit:
-                self._get_product_price()
-            self._onchange_commercial_quantity()
+            if self._is_imported():
+                pass
+            else:
+                if not self.price_unit:
+                    self._get_product_price()
+                self._onchange_commercial_quantity()
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
                 partner=self._get_fiscal_partner(),
@@ -388,28 +391,34 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.onchange("fiscal_operation_line_id")
     def _onchange_fiscal_operation_line_id(self):
         # Reset Taxes
-        self._remove_all_fiscal_tax_ids()
-        if self.fiscal_operation_line_id:
-            mapping_result = self.fiscal_operation_line_id.map_fiscal_taxes(
-                company=self.company_id,
-                partner=self._get_fiscal_partner(),
-                product=self.product_id,
-                ncm=self.ncm_id,
-                nbm=self.nbm_id,
-                nbs=self.nbs_id,
-                cest=self.cest_id,
-                city_taxation_code=self.city_taxation_code_id,
-                service_type=self.service_type_id,
-                ind_final=self.ind_final,
-            )
+        if self._is_imported():
+            self._onchange_cfop_id()
+        else:
+            self._remove_all_fiscal_tax_ids()
+            if self.fiscal_operation_line_id:
+                mapping_result = self.fiscal_operation_line_id.map_fiscal_taxes(
+                    company=self.company_id,
+                    partner=self._get_fiscal_partner(),
+                    product=self.product_id,
+                    ncm=self.ncm_id,
+                    nbm=self.nbm_id,
+                    nbs=self.nbs_id,
+                    cest=self.cest_id,
+                    city_taxation_code=self.city_taxation_code_id,
+                    service_type=self.service_type_id,
+                    ind_final=self.ind_final,
+                )
+                self.cfop_id = mapping_result["cfop"]
+                self._process_fiscal_mapping(mapping_result)
+                if not self.fiscal_operation_line_id:
+                    self.cfop_id = False
 
-            self.cfop_id = mapping_result["cfop"]
-            if self._is_imported():
-                return
-            self._process_fiscal_mapping(mapping_result)
-
-        if not self.fiscal_operation_line_id:
-            self.cfop_id = False
+    @api.onchange("cfop_id")
+    def _onchange_cfop_id(self):
+        # Reset Taxes
+        if self._is_imported() and self.cfop_id:
+            self.cfop_inverse_id = self.cfop_id.cfop_inverse_id
+            return
 
     def _process_fiscal_mapping(self, mapping_result):
         self.ipi_guideline_id = mapping_result["ipi_guideline"]
@@ -424,8 +433,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
         if self.product_id:
-            self.name = self.product_id.display_name
             self.fiscal_type = self.product_id.fiscal_type
+
+            if self._is_imported():
+                return
+
+            self.name = self.product_id.display_name
             self.uom_id = self.product_id.uom_id
             self.ncm_id = self.product_id.ncm_id
             self.nbm_id = self.product_id.nbm_id

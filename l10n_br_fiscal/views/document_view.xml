@@ -383,8 +383,33 @@
                                 context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}"
                             >
                 <tree>
+                  <field name="imported_document" invisible="1" />
                   <field name="product_id" />
+                  <field
+                                        name="default_code"
+                                        attrs="{'invisible': [('imported_document', '=', False)]}"
+                                    />
+                  <field
+                                        name="name"
+                                        attrs="{'invisible': [('imported_document', '=', False)]}"
+                                    />
                   <field name="uom_id" />
+                  <field
+                                        name="fiscal_operation_id"
+                                        attrs="{'invisible': [('imported_document', '=', False)]}"
+                                    />
+                  <field
+                                        name="fiscal_operation_line_id"
+                                        attrs="{'invisible': [('imported_document', '=', False)]}"
+                                    />
+                  <field
+                                        name="cfop_id"
+                                        attrs="{'invisible': [('imported_document', '=', False)]}"
+                                    />
+                  <field
+                                        name="cfop_inverse_id"
+                                        attrs="{'invisible': [('imported_document', '=', False)]}"
+                                    />
                   <field name="price_unit" />
                   <field name="quantity" />
                   <field name="amount_total" />
