@@ -506,6 +506,11 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_invoice_onshipping__group__fiscal_operation
 msgid "Fiscal Operation"
@@ -1162,6 +1167,11 @@ msgid "Not Applicable"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Number"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_id
 msgid "Operation"
@@ -1357,6 +1367,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
 msgid "Return Picking"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
+msgid "Serie"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1592,6 +1607,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_type
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Type"
 msgstr ""
 
