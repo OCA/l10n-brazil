@@ -242,13 +242,8 @@ class FiscalDocument(models.Model):
         account.move(s) at the end of the attachments sequence.
         """
         move_type = "%s_invoice" % (self.fiscal_operation_type,)
-        move_id = (
-            self.env["account.move"]
-            .import_fiscal_document(
-                fiscal_document,
-                move_type=move_type,
-            )
-            .id
+        move_id = self.env["account.move"].import_fiscal_document(
+            self, move_type=move_type
         )
         move_id.ensure_one()
         return {
