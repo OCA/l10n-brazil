@@ -107,15 +107,6 @@ msgid "AP"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_receb
-msgid ""
-"Actor who receives the goods. He is considered an intermediary             "
-"between the issuer and the final recipient."
-msgstr ""
-"Ator que recebe a mercadoria. Ele é considerado um intermediário             "
-"entre o emissor e o destinatário final."
-
-#. module: l10n_br_cte
 #: model_terms:ir.actions.act_window,help:l10n_br_cte.cte_document_action
 msgid "Add a new CTe"
 msgstr "Adicionar um novo CTe"
@@ -150,7 +141,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_paasignature__cte40_signatureValue
 msgid ""
 "Assinatura digital padrão RSA\n"
-"Converter o atributo Id do DFe para array de bytes e assinar com a chave privada do RSA com algoritmo SHA1 gerando um valor no formato base64."
+"Converter o atributo Id do DFe para array de bytes e assinar com a chave "
+"privada do RSA com algoritmo SHA1 gerando um valor no formato base64."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -242,7 +234,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcte_infnf__cte40_nCFOP
 msgid ""
 "CFOP Predominante\n"
-"CFOP da NF ou, na existência de mais de um, predominância pelo critério de valor econômico."
+"CFOP da NF ou, na existência de mais de um, predominância pelo critério de "
+"valor econômico."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -405,7 +398,8 @@ msgid ""
 "CPF do emitente\n"
 "Informar zeros não significativos.\n"
 "\n"
-"Usar com série específica 920-969 para emitente pessoa física com inscrição estadual"
+"Usar com série específica 920-969 para emitente pessoa física com inscrição "
+"estadual"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -530,7 +524,8 @@ msgstr ""
 msgid ""
 "Característica adicional do serviço\n"
 "Texto livre:\n"
-"\t\t\t\t\t\t\t\t\t\t\tENTREGA EXPRESSA; LOGÍSTICA REVERSA; CONVENCIONAL; EMERGENCIAL; etc"
+"\t\t\t\t\t\t\t\t\t\t\tENTREGA EXPRESSA; LOGÍSTICA REVERSA; CONVENCIONAL; "
+"EMERGENCIAL; etc"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -583,7 +578,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_infnfetranspparcial__cte40_chNFe
 msgid ""
 "Chave de acesso da NF-e\n"
-"Informando o tpPrest com “2 – Parcial” deve-se informar as chaves de acesso das NF-e que acobertam a carga transportada."
+"Informando o tpPrest com “2 – Parcial” deve-se informar as chaves de acesso "
+"das NF-e que acobertam a carga transportada."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1681,7 +1677,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cCT
 msgid ""
 "Código numérico que compõe a Chave de Acesso.\n"
-"Número aleatório gerado pelo emitente para cada CT-e, com o objetivo de evitar acessos indevidos ao documento."
+"Número aleatório gerado pelo emitente para cada CT-e, com o objetivo de "
+"evitar acessos indevidos ao documento."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2112,8 +2109,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tprotcte_infprot__cte40_digVal
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tprotcteos_infprot__cte40_digVal
 msgid ""
-"Digest Value da CT-e processado. Utilizado para conferir a integridade do "
-"CT-e original."
+"Digest Value da CT-e processado. Utilizado para conferir a integridade do CT-"
+"e original."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2139,7 +2136,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_ide__cte40_cDV
 msgid ""
 "Digito Verificador da chave de acesso da GTV-e\n"
-"Informar o dígito  de controle da chave de acesso do CT-e, que deve ser calculado com a aplicação do algoritmo módulo 11 (base 2,9) da chave de acesso."
+"Informar o dígito  de controle da chave de acesso do CT-e, que deve ser "
+"calculado com a aplicação do algoritmo módulo 11 (base 2,9) da chave de "
+"acesso."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2147,7 +2146,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_cDV
 msgid ""
 "Digito Verificador da chave de acesso do CT-e\n"
-"Informar o dígito  de controle da chave de acesso do CT-e, que deve ser calculado com a aplicação do algoritmo módulo 11 (base 2,9) da chave de acesso."
+"Informar o dígito  de controle da chave de acesso do CT-e, que deve ser "
+"calculado com a aplicação do algoritmo módulo 11 (base 2,9) da chave de "
+"acesso."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2161,7 +2162,10 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xDime
 msgid ""
 "Dimensão\n"
-"Formato:1234X1234X1234 (cm). Esse campo deve sempre que possível ser preenchido. Entretanto, quando for impossível o preenchimento das dimensões, fica obrigatório o preenchimento da cubagem em metro cúbico do leiaute do CT-e da estrutura genérica (infQ)."
+"Formato:1234X1234X1234 (cm). Esse campo deve sempre que possível ser "
+"preenchido. Entretanto, quando for impossível o preenchimento das dimensões, "
+"fica obrigatório o preenchimento da cubagem em metro cúbico do leiaute do CT-"
+"e da estrutura genérica (infQ)."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2308,6 +2312,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type__display_name
@@ -2338,6 +2343,11 @@ msgstr "Documento"
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dhEmi
 msgid "Document Date"
 msgstr "Data do Documento"
+
+#. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_mixin_fields
+msgid "Document Fiscal Mixin Fields"
+msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_supplement
@@ -2741,9 +2751,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_hashCSRT
 msgid ""
 "Hash do token do código de segurança do responsável técnico\n"
-"O hashCSRT é o resultado das funções SHA-1 e base64 do token CSRT fornecido pelo fisco + chave de acesso do DF-e. (Implementação em futura NT)\n"
+"O hashCSRT é o resultado das funções SHA-1 e base64 do token CSRT fornecido "
+"pelo fisco + chave de acesso do DF-e. (Implementação em futura NT)\n"
 "\n"
-"Observação: 28 caracteres são representados no schema como 20 bytes do tipo base64Binary"
+"Observação: 28 caracteres são representados no schema como 20 bytes do tipo "
+"base64Binary"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2958,6 +2970,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line__id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type__id
@@ -3032,7 +3045,8 @@ msgid ""
 "Identificador do processo de emissão do CT-e\n"
 "Preencher com: \n"
 "\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do contribuinte;\n"
-"\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo contribuinte com aplicativo fornecido pelo SEBRAE."
+"\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo contribuinte com aplicativo "
+"fornecido pelo SEBRAE."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3041,7 +3055,8 @@ msgid ""
 "Identificador do processo de emissão do CT-e OS\n"
 "Preencher com: \n"
 "\t\t\t\t\t\t\t\t\t\t\t0 - emissão de CT-e com aplicativo do contribuinte;\n"
-"\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo contribuinte com aplicativo fornecido pelo Fisco."
+"\t\t\t\t\t\t\t\t\t\t\t3- emissão CT-e pelo contribuinte com aplicativo "
+"fornecido pelo Fisco."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3061,7 +3076,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tunidcarga__cte40_idUnidCarga
 msgid ""
 "Identificação da Unidade de Carga\n"
-"Informar a identificação da unidade de carga, por exemplo: número do container."
+"Informar a identificação da unidade de carga, por exemplo: número do "
+"container."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3074,7 +3090,8 @@ msgstr ""
 msgid ""
 "Identificação da Unidade de Transporte\n"
 "Informar a identificação conforme o tipo de unidade de transporte.\n"
-"Por exemplo: para rodoviário tração ou reboque deverá preencher com a placa do veículo."
+"Por exemplo: para rodoviário tração ou reboque deverá preencher com a placa "
+"do veículo."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3238,7 +3255,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_retira
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_retira
 msgid ""
-"Indicador se o Recebedor retira no Aeroporto, Filial, Porto ou Estação de Destino?\n"
+"Indicador se o Recebedor retira no Aeroporto, Filial, Porto ou Estação de "
+"Destino?\n"
 "Preencher com: 0 - sim; 1 - não"
 msgstr ""
 
@@ -3343,7 +3361,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tunidadetransp__cte40_infUnidCarga
 msgid ""
 "Informações das Unidades de Carga (Containeres/ULD/Outros)\n"
-"Dispositivo de carga utilizada (Unit Load Device - ULD) significa todo tipo de contêiner de carga, vagão, contêiner de avião, palete de aeronave com rede ou palete de aeronave com rede sobre um iglu."
+"Dispositivo de carga utilizada (Unit Load Device - ULD) significa todo tipo "
+"de contêiner de carga, vagão, contêiner de avião, palete de aeronave com "
+"rede ou palete de aeronave com rede sobre um iglu."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3397,7 +3417,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_infservico__cte40_infQ
 msgid ""
 "Informações de quantidades da Carga do CT-e\n"
-"Para Transporte de Pessoas indicar número de passageiros, para excesso de bagagem e transporte de valores indicar número de Volumes/Malotes"
+"Para Transporte de Pessoas indicar número de passageiros, para excesso de "
+"bagagem e transporte de valores indicar número de Volumes/Malotes"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3409,7 +3430,8 @@ msgid ""
 "1 - Peso Bruto, sempre em quilogramas (obrigatório);\n"
 "2 - Peso Cubado; sempre em quilogramas;\n"
 "3 - Quantidade de volumes, sempre em unidades (obrigatório);\n"
-"4 - Cubagem, sempre em metros cúbicos (obrigatório apenas quando for impossível\n"
+"4 - Cubagem, sempre em metros cúbicos (obrigatório apenas quando for "
+"impossível\n"
 "preencher as dimensões da(s) embalagem(ens) na tag xDime do leiaute do\n"
 "Aéreo)."
 msgstr ""
@@ -3423,7 +3445,9 @@ msgid ""
 "1 - Peso Bruto, sempre em quilogramas (obrigatório);\n"
 "2 - Peso Cubado; sempre em quilogramas;\n"
 "3 - Quantidade de volumes, sempre em unidades (obrigatório);\n"
-"4 - Cubagem, sempre em metros cúbicos (obrigatório apenas quando for impossível preencher as dimensões da(s) embalagem(ens) na tag xDime do leiaute do Aéreo)."
+"4 - Cubagem, sempre em metros cúbicos (obrigatório apenas quando for "
+"impossível preencher as dimensões da(s) embalagem(ens) na tag xDime do "
+"leiaute do Aéreo)."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3464,14 +3488,16 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_dest
 msgid ""
 "Informações do Destinatário\n"
-"Poderá não ser informado para os CT-e de redespacho intermediário e serviço vinculado a multimodal. Nos demais casos deverá sempre ser informado."
+"Poderá não ser informado para os CT-e de redespacho intermediário e serviço "
+"vinculado a multimodal. Nos demais casos deverá sempre ser informado."
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dest
 msgid ""
 "Informações do Destinatário do CT-e\n"
-"Poderá não ser informado para os CT-e de redespacho intermediário e serviço vinculado a multimodal. Nos demais casos deverá sempre ser informado."
+"Poderá não ser informado para os CT-e de redespacho intermediário e serviço "
+"vinculado a multimodal. Nos demais casos deverá sempre ser informado."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3502,14 +3528,16 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_rem
 msgid ""
 "Informações do Remetente\n"
-"Poderá não ser informado para os CT-e de redespacho intermediário e serviço vinculado a multimodal. Nos demais casos deverá sempre ser informado."
+"Poderá não ser informado para os CT-e de redespacho intermediário e serviço "
+"vinculado a multimodal. Nos demais casos deverá sempre ser informado."
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_rem
 msgid ""
 "Informações do Remetente das mercadorias transportadas pelo CT-e\n"
-"Poderá não ser informado para os CT-e de redespacho intermediário e serviço vinculado a multimodal. Nos demais casos deverá sempre ser informado."
+"Poderá não ser informado para os CT-e de redespacho intermediário e serviço "
+"vinculado a multimodal. Nos demais casos deverá sempre ser informado."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3618,7 +3646,8 @@ msgstr ""
 msgid ""
 "Informações dos documentos transportados pelo CT-e\n"
 "Opcional para Redespacho Intermediario e Serviço vinculado a multimodal.\n"
-"Poderá não ser informado para os CT-e de redespacho intermediário e serviço vinculado a multimodal. Nos demais casos deverá sempre ser informado."
+"Poderá não ser informado para os CT-e de redespacho intermediário e serviço "
+"vinculado a multimodal. Nos demais casos deverá sempre ser informado."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3630,7 +3659,8 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_cte_40_inftribfed
 msgid ""
 "Informações dos tributos federais\n"
-"Grupo a ser informado nas prestações interestaduais para consumidor final, não\n"
+"Grupo a ser informado nas prestações interestaduais para consumidor final, "
+"não\n"
 "contribuinte do ICMS"
 msgstr ""
 
@@ -3638,7 +3668,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_imp__cte40_infTribFed
 msgid ""
 "Informações dos tributos federais\n"
-"Grupo a ser informado nas prestações interestaduais para consumidor final, não contribuinte do ICMS"
+"Grupo a ser informado nas prestações interestaduais para consumidor final, "
+"não contribuinte do ICMS"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3693,14 +3724,18 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_IE
 msgid ""
 "Inscrição Estadual\n"
-"Informar a IE do destinatário ou ISENTO se destinatário é contribuinte do ICMS isento de inscrição no cadastro de contribuintes do ICMS. Caso o destinatário não seja contribuinte do ICMS não informar o conteúdo."
+"Informar a IE do destinatário ou ISENTO se destinatário é contribuinte do "
+"ICMS isento de inscrição no cadastro de contribuintes do ICMS. Caso o "
+"destinatário não seja contribuinte do ICMS não informar o conteúdo."
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_rem__cte40_IE
 msgid ""
 "Inscrição Estadual\n"
-"Informar a IE do remetente ou ISENTO se remetente é contribuinte do ICMS isento de inscrição no cadastro de contribuintes do ICMS. Caso o remetente não seja contribuinte do ICMS não informar a tag."
+"Informar a IE do remetente ou ISENTO se remetente é contribuinte do ICMS "
+"isento de inscrição no cadastro de contribuintes do ICMS. Caso o remetente "
+"não seja contribuinte do ICMS não informar a tag."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3709,7 +3744,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tomaterceiro__cte40_IE
 msgid ""
 "Inscrição Estadual\n"
-"Informar a IE do tomador ou ISENTO se tomador é contribuinte do ICMS isento de inscrição no cadastro de contribuintes do ICMS. Caso o tomador não seja contribuinte do ICMS não informar o conteúdo."
+"Informar a IE do tomador ou ISENTO se tomador é contribuinte do ICMS isento "
+"de inscrição no cadastro de contribuintes do ICMS. Caso o tomador não seja "
+"contribuinte do ICMS não informar o conteúdo."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3725,7 +3762,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__cte40_IE
 msgid ""
 "Inscrição Estadual do Emitente\n"
-"A IE do emitente somente ficará sem informação para o caso do Regime Especial da NFF (tpEmis=3)"
+"A IE do emitente somente ficará sem informação para o caso do Regime "
+"Especial da NFF (tpEmis=3)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3753,7 +3791,29 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_ISUF
 msgid ""
 "Inscrição na SUFRAMA\n"
-"(Obrigatório nas operações com as áreas com benefícios de incentivos fiscais sob controle da SUFRAMA)"
+"(Obrigatório nas operações com as áreas com benefícios de incentivos fiscais "
+"sob controle da SUFRAMA)"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_endorsement
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_endorsement
+msgid "Insurance Endorsement"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_policy
+msgid "Insurance Policy"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_insurance_id
+msgid "Insurance Provider"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3931,6 +3991,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type____last_update
@@ -4385,7 +4446,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_mod
 msgid ""
 "Modelo do documento fiscal\n"
-"Utilizar o código 57 para identificação do CT-e, emitido em substituição aos modelos de conhecimentos em papel."
+"Utilizar o código 57 para identificação do CT-e, emitido em substituição aos "
+"modelos de conhecimentos em papel."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4399,7 +4461,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_mod
 msgid ""
 "Modelo do documento fiscal\n"
-"Utilizar o código 67 para identificação do CT-e Outros Serviços, emitido em substituição a Nota Fiscal Modelo 7 para transporte de pessoas, valores e excesso de bagagem."
+"Utilizar o código 67 para identificação do CT-e Outros Serviços, emitido em "
+"substituição a Nota Fiscal Modelo 7 para transporte de pessoas, valores e "
+"excesso de bagagem."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4628,7 +4692,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_xContato
 msgid ""
 "Nome da pessoa a ser contatada\n"
-"Informar o nome da pessoa a ser contatada na empresa desenvolvedora do sistema utilizado na emissão do documento fiscal eletrônico. No caso de pessoa física, informar o respectivo nome."
+"Informar o nome da pessoa a ser contatada na empresa desenvolvedora do "
+"sistema utilizado na emissão do documento fiscal eletrônico. No caso de "
+"pessoa física, informar o respectivo nome."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4802,7 +4868,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nOCA
 msgid ""
 "Número Operacional do Conhecimento Aéreo\n"
-"Representa o número de controle comumente utilizado pelo conhecimento aéreo composto por uma sequência numérica de onze dígitos. Os três primeiros dígitos representam um código que os operadores de transporte aéreo associados à IATA possuem. Em seguida um número de série de sete dígitos determinados pelo operador de transporte aéreo. Para finalizar, um dígito verificador, que é um sistema de módulo sete imponderado o qual divide o número de série do conhecimento aéreo por sete e usa o resto como dígito de verificação."
+"Representa o número de controle comumente utilizado pelo conhecimento aéreo "
+"composto por uma sequência numérica de onze dígitos. Os três primeiros "
+"dígitos representam um código que os operadores de transporte aéreo "
+"associados à IATA possuem. Em seguida um número de série de sete dígitos "
+"determinados pelo operador de transporte aéreo. Para finalizar, um dígito "
+"verificador, que é um sistema de módulo sete imponderado o qual divide o "
+"número de série do conhecimento aéreo por sete e usa o resto como dígito de "
+"verificação."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4833,7 +4906,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nMinu
 msgid ""
 "Número da Minuta\n"
-"Documento que precede o CT-e, assinado pelo expedidor, espécie de pedido de serviço"
+"Documento que precede o CT-e, assinado pelo expedidor, espécie de pedido de "
+"serviço"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4881,7 +4955,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tomaterceiro__cte40_CNPJ
 msgid ""
 "Número do CNPJ\n"
-"Em caso de empresa não estabelecida no Brasil, será informado o CNPJ com zeros.\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n"
+"Em caso de empresa não estabelecida no Brasil, será informado o CNPJ com "
+"zeros.\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n"
 "Informar os zeros não significativos."
 msgstr ""
 
@@ -4889,7 +4964,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_emidocant__cte40_CNPJ
 msgid ""
 "Número do CNPJ\n"
-"Em caso de empresa não estabelecida no Brasil, será informado o CNPJ com zeros.\n"
+"Em caso de empresa não estabelecida no Brasil, será informado o CNPJ com "
+"zeros.\n"
 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tInformar os zeros não significativos."
 msgstr ""
 
@@ -4902,7 +4978,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_CNPJ
 msgid ""
 "Número do CNPJ\n"
-"Em caso de empresa não estabelecida no Brasil, será informado o CNPJ com zeros.\n"
+"Em caso de empresa não estabelecida no Brasil, será informado o CNPJ com "
+"zeros.\n"
 "\t\t\t\t\t\t\t\t\t\t\t\tInformar os zeros não significativos."
 msgstr ""
 
@@ -4910,7 +4987,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_ferroenv__cte40_CNPJ
 msgid ""
 "Número do CNPJ\n"
-"Informar o CNPJ da Ferrovia Envolvida. Caso a Ferrovia envolvida não seja inscrita no CNPJ o campo deverá preenchido com zeros.\n"
+"Informar o CNPJ da Ferrovia Envolvida. Caso a Ferrovia envolvida não seja "
+"inscrita no CNPJ o campo deverá preenchido com zeros.\n"
 "Informar os zeros não significativos."
 msgstr ""
 
@@ -5112,7 +5190,8 @@ msgstr ""
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.document_correction_wizard_form
 msgid ""
-"Por favor, para carta de correção de CT-e, no campo Justificativa informe por linha (Grupo Alterado;Campo Alterado;Valor Alterado).<br/>\n"
+"Por favor, para carta de correção de CT-e, no campo Justificativa informe "
+"por linha (Grupo Alterado;Campo Alterado;Valor Alterado).<br/>\n"
 "                        <strong>Exemplo:</strong><br/>\n"
 "                        compl;xObs;Nova Observação<br/>\n"
 "                        ide;cfop;6353"
@@ -5121,8 +5200,10 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_peri
 msgid ""
-"Preenchido quando for  transporte de produtos classificados pela ONU como perigosos.\n"
-"O preenchimento desses campos não desobriga a empresa aérea de emitir os demais documentos que constam na legislação vigente."
+"Preenchido quando for  transporte de produtos classificados pela ONU como "
+"perigosos.\n"
+"O preenchimento desses campos não desobriga a empresa aérea de emitir os "
+"demais documentos que constam na legislação vigente."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5134,7 +5215,8 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_cte_modal_aereo_peri
 msgid ""
 "Preenchido quando for transporte de produtos classificados pela\n"
-"    ONU como perigosos. O preenchimento desses campos não desobriga a empresa aérea de\n"
+"    ONU como perigosos. O preenchimento desses campos não desobriga a "
+"empresa aérea de\n"
 "    emitir os demais documentos que constam na legislação vigente."
 msgstr ""
 
@@ -5214,14 +5296,22 @@ msgstr ""
 msgid ""
 "Quantidade total de artigos perigosos\n"
 "15 posições, sendo 11 inteiras e 4 decimais. \n"
-"Deve indicar a quantidade total do artigo perigoso, tendo como base a unidade referenciada na Tabela 3-1 do Doc 9284, por exemplo: litros; quilogramas; quilograma bruto etc. O preenchimento não deve, entretanto, incluir a unidade de medida. No caso de transporte de material radioativo, deve-se indicar o somatório dos Índices de Transporte (TI). Não indicar a quantidade do artigo perigoso por embalagem."
+"Deve indicar a quantidade total do artigo perigoso, tendo como base a "
+"unidade referenciada na Tabela 3-1 do Doc 9284, por exemplo: litros; "
+"quilogramas; quilograma bruto etc. O preenchimento não deve, entretanto, "
+"incluir a unidade de medida. No caso de transporte de material radioativo, "
+"deve-se indicar o somatório dos Índices de Transporte (TI). Não indicar a "
+"quantidade do artigo perigoso por embalagem."
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__cte40_qTotEmb
 msgid ""
 "Quantidade total de volumes contendo artigos perigosos\n"
-"Preencher com o número de volumes (unidades) de artigos perigosos, ou seja, cada embalagem devidamente marcada e etiquetada (por ex.: número de caixas, de tambores, de bombonas, dentre outros). Não deve ser preenchido com o número de ULD, pallets ou containers."
+"Preencher com o número de volumes (unidades) de artigos perigosos, ou seja, "
+"cada embalagem devidamente marcada e etiquetada (por ex.: número de caixas, "
+"de tambores, de bombonas, dentre outros). Não deve ser preenchido com o "
+"número de ULD, pallets ou containers."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5303,6 +5393,13 @@ msgid "Recebedor"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_receivering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_receivering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_receivering_id
+msgid "Receiver Address"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpServ__2
 msgid "Redespacho"
 msgstr ""
@@ -5333,7 +5430,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_rodo__cte40_RNTRC
 msgid ""
 "Registro Nacional de Transportadores Rodoviários de Carga\n"
-"Registro obrigatório do emitente do CT-e junto à ANTT para exercer a atividade de transportador rodoviário de cargas por conta de terceiros e mediante remuneração."
+"Registro obrigatório do emitente do CT-e junto à ANTT para exercer a "
+"atividade de transportador rodoviário de cargas por conta de terceiros e "
+"mediante remuneração."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5415,8 +5514,22 @@ msgid "SP"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_sendering_id
+msgid "Sender Address"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpServ__4
 msgid "Serviço Vinculado a Multimodal"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_shippering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_shippering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_shippering_id
+msgid "Shipper Address"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5489,7 +5602,9 @@ msgid ""
 "Sigla ou código interno da Filial/Porto/Estação/ Aeroporto de Origem\n"
 "Observações para o modal aéreo:\n"
 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t- Preenchimento obrigatório para o modal aéreo.\n"
-"\t\t\t\t\t\t\t\t\t\t\t\t\t\t- O código de três letras IATA do aeroporto de partida deverá ser incluído como primeira anotação. Quando não for possível, utilizar a sigla OACI."
+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t- O código de três letras IATA do aeroporto de "
+"partida deverá ser incluído como primeira anotação. Quando não for possível, "
+"utilizar a sigla OACI."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5498,7 +5613,8 @@ msgid ""
 "Sigla ou código interno da Filial/Porto/Estação/Aeroporto de Destino\n"
 "Observações para o modal aéreo:\n"
 "\t\t\t\t\t\t\t\t\t\t\t\t\t\t- Preenchimento obrigatório para o modal aéreo.\n"
-"\t\t\t\t\t\t\t\t\t\t\t\t\t\t- Deverá ser incluído o código de três letras IATA do aeroporto de destino. Quando não for possível, utilizar a sigla OACI."
+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t- Deverá ser incluído o código de três letras "
+"IATA do aeroporto de destino. Quando não for possível, utilizar a sigla OACI."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5507,7 +5623,10 @@ msgstr ""
 msgid ""
 "Sigla ou código interno da Filial/Porto/Estação/Aeroporto de Passagem\n"
 "Observação para o modal aéreo:\n"
-"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t- O código de três letras IATA, referente ao aeroporto de transferência, deverá ser incluído, quando for o caso. Quando não for possível,  utilizar a sigla OACI. Qualquer solicitação de itinerário deverá ser incluída."
+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t- O código de três letras IATA, referente "
+"ao aeroporto de transferência, deverá ser incluído, quando for o caso. "
+"Quando não for possível,  utilizar a sigla OACI. Qualquer solicitação de "
+"itinerário deverá ser incluída."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5526,7 +5645,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infsolicnff__cte40_xSolic
 msgid ""
 "Solicitação do pedido de emissão da NFF.\n"
-"Será preenchido com a totalidade de campos informados no aplicativo emissor serializado."
+"Será preenchido com a totalidade de campos informados no aplicativo emissor "
+"serializado."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5642,10 +5762,61 @@ msgid "Texto com o QR-Code impresso no DACTE"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_exped
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_endorsement
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_endorsement
 msgid ""
-"The one responsible for delivering the cargo to the carrier when"
-"             the shipment is not carried out by the sender."
+"The endorsement number associated with the insurance policy, indicating any "
+"modifications or adjustments to the coverage. This field is primarily used "
+"when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_policy
+msgid ""
+"The insurance policy number covering the transported goods. This field is "
+"primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_receb
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_receivering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_receivering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_receivering_id
+msgid ""
+"The intermediary partner who receives the goods before they reach the final "
+"recipient, often involved in verification, temporary storage, or further "
+"distribution. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_insurance_id
+msgid ""
+"The partner providing insurance coverage for the transported goods. This "
+"field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_exped
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_shippering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_shippering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_shippering_id
+msgid ""
+"The partner responsible for delivering the cargo to the carrier, if not done "
+"directly by the sender. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_sendering_id
+msgid ""
+"The partner responsible for sending the goods, typically the issuer of the "
+"document. This field is primarily used when issuing the CT-e."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5721,7 +5892,8 @@ msgstr ""
 msgid ""
 "Tipo da Medida\n"
 "Exemplos:\n"
-"PESO BRUTO, PESO DECLARADO, PESO CUBADO, PESO AFORADO, PESO AFERIDO, PESO BASE DE CÁLCULO, LITRAGEM, CAIXAS e etc"
+"PESO BRUTO, PESO DECLARADO, PESO CUBADO, PESO AFORADO, PESO AFERIDO, PESO "
+"BASE DE CÁLCULO, LITRAGEM, CAIXAS e etc"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -6166,7 +6338,9 @@ msgid ""
 "1 – KG; \n"
 "2 – KG G (quilograma bruto);\n"
 "3 – LITROS;\n"
-"4 – TI (índice de transporte para radioativos); 5- Unidades (apenas para artigos perigosos medidos em unidades que não se enquadram nos itens acima. Exemplo: baterias, celulares, equipamentos, veículos, dentre outros)"
+"4 – TI (índice de transporte para radioativos); 5- Unidades (apenas para "
+"artigos perigosos medidos em unidades que não se enquadram nos itens acima. "
+"Exemplo: baterias, celulares, equipamentos, veículos, dentre outros)"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -6280,7 +6454,10 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vCargaAverb
 msgid ""
 "Valor da Carga para efeito de averbação\n"
-"Normalmente igual ao valor declarado da mercadoria, diferente por exemplo, quando a mercadoria transportada é isenta de tributos nacionais para exportação, onde é preciso averbar um valor maior, pois no caso de indenização, o valor a ser pago será maior"
+"Normalmente igual ao valor declarado da mercadoria, diferente por exemplo, "
+"quando a mercadoria transportada é isenta de tributos nacionais para "
+"exportação, onde é preciso averbar um valor maior, pois no caso de "
+"indenização, o valor a ser pago será maior"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -6541,7 +6718,8 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_infdocant__cte40_tpPrest
 msgid ""
-"indica se a prestação é total ou parcial em relação as notas do documento anterior\n"
+"indica se a prestação é total ou parcial em relação as notas do documento "
+"anterior\n"
 "Preencher com:\n"
 "\n"
 "1 - Total\n"
@@ -6628,3 +6806,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve__cte40_versao
 msgid "versao"
 msgstr ""
+
+#~ msgid ""
+#~ "Actor who receives the goods. He is considered an "
+#~ "intermediary             between the issuer and the final recipient."
+#~ msgstr ""
+#~ "Ator que recebe a mercadoria. Ele é considerado um "
+#~ "intermediário             entre o emissor e o destinatário final."
