@@ -22,15 +22,6 @@ msgid "Accounting"
 msgstr "Contabilidade"
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_receivering_id
-msgid ""
-"Actor who receives the goods. He is considered an intermediary             "
-"between the issuer and the final recipient."
-msgstr ""
-"Ator que recebe a mercadoria. Ele é considerado um intermediário             "
-"entre o emissor e o destinatário final."
-
-#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__additional_data
 msgid "Additional Data"
 msgstr "Dados Adicionais"
@@ -1079,8 +1070,18 @@ msgstr ""
 "organizações controladas pelo governo."
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__insurance_endorsement
+msgid "Insurance Endorsement"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__insurance_policy
+msgid "Insurance Policy"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_insurance_id
-msgid "Insurance Partner"
+msgid "Insurance Provider"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1333,11 +1334,6 @@ msgid "Receiver Address"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_sendering_id
-msgid "Responsible for sending the goods, usually the issuer of the NFe."
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_sendering_id
 msgid "Sender Address"
 msgstr ""
@@ -1519,10 +1515,47 @@ msgstr ""
 "no menu Configuração)"
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__insurance_endorsement
+msgid ""
+"The endorsement number associated with the insurance policy, indicating any "
+"modifications or adjustments to the coverage. This field is primarily used "
+"when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__insurance_policy
+msgid ""
+"The insurance policy number covering the transported goods. This field is "
+"primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_receivering_id
+msgid ""
+"The intermediary partner who receives the goods before they reach the final "
+"recipient, often involved in verification, temporary storage, or further "
+"distribution. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_insurance_id
+msgid ""
+"The partner providing insurance coverage for the transported goods. This "
+"field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_shippering_id
 msgid ""
-"The one responsible for delivering the cargo to the carrier when             "
-"the shipment is not carried out by the sender."
+"The partner responsible for delivering the cargo to the carrier, if not done "
+"directly by the sender. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__partner_sendering_id
+msgid ""
+"The partner responsible for sending the goods, typically the issuer of the "
+"document. This field is primarily used when issuing the CT-e."
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1579,6 +1612,13 @@ msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ipi_devol_value
 msgid "Valor do IPI devolvido"
 msgstr ""
+
+#~ msgid ""
+#~ "Actor who receives the goods. He is considered an "
+#~ "intermediary             between the issuer and the final recipient."
+#~ msgstr ""
+#~ "Ator que recebe a mercadoria. Ele é considerado um "
+#~ "intermediário             entre o emissor e o destinatário final."
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor da Retenção de Imposto na Fonte"
