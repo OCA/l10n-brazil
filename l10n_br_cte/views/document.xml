@@ -72,6 +72,9 @@
                     <field name="cte40_proPred" />
                     <field name="cte40_xOutCat" />
                     <field name="cte40_vCargaAverb" />
+                    <field name="partner_insurance_id" />
+                    <field name="insurance_policy" />
+                    <field name="insurance_endorsement" />
                     <field name="cte40_infQ">
                         <tree>
                             <field name="cte40_cUnid" />
