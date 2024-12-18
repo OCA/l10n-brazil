@@ -666,8 +666,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "price_total": 1050.0,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 0.0,
-            "debit": 0.0,
+            "amount_currency": 206.5,
+            "debit": 206.5,
             "credit": 0.0,
             "date_maturity": False,
         }
@@ -775,6 +775,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "date_maturity": False,
         }
 
+        # Remessa não gera financeiro, as linhas das condições de pagamento
+        # devem estar zeradas!
         term_line_vals_1 = {
             "name": "",
             "product_id": False,
@@ -789,8 +791,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 206.5,
-            "debit": 206.5,
+            "amount_currency": 0,
+            "debit": 0,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
         }
@@ -803,9 +805,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "fiscal_position_id": False,
             "payment_reference": "",
             "invoice_payment_term_id": self.pay_terms_a.id,
-            "amount_untaxed": 1000,
-            "amount_tax": 50,
-            "amount_total": 206.5,
+            "amount_untaxed": 0.0,
+            "amount_tax": 0.0,
+            "amount_total": 0.0,
         }
 
         self.assertInvoiceValues(
@@ -1271,8 +1273,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "price_total": 1050.0,
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 0.0,
-            "debit": 0.0,
+            "amount_currency": 133.5,
+            "debit": 133.5,
             "credit": 0.0,
             "date_maturity": False,
         }
@@ -1390,8 +1392,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 133.5,
-            "debit": 133.5,
+            "amount_currency": 0.0,
+            "debit": 0.0,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
         }
@@ -1404,9 +1406,9 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "fiscal_position_id": False,
             "payment_reference": "",
             "invoice_payment_term_id": self.pay_terms_a.id,
-            "amount_untaxed": 1000.0,  # FIXME is this correct for a simples remessa??
-            "amount_tax": 50.0,
-            "amount_total": 133.5,
+            "amount_untaxed": 0.0,
+            "amount_tax": 0.0,
+            "amount_total": 0.0,
         }
 
         self.assertInvoiceValues(
