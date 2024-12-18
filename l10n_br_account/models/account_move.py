@@ -301,6 +301,7 @@ class AccountMove(models.Model):
                 sign = 1
             inv_line_ids = move.line_ids.filtered(
                 lambda line: line.display_type == "product"
+                and (not line.cfop_id or line.cfop_id.finance_move)
             )
             move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
             move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
@@ -322,9 +323,14 @@ class AccountMove(models.Model):
         """
         Similar to the _compute_needed_terms super method in the account module,
         but ensure moves are balanced in Brazil when there is a fiscal_operation_id.
-        WARNING: it seems we might not be able to call the super method here....
         """
-        for invoice in self:
+        res = None
+        invoices_with_fiscal_op = self.filtered(lambda inv: inv.fiscal_operation_id)
+        invoices_without_fiscal_op = self - invoices_with_fiscal_op
+        if invoices_without_fiscal_op:
+            res = super(AccountMove, invoices_without_fiscal_op)._compute_needed_terms()
+
+        for invoice in invoices_with_fiscal_op:
             is_draft = invoice.id != invoice._origin.id
             invoice.needed_terms = {}
             invoice.needed_terms_dirty = True
@@ -339,31 +345,16 @@ class AccountMove(models.Model):
                                 pass
                             else:
                                 untaxed_amount_currency += line.price_subtotal
-                            for tax_result in (line.compute_all_tax or {}).values():
-                                tax_amount_currency += -sign * tax_result.get(
-                                    "amount_currency", 0.0
-                                )
+                                for tax_result in (line.compute_all_tax or {}).values():
+                                    tax_amount_currency += -sign * tax_result.get(
+                                        "amount_currency", 0.0
+                                    )
                         untaxed_amount = untaxed_amount_currency
                         tax_amount = tax_amount_currency
                     else:
-                        tax_amount_currency = invoice.amount_tax * sign
-                        tax_amount = invoice.amount_tax_signed
-                        if invoice.fiscal_operation_id:
-                            if invoice.fiscal_operation_id.deductible_taxes:
-                                amount_currency = (
-                                    invoice.amount_total
-                                    + invoice.amount_tax_withholding
-                                )
-                            else:
-                                amount_currency = (
-                                    invoice.amount_total - invoice.amount_ipi_value
-                                ) * sign
-                            untaxed_amount_currency = amount_currency * sign
-                            untaxed_amount = amount_currency * sign
-
-                        else:
-                            untaxed_amount_currency = invoice.amount_untaxed * sign
-                            untaxed_amount = invoice.amount_untaxed_signed
+                        tax_amount_currency = tax_amount = 0.0
+                        untaxed_amount_currency = invoice.amount_financial_total * sign
+                        untaxed_amount = invoice.amount_financial_total * sign
                     invoice_payment_terms = (
                         invoice.invoice_payment_term_id._compute_terms(
                             date_ref=invoice.invoice_date
@@ -419,6 +410,7 @@ class AccountMove(models.Model):
                         "balance": invoice.amount_total_signed,
                         "amount_currency": invoice.amount_total_in_currency_signed,
                     }
+        return res
 
     @contextmanager
     def _sync_dynamic_lines(self, container):
