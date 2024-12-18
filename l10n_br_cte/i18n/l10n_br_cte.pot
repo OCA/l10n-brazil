@@ -104,13 +104,6 @@ msgid "AP"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_receb
-msgid ""
-"Actor who receives the goods. He is considered an intermediary             "
-"between the issuer and the final recipient."
-msgstr ""
-
-#. module: l10n_br_cte
 #: model_terms:ir.actions.act_window,help:l10n_br_cte.cte_document_action
 msgid "Add a new CTe"
 msgstr ""
@@ -2303,6 +2296,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type__display_name
@@ -2332,6 +2326,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dhEmi
 msgid "Document Date"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_mixin_fields
+msgid "Document Fiscal Mixin Fields"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2953,6 +2952,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line__id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type__id
@@ -3752,6 +3752,27 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_endorsement
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_endorsement
+msgid "Insurance Endorsement"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_policy
+msgid "Insurance Policy"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_insurance_id
+msgid "Insurance Provider"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpNav__0
 msgid "Interior"
 msgstr ""
@@ -3926,6 +3947,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type____last_update
@@ -5298,6 +5320,13 @@ msgid "Recebedor"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_receivering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_receivering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_receivering_id
+msgid "Receiver Address"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpServ__2
 msgid "Redespacho"
 msgstr ""
@@ -5410,8 +5439,22 @@ msgid "SP"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_sendering_id
+msgid "Sender Address"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpServ__4
 msgid "Serviço Vinculado a Multimodal"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_shippering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_shippering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_shippering_id
+msgid "Shipper Address"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5637,10 +5680,61 @@ msgid "Texto com o QR-Code impresso no DACTE"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_exped
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_endorsement
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_endorsement
 msgid ""
-"The one responsible for delivering the cargo to the carrier when"
-"             the shipment is not carried out by the sender."
+"The endorsement number associated with the insurance policy, indicating any "
+"modifications or adjustments to the coverage. This field is primarily used "
+"when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_policy
+msgid ""
+"The insurance policy number covering the transported goods. This field is "
+"primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_receb
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_receivering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_receivering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_receivering_id
+msgid ""
+"The intermediary partner who receives the goods before they reach the final "
+"recipient, often involved in verification, temporary storage, or further "
+"distribution. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_insurance_id
+msgid ""
+"The partner providing insurance coverage for the transported goods. This "
+"field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_exped
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_shippering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_shippering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_shippering_id
+msgid ""
+"The partner responsible for delivering the cargo to the carrier, if not done"
+" directly by the sender. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_sendering_id
+msgid ""
+"The partner responsible for sending the goods, typically the issuer of the "
+"document. This field is primarily used when issuing the CT-e."
 msgstr ""
 
 #. module: l10n_br_cte
