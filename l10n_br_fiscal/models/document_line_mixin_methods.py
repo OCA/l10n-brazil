@@ -127,6 +127,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "company_id",
         "price_unit",
         "quantity",
+        "icms_relief_id",
+        "fiscal_operation_line_id",
     )
     def _compute_fiscal_amounts(self):
         for record in self:
@@ -134,20 +136,20 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             # Total value of products or services
             record.price_gross = round_curr.round(record.price_unit * record.quantity)
-
-            record.amount_untaxed = record.price_gross - record.discount_value
-
             record.amount_fiscal = record.price_gross - record.discount_value
-
             record.amount_tax = record.amount_tax_not_included
 
             add_to_amount = sum(record[a] for a in record._add_fields_to_amount())
             rm_to_amount = sum(record[r] for r in record._rm_fields_to_amount())
+            record.amount_untaxed = (
+                record.price_gross
+                - record.discount_value
+                + add_to_amount
+                - rm_to_amount
+            )
 
             # Valor do documento (NF)
-            record.amount_total = (
-                record.amount_untaxed + record.amount_tax + add_to_amount - rm_to_amount
-            )
+            record.amount_total = record.amount_untaxed + record.amount_tax
 
             # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
             record.amount_taxed = record.amount_total - record.amount_tax_withholding
