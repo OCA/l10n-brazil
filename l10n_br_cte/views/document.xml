@@ -43,11 +43,20 @@
                 />
             </field>
             <field name="partner_shipping_id" position="before"> <!--cte40_dest-->
-                <field name="partner_sendering_id" /> <!--cte40_rem-->
-                <field name="partner_shippering_id" /> <!--cte40_exped-->
+                <field
+                    name="partner_sendering_id"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                /> <!--cte40_rem-->
+                <field
+                    name="partner_shippering_id"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                /> <!--cte40_exped-->
             </field>
             <field name="partner_shipping_id" position="after">
-                <field name="partner_receivering_id" /> <!--cte40_receb-->
+                <field
+                    name="partner_receivering_id"
+                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                /> <!--cte40_receb-->
             </field>
             <page name="delivery" position="inside">
                 <separator
