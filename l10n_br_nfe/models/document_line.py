@@ -1376,3 +1376,25 @@ class NFeLine(spec_models.StackedModel):
         if model._name == "product.product" and rec_dict.get("barcode"):
             return ["barcode"] + keys
         return keys
+
+    def action_create_product(self):
+        if not self.product_id:
+            self = self.with_context(
+                spec_schema="nfe.40.det",
+                spec_version="40",
+                # dry_run=True
+            )
+            values = self.read([])[0]
+            self._prepare_import_dict(values)
+            record_dict = {}
+            self.product_id = self.product_id.match_or_create_m2o(
+                rec_dict=record_dict,
+                parent_dict=values,
+            )
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "product.product",
+                "view_mode": "form",
+                "res_id": self.product_id.id,
+                "target": "new",
+            }

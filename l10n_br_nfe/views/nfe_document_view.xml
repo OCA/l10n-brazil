@@ -17,6 +17,18 @@
             </div>
         </xpath>
 
+        <xpath
+                expr="//field[@name='fiscal_line_ids']/tree/field[@name='product_id']"
+                position="before"
+            >
+            <button
+                    type="object"
+                    name="action_create_product"
+                    icon="fa-plus-square-o"
+                    attrs="{'invisible': [('product_id', '!=', False)]}"
+                />
+        </xpath>
+
           <page name="delivery" position="inside">
               <group
                     name="nfe_transport"
