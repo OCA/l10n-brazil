@@ -699,19 +699,15 @@ class Tax(models.Model):
             except AttributeError:
                 taxes[tax.tax_domain].update(tax._compute_tax(tax, taxes, **kwargs))
 
-            if taxes[tax.tax_domain]["tax_include"]:
-                result_amounts["amount_included"] += taxes[tax.tax_domain].get(
-                    "tax_value", 0.00
-                )
+            tax_domain = taxes[tax.tax_domain]
+            tax_value = tax_domain.get("tax_value", 0.00)
+            if tax_domain["tax_withholding"]:
+                result_amounts["amount_withholding"] += tax_value
             else:
-                result_amounts["amount_not_included"] += taxes[tax.tax_domain].get(
-                    "tax_value", 0.00
-                )
-
-            if taxes[tax.tax_domain]["tax_withholding"]:
-                result_amounts["amount_withholding"] += taxes[tax.tax_domain].get(
-                    "tax_value", 0.00
-                )
+                if tax_domain["tax_include"]:
+                    result_amounts["amount_included"] += tax_value
+                else:
+                    result_amounts["amount_not_included"] += tax_value
 
         # Estimate taxes
         result_amounts["estimate_tax"] = self._compute_estimate_taxes(**kwargs)
