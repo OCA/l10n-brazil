@@ -148,6 +148,11 @@
                                 <field name="boleto_fee_perc" />
                             </group>
                             <group name="desconto" string="Configuração de Desconto">
+                                <field
+                                        name="boleto_discount_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'discount_code')]"
+                                    />
                                 <field name="boleto_discount_perc" />
                             </group>
                             <group
