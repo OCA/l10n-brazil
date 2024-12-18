@@ -35,4 +35,4 @@ class MDFENaver(models.Model):
     _description = "Número da Averbação"
     _rec_name = "mdfe30_nAver"
 
-    mdfe30_nAver = fields.Char(string="Nome da Averbação", xsd_required=True)
+    mdfe30_nAver = fields.Char(string="Nome da Averbação")
