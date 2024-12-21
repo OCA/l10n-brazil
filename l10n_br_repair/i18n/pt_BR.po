@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-28 01:20+0000\n"
-"PO-Revision-Date: 2024-12-10 19:06+0000\n"
+"PO-Revision-Date: 2024-12-21 15:51+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -1448,17 +1448,17 @@ msgstr ""
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__insurance_endorsement
 msgid "Insurance Endorsement"
-msgstr ""
+msgstr "Averbação do Seguro"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__insurance_policy
 msgid "Insurance Policy"
-msgstr ""
+msgstr "Apólice de Seguro"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_insurance_id
 msgid "Insurance Provider"
-msgstr ""
+msgstr "Provedor do Seguro"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__insurance_value
@@ -1819,7 +1819,7 @@ msgstr "Quantidade"
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_receivering_id
 msgid "Receiver Address"
-msgstr ""
+msgstr "Endereço do Recebedor"
 
 #. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.res_company_form_view
@@ -1844,7 +1844,7 @@ msgstr "Ordem de Reparo"
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_sendering_id
 msgid "Sender Address"
-msgstr ""
+msgstr "Endereço do Remetente"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__document_serie
@@ -1861,7 +1861,7 @@ msgstr "Tipo de Serviço LC 166"
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__partner_shippering_id
 msgid "Shipper Address"
-msgstr ""
+msgstr "Endereço do Expedidor"
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmssn_range_id
@@ -2076,6 +2076,9 @@ msgid ""
 "modifications or adjustments to the coverage. This field is primarily used "
 "when issuing the CT-e."
 msgstr ""
+"O número da averbação associado à apólice de seguro, indicando quaisquer "
+"modificações ou ajustes na cobertura. Este campo é usado principalmente ao "
+"emitir o CT-e."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__insurance_policy
@@ -2083,6 +2086,8 @@ msgid ""
 "The insurance policy number covering the transported goods. This field is "
 "primarily used when issuing the CT-e."
 msgstr ""
+"O número da apólice de seguro que cobre as mercadorias transportadas. Este "
+"campo é usado principalmente ao emitir o CT-e."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_receivering_id
@@ -2091,6 +2096,10 @@ msgid ""
 "recipient, often involved in verification, temporary storage, or further "
 "distribution. This field is primarily used when issuing the CT-e."
 msgstr ""
+"O parceiro intermediário que recebe as mercadorias antes que elas cheguem ao "
+"destinatário final, frequentemente envolvido em verificação, armazenamento "
+"temporário ou distribuição posterior. Este campo é usado principalmente ao "
+"emitir o CT-e."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_insurance_id
@@ -2098,6 +2107,8 @@ msgid ""
 "The partner providing insurance coverage for the transported goods. This "
 "field is primarily used when issuing the CT-e."
 msgstr ""
+"O parceiro que fornece cobertura de seguro para as mercadorias "
+"transportadas. Este campo é usado principalmente ao emitir o CT-e."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_shippering_id
@@ -2105,6 +2116,9 @@ msgid ""
 "The partner responsible for delivering the cargo to the carrier, if not done "
 "directly by the sender. This field is primarily used when issuing the CT-e."
 msgstr ""
+"O parceiro responsável pela entrega da carga ao transportador, caso não seja "
+"feita diretamente pelo remetente. Este campo é usado principalmente na "
+"emissão do CT-e."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,help:l10n_br_repair.field_repair_order__partner_sendering_id
@@ -2112,6 +2126,8 @@ msgid ""
 "The partner responsible for sending the goods, typically the issuer of the "
 "document. This field is primarily used when issuing the CT-e."
 msgstr ""
+"O parceiro responsável pelo envio das mercadorias, normalmente o emissor do "
+"documento. Este campo é usado principalmente ao emitir o CT-e."
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_total
