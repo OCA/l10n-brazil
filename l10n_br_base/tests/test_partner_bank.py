@@ -5,11 +5,20 @@
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
+from .tools import load_fixture_files
+
 
 class PartnerBankTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_fixture_files(
+            cls.env,
+            "l10n_br_base",
+            file_names=[
+                "l10n_br_base_demo.xml",
+            ],
+        )
         cls.partner_bank_model = cls.env["res.partner.bank"]
         cls.partner_id = cls.env.ref("l10n_br_base.res_partner_amd")
         cls.bank_id = cls.env.ref("l10n_br_base.res_bank_001")

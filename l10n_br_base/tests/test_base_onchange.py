@@ -4,11 +4,21 @@
 
 from odoo.tests import TransactionCase
 
+from .tools import load_fixture_files
+
 
 class L10nBrBaseOnchangeTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
+        load_fixture_files(
+            cls.env,
+            "l10n_br_base",
+            file_names=[
+                "l10n_br_base_demo.xml",
+            ],
+        )
 
         cls.company_01 = (
             cls.env["res.company"]

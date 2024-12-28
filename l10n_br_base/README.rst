@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===========================
 Brazilian Localization Base
 ===========================
@@ -17,7 +13,7 @@ Brazilian Localization Base
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -36,14 +32,14 @@ Este é o módulo 'raiz' da localização brasileira. Ele traz adaptações
 nos modelos do módulo ``base`` do Odoo como Parceiros, Empresas e
 Endereços:
 
-- Campo CNPJ e CPF com formatação e validação destes campos;
-- Campo de Inscrição Estadual com validação;
-- Formatação dos campos de endereço;
-- Código do Banco Central e Siscomex para países;
-- Código do IBGE para estados e municípios;
-- Lista dos Bancos brasileiros;
-- Contas bancarias e chaves PIX dos parceiros;
-- Lista dos municípios brasileiros.
+-  Campo CNPJ e CPF com formatação e validação destes campos;
+-  Campo de Inscrição Estadual com validação;
+-  Formatação dos campos de endereço;
+-  Código do Banco Central e Siscomex para países;
+-  Código do IBGE para estados e municípios;
+-  Lista dos Bancos brasileiros;
+-  Contas bancarias e chaves PIX dos parceiros;
+-  Lista dos municípios brasileiros.
 
 Se trata de um módulo muito simples e maduro. Existem alguns outros
 módulos simples que dependem apenas desse módulo ou quase como
@@ -63,10 +59,10 @@ Installation
 
 Este módulo depende dos pacotes Python:
 
-- `erpbrasil.base <https://github.com/erpbrasil/erpbrasil.base>`__
-- num2words
-- phonenumbers
-- email_validator
+-  `erpbrasil.base <https://github.com/erpbrasil/erpbrasil.base>`__
+-  num2words
+-  phonenumbers
+-  email_validator
 
 Configuration
 =============
@@ -86,7 +82,7 @@ instalar o módulo Contact para acessar o cadastro de parceiros.
 Known issues / Roadmap
 ======================
 
-- Formatação da Inscrição Estadual de acordo com cada UF.
+-  Formatação da Inscrição Estadual de acordo com cada UF.
 
 Changelog
 =========
@@ -157,19 +153,19 @@ Authors
 Contributors
 ------------
 
-- `Akretion <https://www.akretion.com/pt-BR>`__:
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  - Renato Lima <renato.lima@akretion.com.br>
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Mileo <mileo@kmee.com.br>
-  - Michell Stuttgart <michell.stuttgart@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Michell Stuttgart <michell.stuttgart@kmee.com.br>
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Antônio S. Pereira Neto <neto@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
 
 Maintainers
 -----------
