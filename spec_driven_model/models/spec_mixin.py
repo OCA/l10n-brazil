@@ -82,14 +82,13 @@ class SpecMixin(models.AbstractModel):
             if spec_class is None:
                 continue
             spec_class._module = "fiscal"  # TODO use python_module ?
-            fields = self.env[spec_class._name].fields_get_keys()
             rec_name = next(
                 filter(
                     lambda x: (
                         x.startswith(self.env[spec_class._name]._field_prefix)
                         and "_choice" not in x
                     ),
-                    fields,
+                    self.env[spec_class._name]._fields,
                 )
             )
             model_type = type(
