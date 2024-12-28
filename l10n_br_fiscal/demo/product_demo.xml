@@ -256,7 +256,7 @@
         <field name="default_code">ODOO_DEV</field>
         <field name="uom_id" ref="uom.product_uom_hour" />
         <field name="uom_po_id" ref="uom.product_uom_hour" />
-        <field name="categ_id" ref="product.product_category_4" />
+        <!--field name="categ_id" ref="product.product_category_4" TODO /-->
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
         <field name="fiscal_type">09</field>
         <field name="tax_icms_or_issqn">issqn</field>

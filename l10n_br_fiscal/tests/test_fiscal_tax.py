@@ -6,9 +6,15 @@ from odoo.tools import float_compare
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES
 from ..constants.icms import ICMS_ORIGIN_DEFAULT
+from .tools import load_fiscal_fixture_files
 
 
 class TestFiscalTax(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        load_fiscal_fixture_files(cls.env)
+
     def _check_compute_taxes_result(self, test_result, compute_result, currency):
         for tax_domain in test_result["taxes"]:
             for tax_field in test_result["taxes"][tax_domain]:

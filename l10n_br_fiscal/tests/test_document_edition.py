@@ -6,12 +6,15 @@ from unittest import mock
 from odoo import Command
 from odoo.tests import Form, TransactionCase, tagged
 
+from .tools import load_fiscal_fixture_files
+
 
 @tagged("post_install", "-at_install")
 class TestDocumentEdition(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_fiscal_fixture_files(cls.env)
         cls.user = cls.env["res.users"].create(
             {
                 "name": "Fiscal User",
@@ -40,6 +43,9 @@ class TestDocumentEdition(TransactionCase):
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.user.company_ids |= cls.company
         cls.user.company_id = cls.company.id
+
+        cls.env.ref("product.product_product_6").fiscal_type = "00"
+        cls.env.ref("product.product_product_7").fiscal_type = "00"
 
     def test_basic_doc_edition(self):
         doc_form = Form(

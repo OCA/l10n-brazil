@@ -4,6 +4,7 @@
 from odoo.tests import TransactionCase, tagged
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES, TAX_DOMAIN_ICMS
+from .tools import load_fiscal_fixture_files
 
 
 @tagged("icms")
@@ -11,6 +12,8 @@ class TestICMSRegulation(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_fiscal_fixture_files(cls.env)
+
         cls.partner = cls.env.ref("l10n_br_base.res_partner_akretion")
         cls.company = cls.env.ref("base.main_company")
         cls.product = cls.env.ref("product.product_product_1")

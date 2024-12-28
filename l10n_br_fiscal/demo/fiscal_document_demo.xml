@@ -19,7 +19,6 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="document_serie">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
         <!--        <field name="file_xml_autorizacao_id" ref="dummy_file_1"/> FIXME: Este é um campo related!!!!-->
     </record>
@@ -61,7 +60,6 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="document_serie">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -115,7 +113,6 @@
             ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
         />
         <field name="document_serie">1</field>
-        <field name="user_id" ref="base.user_demo" />
         <field name="document_key">26180812984794000154550010000016871192213339</field>
         <field name="document_number">19221333</field>
         <field name="partner_id" ref="base.res_partner_2" />
@@ -159,7 +156,6 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="document_serie">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -223,7 +219,6 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="document_serie">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -259,7 +254,6 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="document_serie">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente10_mg" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -312,7 +306,6 @@
         />
         <field name="document_serie">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -353,7 +346,6 @@
         />
         <field name="document_serie">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -399,7 +391,6 @@
             ref="l10n_br_fiscal.empresa_sn_document_55_serie_1"
         />
         <field name="document_serie">1</field>
-        <field name="user_id" ref="base.user_demo" />
         <field name="partner_id" ref="base.res_partner_2" />
         <field name="fiscal_operation_type">out</field>
     </record>
@@ -441,7 +432,6 @@
         />
         <field name="document_serie">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -495,7 +485,6 @@
         <field name="document_serie">1</field>
         <field name="document_key">35200497231608000169550010000000371161029083</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -534,7 +523,6 @@
         <field name="document_number">123</field>
         <field name="issuer">partner</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">in</field>
     </record>
 

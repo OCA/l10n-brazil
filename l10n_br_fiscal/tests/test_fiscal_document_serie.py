@@ -7,12 +7,15 @@ from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
 
+from .tools import load_fiscal_fixture_files
+
 
 class TestFiscalDocumentSerie(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        load_fiscal_fixture_files(cls.env)
 
         # Company
         cls.company_sn = cls.env.ref("l10n_br_base.empresa_simples_nacional")
