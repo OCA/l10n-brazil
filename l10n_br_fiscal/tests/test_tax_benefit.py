@@ -4,11 +4,14 @@
 from odoo import Command
 from odoo.tests import TransactionCase
 
+from .tools import load_fiscal_fixture_files
+
 
 class TestTaxBenefit(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_fiscal_fixture_files(cls.env)
         cls.nfe_tax_benefit = cls.env.ref("l10n_br_fiscal.demo_nfe_tax_benefit")
         cls.tax_benefit = cls.env["l10n_br_fiscal.tax.definition"].create(
             {
