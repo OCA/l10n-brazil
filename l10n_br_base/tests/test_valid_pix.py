@@ -8,6 +8,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
 
+from .tools import load_fixture_files
+
 
 class ValidCreatePIXTest(TransactionCase):
     """Test if ValidationError is raised well during create({})"""
@@ -15,6 +17,14 @@ class ValidCreatePIXTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_fixture_files(
+            cls.env,
+            "l10n_br_base",
+            file_names=[
+                "l10n_br_base_demo.xml",
+                "res_partner_pix_demo.xml",
+            ],
+        )
         cls.res_partner_pix_model = cls.env["res.partner.pix"]
         cls.partner_id = cls.env.ref("l10n_br_base.res_partner_amd")
 

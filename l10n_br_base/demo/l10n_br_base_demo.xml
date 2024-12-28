@@ -271,7 +271,7 @@
         -->
         <field name="company_type">person</field>
         <field name="type">delivery</field>
-        <field name="parent_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+        <!--field name="parent_id" ref="l10n_br_base.res_partner_cliente2_sp" /-->
         <field name="active" eval="1" />
     </record>
     <function model="res.partner" name="_onchange_city_id">
@@ -423,7 +423,7 @@
         -->
         <field name="company_type">person</field>
         <field name="type">invoice</field>
-        <field name="parent_id" ref="l10n_br_base.res_partner_cliente7_rs" />
+        <!--field name="parent_id" ref="l10n_br_base.res_partner_cliente7_rs" /-->
         <field name="active" eval="1" />
     </record>
     <function model="res.partner" name="_onchange_city_id">
