@@ -16,7 +16,7 @@ class Company(models.Model):
             "legal_name",
             "cnpj_cpf",
             "l10n_br_ie_code",
-            "inscr_mun",
+            "l10n_br_im_code",
             "district",
             "city_id",
             "l10n_br_isuf_code",
@@ -61,10 +61,10 @@ class Company(models.Model):
                 state_tax_number_ids |= ies
             company.partner_id.state_tax_number_ids = state_tax_number_ids
 
-    def _inverse_inscr_mun(self):
+    def _inverse_l10n_br_im_code(self):
         """Write the l10n_br specific functional fields."""
         for company in self:
-            company.partner_id.inscr_mun = company.inscr_mun
+            company.partner_id.l10n_br_im_code = company.l10n_br_im_code
 
     def _inverse_city_id(self):
         """Write the l10n_br specific functional fields."""
@@ -122,9 +122,9 @@ class Company(models.Model):
         inverse="_inverse_state_tax_number_ids",
     )
 
-    inscr_mun = fields.Char(
+    l10n_br_im_code = fields.Char(
         compute="_compute_address",
-        inverse="_inverse_inscr_mun",
+        inverse="_inverse_l10n_br_im_code",
     )
 
     l10n_br_isuf_code = fields.Char(
