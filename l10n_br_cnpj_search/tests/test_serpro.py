@@ -118,7 +118,7 @@ class TestTestSerPro(TestCnpjCommon):
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
             return_value=self.mocked_response_serpro_2,
         ):
-            self.model.search([("cnpj_cpf", "=", "34.238.864/0002-49")]).write(
+            self.model.search([("vat", "=", "34.238.864/0002-49")]).write(
                 {"active": False}
             )
             self.set_param("serpro_schema", "empresa")
@@ -154,7 +154,7 @@ class TestTestSerPro(TestCnpjCommon):
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
             return_value=self.mocked_response_serpro_3,
         ):
-            self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
+            self.model.search([("vat", "=", "34.238.864/0001-68")]).write(
                 {"active": False}
             )
             self.set_param("serpro_schema", "qsa")
