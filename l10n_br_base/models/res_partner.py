@@ -271,7 +271,7 @@ class Partner(models.Model):
             parent = self.parent_id
             parent.legal_name = parent.name
             parent.l10n_br_ie_code = self.l10n_br_ie_code
-            parent.inscr_mun = self.inscr_mun
+            parent.l10n_br_im_code = self.l10n_br_im_code
         return res
 
     def _is_br_partner(self):
