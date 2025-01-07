@@ -302,12 +302,10 @@ class AccountMoveLine(models.Model):
                     if line.cfop_id and not line.cfop_id.finance_move:
                         unsigned_amount_currency = 0
                         if not line.move_id.fiscal_operation_id.deductible_taxes:
-                            # Quando não há financeiro associado, mas há impostos e
-                            # nenhum imposto dedutível, é necessário registrar a
-                            # contrapartida dos impostos para manter o balanço contábil
-                            # equilibrado. Na versão 14 do Odoo, essa diferença era
-                            # automaticamente alocada às contas associadas aos termos
-                            # de pagamento.
+                            # When there is no financial amount but there are non
+                            # dectutible taxes, then we should take the total tax
+                            # amount into account here to keep the move balanced.
+                            # (In v14 that was done automatically in the payment terms)
                             unsigned_amount_currency = -(
                                 line.amount_tax_included
                                 + line.amount_tax_not_included
@@ -553,10 +551,6 @@ class AccountMoveLine(models.Model):
         elif self.move_id.is_purchase_document(include_receipts=True):
             user_type = "purchase"
 
-        # Retrieve taxes based on user type and fiscal operation.
-        if user_type:
-            tax_ids = self.fiscal_tax_ids.account_taxes(
-                user_type=user_type, fiscal_operation=self.fiscal_operation_id
-            )
-
-        return tax_ids
+        return self.fiscal_tax_ids.account_taxes(
+            user_type=user_type, fiscal_operation=self.fiscal_operation_id
+        )
