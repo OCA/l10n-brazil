@@ -7,7 +7,6 @@ from . import res_company
 from . import product_product
 from . import product_supplierinfo
 from . import ncm
-from . import nbm
 from . import cest
 from . import tax_ipi_guideline
 from . import document_type
