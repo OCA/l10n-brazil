@@ -340,6 +340,20 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
         self.price_unit = price.get(self.fiscal_operation_id.default_price_unit, 0.00)
 
+    def _get_benefit_code(self):
+        self.ensure_one()
+        document_lines = self.env["l10n_br_fiscal.document.line"].search(
+            [("document_id", "=", self.document_id.id)]
+        )
+
+        unique_benefit_codes = set()
+
+        for line in document_lines:
+            if line.icms_tax_benefit_id and line.icms_tax_benefit_id.code:
+                unique_benefit_codes.add(line.icms_tax_benefit_id.code)
+
+        return "|".join(unique_benefit_codes)
+
     def __document_comment_vals(self):
         self.ensure_one()
         return {
@@ -351,8 +365,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _document_comment(self):
         for d in self:
+            benefit_code = d._get_benefit_code()
+
+            comment_vals = d.__document_comment_vals()
+            comment_vals["benefit_code"] = benefit_code
             d.additional_data = d.comment_ids.compute_message(
-                d.__document_comment_vals(), d.manual_additional_data
+                comment_vals, d.manual_additional_data
             )
 
     def _get_fiscal_partner(self):

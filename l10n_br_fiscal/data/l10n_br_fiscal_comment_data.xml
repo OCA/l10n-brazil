@@ -42,4 +42,14 @@
         <field name="comment_type">fiscal</field>
         <field name="object">l10n_br_fiscal.document.mixin</field>
     </record>
+
+    <record
+        id="fiscal_comment_codigo_do_beneficio_fiscal"
+        model="l10n_br_fiscal.comment"
+    >
+        <field name="name">Código de benefício fiscal</field>
+        <field name="comment"> cBenef: ${benefit_code}</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.line.mixin</field>
+    </record>
 </odoo>
