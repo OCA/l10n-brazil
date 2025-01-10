@@ -3093,11 +3093,6 @@ msgid "Mês e Ano de Referência, formato: MM/AAAA"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_nbm
-msgid "NBM"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_ncm
 msgid "NCM"
 msgstr ""
