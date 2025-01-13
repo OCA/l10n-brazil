@@ -43,6 +43,11 @@ msgid "CNAB 400"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_l10n_br_cnab_config
+msgid "CNAB Config"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__cnab_returned_ref
 msgid "CNAB Returned Reference"
 msgstr ""
@@ -111,11 +116,6 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_line
 msgid "Payment Lines"
-msgstr ""
-
-#. module: l10n_br_account_payment_brcobranca
-#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_mode
-msgid "Payment Modes"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
