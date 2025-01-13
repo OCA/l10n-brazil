@@ -20,28 +20,28 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__favored_warning__0
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__favored_warning__0
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__favored_warning__0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__favored_warning__0
 msgid "0 - Não Emite Aviso"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__01
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__01
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__01
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__01
 msgid "01 - Cobrança"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__01
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__01
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__01
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__01
 msgid "01 - Crédito em Conta"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__01
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__01
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__01
 msgid "01 - Crédito em Conta Corrente/Salário"
 msgstr ""
 
@@ -51,8 +51,8 @@ msgid "01 - Débito em Conta Corrente"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__02
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__02
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__02
 msgid "02 - Cheque Pagamento / Administrativo"
 msgstr ""
 
@@ -63,21 +63,21 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__02
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__02
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__02
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__02
 msgid "02 - Pagamento de Aluguel/Condomínio"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__03
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__03
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__03
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__03
 msgid "03 - Boleto de Pagamento Eletrônico"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__03
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__03
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__03
 msgid "03 - DOC/TED (1) (2)"
 msgstr ""
 
@@ -88,103 +88,103 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__03
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__03
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__03
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__03
 msgid "03 - Pagamento de Duplicata/Títulos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__04
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__04
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__04
 msgid "04 - Cartão Salário (somente para Tipo de Serviço = '30')"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__04
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__04
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__04
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__04
 msgid "04 - Conciliação Bancária"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__04
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__04
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__04
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__04
 msgid "04 - Pagamento de Dividendos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__05
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__05
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__05
 msgid "05 - Crédito em Conta Poupança"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__05
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__05
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__05
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__05
 msgid "05 - Débitos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__05
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__05
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__05
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__05
 msgid "05 - Pagamento de Mensalidade Escolar"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__06
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__06
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__06
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__06
 msgid "06 - Custódia de Cheques"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__06
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__06
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__06
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__06
 msgid "06 - Pagamento de Salários"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__07
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__07
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__07
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__07
 msgid "07 - Gestão de Caixa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__07
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__07
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__07
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__07
 msgid "07 - Pagamento a Fornecedores"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__08
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__08
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__08
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__08
 msgid "08 - Consulta/Informação Margem"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__08
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__08
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__08
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__08
 msgid "08 - Operações de Câmbios/Fundos/Bolsa de Valores"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__09
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__09
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__09
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__09
 msgid "09 - Averbação da Consignação/Retenção"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__09
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__09
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__09
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__09
 msgid "09 - Repasse de Arrecadação/Pagamento de Tributos"
 msgstr ""
@@ -195,135 +195,135 @@ msgid "1 - Indica CONSULTA"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__10
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__10
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__10
 msgid "10 - OP à Disposição"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__10
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__10
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__10
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__10
 msgid "10 - Pagamento Dividendos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__10
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__10
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__10
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__10
 msgid "10 - Transferência Internacional em Real"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__11
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__11
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__11
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__11
 msgid "11 - DOC para Poupança"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__11
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__11
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__11
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__11
 msgid "11 - Manutenção da Consignação"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__11
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__11
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__11
 msgid "11 - Pagamento de Contas e Tributos com Código de Barras"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__12
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__12
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__12
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__12
 msgid "12 - Consignação de Parcelas"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__12
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__12
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__12
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__12
 msgid "12 - DOC para Depósito Judicial"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__13
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__13
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__13
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__13
 msgid "13 -  Glosa da Consignação (INSS)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__13
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__13
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__13
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__13
 msgid "13 - Outros"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__14
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__14
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__14
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__14
 msgid "14 - Consulta de Tributos a pagar"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__16
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__16
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__16
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__16
 msgid "16 - Pagamento de bolsa auxílio"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__16
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__16
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__16
 msgid "16 - Tributo - DARF Normal"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__17
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__17
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__17
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__17
 msgid "17 - Remuneração à cooperado"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__17
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__17
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__17
 msgid "17 - Tributo - GPS (Guia da Previdência Social)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__18
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__18
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__18
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__18
 msgid "18 - Pagamento de honorários"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__18
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__18
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__18
 msgid "18 - Tributo - DARF Simples"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__doc_finality_code__19
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__doc_finality_code__19
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__doc_finality_code__19
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__doc_finality_code__19
 msgid "19 - Pagamento de prebenda (Remuneração a padres e sacerdotes)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__19
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__19
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__19
 msgid "19 - Tributo - IPTU – Prefeituras"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__favored_warning__2
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__favored_warning__2
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__favored_warning__2
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__favored_warning__2
 msgid "2 - Emite Aviso Somente para o Remetente"
 msgstr ""
@@ -335,91 +335,91 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__20
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__20
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__20
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__20
 msgid "20 - Pagamento Fornecedor"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__20
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__20
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__20
 msgid "20 - Pagamento com Autenticação"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__21
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__21
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__21
 msgid "21 - Tributo – DARJ"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__22
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__22
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__22
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__22
 msgid "22 - Pagamento de Contas, Tributos e Impostos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__22
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__22
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__22
 msgid "22 - Tributo - GARE-SP ICMS"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__23
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__23
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__23
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__23
 msgid "23 - Interoperabilidade entre Contas de Instituições de Pagamentos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__23
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__23
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__23
 msgid "23 - Tributo - GARE-SP DR"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__24
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__24
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__24
 msgid "24 - Tributo - GARE-SP ITCMD"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__25
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__25
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__25
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__25
 msgid "25 - Compror"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__25
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__25
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__25
 msgid "25 - Tributo - IPVA"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__26
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__26
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__26
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__26
 msgid "26 - Compror Rotativo"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__26
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__26
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__26
 msgid "26 - Tributo - Licenciamento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__27
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__27
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__27
 msgid "27 - Tributo – DPVAT"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__29
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__29
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__29
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__29
 msgid "29 - Alegação do Pagador"
 msgstr ""
 
@@ -429,42 +429,42 @@ msgid "3 - Indica ESTORNO (somente para retorno)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__30
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__30
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__30
 msgid "30 - Liquidação de Títulos do Próprio Banco"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__30
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__30
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__30
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__30
 msgid "30 - Pagamento Salários"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__31
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__31
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__31
 msgid "31 - Pagamento de Títulos de Outros Bancos"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__32
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__32
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__32
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__32
 msgid "32 - Pagamento de honorários"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__33
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__33
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__33
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__33
 msgid "33 - Pagamento de bolsa auxílio"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__34
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__34
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__34
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__34
 msgid "34 - Pagamento de prebenda (remuneração a padres e sacerdotes)"
 msgstr ""
 
@@ -474,46 +474,46 @@ msgid "4 - Indica REATIVAÇÃO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__40
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__40
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__40
 msgid "40 - Extrato de Conta Corrente"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__40
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__40
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__40
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__40
 msgid "40 - Vendor"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__41
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__41
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__41
 msgid "41 - TED – Outra Titularidade (1)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__41
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__41
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__41
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__41
 msgid "41 - Vendor a Termo"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__43
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__43
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__43
 msgid "43 - TED – Mesma Titularidade (1)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__44
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__44
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__44
 msgid "44 - TED para Transferência de Conta Investimento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__favored_warning__5
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__favored_warning__5
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__favored_warning__5
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__favored_warning__5
 msgid "5 - Emite Aviso Somente para o Favorecido"
 msgstr ""
@@ -524,35 +524,35 @@ msgid "5 - Indica ALTERAÇÃO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__50
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__50
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__50
 msgid "50 - Débito em Conta Corrente"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__50
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__50
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__50
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__50
 msgid "50 - Pagamento Sinistros Segurados"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__favored_warning__6
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__favored_warning__6
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__favored_warning__6
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__favored_warning__6
 msgid "6 - Emite Aviso para o Remetente e Favorecido"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__60
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__60
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__60
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__60
 msgid "60 - Pagamento Despesas Viajante em Trânsito"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__favored_warning__7
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__favored_warning__7
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__favored_warning__7
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__favored_warning__7
 msgid "7 - Emite Aviso para o Favorecido e 2 Vias para o Remetente"
 msgstr ""
@@ -563,54 +563,54 @@ msgid "7 - Indica LIQUIDAÇAO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__70
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__70
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__70
 msgid "70 - Extrato para Gestão de Caixa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__70
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__70
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__70
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__70
 msgid "70 - Pagamento Autorizado"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__71
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__71
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__71
 msgid "71 - Depósito Judicial em Conta Corrente"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__72
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__72
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__72
 msgid "72 - Depósito Judicial em Poupança"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__release_form__73
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__release_form__73
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__release_form__73
 msgid "73 - Extrato de Conta Investimento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__75
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__75
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__75
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__75
 msgid "75 - Pagamento Credenciados"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__77
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__77
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__77
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__77
 msgid "77 - Pagamento de Remuneração"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__80
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__80
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__80
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__80
 msgid "80 - Pagamento Representantes / Vendedores Autorizados"
 msgstr ""
 
@@ -621,15 +621,15 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__90
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__90
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__90
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__90
 msgid "90 - Pagamento Benefícios"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__service_type__98
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__service_type__98
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_order__service_type__98
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__service_type__98
 msgid "98 - Pagamentos Diversos"
 msgstr ""
 
@@ -654,20 +654,18 @@ msgid "Aceita em Homologação"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_accept
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_accept
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_accept
 msgid "Aceite"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_needaction
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_needaction
 msgid "Action Needed"
 msgstr ""
 
@@ -734,18 +732,16 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_attachment_count
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_attachment_count
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_attachment_count
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__favored_warning
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__favored_warning
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__favored_warning
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__favored_warning
 msgid "Aviso ao Favorecido"
 msgstr ""
@@ -772,46 +768,42 @@ msgid "Baixa por Não Pagamento/Inadimplência"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco Bradesco"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco Santander"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco do Brasil"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__condition_issuing_paper__1
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__condition_issuing_paper__1
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__condition_issuing_paper__1
 msgid "Banco emite e Processa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Bancos SICRED ou SICOOB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__bank_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__bank_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__bank_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__bank_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__bank_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__bank_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_search_view
 msgid "Bank"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__bank_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__bank_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__bank_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__bank_ids
 msgid "Banks"
 msgstr ""
 
@@ -831,6 +823,12 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__boleto_accept
 msgid "Boleto Accept"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_discount_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_discount_code_id
+msgid "Boleto Discount Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -861,20 +859,22 @@ msgid "Boleto Wallet"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__wallet_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__wallet_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__wallet_code_id
 msgid "Boleto Wallet Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_journal__bank_code_bc
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__bank_code_bc
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__bank_code_bc
 msgid "Brazilian Bank Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_journal__bank_code_bc
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__bank_code_bc
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__bank_code_bc
 msgid "Brazilian Bank Code ex.: 001 is the code of Banco do Brasil"
 msgstr ""
 
@@ -884,14 +884,14 @@ msgid "Busque CNAB Log"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_byte_idt
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_byte_idt
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_byte_idt
 msgid "Byte IDT"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_byte_idt
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_byte_idt
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_byte_idt
 msgid ""
 "Byte de identificação do cedente do bloqueto utilizado para compor o nosso "
 "número, usado pelos bancos Sicred/Unicred e Sicoob."
@@ -915,11 +915,6 @@ msgid "CNAB - Payment Fields."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_boleto_wallet_code
-msgid "CNAB Boleto Wallet Code"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.actions.act_window,name:l10n_br_account_payment_order.account_move_line_change_act_window
 msgid "CNAB Change Account Move Line"
 msgstr ""
@@ -930,7 +925,31 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "CNAB Code"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.actions.act_window,name:l10n_br_account_payment_order.l10n_br_cnab_config_action
+#: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_config
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__cnab_config_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__cnab_config_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__cnab_config_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__cnab_config_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_config_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__cnab_config_id
+#: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_config
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_search_view
+msgid "CNAB Config"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
+#, python-format
+msgid ""
+"CNAB Config %(cnab_config_name)s in Payment Mode %(payment_mode_name)s don't"
+" has %(missing)s for making CNAB change, check if should have."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -964,7 +983,7 @@ msgid "CNAB Informations"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__liq_return_move_code_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__liq_return_move_code_ids
 msgid "CNAB Liquidity Return Move Code"
 msgstr ""
 
@@ -974,61 +993,56 @@ msgid "CNAB Manager"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_mov_instruction_code
-msgid "CNAB Movement Instruction Code"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cancel_discount_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cancel_discount_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__cancel_discount_code_id
 msgid "CNAB Movement Instruction Code for Cancel Discount."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cancel_rebate_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cancel_rebate_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__cancel_rebate_code_id
 msgid "CNAB Movement Instruction Code for Cancel Rebate."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__change_maturity_date_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_maturity_date_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__change_maturity_date_code_id
 msgid "CNAB Movement Instruction Code for Change Maturity Date."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__change_title_value_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_title_value_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__change_title_value_code_id
 msgid "CNAB Movement Instruction Code for Change Title Value."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__grant_discount_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__grant_discount_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__grant_discount_code_id
 msgid "CNAB Movement Instruction Code for Grant Discount."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__grant_rebate_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__grant_rebate_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__grant_rebate_code_id
 msgid "CNAB Movement Instruction Code for Grant Rebate."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__protest_title_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__protest_title_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__protest_title_code_id
 msgid "CNAB Movement Instruction Code for Protest Tittle."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__suspend_protest_keep_wallet_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__suspend_protest_keep_wallet_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__suspend_protest_keep_wallet_code_id
 msgid "CNAB Movement Instruction Code for Suspend Protest and Keep in Wallet."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__suspend_protest_write_off_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__suspend_protest_write_off_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__suspend_protest_write_off_code_id
 msgid "CNAB Movement Instruction Code for Suspend Protest and Writte Off."
 msgstr ""
 
@@ -1073,12 +1087,8 @@ msgid "CNAB Return Lot"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_return_move_code
-msgid "CNAB Return Move Code"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_search_view
 msgid "CNAB Type"
 msgstr ""
 
@@ -1088,33 +1098,33 @@ msgid "CNAB User"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__17
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__17
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__17
 msgid "CONTA DE PRESTAÇÃO DE SERVIÇOS"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__06
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__06
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__06
 msgid "CONTRATO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__07
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__07
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__07
 msgid "COSSEGUROS"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__service_type
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__service_type
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_order__service_type
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__service_type
 msgid "Campo G025 do CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__release_form
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_order__release_form
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__release_form
 msgid "Campo G029 do CNAB"
 msgstr ""
 
@@ -1151,28 +1161,28 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__doc_finality_code
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__doc_finality_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__doc_finality_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__doc_finality_code
 msgid "Campo P005 do CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__favored_warning
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__favored_warning
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__favored_warning
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__favored_warning
 msgid "Campo P006 do CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__ted_finality_code
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__ted_finality_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__ted_finality_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__ted_finality_code
 msgid "Campo P011 do CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__complementary_finality_code
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__complementary_finality_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__complementary_finality_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__complementary_finality_code
 msgid "Campo P013 do CNAB"
 msgstr ""
@@ -1183,9 +1193,9 @@ msgid "Campo P014 do CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_company_bank_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_order__cnab_company_bank_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_company_bank_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__cnab_company_bank_code
 msgid ""
 "Campo que tem o Código que identifica a Empresa no Banco e que\n"
 "        tem na maioria dos casos o tamanho 20, devido a falta de padrão entre\n"
@@ -1199,14 +1209,14 @@ msgid "Cancel"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cancel_discount_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cancel_discount_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__cancel_discount_code_id
 msgid "Cancel Discount Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cancel_rebate_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cancel_rebate_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__cancel_rebate_code_id
 msgid "Cancel Rebate Instruction Code"
 msgstr ""
 
@@ -1221,27 +1231,27 @@ msgid "Cancelar Desconto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_wallet
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_wallet
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_wallet
 msgid "Carteira"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
 #, python-format
 msgid "Carteira no banco Itaú é obrigatória"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__change_maturity_date_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_maturity_date_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__change_maturity_date_code_id
 msgid "Change Maturity Date Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__change_title_value_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_title_value_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__change_title_value_code_id
 msgid "Change Title Value Movement Instruction Code"
 msgstr ""
 
@@ -1263,13 +1273,14 @@ msgid "Cheque"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__condition_issuing_paper__2
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__condition_issuing_paper__2
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__condition_issuing_paper__2
 msgid "Cliente emite e banco processa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_processor
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__cnab_processor
 msgid "Cnab Processor"
 msgstr ""
 
@@ -1290,7 +1301,7 @@ msgid "Cnab500"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Cobranca"
 msgstr ""
 
@@ -1382,17 +1393,15 @@ msgid "Cobrança Unicred400"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__code
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__code
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__code
 msgid "Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__payment_method_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__payment_method_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__payment_method_code
 msgid "Code (Do Not Modify)"
 msgstr ""
 
@@ -1403,10 +1412,8 @@ msgid "Code Type"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__comment
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__comment
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__comment
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__comment
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__comment
 msgid "Comment"
 msgstr ""
 
@@ -1416,20 +1423,25 @@ msgid "Communication Type"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__complementary_finality_code
 msgid "Complementary Finality Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__doc_finality_code
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__doc_finality_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__doc_finality_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__doc_finality_code
 msgid "Complemento do Tipo de Serviço"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__communication_2
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__communication_2
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__communication_2
 msgid "Comunicação para o sacador avalista"
 msgstr ""
 
@@ -1449,33 +1461,33 @@ msgid "Concluído"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__condition_issuing_paper
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__condition_issuing_paper
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__condition_issuing_paper
 msgid "Condição Emissão de Papeleta"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Configuração da Multa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Configuração de Desconto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Configuração do Juros Mora"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Configuração do Protesto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Configuração dos Codigos CNAB"
 msgstr ""
 
@@ -1485,7 +1497,7 @@ msgid "Configurações Brasileiras - CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Configurações Gerais"
 msgstr ""
 
@@ -1497,32 +1509,32 @@ msgid "Conta Bancária"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__tariff_charge_account_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__tariff_charge_account_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__tariff_charge_account_id
 msgid "Conta Contabil Tarifa Bancaria"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__rebate_account_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__rebate_account_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__rebate_account_id
 msgid "Conta Contabil de Abatimanto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__discount_account_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__discount_account_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__discount_account_id
 msgid "Conta Contabil de Desconto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__interest_fee_account_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__interest_fee_account_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__interest_fee_account_id
 msgid "Conta Contabil de Juros Mora e Multa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__not_payment_account_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__not_payment_account_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__not_payment_account_id
 msgid "Conta Contabil para Não Pagamento/Inadimplência"
 msgstr ""
 
@@ -1532,65 +1544,61 @@ msgid "Conta cedente"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__rebate_account_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__rebate_account_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__rebate_account_id
 msgid "Conta padrão para Abatimento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__discount_account_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__discount_account_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__discount_account_id
 msgid "Conta padrão para Desconto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__interest_fee_account_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__interest_fee_account_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__interest_fee_account_id
 msgid "Conta padrão para Juros Mora"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__not_payment_account_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__not_payment_account_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__not_payment_account_id
 msgid "Conta padrão para Não Pagamento/Inadimplência"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__tariff_charge_account_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__tariff_charge_account_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__tariff_charge_account_id
 msgid "Conta padrão para a Tarifa Bancaria"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Contabilidade"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__create_uid
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__create_uid
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__create_uid
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__create_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__create_uid
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__create_date
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__create_date
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__create_date
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__create_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__create_date
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__create_date
 msgid "Created on"
 msgstr ""
 
@@ -1601,39 +1609,39 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__ted_finality_code
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__ted_finality_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__ted_finality_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__ted_finality_code
 msgid "Código Finalidade da TED"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_protest_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_protest_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_protest_code
 msgid ""
 "Código adotado pela FEBRABAN para identificar o tipo de prazo a ser "
 "considerado para o protesto."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_interest_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_interest_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_interest_code
 msgid ""
 "Código adotado pela FEBRABAN para identificação do tipo de pagamento de mora"
 " de juros."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_fee_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_fee_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_fee_code
 msgid ""
 "Código adotado pela FEBRABAN para identificação do tipo de pagamento de "
 "multa."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_company_bank_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__cnab_company_bank_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_company_bank_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__cnab_company_bank_code
 msgid "Código da Empresa no Banco"
 msgstr ""
 
@@ -1644,61 +1652,61 @@ msgid "Código da Instrução para Movimento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_interest_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_interest_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_interest_code
 msgid "Código da Mora"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_fee_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_fee_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_fee_code
 msgid "Código da Multa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_protest_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_protest_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_protest_code
 msgid "Código de Protesto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Código de Transmissão"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__complementary_finality_code
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__complementary_finality_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__complementary_finality_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_payment_fields__complementary_finality_code
 msgid "Código de finalidade complementar"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Código do Beneficiário"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__convention_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__convention_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__convention_code
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__convention_code
 msgid "Código do Convênio"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Código do Convênio Líder"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Código do Convênio no Banco"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__convention_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_order__convention_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__convention_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__convention_code
 msgid ""
 "Código do Convênio, campo com tamanho 7 usado em alguns casos\n"
 "        onde além do 'Código da Empresa tamanho 20' existe esse segundo campo,\n"
@@ -1708,26 +1716,26 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_post
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_post
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_post
 msgid ""
 "Código do Posto da Cooperativa de Crédito, usado pelos bancos Sicred/Unicred"
 " e Sicoob."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Códigos de Instrução do Movimento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Códigos de Retorno do Movimento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__99
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__99
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__99
 msgid "DIVERSOS"
 msgstr ""
 
@@ -1745,20 +1753,20 @@ msgid "DOC Finality Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__15
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__15
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__15
 msgid "DOCUMENTO DE DÍVIDA"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__08
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__08
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__08
 msgid "DUPLICATA DE SERVIÇO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__01
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__01
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__01
 msgid "DUPLICATA MERCANTIL"
 msgstr ""
 
@@ -1783,8 +1791,8 @@ msgid "Date Maturity"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__generate_own_number
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__generate_own_number
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__generate_own_number
 msgid ""
 "Dependendo da carteira, banco, etc. O nosso número pode ser gerado pelo "
 "banco."
@@ -1811,20 +1819,18 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__display_name
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__display_name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__16
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__16
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__16
 msgid "ENCARGOS CONDOMINIAIS"
 msgstr ""
 
@@ -1834,8 +1840,8 @@ msgid "Erro ao exportar"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_species
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_species
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_species
 msgid "Espécie do Título"
 msgstr ""
 
@@ -1879,24 +1885,20 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_follower_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_follower_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_follower_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_follower_ids
 msgid "Followers"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_partner_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_partner_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_partner_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
 
@@ -1906,54 +1908,53 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__release_form
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__release_form
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__release_form
 msgid "Forma Lançamento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Geral"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__generate_own_number
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__generate_own_number
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__generate_own_number
 msgid "Gerar nosso número?"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__invoice_print
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__invoice_print
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__invoice_print
 msgid "Gerar relatorio na conclusão da fatura?"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__grant_discount_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__grant_discount_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__grant_discount_code_id
 msgid "Grant Discount Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__grant_rebate_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__grant_rebate_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__grant_rebate_code_id
 msgid "Grant Rebate Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_search_view
 msgid "Group By..."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__has_message
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__has_message
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__has_message
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__has_message
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__has_message
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__has_message
 msgid "Has Message"
 msgstr ""
 
@@ -1965,14 +1966,12 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__id
 msgid "ID"
 msgstr ""
 
@@ -2000,24 +1999,20 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_needaction
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_has_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -2062,7 +2057,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_bank_statement_line__eval_payment_mode_instructions
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move__eval_payment_mode_instructions
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment__eval_payment_mode_instructions
-msgid "Instruções Ordem de Pagamento configuradas no Modo de pagamento"
+msgid "Instruções Ordem de Pagamento configuradas na Configuração do CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2077,8 +2072,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__instructions
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__instructions
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__instructions
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__instructions
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__instructions
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__instructions
 msgid "Instruções de cobrança"
 msgstr ""
 
@@ -2103,12 +2098,10 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_is_follower
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_is_follower
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_is_follower
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_is_follower
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_is_follower
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_is_follower
 msgid "Is Follower"
 msgstr ""
 
@@ -2151,50 +2144,44 @@ msgid "Justificativa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__09
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__09
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__09
 msgid "LETRA DE CÂMBIO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code____last_update
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log____last_update
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code____last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__write_uid
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__write_uid
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__write_uid
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__write_uid
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__write_date
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__write_date
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__write_date
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__write_date
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__write_date
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -2225,20 +2212,18 @@ msgid "Lote"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__04
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__04
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__04
 msgid "MENSALIDADE ESCOLAR"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_main_attachment_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_main_attachment_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
 
@@ -2250,24 +2235,20 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_has_error
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_has_error
 msgid "Message Delivery error"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_ids
 msgid "Messages"
 msgstr ""
 
@@ -2296,8 +2277,8 @@ msgid "Ml Maturity Date"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_modality
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_modality
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_modality
 msgid "Modalidade"
 msgstr ""
 
@@ -2342,30 +2323,28 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__13
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__13
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__13
 msgid "NOTA DE DÉBITOS"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__03
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__03
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__03
 msgid "NOTA DE SEGURO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__02
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__02
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__02
 msgid "NOTA PROMISSÓRIA"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__name
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__name
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__name
 msgid "Name"
 msgstr ""
 
@@ -2417,54 +2396,46 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error_counter
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_needaction_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_needaction_counter
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_needaction_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_needaction_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_needaction_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error_counter
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_has_error_counter
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error_counter
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_accept__n
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_accept__n
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_accept__n
 msgid "Não"
 msgstr ""
 
@@ -2474,8 +2445,8 @@ msgid "Não aceita pelo banco"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_days_protest
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_days_protest
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_days_protest
 msgid "Número de Dias para Protesto"
 msgstr ""
 
@@ -2495,8 +2466,8 @@ msgid "Número de Lotes"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__boleto_days_protest
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_days_protest
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_days_protest
 msgid ""
 "Número de dias decorrentes após a data de vencimento para inicialização do "
 "processo de cobrança via protesto."
@@ -2515,7 +2486,7 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
 #, python-format
 msgid "O percentual deve ser um valor entre 0 a 100."
 msgstr ""
@@ -2531,7 +2502,7 @@ msgid "Ocorrências"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Outras Configurações"
 msgstr ""
 
@@ -2560,7 +2531,7 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__ted_finality_code______
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__ted_finality_code______
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__ted_finality_code______
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_payment_fields__ted_finality_code______
 msgid "Padrão"
 msgstr ""
@@ -2571,13 +2542,13 @@ msgid "Paga"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__own_number_sequence_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__own_number_sequence_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__own_number_sequence_id
 msgid ""
 "Para usar essa Sequencia é preciso definir o campo Tipo do Nosso Número como"
 " Sequencial Único por Carteira no cadastro da empresa"
@@ -2596,10 +2567,8 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__payment_method_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__payment_method_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__payment_method_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__payment_method_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__payment_method_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__payment_method_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__payment_method_id
 msgid "Payment Method"
 msgstr ""
 
@@ -2611,10 +2580,7 @@ msgid "Payment Method Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__payment_method_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__payment_method_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__payment_method_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__payment_method_ids
 msgid "Payment Methods"
 msgstr ""
 
@@ -2622,15 +2588,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__payment_mode_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__payment_mode_id
 msgid "Payment Mode"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-#, python-format
-msgid ""
-"Payment Mode %(payment_mode_name)s don't has %(missing)s for making CNAB "
-"change, check if should have."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2647,6 +2604,11 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_order
 msgid "Payment Order"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__payment_type
+msgid "Payment Type"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2678,8 +2640,8 @@ msgid "Payments"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_discount_perc
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_discount_perc
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_discount_perc
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move_line__boleto_discount_perc
 msgid "Percentual de Desconto até a Data de Vencimento"
 msgstr ""
@@ -2690,14 +2652,14 @@ msgid "Percentual de Juros"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_interest_perc
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_interest_perc
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_interest_perc
 msgid "Percentual de Juros de Mora"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_fee_perc
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_fee_perc
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_fee_perc
 msgid "Percentual de Multa"
 msgstr ""
 
@@ -2727,8 +2689,8 @@ msgid "Pix transfer type identification"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_post
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_post
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_post
 msgid "Posto da Cooperativa de Crédito"
 msgstr ""
 
@@ -2751,8 +2713,8 @@ msgid "Protest Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__protest_title_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__protest_title_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__protest_title_code_id
 msgid "Protest Tittle Instruction Code"
 msgstr ""
 
@@ -2767,8 +2729,8 @@ msgid "Quantidade de Registros"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_species__05
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__05
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__05
 msgid "RECIBO"
 msgstr ""
 
@@ -2820,29 +2782,15 @@ msgid "Segmento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__sending_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__sending_code_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__sending_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__sending_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__sending_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__sending_code_id
 msgid "Sending Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid "Sequence CNAB Sequence already in use by %(payment_mode)s!"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
-#, python-format
-msgid "Sequence Own Number already in use by %(payment_mode)s!"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_sequence_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__cnab_sequence_id
 msgid "Sequencia do Arquivo CNAB"
 msgstr ""
 
@@ -2852,8 +2800,8 @@ msgid "Sequencial do Arquivo"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__own_number_sequence_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__own_number_sequence_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__own_number_sequence_id
 msgid "Sequência do Nosso Número"
 msgstr ""
 
@@ -2868,8 +2816,8 @@ msgid "Seu Número"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__boleto_accept__s
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_accept__s
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_accept__s
 msgid "Sim"
 msgstr ""
 
@@ -2895,14 +2843,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__suspend_protest_keep_wallet_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__suspend_protest_keep_wallet_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__suspend_protest_keep_wallet_code_id
 msgid "Suspend Protest an Keep in Wallet Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__suspend_protest_write_off_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__suspend_protest_write_off_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__suspend_protest_write_off_code_id
 msgid "Suspend Protest an Writte Off Instruction Code"
 msgstr ""
 
@@ -2978,14 +2926,6 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_mov_intruction_code.py:0
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_return_move_code.py:0
-#, python-format
-msgid "The field Code should have two characters."
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 #, python-format
 msgid ""
@@ -3018,6 +2958,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move_line__payment_method_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_line__payment_method_code
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_order__payment_method_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__payment_method_code
 msgid ""
 "This code is used in the code of the Odoo module that handles this payment "
 "method. Therefore, if you change it, the generation of the payment file may "
@@ -3056,8 +2997,8 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__service_type
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__service_type
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__service_type
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__service_type
 msgid "Tipo de Serviço"
 msgstr ""
 
@@ -3169,8 +3110,8 @@ msgid "Valor do Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_variation
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_variation
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_variation
 msgid "Variação"
 msgstr ""
 
@@ -3187,24 +3128,20 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__website_message_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__website_message_ids
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__website_message_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__website_message_ids
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__website_message_ids
 msgid "Website Messages"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__website_message_ids
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_wallet_code__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__website_message_ids
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__website_message_ids
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__website_message_ids
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_move_code__website_message_ids
 msgid "Website communication history"
 msgstr ""
 
@@ -3219,10 +3156,10 @@ msgid "Wizard to create payment lines"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__write_off_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__write_off_code_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__write_off_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__write_off_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__write_off_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__write_off_code_id
 msgid "Write Off Movement Instruction Code"
 msgstr ""
 
