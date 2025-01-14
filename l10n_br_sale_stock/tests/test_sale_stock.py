@@ -2,10 +2,6 @@
 # Copyright (C) 2021  Magno Costa - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-# TODO: In v16 check the possiblity to use the commom.py
-# from stock_picking_invoicing
-# https://github.com/OCA/account-invoicing/blob/16.0/
-# stock_picking_invoicing/tests/common.py
 from odoo import exceptions
 from odoo.tests import Form, tagged
 
@@ -22,23 +18,10 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         # Create of Invoice by Sale Order using sale.advance.payment.inv object
         # is necessary let default policy as sale_order, just affect demo data.
         # TODO: Is there other form to avoid this problem?
-        # cls.companies = cls.env["res.company"].search(
-        #    [("sale_invoicing_policy", "=", "sale_order")]
-        # )
-        # for company in cls.companies:
-        #    company.sale_invoicing_policy = "stock_picking"
-
-    def set_sale_invoicing_policy(self):
-        # Isso deveria estar sendo feito no setupUpClass mas retorna erro:
-        # l10n_br_sale_stock/tests/test_sale_stock.py", line 53, in setUpClass
-        # cls.companies = cls.env["res.company"].search(
-        # AttributeError: type object 'TestSaleStock' has no attribute 'env'
-        # TODO: Na v16 isso não parece acontecer, pode ser algo referente ao ORM,
-        #  ver na migração
-        self.companies = self.env["res.company"].search(
+        cls.companies = cls.env["res.company"].search(
             [("sale_invoicing_policy", "=", "sale_order")]
         )
-        for company in self.companies:
+        for company in cls.companies:
             company.sale_invoicing_policy = "stock_picking"
 
     def test_02_sale_stock_return(self):
@@ -48,7 +31,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         of the picking. Check that a refund invoice is well generated.
         """
         # intial so
-        self.set_sale_invoicing_policy()
         self.partner = self.env.ref("l10n_br_base.res_partner_address_ak2")
         self.product = self.env.ref("product.product_delivery_01")
 
@@ -143,7 +125,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         """
         Test Sale Order with product and service
         """
-        self.set_sale_invoicing_policy()
         sale_order_2 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_2")
         sale_order_form = Form(sale_order_2)
         sale_order = sale_order_form.save()
@@ -222,12 +203,20 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             "uom_id",
             # Field sequence add in creation of Invoice
             "sequence",
+            # In the sale.orde.line display_type has only line_section
+            # and line_note, the acccount.move.line has more options
+            "display_type",
         ]
 
         common_fields = list(set(acl_fields) & set(sol_fields) - set(skipped_fields))
         invoice_lines = picking.invoice_ids.invoice_line_ids.filtered(
             lambda ln: ln.product_id == sale_order_line.product_id
         )
+        # Necessary for get analytic_precision
+        # this problem only occours in the tests, by some reason not
+        # identify yet, but works in the screen the default behavior
+        with Form(invoice_lines) as line:
+            line.save()
 
         for field in common_fields:
             self.assertEqual(
@@ -276,7 +265,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         picking and 3 moves per picking, but Partner to Shipping is
         different from Partner to Invoice.
         """
-        self.set_sale_invoicing_policy()
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
@@ -335,7 +323,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         picking and 3 moves per picking, the 3 has the same Partner to
         Invoice but one has Partner to Shipping so shouldn't be grouping.
         """
-        self.set_sale_invoicing_policy()
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
@@ -393,7 +380,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         """
         Test the synchronize Sale Partner Shipping in Stock Picking
         """
-        self.set_sale_invoicing_policy()
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         picking = sale_order_1.picking_ids
@@ -407,7 +393,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         """
         Test Lucro Presumido Company
         """
-        self.set_sale_invoicing_policy()
         self._change_user_company(self.env.ref("l10n_br_base.empresa_lucro_presumido"))
         sale_order_1 = self.env.ref("l10n_br_sale_stock.lucro_presumido-sale_order_1")
         sale_order_form = Form(sale_order_1)
@@ -432,12 +417,12 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         Test compatibility with international cases or
         without Fiscal Operation.
         """
-        self.set_sale_invoicing_policy()
         so_international = self.env.ref("sale.sale_order_3")
         so_international.fiscal_operation_id = False
         so_international.action_confirm()
         picking = so_international.picking_ids
         self.picking_move_state(picking)
+        picking.fiscal_operation_id = False
         invoice = self.create_invoice_wizard(picking)
         invoice.action_post()
         # Caso Internacional não deve ter Documento Fiscal associado
@@ -455,7 +440,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
     def test_form_stock_picking(self):
         """Test Stock Picking with Form"""
-        self.set_sale_invoicing_policy()
         sale_order = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order.action_confirm()
         picking = sale_order.picking_ids
@@ -473,7 +457,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
     def test_down_payment(self):
         """Test the case with Down Payment"""
-        self.set_sale_invoicing_policy()
         sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
         sale_order_1.action_confirm()
         # Create Invoice Sale
@@ -485,7 +468,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         # Test Create Invoice Policy
         payment = (
             self.env["sale.advance.payment.inv"]
-            .with_context(context)
+            .with_context(**context)
             .create(
                 {
                     "advance_payment_method": "delivered",
@@ -493,12 +476,12 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             )
         )
         with self.assertRaises(exceptions.UserError):
-            payment.with_context(context).create_invoices()
+            payment.with_context(**context).create_invoices()
 
         # DownPayment
         payment_wizard = (
             self.env["sale.advance.payment.inv"]
-            .with_context(context)
+            .with_context(**context)
             .create(
                 {
                     "advance_payment_method": "percentage",
@@ -510,34 +493,16 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
 
         invoice_down_payment = sale_order_1.invoice_ids[0]
         invoice_down_payment.action_post()
-        payment_register = Form(
-            self.env["account.payment.register"].with_context(
-                active_model="account.move",
-                active_ids=invoice_down_payment.ids,
-            )
-        )
-        journal_cash = self.env["account.journal"].search(
-            [
-                ("type", "=", "cash"),
-                ("company_id", "=", invoice_down_payment.company_id.id),
-            ],
-            limit=1,
-        )
-        payment_register.journal_id = journal_cash
-        payment_method_manual_in = self.env.ref(
-            "account.account_payment_method_manual_in"
-        )
-        payment_register.payment_method_id = payment_method_manual_in
-        payment_register.amount = invoice_down_payment.amount_total
-        payment_register.save()._create_payments()
 
         picking = sale_order_1.picking_ids
         self.picking_move_state(picking)
         invoice = self.create_invoice_wizard(picking)
         # 3 Products, 1 Section, 1 Note, 1 Down Payment and 1 Section
-        # of DownPayment added during the creation of Invoice
-        sale_lines = len(sale_order_1.order_line) + 1
-        self.assertEqual(len(invoice.invoice_line_ids), sale_lines)
+        # of DownPayment
+        self.assertEqual(
+            len(invoice.invoice_line_ids),
+            len(sale_order_1.order_line),
+        )
         line_section = invoice.invoice_line_ids.filtered(
             lambda line: line.display_type == "line_section"
         )
