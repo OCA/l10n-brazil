@@ -92,11 +92,22 @@ class PurchaseOrder(models.Model):
         invoice_vals = super()._prepare_invoice()
         if self.fiscal_operation_id:
             # O caso Brasil se caracteriza por ter a Operação Fiscal
+            document_type_id = (
+                self.order_line[0].fiscal_operation_line_id.document_type_id.id
+                if self.order_line
+                and self.order_line[0].fiscal_operation_line_id.document_type_id
+                else (
+                    self.fiscal_operation_id.document_type_ids[0].document_type_id.id
+                    if self.fiscal_operation_id
+                    and self.fiscal_operation_id.document_type_ids
+                    else self.company_id.document_type_id.id
+                )
+            )
             invoice_vals.update(
                 {
                     "ind_final": self.ind_final,
                     "fiscal_operation_id": self.fiscal_operation_id.id,
-                    "document_type_id": self.company_id.document_type_id.id,
+                    "document_type_id": document_type_id,
                 }
             )
         return invoice_vals
