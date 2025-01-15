@@ -18,7 +18,7 @@ msgstr ""
 msgid ""
 "\n"
 "    A recursive Odoo object builder that works along with the\n"
-"    GenerateDS object builder from the parsed XML.\n"
+"    xsdata object builder from the parsed XML.\n"
 "    Here we take into account the concrete Odoo objects where the schema\n"
 "    mixins where injected and possible matcher or builder overrides.\n"
 "    "
@@ -28,7 +28,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/spec_driven_model/models/spec_models.py:0
 #, python-format
-msgid "Abrir..."
+msgid "Open..."
 msgstr ""
 
 #. module: spec_driven_model
