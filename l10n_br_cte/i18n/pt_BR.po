@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-12-21 15:52+0000\n"
+"PO-Revision-Date: 2025-01-16 18:06+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -406,7 +406,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_cte.cte_document_action
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "CT-e"
-msgstr ""
+msgstr "CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_dacte_layout
@@ -2514,7 +2514,7 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_line
 msgid "Fiscal Document Line"
-msgstr "Linha de Documento Fiscal"
+msgstr "Linha do Documento Fiscal"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_related
@@ -2981,7 +2981,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_country_state__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotcte_infprot__cte40_Id
@@ -5238,7 +5238,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__processador_edoc
 msgid "Processador documentos eletrônicos"
-msgstr ""
+msgstr "Processador documentos eletrônicos"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_proPred
@@ -6379,7 +6379,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_xNome
 msgid "Used in fiscal documents"
-msgstr "Uso em documentos fiscais"
+msgstr "Usado em documentos fiscais"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_inftribfed__cte40_vCOFINS
