@@ -110,7 +110,7 @@ class DocumentImportWizardMixin(models.TransientModel):
 
         for attachment in attachments:
             # this link will allow to retrive the next attachments to import:
-            attachment.res_model = "l10n_br_fiscal.document.import.wizard.mixin"
+            attachment.res_model = "l10n_br_fiscal.document.import.wizard"
             attachment.res_id = wizard.id
 
         wizard._onchange_file()

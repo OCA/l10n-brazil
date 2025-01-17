@@ -11,6 +11,6 @@ class AccountJournal(models.Model):
         if self.env.company.country_id.code != "BR" or len(attachment_ids) < 1:
             return super().create_invoice_from_attachment(attachment_ids=attachment_ids)
         attachments = self.env["ir.attachment"].browse(attachment_ids)
-        return self.env[
-            "l10n_br_fiscal.document.import.wizard.mixin"
-        ]._get_importer_action(attachments)
+        return self.env["l10n_br_fiscal.document.import.wizard"]._get_importer_action(
+            attachments
+        )
