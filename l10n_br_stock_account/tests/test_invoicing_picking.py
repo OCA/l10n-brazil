@@ -272,10 +272,10 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self._change_user_company(self.env.ref("base.main_company"))
         picking2 = self.env.ref("l10n_br_stock_account.main_company-picking_2")
 
-        self._run_fiscal_onchanges(picking2)
+        self._run_picking_onchanges(picking2)
 
         for line in picking2.move_ids:
-            self._run_fiscal_line_onchanges(line)
+            self._run_line_onchanges(line)
 
         picking2.action_confirm()
         picking2.action_assign()
@@ -509,10 +509,11 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         Test of compatible with international case, create Invoice but not for Brazil.
         """
         picking = self.env.ref("stock_picking_invoicing.stock_picking_invoicing_2")
-        self._run_fiscal_onchanges(picking)
+        self._run_picking_onchanges(picking)
+        picking.fiscal_operation_id = False
         # Force product availability
         for move in picking.move_ids_without_package:
-            self._run_fiscal_line_onchanges(move)
+            self._run_line_onchanges(move)
             # test split
             move.product_uom_qty = 2
             move.quantity_done = 1
@@ -549,10 +550,10 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self._change_user_company(self.env.ref("base.main_company"))
         picking = self.env.ref("l10n_br_stock_account.main_company-picking_2")
 
-        self._run_fiscal_onchanges(picking)
+        self._run_picking_onchanges(picking)
 
         for line in picking.move_ids:
-            self._run_fiscal_line_onchanges(line)
+            self._run_line_onchanges(line)
             # Force Split
             line.quantity_done = 10
 
@@ -620,11 +621,11 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         nb_invoice_before = self.env["account.move"].search_count([])
         picking.picking_type_id.pre_generate_fiscal_document_number = "pack"
 
-        self._run_fiscal_onchanges(picking)
+        self._run_picking_onchanges(picking)
         picking.action_confirm()
         picking.action_assign()
         for move in picking.move_ids_without_package:
-            self._run_fiscal_line_onchanges(move)
+            self._run_line_onchanges(move)
             move.quantity_done = move.product_uom_qty
 
         picking.action_put_in_pack()
