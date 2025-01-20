@@ -71,5 +71,4 @@ class StockRule(models.Model):
             for key in self.env["l10n_br_fiscal.document.line.mixin"]._fields.keys()
             if key != "product_id"
         ]
-        custom_move_fields += ["invoice_state"]
         return custom_move_fields
