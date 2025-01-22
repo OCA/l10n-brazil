@@ -70,39 +70,17 @@ class L10nBrCNABCode(models.Model):
 
     comment = fields.Text()
 
-    # TODO: Forma encontrada para pode fazer o Group By, na v15
-    #  parece já ser possivel usar campos many2many.
-    #  Também deve ser considerado em apagar o campo many2many e deixar
+    # TODO: Deve ser considerado em apagar o campo many2many e deixar
     #  apenas o many2one já que, por enquanto, não há bancos diferentes
     #  usando o mesmo conjunto de codigos apenas diferentes cnab( 240/400
     #  são iguais no caso Unicred )
-    bank_id = fields.Many2one(
-        comodel_name="res.bank", compute="_compute_bank_id", store=True
-    )  # it is possible to search only among stored fields
-
-    payment_method_id = fields.Many2one(
-        comodel_name="account.payment.method",
-        compute="_compute_payment_method_id",
-        store=True,
-    )  # it is possible to search only among stored fields
+    # bank_id = fields.Many2one(comodel_name="res.bank")
 
     def name_get(self):
         result = []
         for record in self:
             result.append((record.id, f"{record.code} - {record.name}"))
         return result
-
-    @api.depends("bank_ids")
-    def _compute_bank_id(self):
-        for record in self:
-            record.bank_id = record.bank_ids and record.bank_ids[0] or False
-
-    @api.depends("payment_method_ids")
-    def _compute_payment_method_id(self):
-        for record in self:
-            record.payment_method_id = (
-                record.payment_method_ids and record.payment_method_ids[0] or False
-            )
 
     @api.constrains("code")
     def check_code(self):
@@ -128,8 +106,8 @@ class L10nBrCNABCode(models.Model):
                         "and CNAB %(type_code)s type.",
                         code=record.code,
                         name=code_name_exist,
-                        bank=code_already_exist.bank_id.name,
-                        type_code=code_already_exist.payment_method_id.code,
+                        bank=code_already_exist.bank_ids.mapped("name"),
+                        type_code=code_already_exist.payment_method_ids.mapped("code"),
                     )
                 )
 
