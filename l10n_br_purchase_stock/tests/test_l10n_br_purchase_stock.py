@@ -106,7 +106,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         self.assertTrue(
             picking_devolution.fiscal_operation_id, "Missing Fiscal Operation."
         )
-        for line in picking_devolution.move_lines:
+        for line in picking_devolution.move_ids:
             self.assertEqual(line.invoice_state, "2binvoiced")
             # Valida presença dos campos principais para o mapeamento Fiscal
             self.assertTrue(line.fiscal_operation_id, "Missing Fiscal Operation.")
@@ -247,9 +247,13 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         """Test of compatible with international case or without Fiscal Operation,
         create Invoice but not for Brazil."""
         po_international = self.env.ref("purchase.purchase_order_2")
+        po_international.fiscal_operation_id = False
         po_international.with_context(tracking_disable=True).button_confirm()
         picking = po_international.picking_ids
+        # Método onchange_invoice_state acaba trazendo a 'Operação Fiscal Padrão'
+        picking.fiscal_operation_id = False
         self.picking_move_state(picking)
+        picking.fiscal_operation_id = False
         self.assertEqual(picking.state, "done")
         invoice = self.create_invoice_wizard(picking)
         invoice.action_post()
@@ -261,6 +265,8 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
             )
         # Teste Retorno
         picking_devolution = self.return_picking_wizard(picking)
+        self.picking_move_state(picking_devolution)
+        picking_devolution.fiscal_operation_id = False
         invoice_devolution = self.create_invoice_wizard(picking_devolution)
         self.assertFalse(
             invoice_devolution.fiscal_document_id,

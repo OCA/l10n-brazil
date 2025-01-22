@@ -48,5 +48,4 @@ class PurchaseOrder(models.Model):
             values["fiscal_operation_id"] = False
         if self.company_id.purchase_invoicing_policy == "stock_picking":
             values["invoice_state"] = "2binvoiced"
-
         return values
