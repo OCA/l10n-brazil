@@ -118,34 +118,37 @@ class StockInvoiceOnshipping(models.TransientModel):
         # vem somente um registro
         purchase_moves = moves.filtered(lambda ln: ln.purchase_line_id)
         if purchase_moves:
-            purchase_line = purchase_moves.purchase_line_id
             # Campos informados em qualquer caso
+            purchase_line = purchase_moves.purchase_line_id
             values["purchase_line_id"] = purchase_line.id
-            values["analytic_account_id"] = purchase_line.account_analytic_id.id
-            values["analytic_tag_ids"] = [(6, 0, purchase_line.analytic_tag_ids.ids)]
+            # Same make above, get fields informed in
+            # original of Purchase Line dict:
+            purchase_line_values = purchase_line._prepare_account_move_line()
+            values["analytic_distribution"] = purchase_line_values.get(
+                "analytic_distribution"
+            )
 
             # Refund case don't get values from Purchase Line Dict
             # TODO: Should get any value?
             if self._get_invoice_type() != "in_refund":
-                # Same make above, get fields informed in
-                # original of Purchase Line dict:
-                purchase_line_values = purchase_line._prepare_account_move_line()
-
                 # Fields to get:
-                # "display_type": self.display_type,
+                # "display_type": self.display_type or 'product'
                 # "sequence": self.sequence,
+                # * 'N field' included in _prepare_account_move_line method
+                #   by another module
 
                 # Fields to remove:
                 vals_to_remove = {
+                    # Fields from Move has priority
                     "name",
                     "product_id",
                     "product_uom_id",
                     "quantity",
                     "price_unit",
                     "tax_ids",
-                    "analytic_account_id",
-                    "analytic_tag_ids",
+                    # Already get
                     "purchase_line_id",
+                    "anlytic_distribution",
                     # another fields
                     "__last_update",
                     "display_name",
