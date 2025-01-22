@@ -403,13 +403,18 @@ def migrate(env, version):
     if not version:
         return
 
-    # Verifica se já houve migração, banco de dados migrados na v14
-    payment_mode_migrated = env["account.payment.mode"].search(
-        [
-            ("sending_code_id", "!=", False),
-        ],
-        limit=1,
-    )
+    if "sending_code_id" in env["account.payment.mode"]._fields:
+        # Caso o campo ainda exista,
+        # checamos se já há registros (indicando migração prévia).
+        payment_mode_migrated = env["account.payment.mode"].search(
+            [("sending_code_id", "!=", False)],
+            limit=1,
+        )
+    else:
+        # Caso o campo não exista,
+        # assumimos que a migração já foi suficientemente avançada.
+        payment_mode_migrated = True
+
     if payment_mode_migrated:
         return
 
