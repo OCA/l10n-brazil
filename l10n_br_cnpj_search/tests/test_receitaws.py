@@ -32,6 +32,7 @@ class TestReceitaWS(TestCnpjCommon):
         ):
             action_wizard = kilian.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
             wizard = (
                 self.env["partner.search.wizard"]
                 .with_context(**wizard_context)
@@ -63,6 +64,7 @@ class TestReceitaWS(TestCnpjCommon):
             invalido._onchange_cnpj_cpf()
             action_wizard = invalido.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
             self.env["partner.search.wizard"].with_context(**wizard_context).create({})
 
     def test_receita_ws_multiple_phones(self):
@@ -75,6 +77,7 @@ class TestReceitaWS(TestCnpjCommon):
 
             action_wizard = isla.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
             wizard = (
                 self.env["partner.search.wizard"]
                 .with_context(**wizard_context)

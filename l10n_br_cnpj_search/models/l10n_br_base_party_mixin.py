@@ -33,10 +33,15 @@ class PartyMixin(models.AbstractModel):
                     " this functionality."
                 )
             )
+        context = {
+            "active_model": self._name,
+        }
         if self._name == "res.partner":
-            default_partner_id = self.id
+            context["default_partner_id"] = self.id
+        elif self._name == "crm.lead":
+            context["default_lead_id"] = self.id
         else:
-            default_partner_id = self.partner_id.id
+            context["default_partner_id"] = self.partner_id.id
 
         return {
             "name": "Search Data by CNPJ",
@@ -44,9 +49,7 @@ class PartyMixin(models.AbstractModel):
             "res_model": "partner.search.wizard",
             "view_type": "form",
             "view_mode": "form",
-            "context": {
-                "default_partner_id": default_partner_id,
-            },
+            "context": context,
             "target": "new",
         }
 
