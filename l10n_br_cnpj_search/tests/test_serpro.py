@@ -36,6 +36,7 @@ class TestTestSerPro(TestCnpjCommon):
 
             action_wizard = dummy_basica.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
             wizard = (
                 self.env["partner.search.wizard"]
                 .with_context(**wizard_context)
@@ -70,6 +71,7 @@ class TestTestSerPro(TestCnpjCommon):
         with self.assertRaises(ValidationError):
             action_wizard = invalid.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
             self.env["partner.search.wizard"].with_context(**wizard_context).create({})
 
     def assert_socios(self, partner, expected_cnpjs):
@@ -128,6 +130,7 @@ class TestTestSerPro(TestCnpjCommon):
             dummy_empresa._onchange_cnpj_cpf()
             action_wizard = dummy_empresa.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
             wizard = (
                 self.env["partner.search.wizard"]
                 .with_context(**wizard_context)
@@ -163,6 +166,7 @@ class TestTestSerPro(TestCnpjCommon):
             dummy_qsa._onchange_cnpj_cpf()
             action_wizard = dummy_qsa.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
             wizard = (
                 self.env["partner.search.wizard"]
                 .with_context(**wizard_context)
