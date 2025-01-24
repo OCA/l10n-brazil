@@ -83,14 +83,16 @@ class PartnerCnpjSearchWizard(models.TransientModel):
 
     def default_get(self, fields):
         res = super().default_get(fields)
-        partner_id = self.env.context.get("default_partner_id")
-        if partner_id:
-            partner_model = self.env["res.partner"]
-            partner = partner_model.browse(partner_id)
-            cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
-            misc.punctuation_rm(self.zip)
-            values = self._get_partner_values(cnpj_cpf)
-            res.update(values)
+        active_model = self.env.context.get("active_model")
+        if active_model == "res.partner":
+            partner_id = self.env.context.get("default_partner_id")
+            if partner_id:
+                partner_model = self.env["res.partner"]
+                partner = partner_model.browse(partner_id)
+                cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
+                misc.punctuation_rm(self.zip)
+                values = self._get_partner_values(cnpj_cpf)
+                res.update(values)
         return res
 
     def action_update_partner(self):
