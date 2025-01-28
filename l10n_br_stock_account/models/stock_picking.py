@@ -108,38 +108,31 @@ class StockPicking(models.Model):
         l10n_br_sale_stock
         l10n_br_purchase_stock
         """
-        company = self.env.company
-        fiscal_operation = company.stock_fiscal_operation_id
-        picking_type_id = self.picking_type_id.id
-        if not picking_type_id:
-            # Quando isso é necessário? Testes não passam aqui,
-            # dependendo ver de remover
-            picking_type_id = self.env.context.get("default_picking_type_id")
-        if picking_type_id:
-            picking_type = self.env["stock.picking.type"].browse(picking_type_id)
-            fiscal_operation = picking_type.fiscal_operation_id or (
-                company.stock_in_fiscal_operation_id
-                if picking_type.code == "incoming"
-                else company.stock_out_fiscal_operation_id
-            )
+        if self.env.company.country_id.code == "BR":
+            fiscal_operation = self.env.company.stock_fiscal_operation_id
+            picking_type_id = self.picking_type_id.id
+            if not picking_type_id:
+                # Quando isso é necessário? Testes não passam aqui,
+                # dependendo ver de remover
+                picking_type_id = self.env.context.get("default_picking_type_id")
+            if picking_type_id:
+                picking_type = self.env["stock.picking.type"].browse(picking_type_id)
+                fiscal_operation = picking_type.fiscal_operation_id or (
+                    self.env.company.stock_in_fiscal_operation_id
+                    if picking_type.code == "incoming"
+                    else self.env.company.stock_out_fiscal_operation_id
+                )
 
-        return fiscal_operation
+            return fiscal_operation
 
     @api.onchange("invoice_state")
     def _onchange_invoice_state(self):
+        result = super()._onchange_invoice_state()
         for record in self:
-            # TODO: Na v16 chamar o super() o update_invoice_state já é
-            #  chamado https://github.com/OCA/account-invoicing/blob/16.0/
-            #  stock_picking_invoicing/models/stock_picking.py#L47
-            record._update_invoice_state(record.invoice_state)
-            record.mapped("move_ids")._update_invoice_state(record.invoice_state)
-
-            if record.partner_id and record.env.company.country_id == record.env.ref(
-                "base.br"
-            ):
-                fiscal_operation = record._get_default_fiscal_operation()
-                if fiscal_operation:
-                    record.fiscal_operation_id = fiscal_operation
+            fiscal_operation = record._get_default_fiscal_operation()
+            if fiscal_operation:
+                record.fiscal_operation_id = fiscal_operation
+        return result
 
     def set_to_be_invoiced(self):
         """
