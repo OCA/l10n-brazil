@@ -102,7 +102,7 @@ class TestL10nBrAccountPaymentOder(TransactionCase):
         ) as f:
             f.change_type = code_to_send
             if code_to_send == "change_date_maturity":
-                new_date = date.today() + timedelta(days=30)
+                new_date = date.today() + timedelta(days=40)
                 payment_cheque = self.env.ref(
                     "l10n_br_account_payment_order." "payment_mode_cheque"
                 )

@@ -61,7 +61,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
     def test_change_date_maturity_multiple(self):
         """Test Creation of a Payment Order an change MULTIPLE due date"""
         date_maturity = self.financial_move_line_ids.mapped("date_maturity")
-        new_date = date.today() + timedelta(days=30)
+        new_date = date.today() + timedelta(days=40)
         self._send_and_check_new_cnab_code(
             self.invoice_auto,
             self.financial_move_line_ids,
@@ -77,7 +77,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
     def test_change_date_maturity_one(self):
         """Test Creation of a Payment Order an change ONE due date"""
         date_maturity = self.financial_move_line_0.mapped("date_maturity")
-        new_date = date.today() + timedelta(days=30)
+        new_date = date.today() + timedelta(days=40)
         self._send_and_check_new_cnab_code(
             self.invoice_auto,
             self.financial_move_line_0,
