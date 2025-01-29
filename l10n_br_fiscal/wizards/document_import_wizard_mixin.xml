@@ -3,35 +3,49 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
 
-    <record id="l10n_br_fiscal_document_import_wizard_mixin_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document.import.wizard.mixin.form</field>
-        <field name="model">l10n_br_fiscal.document.import.wizard.mixin</field>
+    <record id="l10n_br_fiscal_document_import_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.import.wizard.form</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard</field>
         <field name="arch" type="xml">
             <form string="Import Document">
                 <group>
-                    <field name="file" required="1" />
+                    <field name="file" />
+                    <field name="document_key" />
                 </group>
-                <separator
-                    string="Preview Data"
-                    attrs="{'invisible': [('file', '=', False)]}"
-                />
                 <group id="document_info" attrs="{'invisible': [('file', '=', False)]}">
                     <group>
-                        <field name="fiscal_operation_id" required="1" />
-                        <field name="fiscal_operation_type" invisible="1" />
-                        <field name="document_key" readonly="1" />
-                        <field name="document_number" readonly="1" />
-                        <field name="document_serie" readonly="1" />
+                        <field name="document_type_id" readonly="1" force_save="1" />
+                        <field name="document_type" readonly="1" force_save="1" />
                     </group>
-
                     <group>
-                        <field name="partner_id" readonly="1" />
+                        <field name="document_number" readonly="1" force_save="1" />
+                        <field name="document_serie" readonly="1" force_save="1" />
+                    </group>
+                    <group string="Emitente">
+                        <field name="issuer_cnpj" readonly="1" force_save="1" />
+                        <field name="issuer_partner_id" readonly="1" force_save="1" />
+                        <field name="issuer_type_in_out" readonly="1" force_save="1" />
+                    </group>
+                    <group string="Destinatário">
+                        <field name="destination_cnpj" readonly="1" force_save="1" />
+                        <field
+                            name="destination_partner_id"
+                            readonly="1"
+                            force_save="1"
+                        />
+                        <field
+                            name="destination_type_in_out"
+                            readonly="1"
+                            force_save="1"
+                        />
+                    </group>
+                    <group>
                     </group>
                 </group>
                 <footer>
                     <button
                         name="action_import_and_open_document"
-                        string="Import Fiscal Document"
+                        string="Import and Review"
                         class="btn-primary"
                         type="object"
                     />
@@ -40,5 +54,17 @@
             </form>
         </field>
     </record>
+
+    <record
+        id="l10n_br_fiscal_document_import_wizard_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Importar E-DOC</field>
+        <field name="res_model">l10n_br_fiscal.document.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
 
 </odoo>
