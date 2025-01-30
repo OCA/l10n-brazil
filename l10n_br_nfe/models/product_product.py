@@ -4,6 +4,10 @@
 from odoo import api, models
 from odoo.osv import expression
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    CFOP_TYPE_MOVE_2_PRODUCT_FISCAL_TYPE,
+)
+
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
@@ -50,6 +54,7 @@ class ProductProduct(models.Model):
             rec_id = self.new(rec_dict).id
         else:
             rec_id = self.with_context(parent_dict=parent_dict).create(rec_dict).id
+
         return rec_id
 
     @api.model
@@ -86,8 +91,12 @@ class ProductProduct(models.Model):
             ncm = self.env["l10n_br_fiscal.ncm"].search(
                 [("code_unmasked", "=", parent_dict["nfe40_NCM"])], limit=1
             )
-
             values["ncm_id"] = ncm.id
+            values["fiscal_genre_id"] = (
+                self.env["l10n_br_fiscal.product.genre"]
+                .search([("code", "=", parent_dict["nfe40_NCM"][:2])], limit=1)
+                .id
+            )
 
             if not ncm:  # FIXME should not happen with prod data
                 ncm = (
@@ -101,4 +110,38 @@ class ProductProduct(models.Model):
                     )
                 )
                 values["ncm_id"] = ncm.id
+            values["fiscal_type"] = self._map_fiscal_type_from_context()
         return values
+
+    def _map_fiscal_type_from_context(self):
+        """
+        Automatically determines the product's fiscal type based on the
+        imported invoice context.
+
+        :param env: Odoo environment containing the execution context.
+        :return: Product fiscal type or False if it cannot be determined.
+        """
+        fiscal_type = False
+        parent_dict = self.env.context.get("parent_dict")
+
+        if parent_dict:
+            # Mapping based on CFOP
+            cfop_tuple = parent_dict.get("cfop_inverse_id")
+            if cfop_tuple and isinstance(cfop_tuple, tuple):
+                cfop = cfop_tuple[0]
+                cfop_id = self.env["l10n_br_fiscal.cfop"].browse(cfop)
+                fiscal_type = CFOP_TYPE_MOVE_2_PRODUCT_FISCAL_TYPE.get(
+                    cfop_id.type_move
+                )
+
+            # If a fiscal operation line exists, overwrite the previous value
+            fol_tuple = parent_dict.get("fiscal_operation_line_id")
+            if fol_tuple and isinstance(fol_tuple, tuple):
+                fol_id = fol_tuple[0]
+                fiscal_operation_line_id = self.env[
+                    "l10n_br_fiscal.operation.line"
+                ].browse(fol_id)
+                if fiscal_operation_line_id.product_type:
+                    fiscal_type = fiscal_operation_line_id.product_type
+
+        return fiscal_type

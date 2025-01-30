@@ -1113,6 +1113,11 @@ class NFeLine(spec_models.StackedModel):
                 .search([("code_unmasked", "=", value)], limit=1)
                 .id
             )
+            vals["fiscal_genre_id"] = (
+                self.env["l10n_br_fiscal.product.genre"]
+                .search([("code", "=", value[:2])], limit=1)
+                .id
+            )
         if key == "nfe40_CEST" and value:
             vals["cest_id"] = (
                 self.env["l10n_br_fiscal.cest"]
@@ -1410,6 +1415,7 @@ class NFeLine(spec_models.StackedModel):
                 spec_version="40",
                 # dry_run=True
             )
+            # TODO: Melhorar o comportamento ao descartar a criação do produto.
             values = self.read([])[0]
             self._prepare_import_dict(values)
             record_dict = {}
@@ -1417,6 +1423,7 @@ class NFeLine(spec_models.StackedModel):
                 rec_dict=record_dict,
                 parent_dict=values,
             )
+            self._onchange_product_id_fiscal()
             return {
                 "type": "ir.actions.act_window",
                 "res_model": "product.product",
