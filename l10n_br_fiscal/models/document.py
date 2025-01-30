@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from ast import literal_eval
+from collections import Counter
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
@@ -829,3 +830,12 @@ class Document(models.Model):
             "target": "new",
             "context": ctx,
         }
+
+    @api.model
+    def _get_most_common_operation(self):
+        operation_ids = self.fiscal_line_ids.mapped("fiscal_operation_id.id")
+        if not operation_ids:
+            return None
+        operation_count = Counter(operation_ids)
+        most_common_operation_id, _ = operation_count.most_common(1)[0]
+        return most_common_operation_id
