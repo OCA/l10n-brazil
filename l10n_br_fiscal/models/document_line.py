@@ -60,3 +60,27 @@ class DocumentLine(models.Model):
     imported_document = fields.Boolean(
         related="document_id.imported_document",
     )
+
+    line_product_import_state = fields.Selection(
+        selection=[
+            ("create_product", "Create Product"),
+            ("assign_product", "Assigin Product"),
+            ("assigned_product", "Assigined Product"),
+        ],
+        default="create_product",
+        string="Default Import State",
+    )
+
+    line_import_state = fields.Selection(
+        selection=[
+            ("create_product", "Create Product"),
+            ("assign_product", "Assigin Product"),
+            ("assigned_product", "Assigined Product"),
+        ],
+        default="create_product",
+        string="Default Import State",
+    )
+
+    line_import_message = fields.Char(
+        compute="_compute_line_import_status",
+    )

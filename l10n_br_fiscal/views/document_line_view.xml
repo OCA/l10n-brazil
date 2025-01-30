@@ -14,6 +14,7 @@
             <field name="fiscal_genre_id" invisible="1" />
             <field name="fiscal_genre_code" invisible="1" />
             <field name="fiscal_type" invisible="1" />
+            <field name="imported_document" invisible="1" />
         </group>
         <group>
           <field
@@ -21,6 +22,8 @@
                         context="{'tree_view_ref': 'product_template_tree', 'form_view_ref': 'product.product_template_only_form_view'}"
                     />
           <field name="default_code" />
+          <field name="line_import_message" />
+          <field name="line_product_import_state" />
           <field name="name" required="1" />
         </group>
         <notebook>

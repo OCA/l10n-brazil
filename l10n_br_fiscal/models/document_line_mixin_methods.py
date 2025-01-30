@@ -230,6 +230,19 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             else:
                 line.allow_csll_irpj = False  # No tax charges expected
 
+    @api.depends("line_product_import_state", "imported_document", "product_id")
+    def _compute_line_import_status(self):
+        for record in self:
+            msg = "*"
+            if record.imported_document:
+                if record.line_product_import_state:
+                    msg += record.line_product_import_state or ""
+                if not record.cfop_inverse_id:
+                    msg += "/CFOP"
+                if not record.uom_id:
+                    msg += "/UOM"
+            record.line_import_message = msg
+
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
         fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields.keys()
@@ -436,6 +449,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.fiscal_type = self.product_id.fiscal_type
 
             if self._is_imported():
+                self.line_product_import_state = "assigned_product"
                 return
 
             self.name = self.product_id.display_name
@@ -814,3 +828,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         # in a PO line or SO line, there is no document_id
         # and we consider the document is not imported
         return hasattr(self, "document_id") and self.document_id.imported_document
+
+    def action_create_product(self):
+        pass

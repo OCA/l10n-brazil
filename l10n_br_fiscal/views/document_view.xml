@@ -383,7 +383,23 @@
                                 context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}"
                             >
                 <tree>
+
+                <!-- <tree
+                                    decoration-danger="imported_document and not line_import_state == 'assigned_product'"
+                                    decoration-info="imported_document and line_import_message != 'Done'"
+                                > -->
                   <field name="imported_document" invisible="1" />
+                  <field name="line_product_import_state" invisible="1" />
+                  <button
+                                        type="object"
+                                        name="action_create_product"
+                                        icon="fa-plus-square-o"
+                                        attrs="{'invisible': [('product_id', '!=', False)]}"
+                                    />
+                  <field
+                                        name="line_import_message"
+                                        attrs="{'invisible': [('imported_document', '=', False)]}"
+                                    />
                   <field name="product_id" />
                   <field
                                         name="default_code"
