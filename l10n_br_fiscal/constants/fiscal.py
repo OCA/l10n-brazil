@@ -57,6 +57,21 @@ PRODUCT_FISCAL_TYPE = [
 ]
 
 
+CFOP_TYPE_MOVE_2_PRODUCT_FISCAL_TYPE = {
+    "purchase_commerce": "00",
+    "purchase_industry": "01",
+    "purchase_ownuse": "07",
+    "purchase_asset": "08",
+    "purchase_service": "09",
+    "other": "99",
+    "sale_commerce": "00",
+    "sale_industry": "01",
+    "sale_ownuse": "07",
+    "sale_asset": "08",
+    "sale_service": "09",
+}
+
+
 PRODUCT_FISCAL_TYPE_SERVICE = "09"
 
 NCM_FOR_SERVICE = "0000.00.00"
