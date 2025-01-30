@@ -1060,6 +1060,32 @@ class NFeLine(spec_models.StackedModel):
         if not values.get("name"):
             values["name"] = values.get("nfe40_xProd")
             values["default_code"] = values.get("nfe40_cProd")
+            if values.get("nfe40_CFOP"):
+                cfop_inverse_id = (
+                    self.env["l10n_br_fiscal.cfop"]
+                    .search([("code", "=", values.get("nfe40_CFOP"))], limit=1)
+                    .cfop_inverse_id
+                )
+
+                if cfop_inverse_id:
+                    values["cfop_inverse_id"] = cfop_inverse_id.id
+                    fiscal_operation_line_id = self.env[
+                        "l10n_br_fiscal.operation.line"
+                    ].search(
+                        [
+                            "|",
+                            ("cfop_internal_id", "=", cfop_inverse_id.id),
+                            "|",
+                            ("cfop_external_id", "=", cfop_inverse_id.id),
+                            ("cfop_export_id", "=", cfop_inverse_id.id),
+                        ],
+                        limit=1,
+                    )
+                    if fiscal_operation_line_id:
+                        values["fiscal_operation_line_id"] = fiscal_operation_line_id.id
+                        values[
+                            "fiscal_operation_id"
+                        ] = fiscal_operation_line_id.fiscal_operation_id.id
             if values.get("product_id"):
                 values["ncm_id"] = (
                     self.env["product.product"].browse(values["product_id"]).ncm_id.id
