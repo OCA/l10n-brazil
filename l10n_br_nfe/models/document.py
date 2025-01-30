@@ -1365,6 +1365,8 @@ class NFe(spec_models.StackedModel):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
 
+        document.fiscal_operation_id = document._get_most_common_operation()
+
         return document
 
     def _document_cancel(self, justificative):
