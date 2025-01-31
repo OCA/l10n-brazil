@@ -1,7 +1,7 @@
 # Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
+import json
 import sys
 from enum import Enum
 
@@ -1057,6 +1057,8 @@ class NFeLine(spec_models.StackedModel):
         values = super()._prepare_import_dict(
             values, model, parent_dict, defaults_model
         )
+        values["line_import_json"] = json.dumps(values)
+
         if not values.get("name"):
             values["name"] = values.get("nfe40_xProd")
             values["default_code"] = values.get("nfe40_cProd")
