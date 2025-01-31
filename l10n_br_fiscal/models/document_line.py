@@ -84,3 +84,5 @@ class DocumentLine(models.Model):
     line_import_message = fields.Char(
         compute="_compute_line_import_status",
     )
+
+    line_import_json = fields.Serialized()

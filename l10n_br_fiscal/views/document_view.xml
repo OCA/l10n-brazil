@@ -392,9 +392,9 @@
                   <field name="line_product_import_state" invisible="1" />
                   <button
                                         type="object"
-                                        name="action_create_product"
+                                        name="action_import_product_wizard"
                                         icon="fa-plus-square-o"
-                                        attrs="{'invisible': [('product_id', '!=', False)]}"
+                                        attrs="{'invisible': [('imported_document', '=', False)]}"
                                     />
                   <field
                                         name="line_import_message"

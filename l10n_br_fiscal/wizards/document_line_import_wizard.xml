@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+ <record id="view_l10n_br_fiscal_document_line_import_wizard" model="ir.ui.view">
+        <field name="name">l10n.br.fiscal.document.line.import.wizard.form</field>
+        <field name="model">l10n_br_fiscal.document.line.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Fiscal Document Line">
+                <sheet>
+                    <group>
+                        <field name="document_line_id" />
+                        <group>
+                            <field name="document_code" />
+                        </group>
+                        <group>
+                            <field name="document_ean" />
+                        </group>
+                        <group cols="4" colspan="4">
+                            <field name="document_name" />
+                        </group>
+                        <group>
+                            <field name="document_qty" />
+                            <field name="document_uom" />
+                            <field name="document_uom_trib" />
+                        </group>
+                        <group>
+                            <field name="document_ncm_id" />
+                            <field name="document_cfop_id" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="import_product_id" />
+                            <field name="import_qty" />
+                        </group>
+                        <group>
+                            <field name="import_uom_id" />
+                            <field name="import_create_alternative_uom" />
+                        </group>
+                        <group>
+                            <field name="import_ncm_id" />
+                            <field name="import_cfop_id" />
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button
+                        name="action_previous_product"
+                        type="object"
+                        string="Confirm and Previous"
+                        class="btn-warning"
+                        icon="fa-arrow-left"
+                    />
+                    <button
+                        name="action_done"
+                        type="object"
+                        string="Confirm and Close"
+                        class="btn-primary"
+                        icon="fa-check"
+                    />
+                    <button
+                        name="action_next_product"
+                        type="object"
+                        string="Confirm and Next"
+                        class="btn-success"
+                        icon="fa-arrow-right"
+                    />
+                    <button
+                        string="Cancel"
+                        special="cancel"
+                        class="btn-danger"
+                        icon="fa-times"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record
+        model="ir.actions.act_window"
+        id="l10n_br_fiscal_document_line_import_wizard_act_window"
+    >
+        <field name="name">Document Line Import Wizard</field> <!-- TODO -->
+        <field name="res_model">l10n_br_fiscal.document.line.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+
+</odoo>

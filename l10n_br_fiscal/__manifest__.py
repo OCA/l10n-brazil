@@ -14,6 +14,7 @@
     "depends": [
         "product",
         "l10n_br_base",
+        "base_sparse_field",
     ],
     "data": [
         # security
@@ -86,6 +87,7 @@
         "views/operation_dashboard_view.xml",
         # Wizards
         "wizards/document_import_wizard_mixin.xml",
+        "wizards/document_line_import_wizard.xml",
         # Actions
         "views/l10n_br_fiscal_action.xml",
         # Menus

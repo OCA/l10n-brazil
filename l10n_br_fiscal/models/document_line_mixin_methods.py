@@ -829,5 +829,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         # and we consider the document is not imported
         return hasattr(self, "document_id") and self.document_id.imported_document
 
-    def action_create_product(self):
-        pass
+    def action_import_product_wizard(self):
+        action = self.env.ref(
+            "l10n_br_fiscal.l10n_br_fiscal_document_line_import_wizard_act_window"
+        )
+        result = action.sudo().read()[0]
+        return result
