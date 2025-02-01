@@ -18,14 +18,9 @@ class AccountMoveLine(models.Model):
     #  Isso causa confusão pois a primeira parcela fica como sendo a segunda.
     _order = "date desc, date_maturity ASC, id desc"
 
-    cnab_state = fields.Selection(
-        selection=ESTADOS_CNAB,
-        string="Estados CNAB",
-    )
+    cnab_state = fields.Selection(selection=ESTADOS_CNAB, string="Estados CNAB",)
 
-    own_number = fields.Char(
-        string="Nosso Numero",
-    )
+    own_number = fields.Char(string="Nosso Numero",)
 
     # No arquivo de retorno do CNAB o campo pode ter um tamanho diferente,
     # o tamanho do campo é preenchido na totalidade com zeros a esquerda,
@@ -37,9 +32,7 @@ class AccountMoveLine(models.Model):
     # Assim o metodo que faz o retorno do CNAB consegue encontrar
     # a move line relacionada ao Evento.
     own_number_without_zfill = fields.Char(
-        compute="_compute_own_number_without_zfill",
-        store=True,
-        copy=False,
+        compute="_compute_own_number_without_zfill", store=True, copy=False,
     )
 
     # Podem existir sequencias do nosso numero/own_number iguais entre bancos
@@ -51,39 +44,25 @@ class AccountMoveLine(models.Model):
         copy=False,
     )
 
-    document_number = fields.Char(
-        string="Número documento",
-    )
+    document_number = fields.Char(string="Número documento",)
 
-    company_title_identification = fields.Char(
-        string="Identificação Titulo Empresa",
-    )
+    company_title_identification = fields.Char(string="Identificação Titulo Empresa",)
 
     payment_situation = fields.Selection(
-        selection=SITUACAO_PAGAMENTO,
-        string="Situação do Pagamento",
-        default="inicial",
+        selection=SITUACAO_PAGAMENTO, string="Situação do Pagamento", default="inicial",
     )
 
-    instructions = fields.Text(
-        string="Instruções de cobrança",
-        readonly=True,
-    )
+    instructions = fields.Text(string="Instruções de cobrança", readonly=True,)
 
     journal_entry_ref = fields.Char(
-        string="Journal Entry Ref",
-        compute="_compute_journal_entry_ref",
-        store=True,
+        string="Journal Entry Ref", compute="_compute_journal_entry_ref", store=True,
     )
 
     # TODO: Confirmar o caso de uso de diferentes modos de pagto na mesma
     #  account.invoice
     payment_mode_id = fields.Many2one(string="Modo de Pagamento")
 
-    last_change_reason = fields.Text(
-        readonly=True,
-        string="Justificativa",
-    )
+    last_change_reason = fields.Text(readonly=True, string="Justificativa",)
 
     mov_instruction_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.mov.instruction.code",

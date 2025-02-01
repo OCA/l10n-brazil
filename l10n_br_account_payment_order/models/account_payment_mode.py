@@ -26,9 +26,7 @@ class AccountPaymentMode(models.Model):
     )
 
     service_type = fields.Selection(
-        selection=TIPO_SERVICO,
-        string="Tipo de Serviço",
-        help="Campo G025 do CNAB",
+        selection=TIPO_SERVICO, string="Tipo de Serviço", help="Campo G025 do CNAB",
     )
 
     release_form = fields.Selection(
@@ -38,19 +36,13 @@ class AccountPaymentMode(models.Model):
     )
 
     cnab_sequence_id = fields.Many2one(
-        comodel_name="ir.sequence",
-        string="Sequencia do Arquivo CNAB",
-        tracking=True,
+        comodel_name="ir.sequence", string="Sequencia do Arquivo CNAB", tracking=True,
     )
 
     # Fields used to make invisible banks specifics fields
-    bank_id = fields.Many2one(
-        related="fixed_journal_id.bank_id",
-    )
+    bank_id = fields.Many2one(related="fixed_journal_id.bank_id",)
 
-    bank_code_bc = fields.Char(
-        related="fixed_journal_id.bank_id.code_bc",
-    )
+    bank_code_bc = fields.Char(related="fixed_journal_id.bank_id.code_bc",)
 
     own_number_type = fields.Selection(
         related="fixed_journal_id.company_id.own_number_type",

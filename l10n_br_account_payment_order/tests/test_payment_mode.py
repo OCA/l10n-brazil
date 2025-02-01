@@ -84,19 +84,13 @@ class TestPaymentMode(SavepointCase):
     def test_constrains(self):
         with self.assertRaises(ValidationError):
             self.payment_mode_test_240.write(
-                {
-                    "group_lines": True,
-                }
+                {"group_lines": True,}
             )
         with self.assertRaises(ValidationError):
             self.payment_mode_test_240.write(
-                {
-                    "generate_move": True,
-                }
+                {"generate_move": True,}
             )
         with self.assertRaises(ValidationError):
             self.payment_mode_test_240.write(
-                {
-                    "post_move": True,
-                }
+                {"post_move": True,}
             )

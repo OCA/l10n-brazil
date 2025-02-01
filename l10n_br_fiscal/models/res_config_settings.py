@@ -9,21 +9,15 @@ class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
     ibpt_api = fields.Boolean(
-        string="Use IBPT API",
-        related="company_id.ibpt_api",
-        readonly=False,
+        string="Use IBPT API", related="company_id.ibpt_api", readonly=False,
     )
 
     ibpt_token = fields.Char(
-        string="IBPT Token",
-        related="company_id.ibpt_token",
-        readonly=False,
+        string="IBPT Token", related="company_id.ibpt_token", readonly=False,
     )
 
     ibpt_update_days = fields.Integer(
-        string="IBPT Update",
-        related="company_id.ibpt_update_days",
-        readonly=False,
+        string="IBPT Update", related="company_id.ibpt_update_days", readonly=False,
     )
 
     cert_expired_alert = fields.Integer(
@@ -39,18 +33,10 @@ class ResConfigSettings(models.TransientModel):
         string="Default Document Type",
     )
 
-    module_l10n_br_nfe = fields.Boolean(
-        string="NF-e/NFC-e",
-    )
+    module_l10n_br_nfe = fields.Boolean(string="NF-e/NFC-e",)
 
-    module_l10n_br_mdfe = fields.Boolean(
-        string="MDF-e",
-    )
+    module_l10n_br_mdfe = fields.Boolean(string="MDF-e",)
 
-    module_l10n_br_nfse = fields.Boolean(
-        string="NFS-e",
-    )
+    module_l10n_br_nfse = fields.Boolean(string="NFS-e",)
 
-    module_l10n_br_cte = fields.Boolean(
-        string="CT-e",
-    )
+    module_l10n_br_cte = fields.Boolean(string="CT-e",)

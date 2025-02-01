@@ -33,9 +33,7 @@ class SimplifiedTaxRange(models.Model):
     )
 
     final_revenue = fields.Monetary(
-        string="Final Revenue",
-        currency_field="currency_id",
-        digits="Fiscal Documents",
+        string="Final Revenue", currency_field="currency_id", digits="Fiscal Documents",
     )
 
     total_tax_percent = fields.Float(string="Tax Percent", digits="Fiscal Tax Percent")

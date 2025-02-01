@@ -11,9 +11,7 @@ class StateTaxNumbers(models.Model):
     _description = "State Tax Numbers"
 
     partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Partner",
-        ondelete="cascade",
+        comodel_name="res.partner", string="Partner", ondelete="cascade",
     )
 
     inscr_est = fields.Char(string="State Tax Number", size=16, required=True)

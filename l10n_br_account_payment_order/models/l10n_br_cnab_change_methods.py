@@ -503,10 +503,7 @@ class L10nBrCNABChangeMethods(models.Model):
             new_payment_mode_id=new_payment_mode_id, **kwargs
         )
         moves_to_sync.write(
-            {
-                "payment_mode_id": new_payment_mode_id.id,
-                "last_change_reason": reason,
-            }
+            {"payment_mode_id": new_payment_mode_id.id, "last_change_reason": reason,}
         )
 
     def _create_baixa(self, reason, **kwargs):

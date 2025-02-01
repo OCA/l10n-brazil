@@ -31,20 +31,12 @@ class DocumentEletronic(models.AbstractModel):
         string="Issuer",
     )
 
-    status_code = fields.Char(
-        string="Status Code",
-        copy=False,
-    )
+    status_code = fields.Char(string="Status Code", copy=False,)
 
-    status_name = fields.Char(
-        string="Status Name",
-        copy=False,
-    )
+    status_name = fields.Char(string="Status Name", copy=False,)
 
     status_description = fields.Char(
-        compute="_compute_status_description",
-        string="Status Description",
-        copy=False,
+        compute="_compute_status_description", string="Status Description", copy=False,
     )
 
     # Authorization Event Related Fields
@@ -85,15 +77,11 @@ class DocumentEletronic(models.AbstractModel):
 
     # Cancel Event Related Fields
     cancel_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.event",
-        string="Cancel Event",
-        copy=False,
+        comodel_name="l10n_br_fiscal.event", string="Cancel Event", copy=False,
     )
 
     cancel_date = fields.Datetime(
-        string="Cancel Date",
-        readonly=True,
-        related="cancel_event_id.protocol_date",
+        string="Cancel Date", readonly=True, related="cancel_event_id.protocol_date",
     )
 
     cancel_protocol_number = fields.Char(
@@ -112,9 +100,7 @@ class DocumentEletronic(models.AbstractModel):
 
     # Invalidate Event Related Fields
     invalidate_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.event",
-        string="Invalidate Event",
-        copy=False,
+        comodel_name="l10n_br_fiscal.event", string="Invalidate Event", copy=False,
     )
 
     invalidate_date = fields.Datetime(
@@ -154,8 +140,7 @@ class DocumentEletronic(models.AbstractModel):
         for record in self:
             if record.status_code:
                 record.status_description = "{} - {}".format(
-                    record.status_code or "",
-                    record.status_name or "",
+                    record.status_code or "", record.status_name or "",
                 )
             else:
                 record.status_description = False

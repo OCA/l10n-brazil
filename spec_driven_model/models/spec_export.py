@@ -45,9 +45,7 @@ class AbstractSpecMixin(models.AbstractModel):
             return
         output = StringIO()
         binding_instance.export(
-            output,
-            0,
-            pretty_print=True,
+            output, 0, pretty_print=True,
         )
         output.close()
 

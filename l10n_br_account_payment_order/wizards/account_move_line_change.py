@@ -23,9 +23,7 @@ class AccountMoveLineCNABChange(models.TransientModel):
         return res
 
     account_move_line_ids = fields.Many2many(
-        comodel_name="account.move.line",
-        string="Move Line",
-        readonly=True,
+        comodel_name="account.move.line", string="Move Line", readonly=True,
     )
     # Muitas opções são permitidas, verificar manual do respectivo CNAB usado.
     change_type = fields.Selection(

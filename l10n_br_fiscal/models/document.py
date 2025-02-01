@@ -54,16 +54,9 @@ class Document(models.Model):
 
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
-    active = fields.Boolean(
-        string="Active",
-        default=True,
-    )
+    active = fields.Boolean(string="Active", default=True,)
 
-    name = fields.Char(
-        compute="_compute_name",
-        store=True,
-        index=True,
-    )
+    name = fields.Char(compute="_compute_name", store=True, index=True,)
 
     fiscal_operation_id = fields.Many2one(
         domain="[('state', '=', 'approved'), "
@@ -71,32 +64,15 @@ class Document(models.Model):
         " ('fiscal_operation_type', '=', 'all')]",
     )
 
-    fiscal_operation_type = fields.Selection(
-        store=True,
-    )
+    fiscal_operation_type = fields.Selection(store=True,)
 
-    document_number = fields.Char(
-        string="Document Number",
-        copy=False,
-        index=True,
-    )
+    document_number = fields.Char(string="Document Number", copy=False, index=True,)
 
-    rps_number = fields.Char(
-        string="RPS Number",
-        copy=False,
-        index=True,
-    )
+    rps_number = fields.Char(string="RPS Number", copy=False, index=True,)
 
-    document_key = fields.Char(
-        string="Key",
-        copy=False,
-        index=True,
-    )
+    document_key = fields.Char(string="Key", copy=False, index=True,)
 
-    document_date = fields.Datetime(
-        string="Document Date",
-        copy=False,
-    )
+    document_date = fields.Datetime(string="Document Date", copy=False,)
 
     user_id = fields.Many2one(
         comodel_name="res.users",
@@ -105,34 +81,22 @@ class Document(models.Model):
         default=lambda self: self.env.user,
     )
 
-    document_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.type",
-    )
+    document_type_id = fields.Many2one(comodel_name="l10n_br_fiscal.document.type",)
 
-    operation_name = fields.Char(
-        string="Operation Name",
-        copy=False,
-    )
+    operation_name = fields.Char(string="Operation Name", copy=False,)
 
     document_electronic = fields.Boolean(
-        related="document_type_id.electronic",
-        string="Electronic?",
-        store=True,
+        related="document_type_id.electronic", string="Electronic?", store=True,
     )
 
-    date_in_out = fields.Datetime(
-        string="Date Move",
-        copy=False,
-    )
+    date_in_out = fields.Datetime(string="Date Move", copy=False,)
 
     document_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
         domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
     )
 
-    document_serie = fields.Char(
-        string="Serie Number",
-    )
+    document_serie = fields.Char(string="Serie Number",)
 
     document_related_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.related",
@@ -140,14 +104,10 @@ class Document(models.Model):
         string="Fiscal Document Related",
     )
 
-    partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Partner",
-    )
+    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner",)
 
     partner_shipping_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Shipping Address",
+        comodel_name="res.partner", string="Shipping Address",
     )
 
     company_id = fields.Many2one(
@@ -193,15 +153,9 @@ class Document(models.Model):
 
     close_id = fields.Many2one(comodel_name="l10n_br_fiscal.closing", string="Close ID")
 
-    document_type = fields.Char(
-        related="document_type_id.code",
-        store=True,
-    )
+    document_type = fields.Char(related="document_type_id.code", store=True,)
 
-    dfe_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.dfe",
-        string="DF-e Consult",
-    )
+    dfe_id = fields.Many2one(comodel_name="l10n_br_fiscal.dfe", string="DF-e Consult",)
 
     # Você não vai poder fazer isso em modelos que já tem state
     # TODO Porque não usar o campo state do fiscal.document???
@@ -323,8 +277,7 @@ class Document(models.Model):
             name += type_serie_number
         else:
             name += "{name}/{type_serie_number}".format(
-                name=self.company_name or "",
-                type_serie_number=type_serie_number,
+                name=self.company_name or "", type_serie_number=type_serie_number,
             )
         return name
 

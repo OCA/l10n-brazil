@@ -14,18 +14,9 @@ class DFe(models.Model):
     _description = "Consult DF-e"
     _order = "id desc"
 
-    company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company",
-    )
-    last_nsu = fields.Char(
-        string="Last NSU",
-        size=25,
-        default="0",
-    )
-    last_query = fields.Datetime(
-        string="Last query",
-    )
+    company_id = fields.Many2one(comodel_name="res.company", string="Company",)
+    last_nsu = fields.Char(string="Last NSU", size=25, default="0",)
+    last_query = fields.Datetime(string="Last query",)
 
     recipient_xml_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.dfe_xml",
@@ -91,10 +82,7 @@ class DFeXML(models.Model):
     _name = "l10n_br_fiscal.dfe_xml"
     _description = "DF-e XML Document"
 
-    dfe_id = fields.Many2one(
-        string="DF-e Consult",
-        comodel_name="l10n_br_fiscal.dfe",
-    )
+    dfe_id = fields.Many2one(string="DF-e Consult", comodel_name="l10n_br_fiscal.dfe",)
 
     xml_type = fields.Selection(
         [
@@ -106,7 +94,4 @@ class DFeXML(models.Model):
         string="XML Type",
     )
 
-    xml = fields.Char(
-        string="XML",
-        size=5000,
-    )
+    xml = fields.Char(string="XML", size=5000,)

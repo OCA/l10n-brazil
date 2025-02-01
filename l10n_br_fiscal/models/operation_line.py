@@ -75,8 +75,7 @@ class OperationLine(models.Model):
     )
 
     tax_icms_or_issqn = fields.Selection(
-        selection=TAX_ICMS_OR_ISSQN,
-        string="ICMS or ISSQN Tax",
+        selection=TAX_ICMS_OR_ISSQN, string="ICMS or ISSQN Tax",
     )
 
     line_inverse_id = fields.Many2one(
@@ -97,10 +96,7 @@ class OperationLine(models.Model):
         selection=TAX_FRAMEWORK, string="Partner Tax Framework"
     )
 
-    ind_ie_dest = fields.Selection(
-        selection=NFE_IND_IE_DEST,
-        string="ICMS Taxpayer",
-    )
+    ind_ie_dest = fields.Selection(selection=NFE_IND_IE_DEST, string="ICMS Taxpayer",)
 
     product_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE, string="Product Fiscal Type"

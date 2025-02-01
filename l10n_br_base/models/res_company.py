@@ -75,15 +75,9 @@ class Company(models.Model):
         for company in self:
             company.partner_id.suframa = company.suframa
 
-    legal_name = fields.Char(
-        compute="_compute_address",
-        inverse="_inverse_legal_name",
-    )
+    legal_name = fields.Char(compute="_compute_address", inverse="_inverse_legal_name",)
 
-    district = fields.Char(
-        compute="_compute_address",
-        inverse="_inverse_district",
-    )
+    district = fields.Char(compute="_compute_address", inverse="_inverse_district",)
 
     city_id = fields.Many2one(
         domain="[('state_id', '=', state_id)]",
@@ -93,15 +87,9 @@ class Company(models.Model):
 
     country_id = fields.Many2one(default=lambda self: self.env.ref("base.br"))
 
-    cnpj_cpf = fields.Char(
-        compute="_compute_address",
-        inverse="_inverse_cnpj_cpf",
-    )
+    cnpj_cpf = fields.Char(compute="_compute_address", inverse="_inverse_cnpj_cpf",)
 
-    inscr_est = fields.Char(
-        compute="_compute_address",
-        inverse="_inverse_state",
-    )
+    inscr_est = fields.Char(compute="_compute_address", inverse="_inverse_state",)
 
     state_tax_number_ids = fields.One2many(
         string="State Tax Numbers",
@@ -111,15 +99,9 @@ class Company(models.Model):
         inverse="_inverse_state_tax_number_ids",
     )
 
-    inscr_mun = fields.Char(
-        compute="_compute_address",
-        inverse="_inverse_inscr_mun",
-    )
+    inscr_mun = fields.Char(compute="_compute_address", inverse="_inverse_inscr_mun",)
 
-    suframa = fields.Char(
-        compute="_compute_address",
-        inverse="_inverse_suframa",
-    )
+    suframa = fields.Char(compute="_compute_address", inverse="_inverse_suframa",)
 
     @api.model
     def _fields_view_get(

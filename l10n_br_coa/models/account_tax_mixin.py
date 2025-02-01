@@ -8,7 +8,4 @@ class AccountTaxMixin(models.AbstractModel):
     _name = "account.tax.mixin"
     _description = "Account Tax Mixin"
 
-    deductible = fields.Boolean(
-        string="Deductible Tax?",
-        default=True,
-    )
+    deductible = fields.Boolean(string="Deductible Tax?", default=True,)

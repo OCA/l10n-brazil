@@ -18,23 +18,19 @@ class TaxEstimate(models.Model):
     )
 
     federal_taxes_national = fields.Float(
-        string="Impostos Federais Nacional",
-        digits="Fiscal Tax Percent",
+        string="Impostos Federais Nacional", digits="Fiscal Tax Percent",
     )
 
     federal_taxes_import = fields.Float(
-        string="Impostos Federais Importado",
-        digits="Fiscal Tax Percent",
+        string="Impostos Federais Importado", digits="Fiscal Tax Percent",
     )
 
     state_taxes = fields.Float(
-        string="Impostos Estaduais Nacional",
-        digits="Fiscal Tax Percent",
+        string="Impostos Estaduais Nacional", digits="Fiscal Tax Percent",
     )
 
     municipal_taxes = fields.Float(
-        string="Impostos Municipais Nacional",
-        digits="Fiscal Tax Percent",
+        string="Impostos Municipais Nacional", digits="Fiscal Tax Percent",
     )
 
     create_date = fields.Datetime(string="Create Date", readonly=True)

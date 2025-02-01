@@ -11,11 +11,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "13.0.3.1.0",
     "development_status": "Production/Stable",
-    "depends": [
-        "uom",
-        "product",
-        "l10n_br_base",
-    ],
+    "depends": ["uom", "product", "l10n_br_base",],
     "data": [
         # security
         "security/fiscal_security.xml",
@@ -106,10 +102,5 @@
     "installable": True,
     "application": True,
     "auto_install": False,
-    "external_dependencies": {
-        "python": [
-            "erpbrasil.base",
-            "erpbrasil.assinatura",
-        ]
-    },
+    "external_dependencies": {"python": ["erpbrasil.base", "erpbrasil.assinatura",]},
 }

@@ -18,19 +18,11 @@ class PartyMixin(models.AbstractModel):
     _name = "l10n_br_base.party.mixin"
     _description = "Brazilian partner and company data mixin"
 
-    cnpj_cpf = fields.Char(
-        string="CNPJ/CPF",
-        size=18,
-    )
+    cnpj_cpf = fields.Char(string="CNPJ/CPF", size=18,)
 
-    inscr_est = fields.Char(
-        string="State Tax Number",
-        size=17,
-    )
+    inscr_est = fields.Char(string="State Tax Number", size=17,)
 
-    rg = fields.Char(
-        string="RG",
-    )
+    rg = fields.Char(string="RG",)
 
     state_tax_number_ids = fields.One2many(
         string="Others State Tax Number",
@@ -38,20 +30,12 @@ class PartyMixin(models.AbstractModel):
         inverse_name="partner_id",
     )
 
-    inscr_mun = fields.Char(
-        string="Municipal Tax Number",
-        size=18,
-    )
+    inscr_mun = fields.Char(string="Municipal Tax Number", size=18,)
 
-    suframa = fields.Char(
-        string="Suframa",
-        size=18,
-    )
+    suframa = fields.Char(string="Suframa", size=18,)
 
     legal_name = fields.Char(
-        string="Legal Name",
-        size=128,
-        help="Used in fiscal documents",
+        string="Legal Name", size=128, help="Used in fiscal documents",
     )
 
     city_id = fields.Many2one(
@@ -61,14 +45,10 @@ class PartyMixin(models.AbstractModel):
     )
 
     country_id = fields.Many2one(
-        comodel_name="res.country.state",
-        default=lambda self: self.env.ref("base.br"),
+        comodel_name="res.country.state", default=lambda self: self.env.ref("base.br"),
     )
 
-    district = fields.Char(
-        string="District",
-        size=32,
-    )
+    district = fields.Char(string="District", size=32,)
 
     @api.onchange("cnpj_cpf")
     def _onchange_cnpj_cpf(self):

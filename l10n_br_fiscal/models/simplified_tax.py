@@ -27,7 +27,4 @@ class SimplifiedTax(models.Model):
         copy=False,
     )
 
-    coefficient_r = fields.Boolean(
-        string="Coefficient R",
-        readonly=True,
-    )
+    coefficient_r = fields.Boolean(string="Coefficient R", readonly=True,)

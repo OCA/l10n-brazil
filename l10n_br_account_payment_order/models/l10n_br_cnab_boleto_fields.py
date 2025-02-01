@@ -13,9 +13,7 @@ class L10nBrCNABBoletoFields(models.Model):
 
     invoice_print = fields.Boolean(string="Gerar relatorio na conclusão da fatura?")
 
-    instructions = fields.Text(
-        string="Instruções de cobrança",
-    )
+    instructions = fields.Text(string="Instruções de cobrança",)
 
     code_convetion = fields.Char(
         string="Código do Convênio no Banco",
@@ -33,27 +31,13 @@ class L10nBrCNABBoletoFields(models.Model):
         default="1",
     )
 
-    communication_2 = fields.Char(
-        string="Comunicação para o sacador avalista",
-    )
+    communication_2 = fields.Char(string="Comunicação para o sacador avalista",)
 
-    boleto_wallet = fields.Char(
-        string="Carteira",
-        size=3,
-        tracking=True,
-    )
+    boleto_wallet = fields.Char(string="Carteira", size=3, tracking=True,)
 
-    boleto_modality = fields.Char(
-        string="Modalidade",
-        size=2,
-        tracking=True,
-    )
+    boleto_modality = fields.Char(string="Modalidade", size=2, tracking=True,)
 
-    boleto_variation = fields.Char(
-        string="Variação",
-        size=2,
-        tracking=True,
-    )
+    boleto_variation = fields.Char(string="Variação", size=2, tracking=True,)
 
     boleto_accept = fields.Selection(
         selection=[("S", "Sim"), ("N", "Não")],
@@ -124,9 +108,7 @@ class L10nBrCNABBoletoFields(models.Model):
     )
 
     boleto_interest_perc = fields.Float(
-        string="Percentual de Juros de Mora",
-        digits="Account",
-        tracking=True,
+        string="Percentual de Juros de Mora", digits="Account", tracking=True,
     )
 
     boleto_fee_code = fields.Char(
@@ -138,9 +120,7 @@ class L10nBrCNABBoletoFields(models.Model):
     )
 
     boleto_fee_perc = fields.Float(
-        string="Percentual de Multa",
-        digits="Account",
-        tracking=True,
+        string="Percentual de Multa", digits="Account", tracking=True,
     )
 
     boleto_discount_perc = fields.Float(

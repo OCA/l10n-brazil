@@ -45,14 +45,9 @@ class FiscalDocumentMixin(models.AbstractModel):
     #
     # Company and Partner are defined here to avoid warnings on runbot
     #
-    company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company",
-    )
+    company_id = fields.Many2one(comodel_name="res.company", string="Company",)
 
-    partner_id = fields.Many2one(
-        comodel_name="res.partner",
-    )
+    partner_id = fields.Many2one(comodel_name="res.partner",)
 
     fiscal_operation_type = fields.Selection(
         related="fiscal_operation_id.fiscal_operation_type",
@@ -61,9 +56,7 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     ind_pres = fields.Selection(
-        selection=NFE_IND_PRES,
-        string="Buyer Presence",
-        default=NFE_IND_PRES_DEFAULT,
+        selection=NFE_IND_PRES, string="Buyer Presence", default=NFE_IND_PRES_DEFAULT,
     )
 
     comment_ids = fields.Many2many(
@@ -75,18 +68,14 @@ class FiscalDocumentMixin(models.AbstractModel):
         domain=[("object", "=", FISCAL_COMMENT_DOCUMENT)],
     )
 
-    fiscal_additional_data = fields.Text(
-        string="Fiscal Additional Data",
-    )
+    fiscal_additional_data = fields.Text(string="Fiscal Additional Data",)
 
     manual_fiscal_additional_data = fields.Char(
         string="Manual Fiscal Additional Data",
         help="Fiscal Additional data manually entered by user",
     )
 
-    customer_additional_data = fields.Text(
-        string="Customer Additional Data",
-    )
+    customer_additional_data = fields.Text(string="Customer Additional Data",)
 
     manual_customer_additional_data = fields.Char(
         string="Manual Customer Additional Data",
@@ -113,225 +102,151 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     amount_untaxed = fields.Monetary(
-        string="Amount Untaxed",
-        compute="_compute_amount",
+        string="Amount Untaxed", compute="_compute_amount",
     )
 
-    amount_icms_base = fields.Monetary(
-        string="ICMS Base",
-        compute="_compute_amount",
-    )
+    amount_icms_base = fields.Monetary(string="ICMS Base", compute="_compute_amount",)
 
-    amount_icms_value = fields.Monetary(
-        string="ICMS Value",
-        compute="_compute_amount",
-    )
+    amount_icms_value = fields.Monetary(string="ICMS Value", compute="_compute_amount",)
 
     amount_icmsst_base = fields.Monetary(
-        string="ICMS ST Base",
-        compute="_compute_amount",
+        string="ICMS ST Base", compute="_compute_amount",
     )
 
     amount_icmsst_value = fields.Monetary(
-        string="ICMS ST Value",
-        compute="_compute_amount",
+        string="ICMS ST Value", compute="_compute_amount",
     )
 
     amount_icmssn_credit_value = fields.Monetary(
-        string="ICMSSN Credit Value",
-        compute="_compute_amount",
+        string="ICMSSN Credit Value", compute="_compute_amount",
     )
 
     amount_icmsfcp_base = fields.Monetary(
-        string="ICMS FCP Base",
-        compute="_compute_amount",
+        string="ICMS FCP Base", compute="_compute_amount",
     )
 
     amount_icmsfcp_value = fields.Monetary(
-        string="ICMS FCP Value",
-        compute="_compute_amount",
+        string="ICMS FCP Value", compute="_compute_amount",
     )
 
-    amount_ipi_base = fields.Monetary(
-        string="IPI Base",
-        compute="_compute_amount",
-    )
+    amount_ipi_base = fields.Monetary(string="IPI Base", compute="_compute_amount",)
 
-    amount_ipi_value = fields.Monetary(
-        string="IPI Value",
-        compute="_compute_amount",
-    )
+    amount_ipi_value = fields.Monetary(string="IPI Value", compute="_compute_amount",)
 
-    amount_pis_base = fields.Monetary(
-        string="PIS Base",
-        compute="_compute_amount",
-    )
+    amount_pis_base = fields.Monetary(string="PIS Base", compute="_compute_amount",)
 
-    amount_pis_value = fields.Monetary(
-        string="PIS Value",
-        compute="_compute_amount",
-    )
+    amount_pis_value = fields.Monetary(string="PIS Value", compute="_compute_amount",)
 
     amount_pis_wh_base = fields.Monetary(
-        string="PIS Ret Base",
-        compute="_compute_amount",
+        string="PIS Ret Base", compute="_compute_amount",
     )
 
     amount_pis_wh_value = fields.Monetary(
-        string="PIS Ret Value",
-        compute="_compute_amount",
+        string="PIS Ret Value", compute="_compute_amount",
     )
 
     amount_cofins_base = fields.Monetary(
-        string="COFINS Base",
-        compute="_compute_amount",
+        string="COFINS Base", compute="_compute_amount",
     )
 
     amount_cofins_value = fields.Monetary(
-        string="COFINS Value",
-        compute="_compute_amount",
+        string="COFINS Value", compute="_compute_amount",
     )
 
     amount_cofins_wh_base = fields.Monetary(
-        string="COFINS Ret Base",
-        compute="_compute_amount",
+        string="COFINS Ret Base", compute="_compute_amount",
     )
 
     amount_cofins_wh_value = fields.Monetary(
-        string="COFINS Ret Value",
-        compute="_compute_amount",
+        string="COFINS Ret Value", compute="_compute_amount",
     )
 
-    amount_issqn_base = fields.Monetary(
-        string="ISSQN Base",
-        compute="_compute_amount",
-    )
+    amount_issqn_base = fields.Monetary(string="ISSQN Base", compute="_compute_amount",)
 
     amount_issqn_value = fields.Monetary(
-        string="ISSQN Value",
-        compute="_compute_amount",
+        string="ISSQN Value", compute="_compute_amount",
     )
 
     amount_issqn_wh_base = fields.Monetary(
-        string="ISSQN Ret Base",
-        compute="_compute_amount",
+        string="ISSQN Ret Base", compute="_compute_amount",
     )
 
     amount_issqn_wh_value = fields.Monetary(
-        string="ISSQN Ret Value",
-        compute="_compute_amount",
+        string="ISSQN Ret Value", compute="_compute_amount",
     )
 
-    amount_csll_base = fields.Monetary(
-        string="CSLL Base",
-        compute="_compute_amount",
-    )
+    amount_csll_base = fields.Monetary(string="CSLL Base", compute="_compute_amount",)
 
-    amount_csll_value = fields.Monetary(
-        string="CSLL Value",
-        compute="_compute_amount",
-    )
+    amount_csll_value = fields.Monetary(string="CSLL Value", compute="_compute_amount",)
 
     amount_csll_wh_base = fields.Monetary(
-        string="CSLL Ret Base",
-        compute="_compute_amount",
+        string="CSLL Ret Base", compute="_compute_amount",
     )
 
     amount_csll_wh_value = fields.Monetary(
-        string="CSLL Ret Value",
-        compute="_compute_amount",
+        string="CSLL Ret Value", compute="_compute_amount",
     )
 
-    amount_irpj_base = fields.Monetary(
-        string="IRPJ Base",
-        compute="_compute_amount",
-    )
+    amount_irpj_base = fields.Monetary(string="IRPJ Base", compute="_compute_amount",)
 
-    amount_irpj_value = fields.Monetary(
-        string="IRPJ Value",
-        compute="_compute_amount",
-    )
+    amount_irpj_value = fields.Monetary(string="IRPJ Value", compute="_compute_amount",)
 
     amount_irpj_wh_base = fields.Monetary(
-        string="IRPJ Ret Base",
-        compute="_compute_amount",
+        string="IRPJ Ret Base", compute="_compute_amount",
     )
 
     amount_irpj_wh_value = fields.Monetary(
-        string="IRPJ Ret Value",
-        compute="_compute_amount",
+        string="IRPJ Ret Value", compute="_compute_amount",
     )
 
-    amount_inss_base = fields.Monetary(
-        string="INSS Base",
-        compute="_compute_amount",
-    )
+    amount_inss_base = fields.Monetary(string="INSS Base", compute="_compute_amount",)
 
-    amount_inss_value = fields.Monetary(
-        string="INSS Value",
-        compute="_compute_amount",
-    )
+    amount_inss_value = fields.Monetary(string="INSS Value", compute="_compute_amount",)
 
     amount_inss_wh_base = fields.Monetary(
-        string="INSS Ret Base",
-        compute="_compute_amount",
+        string="INSS Ret Base", compute="_compute_amount",
     )
 
     amount_inss_wh_value = fields.Monetary(
-        string="INSS Ret Value",
-        compute="_compute_amount",
+        string="INSS Ret Value", compute="_compute_amount",
     )
 
     amount_estimate_tax = fields.Monetary(
-        string="Amount Estimate Tax",
-        compute="_compute_amount",
+        string="Amount Estimate Tax", compute="_compute_amount",
     )
 
-    amount_tax = fields.Monetary(
-        string="Amount Tax",
-        compute="_compute_amount",
-    )
+    amount_tax = fields.Monetary(string="Amount Tax", compute="_compute_amount",)
 
-    amount_total = fields.Monetary(
-        string="Amount Total",
-        compute="_compute_amount",
-    )
+    amount_total = fields.Monetary(string="Amount Total", compute="_compute_amount",)
 
     amount_tax_withholding = fields.Monetary(
         string="Amount Tax Withholding", compute="_compute_amount"
     )
 
     amount_financial_total = fields.Monetary(
-        string="Amount Financial",
-        compute="_compute_amount",
+        string="Amount Financial", compute="_compute_amount",
     )
 
     amount_discount_value = fields.Monetary(
-        string="Amount Discount",
-        compute="_compute_amount",
+        string="Amount Discount", compute="_compute_amount",
     )
 
     amount_financial_total_gross = fields.Monetary(
-        string="Amount Financial Gross",
-        compute="_compute_amount",
+        string="Amount Financial Gross", compute="_compute_amount",
     )
 
     amount_financial_discount_value = fields.Monetary(
-        string="Financial Discount Value",
-        compute="_compute_amount",
+        string="Financial Discount Value", compute="_compute_amount",
     )
 
     amount_insurance_value = fields.Monetary(
-        string="Insurance Value",
-        compute="_compute_amount",
+        string="Insurance Value", compute="_compute_amount",
     )
 
     amount_other_value = fields.Monetary(
-        string="Other Costs",
-        compute="_compute_amount",
+        string="Other Costs", compute="_compute_amount",
     )
 
     amount_freight_value = fields.Monetary(
-        string="Freight Value",
-        compute="_compute_amount",
+        string="Freight Value", compute="_compute_amount",
     )

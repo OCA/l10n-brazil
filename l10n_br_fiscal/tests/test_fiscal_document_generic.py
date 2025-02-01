@@ -607,9 +607,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # set fake estimate tax
             line.ncm_id.write(
-                {
-                    "estimate_tax_national": 33.00,
-                }
+                {"estimate_tax_national": 33.00,}
             )
 
             line._onchange_ncm_id()

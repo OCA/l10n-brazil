@@ -14,8 +14,7 @@ class L10nBrCNABReturnEvent(models.Model):
     _description = "CNAB Return Event"
 
     cnab_return_log_id = fields.Many2one(
-        string="CNAB Return Log",
-        comodel_name="l10n_br_cnab.return.log",
+        string="CNAB Return Log", comodel_name="l10n_br_cnab.return.log",
     )
     # Field used to make invisible/visible fields refer to Lot
     is_cnab_lot = fields.Boolean(string="Is CNAB Lot?")

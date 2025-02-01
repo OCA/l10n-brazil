@@ -152,9 +152,7 @@ class Operation(models.Model):
         ctx = self._context.copy()
         ctx.pop("group_by", None)
         ctx.update(
-            {
-                "default_fiscal_operation_type": fiscal_operation_type,
-            }
+            {"default_fiscal_operation_type": fiscal_operation_type,}
         )
 
         [action] = self.env.ref("l10n_br_fiscal.%s" % action_name).read()

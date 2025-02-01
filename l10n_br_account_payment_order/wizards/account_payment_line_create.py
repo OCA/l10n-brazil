@@ -16,9 +16,7 @@ class AccountPaymentLineCreate(models.TransientModel):
         "já incluidas em outras ordens",
     )
 
-    allow_rejected = fields.Boolean(
-        string="Permitir linhas com retorno rejeitado",
-    )
+    allow_rejected = fields.Boolean(string="Permitir linhas com retorno rejeitado",)
 
     def _prepare_move_line_domain(self):
         """Nenhuma linha deve ser adicionada novamente a nao ser que o

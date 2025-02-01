@@ -373,10 +373,7 @@ class ResCompany(models.Model):
         string="Email Template Definition",
     )
 
-    document_save_disk = fields.Boolean(
-        string="Save Documents to disk",
-        default=True,
-    )
+    document_save_disk = fields.Boolean(string="Save Documents to disk", default=True,)
 
     fiscal_dummy_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",

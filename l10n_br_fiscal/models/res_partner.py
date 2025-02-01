@@ -55,29 +55,17 @@ class ResPartner(models.Model):
         track_visibility="onchange",
     )
 
-    cnpj_cpf = fields.Char(
-        track_visibility="onchange",
-    )
+    cnpj_cpf = fields.Char(track_visibility="onchange",)
 
-    inscr_est = fields.Char(
-        track_visibility="onchange",
-    )
+    inscr_est = fields.Char(track_visibility="onchange",)
 
-    inscr_mun = fields.Char(
-        track_visibility="onchange",
-    )
+    inscr_mun = fields.Char(track_visibility="onchange",)
 
-    is_company = fields.Boolean(
-        track_visibility="onchange",
-    )
+    is_company = fields.Boolean(track_visibility="onchange",)
 
-    state_id = fields.Many2one(
-        track_visibility="onchange",
-    )
+    state_id = fields.Many2one(track_visibility="onchange",)
 
-    city_id = fields.Many2one(
-        track_visibility="onchange",
-    )
+    city_id = fields.Many2one(track_visibility="onchange",)
 
     def _inverse_fiscal_profile(self):
         for p in self:

@@ -23,36 +23,19 @@ class ResPartnerBank(models.Model):
     _inherit = "res.partner.bank"
 
     bank_account_type = fields.Selection(
-        selection=BANK_ACCOUNT_TYPE,
-        string="Bank Account Type",
-        default="01",
+        selection=BANK_ACCOUNT_TYPE, string="Bank Account Type", default="01",
     )
 
-    acc_number = fields.Char(
-        string="Account Number",
-        size=64,
-        required=False,
-    )
+    acc_number = fields.Char(string="Account Number", size=64, required=False,)
 
-    acc_number_dig = fields.Char(
-        string="Account Digit",
-        size=8,
-    )
+    acc_number_dig = fields.Char(string="Account Digit", size=8,)
 
-    bra_number = fields.Char(
-        string="Bank Branch",
-        size=8,
-    )
+    bra_number = fields.Char(string="Bank Branch", size=8,)
 
-    bra_number_dig = fields.Char(
-        string="Bank Branch Digit",
-        size=8,
-    )
+    bra_number_dig = fields.Char(string="Bank Branch Digit", size=8,)
 
     bra_bank_bic = fields.Char(
-        string="BIC/Swift Final Code.",
-        size=3,
-        help="Last part of BIC/Swift Code.",
+        string="BIC/Swift Final Code.", size=3, help="Last part of BIC/Swift Code.",
     )
 
     @api.constrains("bra_number")

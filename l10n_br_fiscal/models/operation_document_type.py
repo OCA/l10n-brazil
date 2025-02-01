@@ -36,10 +36,7 @@ class OperationDocumentType(models.Model):
         default=lambda self: self.env.company,
     )
 
-    name = fields.Char(
-        string="Name",
-        compute="_compute_name",
-    )
+    name = fields.Char(string="Name", compute="_compute_name",)
 
     @api.depends("document_type_id", "document_serie_id")
     def _compute_name(self):

@@ -87,10 +87,7 @@ class AbstractSpecMixin(models.AbstractModel):
         value = getattr(node, attr.get_name())
         if value is None or value == []:
             return False
-        key = "%s%s" % (
-            self._field_prefix,
-            attr.get_name(),
-        )
+        key = "%s%s" % (self._field_prefix, attr.get_name(),)
         child_path = "%s.%s" % (path, key)
         binding_type = attr.get_child_attrs().get("type")
         if (
@@ -292,10 +289,7 @@ class AbstractSpecMixin(models.AbstractModel):
                 rec_id = model.new(create_dict).id
             else:
                 rec_id = (
-                    model.with_context(
-                        parent_dict=parent_dict,
-                        lang="en_US",
-                    )
+                    model.with_context(parent_dict=parent_dict, lang="en_US",)
                     .create(create_dict)
                     .id
                 )

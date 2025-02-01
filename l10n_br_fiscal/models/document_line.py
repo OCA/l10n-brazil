@@ -15,26 +15,17 @@ class DocumentLine(models.Model):
         domain = [("state", "=", "approved")]
         return domain
 
-    fiscal_operation_id = fields.Many2one(
-        domain=lambda self: self._operation_domain(),
-    )
+    fiscal_operation_id = fields.Many2one(domain=lambda self: self._operation_domain(),)
 
     document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Document",
-        ondelete="cascade",
+        comodel_name="l10n_br_fiscal.document", string="Document", ondelete="cascade",
     )
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
     # when existing invoices have no fiscal document.
-    active = fields.Boolean(
-        string="Active",
-        default=True,
-    )
+    active = fields.Boolean(string="Active", default=True,)
 
-    name = fields.Text(
-        string="Name",
-    )
+    name = fields.Text(string="Name",)
 
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -44,14 +35,10 @@ class DocumentLine(models.Model):
     )
 
     tax_framework = fields.Selection(
-        related="company_id.tax_framework",
-        string="Tax Framework",
+        related="company_id.tax_framework", string="Tax Framework",
     )
 
-    partner_id = fields.Many2one(
-        related="document_id.partner_id",
-        store=True,
-    )
+    partner_id = fields.Many2one(related="document_id.partner_id", store=True,)
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
@@ -59,31 +46,18 @@ class DocumentLine(models.Model):
         string="Currency",
     )
 
-    product_id = fields.Many2one(
-        comodel_name="product.product",
-        string="Product",
-    )
+    product_id = fields.Many2one(comodel_name="product.product", string="Product",)
 
     # Amount Fields
     amount_untaxed = fields.Monetary(
-        string="Amount Untaxed",
-        compute="_compute_amounts",
+        string="Amount Untaxed", compute="_compute_amounts",
     )
 
-    amount_tax = fields.Monetary(
-        string="Amount Tax",
-        compute="_compute_amounts",
-    )
+    amount_tax = fields.Monetary(string="Amount Tax", compute="_compute_amounts",)
 
-    amount_fiscal = fields.Monetary(
-        string="Amount Fiscal",
-        compute="_compute_amounts",
-    )
+    amount_fiscal = fields.Monetary(string="Amount Fiscal", compute="_compute_amounts",)
 
-    amount_total = fields.Monetary(
-        string="Amount Total",
-        compute="_compute_amounts",
-    )
+    amount_total = fields.Monetary(string="Amount Total", compute="_compute_amounts",)
 
     def unlink(self):
         dummy_docs = self.env["res.company"].search([]).mapped("fiscal_dummy_id")

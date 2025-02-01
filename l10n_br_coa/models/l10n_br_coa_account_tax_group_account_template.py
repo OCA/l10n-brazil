@@ -14,18 +14,15 @@ class AccountTaxGroupAccountTemplate(models.Model):
     )
 
     account_id = fields.Many2one(
-        comodel_name="account.account.template",
-        string="Tax Account",
+        comodel_name="account.account.template", string="Tax Account",
     )
 
     refund_account_id = fields.Many2one(
-        comodel_name="account.account.template",
-        string="Tax Account on Credit Notes",
+        comodel_name="account.account.template", string="Tax Account on Credit Notes",
     )
 
     ded_account_id = fields.Many2one(
-        comodel_name="account.account.template",
-        string="Deductible Tax Account",
+        comodel_name="account.account.template", string="Deductible Tax Account",
     )
 
     ded_refund_account_id = fields.Many2one(

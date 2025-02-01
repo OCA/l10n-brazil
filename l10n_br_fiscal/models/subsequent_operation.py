@@ -38,8 +38,7 @@ class SubsequentOperation(models.Model):
         ondelete="cascade",
     )
     subsequent_operation_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation",
-        string="Operation to be performed",
+        comodel_name="l10n_br_fiscal.operation", string="Operation to be performed",
     )
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
     generation_situation = fields.Selection(
@@ -48,11 +47,8 @@ class SubsequentOperation(models.Model):
         required=True,
         default="manual",
     )
-    reference_document = fields.Boolean(
-        string="Referencing source document",
-    )
+    reference_document = fields.Boolean(string="Referencing source document",)
 
     operation_document_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.type",
-        string="Document Type",
+        comodel_name="l10n_br_fiscal.document.type", string="Document Type",
     )

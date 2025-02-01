@@ -70,10 +70,7 @@ class Tax(models.Model):
         "order in which the tax lines are applied.",
     )
 
-    tax_scope = fields.Selection(
-        related="tax_group_id.tax_scope",
-        store=True,
-    )
+    tax_scope = fields.Selection(related="tax_group_id.tax_scope", store=True,)
 
     tax_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
@@ -87,15 +84,11 @@ class Tax(models.Model):
     )
 
     percent_reduction = fields.Float(
-        string="Percent Reduction",
-        digits="Fiscal Tax Percent",
-        required=True,
+        string="Percent Reduction", digits="Fiscal Tax Percent", required=True,
     )
 
     percent_debit_credit = fields.Float(
-        string="Percent Debit/Credit",
-        digits="Fiscal Tax Percent",
-        required=True,
+        string="Percent Debit/Credit", digits="Fiscal Tax Percent", required=True,
     )
 
     currency_id = fields.Many2one(
@@ -153,9 +146,7 @@ class Tax(models.Model):
     )
 
     icmsst_mva_percent = fields.Float(
-        string="MVA Percent",
-        digits="Fiscal Tax Percent",
-        required=True,
+        string="MVA Percent", digits="Fiscal Tax Percent", required=True,
     )
 
     icmsst_value = fields.Float(
@@ -269,9 +260,7 @@ class Tax(models.Model):
             remove_from_base.append(tax_dict_icms.get("tax_value", 0.00))
 
         kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
+            {"remove_from_base": sum(remove_from_base),}
         )
 
         # TODO futuramente levar em consideração outros tipos de base de calculo

@@ -15,32 +15,19 @@ from ..constants import (
 class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
-    digitable_line = fields.Char(
-        string="Linha Digitável",
-    )
+    digitable_line = fields.Char(string="Linha Digitável",)
 
-    percent_interest = fields.Float(
-        string="Percentual de Juros",
-        digits="Account",
-    )
+    percent_interest = fields.Float(string="Percentual de Juros", digits="Account",)
 
     amount_interest = fields.Float(
-        string="Valor Juros",
-        compute="_compute_interest",
-        digits="Account",
+        string="Valor Juros", compute="_compute_interest", digits="Account",
     )
 
-    own_number = fields.Char(
-        string="Nosso Numero",
-    )
+    own_number = fields.Char(string="Nosso Numero",)
 
-    document_number = fields.Char(
-        string="Número documento",
-    )
+    document_number = fields.Char(string="Número documento",)
 
-    company_title_identification = fields.Char(
-        string="Identificação Titulo Empresa",
-    )
+    company_title_identification = fields.Char(string="Identificação Titulo Empresa",)
 
     doc_finality_code = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
@@ -55,9 +42,7 @@ class AccountPaymentLine(models.Model):
     )
 
     complementary_finality_code = fields.Char(
-        string="Código de finalidade complementar",
-        size=2,
-        help="Campo P013 do CNAB",
+        string="Código de finalidade complementar", size=2, help="Campo P013 do CNAB",
     )
 
     favored_warning = fields.Selection(
@@ -68,28 +53,19 @@ class AccountPaymentLine(models.Model):
     )
 
     rebate_value = fields.Monetary(
-        string="Valor do Abatimento",
-        help="Campo G045 do CNAB",
+        string="Valor do Abatimento", help="Campo G045 do CNAB",
     )
 
     discount_value = fields.Monetary(
-        string="Valor do Desconto",
-        help="Campo G046 do CNAB",
+        string="Valor do Desconto", help="Campo G046 do CNAB",
     )
 
-    interest_value = fields.Monetary(
-        string="Valor da Mora",
-        help="Campo G047 do CNAB",
-    )
+    interest_value = fields.Monetary(string="Valor da Mora", help="Campo G047 do CNAB",)
 
-    fee_value = fields.Monetary(
-        string="Valor da Multa",
-        help="Campo G048 do CNAB",
-    )
+    fee_value = fields.Monetary(string="Valor da Multa", help="Campo G048 do CNAB",)
 
     payment_mode_id = fields.Many2one(
-        comodel_name="account.payment.mode",
-        tracking=True,
+        comodel_name="account.payment.mode", tracking=True,
     )
 
     # Campo não usado no BRCobranca
@@ -121,11 +97,7 @@ class AccountPaymentLine(models.Model):
         string="Payment Method Code",
     )
 
-    communication_type = fields.Selection(
-        selection_add=[
-            ("cnab", "CNAB"),
-        ]
-    )
+    communication_type = fields.Selection(selection_add=[("cnab", "CNAB"),])
 
     # No caso de Ordens de Pagto vinculadas devido o
     # ondelete=restrict no campo move_line_id do account.payment.line

@@ -28,9 +28,7 @@ class L10nBrCNABPaymentFields(models.Model):
     )
 
     complementary_finality_code = fields.Char(
-        string="Código de finalidade complementar",
-        size=2,
-        help="Campo P013 do CNAB",
+        string="Código de finalidade complementar", size=2, help="Campo P013 do CNAB",
     )
 
     favored_warning = fields.Selection(

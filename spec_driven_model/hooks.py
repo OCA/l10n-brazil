@@ -31,10 +31,7 @@ def post_init_hook(cr, registry, module_name, spec_module):
     access_data = []
     for model in remaining_models:
         underline_name = model.replace(".", "_")
-        model_id = "%s_spec.model_%s" % (
-            module_name,
-            underline_name,
-        )
+        model_id = "%s_spec.model_%s" % (module_name, underline_name,)
         access_data.append(
             [
                 "access_%s_user" % (underline_name,),

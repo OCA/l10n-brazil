@@ -164,10 +164,7 @@ class SpecViewMixin(models.AbstractModel):
             # should we create a choice block?
             if hasattr(field, "choice"):
                 choice = field.choice
-                selector_name = "%s%s" % (
-                    choice_prefix,
-                    choice,
-                )
+                selector_name = "%s%s" % (choice_prefix, choice,)
                 if choice not in choices:
                     choices.add(choice)
                     fields.append(selector_name)
@@ -219,14 +216,7 @@ class SpecViewMixin(models.AbstractModel):
 
     @api.model
     def _build_form_simple_type(
-        self,
-        field,
-        fields,
-        attrs,
-        view_node,
-        field_name,
-        selector_name,
-        wrapper_group,
+        self, field, fields, attrs, view_node, field_name, selector_name, wrapper_group,
     ):
         fields.append(field_name)
 

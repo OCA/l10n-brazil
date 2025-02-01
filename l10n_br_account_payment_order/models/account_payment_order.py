@@ -27,18 +27,11 @@ _logger = logging.getLogger(__name__)
 class AccountPaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    file_number = fields.Integer(
-        string="Número sequencial do arquivo",
-    )
+    file_number = fields.Integer(string="Número sequencial do arquivo",)
 
-    cnab_file = fields.Binary(
-        string="CNAB File",
-        readonly=True,
-    )
+    cnab_file = fields.Binary(string="CNAB File", readonly=True,)
 
-    cnab_filename = fields.Char(
-        string="CNAB Filename",
-    )
+    cnab_filename = fields.Char(string="CNAB Filename",)
 
     service_type = fields.Selection(
         selection=TIPO_SERVICO,
@@ -54,8 +47,7 @@ class AccountPaymentOrder(models.Model):
     )
 
     code_convetion = fields.Char(
-        related="payment_mode_id.code_convetion",
-        help="Campo G007 do CNAB",
+        related="payment_mode_id.code_convetion", help="Campo G007 do CNAB",
     )
 
     indicative_form_payment = fields.Selection(

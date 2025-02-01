@@ -10,49 +10,30 @@ class BaseWizardMixin(models.TransientModel):
     _description = "Fiscal Base Wizard Mixin"
 
     document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document",
+        comodel_name="l10n_br_fiscal.document", string="Fiscal Document",
     )
 
     document_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.type",
-        string="Document Type",
+        comodel_name="l10n_br_fiscal.document.type", string="Document Type",
     )
 
-    document_type = fields.Char(
-        related="document_type_id.code",
-    )
+    document_type = fields.Char(related="document_type_id.code",)
 
-    document_key = fields.Char(
-        string="Document Key",
-    )
+    document_key = fields.Char(string="Document Key",)
 
-    partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Partner",
-    )
+    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner",)
 
-    rps_number = fields.Char(
-        string="RPS Number",
-    )
+    rps_number = fields.Char(string="RPS Number",)
 
-    document_number = fields.Char(
-        string="Document Number",
-    )
+    document_number = fields.Char(string="Document Number",)
 
-    document_serie = fields.Char(
-        string="Document Serie",
-    )
+    document_serie = fields.Char(string="Document Serie",)
 
     event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.event",
-        string="Fiscal Event",
+        comodel_name="l10n_br_fiscal.event", string="Fiscal Event",
     )
 
-    justification = fields.Text(
-        string="Justification",
-        size=255,
-    )
+    justification = fields.Text(string="Justification", size=255,)
 
     document_status = fields.Text(string="Status", readonly=True)
 

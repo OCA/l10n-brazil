@@ -11,10 +11,7 @@ class DocumentStatusWizard(models.TransientModel):
 
     def get_document_status(self):
         self.write(
-            {
-                "document_status": self.document_id._document_status(),
-                "state": "done",
-            }
+            {"document_status": self.document_id._document_status(), "state": "done",}
         )
         return self._reopen()
 

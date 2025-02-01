@@ -12,17 +12,9 @@ class InvalidateNumber(models.Model):
     _name = "l10n_br_fiscal.invalidate.number"
     _description = "Invalidate Number"
 
-    name = fields.Char(
-        compute="_compute_name",
-        store=True,
-        index=True,
-    )
+    name = fields.Char(compute="_compute_name", store=True, index=True,)
 
-    date = fields.Date(
-        string="Date",
-        default=fields.Date.today,
-        readonly=True,
-    )
+    date = fields.Date(string="Date", default=fields.Date.today, readonly=True,)
 
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -76,10 +68,7 @@ class InvalidateNumber(models.Model):
     )
 
     state = fields.Selection(
-        selection=[
-            ("draft", _("Draft")),
-            ("done", _("Done")),
-        ],
+        selection=[("draft", _("Draft")), ("done", _("Done")),],
         string="Status",
         readonly=True,
         default="draft",

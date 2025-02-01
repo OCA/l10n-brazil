@@ -50,8 +50,7 @@ class TaxGroup(models.Model):
 
     # PIS / COFINS
     base_without_icms = fields.Boolean(
-        string="Remove ICMS value from Base",
-        default=False,
+        string="Remove ICMS value from Base", default=False,
     )
 
     tax_ids = fields.One2many(
@@ -62,14 +61,9 @@ class TaxGroup(models.Model):
         comodel_name="l10n_br_fiscal.cst", inverse_name="tax_group_id", string="CSTs"
     )
 
-    partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="WH Partner",
-    )
+    partner_id = fields.Many2one(comodel_name="res.partner", string="WH Partner",)
 
-    wh_due_day = fields.Integer(
-        string="Due Day",
-    )
+    wh_due_day = fields.Integer(string="Due Day",)
 
     _sql_constraints = [
         (

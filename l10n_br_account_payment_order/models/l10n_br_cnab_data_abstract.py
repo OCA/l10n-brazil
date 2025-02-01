@@ -11,16 +11,8 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
     _inherit = "mail.thread"
     _description = "CNAB Data Abstract"
 
-    name = fields.Char(
-        string="Name",
-        index=True,
-        tracking=True,
-    )
-    code = fields.Char(
-        string="Code",
-        index=True,
-        tracking=True,
-    )
+    name = fields.Char(string="Name", index=True, tracking=True,)
+    code = fields.Char(string="Code", index=True, tracking=True,)
 
     def name_get(self):
         result = []

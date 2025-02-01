@@ -12,22 +12,12 @@ class DocumentEmail(models.Model):
     _description = "Fiscal Document Email"
 
     name = fields.Char(
-        string="Name",
-        readonly=True,
-        store=True,
-        copy=False,
-        compute="_compute_name",
+        string="Name", readonly=True, store=True, copy=False, compute="_compute_name",
     )
 
-    active = fields.Boolean(
-        string="Active",
-        default=True,
-    )
+    active = fields.Boolean(string="Active", default=True,)
 
-    company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company",
-    )
+    company_id = fields.Many2one(comodel_name="res.company", string="Company",)
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
@@ -44,10 +34,7 @@ class DocumentEmail(models.Model):
     )
 
     state_edoc = fields.Selection(
-        selection=SITUACAO_EDOC,
-        string="Situação e-doc",
-        copy=False,
-        index=True,
+        selection=SITUACAO_EDOC, string="Situação e-doc", copy=False, index=True,
     )
 
     email_template_id = fields.Many2one(

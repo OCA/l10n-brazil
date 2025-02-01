@@ -58,13 +58,9 @@ class DocumentWorkflow(models.AbstractModel):
         index=True,
     )
 
-    cancel_reason = fields.Char(
-        string="Cancel Reason",
-    )
+    cancel_reason = fields.Char(string="Cancel Reason",)
 
-    correction_reason = fields.Char(
-        string="Correction Reason",
-    )
+    correction_reason = fields.Char(string="Correction Reason",)
 
     def _direct_draft_send(self):
         return False
@@ -314,11 +310,7 @@ class DocumentWorkflow(models.AbstractModel):
     def action_document_send(self):
         to_send = self.filtered(
             lambda d: d.state_edoc
-            in (
-                SITUACAO_EDOC_A_ENVIAR,
-                SITUACAO_EDOC_ENVIADA,
-                SITUACAO_EDOC_REJEITADA,
-            )
+            in (SITUACAO_EDOC_A_ENVIAR, SITUACAO_EDOC_ENVIADA, SITUACAO_EDOC_REJEITADA,)
         )
         if to_send:
             to_send._document_send()

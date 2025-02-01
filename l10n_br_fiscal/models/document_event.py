@@ -56,17 +56,10 @@ class Event(models.Model):
                 record.display_name = ""
 
     create_date = fields.Datetime(
-        string="Create Date",
-        readonly=True,
-        index=True,
-        default=fields.Datetime.now,
+        string="Create Date", readonly=True, index=True, default=fields.Datetime.now,
     )
 
-    write_date = fields.Datetime(
-        string="Write Date",
-        readonly=True,
-        index=True,
-    )
+    write_date = fields.Datetime(string="Write Date", readonly=True, index=True,)
 
     type = fields.Selection(
         selection=[
@@ -98,9 +91,7 @@ class Event(models.Model):
     )
 
     document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document",
-        index=True,
+        comodel_name="l10n_br_fiscal.document", string="Fiscal Document", index=True,
     )
 
     document_type_id = fields.Many2one(
@@ -111,18 +102,13 @@ class Event(models.Model):
     )
 
     document_serie_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.serie",
-        required=True,
+        comodel_name="l10n_br_fiscal.document.serie", required=True,
     )
 
-    document_number = fields.Char(
-        required=True,
-    )
+    document_number = fields.Char(required=True,)
 
     partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Partner",
-        index=True,
+        comodel_name="res.partner", string="Partner", index=True,
     )
 
     invalidate_number_id = fields.Many2one(
@@ -132,71 +118,36 @@ class Event(models.Model):
     )
 
     company_id = fields.Many2one(
-        comodel_name="res.company",
-        string="Company",
-        index=True,
-        required=True,
+        comodel_name="res.company", string="Company", index=True, required=True,
     )
 
-    sequence = fields.Char(
-        string="Sequence",
-        help="Fiscal Document Event Sequence",
-    )
+    sequence = fields.Char(string="Sequence", help="Fiscal Document Event Sequence",)
 
-    justification = fields.Char(
-        string="Justification",
-        size=255,
-    )
+    justification = fields.Char(string="Justification", size=255,)
 
     display_name = fields.Char(
-        string="name",
-        compute="_compute_display_name",
-        store=True,
+        string="name", compute="_compute_display_name", store=True,
     )
 
     file_request_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        string="XML",
-        copy=False,
-        readony=True,
+        comodel_name="ir.attachment", string="XML", copy=False, readony=True,
     )
 
     file_response_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        string="XML Response",
-        copy=False,
-        readony=True,
+        comodel_name="ir.attachment", string="XML Response", copy=False, readony=True,
     )
 
-    file_path = fields.Char(
-        string="File Path",
-        readonly=True,
-    )
+    file_path = fields.Char(string="File Path", readonly=True,)
 
-    status_code = fields.Char(
-        string="Status Code",
-        readonly=True,
-    )
+    status_code = fields.Char(string="Status Code", readonly=True,)
 
-    response = fields.Char(
-        string="Response Message",
-        readonly=True,
-    )
+    response = fields.Char(string="Response Message", readonly=True,)
 
-    message = fields.Char(
-        string="Message",
-        readonly=True,
-    )
+    message = fields.Char(string="Message", readonly=True,)
 
-    protocol_date = fields.Datetime(
-        string="Protocol Date",
-        readonly=True,
-        index=True,
-    )
+    protocol_date = fields.Datetime(string="Protocol Date", readonly=True, index=True,)
 
-    protocol_number = fields.Char(
-        string="Protocol Number",
-    )
+    protocol_number = fields.Char(string="Protocol Number",)
 
     state = fields.Selection(
         selection=[
@@ -211,9 +162,7 @@ class Event(models.Model):
         default="draft",
     )
 
-    environment = fields.Selection(
-        selection=EVENT_ENVIRONMENT,
-    )
+    environment = fields.Selection(selection=EVENT_ENVIRONMENT,)
 
     @api.constrains("justification")
     def _check_justification(self):

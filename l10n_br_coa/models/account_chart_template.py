@@ -13,10 +13,7 @@ class AccountChartTemplate(models.Model):
         # Remove Company default taxes configuration
         if self.currency_id == self.env.ref("base.BRL"):
             self.env.company.write(
-                {
-                    "account_sale_tax_id": False,
-                    "account_purchase_tax_id": False,
-                }
+                {"account_sale_tax_id": False, "account_purchase_tax_id": False,}
             )
 
     def _load_template(

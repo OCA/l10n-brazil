@@ -12,30 +12,18 @@ class DocumentType(models.Model):
     _description = "Fiscal Document Type"
     _inherit = "l10n_br_fiscal.data.abstract"
 
-    code = fields.Char(
-        size=8,
-    )
+    code = fields.Char(size=8,)
 
-    name = fields.Char(
-        size=128,
-    )
+    name = fields.Char(size=128,)
 
-    electronic = fields.Boolean(
-        string="Is Electronic?",
-    )
+    electronic = fields.Boolean(string="Is Electronic?",)
 
-    prefix = fields.Char(
-        string="Prefix",
-    )
+    prefix = fields.Char(string="Prefix",)
 
-    sufix = fields.Char(
-        string="Sufix",
-    )
+    sufix = fields.Char(string="Sufix",)
 
     type = fields.Selection(
-        selection=DOCUMENT_TYPE,
-        string="Document Type",
-        required=True,
+        selection=DOCUMENT_TYPE, string="Document Type", required=True,
     )
 
     document_email_ids = fields.One2many(

@@ -99,9 +99,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     uom_id = fields.Many2one(comodel_name="uom.uom", string="UOM")
 
     quantity = fields.Float(
-        string="Quantity",
-        digits="Product Unit of Measure",
-        default=1.0,
+        string="Quantity", digits="Product Unit of Measure", default=1.0,
     )
 
     fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
@@ -155,8 +153,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     cfop_destination = fields.Selection(
-        related="cfop_id.destination",
-        string="CFOP Destination",
+        related="cfop_id.destination", string="CFOP Destination",
     )
 
     fiscal_price = fields.Float(string="Fiscal Price", digits="Product Price")
@@ -183,10 +180,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Fiscal Taxes",
     )
 
-    amount_fiscal = fields.Monetary(
-        string="Amount Fiscal",
-        compute="_compute_amounts",
-    )
+    amount_fiscal = fields.Monetary(string="Amount Fiscal", compute="_compute_amounts",)
 
     price_gross = fields.Monetary(
         compute="_compute_amounts",
@@ -198,38 +192,25 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     amount_untaxed = fields.Monetary(
-        string="Amount Untaxed",
-        compute="_compute_amounts",
+        string="Amount Untaxed", compute="_compute_amounts",
     )
 
-    amount_tax = fields.Monetary(
-        string="Amount Tax",
-        compute="_compute_amounts",
-    )
+    amount_tax = fields.Monetary(string="Amount Tax", compute="_compute_amounts",)
 
-    amount_taxed = fields.Monetary(
-        string="Amount Taxed",
-        compute="_compute_amounts",
-    )
+    amount_taxed = fields.Monetary(string="Amount Taxed", compute="_compute_amounts",)
 
-    amount_total = fields.Monetary(
-        string="Amount Total",
-        compute="_compute_amounts",
-    )
+    amount_total = fields.Monetary(string="Amount Total", compute="_compute_amounts",)
 
     financial_total = fields.Monetary(
-        string="Amount Financial",
-        compute="_compute_amounts",
+        string="Amount Financial", compute="_compute_amounts",
     )
 
     financial_total_gross = fields.Monetary(
-        string="Amount Financial Gross",
-        compute="_compute_amounts",
+        string="Amount Financial Gross", compute="_compute_amounts",
     )
 
     financial_discount_value = fields.Monetary(
-        string="Financial Discount Value",
-        compute="_compute_amounts",
+        string="Financial Discount Value", compute="_compute_amounts",
     )
 
     amount_tax_included = fields.Monetary(string="Amount Tax Included")
@@ -267,10 +248,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_ISSQN)],
     )
 
-    issqn_fg_city_id = fields.Many2one(
-        comodel_name="res.city",
-        string="ISSQN City",
-    )
+    issqn_fg_city_id = fields.Many2one(comodel_name="res.city", string="ISSQN City",)
 
     # vDeducao
     issqn_deduction_amount = fields.Monetary(string="ISSQN Deduction Value")
@@ -420,9 +398,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     # vBCFCPUFDest
-    icmsfcp_base = fields.Monetary(
-        string="ICMS FCP Base",
-    )
+    icmsfcp_base = fields.Monetary(string="ICMS FCP Base",)
 
     # pFCPUFDest - Percentual do ICMS relativo ao Fundo de
     # Combate à Pobreza (FCP) na UF de destino
@@ -849,6 +825,4 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Manual Additional Data", help="Additional data manually entered by user"
     )
 
-    estimate_tax = fields.Monetary(
-        string="Estimate Tax",
-    )
+    estimate_tax = fields.Monetary(string="Estimate Tax",)

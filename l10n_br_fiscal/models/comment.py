@@ -22,24 +22,13 @@ class Comment(models.Model):
     _order = "sequence"
     _rec_name = "comment"
 
-    sequence = fields.Integer(
-        string="Sequence",
-        default=10,
-    )
+    sequence = fields.Integer(string="Sequence", default=10,)
 
-    name = fields.Char(
-        string="Name",
-        required=True,
-    )
+    name = fields.Char(string="Name", required=True,)
 
-    comment = fields.Text(
-        string="Comment",
-        required=True,
-    )
+    comment = fields.Text(string="Comment", required=True,)
 
-    test_comment = fields.Text(
-        string="Test Comment",
-    )
+    test_comment = fields.Text(string="Test Comment",)
 
     comment_type = fields.Selection(
         selection=COMMENT_TYPE,
@@ -49,23 +38,15 @@ class Comment(models.Model):
     )
 
     object = fields.Selection(
-        selection=FISCAL_COMMENT_OBJECTS,
-        string="Object",
-        required=True,
+        selection=FISCAL_COMMENT_OBJECTS, string="Object", required=True,
     )
 
-    date_begin = fields.Date(
-        string="Initial Date",
-    )
+    date_begin = fields.Date(string="Initial Date",)
 
-    date_end = fields.Date(
-        string="Final Date",
-    )
+    date_end = fields.Date(string="Final Date",)
 
     object_id = fields.Reference(
-        string="Reference",
-        selection=FISCAL_COMMENT_OBJECTS,
-        ondelete="set null",
+        string="Reference", selection=FISCAL_COMMENT_OBJECTS, ondelete="set null",
     )
 
     @api.model

@@ -9,11 +9,7 @@
     "author": "KMEE, Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "category": "Banking addons",
-    "depends": [
-        "l10n_br_base",
-        "account_payment_order",
-        "l10n_br_account_due_list",
-    ],
+    "depends": ["l10n_br_base", "account_payment_order", "l10n_br_account_due_list",],
     "data": [
         # Security
         "security/cnab_cobranca_security.xml",
