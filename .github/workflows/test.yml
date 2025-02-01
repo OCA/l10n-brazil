@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Detect unreleased dependencies
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: |
           for reqfile in requirements.txt test-requirements.txt ; do
               if [ -f ${reqfile} ] ; then
@@ -35,9 +35,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
+<<<<<<< before updating
           - container: ghcr.io/oca/oca-ci/py3.6-ocb12.0:latest
             exclude: "l10n_br_website_sale_delivery,l10n_br_website_sale,l10n_br_account_bank_statement_import_cnab,payment_pagseguro"
+=======
+          - container: ghcr.io/oca/oca-ci/py3.6-odoo14.0:latest
+            name: test with Odoo
+          - container: ghcr.io/oca/oca-ci/py3.6-ocb14.0:latest
+>>>>>>> after updating
             name: test with OCB
+            makepot: "true"
     services:
       postgres:
         image: postgres:9.6
@@ -51,7 +58,7 @@ jobs:
       INCLUDE: "${{ matrix.include }}"
       EXCLUDE: "${{ matrix.exclude }}"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Install addons and dependencies
@@ -64,7 +71,9 @@ jobs:
         run: oca_init_test_database
       - name: Run tests
         run: oca_run_tests
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Update .pot files
         run: oca_export_and_push_pot https://x-access-token:${{ secrets.GIT_PUSH_TOKEN }}@github.com/${{ github.repository }}
         if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'OCA' }}

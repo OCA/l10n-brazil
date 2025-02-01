@@ -14,7 +14,12 @@ globals:
   moment: readonly
   odoo: readonly
   openerp: readonly
+<<<<<<< before updating
   Promise: readonly
+=======
+  owl: readonly
+  luxon: readonly
+>>>>>>> after updating
 
 # Styling is handled by Prettier, so we only need to enable AST rules;
 # see https://github.com/OCA/maintainer-quality-tools/pull/618#issuecomment-558576890
