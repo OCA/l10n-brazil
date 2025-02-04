@@ -44,9 +44,9 @@ Installation
 
 Este módulo depende dos seguintes módulos:
 
-- sale_management
-- l10n_br_account
-- l10n_br_fiscal
+-  sale_management
+-  l10n_br_account
+-  l10n_br_fiscal
 
 Configuration
 =============
@@ -83,12 +83,12 @@ Changelog
 14.0.1.0.0 (2022-06-03)
 -----------------------
 
-- [MIG] Migração para a versão 14.
+-  [MIG] Migração para a versão 14.
 
 13.0.1.0.0 (2022-01-13)
 -----------------------
 
-- [MIG] Migração para a versão 13.
+-  [MIG] Migração para a versão 13.
 
 Bug Tracker
 ===========
@@ -111,31 +111,31 @@ Authors
 Contributors
 ------------
 
-- `AKRETION <https://akretion.com/pt-BR/>`__:
+-  `AKRETION <https://akretion.com/pt-BR/>`__:
 
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
-  - Renato Lima <renato.lima@akretion.com.br>
-  - Magno Costa <magno.costa@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Magno Costa <magno.costa@akretion.com.br>
 
-- `KMEE <https://kmee.com.br>`__:
+-  `KMEE <https://kmee.com.br>`__:
 
-  - Luis Felipe Mileo <mileo@kmee.com.br>
-  - Michell Stuttgart <michell.stuttgart@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Michell Stuttgart <michell.stuttgart@kmee.com.br>
 
-- `ESCODOO <https://escodoo.com.br>`__:
+-  `ESCODOO <https://escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-- `ENGENERE <https://engenere.one>`__:
+-  `ENGENERE <https://engenere.one>`__:
 
-  - Felipe Motter Pereira <felipe@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Other credits
 -------------
 
 The development of this module has been financially supported by:
 
-- AKRETION LTDA - `www.akretion.com <http://www.akretion.com>`__
+-  AKRETION LTDA - `www.akretion.com <http://www.akretion.com>`__
 
 Maintainers
 -----------
