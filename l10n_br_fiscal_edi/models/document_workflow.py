@@ -327,7 +327,9 @@ class DocumentWorkflow(models.AbstractModel):
             self.state_edoc = SITUACAO_EDOC_EM_DIGITACAO
 
     def _action_document_back2draft(self):
-        self.document_back2draft()
+        self.filtered(
+            lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
+        ).document_back2draft()
 
     def _document_cancel(self, justificative):
         self.ensure_one()
