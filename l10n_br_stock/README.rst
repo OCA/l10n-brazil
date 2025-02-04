@@ -45,8 +45,8 @@ Installation
 
 This module depends on:
 
-- l10n_br_base
-- stock
+-  l10n_br_base
+-  stock
 
 Configuration
 =============
@@ -70,12 +70,12 @@ Changelog
 14.0.2.0.0 (2022-06-07)
 -----------------------
 
-- [REF] Renomeado campo Inscrição Estadual de ie para inscr_est.
+-  [REF] Renomeado campo Inscrição Estadual de ie para inscr_est.
 
 14.0.1.0.0 (2021-12-31)
 -----------------------
 
-- [MIG] Migração para a versão 14.0.
+-  [MIG] Migração para a versão 14.0.
 
 Bug Tracker
 ===========
@@ -98,9 +98,14 @@ Authors
 Contributors
 ------------
 
-- Hendrix Costa
-- Luis Felipe Mileo <mileo@kmee.com.br>
-- Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+-  `KMEE <https://kmee.com.br>`__:
+
+   -  Hendrix Costa
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
+
+-  `ESCODOO <https://escodoo.com.br>`__:
+
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
 Maintainers
 -----------
