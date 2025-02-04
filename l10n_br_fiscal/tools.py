@@ -8,7 +8,7 @@ from unicodedata import normalize
 
 from erpbrasil.base.misc import punctuation_rm
 
-from odoo.tools import config
+from odoo import SUPERUSER_ID, api, tools
 
 from .constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 
@@ -47,7 +47,7 @@ def domain_field_codes(
 
 def path_edoc_company(company_id):
     db_name = company_id._cr.dbname
-    filestore = config.filestore(db_name)
+    filestore = tools.config.filestore(db_name)
     return "/".join([filestore, "edoc", punctuation_rm(company_id.cnpj_cpf)])
 
 
@@ -89,3 +89,46 @@ def remove_non_ascii_characters(value):
         )
 
     return result
+
+
+def set_journal_in_fiscal_operation(cr, company, values):
+    """
+    Set Journal in Fiscal Operation by 'ir.property'
+    :param company: Company Object
+    :param values: Dict with Journal and Fiscal Operation
+    """
+    _logger.info(
+        f"Create or Inform Journal in Fiscal Operation for {company.name} Property ..."
+    )
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    for value in values:
+        fiscal_operation = value.get("fiscal_operation")
+        journal = value.get("journal")
+        data_op_fiscal = "l10n_br_fiscal.operation," + str(env.ref(fiscal_operation).id)
+        property_fiscal_op = env["ir.property"].search(
+            [
+                ("res_id", "=", data_op_fiscal),
+                ("company_id", "=", company.id),
+            ]
+        )
+
+        data_journal = "account.journal," + str(env.ref(journal).id)
+        if property_fiscal_op:
+            property_fiscal_op.value_reference = data_journal
+        else:
+            env["ir.property"].create(
+                {
+                    "name": f"{fiscal_operation}_{journal}",
+                    "fields_id": env["ir.model.fields"]
+                    .search(
+                        [
+                            ("model", "=", "l10n_br_fiscal.operation"),
+                            ("name", "=", "journal_id"),
+                        ]
+                    )
+                    .id,
+                    "value": data_journal,
+                    "res_id": data_op_fiscal,
+                    "company_id": company.id,
+                }
+            )
