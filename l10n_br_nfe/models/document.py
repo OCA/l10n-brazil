@@ -849,7 +849,7 @@ class NFe(spec_models.StackedModel):
     @api.constrains("document_date", "document_key", "state_edoc")
     def _check_document_date_key(self):
         for rec in self:
-            if rec.document_key:
+            if rec.document_key and rec.document_date:
                 key_date_str = rec.document_key[2:6]
                 key_date = datetime.strptime(key_date_str, "%y%m")
 
