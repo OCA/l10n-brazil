@@ -96,34 +96,29 @@ class SaleReport(models.Model):
         digits="Account",
     )
 
-    # TODO MIGRATE TO v16! (see _query method in sale module)
-    def TODO_query(self, with_clause="", fields=None, groupby="", from_clause=""):
-        if fields is None:
-            fields = {}
-
-        fields.update(
+    def _select_additional_fields(self):
+        res = super()._select_additional_fields()
+        res.update(
             {
-                "fiscal_operation_id": ", l.fiscal_operation_id as fiscal_operation_id",
-                "fiscal_operation_line_id": (
-                    ", l.fiscal_operation_line_id as fiscal_operation_line_id"
-                ),
-                "ind_pres": ", s.ind_pres",
-                "cfop_id": ", l.cfop_id as cfop_id",
-                "fiscal_type": ", l.fiscal_type as fiscal_type",
-                "ncm_id": ", l.ncm_id as ncm_id",
-                "nbm_id": ", l.nbm_id as nbm_id",
-                "cest_id": ", l.cest_id as cest_id",
-                "icms_value": ", SUM(l.icms_value) as icms_value",
-                "icmsst_value": ", SUM(l.icmsst_value) as icmsst_value",
-                "ipi_value": ", SUM(l.ipi_value) as ipi_value",
-                "cofins_value": ", SUM(l.cofins_value) as cofins_value",
-                "pis_value": ", SUM(l.pis_value) as pis_value",
-                "ii_value": ", SUM(l.ii_value) as ii_value",
-                "freight_value": ", SUM(l.freight_value) as freight_value",
-                "insurance_value": ", SUM(l.insurance_value) as insurance_value",
-                "other_value": ", SUM(l.other_value) as other_value",
+                "fiscal_operation_id": "l.fiscal_operation_id",
+                "fiscal_operation_line_id": "l.fiscal_operation_line_id",
+                "ind_pres": "s.ind_pres",
+                "cfop_id": "l.cfop_id",
+                "fiscal_type": "l.fiscal_type",
+                "ncm_id": "l.ncm_id",
+                "nbm_id": "l.nbm_id",
+                "cest_id": "l.cest_id",
+                "icms_value": "SUM(l.icms_value)",
+                "icmsst_value": "SUM(l.icmsst_value)",
+                "ipi_value": "SUM(l.ipi_value)",
+                "cofins_value": "SUM(l.cofins_value)",
+                "pis_value": "SUM(l.pis_value)",
+                "ii_value": "SUM(l.ii_value)",
+                "freight_value": "SUM(l.freight_value)",
+                "insurance_value": "SUM(l.insurance_value)",
+                "other_value": "SUM(l.other_value)",
                 "total_with_taxes": """
-                    , SUM(l.price_total / CASE COALESCE(s.currency_rate, 0)
+                    SUM(l.price_total / CASE COALESCE(s.currency_rate, 0)
                         WHEN 0 THEN 1.0 ELSE s.currency_rate END)
                     + SUM(CASE WHEN l.ipi_value IS NULL THEN
                        0.00 ELSE l.ipi_value END)
@@ -135,10 +130,14 @@ class SaleReport(models.Model):
                        0.00 ELSE l.insurance_value END)
                     + SUM(CASE WHEN l.other_value IS NULL THEN
                        0.00 ELSE l.other_value END)
-                    as total_with_taxes""",
+                """,
             }
         )
-        groupby += """
+        return res
+
+    def _group_by_sale(self):
+        res = super()._group_by_sale()
+        res += """
             , l.fiscal_operation_id
             , l.fiscal_operation_line_id
             , s.ind_pres
@@ -148,9 +147,4 @@ class SaleReport(models.Model):
             , l.nbm_id
             , l.cest_id
         """
-        return super()._query(
-            with_clause=with_clause,
-            fields=fields,
-            groupby=groupby,
-            from_clause=from_clause,
-        )
+        return res
