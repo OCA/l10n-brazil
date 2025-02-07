@@ -49,6 +49,15 @@ class StockInvoiceOnshipping(models.TransientModel):
                 fiscal_data.add(fiscal_additional_data)
                 values["manual_fiscal_additional_data"] = fiscal_additional_data
 
+                # O sale_stock_picking_invoicing deleta o document_number em:
+                # `account-invoicing/sale_stock_picking_invoicing/wizards/
+                # stock_invoice_onshipping.py:104`
+                # uma vez que o valor do sale_id.document_number é False.
+                # Aqui estamos recuperando o valor do document_number do picking.
+                if picking.document_number and not values.get("document_number", False):
+                    values["document_number"] = picking.document_number
+                    values["document_serie"] = picking.document_serie
+
             # Fields to join
             if len(sale_pickings) > 1:
                 values.update(
