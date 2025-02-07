@@ -102,6 +102,13 @@ class AccountPaymentLine(models.Model):
 
             dv = self.modulo11(nosso_numero, 9, 0)
             linhas_pagamentos["nosso_numero"] = str(nosso_numero) + str(dv)
+        elif cnab_config.payment_method_id.code == "240":
+            linhas_pagamentos[
+                "codigo_baixa"
+            ] = cnab_config.write_off_devolution_code_id.code
+            linhas_pagamentos["dias_baixa"] = str(
+                cnab_config.write_off_devolution_number_of_days
+            )
 
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         cnab_config = self.order_id.payment_mode_id.cnab_config_id
