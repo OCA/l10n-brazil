@@ -772,6 +772,12 @@
         <field name="cancel_rebate_code_id" ref="santander_240_instruction_05" />
         <field name="grant_discount_code_id" ref="santander_240_instruction_10" />
         <field name="cancel_discount_code_id" ref="santander_240_instruction_11" />
+        <!-- Código de Baixa / Devolução 240 -->
+        <field
+            name="write_off_devolution_code_id"
+            ref="santander_240_boleto_write_off_devolution_3"
+        />
+        <field name="write_off_devolution_number_of_days">0</field>
     </record>
 
     <!-- CNAB Manual Test -->
