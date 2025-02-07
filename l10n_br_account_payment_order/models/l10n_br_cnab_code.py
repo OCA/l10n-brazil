@@ -45,6 +45,7 @@ class L10nBrCNABCode(models.Model):
             ("boleto_wallet", "Boleto Wallet"),
             ("boleto_modality", "Boleto Modality"),
             ("boleto_variation", "Boleto Variation"),
+            ("boleto_write_off_devolution", "Boleto Write Off Devolution"),
         ],
     )
 

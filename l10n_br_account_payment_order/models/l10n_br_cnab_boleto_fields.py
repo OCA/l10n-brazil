@@ -351,3 +351,19 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         string="Boleto Wallet Code",
         tracking=True,
     )
+
+    # Código para Instrução de Devolução - Santander 240
+    write_off_devolution_code_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.code",
+        string="Devolution Instruction Code",
+        help="CNAB code used for devolution instruction.",
+        tracking=True,
+    )
+
+    # Número de Dias para Devolução - Santander 240
+    write_off_devolution_number_of_days = fields.Char(
+        string="Number of Days for Devolution",
+        size=2,
+        help="Specifies the number of days allowed for devolution.",
+        tracking=True,
+    )

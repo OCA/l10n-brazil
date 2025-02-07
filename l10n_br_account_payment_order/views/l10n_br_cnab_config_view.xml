@@ -188,6 +188,11 @@
                                             name="wallet_code_id"
                                             domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'wallet_code')]"
                                         />
+                                    <field
+                                            name="write_off_devolution_code_id"
+                                            domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'boleto_write_off_devolution')]"
+                                        />
+                                    <field name="write_off_devolution_number_of_days" />
                                  </group>
                                  <group
                                         name="bradesco"
