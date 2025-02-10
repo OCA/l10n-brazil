@@ -1057,7 +1057,9 @@ class NFeLine(spec_models.StackedModel):
         values = super()._prepare_import_dict(
             values, model, parent_dict, defaults_model
         )
-        values["line_import_json"] = json.dumps(values)
+        values["line_import_json"] = json.dumps(
+            {x: values[x] for x in values.keys() if "nfe40" in x}
+        )
 
         if not values.get("name"):
             values["name"] = values.get("nfe40_xProd")

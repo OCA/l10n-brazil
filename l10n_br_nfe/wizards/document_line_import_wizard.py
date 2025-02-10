@@ -9,7 +9,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 
 
-class L10n_br_fiscalDocumentLineImportWizard(models.TransientModel):
+class FiscalDocumentLineImportWizard(models.TransientModel):
     _inherit = "l10n_br_fiscal.document.line.import.wizard"
 
     def _prepare_onchange_document_line_id(self):
@@ -24,11 +24,48 @@ class L10n_br_fiscalDocumentLineImportWizard(models.TransientModel):
                     "document_code": line_json.get("nfe40_cProd"),
                     "document_ean": line_json.get("nfe40_cEAN"),
                     "document_name": line_json.get("nfe40_xProd"),
-                    "document_qty": line_json.get("nfe40_qCom"),
+                    # "document_name": line_json.get("nfe40_NCM"),
+                    # "document_name": line_json.get("nfe40_CEST"),
+                    # "document_name": line_json.get("nfe40_indEscala"),
+                    # "document_name": line_json.get("nfe40_CFOP"),
                     "document_uom": line_json.get("nfe40_uCom"),
+                    "document_qty": line_json.get("nfe40_qCom"),
+                    # "document_name": line_json.get("nfe40_vUnCom"),
+                    # "document_name": line_json.get("nfe40_vProd"),
+                    # "document_name": line_json.get("nfe40_cEANTrib"),
                     "document_uom_trib": line_json.get("nfe40_uTrib"),
-                    # "document_ncm_id": document_line.ncm_id.id,
-                    # "document_cfop_id": document_line.cfop_id.id,
+                    # "document_name": line_json.get("nfe40_qTrib"),
+                    # "document_name": line_json.get("nfe40_vUnTrib"),
+                    # "document_name": line_json.get("nfe40_indTot"),
                 }
                 self.update(vals)
+        return res
+
+    def _check_other_lines_info(self, values):
+        res = super()._check_other_lines_info(values)
+        if self.document_line_id.document_id.document_type in [
+            MODELO_FISCAL_NFE,
+            MODELO_FISCAL_NFCE,
+        ]:
+            fiscal_line_ids = self.document_line_id.document_id.fiscal_line_ids
+            for line in fiscal_line_ids:
+                if not line.line_import_json:
+                    continue
+                line_json = self.document_line_id.line_import_json
+
+                if not line.uom_id and line_json.get("nfe40_uCom") == self.document_uom:
+                    line.uom_id = self.import_uom_id
+
+                # if not line.uom_id and line_json.get("nfe40_uTrib")
+                #   == self.document_uom_trib:
+                #     line.uom_id = self.import_uom_id
+
+                # if not line.ncm_id and line_json.get("nfe40_NCM")
+                # == self.import_ncm_id.code:
+                #     line.ncm_id = self.import_ncm_id
+
+                # if not line.cfop_id and line_json.get("nfe40_CFOP")
+                # == self.import_cfop_id.code:
+                #     line.cfop_id = self.import_cfop_id
+
         return res
