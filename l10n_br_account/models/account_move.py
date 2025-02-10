@@ -412,6 +412,30 @@ class AccountMove(models.Model):
                     }
         return res
 
+    def _get_protected_vals(self, vals, records):
+        """
+        Overriden to deal with _inherits and the fiscal document(.line)
+        WARNING: override is not calling the super method! (TODO fix if possible)
+        """
+        protected = set()
+        for fname in vals:
+            if (
+                records._name == "account.move"
+                and records.fiscal_document_id
+                and records.fiscal_document_id._fields.get(fname)
+            ):
+                continue
+            elif (
+                records._name == "account.move.line"
+                and records.fiscal_document_line_id
+                and records.fiscal_document_line_id._fields.get(fname)
+            ):
+                continue
+            field = records._fields[fname]
+            if field.inverse or (field.compute and not field.readonly):
+                protected.update(self.pool.field_computed.get(field, [field]))
+        return [(protected, rec) for rec in records] if protected else []
+
     @contextmanager
     def _sync_dynamic_lines(self, container):
         with self._disable_recursion(container, "skip_invoice_sync") as disabled:
