@@ -291,8 +291,10 @@ class AccountMoveLine(models.Model):
         yield
         after = existing()
         for line in after:
-            if line.display_type == "product" and (
-                not changed("amount_currency") or line not in before
+            if (
+                line.display_type == "product"
+                and not self.env.is_protected(self._fields["amount_currency"], line)
+                and (not changed("amount_currency") or line not in before)
             ):
                 if not line.move_id.fiscal_operation_id:
                     unsigned_amount_currency = line.currency_id.round(
@@ -327,7 +329,9 @@ class AccountMoveLine(models.Model):
                                 if line.tax_ids
                                 else amount_total
                             )
+
                 amount_currency = unsigned_amount_currency * line.move_id.direction_sign
+
                 if line.amount_currency != amount_currency or line not in before:
                     line.amount_currency = amount_currency
                 if line.currency_id == line.company_id.currency_id:
@@ -336,14 +340,28 @@ class AccountMoveLine(models.Model):
         after = existing()
         for line in after:
             if (
-                changed("amount_currency")
-                or changed("currency_rate")
-                or changed("move_type")
-            ) and (not changed("balance") or (line not in before and not line.balance)):
+                (
+                    changed("amount_currency")
+                    or changed("currency_rate")
+                    or changed("move_type")
+                )
+                and not self.env.is_protected(self._fields["balance"], line)
+                and (
+                    not changed("balance") or (line not in before and not line.balance)
+                )
+            ):
                 balance = line.company_id.currency_id.round(
                     line.amount_currency / line.currency_rate
                 )
                 line.balance = balance
+
+        # Since this method is called during the sync,
+        # inside of `create`/`write`, these fields
+        # already have been computed and marked as so.
+        # But this method should re-trigger it since
+        # it changes the dependencies.
+        self.env.add_to_compute(self._fields["debit"], container["records"])
+        self.env.add_to_compute(self._fields["credit"], container["records"])
 
     @api.depends(
         "quantity", "discount", "price_unit", "tax_ids", "currency_id", "discount"
