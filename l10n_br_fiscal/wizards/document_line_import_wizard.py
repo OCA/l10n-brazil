@@ -9,22 +9,21 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
     _description = "Wizard for Importing Fiscal Document Lines"
 
     document_line_id = fields.Many2one("l10n_br_fiscal.document.line", readonly=True)
-    document_code = fields.Char(readonly=True, string="Code")
-    document_ean = fields.Char(readonly=True, string="EAN")
-    document_name = fields.Char(readonly=True, string="Product")
+    document_code = fields.Char(string="Code")
+    document_ean = fields.Char(string="EAN")
+    document_name = fields.Char(string="Product")
 
-    document_qty = fields.Float(readonly=True)
-    document_uom = fields.Char(readonly=True)
-    document_uom_trib = fields.Char(readonly=True)
-    document_ncm_id = fields.Many2one("l10n_br_fiscal.ncm", readonly=True)
-    document_cfop_id = fields.Many2one("l10n_br_fiscal.cfop", readonly=True)
+    document_qty = fields.Float()
+    document_uom = fields.Char()
+    document_uom_trib = fields.Char()
+    document_ncm_id = fields.Many2one("l10n_br_fiscal.ncm")
+    document_cfop_id = fields.Many2one("l10n_br_fiscal.cfop")
 
     import_product_id = fields.Many2one("product.product", string="Product to Import")
     import_qty = fields.Float(string="Quantity to Import")
-    import_ncm_id = fields.Many2one("l10n_br_fiscal.ncm", readonly=True)
+    import_ncm_id = fields.Many2one("l10n_br_fiscal.ncm")
     import_cfop_id = fields.Many2one("l10n_br_fiscal.cfop", string="CFOP to Import")
     import_uom_id = fields.Many2one("uom.uom", string="UoM to Import")
-    import_create_alternative_uom = fields.Boolean(string="Create Alternative UoM")
 
     @api.model
     def default_get(self, fields_list):
