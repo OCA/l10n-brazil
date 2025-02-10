@@ -512,3 +512,17 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         )
         assert down_payment_line, "Invoice without Down Payment line."
         invoice.action_post()
+
+    def test_generate_document_number_on_invoice_create_wizard(self):
+        """Test Invoicing Picking with Document Number"""
+        sale_order = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
+        sale_order.action_confirm()
+        picking = sale_order.picking_ids
+        picking.picking_type_id.pre_generate_fiscal_document_number = "validate"
+        self.picking_move_state(picking)
+        self.assertTrue(picking.document_number)
+        invoice = self.create_invoice_wizard(picking)
+        self.assertEqual(picking.document_number, invoice.document_number)
+        self.assertEqual(
+            picking.document_number, invoice.fiscal_document_id.document_number
+        )
