@@ -7,6 +7,17 @@ from odoo import models
 class StockInvoiceOnshipping(models.TransientModel):
     _inherit = "stock.invoice.onshipping"
 
+    def _get_fields_not_used_from_sale(self):
+        """Fields not used from Sale 'prepare' method"""
+        fields_not_used = super()._get_fields_not_used_from_sale()
+        fields_not_used.update(
+            {
+                "document_number",
+                "document_serie",
+            }
+        )
+        return fields_not_used
+
     def _build_invoice_values_from_pickings(self, pickings):
         """
         Build dict to create a new invoice from given pickings
