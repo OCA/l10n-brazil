@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=file-not-used -->
 <odoo noupdate="True">
 
   <record id="tax_icms_regulation" model="l10n_br_fiscal.icms.regulation">

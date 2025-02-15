@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=file-not-used -->
 <odoo noupdate="1">
 
     <record id="cfop_5101" model="l10n_br_fiscal.cfop">
