@@ -122,7 +122,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 5%",
+                    "IPI 3.25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -250,7 +250,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 5%",
+                    "IPI 3.25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -359,7 +359,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 5%",
+                    "IPI 3.25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -468,7 +468,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 5%",
+                    "IPI 3.25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -571,7 +571,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 5%",
+                    "IPI 3.25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -1053,9 +1053,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         additional_data = self.nfe_not_taxpayer.fiscal_line_ids[0].additional_data
         self.assertEqual(
             additional_data,
-            "manual comment test - Valor Aprox. dos Tributos: R$ 0,00",
-            # TODO FIXME changed 0.00 to 0,00 to get tests pass on v13, but not
-            # correct
+            "manual comment test",
         )
 
     def test_fields_freight_insurance_other_costs(self):

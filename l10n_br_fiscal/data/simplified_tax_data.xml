@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=file-not-used -->
-<odoo>
+<odoo noupdate="1">
 
     <record id="simplefied_tax_anexo1" model="l10n_br_fiscal.simplified.tax">
         <field name="name">Anexo 1 - Comércio</field>
