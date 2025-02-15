@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=file-not-used -->
 <odoo noupdate="1">
     <!-- Simples Faturamento -->
     <record id="so_simples_faturamento" model="l10n_br_fiscal.subsequent.operation">

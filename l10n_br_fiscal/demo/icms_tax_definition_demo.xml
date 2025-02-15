@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=file-not-used -->
 <odoo noupdate="1">
 
     <!-- ICMS 18% with a reduction of 51.11% for NCM 17029000-->

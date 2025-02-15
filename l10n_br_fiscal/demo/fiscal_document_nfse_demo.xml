@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=file-not-used -->
 <odoo noupdate="1">
     <!-- NFSe Test - Empresa Contribuinte - Mesmo Estado -->
     <record id="demo_nfse_same_state" model="l10n_br_fiscal.document">
