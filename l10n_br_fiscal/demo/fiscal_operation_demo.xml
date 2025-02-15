@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- pylint:disable=file-not-used -->
 <odoo noupdate="0">
 
     <record id="fo_venda" model="l10n_br_fiscal.operation">
