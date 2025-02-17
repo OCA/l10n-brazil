@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import SUPERUSER_ID, _, api, tools
+from odoo import SUPERUSER_ID, _, api
 
 _logger = logging.getLogger(__name__)
 
@@ -81,9 +81,62 @@ def set_stock_warehouse_external_ids(env, company_external_id):
 
 def pre_init_hook(cr):
     """Import XML data to change core data"""
-
-    if not tools.config["without_demo"]:
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    if env.ref("base.module_stock").demo:
         _logger.info(_("Loading l10n_br_stock warehouse external ids..."))
-        env = api.Environment(cr, SUPERUSER_ID, {})
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
+
+
+def create_locations_quants(cr, locations, products):
+    """
+    Create Quants for Inventory, use in Test and Demo Data
+    :param locations: List of the Stock Locations
+    :param products: List of the Products
+    """
+    for location in locations:
+        _logger.info(f"Create Quants Inventory in {location.name} for Demo Data ...")
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        quants = env["stock.quant"]
+        for product in products:
+            quants |= (
+                env["stock.quant"]
+                .with_context(inventory_mode=True)
+                .create(
+                    {
+                        "product_id": product.id,
+                        "inventory_quantity": 500,
+                        "location_id": location.id,
+                    }
+                )
+            )
+        quants.action_apply_inventory()
+
+
+def post_init_hook(cr, registry):
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    if env.ref("base.module_l10n_br_stock").demo:
+        create_locations_quants(
+            cr,
+            [
+                env.ref("l10n_br_stock.wh_empresa_simples_nacional").lot_stock_id,
+                env.ref("l10n_br_stock.wh_empresa_lucro_presumido").lot_stock_id,
+            ],
+            [
+                env.ref("product.product_product_24"),
+                env.ref("product.product_product_7"),
+                env.ref("product.product_product_6"),
+                env.ref("product.product_product_9"),
+                env.ref("product.product_product_10"),
+                env.ref("product.product_product_11"),
+                env.ref("product.product_product_11b"),
+                env.ref("product.product_product_4"),
+                env.ref("product.product_product_4b"),
+                env.ref("product.product_product_4c"),
+                env.ref("product.product_product_12"),
+                env.ref("product.product_product_13"),
+                env.ref("product.product_product_27"),
+                env.ref("product.product_product_3"),
+                env.ref("product.product_product_25"),
+            ],
+        )
