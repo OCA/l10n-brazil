@@ -144,13 +144,6 @@
             ref="l10n_br_fiscal.partner_fiscal_profile_snc"
         />
     </record>
-    <record id="l10n_br_base.res_partner_cliente2_sp_end_entrega" model="res.partner">
-        <!-- Endereço de Entrega -->
-        <field
-            name="fiscal_profile_id"
-            ref="l10n_br_fiscal.partner_fiscal_profile_snc"
-        />
-    </record>
 
     <!-- Cliente 3 - Z/F Manaus - Contribuinte -->
     <record id="l10n_br_base.res_partner_cliente3_am" model="res.partner">
@@ -186,13 +179,6 @@
 
     <!-- Cliente 7 RS - Contribuinte -->
     <record id="l10n_br_base.res_partner_cliente7_rs" model="res.partner">
-        <field
-            name="fiscal_profile_id"
-            ref="l10n_br_fiscal.partner_fiscal_profile_cnt"
-        />
-    </record>
-    <record id="l10n_br_base.res_partner_cliente7_rs_end_cobranca" model="res.partner">
-        <!-- Endereço de Cobrança -->
         <field
             name="fiscal_profile_id"
             ref="l10n_br_fiscal.partner_fiscal_profile_cnt"

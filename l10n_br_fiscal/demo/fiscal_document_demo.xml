@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- pylint:disable=xml-duplicate-record-id -->
 <odoo noupdate="1">
 
     <record id="dummy_file_1" model="ir.attachment">
