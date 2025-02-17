@@ -47,7 +47,7 @@ class L10nBrSaleBaseTest(TransactionCase):
                 "tax": cls.env.ref("l10n_br_fiscal.tax_issqn_5"),
             },
             "ipi": {
-                "tax": cls.env.ref("l10n_br_fiscal.tax_ipi_5"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_ipi_3_25"),
                 "cst": cls.env.ref("l10n_br_fiscal.cst_ipi_50"),
             },
             "pis": {
