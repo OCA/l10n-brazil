@@ -10,10 +10,10 @@
     "demo": [
         "demo/res_users_demo.xml",
         "demo/stock_location_demo.xml",
-        "demo/stock_inventory_demo.xml",
         "demo/res_company_demo.xml",
     ],
     "installable": True,
     "auto_install": False,
     "pre_init_hook": "pre_init_hook",
+    "post_init_hook": "post_init_hook",
 }
