@@ -363,13 +363,26 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             )
 
             # IPI
-            self.assertEqual(
-                line.ipi_tax_id.name,
-                taxes["ipi"]["tax"].name,
-                "Error to mapping Tax {} for {}.".format(
-                    taxes["ipi"]["tax"].name, line.fiscal_operation_line_id.name
-                ),
-            )
+            if (
+                line.ncm_id.code == "9403.30.00"
+                and "IPI Outros" not in taxes["ipi"]["tax"].name
+            ):
+                ipi_tax = self.env.ref("l10n_br_fiscal.tax_ipi_3_25")
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    ipi_tax.name,
+                    "Error to mapping Tax {} for {} {}.".format(
+                        taxes["ipi"]["tax"].name, line.ncm_id.code, line.cfop_id.code
+                    ),
+                )
+            else:
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    taxes["ipi"]["tax"].name,
+                    "Error to mapping Tax {} for {} {}.".format(
+                        taxes["ipi"]["tax"].name, line.ncm_id.code, line.cfop_id.code
+                    ),
+                )
 
             self.assertEqual(
                 line.ipi_cst_id.code,
