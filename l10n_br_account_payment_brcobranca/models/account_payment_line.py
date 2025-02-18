@@ -109,6 +109,12 @@ class AccountPaymentLine(models.Model):
             linhas_pagamentos["dias_baixa"] = str(
                 cnab_config.write_off_devolution_number_of_days
             )
+            # Os dados de multa e desconto também são obrigatórios no segmento R
+            linhas_pagamentos["codigo_multa"] = cnab_config.boleto_fee_code or "0"
+            linhas_pagamentos["percentual_multa"] = cnab_config.boleto_fee_perc or 0.0
+            if self.discount_value:
+                linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
+                linhas_pagamentos["valor_desconto"] = self.discount_value
 
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         cnab_config = self.order_id.payment_mode_id.cnab_config_id
