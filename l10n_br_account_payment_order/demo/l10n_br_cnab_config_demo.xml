@@ -778,6 +778,8 @@
             ref="santander_240_boleto_write_off_devolution_3"
         />
         <field name="write_off_devolution_number_of_days">0</field>
+        <field name="boleto_fee_code">0</field>
+        <field name="boleto_fee_perc">0.00</field>
     </record>
 
     <!-- CNAB Manual Test -->
