@@ -281,6 +281,10 @@ class TaxDefinition(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    presumed_credit_percent = fields.Float(
+        string="Porcentagem do crédito presumido",
+    )
+
     def _get_search_domain(self, tax_definition):
         """Create domain to be used in contraints methods"""
         domain = [

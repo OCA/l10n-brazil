@@ -117,7 +117,10 @@
                             name="benefit_type"
                             attrs="{'required': [('is_benefit', '!=', False)]}"
                         />
-
+            <field
+                            name="presumed_credit_percent"
+                            attrs="{'invisible': [('benefit_type', '!=', '5')]}"
+                        />
           </group>
           <group name="state" string="State">
             <field

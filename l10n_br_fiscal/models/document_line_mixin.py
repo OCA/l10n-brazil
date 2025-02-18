@@ -356,8 +356,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     icms_tax_benefit_code = fields.Char(
-        string="Tax Benefit Code", related="icms_tax_benefit_id.code", store=True
+        string="Tax Benefit Code",
+        store=True,
+        readonly=True,
     )
+
+    icms_tax_benefit_type = fields.Selection(
+        string="Tax Benefit Type", related="icms_tax_benefit_id.benefit_type"
+    )
+
+    icms_tax_benefit_percent = fields.Float(
+        readonly=True,
+    )
+
+    icms_tax_benefit_value = fields.Monetary(compute="_compute_tax_benefit_value")
 
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,

@@ -585,6 +585,26 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "icms_relief_value": tax_dict.get("icms_relief", 0.0),
         }
 
+    @api.onchange("icms_tax_benefit_id")
+    def _onchange_tax_benefit_id(self):
+        if self.icms_tax_benefit_id:
+            self.icms_tax_benefit_code = self.icms_tax_benefit_id.code
+            self.icms_tax_benefit_type = self.icms_tax_benefit_id.benefit_type
+            self.icms_tax_benefit_percent = (
+                self.icms_tax_benefit_id.presumed_credit_percent
+            )
+        else:
+            self.icms_tax_benefit_code = False
+            self.icms_tax_benefit_type = False
+            self.icms_tax_benefit_percent = 0.0
+
+    @api.depends("icms_value", "icms_tax_benefit_percent")
+    def _compute_tax_benefit_value(self):
+        for record in self:
+            record.icms_tax_benefit_value = (
+                record.icms_value * record.icms_tax_benefit_percent
+            ) / 100
+
     @api.onchange(
         "icms_base",
         "icms_percent",

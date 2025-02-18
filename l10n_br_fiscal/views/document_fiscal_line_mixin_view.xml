@@ -180,6 +180,19 @@
                                         attrs="{'readonly': ['|', ('icms_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"
                                     />
                     <field name="icms_tax_benefit_id" force_save="1" />
+                    <field name="icms_tax_benefit_code" force_save="1" />
+                    <field name="icms_tax_benefit_type" force_save="1" invisible="1" />
+                    <field
+                                        name="icms_tax_benefit_percent"
+                                        force_save="1"
+                                        attrs="{'invisible': [('icms_tax_benefit_type', '!=', '5')]}"
+                                    />
+
+                    <field
+                                        name="icms_tax_benefit_value"
+                                        force_save="1"
+                                        attrs="{'invisible': [('icms_tax_benefit_type', '!=', '5')]}"
+                                    />
                   </group>
                   <group>
                       <group>
