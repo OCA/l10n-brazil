@@ -4,7 +4,9 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from datetime import date, timedelta
+from datetime import date
+
+from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import UserError
 from odoo.fields import Date
@@ -102,7 +104,7 @@ class TestL10nBrAccountPaymentOder(TransactionCase):
         ) as f:
             f.change_type = code_to_send
             if code_to_send == "change_date_maturity":
-                new_date = date.today() + timedelta(days=40)
+                new_date = date.today() + relativedelta(years=1)
                 payment_cheque = self.env.ref(
                     "l10n_br_account_payment_order." "payment_mode_cheque"
                 )
