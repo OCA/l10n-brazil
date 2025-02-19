@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "author": "Akretion, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "16.0.1.4.0",
+    "version": "16.0.1.5.0",
     "depends": ["sale_management", "l10n_br_account"],
     "data": [
         # Data
