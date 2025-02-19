@@ -143,7 +143,7 @@ class NFeLine(spec_models.StackedModel):
 
     # CNPJFab TODO
 
-    nfe40_cBenef = fields.Char(related="icms_tax_benefit_code")
+    nfe40_cBenef = fields.Char()
 
     # TODO em uma importação de XML deve considerar esse campo na busca do
     # ncm_id
@@ -221,6 +221,46 @@ class NFeLine(spec_models.StackedModel):
 
         nfe40_cEAN = self.product_id.barcode or "SEM GTIN"
         export_dict["cEAN"] = export_dict["cEANTrib"] = nfe40_cEAN
+
+    #####################################################
+    # NF-e tag: gCred
+    # Grupo I05g. Grupo de informações sobre o Crédito Presumido
+    #####################################################
+
+    nfe40_gCred = fields.One2many(
+        "nfe.40.gcred",
+        "nfe40_gCred_prod_id",
+        string="Grupo de informações sobre",
+        compute="_compute_nfe40_gCred",
+    )
+
+    ##########################
+    # NF-e tag: gCred
+    # Compute Methods
+    ##########################
+
+    @api.depends(
+        "icms_tax_benefit_type",
+        "icms_tax_benefit_percent",
+        "icms_tax_benefit_value",
+        "icms_tax_benefit_code",
+    )
+    def _compute_nfe40_gCred(self):
+        for record in self:
+            record.nfe40_gCred.unlink()
+
+            if record.icms_tax_benefit_type == "5":
+                gCred_values = [
+                    {
+                        "nfe40_pCredPresumido": record.icms_tax_benefit_percent,
+                        "nfe40_vCredPresumido": record.icms_tax_benefit_value,
+                        "nfe40_cCredPresumido": record.icms_tax_benefit_code,
+                        "nfe40_gCred_prod_id": record.id,
+                    }
+                ]
+                record.nfe40_gCred = self.env["nfe.40.gcred"].create(gCred_values)
+            else:
+                record.nfe40_cBenef = record.icms_tax_benefit_code
 
     ###########################################################
     # NF-e tag: DI
