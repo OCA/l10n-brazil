@@ -70,12 +70,6 @@
                 </header>
                 <sheet>
                     <h1 class="o_row row no-gutters d-flex">
-                        <div class="col-2">
-                            <label for="code" class="oe_edit_only" />
-                            <div class="o_row">
-                                <field name="code" class="oe_inline" />
-                            </div>
-                        </div>
                         <div class="col-10">
                             <label for="name" class="oe_edit_only" />
                             <div class="o_row d-flex">
@@ -87,6 +81,7 @@
                         <group>
                             <field name="fiscal_operation_type" />
                             <field name="fiscal_type" />
+                            <field name="code" />
                             <field name="company_id" />
                             <field name="edoc_purpose" />
                             <field

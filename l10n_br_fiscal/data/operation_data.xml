@@ -12,7 +12,7 @@
 
     <!-- l10n_br_fiscal.operation -->
     <record id="fo_venda" model="l10n_br_fiscal.operation">
-        <field name="code">Venda</field>
+        <field name="code">VD</field>
         <field name="name">Venda</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">sale</field>
@@ -110,7 +110,7 @@
     </record>
 
     <record id="fo_bonificacao" model="l10n_br_fiscal.operation">
-        <field name="code">Bonificação</field>
+        <field name="code">BNF</field>
         <field name="name">Bonificação</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">other</field>
@@ -127,7 +127,7 @@
     </record>
 
     <record id="fo_devolucao_venda" model="l10n_br_fiscal.operation">
-        <field name="code">Devolução de Venda</field>
+        <field name="code">DVV</field>
         <field name="name">Devolução de Venda</field>
         <field name="fiscal_operation_type">in</field>
         <field name="fiscal_type">sale_refund</field>
@@ -163,7 +163,7 @@
     </record>
 
     <record id="fo_compras" model="l10n_br_fiscal.operation">
-        <field name="code">Compras</field>
+        <field name="code">CP</field>
         <field name="name">Compras</field>
         <field name="fiscal_operation_type">in</field>
         <field name="fiscal_type">purchase</field>
@@ -236,7 +236,7 @@
     </record>
 
     <record id="fo_devolucao_compras" model="l10n_br_fiscal.operation">
-        <field name="code">Devolução de Compras</field>
+        <field name="code">DVC</field>
         <field name="name">Devolução de Compras</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">purchase_refund</field>
@@ -294,7 +294,7 @@
     </record>
 
     <record id="fo_entrada_remessa" model="l10n_br_fiscal.operation">
-        <field name="code">Entrada de Remessa</field>
+        <field name="code">ER</field>
         <field name="name">Entrada de Remessa</field>
         <field name="fiscal_operation_type">in</field>
         <field name="fiscal_type">other</field>
@@ -315,7 +315,7 @@
     </record>
 
     <record id="fo_simples_remessa" model="l10n_br_fiscal.operation">
-        <field name="code">Simples Remessa</field>
+        <field name="code">SR</field>
         <field name="name">Simples Remessa</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">other</field>
@@ -336,7 +336,7 @@
     </record>
 
     <record id="fo_simples_faturamento" model="l10n_br_fiscal.operation">
-        <field name="code">Simples Faturamento</field>
+        <field name="code">SF</field>
         <field name="name">Simples Faturamento</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">other</field>
@@ -356,7 +356,7 @@
     </record>
 
     <record id="fo_entrega_futura" model="l10n_br_fiscal.operation">
-        <field name="code">Venda - Entrega Futura</field>
+        <field name="code">VEF</field>
         <field name="name">Venda - Entrega Futura</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">sale</field>
@@ -373,7 +373,7 @@
     </record>
 
     <record id="fo_remessa_industrializacao" model="l10n_br_fiscal.operation">
-        <field name="code">Remessa - Industrialização</field>
+        <field name="code">RI</field>
         <field name="name">Remessa para industrialização por encomenda</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">return_out</field>
@@ -396,7 +396,7 @@
     </record>
 
     <record id="fo_entrada_industrializacao" model="l10n_br_fiscal.operation">
-        <field name="code">Entrada - Industrialização</field>
+        <field name="code">EI</field>
         <field name="name">Entrada para industrialização por encomenda</field>
         <field name="fiscal_operation_type">in</field>
         <field name="fiscal_type">other</field>
@@ -419,7 +419,7 @@
     </record>
 
     <record id="fo_retorno_reparo" model="l10n_br_fiscal.operation">
-        <field name="code">Retorno - Reparo</field>
+        <field name="code">RR</field>
         <field
             name="name"
         >Retorno de mercadoria ou bem remetido para conserto ou reparo</field>
@@ -440,7 +440,7 @@
     </record>
 
     <record id="fo_entrada_reparo" model="l10n_br_fiscal.operation">
-        <field name="code">Entrada - Reparo</field>
+        <field name="code">EMR</field>
         <field
             name="name"
         >Entrada de mercadoria ou bem remetido para conserto ou reparo</field>
