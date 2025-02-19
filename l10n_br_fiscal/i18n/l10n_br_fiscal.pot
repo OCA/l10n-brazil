@@ -5446,42 +5446,6 @@ msgid "Lista Positiva (valor)"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
-#, python-format
-msgid "Loading l10n_br_fiscal demo files."
-msgstr ""
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
-#, python-format
-msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
-msgstr ""
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
-#, python-format
-msgid "Loading l10n_br_fiscal post demo files. It may take a minute..."
-msgstr ""
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
-#, python-format
-msgid "Loading l10n_br_fiscal post init files. It may take a minute..."
-msgstr ""
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/hooks.py:0
-#, python-format
-msgid ""
-"Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__09
 msgid "Lâmpadas, reatores e “starter”"
 msgstr ""
