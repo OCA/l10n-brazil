@@ -5,6 +5,7 @@
 from odoo import exceptions
 from odoo.tests import Form, tagged
 
+from odoo.addons.l10n_br_sale.hooks import sale_set_journal_in_fiscal_operation
 from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
 
 
@@ -23,6 +24,9 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         )
         for company in cls.companies:
             company.sale_invoicing_policy = "stock_picking"
+
+        # TODO: O hook deveria funcionar?
+        sale_set_journal_in_fiscal_operation(cls.cr)
 
     def test_02_sale_stock_return(self):
         """
