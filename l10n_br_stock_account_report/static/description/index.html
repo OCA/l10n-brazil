@@ -369,37 +369,38 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:8d69f602dabc8a8a83d3bd972c2685dc33b54b98acb1ee0541a2543c9e3f4bba
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_stock_account_report"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_stock_account_report"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=14.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p><em>Português</em>
-Esse modulo implementa o Relatorio de Valorização do Estoque Modelo P7.</p>
-<p><em>English</em>
-This module implement the Brazilian Legal Stock Account Report model P7.</p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_stock_account_report"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_stock_account_report"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>Esse módulo implementa o <strong>Relatorio de Valorização do Estoque Modelo
+P7</strong>.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
 <li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
 <li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
-<li><a class="reference internal" href="#changelog" id="toc-entry-4">Changelog</a><ul>
-<li><a class="reference internal" href="#section-1" id="toc-entry-5">14.0.1.0.0 (2023-07-28)</a></li>
-<li><a class="reference internal" href="#section-2" id="toc-entry-6">12.0.1.0.0 (2021-07-29)</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-6">16.0.1.0.0 (2025-02-27)</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-7">14.0.1.0.0 (2023-07-28)</a></li>
+<li><a class="reference internal" href="#section-3" id="toc-entry-8">12.0.1.0.0 (2021-07-29)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-7">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-8">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-9">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-10">Contributors</a></li>
-<li><a class="reference internal" href="#other-credits" id="toc-entry-11">Other credits</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-12">Maintainers</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-9">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-10">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-11">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-12">Contributors</a></li>
+<li><a class="reference internal" href="#other-credits" id="toc-entry-13">Other credits</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-14">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="installation">
 <h1><a class="toc-backref" href="#toc-entry-1">Installation</a></h1>
-<p>This module depends on:</p>
+<p>Este módulo depende do:</p>
 <ul class="simple">
 <li>l10n_br_stock_account</li>
+<li>report_wkhtmltopdf_param</li>
 </ul>
 </div>
 <div class="section" id="configuration">
@@ -408,50 +409,87 @@ This module implement the Brazilian Legal Stock Account Report model P7.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
-<p><em>Português</em>
-Para usar esse modulo, vá em:</p>
+<p>Para usar esse módulo, vá em:</p>
+<p><strong>Inventário &gt; Relatórios &gt; Valoração de Inventário - Modelo P7</strong></p>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
+<p>A partir da v16 passou a ser necessário usar o módulo
+<a class="reference external" href="https://github.com/OCA/reporting-engine/tree/16.0/report_wkhtmltopdf_param">report_wkhtmltopdf_param</a>
+para incluir o parâmetro <strong>–encoding utf-8</strong> ao chamar o comando
+<strong>wkhtmltopdf</strong>, sem isso caracteres <strong>UTF-8</strong> como por exemplo <strong>é ç ã
+á à â ü, etc</strong> apesar de aparecerem corretamente no <strong>HTML</strong> não são
+criados corretamente no <strong>PDF</strong>. É preciso avaliar se a criação do PDF
+deve ser feita de alguma outra forma ou no momento da migração para as
+próximas versões se isso foi corrigido, porém é preciso estar ciente de
+que a biblioteca <strong>Wkhtmltopdf</strong> já foi descontinuada e a <strong>Odoo SA</strong>
+está buscando criar uma nova biblioteca, segue os links para acompanhar:</p>
 <ul class="simple">
-<li>Inventário &gt; Relatórios &gt; Valoração de Inventário - Modelo P7</li>
+<li><a class="reference external" href="https://github.com/wkhtmltopdf/wkhtmltopdf/issues/5160#issuecomment-1010668103">Issue no projeto Wkhtmltopdf sobre o status, o projeto foi alterado
+para Public archive em
+02/01/2023</a></li>
+<li><a class="reference external" href="https://wkhtmltopdf.org/status.html">Status do Projeto Wkhtmltopdf no site
+oficial</a></li>
+<li><a class="reference external" href="https://github.com/odoo/odoo/issues/80184">Issue no Odoo na v15 sobre o problema com referencia a
+correção</a></li>
+<li><a class="reference external" href="https://github.com/odoo/odoo/issues/84418">Issue no Odoo na v15 sobre erro mesmo no método render_pdf_qweb em
+Aberto e marcadao como
+ORM</a></li>
+<li><a class="reference external" href="https://github.com/odoo/odoo/issues/86501">Debate no Issue do Odoo sobre substituir o
+Wkhtmltopdf</a></li>
+<li><a class="reference external" href="https://github.com/odoo/paper-muncher">Biblioteca paper-muncher da Odoo para substituir o wkhtmltopdf, ainda
+em testes</a></li>
 </ul>
-<p><em>English</em>
-To use this module, go to:</p>
-<ul class="simple">
-<li>Invetory &gt; Reporting &gt; Inventory Valuation - Model P7</li>
-</ul>
+<p>Portanto isso é uma questão ainda em aberto e em andamento, onde tanto
+pode acabar sendo adotada a biblilioteca <strong>paper-muncher</strong> quanto outra,
+então também é importante acompanhar o que será feito na <strong>OCA</strong>
+principalmente no repósitorio
+<a class="reference external" href="https://github.com/OCA/reporting-engine">reporting-engine</a>.</p>
 </div>
 <div class="section" id="changelog">
-<h1><a class="toc-backref" href="#toc-entry-4">Changelog</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-5">Changelog</a></h1>
 <div class="section" id="section-1">
-<h2><a class="toc-backref" href="#toc-entry-5">14.0.1.0.0 (2023-07-28)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-6">16.0.1.0.0 (2025-02-27)</a></h2>
+<ul class="simple">
+<li>[MIG] Migration to version 16.0</li>
+</ul>
+<p>Incluída dependência do módulo
+<a class="reference external" href="https://github.com/OCA/reporting-engine/tree/16.0/report_wkhtmltopdf_param">report_wkhtmltopdf_param</a>
+para que o <strong>PDF</strong> exiba os caractertes que <strong>Não são ASCII</strong> de forma
+correta, adicionando no comando <strong>wkhtmltopdf</strong> o parâmetro <strong>–encodig
+UTF-8</strong>.</p>
+</div>
+<div class="section" id="section-2">
+<h2><a class="toc-backref" href="#toc-entry-7">14.0.1.0.0 (2023-07-28)</a></h2>
 <ul class="simple">
 <li>[MIG] Migration to version 14.0</li>
 </ul>
 </div>
-<div class="section" id="section-2">
-<h2><a class="toc-backref" href="#toc-entry-6">12.0.1.0.0 (2021-07-29)</a></h2>
+<div class="section" id="section-3">
+<h2><a class="toc-backref" href="#toc-entry-8">12.0.1.0.0 (2021-07-29)</a></h2>
 <ul class="simple">
-<li>[NEW] First version.</li>
+<li>[ADD] First version.</li>
 </ul>
 </div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-7">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-9">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_stock_account_report%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_stock_account_report%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-8">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-10">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-9">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-11">Authors</a></h2>
 <ul class="simple">
 <li>Akretion</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-10">Contributors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-12">Contributors</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="https://www.akretion.com/pt-BR">Akretion</a>:<ul>
 <li>Magno Costa &lt;<a class="reference external" href="mailto:magno.costa&#64;akretion.com.br">magno.costa&#64;akretion.com.br</a>&gt;</li>
@@ -460,14 +498,14 @@ If you spotted it first, help us to smash it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="other-credits">
-<h2><a class="toc-backref" href="#toc-entry-11">Other credits</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-13">Other credits</a></h2>
 <p>The development of this module has been financially supported by:</p>
 <ul class="simple">
-<li>AKRETION LTDA - www.akretion.com</li>
+<li>AKRETION LTDA - <a class="reference external" href="http://www.akretion.com">www.akretion.com</a></li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-12">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-14">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org">
 <img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
@@ -477,7 +515,7 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
 <p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
 <p><a class="reference external image-reference" href="https://github.com/mbcosta"><img alt="mbcosta" src="https://github.com/mbcosta.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_stock_account_report">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_stock_account_report">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>

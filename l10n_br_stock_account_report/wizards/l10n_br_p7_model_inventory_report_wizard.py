@@ -169,18 +169,6 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         for product in products_sorted_by_ncm:
             tmp_ncm_controler_line = False
 
-            # TODO ? product.price.history foi removido na v13,
-            #  https://github.com/odoo/odoo/commit/
-            #  0477bdb75afafa62b204f29e9dbfc3fc5fd012d4
-            #  validar em uma base real se o objeto stock.valuation.layers possui
-            #  todos os dados necessários, script de migração da OCA
-            #  https://github.com/OCA/OpenUpgrade/blob/13.0/addons/
-            #  stock_account/migrations/13.0.1.1/post-migration.py#L185
-            # price_used = product.get_history_price(
-            #    self.env.user.company_id.id,
-            #    date=self.date,
-            # )
-
             # Caso o valor não seja encontrado no stock.valuation.layer
             # usa o valor zero, por não ter um valor definido
             price_used = 0.0

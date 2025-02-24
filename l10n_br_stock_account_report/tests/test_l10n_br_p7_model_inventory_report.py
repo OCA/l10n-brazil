@@ -1,11 +1,11 @@
-# @ 2021 Akretion - www.akretion.com.br -
-#   Magno Costa <magno.costa@akretion.com.br>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Copyright (C) 2021-Today - Akretion (<http://www.akretion.com>).
+# @author Magno Costa <magno.costa@akretion.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class L10nBRP7ModelInventoryReportTest(SavepointCase):
+class L10nBRP7ModelInventoryReportTest(TransactionCase):
     """Test Brazilian P7 Model Inventory Report"""
 
     @classmethod
