@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2021-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
 <odoo>
 
     <!-- Formato A4 com margens menores e para evitar o espaço em branco
@@ -36,6 +41,16 @@
             name="report_name"
         >l10n_br_stock_account_report.main_l10n_br_p7_model_inventory_report_view</field>
         <field name="binding_type">report</field>
+    </record>
+
+    <!-- Necessário passar o parametro no wkhtmltopdf para evitar erros com
+         os caracteres UTF-8.
+         TODO: Ver no ROADMAP
+    -->
+    <record id="wkhtmltopdf_enconding_utf8" model="report.paperformat.parameter">
+        <field name="paperformat_id" ref="paperformat_lowmargin" />
+	<field name="name">--encoding</field>
+        <field name="value">utf-8</field>
     </record>
 
 </odoo>

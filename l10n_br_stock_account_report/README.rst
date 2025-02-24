@@ -17,22 +17,19 @@ P7 Stock Valuation Report
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_stock_account_report
+    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_stock_account_report
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_stock_account_report
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_stock_account_report
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-*Português*
-Esse modulo implementa o Relatorio de Valorização do Estoque Modelo P7.
-
-*English*
-This module implement the Brazilian Legal Stock Account Report model P7.
+Esse módulo implementa o **Relatorio de Valorização do Estoque Modelo
+P7**.
 
 **Table of contents**
 
@@ -42,9 +39,10 @@ This module implement the Brazilian Legal Stock Account Report model P7.
 Installation
 ============
 
-This module depends on:
+Este módulo depende do:
 
-* l10n_br_stock_account
+- l10n_br_stock_account
+- report_wkhtmltopdf_param
 
 Configuration
 =============
@@ -54,28 +52,68 @@ No configuration required.
 Usage
 =====
 
-*Português*
-Para usar esse modulo, vá em:
+Para usar esse módulo, vá em:
 
-* Inventário > Relatórios > Valoração de Inventário - Modelo P7
+**Inventário > Relatórios > Valoração de Inventário - Modelo P7**
 
-*English*
-To use this module, go to:
+Known issues / Roadmap
+======================
 
-* Invetory > Reporting > Inventory Valuation - Model P7
+A partir da v16 passou a ser necessário usar o módulo
+`report_wkhtmltopdf_param <https://github.com/OCA/reporting-engine/tree/16.0/report_wkhtmltopdf_param>`__
+para incluir o parâmetro **--encoding utf-8** ao chamar o comando
+**wkhtmltopdf**, sem isso caracteres **UTF-8** como por exemplo **é ç ã
+á à â ü, etc** apesar de aparecerem corretamente no **HTML** não são
+criados corretamente no **PDF**. É preciso avaliar se a criação do PDF
+deve ser feita de alguma outra forma ou no momento da migração para as
+próximas versões se isso foi corrigido, porém é preciso estar ciente de
+que a biblioteca **Wkhtmltopdf** já foi descontinuada e a **Odoo SA**
+está buscando criar uma nova biblioteca, segue os links para acompanhar:
+
+- `Issue no projeto Wkhtmltopdf sobre o status, o projeto foi alterado
+  para Public archive em
+  02/01/2023 <https://github.com/wkhtmltopdf/wkhtmltopdf/issues/5160#issuecomment-1010668103>`__
+- `Status do Projeto Wkhtmltopdf no site
+  oficial <https://wkhtmltopdf.org/status.html>`__
+- `Issue no Odoo na v15 sobre o problema com referencia a
+  correção <https://github.com/odoo/odoo/issues/80184>`__
+- `Issue no Odoo na v15 sobre erro mesmo no método render_pdf_qweb em
+  Aberto e marcadao como
+  ORM <https://github.com/odoo/odoo/issues/84418>`__
+- `Debate no Issue do Odoo sobre substituir o
+  Wkhtmltopdf <https://github.com/odoo/odoo/issues/86501>`__
+- `Biblioteca paper-muncher da Odoo para substituir o wkhtmltopdf, ainda
+  em testes <https://github.com/odoo/paper-muncher>`__
+
+Portanto isso é uma questão ainda em aberto e em andamento, onde tanto
+pode acabar sendo adotada a biblilioteca **paper-muncher** quanto outra,
+então também é importante acompanhar o que será feito na **OCA**
+principalmente no repósitorio
+`reporting-engine <https://github.com/OCA/reporting-engine>`__.
 
 Changelog
 =========
 
-14.0.1.0.0 (2023-07-28)
-~~~~~~~~~~~~~~~~~~~~~~~
+16.0.1.0.0 (2025-02-27)
+-----------------------
 
-* [MIG] Migration to version 14.0
+- [MIG] Migration to version 16.0
+
+Incluída dependência do módulo
+`report_wkhtmltopdf_param <https://github.com/OCA/reporting-engine/tree/16.0/report_wkhtmltopdf_param>`__
+para que o **PDF** exiba os caractertes que **Não são ASCII** de forma
+correta, adicionando no comando **wkhtmltopdf** o parâmetro **--encodig
+UTF-8**.
+
+14.0.1.0.0 (2023-07-28)
+-----------------------
+
+- [MIG] Migration to version 14.0
 
 12.0.1.0.0 (2021-07-29)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* [NEW] First version.
+- [ADD] First version.
 
 Bug Tracker
 ===========
@@ -83,7 +121,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_stock_account_report%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_stock_account_report%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -91,26 +129,26 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Akretion <https://www.akretion.com/pt-BR>`_:
+- `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  * Magno Costa <magno.costa@akretion.com.br>
+  - Magno Costa <magno.costa@akretion.com.br>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
 The development of this module has been financially supported by:
 
-* AKRETION LTDA - www.akretion.com
+- AKRETION LTDA - `www.akretion.com <http://www.akretion.com>`__
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -130,6 +168,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-mbcosta| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_stock_account_report>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_stock_account_report>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
