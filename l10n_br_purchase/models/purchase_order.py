@@ -36,21 +36,6 @@ class PurchaseOrder(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
-    cnpj_cpf = fields.Char(
-        string="CNPJ/CPF",
-        related="partner_id.cnpj_cpf",
-    )
-
-    legal_name = fields.Char(
-        string="Legal Name",
-        related="partner_id.legal_name",
-    )
-
-    ie = fields.Char(
-        string="State Tax Number/RG",
-        related="partner_id.inscr_est",
-    )
-
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="purchase_order_comment_rel",
