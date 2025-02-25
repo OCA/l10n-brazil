@@ -50,21 +50,6 @@ class SaleOrder(models.Model):
         default=_default_copy_note,
     )
 
-    cnpj_cpf = fields.Char(
-        string="CNPJ/CPF",
-        related="partner_invoice_id.cnpj_cpf",
-    )
-
-    legal_name = fields.Char(
-        string="Legal Name",
-        related="partner_invoice_id.legal_name",
-    )
-
-    ie = fields.Char(
-        string="State Tax Number/RG",
-        related="partner_invoice_id.inscr_est",
-    )
-
     discount_rate = fields.Float(
         string="Discount",
         readonly=True,
