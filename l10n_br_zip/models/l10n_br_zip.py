@@ -116,7 +116,6 @@ class L10nBrZip(models.Model):
             cep_ws_providers = {
                 "apicep": WebService.APICEP,
                 "viacep": WebService.VIACEP,
-                "correios": WebService.CORREIOS,
             }
             cep_ws_provide = str(
                 self.env["ir.config_parameter"]
