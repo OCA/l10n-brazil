@@ -5,19 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-      <!--busca por cnpj_cpf e razao social nos pedidos de compra -->
-      <record id="l10n_br_purchase_order_filter" model="ir.ui.view">
-          <field name="name">l10n_br_purchase.partner.filter</field>
-          <field name="model">purchase.order</field>
-          <field name="inherit_id" ref="purchase.view_purchase_order_filter" />
-          <field name="arch" type="xml">
-              <field name="name" position="after">
-                  <field name="legal_name" string="Razão Social" />
-                  <field name="cnpj_cpf" string="CNPJ/CPF" />
-                  <field name="ie" string="Inscr. Estadual" />
-              </field>
-          </field>
-      </record>
 
       <record id="l10n_br_purchase_order_form" model="ir.ui.view">
           <field name="name">l10n_br_purchase.order.form</field>
