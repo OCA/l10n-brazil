@@ -7,6 +7,5 @@ from odoo import fields, models
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    cnpj_cpf = fields.Char(string="CNPJ/CPF", related="partner_id.cnpj_cpf")
     legal_name = fields.Char(string="Legal Name", related="partner_id.legal_name")
     inscr_est = fields.Char(string="State Tax Number", related="partner_id.inscr_est")
