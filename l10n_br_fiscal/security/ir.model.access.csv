@@ -83,6 +83,8 @@
 "l10n_br_fiscal_comment_manager","Comment for Manager","model_l10n_br_fiscal_comment","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_definition_user","Tax Definition for User","model_l10n_br_fiscal_tax_definition","base.group_user",1,0,0,0
 "l10n_br_fiscal_tax_definition_manager","Tax Definition for Manager","model_l10n_br_fiscal_tax_definition","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_icms_benefit_user","Icms Benefit for User","model_l10n_br_fiscal_icms_benefit","base.group_user",1,0,0,0
+"l10n_br_fiscal_icms_benefit_manager","Icms Benefit for Manager","model_l10n_br_fiscal_icms_benefit","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_tax_pis_cofins_user","Tax PIS COFINS for User","model_l10n_br_fiscal_tax_pis_cofins","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_tax_pis_cofins_manager","Tax PIS COFINS for Manager","model_l10n_br_fiscal_tax_pis_cofins","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_tax_pis_cofins_maintenance","Tax PIS COFINS for Maintenance","model_l10n_br_fiscal_tax_pis_cofins","l10n_br_fiscal.group_data_maintenance",1,1,1,1

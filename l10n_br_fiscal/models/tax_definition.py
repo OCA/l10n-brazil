@@ -12,7 +12,6 @@ from ..constants.fiscal import (
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
 )
-from ..constants.icms import ICMS_TAX_BENEFIT_TYPE
 
 
 class TaxDefinition(models.Model):
@@ -21,6 +20,13 @@ class TaxDefinition(models.Model):
     _description = "Tax Definition"
 
     def _get_complete_name(self):
+        if self.is_benefit and self.tax_id.name:
+            return (
+                f"{self.tax_group_id.name}-{self.tax_id.name}-"
+                f"{self.cst_code}-{self.code}"
+            )
+        elif self.is_benefit:
+            return f"{self.tax_group_id.name}-{self.code}"
         return f"{self.tax_group_id.name}-{self.tax_id.name}-{self.cst_code}"
 
     @api.depends("tax_group_id", "tax_id", "cst_code")
@@ -38,16 +44,7 @@ class TaxDefinition(models.Model):
 
     display_name = fields.Char(compute="_compute_display_name", store=True)
 
-    code = fields.Char(
-        size=8,
-        states={"draft": [("readonly", False)]},
-    )
-
     name = fields.Char(
-        states={"draft": [("readonly", False)]},
-    )
-
-    description = fields.Text(
         states={"draft": [("readonly", False)]},
     )
 
@@ -276,10 +273,11 @@ class TaxDefinition(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
-    benefit_type = fields.Selection(
-        selection=ICMS_TAX_BENEFIT_TYPE,
-        states={"draft": [("readonly", False)]},
+    icms_tax_benefit_id = fields.Many2one(
+        "l10n_br_fiscal.icms.benefit", string="Fiscal Benefit"
     )
+
+    code = fields.Char(related="icms_tax_benefit_id.code", store=True)
 
     def _get_search_domain(self, tax_definition):
         """Create domain to be used in contraints methods"""
@@ -588,26 +586,3 @@ class TaxDefinition(models.Model):
                             "for this CFOP and Tax Group !"
                         )
                     )
-
-    @api.constrains("is_benefit", "code", "benefit_type", "state_from_id")
-    def _check_tax_benefit_code(self):
-        for record in self:
-            if record.is_benefit:
-                if record.code:
-                    if len(record.code) != 8:
-                        raise ValidationError(
-                            _("Tax benefit code must be 8 characters!")
-                        )
-
-                    if record.code[:2].upper() != record.state_from_id.code.upper():
-                        raise ValidationError(
-                            _("Tax benefit code must be start with state code!")
-                        )
-
-                    if record.code[3:4] != record.benefit_type:
-                        raise ValidationError(
-                            _(
-                                "The tax benefit code must contain "
-                                "the type of benefit!"
-                            )
-                        )

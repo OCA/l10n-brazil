@@ -378,6 +378,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 product=self.product_id,
             )
             self._onchange_fiscal_operation_line_id()
+            for line in self.fiscal_operation_id.line_ids:
+                for tax_def in line.tax_definition_ids.icms_tax_benefit_id:
+                    if tax_def.code:
+                        self.icms_tax_benefit_id = tax_def.id
+                        return
 
     @api.onchange("fiscal_operation_line_id")
     def _onchange_fiscal_operation_line_id(self):
@@ -405,7 +410,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _process_fiscal_mapping(self, mapping_result):
         self.ipi_guideline_id = mapping_result["ipi_guideline"]
-        self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
         taxes = self.env["l10n_br_fiscal.tax"]
         for tax in mapping_result["taxes"].values():
             taxes |= tax
@@ -584,22 +588,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "icms_destination_value": tax_dict.get("icms_dest_value", 0.0),
             "icms_relief_value": tax_dict.get("icms_relief", 0.0),
         }
-
-    @api.onchange(
-        "icms_base",
-        "icms_percent",
-        "icms_reduction",
-        "icms_value",
-        "icms_destination_base",
-        "icms_origin_percent",
-        "icms_destination_percent",
-        "icms_sharing_percent",
-        "icms_origin_value",
-        "icms_tax_benefit_id",
-    )
-    def _onchange_icms_fields(self):
-        if self.icms_tax_benefit_id:
-            self.icms_tax_id = self.icms_tax_benefit_id.tax_id
 
     def _prepare_fields_icmssn(self, tax_dict):
         self.ensure_one()

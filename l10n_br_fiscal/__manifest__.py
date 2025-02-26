@@ -46,6 +46,7 @@
         "views/tax_group_view.xml",
         "views/tax_view.xml",
         "views/tax_definition_view.xml",
+        "views/icms_benefit_view.xml",
         "views/icms_regulation_view.xml",
         "views/icms_relief_view.xml",
         "views/tax_pis_cofins_view.xml",

@@ -210,7 +210,6 @@ class OperationLine(models.Model):
             "taxes": {},
             "cfop": False,
             "ipi_guideline": self.env.ref("l10n_br_fiscal.tax_guideline_999"),
-            "icms_tax_benefit_id": False,
         }
 
         self.ensure_one()

@@ -30,6 +30,7 @@ from . import tax_ipi_guideline
 from . import tax_ipi_guideline_class
 from . import tax_estimate
 from . import tax_definition
+from . import icms_benefit
 from . import icms_regulation
 from . import icms_relief
 from . import document_type

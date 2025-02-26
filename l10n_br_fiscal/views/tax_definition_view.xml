@@ -11,6 +11,7 @@
         <field name="is_taxed" />
         <field name="tax_id" />
         <field name="cst_code" />
+        <field name="code" />
       </tree>
     </field>
   </record>
@@ -108,23 +109,12 @@
                         string="Tax Benefit"
                         attrs="{'invisible': [('is_benefit', '=', False)]}"
                     >
-            <field name="code" attrs="{'required': [('is_benefit', '!=', False)]}" />
             <field
-                            name="description"
+                            name="icms_tax_benefit_id"
                             attrs="{'required': [('is_benefit', '!=', False)]}"
                         />
-            <field
-                            name="benefit_type"
-                            attrs="{'required': [('is_benefit', '!=', False)]}"
-                        />
-
           </group>
           <group name="state" string="State">
-            <field
-                            name="state_from_id"
-                            options="{'no_create': True, 'no_create_edit': True}"
-                            attrs="{'required': [('is_benefit', '=', True)]}"
-                        />
             <field name="state_to_ids" options="{'no_create': True}" />
           </group>
           <notebook>

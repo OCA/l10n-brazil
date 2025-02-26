@@ -13,7 +13,6 @@ class TestTaxBenefit(SavepointCase):
         self.icms_benefit = self.env["l10n_br_fiscal.icms.benefit"].create(
             {
                 "code": "SP810001",
-                "name": "TAX BENEFIT DEMO",
                 "description": "TAX BENEFIT DEMO",
                 "state": self.env.ref("base.state_br_sp").id,
             }
