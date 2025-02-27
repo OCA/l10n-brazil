@@ -17,19 +17,20 @@ Brazilian Localization Delivery NFe
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_delivery_nfe
+    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_delivery_nfe
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_delivery_nfe
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_delivery_nfe
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Módulo criado para integrar os módulos l10n_br_delivery, l10n_br_account e o l10n_br_nfe.
-Pois cada um desses 3 módulos pode ser instalado de forma independente.
+Módulo criado para integrar os módulos l10n_br_delivery, l10n_br_account
+e o l10n_br_nfe. Pois cada um desses 3 módulos pode ser instalado de
+forma independente.
 
 **Table of contents**
 
@@ -39,25 +40,36 @@ Pois cada um desses 3 módulos pode ser instalado de forma independente.
 Installation
 ============
 
-Este módulo depende dos módulos l10n_br_delivery, l10n_br_account e l10n_br_nfe.
+Este módulo depende dos módulos l10n_br_delivery, l10n_br_account e
+l10n_br_nfe.
 
 Configuration
 =============
 
 Não precisa de configuração.
 
+Usage
+=====
+
+
+
+Known issues / Roadmap
+======================
+
+
+
 Changelog
 =========
 
 14.0.1.0.0 (2022-10-11)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* Migration.
+-  Migration.
 
 12.0.1.0.0 (2021-05-19)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* Criação do modulo.
+-  Criação do modulo.
 
 Bug Tracker
 ===========
@@ -65,7 +77,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_delivery_nfe%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_delivery_nfe%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -73,24 +85,24 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Akretion
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Akretion <https://www.akretion.com/pt-BR>`_:
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  * Magno Costa <magno.costa@akretion.com.br>
+   -  Magno Costa <magno.costa@akretion.com.br>
 
-* `KMEE <https://www.kmee.com.br>`_:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  * Diego Paradeda <diego.paradeda@kmee.com.br>
+   -  Diego Paradeda <diego.paradeda@kmee.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -110,6 +122,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-mbcosta| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_delivery_nfe>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_delivery_nfe>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
