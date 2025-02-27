@@ -15,6 +15,8 @@
         "security/ir.model.access.csv",
         # Data
         "data/company.xml",
+        # Demo
+        "demo/fiscal_operation.xml",
         # View
         "views/purchase_view.xml",
         "views/res_company_view.xml",
@@ -28,6 +30,5 @@
         "demo/l10n_br_purchase.xml",
     ],
     "installable": True,
-    "post_init_hook": "post_init_hook",
     "auto_install": False,
 }
