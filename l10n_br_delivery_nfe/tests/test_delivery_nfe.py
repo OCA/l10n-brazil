@@ -26,10 +26,10 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         self.prod1.product_brand_id = self.brand_id1
         self.prod2.product_volume_type = "esp2 teste"
         self.prod2.product_brand_id = self.brand_id2
-        self.prod1.weight = 1
+        self.prod1.weight = 2
         self.prod2.weight = 3
         self.prod1.net_weight = 1
-        self.prod2.net_weight = 5
+        self.prod2.net_weight = 2
 
         # Number of Volumes - zero before invoice
         self.assertEqual(
@@ -65,12 +65,12 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         )
         self.assertEqual(
             wizard.vol_ids.mapped("nfe40_pesoB"),
-            [8],
+            [10],
             "Unexpected value for the field nfe40_pesoB in Stock Invoice Onshipping.",
         )
         self.assertEqual(
             wizard.vol_ids.mapped("nfe40_pesoL"),
-            [12],
+            [6],
             "Unexpected value for the field nfe40_pesoL in Stock Invoice Onshipping.",
         )
         self.assertEqual(
@@ -98,12 +98,12 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         )
         self.assertEqual(
             volume_ids.mapped("nfe40_pesoB"),
-            [8],
+            [10],
             "Unexpected value for the field nfe40_pesoB in Fiscal Details.",
         )
         self.assertEqual(
             volume_ids.mapped("nfe40_pesoL"),
-            [12],
+            [6],
             "Unexpected value for the field nfe40_pesoL in Fiscal Details.",
         )
         self.assertEqual(
@@ -134,10 +134,10 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         # Set product volume data
         self.prod1.product_volume_type = "esp teste"
         self.prod1.product_brand_id = self.brand_id1
-        self.prod1.weight = 2
-        self.prod2.weight = 4
-        self.prod1.net_weight = 3
-        self.prod2.net_weight = 6
+        self.prod1.weight = 3
+        self.prod2.weight = 6
+        self.prod1.net_weight = 2
+        self.prod2.net_weight = 4
 
         # Number of Volumes - zero before invoice
         self.assertEqual(
@@ -179,12 +179,12 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         )
         self.assertEqual(
             wizard.vol_ids.mapped("nfe40_pesoB"),
-            [12],
+            [18],
             "Unexpected value for the field nfe40_pesoB in Stock Invoice Onshipping.",
         )
         self.assertEqual(
             wizard.vol_ids.mapped("nfe40_pesoL"),
-            [18],
+            [12],
             "Unexpected value for the field nfe40_pesoL in Stock Invoice Onshipping.",
         )
         self.assertEqual(
@@ -212,12 +212,12 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         )
         self.assertEqual(
             volume_ids.mapped("nfe40_pesoB"),
-            [12],
+            [18],
             "Unexpected value for the field nfe40_pesoB in Fiscal Details.",
         )
         self.assertEqual(
             volume_ids.mapped("nfe40_pesoL"),
-            [18],
+            [12],
             "Unexpected value for the field nfe40_pesoL in Fiscal Details.",
         )
         self.assertEqual(
@@ -247,10 +247,10 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         # Set product volume data
         self.prod1.product_volume_type = "esp teste"
         self.prod1.product_brand_id = self.brand_id1
-        self.prod1.weight = 2
-        self.prod2.weight = 4
-        self.prod1.net_weight = 3
-        self.prod2.net_weight = 6
+        self.prod1.weight = 3
+        self.prod2.weight = 6
+        self.prod1.net_weight = 2
+        self.prod2.net_weight = 4
 
         # Check product availability
         picking.action_confirm()
