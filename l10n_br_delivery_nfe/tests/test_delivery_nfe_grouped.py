@@ -35,10 +35,10 @@ class TestDeliveryNFe(TestBrPickingInvoicingCommon):
         self.prod1.product_brand_id = self.brand_id1
         self.prod2.product_volume_type = "esp2 teste"
         self.prod2.product_brand_id = self.brand_id2
-        self.prod1.weight = 1
-        self.prod2.weight = 3
+        self.prod1.weight = 2
+        self.prod2.weight = 5
         self.prod1.net_weight = 1
-        self.prod2.net_weight = 5
+        self.prod2.net_weight = 3
 
         # Validate: Picking 1
         picking1.set_to_be_invoiced()
