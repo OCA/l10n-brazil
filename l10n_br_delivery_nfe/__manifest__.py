@@ -26,7 +26,7 @@
         # Views
         "views/nfe_document_view.xml",
         "views/product_product_view.xml",
-        "views/product_template_view.xml",
+        # TODO MIGRATE TO v16 "views/product_template_view.xml",
         "views/stock_picking_view.xml",
     ],
     "installable": True,
