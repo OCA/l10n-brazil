@@ -4,8 +4,8 @@
 from odoo import api, fields, models
 
 
-class SaleCommissionMakeInvoice(models.TransientModel):
-    _inherit = "sale.commission.make.invoice"
+class CommissionMakeInvoice(models.TransientModel):
+    _inherit = "commission.make.invoice"
 
     def _default_commission_document_type_id(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
@@ -84,7 +84,7 @@ class SaleCommissionMakeInvoice(models.TransientModel):
     def button_create(self):
         self.ensure_one()
         return super(
-            SaleCommissionMakeInvoice,
+            CommissionMakeInvoice,
             self.with_context(
                 document_type_id=self.commission_document_type_id.id,
                 fiscal_operation_id=self.fiscal_operation_id.id,

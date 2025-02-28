@@ -1,5 +1,5 @@
 ========================================
-Brazilian Localization Sales commissions
+Brazilian Localization Sales Commissions
 ========================================
 
 .. 
@@ -39,10 +39,10 @@ seja gerado um documento fiscal.
 Installation
 ============
 
-This module depends on:
+O módulo depende:
 
--  sale_commission
--  l10n_br_account
+- sale_commission
+- l10n_br_sale
 
 Configuration
 =============
@@ -67,22 +67,32 @@ representante emita uma NFS-e.
 Known issues / Roadmap
 ======================
 
--  Verificar erro ao retornar os campos padrões/default diferenças entre
-   usar o search e o browse, detalhes no arquivo
-   l10n_br_sale_commission/wizards/wizard_invoice.py linha 16, testar na
-   migração.
--  Para resolver o problema de não gerar comissão quando o CFOP Não Gera
-   Financeiro o ideal seria usar o objeto 'sale.commission.mixin' para
-   assim não precisar repetir código nos objeto mas por alguma razão não
-   funcionou.
+- Verificar erro ao retornar os campos padrões/default diferenças entre
+  usar o search e o browse, detalhes no arquivo
+  l10n_br_sale_commission/wizards/wizard_invoice.py linha 16, testar na
+  migração.
+- Para resolver o problema de não gerar comissão quando o CFOP Não Gera
+  Financeiro o ideal seria usar o objeto 'sale.commission.mixin' para
+  assim não precisar repetir código nos objeto mas por alguma razão não
+  funcionou.
 
 Changelog
 =========
 
+16.0.1.0.0 (2025-03-14)
+-----------------------
+
+- [MIG] Migração para a versão 16.0
+
+14.0.1.0.0 (2024-01-09)
+-----------------------
+
+- [MIG] Migração para a versão 14.0
+
 12.0.1.0.0 (2022)
 -----------------
 
-Versão inicial do módulo
+- [ADD] Versão inicial do módulo
 
 Bug Tracker
 ===========
@@ -105,7 +115,7 @@ Authors
 Contributors
 ------------
 
--  Renato Lima <renato.lima@akretion.com.br>
+- Renato Lima <renato.lima@akretion.com.br>
 
 Maintainers
 -----------

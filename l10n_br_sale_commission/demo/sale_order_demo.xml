@@ -27,19 +27,15 @@
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
-    </record>
-
-    <record id="commission_br_1_1" model="sale.order.line.agent">
-        <field name="object_id" ref="so_commission_br_1_1" />
-        <field name="agent_id" ref="sale_commission.res_partner_tiny_sale_agent" />
-        <field name="commission_id" ref="sale_commission.demo_commission" />
+        <field
+            name="agent_ids"
+            eval="[
+            (0, 0, {'agent_id': ref('commission.res_partner_tiny_sale_agent'), 'commission_id': ref('commission.demo_commission')})
+        ]"
+        />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('so_commission_br_1_1')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('so_commission_br_1_1')]" />
     </function>
 
@@ -56,19 +52,15 @@
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
         />
-    </record>
-
-    <record id="commission_br_1_2" model="sale.order.line.agent">
-        <field name="object_id" ref="so_commission_br_1_2" />
-        <field name="agent_id" ref="sale_commission.res_partner_tiny_sale_agent" />
-        <field name="commission_id" ref="sale_commission.demo_commission" />
+        <field
+            name="agent_ids"
+            eval="[
+            (0, 0, {'agent_id': ref('commission.res_partner_tiny_sale_agent'), 'commission_id': ref('commission.demo_commission')})
+        ]"
+        />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('so_commission_br_1_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('so_commission_br_1_2')]" />
     </function>
 
