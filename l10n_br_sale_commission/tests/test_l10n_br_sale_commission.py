@@ -4,18 +4,18 @@
 import dateutil.relativedelta
 
 from odoo import fields
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class TestL10nBrSalesCommission(SavepointCase):
+class TestL10nBrSalesCommission(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.sale_order = cls.env.ref("l10n_br_sale_commission.so_commission_br")
         cls.advance_inv_model = cls.env["sale.advance.payment.inv"]
-        cls.settle_model = cls.env["sale.commission.settlement"]
-        cls.make_settle_model = cls.env["sale.commission.make.settle"]
-        cls.make_inv_model = cls.env["sale.commission.make.invoice"]
+        cls.settle_model = cls.env["commission.settlement"]
+        cls.make_settle_model = cls.env["commission.make.settle"]
+        cls.make_inv_model = cls.env["commission.make.invoice"]
         # A criação da Comissão valida se o Diário
         # usado pertence a mesma empresa.
         # TODO - erro q acontece apenas no teste não na tela
@@ -57,39 +57,11 @@ class TestL10nBrSalesCommission(SavepointCase):
         Test Brazilian Commission
         """
         sale_order = self.sale_order
-        agent_id = self.env.ref("sale_commission.res_partner_tiny_sale_agent")
-        commission_id = self.env.ref("sale_commission.demo_commission")
-
-        self.env["sale.order.line.agent"].create(
-            {
-                "agent_id": agent_id.id,
-                "commission_id": commission_id.id,
-                "object_id": sale_order.order_line[0].id,
-            }
-        )
-
         sale_order.action_confirm()
         self.assertEqual(len(sale_order.invoice_ids), 0)
-
-        for picking in sale_order.picking_ids:
-            for ml in picking.move_lines:
-                ml.quantity_done = ml.product_qty
-            picking.button_validate()
-
-        payment = self.advance_inv_model.create(
-            {
-                "advance_payment_method": "delivered",
-            }
-        )
-        context = {
-            "active_model": "sale.order",
-            "active_ids": [sale_order.id],
-            "active_id": sale_order.id,
-        }
-        payment.with_context(context).create_invoices()
+        sale_order._create_invoices(final=True)
         self.assertNotEqual(len(sale_order.invoice_ids), 0)
         for invoice in sale_order.invoice_ids:
-            invoice.flush()
             invoice.action_post()
             self.assertEqual(invoice.state, "posted")
 
@@ -98,7 +70,8 @@ class TestL10nBrSalesCommission(SavepointCase):
                 "date_to": (
                     fields.Datetime.from_string(fields.Datetime.now())
                     + dateutil.relativedelta.relativedelta(months=1)
-                )
+                ),
+                "settlement_type": "sale_invoice",
             }
         )
 
