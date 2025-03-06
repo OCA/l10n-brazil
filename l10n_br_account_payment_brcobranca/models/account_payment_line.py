@@ -22,7 +22,9 @@ class AccountPaymentLine(models.Model):
         #  Isso deveria ser feito para o CNAB de outros Bancos ?
         #  Na criação dos campos houve a opção de deixa-los com o tipo
         #  CHAR ao invês de Selection por essa falta de padrão.
-        linhas_pagamentos["codigo_protesto"] = cnab_config.boleto_protest_code or "3"
+        linhas_pagamentos["codigo_protesto"] = (
+            cnab_config.boleto_protest_code_id.code or "3"
+        )
         linhas_pagamentos["dias_protesto"] = cnab_config.boleto_days_protest or "0"
 
         # Código adotado pela FEBRABAN para identificação
@@ -48,7 +50,7 @@ class AccountPaymentLine(models.Model):
     def _prepare_cod_primeira_instrucao_protest(self, cnab_config, linhas_pagamentos):
         if self.instruction_move_code_id.code == cnab_config.sending_code_id.code:
             linhas_pagamentos["cod_primeira_instrucao"] = (
-                cnab_config.boleto_protest_code or "00"
+                cnab_config.boleto_protest_code_id.code or "00"
             )
 
     def _prepare_bank_line_itau(self, cnab_config, linhas_pagamentos):
@@ -165,8 +167,10 @@ class AccountPaymentLine(models.Model):
                 linhas_pagamentos["valor_desconto"] = self.discount_value
 
             # Protesto
-            if cnab_config.boleto_protest_code:
-                linhas_pagamentos["codigo_protesto"] = cnab_config.boleto_protest_code
+            if cnab_config.boleto_protest_code_id:
+                linhas_pagamentos[
+                    "codigo_protesto"
+                ] = cnab_config.boleto_protest_code_id.code
                 if cnab_config.boleto_days_protest:
                     linhas_pagamentos["dias_protesto"] = cnab_config.boleto_days_protest
 
