@@ -133,7 +133,11 @@
                             </group>
 
                             <group name="protesto" string="Configuração do Protesto">
-                                <field name="boleto_protest_code" />
+                                <field
+                                        name="boleto_protest_code_id"
+                                        domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id), ('code_type', '=', 'protest_code')]"
+                                    />
                                 <field name="boleto_days_protest" />
                             </group>
                             <group

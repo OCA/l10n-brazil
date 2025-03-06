@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2025-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Protesto Banco Itau 240 -->
+    <record id="itau_240_boleto_protest_code_0" model="l10n_br_cnab.code">
+        <field name="name">Sem instrução</field>
+        <field name="code">0</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="itau_240_boleto_protest_code_1" model="l10n_br_cnab.code">
+        <field name="name">Protestar (Dias Corridos)</field>
+        <field name="code">1</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Informar o prazo de início da negatibação ou do protesto nas posições 222 a 223, a partir do vencimento.
+Caso seja infomrado zeros neste campo de prazo, o processo de negativação ou protesto será acrescido 02
+dias (corridos) após o vencimento, de acordo com a ocorrência.
+        </field>
+    </record>
+
+    <record id="itau_240_boleto_protest_code_2" model="l10n_br_cnab.code">
+        <field name="name">Protestar (Dias Úteis)</field>
+        <field name="code">2</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Informar o prazo de início da negatibação ou do protesto nas posições 222 a 223, a partir do vencimento.
+Caso seja infomrado zeros neste campo de prazo, o processo de negativação ou protesto será acrescido 02
+dias (corridos) após o vencimento, de acordo com a ocorrência.
+        </field>
+    </record>
+
+    <record id="itau_240_boleto_protest_code_3" model="l10n_br_cnab.code">
+        <field name="name">Não protestar</field>
+        <field name="code">3</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="itau_240_boleto_protest_code_7" model="l10n_br_cnab.code">
+        <field name="name">Negativar (Dias Corridos)</field>
+        <field name="code">7</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Informar o prazo de início da negatibação ou do protesto nas posições 222 a 223, a partir do vencimento.
+Caso seja infomrado zeros neste campo de prazo, o processo de negativação ou protesto será acrescido 02
+dias (corridos) após o vencimento, de acordo com a ocorrência.
+        </field>
+    </record>
+
+    <record id="itau_240_boleto_protest_code_8" model="l10n_br_cnab.code">
+        <field name="name">Não Negativar</field>
+        <field name="code">8</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+</odoo>

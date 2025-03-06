@@ -105,23 +105,9 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         tracking=True,
     )
 
-    # Na configuração ou implementação de outros campos é
-    # melhor seguir a idéia abaixo pois os campos não são usados com
-    # frequencia e incluir um campo do tipo Char permitindo que seja
-    # informado o valor de acordo com a configuração do Boleto ao
-    # invês de diversos campos do Tipo Select para cada Banco parece
-    # ser melhor.
-    # [ Deixado manualmente, pois cada banco parece ter sua tabela.
-    # ('0', u'Sem instrução'),
-    # ('1', u'Protestar (Dias Corridos)'),
-    # ('2', u'Protestar (Dias Úteis)'),
-    # ('3', u'Não protestar'),
-    # ('7', u'Negativar (Dias Corridos)'),
-    # ('8', u'Não Negativar')
-    # ]
-    boleto_protest_code = fields.Char(
-        string="Código de Protesto",
-        default="0",
+    boleto_protest_code_id = fields.Many2one(
+        string="Protest Code",
+        comodel_name="l10n_br_cnab.code",
         help="Código adotado pela FEBRABAN para identificar o tipo "
         "de prazo a ser considerado para o protesto.",
         tracking=True,
