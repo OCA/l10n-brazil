@@ -1,3 +1,7 @@
+## 16.0.4.0.0 (2025-03-06)
+
+- \[REF\] Alterado o Código de Protesto de Char para Objeto/l10n_br_cnab.code
+
 ## 16.0.3.0.0 (2024-12-16)
 
 - \[REF\] "Foward Port" Separando as Configurações do CNAB do Modo de Pagamento.
