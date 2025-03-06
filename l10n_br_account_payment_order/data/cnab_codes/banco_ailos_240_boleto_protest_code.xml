@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2025-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Protesto Banco AILOS -->
+    <record id="ailos_240_boleto_protest_code_1" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Protestar Dias Corridos (No Sistema Ailos o prazo para protesto é de 05 a 15).</field>
+        <field name="code">1</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Particularidade: No Estado do Mato Grosso do Sul os boletos só podem ser enviados para Serasa decorridos 45 dias de seu vencimento.</field>
+    </record>
+
+    <record id="ailos_240_boleto_protest_code_2" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Negativação de boletos via Serasa (No Sistema Ailos o prazo para protesto é de 05 a 15).</field>
+        <field name="code">2</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Particularidade: No Estado do Mato Grosso do Sul os boletos só podem ser enviados para Serasa decorridos 45 dias de seu vencimento.</field>
+    </record>
+
+    <record id="ailos_240_boleto_protest_code_3" model="l10n_br_cnab.code">
+        <field name="name">Não Protestar / Não Negativar</field>
+        <field name="code">3</field>
+        <field name="code_type">protest_code</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+</odoo>

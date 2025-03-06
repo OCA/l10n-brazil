@@ -240,6 +240,12 @@ Known issues / Roadmap
 Changelog
 =========
 
+16.0.6.0.0 (2024-03-06)
+-----------------------
+
+-  [REF] Alterado o Código de Protesto de Char para
+   Objeto/l10n_br_cnab.code
+
 16.0.5.0.0 (2024-12-16)
 -----------------------
 
