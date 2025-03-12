@@ -6,14 +6,14 @@ import pkg_resources
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo.models import NewId
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_cte
 
 _logger = logging.getLogger(__name__)
 
 
-class CTeImportTest(SavepointCase):
+class CTeImportTest(TransactionCase):
     def test_import_in_cte_dry_run(self):
         res_items = (
             "tests",
