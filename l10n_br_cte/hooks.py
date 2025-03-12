@@ -11,6 +11,7 @@ from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 from odoo import SUPERUSER_ID, api
 from odoo.exceptions import ValidationError
 
+# pylint: disable=odoo-addons-relative-import
 from odoo.addons import l10n_br_cte
 
 _logger = logging.getLogger(__name__)
