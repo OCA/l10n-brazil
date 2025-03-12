@@ -15,6 +15,13 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation.py:0
+#, python-format
+msgid " (Copy)"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 #, python-format
 msgid "%(name)s Tax Estimate Failure"
@@ -560,6 +567,11 @@ msgid "Add a new CST"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cte_document_action
+msgid "Add a new CTe"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_type_action
 msgid "Add a new Fiscal Document"
 msgstr ""
@@ -924,6 +936,11 @@ msgid "Approved"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__03
+msgid "Aquaviário"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__profit_calculation__arbitrary
 msgid "Arbitrary"
 msgstr ""
@@ -984,6 +1001,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
 msgid "Autorizados"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__02
+msgid "Aéreo"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1581,7 +1603,9 @@ msgid "CSTs"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.cte_document_action
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_cte
+#: model:ir.ui.menu,name:l10n_br_fiscal.document_cte_menu
 msgid "CT-e"
 msgstr ""
 
@@ -2182,6 +2206,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__currency_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__currency_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin_fields__currency_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__currency_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__currency_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__currency_id
 msgid "Currency"
@@ -2399,6 +2424,11 @@ msgid "Destination"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__3
+msgid "Destinatário"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__4
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__4
 msgid "Devolução de mercadoria"
@@ -2493,6 +2523,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_key
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_status_wizard__document_key
 msgid "Document Key"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__key_check_digit
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__key_check_digit
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin_fields__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__key_random_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__key_random_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin_fields__key_random_code
+msgid "Document Key Random Code"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2600,6 +2644,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__wh_due_day
 msgid "Due Day"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__05
+msgid "Dutoviário"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2733,6 +2782,11 @@ msgid "Exigível"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__1
+msgid "Expedidor"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__state__expired
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__state__expired
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__state__expired
@@ -2825,6 +2879,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__08
 msgid "Ferramentas"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__04
+msgid "Ferroviário"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3129,6 +3188,17 @@ msgid "Fiscal Quantity"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
+msgid "Fiscal Service Type"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__service_type_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
+msgid "Fiscal Service Types"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax
 msgid "Fiscal Tax"
 msgstr ""
@@ -3349,6 +3419,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__has_message
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__has_message
 msgid "Has Message"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cte_document_action
+msgid "Here you can create CT-es"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5654,6 +5729,11 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__transport_modal
+msgid "Modal de Transporte"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Month"
 msgstr ""
@@ -5666,6 +5746,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_form
 msgid "Move Settings"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__06
+msgid "Multimodal"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6326,6 +6411,7 @@ msgid "Outras"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__4
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__others
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_ipi_guideline__cst_group__outros
 msgid "Outros"
@@ -6769,6 +6855,11 @@ msgid "Percent Reduction"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_total_weight
+msgid "Peso Total"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__15
 msgid "Pneumáticos, câmaras de ar e protetores de borracha"
 msgstr ""
@@ -7103,6 +7194,11 @@ msgid "Real"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__2
+msgid "Recebedor"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_ipi_guideline__cst_group__reducao
 msgid "Redução"
 msgstr ""
@@ -7185,6 +7281,11 @@ msgid "Related operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__service_provider__0
+msgid "Remetente"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__base_without_icms
 msgid "Remove ICMS value from Base"
 msgstr ""
@@ -7242,6 +7343,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Review"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__01
+msgid "Rodoviário"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8398,6 +8504,23 @@ msgid "To States"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__service_provider
+msgid "Tomador do Serviço"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_related_form
+msgid "Totais"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__total_weight
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__total_weight
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin_fields__total_weight
+msgid "Total Weight"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__financial_total_gross
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__financial_total_gross
 msgid "Total amount before any discounts are applied."
@@ -8554,6 +8677,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_VIDRO
 msgid "VIDRO"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_total_amount
+msgid "Valor Total"
 msgstr ""
 
 #. module: l10n_br_fiscal
