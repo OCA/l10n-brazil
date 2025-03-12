@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -15,7 +15,6 @@ msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_infresp__mdfe30_respSeg__1
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__res_partner__mdfe30_respSeg__1
 msgid " Emitente do MDF-e"
 msgstr ""
 
@@ -50,7 +49,6 @@ msgid "10"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__11
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__11
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__11
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__11
@@ -59,7 +57,6 @@ msgid "11"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__12
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__12
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__12
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__12
@@ -68,7 +65,6 @@ msgid "12"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__13
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__13
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__13
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__13
@@ -77,7 +73,6 @@ msgid "13"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__14
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__14
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__14
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__14
@@ -86,7 +81,6 @@ msgid "14"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__15
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__15
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__15
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__15
@@ -94,7 +88,6 @@ msgid "15"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__16
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__16
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__16
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__16
@@ -102,7 +95,6 @@ msgid "16"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__17
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__17
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__17
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__17
@@ -110,7 +102,6 @@ msgid "17"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__21
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__21
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__21
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__21
@@ -118,7 +109,6 @@ msgid "21"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__22
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__22
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__22
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__22
@@ -126,7 +116,6 @@ msgid "22"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__23
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__23
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__23
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__23
@@ -134,7 +123,6 @@ msgid "23"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__24
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__24
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__24
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__24
@@ -142,7 +130,6 @@ msgid "24"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__25
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__25
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__25
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__25
@@ -150,7 +137,6 @@ msgid "25"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__26
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__26
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__26
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__26
@@ -158,7 +144,6 @@ msgid "26"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__27
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__27
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__27
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__27
@@ -166,7 +151,6 @@ msgid "27"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__28
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__28
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__28
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__28
@@ -174,7 +158,6 @@ msgid "28"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__29
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__29
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__29
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__29
@@ -182,7 +165,6 @@ msgid "29"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__31
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__31
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__31
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__31
@@ -190,7 +172,6 @@ msgid "31"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__32
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__32
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__32
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__32
@@ -198,7 +179,6 @@ msgid "32"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__33
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__33
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__33
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__33
@@ -206,7 +186,6 @@ msgid "33"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__35
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__35
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__35
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__35
@@ -214,7 +193,6 @@ msgid "35"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__41
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__41
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__41
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__41
@@ -222,7 +200,6 @@ msgid "41"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__42
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__42
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__42
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__42
@@ -230,7 +207,6 @@ msgid "42"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__43
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__43
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__43
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__43
@@ -238,7 +214,6 @@ msgid "43"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__50
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__50
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__50
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__50
@@ -246,7 +221,6 @@ msgid "50"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__51
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__51
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__51
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__51
@@ -254,7 +228,6 @@ msgid "51"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__52
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__52
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__52
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__52
@@ -262,7 +235,6 @@ msgid "52"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUF__53
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_cUF__53
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretenvimdfe__mdfe30_cUF__53
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tretmdfe__mdfe30_cUF__53
@@ -275,9 +247,6 @@ msgid "58"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__ac
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__ac
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__ac
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__ac
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__ac
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__ac
@@ -298,9 +267,6 @@ msgid "AC"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__al
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__al
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__al
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__al
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__al
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__al
@@ -321,9 +287,6 @@ msgid "AL"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__am
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__am
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__am
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__am
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__am
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__am
@@ -344,9 +307,6 @@ msgid "AM"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__ap
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__ap
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__ap
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__ap
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__ap
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__ap
@@ -367,7 +327,6 @@ msgid "AP"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_tpCar__01
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque__mdfe30_tpCar__01
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao__mdfe30_tpCar__01
 msgid "Aberta"
@@ -416,9 +375,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__ba
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__ba
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__ba
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__ba
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__ba
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__ba
@@ -449,9 +405,6 @@ msgid "Bairro"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__ce
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__ce
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__ce
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__ce
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__ce
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__ce
@@ -670,12 +623,10 @@ msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__05
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__05
 msgid "Carga Geral"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_tpValePed__03
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_disp__mdfe30_tpValePed__03
 msgid "Cartão"
 msgstr ""
@@ -797,14 +748,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_aquaviario_carga_vazia__mdfe30_tpUnidCargaVazia__1
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_infunidcargavazia__mdfe30_tpUnidCargaVazia__1
 msgid "Container"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__04
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__04
 msgid "Conteinerizada"
 msgstr ""
 
@@ -814,7 +763,6 @@ msgid "Contingência"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_tpValePed__02
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_disp__mdfe30_tpValePed__02
 msgid "Cupom"
 msgstr ""
@@ -1022,9 +970,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__df
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__df
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__df
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__df
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__df
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__df
@@ -1204,7 +1149,6 @@ msgid "Descrição literal do status do serviço solicitado."
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_pagamento_frete__mdfe30_tpComp__03
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_evpagtoopermdfe_comp__mdfe30_tpComp__03
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_rodo_comp__mdfe30_tpComp__03
 msgid "Despesas (bancárias, meios de pagamento, outras)"
@@ -1247,99 +1191,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_aereo__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_aquav__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_autxml__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_dest__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_disp__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_emi__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_emit__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_comp__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infbanc__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infpag__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infprazo__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_ferrov__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_ide__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infadic__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infantt__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infciot__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcontratante__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcte__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcte_peri__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infembcomb__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infentregaparcial__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inffisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocalcarrega__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocaldescarrega__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflotacao__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfesupl__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfetransp__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfetransp_peri__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmodal__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmuncarrega__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmundescarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infnf__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infnfe_peri__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infpercurso__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infprot__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infrec__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infresp__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infseg__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infsolicnff__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inftermcarreg__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inftermdescarreg__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infunidcargavazia__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infunidtranspvazia__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infviagens__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacres__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacrodo__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacunidcarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacunidtransp__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_prodpred__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_comp__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_condutor__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infbanc__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infpag__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infprazo__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_seg__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendeemi__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendereco__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tenderfer__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendernac__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendorg__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendreent__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tenvimdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tlocal__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infdoc__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infmdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infnfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tnfenf__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tnfenf_infnfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tot__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tprotmdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_trem__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tresptec__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tretenvimdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tretmdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tunidadetransp__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tunidcarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_vag__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_valeped__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veicreboque__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veicreboque_prop__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veictracao__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veictracao_prop__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_spec_mixin_mdfe__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__es
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__es
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__es
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__es
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__es
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__es
@@ -1360,9 +1211,6 @@ msgid "ES"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__ex
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__ex
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__ex
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__ex
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__ex
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__ex
@@ -1398,7 +1246,6 @@ msgid "Endereço do emitente"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_tpCar__02
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque__mdfe30_tpCar__02
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao__mdfe30_tpCar__02
 msgid "Fechada/Baú"
@@ -1419,14 +1266,10 @@ msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__03
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__03
 msgid "Frigorificada"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__go
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__go
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__go
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__go
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__go
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__go
@@ -1460,18 +1303,15 @@ msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__02
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__02
 msgid "Granel líquido"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__01
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__01
 msgid "Granel sólido"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_tpCar__03
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque__mdfe30_tpCar__03
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao__mdfe30_tpCar__03
 msgid "Granelera"
@@ -1568,96 +1408,6 @@ msgid ""
 "O hashCSRT é o resultado das funções SHA-1 e base64 do token CSRT fornecido pelo fisco + chave de acesso do DF-e. (Implementação em futura NT)\n"
 "\n"
 "Observação: 28 caracteres são representados no schema como 20 bytes do tipo base64Binary"
-msgstr ""
-
-#. module: l10n_br_mdfe_spec
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_aereo__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_aquav__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_autxml__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_dest__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_disp__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_emi__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_emit__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_comp__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infbanc__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infpag__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infprazo__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_ferrov__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_ide__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infadic__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infantt__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infciot__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcontratante__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcte__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcte_peri__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infembcomb__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infentregaparcial__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inffisco__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocalcarrega__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocaldescarrega__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflotacao__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfesupl__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfetransp__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfetransp_peri__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmodal__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmuncarrega__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmundescarga__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infnf__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infnfe_peri__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infpercurso__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infprot__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infrec__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infresp__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infseg__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infsolicnff__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inftermcarreg__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inftermdescarreg__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infunidcargavazia__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infunidtranspvazia__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infviagens__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacres__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacrodo__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacunidcarga__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacunidtransp__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_prodpred__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_comp__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_condutor__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infbanc__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infpag__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infprazo__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_seg__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendeemi__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendereco__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tenderfer__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendernac__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendorg__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendreent__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tenvimdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tlocal__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infdoc__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infmdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infnfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tnfenf__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tnfenf_infnfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tot__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tprotmdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_trem__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tresptec__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tretenvimdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tretmdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tunidadetransp__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tunidcarga__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_vag__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_valeped__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veicreboque__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veicreboque_prop__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veictracao__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veictracao_prop__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_spec_mixin_mdfe__id
-msgid "ID"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
@@ -1800,7 +1550,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_pagamento_frete__mdfe30_tpComp__02
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_evpagtoopermdfe_comp__mdfe30_tpComp__02
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_rodo_comp__mdfe30_tpComp__02
 msgid "Impostos, taxas e contribuições"
@@ -2240,7 +1989,6 @@ msgid "Irin do navio sempre deverá ser informado"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUnid__01
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tot__mdfe30_cUnid__01
 msgid "KG"
 msgstr ""
@@ -2277,96 +2025,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_aereo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_aquav____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_autxml____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_dest____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_disp____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_emi____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_emit____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_comp____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infbanc____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infpag____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_evpagtoopermdfe_infprazo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_ferrov____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_ide____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infadic____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infantt____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infciot____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcontratante____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcte____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infcte_peri____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infembcomb____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infentregaparcial____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inffisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocalcarrega____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocaldescarrega____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflotacao____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfesupl____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfetransp____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmdfetransp_peri____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmodal____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmuncarrega____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infmundescarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infnf____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infnfe_peri____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infpercurso____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infprot____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infrec____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infresp____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infseg____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infsolicnff____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inftermcarreg____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inftermdescarreg____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infunidcargavazia____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infunidtranspvazia____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_infviagens____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacres____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacrodo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacunidcarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_lacunidtransp____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_prodpred____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_comp____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_condutor____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infbanc____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infpag____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_rodo_infprazo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_seg____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendeemi____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendereco____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tenderfer____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendernac____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendorg____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tendreent____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tenvimdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tlocal____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infdoc____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infmdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tmdfe_infnfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tnfenf____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tnfenf_infnfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tot____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tprotmdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_trem____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tresptec____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tretenvimdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tretmdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tunidadetransp____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_tunidcarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_vag____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_valeped____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veicreboque____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veicreboque_prop____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veictracao____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_veictracao_prop____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_spec_mixin_mdfe____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_br_mdfe_spec
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocalcarrega__mdfe30_latitude
 #: model:ir.model.fields,field_description:l10n_br_mdfe_spec.field_mdfe_30_inflocaldescarrega__mdfe30_latitude
 msgid "Latitude do ponto geográfico onde"
@@ -2395,9 +2053,6 @@ msgid "Logradouro"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__ma
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__ma
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__ma
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__ma
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__ma
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__ma
@@ -2423,9 +2078,6 @@ msgid "MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__mg
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__mg
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__mg
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__mg
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__mg
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__mg
@@ -2446,9 +2098,6 @@ msgid "MG"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__ms
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__ms
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__ms
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__ms
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__ms
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__ms
@@ -2469,9 +2118,6 @@ msgid "MS"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__mt
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__mt
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__mt
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__mt
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__mt
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__mt
@@ -2822,7 +2468,6 @@ msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__06
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__06
 msgid "Neogranel"
 msgstr ""
 
@@ -3271,8 +2916,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_aquaviario_carga_vazia__mdfe30_tpUnidCargaVazia__4
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_pagamento_frete__mdfe30_tpComp__99
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_evpagtoopermdfe_comp__mdfe30_tpComp__99
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_infunidcargavazia__mdfe30_tpUnidCargaVazia__4
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_rodo_comp__mdfe30_tpComp__99
@@ -3283,14 +2926,10 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque_prop__mdfe30_tpProp__2
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao__mdfe30_tpRod__06
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao_prop__mdfe30_tpProp__2
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__res_partner__mdfe30_tpProp__2
 msgid "Outros."
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__pa
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__pa
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__pa
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__pa
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__pa
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__pa
@@ -3311,9 +2950,6 @@ msgid "PA"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__pb
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__pb
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__pb
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__pb
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__pb
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__pb
@@ -3334,9 +2970,6 @@ msgid "PB"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__pe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__pe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__pe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__pe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__pe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__pe
@@ -3357,9 +2990,6 @@ msgid "PE"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__pi
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__pi
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__pi
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__pi
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__pi
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__pi
@@ -3394,9 +3024,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__pr
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__pr
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__pr
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__pr
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__pr
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__pr
@@ -3427,52 +3054,44 @@ msgid "Pagamento Operação MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_indPag__1
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_evpagtoopermdfe_infpag__mdfe30_indPag__1
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_rodo_infpag__mdfe30_indPag__1
 msgid "Pagamento à Prazo"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_indPag__0
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_evpagtoopermdfe_infpag__mdfe30_indPag__0
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_rodo_infpag__mdfe30_indPag__0
 msgid "Pagamento à Vista"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_aquaviario_carga_vazia__mdfe30_tpUnidCargaVazia__3
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_infunidcargavazia__mdfe30_tpUnidCargaVazia__3
 msgid "Pallet"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__09
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__09
 msgid "Perigosa (carga frigorificada)"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__11
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__11
 msgid "Perigosa (carga geral)."
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__10
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__10
 msgid "Perigosa (conteinerizada)"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__08
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__08
 msgid "Perigosa (granel líquido)"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_prodpred__mdfe30_tpCarga__07
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__product_product__mdfe30_tpCarga__07
 msgid "Perigosa (granel sólido)"
 msgstr ""
 
@@ -3508,7 +3127,6 @@ msgid "Placa do veículo"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_tpCar__04
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque__mdfe30_tpCar__04
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao__mdfe30_tpCar__04
 msgid "Porta Container"
@@ -3688,9 +3306,6 @@ msgid "RENAVAM do veículo"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__rj
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__rj
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__rj
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__rj
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__rj
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__rj
@@ -3711,9 +3326,6 @@ msgid "RJ"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__rn
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__rn
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__rn
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__rn
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__rn
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__rn
@@ -3734,9 +3346,6 @@ msgid "RN"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__ro
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__ro
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__ro
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__ro
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__ro
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__ro
@@ -3757,9 +3366,6 @@ msgid "RO"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__rr
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__rr
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__rr
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__rr
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__rr
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__rr
@@ -3780,9 +3386,6 @@ msgid "RR"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__rs
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__rs
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__rs
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__rs
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__rs
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__rs
@@ -3874,7 +3477,6 @@ msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_infresp__mdfe30_respSeg__2
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__res_partner__mdfe30_respSeg__2
 msgid "Responsável pela contratação do serviço de transporte (contratante)\t"
 msgstr ""
 
@@ -3897,9 +3499,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__sc
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__sc
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__sc
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__sc
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__sc
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__sc
@@ -3920,9 +3519,6 @@ msgid "SC"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__se
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__se
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__se
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__se
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__se
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__se
@@ -3943,9 +3539,6 @@ msgid "SE"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__sp
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__sp
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__sp
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__sp
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__sp
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__sp
@@ -3989,7 +3582,6 @@ msgid "Serie de Identificação do vagão"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_tpCar__05
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque__mdfe30_tpCar__05
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao__mdfe30_tpCar__05
 msgid "Sider"
@@ -4095,27 +3687,21 @@ msgstr ""
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque_prop__mdfe30_tpProp__0
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao_prop__mdfe30_tpProp__0
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__res_partner__mdfe30_tpProp__0
 msgid "TAC Agregado"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque_prop__mdfe30_tpProp__1
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao_prop__mdfe30_tpProp__1
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__res_partner__mdfe30_tpProp__1
 msgid "TAC Independente"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_tpValePed__01
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_disp__mdfe30_tpValePed__01
 msgid "TAG"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFFim__to
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_UFIni__to
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_UF__to
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_dest__mdfe30_UF__to
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_emi__mdfe30_UF__to
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_ide__mdfe30_UFFim__to
@@ -4136,7 +3722,6 @@ msgid "TO"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_fiscal_document__mdfe30_cUnid__02
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_tot__mdfe30_cUnid__02
 msgid "TON"
 msgstr ""
@@ -4582,7 +4167,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_aquaviario_carga_vazia__mdfe30_tpUnidCargaVazia__2
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_infunidcargavazia__mdfe30_tpUnidCargaVazia__2
 msgid "ULD"
 msgstr ""
@@ -4598,7 +4182,6 @@ msgid "VAN"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_pagamento_frete__mdfe30_tpComp__01
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_evpagtoopermdfe_comp__mdfe30_tpComp__01
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_rodo_comp__mdfe30_tpComp__01
 msgid "Vale Pedágio"
@@ -4745,7 +4328,6 @@ msgid "longitude"
 msgstr ""
 
 #. module: l10n_br_mdfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__l10n_br_mdfe_modal_rodoviario_reboque__mdfe30_tpCar__00
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veicreboque__mdfe30_tpCar__00
 #: model:ir.model.fields.selection,name:l10n_br_mdfe_spec.selection__mdfe_30_veictracao__mdfe30_tpCar__00
 msgid "não aplicável"
