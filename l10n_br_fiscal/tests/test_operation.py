@@ -10,4 +10,4 @@ class TestOperation(TransactionCase):
         operation_venda = self.env.ref("l10n_br_fiscal.fo_venda")
         operation_venda_copy = operation_venda.copy()
         self.assertEqual(operation_venda_copy.name, "Venda")
-        self.assertEqual(operation_venda_copy.code, "Venda (Copy)")
+        self.assertEqual(operation_venda_copy.code, "VD (Copy)")
