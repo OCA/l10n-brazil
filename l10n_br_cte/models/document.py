@@ -75,9 +75,7 @@ from ..constants.cte import (
     CTE_TYPE,
     CTE_TYPE_DEFAULT,
 )
-from ..constants.modal import (
-    CTE_MODAL_VERSION_DEFAULT,
-)
+from ..constants.modal import CTE_MODAL_VERSION_DEFAULT
 
 CTE_XML_NAMESPACE = {"cte": "http://www.portalfiscal.inf.br/cte"}
 
