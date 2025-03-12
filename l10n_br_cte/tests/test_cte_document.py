@@ -3,10 +3,10 @@
 
 from datetime import datetime
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class CTeDocumentTest(SavepointCase):
+class CTeDocumentTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

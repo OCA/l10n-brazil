@@ -42,13 +42,11 @@ class DocumentMixinFields(models.AbstractModel):
     )
 
     insurance_policy = fields.Char(
-        string="Insurance Policy",
         help="The insurance policy number covering the transported goods. "
         "This field is primarily used when issuing the CT-e.",
     )
 
     insurance_endorsement = fields.Char(
-        string="Insurance Endorsement",
         help="The endorsement number associated with the insurance policy, indicating "
         "any modifications or adjustments to the coverage. This field is "
         "primarily used when issuing the CT-e.",
