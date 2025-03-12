@@ -6,7 +6,6 @@ import os
 import tempfile
 import zipfile
 
-from odoo import fields
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -21,7 +20,7 @@ class TestFiscalClosing(TransactionCase):
         super().setUpClass()
 
         cls.nfe_export = cls.env.ref("l10n_br_fiscal.demo_nfe_export")
-        cls.nfe_export.date_in_out = fields.Datetime.now()
+        cls.nfe_export._document_confirm()
         cls.closing_all = cls.env["l10n_br_fiscal.closing"].create(
             {
                 "export_type": "all",
