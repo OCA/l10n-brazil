@@ -118,8 +118,8 @@ class TestCTeSerialize(TransactionCase):
     def prepare_modal_aquaviario_data(self, cte):
         # Dados gerais do modal aquaviário
         cte.cte40_vAFRMM = (
-            1200.00
-        )  # Valor do Adicional de Frete para Renovação da Marinha Mercante
+            1200.00  # Valor do Adicional de Frete para Renovação da Marinha Mercante
+        )
         # cte.cte40_vPrest = 3500.00  # Valor total do frete aquaviário
         cte.cte40_xNavio = "Navio Mercante 123"  # Nome do navio
         cte.cte40_nViag = "Viagem001"  # Número da viagem
@@ -157,14 +157,14 @@ class TestCTeSerialize(TransactionCase):
         cte.cte40_fluxo = "Fluxo Norte-Sul"  # Fluxo de transporte
         cte.cte40_vFrete = 5000.00  # Valor do frete ferroviário
         cte.cte40_chCTeFerroOrigem = (
-            "CTE123456789"
-        )  # Chave do CTe Ferroviário de origem
+            "CTE123456789"  # Chave do CTe Ferroviário de origem
+        )
         cte.cte40_respFat = (
-            "1"
-        )  # Responsável pelo Faturamento: 1 = Emitente, 2 = Receptor
+            "1"  # Responsável pelo Faturamento: 1 = Emitente, 2 = Receptor
+        )
         cte.cte40_ferrEmi = (
-            "1"
-        )  # Emissor do documento: 1 = Ferrovia Emitente, 2 = Outro
+            "1"  # Emissor do documento: 1 = Ferrovia Emitente, 2 = Outro
+        )
         # cte.cte40_ferroEnv = [
         #     (
         #         0,
