@@ -6,10 +6,10 @@ from datetime import datetime
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter
 
 from odoo.exceptions import UserError
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class MDFeDocumentTest(SavepointCase):
+class MDFeDocumentTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
