@@ -7,12 +7,12 @@ import pkg_resources
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
 
 from odoo.models import NewId
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 _logger = logging.getLogger(__name__)
 
 
-class MDFeImportTest(SavepointCase):
+class MDFeImportTest(TransactionCase):
     def test_import_in_mdfe_dry_run(self):
         res_items = (
             "mdfe",
