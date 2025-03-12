@@ -1311,6 +1311,20 @@ msgid "Document Date"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__key_check_digit
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__key_check_digit
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__key_random_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__key_random_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_line_ids
@@ -2892,6 +2906,13 @@ msgid "Manual Fiscal Additional Data"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__transport_modal
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__transport_modal
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__transport_modal
+msgid "Modal de Transporte"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_modBC
 msgid "Modalidade de determinação da BC"
 msgstr ""
@@ -3936,6 +3957,20 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_tpNF
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_tpNF
 msgid "Tipo do Documento Fiscal (0 - entrada; 1 - saída)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__service_provider
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__service_provider
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__service_provider
+msgid "Tomador do Serviço"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__total_weight
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__total_weight
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__total_weight
+msgid "Total Weight"
 msgstr ""
 
 #. module: l10n_br_account
