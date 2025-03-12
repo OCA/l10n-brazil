@@ -3,14 +3,14 @@
 
 from io import StringIO
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 
 from ..models.document import MDFe
 
 
-class MDFeStructure(SavepointCase):
+class MDFeStructure(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
