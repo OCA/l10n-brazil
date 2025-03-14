@@ -803,12 +803,12 @@ class MDFe(spec_models.StackedModel):
                     vals["issuer"] = "partner"
                 new_value["is_company"] = True
                 new_value["cnpj_cpf"] = emit_cnpj
-            super()._build_many2one(
+            return super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
 
         else:
-            super()._build_many2one(comodel, vals, new_value, key, value, path)
+            return super()._build_many2one(comodel, vals, new_value, key, value, path)
 
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):

@@ -76,9 +76,7 @@ class MDFeModalAquaviarioCarregamento(spec_models.SpecModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    loading_harbor = fields.Selection(
-        selection=MDFE_MODAL_HARBORS, string="Loading Harbor", required=True
-    )
+    loading_harbor = fields.Selection(selection=MDFE_MODAL_HARBORS, required=True)
 
     mdfe30_cTermCarreg = fields.Char(compute="_compute_loading_harbor")
 
@@ -101,9 +99,7 @@ class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    unloading_harbor = fields.Selection(
-        selection=MDFE_MODAL_HARBORS, string="Unloading Harbor", required=True
-    )
+    unloading_harbor = fields.Selection(selection=MDFE_MODAL_HARBORS, required=True)
 
     mdfe30_cTermDescarreg = fields.Char(compute="_compute_unloading_harbor")
 

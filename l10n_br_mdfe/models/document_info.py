@@ -48,7 +48,6 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
             ("cte", "CT-e"),
             ("mdfe", "MDF-e"),
         ],
-        string="Document Type",
         default="nfe",
         required=True,
     )
