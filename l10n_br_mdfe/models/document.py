@@ -775,15 +775,16 @@ class MDFe(spec_models.StackedModel):
 
     def _get_mdfe_modal_to_build(self, module):
         modal_by_binding_module = {
-            self.mdfe_modal_rodoviario_id._binding_module: self.mdfe_modal_rodoviario_id,  # noqa: E501
-            self.mdfe_modal_aereo_id._binding_module: self.mdfe_modal_aereo_id,  # noqa: E501
-            self.mdfe_modal_aquaviario_id._binding_module: self.mdfe_modal_aquaviario_id,  # noqa: E501
-            self.mdfe_modal_ferroviario_id._binding_module: self.mdfe_modal_ferroviario_id,  # noqa: E501
+            self.mdfe_modal_rodoviario_id._binding_module: (
+                self.mdfe_modal_rodoviario_id
+            ),
+            self.mdfe_modal_aereo_id._binding_module: self.mdfe_modal_aereo_id,
+            self.mdfe_modal_aquaviario_id._binding_module: self.mdfe_modal_aquaviario_id,
+            self.mdfe_modal_ferroviario_id._binding_module: (
+                self.mdfe_modal_ferroviario_id
+            ),
         }
-        if module not in modal_by_binding_module:
-            return False
-
-        return modal_by_binding_module[module]
+        return modal_by_binding_module.get(module, False)
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "mdfe30_emit" and self.env.context.get("edoc_type") == "in":
@@ -803,12 +804,12 @@ class MDFe(spec_models.StackedModel):
                     vals["issuer"] = "partner"
                 new_value["is_company"] = True
                 new_value["cnpj_cpf"] = emit_cnpj
-            super()._build_many2one(
+            return super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
 
         else:
-            super()._build_many2one(comodel, vals, new_value, key, value, path)
+            return super()._build_many2one(comodel, vals, new_value, key, value, path)
 
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
