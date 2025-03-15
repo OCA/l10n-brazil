@@ -218,21 +218,6 @@ class DocumentMoveMixin(models.AbstractModel):
         related="company_id.phone",
     )
 
-    @api.depends("document_serie_id", "issuer")
-    def _compute_document_serie(self):
-        for doc in self:
-            if doc.document_serie_id and doc.issuer == DOCUMENT_ISSUER_COMPANY:
-                doc.document_serie = doc.document_serie_id.code
-            elif doc.document_serie is None:
-                doc.document_serie = False
-
-    @api.onchange("document_type_id")
-    def _onchange_document_type_id(self):
-        if self.document_type_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self.document_serie_id = self.document_type_id.get_document_serie(
-                self.company_id, self.fiscal_operation_id
-            )
-
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
