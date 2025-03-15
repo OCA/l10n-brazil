@@ -460,6 +460,8 @@ class FiscalDocumentMixinFields(models.AbstractModel):
 
     document_serie = fields.Char(
         string="Serie Number",
+        compute="_compute_document_serie",
+        store=True,
     )
 
     document_number = fields.Char(
