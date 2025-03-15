@@ -51,6 +51,8 @@ class ProductTemplate(models.Model):
         index=True,
         default=_get_default_ncm_id,
         string="NCM",
+        compute="_compute_ncm_id",
+        store=True,
     )
 
     nbm_id = fields.Many2one(
@@ -61,10 +63,15 @@ class ProductTemplate(models.Model):
         selection=TAX_ICMS_OR_ISSQN,
         string="ICMS or ISSQN Tax",
         default=TAX_DOMAIN_ICMS,
+        compute="_compute_tax_icms_or_issqn",
+        store=True,
     )
 
     fiscal_genre_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.product.genre", string="Fiscal Product Genre"
+        comodel_name="l10n_br_fiscal.product.genre",
+        string="Fiscal Product Genre",
+        compute="_compute_fiscal_genre_id",
+        store=True,
     )
 
     service_type_id = fields.Many2one(
