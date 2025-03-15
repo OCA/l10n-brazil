@@ -41,6 +41,11 @@ class FiscalDocumentMixinFields(models.AbstractModel):
         default=_default_operation,
     )
 
+    operation_name = fields.Char(
+        copy=False,
+        compute="_compute_operation_name",
+    )
+
     #
     # Company and Partner are defined here to avoid warnings on runbot
     #
@@ -72,6 +77,8 @@ class FiscalDocumentMixinFields(models.AbstractModel):
         column2="comment_id",
         string="Comments",
         domain=[("object", "=", FISCAL_COMMENT_DOCUMENT)],
+        compute="_compute_comment_ids",
+        store=True,
     )
 
     fiscal_additional_data = fields.Text()

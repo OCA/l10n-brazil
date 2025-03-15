@@ -112,10 +112,6 @@ class Document(models.Model):
         default=lambda self: self.env.user,
     )
 
-    operation_name = fields.Char(
-        copy=False,
-    )
-
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
         string="Electronic?",
