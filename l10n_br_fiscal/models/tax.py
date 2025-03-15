@@ -57,6 +57,15 @@ TAX_DICT_VALUES = {
     "icms_dest_value": 0.00,
 }
 
+ICMS_ST_BASE_TYPE_REL = {
+    "0": TAX_BASE_TYPE_VALUE,
+    "1": TAX_BASE_TYPE_VALUE,
+    "2": TAX_BASE_TYPE_VALUE,
+    "3": TAX_BASE_TYPE_VALUE,
+    "4": TAX_BASE_TYPE_PERCENT,
+    "5": TAX_BASE_TYPE_VALUE,
+}
+
 
 class Tax(models.Model):
     _name = "l10n_br_fiscal.tax"
@@ -87,6 +96,8 @@ class Tax(models.Model):
         selection=TAX_BASE_TYPE,
         default=TAX_BASE_TYPE_PERCENT,
         required=True,
+        compute="_compute_tax_base_type",
+        store=True,
     )
 
     percent_amount = fields.Float(
@@ -714,16 +725,10 @@ class Tax(models.Model):
         result_amounts["taxes"] = taxes
         return result_amounts
 
-    @api.onchange("icmsst_base_type")
-    def _onchange_icmsst_base_type(self):
-        if self.icmsst_base_type:
-            ICMS_ST_BASE_TYPE_REL = {
-                "0": TAX_BASE_TYPE_VALUE,
-                "1": TAX_BASE_TYPE_VALUE,
-                "2": TAX_BASE_TYPE_VALUE,
-                "3": TAX_BASE_TYPE_VALUE,
-                "4": TAX_BASE_TYPE_PERCENT,
-                "5": TAX_BASE_TYPE_VALUE,
-            }
-
-            self.tax_base_type = ICMS_ST_BASE_TYPE_REL.get(self.icmsst_base_type)
+    @api.depends("icmsst_base_type")
+    def _compute_tax_base_type(self):
+        for tax in self:
+            if tax.icmsst_base_type:
+                tax.tax_base_type = ICMS_ST_BASE_TYPE_REL.get(tax.icmsst_base_type)
+            elif tax.tax_base_type is None:
+                tax.tax_base_type = False
