@@ -16,7 +16,6 @@ class TestBrPickingInvoicingCommon(TestPickingInvoicingCommon):
 
     def _run_picking_onchanges(self, record):
         result = super()._run_picking_onchanges(record)
-        record._onchange_fiscal_operation_id()
         return result
 
     def _run_line_onchanges(self, record):
