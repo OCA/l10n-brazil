@@ -73,6 +73,8 @@ class SaleOrder(models.Model):
         column1="sale_id",
         column2="comment_id",
         string="Comments",
+        compute="_compute_comment_ids",
+        store=True,
     )
 
     amount_freight_value = fields.Monetary(
@@ -85,10 +87,6 @@ class SaleOrder(models.Model):
 
     amount_other_value = fields.Monetary(
         inverse="_inverse_amount_other",
-    )
-
-    operation_name = fields.Char(
-        copy=False,
     )
 
     def _get_amount_lines(self):
@@ -113,7 +111,6 @@ class SaleOrder(models.Model):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        result = super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id:
             self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
         else:
@@ -127,8 +124,6 @@ class SaleOrder(models.Model):
             # visivel ele é requirido.
             for line in self.order_line:
                 line.fiscal_operation_id = False
-
-        return result
 
     def _get_invoiceable_lines(self, final=False):
         lines = super()._get_invoiceable_lines(final=final)
