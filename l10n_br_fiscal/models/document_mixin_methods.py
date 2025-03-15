@@ -79,6 +79,24 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         amount_fields = [f for f in fields if f.startswith("amount_")]
         return amount_fields
 
+    @api.depends("document_serie_id", "issuer")
+    def _compute_document_serie(self):
+        for doc in self:
+            if doc.document_serie_id and doc.issuer == DOCUMENT_ISSUER_COMPANY:
+                doc.document_serie = doc.document_serie_id.code
+            elif doc.document_serie is None:
+                doc.document_serie = False
+
+    @api.depends("document_type_id", "issuer")
+    def _compute_document_serie_id(self):
+        for doc in self:
+            if doc.document_type_id and doc.issuer == DOCUMENT_ISSUER_COMPANY:
+                doc.document_serie_id = doc.document_type_id.get_document_serie(
+                    doc.company_id, doc.fiscal_operation_id
+                )
+            elif doc.document_serie_id is None:
+                doc.document_serie_id = False
+
     def _compute_fiscal_amount(self):
         fields = self._get_amount_fields()
         for doc in self:
