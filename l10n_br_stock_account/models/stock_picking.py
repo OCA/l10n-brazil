@@ -21,16 +21,14 @@ class StockPicking(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
-    operation_name = fields.Char(
-        copy=False,
-    )
-
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="stock_picking_comment_rel",
         column1="picking_id",
         column2="comment_id",
         string="Comments",
+        compute="_compute_comment_ids",
+        store=True,
     )
 
     def _get_amount_lines(self):
