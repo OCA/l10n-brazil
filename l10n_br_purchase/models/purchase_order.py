@@ -57,10 +57,8 @@ class PurchaseOrder(models.Model):
         column1="purchase_id",
         column2="comment_id",
         string="Comments",
-    )
-
-    operation_name = fields.Char(
-        copy=False,
+        compute="_compute_comment_ids",
+        store=True,
     )
 
     @api.model
@@ -71,9 +69,7 @@ class PurchaseOrder(models.Model):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        result = super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
-        return result
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
