@@ -45,7 +45,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_same_state(self):
         """Test NFe same state."""
 
-        self.nfe_same_state._onchange_document_serie_id()
         self.nfe_same_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_same_state.fiscal_line_ids:
@@ -194,7 +193,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_other_state(self):
         """Test NFe other state."""
 
-        self.nfe_other_state._onchange_document_serie_id()
         self.nfe_other_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_other_state.fiscal_line_ids:
@@ -315,7 +313,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_not_taxpayer(self):
         """Test NFe not taxpayer."""
 
-        self.nfe_not_taxpayer._onchange_document_serie_id()
         self.nfe_not_taxpayer._onchange_fiscal_operation_id()
 
         for line in self.nfe_not_taxpayer.fiscal_line_ids:
@@ -423,7 +420,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_not_taxpayer_not_company(self):
         """Test NFe not taxpayer not Company."""
 
-        self.nfe_not_taxpayer_pf._onchange_document_serie_id()
         self.nfe_not_taxpayer_pf._onchange_fiscal_operation_id()
 
         for line in self.nfe_not_taxpayer_pf.fiscal_line_ids:
@@ -531,7 +527,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_export(self):
         """Test NFe export."""
 
-        self.nfe_export._onchange_document_serie_id()
         self.nfe_export._onchange_fiscal_operation_id()
 
         for line in self.nfe_export.fiscal_line_ids:
@@ -633,7 +628,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_sn_same_state(self):
         """Test NFe Simples Nacional same state."""
 
-        self.nfe_sn_same_state._onchange_document_serie_id()
         self.nfe_sn_same_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_sn_same_state.fiscal_line_ids:
@@ -752,7 +746,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_sn_other_state(self):
         """Test NFe SN other state."""
 
-        self.nfe_sn_other_state._onchange_document_serie_id()
         self.nfe_sn_other_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_sn_other_state.fiscal_line_ids:
@@ -856,7 +849,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_sn_not_taxpayer(self):
         """Test NFe SN not taxpayer."""
 
-        self.nfe_sn_not_taxpayer._onchange_document_serie_id()
         self.nfe_sn_not_taxpayer._onchange_fiscal_operation_id()
 
         for line in self.nfe_sn_not_taxpayer.fiscal_line_ids:
@@ -948,7 +940,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_sn_export(self):
         """Test NFe SN export."""
 
-        self.nfe_sn_export._onchange_document_serie_id()
         self.nfe_sn_export._onchange_fiscal_operation_id()
 
         for line in self.nfe_sn_export.fiscal_line_ids:
