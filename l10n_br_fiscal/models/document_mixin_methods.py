@@ -35,11 +35,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 self.company_id, self.fiscal_operation_id
             )
 
-    @api.onchange("document_serie_id")
-    def _onchange_document_serie_id(self):
-        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self.document_serie = self.document_serie_id.code
-
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
