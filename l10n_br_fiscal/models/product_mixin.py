@@ -15,26 +15,31 @@ class ProductMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.product.mixin"
     _description = "Fiscal Product Mixin"
 
-    @api.onchange("fiscal_type")
-    def _onchange_fiscal_type(self):
-        for r in self:
-            if r.fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
-                r.ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
-                r.tax_icms_or_issqn = TAX_DOMAIN_ISSQN
+    @api.depends("fiscal_type", "fiscal_genre_id")
+    def _compute_ncm_id(self):
+        for product in self:
+            if product.fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
+                product.ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
+            elif product.fiscal_genre_id and product.ncm_id:
+                if product.fiscal_genre_id.code != product.ncm_id.code[0:2]:
+                    product.ncm_id = False
+            elif product.ncm_id is None:
+                product.ncm_id = False
+
+    @api.depends("ncm_id")
+    def _compute_fiscal_genre_id(self):
+        for product in self:
+            if product.ncm_id:
+                product.fiscal_genre_id = self.env[
+                    "l10n_br_fiscal.product.genre"
+                ].search([("code", "=", product.ncm_id.code[0:2])])
+            elif product.fiscal_genre_id is None:
+                product.fiscal_genere_id = False
+
+    @api.depends("fiscal_type")
+    def _compute_tax_icms_or_issqn(self):
+        for product in self:
+            if product.fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
+                product.tax_icms_or_issqn = TAX_DOMAIN_ISSQN
             else:
-                r.tax_icms_or_issqn = TAX_DOMAIN_ICMS
-
-    @api.onchange("ncm_id")
-    def _onchange_ncm_id(self):
-        for r in self:
-            if r.ncm_id:
-                r.fiscal_genre_id = self.env["l10n_br_fiscal.product.genre"].search(
-                    [("code", "=", r.ncm_id.code[0:2])]
-                )
-
-    @api.onchange("fiscal_genre_id")
-    def _onchange_fiscal_genre_id(self):
-        for r in self:
-            if r.fiscal_genre_id and r.ncm_id:
-                if r.fiscal_genre_id.code != r.ncm_id.code[0:2]:
-                    r.ncm_id = False
+                product.tax_icms_or_issqn = TAX_DOMAIN_ICMS
