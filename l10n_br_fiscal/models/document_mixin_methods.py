@@ -112,11 +112,21 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 # reload fiscal data, operation line, cfop, taxes, etc.
                 line._onchange_fiscal_operation_id()
 
-    @api.onchange("fiscal_operation_id")
-    def _onchange_fiscal_operation_id(self):
-        if self.fiscal_operation_id:
-            self.operation_name = self.fiscal_operation_id.name
-            self.comment_ids = self.fiscal_operation_id.comment_ids
+    @api.depends("fiscal_operation_id")
+    def _compute_operation_name(self):
+        for doc in self:
+            if doc.fiscal_operation_id:
+                doc.operation_name = doc.fiscal_operation_id.name
+            else:
+                doc.operation_name = False
+
+    @api.depends("fiscal_operation_id")
+    def _compute_comment_ids(self):
+        for doc in self:
+            if doc.fiscal_operation_id:
+                doc.comment_ids = doc.fiscal_operation_id.comment_ids
+            elif doc.comment_ids is None:
+                doc.comment_ids = []
 
     def _inverse_amount_freight(self):
         for record in self.filtered(lambda doc: doc._get_product_amount_lines()):
