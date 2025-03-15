@@ -5,6 +5,8 @@ from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from ..constants.fiscal import (
+    DOCUMENT_ISSUER,
+    DOCUMENT_ISSUER_COMPANY,
     FINAL_CUSTOMER,
     FINAL_CUSTOMER_YES,
     FISCAL_COMMENT_DOCUMENT,
@@ -447,6 +449,11 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     force_compute_delivery_costs_by_total = fields.Boolean(default=False)
 
+    issuer = fields.Selection(
+        selection=DOCUMENT_ISSUER,
+        default=DOCUMENT_ISSUER_COMPANY,
+    )
+
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
     )
@@ -454,6 +461,8 @@ class FiscalDocumentMixin(models.AbstractModel):
     document_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
         domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
+        compute="_compute_document_serie_id",
+        store=True,
     )
 
     document_serie = fields.Char(

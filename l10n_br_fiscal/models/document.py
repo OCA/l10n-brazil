@@ -10,7 +10,6 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
-    DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
@@ -182,11 +181,6 @@ class Document(models.Model):
     # while state_edoc avoids colliding with the state field
     # of objects where the fiscal mixin might be injected.
     state = fields.Selection(related="state_edoc", string="State")
-
-    issuer = fields.Selection(
-        selection=DOCUMENT_ISSUER,
-        default=DOCUMENT_ISSUER_COMPANY,
-    )
 
     document_subsequent_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.subsequent.document",
