@@ -232,7 +232,6 @@ class DocumentMoveMixin(models.AbstractModel):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        result = super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id:
             self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
             self.edoc_purpose = self.fiscal_operation_id.edoc_purpose
@@ -258,4 +257,3 @@ class DocumentMoveMixin(models.AbstractModel):
                     )
                 )
             self.document_subsequent_ids = subsequent_documents
-        return result
