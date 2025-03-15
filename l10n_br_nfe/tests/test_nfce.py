@@ -120,7 +120,6 @@ class TestNFCe(TestNFeExport):
 
     def test_atualiza_status_nfce(self):
         self.document_id._onchange_fiscal_operation_id()
-        self.document_id._onchange_document_type_id()
 
         self.document_id._compute_nfe40_dhSaiEnt()
         self.assertFalse(self.document_id.nfe40_dhSaiEnt)
