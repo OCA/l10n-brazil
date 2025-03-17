@@ -1474,7 +1474,7 @@ class CTe(spec_models.StackedModel):
         self._change_state(state)
 
     def _eletronic_document_send(self):
-        super(CTe, self)._eletronic_document_send()
+        super()._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_cte):
             if record.xml_error_message:
                 return
@@ -1510,7 +1510,7 @@ class CTe(spec_models.StackedModel):
                 )
 
     def _document_cancel(self, justificative):
-        result = super(CTe, self)._document_cancel(justificative)
+        result = super()._document_cancel(justificative)
         online_event = self.filtered(filter_processador_edoc_cte)
         if online_event:
             online_event._cte_cancel()
@@ -1564,7 +1564,7 @@ class CTe(spec_models.StackedModel):
             )
 
     def _document_correction(self, justificative):
-        result = super(CTe, self)._document_correction(justificative)
+        result = super()._document_correction(justificative)
         online_event = self.filtered(filter_processador_edoc_cte)
         if online_event:
             online_event._cte_correction(justificative)

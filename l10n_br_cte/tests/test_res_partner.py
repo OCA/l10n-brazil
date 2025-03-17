@@ -6,7 +6,7 @@ from odoo.tests.common import TransactionCase
 
 class TestResPartner(TransactionCase):
     def setUp(self):
-        super(TestResPartner, self).setUp()
+        super().setUp()
         # Basic setup for the test
         self.partner_model = self.env["res.partner"]
         self.partner = self.partner_model.create(
