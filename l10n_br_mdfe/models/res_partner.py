@@ -316,7 +316,7 @@ class ResPartner(spec_models.SpecModel):
             rec.mdfe30_xMun = rec.city_id.name
             rec.mdfe30_UF = rec.state_id.code
             rec.mdfe30_cPais = rec.country_id.bc_code
-            rec.mdfe30_xPais = rec.country_id.name
+            rec.mdfe30_xPais = rec.country_id.name.replace("Brazil", "Brasil")
 
     def _inverse_mdfe30_ender(self):
         for rec in self:
