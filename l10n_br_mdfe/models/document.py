@@ -748,7 +748,7 @@ class MDFe(spec_models.StackedModel):
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def _build_attr(self, node, fields, vals, path, attr):
-        key = "mdfe30_%s" % (attr[0],)  # TODO schema wise
+        key = f"mdfe30_{attr[0]}"
         value = getattr(node, attr[0])
 
         # if attr[0] == "any_element":  # build modal
@@ -779,7 +779,9 @@ class MDFe(spec_models.StackedModel):
                 self.mdfe_modal_rodoviario_id
             ),
             self.mdfe_modal_aereo_id._binding_module: self.mdfe_modal_aereo_id,
-            self.mdfe_modal_aquaviario_id._binding_module: self.mdfe_modal_aquaviario_id,
+            self.mdfe_modal_aquaviario_id._binding_module: (
+                self.mdfe_modal_aquaviario_id
+            ),
             self.mdfe_modal_ferroviario_id._binding_module: (
                 self.mdfe_modal_ferroviario_id
             ),
