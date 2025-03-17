@@ -24,3 +24,7 @@ class CTeLine(spec_models.StackedModel):
     cte40_xNome = fields.Text(related="name")
 
     cte40_vComp = fields.Monetary(related="amount_total")
+
+    # FIXME ORM/spec_model_driven workaround
+    # see https://github.com/OCA/l10n-brazil/pull/3651#issuecomment-2729890350
+    cte40_Comp_vPrest_id = fields.Many2one(copy=False)
