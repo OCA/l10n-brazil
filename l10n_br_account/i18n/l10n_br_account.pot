@@ -1501,6 +1501,7 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__edoc_purpose
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__edoc_purpose
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__edoc_purpose
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__edoc_purpose
 msgid "Finalidade"
 msgstr ""
@@ -1720,6 +1721,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr ""
 
@@ -3493,6 +3495,11 @@ msgid "Percentual de FCP retido por substituição tributária."
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pRedBC
 msgid "Percentual de redução da BC"
 msgstr ""
@@ -4407,6 +4414,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vIPI
 msgid "Valor do IPI"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
 msgstr ""
 
 #. module: l10n_br_account
