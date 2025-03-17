@@ -1625,8 +1625,8 @@ msgid "Código Finalidade da TED"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_protest_code
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_protest_code
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_protest_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_protest_code_id
 msgid ""
 "Código adotado pela FEBRABAN para identificar o tipo de prazo a ser "
 "considerado para o protesto."
@@ -1671,12 +1671,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_fee_code
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_fee_code
 msgid "Código da Multa"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_protest_code
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_protest_code
-msgid "Código de Protesto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2729,6 +2723,8 @@ msgid "Print Boleto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_protest_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__boleto_protest_code_id
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__protest_code
 msgid "Protest Code"
 msgstr ""
