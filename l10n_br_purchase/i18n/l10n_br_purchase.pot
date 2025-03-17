@@ -533,6 +533,7 @@ msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr ""
 
@@ -1323,6 +1324,11 @@ msgid "Partner Order Line (nItemPed)"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__product_id
 msgid "Product"
 msgstr ""
@@ -1599,6 +1605,11 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__icms_substitute
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
 msgstr ""
 
 #. module: l10n_br_purchase
