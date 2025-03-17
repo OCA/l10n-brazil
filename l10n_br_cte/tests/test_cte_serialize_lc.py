@@ -37,5 +37,5 @@ class TestCTeExportLC(TestCTeSerialize):
     def test_serialize_xml(self):
         for cte_data in self.cte_list:
             diff = self.serialize_xml(cte_data)
-            _logger.info("Diff with expected XML (if any): %s" % (diff,))
+            _logger.info(f"Diff with expected XML (if any): {diff}")
             assert len(diff) == 0
