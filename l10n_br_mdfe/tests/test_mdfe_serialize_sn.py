@@ -25,5 +25,5 @@ class TestMDFeExportSN(TestMDFeSerialize):
     def test_serialize_xml(self):
         for mdfe_data in self.mdfe_list:
             diff = self.serialize_xml(mdfe_data)
-            _logger.info("Diff with expected XML (if any): %s" % (diff,))
+            _logger.info(f"Diff with expected XML (if any): {diff}")
             assert len(diff) == 0
