@@ -542,7 +542,7 @@ class ResPartner(spec_models.SpecModel):
             rec.cte40_xMun = rec.city_id.name
             rec.cte40_UF = rec.state_id.code
             rec.cte40_cPais = rec.country_id.bc_code
-            rec.cte40_xPais = rec.country_id.name
+            rec.cte40_xPais = rec.country_id.name.replace("Brazil", "Brasil")
 
     def _inverse_cte40_ender(self):
         for rec in self:
