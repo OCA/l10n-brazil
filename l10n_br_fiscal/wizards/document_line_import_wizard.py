@@ -19,12 +19,14 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
     document_ncm_id = fields.Many2one("l10n_br_fiscal.ncm")
     document_cfop_id = fields.Many2one("l10n_br_fiscal.cfop")
 
+
+
     import_product_id = fields.Many2one("product.product", string="Product to Import")
     import_qty = fields.Float(string="Quantity to Import")
     import_ncm_id = fields.Many2one("l10n_br_fiscal.ncm")
     import_cfop_id = fields.Many2one("l10n_br_fiscal.cfop", string="CFOP to Import")
     import_uom_id = fields.Many2one("uom.uom", string="UoM to Import")
-    # import_uom_id = fields.Many2one("uom.uom", string="UoM to Import")
+    import_uom_trib_id = fields.Many2one("uom.uom", string="UoM Trib to Import")
 
     @api.model
     def default_get(self, fields_list):

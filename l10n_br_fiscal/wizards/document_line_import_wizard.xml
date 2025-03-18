@@ -23,7 +23,9 @@
                         <group>
                             <field name="document_qty" />
                             <field name="document_uom" />
+                            <field name="import_uom_id" />
                             <field name="document_uom_trib" />
+                            <field name="import_uom_trib_id" />
                         </group>
                         <group>
                             <field name="document_ncm_id" />
@@ -36,7 +38,6 @@
                             <field name="import_qty" />
                         </group>
                         <group>
-                            <field name="import_uom_id" />
                         </group>
                         <group>
                             <field name="import_ncm_id" />
