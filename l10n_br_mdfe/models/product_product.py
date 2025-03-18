@@ -29,6 +29,8 @@ class MDFeProductLotacao(spec_models.SpecModel):
     _inherit = "mdfe.30.inflotacao"
     _description = "Informações De Lotação MDFe"
 
+    product_id = fields.Many2one(comodel_name="product.product")
+
     mdfe30_infLocalCarrega = fields.Many2one(
         comodel_name="l10n_br_mdfe.product.lotacao.local",
         required=True,
