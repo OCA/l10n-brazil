@@ -8,6 +8,7 @@ from enum import Enum
 from unicodedata import normalize
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
@@ -740,7 +741,87 @@ class MDFe(spec_models.StackedModel):
     ################################
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
-        if field_name == "mdfe30_infModal":
+        if field_name == "mdfe30_prodPred":
+            if self.mdfe30_prodPred.mdfe30_infLotacao:
+                self.mdfe30_prodPred.mdfe30_infLotacao.unlink()
+
+            cte_ids = self.mdfe30_infMunDescarga.mapped("cte_ids")
+            nfe_ids = self.mdfe30_infMunDescarga.mapped("nfe_ids")
+            mdfe_ids = self.mdfe30_infMunDescarga.mapped("mdfe_ids")
+
+            cep_carrega, cep_descarrega = None, None
+
+            if len(cte_ids) == 1 or len(nfe_ids) == 1 or len(mdfe_ids) == 1:
+                cte_doc = cte_ids and cte_ids[0].document_related_id
+                nfe_doc = nfe_ids and nfe_ids[0].document_related_id
+                mdfe_doc = mdfe_ids and mdfe_ids[0].document_related_id
+
+                if cte_doc:
+                    cep_carrega = (
+                        cte_doc.cte40_rem.zip if hasattr(cte_doc, "cte40_rem") else None
+                    )
+                    cep_descarrega = (
+                        cte_doc.cte40_dest.zip
+                        if hasattr(cte_doc, "cte40_dest")
+                        else None
+                    )
+
+                elif nfe_doc:
+                    cep_carrega = (
+                        nfe_doc.nfe40_enderEmit.zip
+                        if hasattr(nfe_doc, "nfe40_enderEmit")
+                        else None
+                    )
+                    cep_descarrega = (
+                        nfe_doc.nfe40_enderDest.zip
+                        if hasattr(nfe_doc, "nfe40_enderDest")
+                        else None
+                    )
+                elif mdfe_doc:
+                    cep_carrega = mdfe_doc.mdfe30_emit.zip
+                    cep_descarrega = mdfe_doc.mdfe30_emit.zip
+
+                # Caso não tenha documentos relacionados ou campos específicos
+                if not cep_carrega or not cep_descarrega:
+                    cep_carrega = self.mdfe30_emit.zip
+                    cep_descarrega = self.mdfe30_emit.zip
+
+            local_carrega = (
+                self.env["l10n_br_mdfe.product.lotacao.local"]
+                .sudo()
+                .create(
+                    {
+                        "local_type": "CEP",
+                        "mdfe30_CEP": punctuation_rm(cep_carrega),
+                    }
+                )
+            )
+
+            local_descarrega = (
+                self.env["l10n_br_mdfe.product.lotacao.local"]
+                .sudo()
+                .create(
+                    {
+                        "local_type": "CEP",
+                        "mdfe30_CEP": punctuation_rm(cep_descarrega),
+                    }
+                )
+            )
+
+            if cep_carrega and cep_descarrega:
+                self.mdfe30_prodPred.mdfe30_infLotacao = (
+                    self.env["l10n_br_mdfe.product.lotacao"]
+                    .sudo()
+                    .create(
+                        {
+                            "product_id": self.mdfe30_prodPred.id,
+                            "mdfe30_infLocalCarrega": local_carrega.id,
+                            "mdfe30_infLocalDescarrega": local_descarrega.id,
+                        }
+                    )
+                )
+
+        elif field_name == "mdfe30_infModal":
             return self._build_binding(
                 class_name=class_obj._fields[field_name].comodel_name
             )
