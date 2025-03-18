@@ -1,7 +1,9 @@
 # Copyright (C) 2013  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from lxml import etree
+
+from odoo import api, fields, models
 
 from ..constants.fiscal import (
     NCM_FOR_SERVICE_REF,
@@ -119,3 +121,67 @@ class ProductTemplate(models.Model):
         readonly=True,
         string="Tax Definition",
     )
+
+    @api.model
+    def fields_view_get(
+        self, view_id=None, view_type="form", toolbar=False, submenu=False
+    ):
+        """Modifica a view para adicionar seller_ids e variant_seller_ids apenas se o
+        módulo purchase NÃO estiver instalado."""
+
+        # Verifica se o módulo purchase está instalado
+        purchase_installed = (
+            self.env["ir.module.module"]
+            .sudo()
+            .search_count([("name", "=", "purchase"), ("state", "=", "installed")])
+            > 0
+        )
+
+        # Obtém a visão original
+        res = super().fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
+        )
+
+        if not purchase_installed and view_type == "form":
+            # Converte a string XML para um objeto manipulável
+            doc = etree.fromstring(res["arch"])
+
+            # Localiza a aba "Purchase"
+            purchase_page = doc.xpath("//page[@name='purchase']")
+            if purchase_page:
+                purchase_page = purchase_page[0]
+
+                # Criar um grupo para os campos antes do grupo "purchase"
+                purchase_group = purchase_page.xpath(".//group[@name='purchase']")
+                if purchase_group:
+                    purchase_group = purchase_group[0]
+
+                    # Criar novo grupo antes do existente
+                    new_group = etree.Element("group")
+
+                    # Criar os campos com os atributos dinâmicos
+                    field_seller_ids = etree.Element(
+                        "field",
+                        name="seller_ids",
+                        attrib={
+                            "context": """{
+                                'default_product_tmpl_id': context.get(
+                                    'product_tmpl_id', active_id
+                                ),
+                                'product_template_invisible_variant': True,
+                                'tree_view_ref':'purchase.product_supplierinfo_tree_view2'
+                                }""",
+                            "nolabel": "1",
+                        },
+                    )
+
+                    # Adicionar os campos ao novo grupo
+                    new_group.append(field_seller_ids)
+
+                    # Inserir o novo grupo antes do grupo "purchase"
+                    purchase_group.addprevious(new_group)
+
+                    # Atualiza a visão
+                    res["arch"] = etree.tostring(doc, encoding="unicode")
+
+        return res
