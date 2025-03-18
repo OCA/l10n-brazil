@@ -80,6 +80,7 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
             values = self._prepare_update_values()
             self.document_line_id.write(values)
             self._check_alternative_uom(self.import_uom_id, self.document_uom)
+            self._check_product_supplierinfo()
             # self._check_alternative_uom(self.import_uom_id, self.document_uom_trib)
             self._check_other_lines_info(values)
 
@@ -125,6 +126,28 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
                 self.env["uom.uom.alternative"].create(
                     {"code": alternative, "uom_id": uom_id.id}
                 )
+
+    def _check_product_supplierinfo(self):
+        if self.import_product_id:
+            product_supplierinfo_id = self.env["product.supplierinfo"].search(
+                [
+                    ("name", "=", self.document_line_id.partner_id.id),
+                    ("product_id", "=", self.import_product_id.id),
+                    ("product_name", "=", self.document_name),
+                    ("product_code", "=", self.document_code),
+                ]
+            )
+            if not product_supplierinfo_id:
+                product_supplierinfo_id = self.env["product.supplierinfo"].create(
+                    {
+                        "name": self.document_line_id.partner_id.id,
+                        "product_id": self.import_product_id.id,
+                        "product_tmpl_id": self.import_product_id.product_tmpl_id.id,
+                        "product_name": self.document_name,
+                        "product_code": self.document_code,
+                    }
+                )
+            # TODO: Melhorar a conversão de unidades.
 
     def _check_other_lines_info(self, values):
         pass
