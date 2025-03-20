@@ -154,6 +154,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     operation_fiscal_type = fields.Selection(
         related="fiscal_operation_id.fiscal_type",
         readonly=True,
+        string="Operation Fiscal Type",
     )
 
     fiscal_operation_line_id = fields.Many2one(
