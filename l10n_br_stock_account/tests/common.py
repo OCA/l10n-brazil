@@ -6,17 +6,9 @@ from odoo.addons.stock_picking_invoicing.tests.common import TestPickingInvoicin
 
 
 class TestBrPickingInvoicingCommon(TestPickingInvoicingCommon):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
     def _change_user_company(self, company):
         self.env.user.company_ids += company
         self.env.user.company_id = company
-
-    def _run_picking_onchanges(self, record):
-        result = super()._run_picking_onchanges(record)
-        return result
 
     def _run_line_onchanges(self, record):
         result = super()._run_line_onchanges(record)
