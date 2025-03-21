@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import logging
 import os
 from unittest import mock
 
@@ -21,6 +22,7 @@ _provider_class_cnab_parser = (
     _module_ns + ".parser.cnab_file_parser" + ".CNABFileParser"
 )
 _provider_class_acc_invoice = _module_ns + ".models.account_move" + ".AccountMove"
+_logger = logging.getLogger(__name__)
 
 
 @tagged("post_install", "-at_install")
@@ -143,17 +145,27 @@ class TestBrAccountPaymentOderCommon(TestL10nBrAccountPaymentOder):
                 # as account.move criadas.
                 return self.env["account.move"].browse(action["res_id"])
 
-    def _run_import_return_file(self, mocked_response, test_file, journal):
-        with mock.patch(
-            _provider_class_cnab_parser + "._get_brcobranca_retorno",
-            return_value=mocked_response,
-        ):
-            file_name = get_resource_path(
-                "l10n_br_account_payment_brcobranca",
-                "tests",
-                "data",
-                test_file,
-            )
+    def _run_import_return_file(
+        self, test_file, journal, test_run_more_than_one_time, mocked_response=False
+    ):
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "data",
+            test_file,
+        )
 
-            # Se for um codigo cnab de liquidação retorna as account.move criadas
+        # Caso o Teste rode duas vezes o 'Nosso Número' é incrementado o que faz
+        # com que o valor no arquivo deixe de ser igual e nesse caso deve usar a
+        # resposta Mock, se não tiver o MOCK como no caso Banco Nordeste CNAB 400
+        # o teste não é executado
+        if os.environ.get("CI_NO_BRCOBRANCA") or test_run_more_than_one_time:
+            with mock.patch(
+                _provider_class_cnab_parser + "._get_brcobranca_retorno",
+                return_value=mocked_response,
+            ):
+                # Se for um codigo cnab de liquidação retorna as
+                # account.move criadas
+                return self._import_file(file_name, journal)
+        else:
             return self._import_file(file_name, journal)
