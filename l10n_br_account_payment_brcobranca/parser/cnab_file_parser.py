@@ -183,21 +183,12 @@ class CNABFileParser(FileParser):
 
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
 
-        if bank_name_brcobranca in ("ailos", "santander"):
-            # No AILOS e Santander o código de registro onde ficam as linhas CNAB é o 3.
-            registration_code_allowed = 3
-        elif bank_name_brcobranca == "banco_brasil":
-            # No Banco do Brasil o código do registro principal é o 7.
-            # existem registros opcionais porém como não estão mapeados no BRCobrança
-            # e serão ignorados aqui. Teoricamente a verificação do código do registro
-            # nem deveria se feita aqui, cada dict retornado da lib era pra representar
-            # um registro completo do boleto. Esse tratamento deveria estar lá.
-            registration_code_allowed = 7
-        else:
-            registration_code_allowed = 1
+        allowed_registration_code = self._get_allowed_registration_code(
+            bank_name_brcobranca
+        )
 
         for linha_cnab in data:
-            if int(linha_cnab["codigo_registro"]) != registration_code_allowed:
+            if int(linha_cnab["codigo_registro"]) != allowed_registration_code:
                 # Bradesco
                 # Existe o codigo de registro 9 que eh um totalizador
                 # porem os campos estao colocados em outras posicoes
@@ -212,28 +203,9 @@ class CNABFileParser(FileParser):
 
             zeros_date, date_format = self._get_date_format(bank_name_brcobranca)
 
-            # Idealmente o campo data_ocorrencia deve vir mapeado no JSON
-            if (
-                linha_cnab.get("data_ocorrencia")
-                and linha_cnab.get("data_ocorrencia") != zeros_date
-            ):
-                data_ocorrencia = datetime.datetime.strptime(
-                    str(linha_cnab.get("data_ocorrencia")), date_format
-                ).date()
-            elif (
-                linha_cnab.get("data_credito")
-                and linha_cnab.get("data_credito") != zeros_date
-            ):
-                # Tenta usar a data de credito como refererencia,
-                # se isso ocorre em uma caso especifico é algo a ser verificado
-                # no BRCobranca se é possível mapear o campo data_ocorrencia
-                data_ocorrencia = datetime.datetime.strptime(
-                    str(linha_cnab.get("data_credito")), date_format
-                ).date()
-            else:
-                # Nada encontrado usa Hoje, teria mais algum campo que poderia
-                # ser usado?
-                data_ocorrencia = datetime.date.today()
+            data_ocorrencia = self._get_occurrence_date(
+                linha_cnab, date_format, zeros_date
+            )
 
             cod_ocorrencia = str(linha_cnab["codigo_ocorrencia"])
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto,
@@ -243,53 +215,17 @@ class CNABFileParser(FileParser):
                 [("payment_type", "=", "inbound"), ("code", "=", self.parser_name[4:7])]
             )
 
-            descricao_ocorrencia = self._get_description_occurrence(
+            descricao_ocorrencia = self._get_occurrence_description(
                 payment_method_cnab, cod_ocorrencia
             )
 
-            # Nosso numero vem com o Digito Verificador
-            # ex.: 00000000000002010
-
-            # Com exceção no itaú(341) que já vem sem o dígito verificador.
-            if self.bank.code_bc == "341":
-                nosso_numero_sem_dig = linha_cnab["nosso_numero"]
-            elif bank_name_brcobranca == "ailos":
-                # no AILOS o nosso número vem concatenado com o número da conta
-                # porém o que importa aqui é apenas os últimos 9 digitos que é
-                # de fato a sequência númerica.
-                nosso_numero_sem_dig = linha_cnab["nosso_numero"][-9:]
-            elif bank_name_brcobranca == "banco_brasil":
-                # no banco do brasil o nosso numero vem concatenado com o código de
-                # convênio, sendo apenas os últimos 10 dígitos a sequencia do nosso
-                # número usado para procurar o move line.
-                nosso_numero_sem_dig = linha_cnab["nosso_numero"][-10:]
-            else:
-                nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
-
-            # No arquivo de retorno do CNAB o campo pode ter um tamanho
-            # diferente, o tamanho do campo é preenchido na totalidade
-            # com zeros a esquerda, e no odoo o tamanho do sequencial pode
-            # estar diferente
-            # ex.: retorno cnab 0000000000000201 own_number 0000000201
-            #
-            # O campo own_number_without_zfill foi a forma que encontrei
-            # para poder fazer um search o nosso_numero_cnab_retorno.lstrip("0") e
-            # ter algo:
-            # ex.:
-            # arquivo retorno cnab 201 own_number_without_zfill 201
-            #
-            # É usado o lstrip() para manter os zeros a direita, exemplo:
-            #    VALOR '0000000090'
-            #    | strip | rstrip | lstrip | 9 000000009 90
-            #    Valor '00000000201'
-            #    | strip | rstrip | lstrip | 201 00000000201 201
-
-            nosso_numero_sem_zeros = nosso_numero_sem_dig.lstrip("0")
+            nosso_numero_sem_zeros = self._get_own_number_without_zfill(
+                linha_cnab, bank_name_brcobranca
+            )
 
             # Podem existir sequencias do nosso numero/own_number iguais entre
             # bancos diferentes, porém os Diario/account.journal
             # não pode ser o mesmo.
-
             account_move_line = self.env["account.move.line"].search(
                 [
                     ("own_number_without_zfill", "=", nosso_numero_sem_zeros),
@@ -385,7 +321,49 @@ class CNABFileParser(FileParser):
 
         return result_row_list
 
-    def _get_description_occurrence(self, payment_method_cnab, cod_ocorrencia):
+    def _get_allowed_registration_code(self, bank_name_brcobranca):
+        if bank_name_brcobranca in ("ailos", "santander"):
+            # No AILOS e Santander o código de registro onde ficam as linhas CNAB é o 3.
+            allowed_registration_code = 3
+        elif bank_name_brcobranca == "banco_brasil":
+            # No Banco do Brasil o código do registro principal é o 7.
+            # existem registros opcionais porém como não estão mapeados no BRCobrança
+            # e serão ignorados aqui. Teoricamente a verificação do código do registro
+            # nem deveria se feita aqui, cada dict retornado da lib era pra representar
+            # um registro completo do boleto. Esse tratamento deveria estar lá.
+            allowed_registration_code = 7
+        else:
+            allowed_registration_code = 1
+
+        return allowed_registration_code
+
+    def _get_occurrence_date(self, linha_cnab, date_format, zeros_date):
+        # Idealmente o campo data_ocorrencia deve vir mapeado no JSON
+        if (
+            linha_cnab.get("data_ocorrencia")
+            and linha_cnab.get("data_ocorrencia") != zeros_date
+        ):
+            data_ocorrencia = datetime.datetime.strptime(
+                str(linha_cnab.get("data_ocorrencia")), date_format
+            ).date()
+        elif (
+            linha_cnab.get("data_credito")
+            and linha_cnab.get("data_credito") != zeros_date
+        ):
+            # Tenta usar a data de credito como refererencia,
+            # se isso ocorre em uma caso especifico é algo a ser verificado
+            # no BRCobranca se é possível mapear o campo data_ocorrencia
+            data_ocorrencia = datetime.datetime.strptime(
+                str(linha_cnab.get("data_credito")), date_format
+            ).date()
+        else:
+            # Nada encontrado usa Hoje, teria mais algum campo que poderia
+            # ser usado?
+            data_ocorrencia = datetime.date.today()
+
+        return data_ocorrencia
+
+    def _get_occurrence_description(self, payment_method_cnab, cod_ocorrencia):
         cnab_return_move_code = self.env["l10n_br_cnab.code"].search(
             [
                 ("bank_ids", "in", self.bank.id),
@@ -402,6 +380,48 @@ class CNABFileParser(FileParser):
             )
 
         return descricao_ocorrencia
+
+    def _get_own_number_without_zfill(self, linha_cnab, bank_name_brcobranca):
+        # Nosso numero vem com o Digito Verificador
+        # ex.: 00000000000002010
+
+        # Com exceção no itaú(341) que já vem sem o dígito verificador.
+        if self.bank.code_bc == "341":
+            nosso_numero_sem_dig = linha_cnab["nosso_numero"]
+        elif bank_name_brcobranca == "ailos":
+            # no AILOS o nosso número vem concatenado com o número da conta
+            # porém o que importa aqui é apenas os últimos 9 digitos que é
+            # de fato a sequência númerica.
+            nosso_numero_sem_dig = linha_cnab["nosso_numero"][-9:]
+        elif bank_name_brcobranca == "banco_brasil":
+            # no banco do brasil o nosso numero vem concatenado com o código de
+            # convênio, sendo apenas os últimos 10 dígitos a sequencia do nosso
+            # número usado para procurar o move line.
+            nosso_numero_sem_dig = linha_cnab["nosso_numero"][-10:]
+        else:
+            nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
+
+        # No arquivo de retorno do CNAB o campo pode ter um tamanho
+        # diferente, o tamanho do campo é preenchido na totalidade
+        # com zeros a esquerda, e no odoo o tamanho do sequencial pode
+        # estar diferente
+        # ex.: retorno cnab 0000000000000201 own_number 0000000201
+        #
+        # O campo own_number_without_zfill foi a forma que encontrei
+        # para poder fazer um search o nosso_numero_cnab_retorno.lstrip("0") e
+        # ter algo:
+        # ex.:
+        # arquivo retorno cnab 201 own_number_without_zfill 201
+        #
+        # É usado o lstrip() para manter os zeros a direita, exemplo:
+        #  Valor '0000000090'
+        #    | strip | rstrip    | lstrip |
+        #    |   9   | 000000009 |   90   |
+        #  Valor '00000000201'
+        #    | strip | rstrip      | lstrip |
+        #    |  201  | 00000000201 |   201  |
+
+        return nosso_numero_sem_dig.lstrip("0")
 
     def _get_accounting_entries(self, linha_cnab, account_move_line, payment_lines):
         row_list = []
