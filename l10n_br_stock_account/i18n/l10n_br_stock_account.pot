@@ -555,7 +555,6 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr ""
 
@@ -1186,6 +1185,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__fiscal_operation_id
 msgid "Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__operation_fiscal_type
+msgid "Operation Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
