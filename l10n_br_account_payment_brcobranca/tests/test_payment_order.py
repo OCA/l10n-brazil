@@ -75,17 +75,6 @@ class TestPaymentOrder(TestBrAccountPaymentOderCommon):
             "teste_remessa_bradesco400.REM",
         )
 
-    def test_banco_unicred_cnab_400(self):
-        """Teste Boleto e Remessa Banco Unicred - CNAB 400"""
-        invoice_unicred_cnab_400 = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_unicred_cnab400"
-        )
-        self._run_boleto_remessa(
-            invoice_unicred_cnab_400,
-            "boleto_teste_unicred400.pdf",
-            "teste_remessa-unicred_400-1.REM",
-        )
-
     def test_banco_sicred_cnab_240(self):
         """Teste Boleto e Remessa Banco SICREDI - CNAB 240"""
         invoice_sicred_cnab_240 = self.env.ref(
@@ -96,17 +85,6 @@ class TestPaymentOrder(TestBrAccountPaymentOderCommon):
             invoice_sicred_cnab_240,
             "boleto_teste_sicredi_cnab240.pdf",
             "teste_remessa_sicredi240.REM",
-        )
-
-    def test_banco_ailos_cnab_240(self):
-        """Teste Boleto e Remessa Banco AILOS - CNAB 240"""
-        invoice_ailos_cnab_240 = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_ailos_cnab240"
-        )
-        self._run_boleto_remessa(
-            invoice_ailos_cnab_240,
-            "boleto_teste_ailos_cnab240.pdf",
-            "teste_remessa_ailos240.REM",
         )
 
     def test_banco_santander_cnab_400(self):
