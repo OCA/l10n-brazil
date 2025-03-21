@@ -118,6 +118,7 @@ Bradesco  240/400 X         X
 Brasil    400     X         X
 CEF       240     X         X
 Itaú      240/400 X         X
+Nordeste  400     X         X
 Santander 240/400 X         X
 Sicred    240     X         X
 Unicred   240/400 X         X
