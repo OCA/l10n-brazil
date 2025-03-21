@@ -24,15 +24,11 @@ class TestPaymentOrderInbound(TransactionCase):
 
         # Get Invoice for test
         cls.invoice_cef = cls.env.ref(
-            "l10n_br_account_payment_order." "demo_invoice_payment_order_cef_cnab240"
-        )
-        cls.invoice_unicred = cls.env.ref(
-            "l10n_br_account_payment_order."
-            "demo_invoice_payment_order_unicred_cnab400"
+            "l10n_br_account_payment_order.demo_invoice_payment_order_cef_cnab240"
         )
 
         cls.demo_invoice_auto = cls.env.ref(
-            "l10n_br_account_payment_order." "demo_invoice_automatic_test"
+            "l10n_br_account_payment_order.demo_invoice_automatic_test"
         )
 
         # Journal
@@ -129,16 +125,16 @@ class TestPaymentOrderInbound(TransactionCase):
         apagar as linhas de pagamentos.
         """
         # I validate invoice by creating on
-        self.invoice_unicred.action_post()
+        self.invoice_cef.action_post()
 
         payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
+            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
         )
         self.assertEqual(len(payment_order.payment_line_ids), 2)
 
         ctx = {
             "active_model": "account.move",
-            "active_ids": [self.invoice_unicred.id],
+            "active_ids": [self.invoice_cef.id],
         }
         register_payments = self.register_payments_model.with_context(**ctx).create(
             {
@@ -158,7 +154,7 @@ class TestPaymentOrderInbound(TransactionCase):
 
         self.assertAlmostEqual(payment.amount, 1000)
         self.assertEqual(payment.state, "posted")
-        self.assertEqual(self.invoice_unicred.payment_state, "in_payment")
+        self.assertEqual(self.invoice_cef.payment_state, "in_payment")
         # Linhas Apagadas
         self.assertEqual(len(payment_order.payment_line_ids), 0)
 
@@ -168,10 +164,10 @@ class TestPaymentOrderInbound(TransactionCase):
         gerar erro por ter uma Instrução CNAB a ser enviada.
         """
         # I validate invoice by creating on
-        self.invoice_unicred.action_post()
+        self.invoice_cef.action_post()
 
         payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
+            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
         )
 
         # Open payment order
@@ -180,7 +176,7 @@ class TestPaymentOrderInbound(TransactionCase):
 
         ctx = {
             "active_model": "account.move",
-            "active_ids": [self.invoice_unicred.id],
+            "active_ids": [self.invoice_cef.id],
         }
         register_payments = self.register_payments_model.with_context(**ctx).create(
             {
@@ -205,15 +201,15 @@ class TestPaymentOrderInbound(TransactionCase):
         """Test Cancel Invoice when Payment Order Draft."""
 
         # I validate invoice by creating on
-        self.invoice_unicred.action_post()
+        self.invoice_cef.action_post()
 
         payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
+            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
         )
         self.assertEqual(len(payment_order.payment_line_ids), 2)
 
         # Testar Cancelamento
-        self.invoice_unicred.button_cancel()
+        self.invoice_cef.button_cancel()
 
         self.assertEqual(len(payment_order.payment_line_ids), 0)
         # TODO Na v13 ao cancelar uma invoice as linhas de lançamentos
@@ -222,7 +218,7 @@ class TestPaymentOrderInbound(TransactionCase):
         #  essa questão é os campos que foram sobreescritos no modulo
         #  para funcionar antes
         # Nesse caso a account.move deverá ter sido apagada
-        # self.assertEqual(len(self.invoice_unicred.line_ids), 0)
+        # self.assertEqual(len(self.invoice_cef.line_ids), 0)
 
     def test_payment_by_assign_outstanding_credit(self):
         """
