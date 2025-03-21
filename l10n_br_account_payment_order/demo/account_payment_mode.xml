@@ -252,6 +252,20 @@
         <field name="cnab_config_id" ref="cnab_config_santander_240" />
     </record>
 
+    <!-- Banco Nordeste -->
+    <!-- 400 -->
+    <record id="payment_mode_cobranca_nordeste_400" model="account.payment.mode">
+        <field name="name">Cobrança Banco Nordeste 400</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="nordeste_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_nordeste_400" />
+    </record>
+
     <!-- Payment Mode Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
     <record id="payment_mode_cheque" model="account.payment.mode">
         <field name="name">Cheque</field>

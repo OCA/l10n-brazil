@@ -35,6 +35,7 @@
         "data/cnab_codes/banco_unicred_cnab_240_400.xml",
         "data/cnab_codes/banco_ailos_cnab_240.xml",
         "data/cnab_codes/banco_santander_cnab_240_400.xml",
+        "data/cnab_codes/banco_do_nordeste_cnab_400.xml",
         # Boleto Wallet Code
         "data/cnab_codes/banco_santander_boleto_wallet_code.xml",
         "data/cnab_codes/banco_bradesco_boleto_wallet_code.xml",
