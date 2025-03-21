@@ -315,6 +315,9 @@ class CNABFileParser(FileParser):
                 elif cod_ocorrencia == "03":
                     # TODO - algo a mais a ser feito ?
                     account_move_line.cnab_state = "not_accepted"
+                elif self.bank.code_bc == "004" and cod_ocorrencia == "51":
+                    # Caso Banco Nordeste, não tem caso 03
+                    account_move_line.cnab_state = "not_accepted"
 
             # Inclui o LOG do Evento CNAB
             self.cnab_return_events.append(cnab_return_log_event)

@@ -113,4 +113,12 @@
         <field name="cnab_processor">brcobranca</field>
     </record>
 
+    <!-- Nordeste 400 -->
+    <record
+        id="l10n_br_account_payment_order.cnab_config_nordeste_400"
+        model="l10n_br_cnab.config"
+    >
+        <field name="cnab_processor">brcobranca</field>
+    </record>
+
 </odoo>
