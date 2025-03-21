@@ -533,7 +533,6 @@ msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr ""
 
@@ -1155,6 +1154,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_id
 msgid "Operation"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__operation_fiscal_type
+msgid "Operation Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_purchase
