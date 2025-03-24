@@ -654,6 +654,22 @@
             ref="1_account_template_32333_avoid_travis_error"
         />
         <field name="cnab_company_bank_code">0001222130126</field>
+        <field
+            name="liq_return_move_code_ids"
+            eval="[(6,0,[ref('brasil_240_return_05'), ref('brasil_240_return_06'),
+            ref('brasil_240_return_17'), ref('brasil_240_return_06'),
+            ref('brasil_240_return_15'), ref('brasil_240_return_20'),])]"
+        />
+        <field name="sending_code_id" ref="brasil_240_return_02" />
+        <field name="write_off_code_id" ref="brasil_240_return_09" />
+        <field name="change_title_value_code_id" ref="brasil_240_return_61" />
+        <field name="change_maturity_date_code_id" ref="brasil_240_return_14" />
+        <field name="protest_title_code_id" ref="brasil_240_return_19" />
+        <field name="suspend_protest_keep_wallet_code_id" ref="brasil_240_return_20" />
+        <field name="grant_rebate_code_id" ref="brasil_240_return_12" />
+        <field name="cancel_rebate_code_id" ref="brasil_240_return_13" />
+        <field name="grant_discount_code_id" ref="brasil_240_return_58" />
+        <field name="cancel_discount_code_id" ref="brasil_240_return_59" />
     </record>
 
     <!-- Banco Santander -->
