@@ -9,11 +9,12 @@ from unicodedata import normalize
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.base.misc import punctuation_rm
-from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
-from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
-from requests import Session
 
+# from erpbrasil.transmissao import TransmissaoSOAP
+from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
+
+# from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
+# from requests import Session
 from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -926,18 +927,18 @@ class MDFe(spec_models.StackedModel):
         if self.document_type != MODELO_FISCAL_MDFE:
             return super()._edoc_processor()
 
-        certificado = self.company_id._get_br_ecertificate()
+        # certificado = self.company_id._get_br_ecertificate()
+        # session = Session()
+        # session.verify = False
 
-        session = Session()
-        session.verify = False
-
-        params = {
-            "transmissao": TransmissaoSOAP(certificado, session),
-            "uf": self.company_id.state_id.ibge_code,
-            "versao": self.mdfe_version,
-            "ambiente": self.mdfe_environment,
-        }
-        return edoc_mdfe(**params)
+        # params = {
+        #    "transmissao": None,  # TransmissaoSOAP(certificado, session),
+        #    "uf": self.company_id.state_id.ibge_code,
+        #    "versao": self.mdfe_version,
+        #    "ambiente": self.mdfe_environment,
+        # }
+        raise RuntimeError("TODO adapt for MDFe!")
+        # return edoc_mdfe(**params)
 
     def _generate_key(self):
         if self.document_type_id.code not in [MODELO_FISCAL_MDFE]:
@@ -965,10 +966,7 @@ class MDFe(spec_models.StackedModel):
         result = super()._document_export()
         for record in self.filtered(filtered_processador_edoc_mdfe):
             edoc = record.serialize()[0]
-            processador = record._edoc_processor()
-            xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
-                0
-            ]
+            xml_file = edoc.to_xml()
             # Delete previous authorization events in draft
             if (
                 record.authorization_event_id
@@ -986,8 +984,13 @@ class MDFe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            xml_assinado = processador.assina_raiz(edoc, edoc.infMDFe.Id)
-            self._validate_xml(xml_assinado)
+            signed_xml = edoc.sign_xml(
+                xml_file,
+                self.company_id.certificate.file,
+                self.company_id.certificate.password,
+                edoc.infMDFe.Id,
+            )
+            self._validate_xml(signed_xml)
         return result
 
     def _validate_xml(self, xml_file):
