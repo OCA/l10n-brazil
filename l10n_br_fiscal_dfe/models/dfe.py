@@ -4,10 +4,9 @@
 import logging
 import re
 
-from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
-from requests import Session
-
+# from erpbrasil.transmissao import TransmissaoSOAP
+# from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
+# from requests import Session
 from odoo import _, api, fields, models
 
 from ..tools import utils
@@ -53,15 +52,16 @@ class DFe(models.Model):
 
     @api.model
     def _get_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
-        session = Session()
-        session.verify = False
-        return edoc_nfe(
-            TransmissaoSOAP(certificado, session),
-            self.company_id.state_id.ibge_code,
-            versao=self.version,
-            ambiente=self.environment,
-        )
+        raise RuntimeError("TODO adapt for NFe!")
+        # certificado = self.env.company._get_br_ecertificate()
+        # session = Session()
+        # session.verify = False
+        # return edoc_nfe(
+        #    TransmissaoSOAP(certificado, session),
+        #    self.company_id.state_id.ibge_code,
+        #    versao=self.version,
+        #    ambiente=self.environment,
+        # )
 
     @api.model
     def validate_distribution_response(self, result):
