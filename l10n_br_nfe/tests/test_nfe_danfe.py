@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from unittest.mock import patch
 
+from erpbrasil import edoc
+
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
@@ -20,6 +22,8 @@ class TestDanfeGeneration(TransactionCase):
     def test_generate_danfe_erpbrasil_edoc(self):
         nfe = self.env.ref("l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11")
         nfe.company_id.danfe_library = "erpbrasil.edoc.pdf"
+        if not hasattr(edoc, "pdf"):
+            return  # skip test if erpbrasil.edoc.pdf is not installed
 
         with patch("erpbrasil.edoc.pdf.base.ImprimirXml.imprimir") as mock_make_pdf:
             mock_make_pdf.return_value = b"Mock PDF"
