@@ -23,6 +23,7 @@
                         name="fiscal_operation_id"
                         groups="l10n_br_fiscal.group_manager"
                     />
+                    <field name="allowed_product_ids" invisible="1" />
                 </group>
             </xpath>
         </field>
