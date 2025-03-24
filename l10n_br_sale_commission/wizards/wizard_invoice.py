@@ -48,7 +48,7 @@ class CommissionMakeInvoice(models.TransientModel):
 
         return fiscal_operation
 
-    def _default_product(self):
+    def _default_product_id(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         product_id = get_param("l10n_br_sale_commission.commission_product_id")
         product = False
@@ -77,8 +77,14 @@ class CommissionMakeInvoice(models.TransientModel):
         string="Fiscal Operation",
         default=_default_fiscal_operation_id,
     )
-    product = fields.Many2one(
-        default=_default_product,
+
+    product_id = fields.Many2one(
+        default=_default_product_id, domain="[('id', 'in', allowed_product_ids)]"
+    )
+
+    allowed_product_ids = fields.Many2many(
+        comodel_name="product.product",
+        compute="_compute_allowed_product_ids",
     )
 
     def button_create(self):
@@ -91,11 +97,13 @@ class CommissionMakeInvoice(models.TransientModel):
             ),
         ).button_create()
 
-    @api.onchange("commission_document_type_id")
-    def _onchange_commission_document_type_id(self):
+    @api.depends("commission_document_type_id")
+    def _compute_allowed_product_ids(self):
         for record in self:
-            if record.commission_document_type_id:
-                return {"domain": {"product": [("fiscal_type", "=", "09")]}}
-            else:
-                record.fiscal_operation_id = False
-                return {"domain": {"product": False}}
+            fiscal_type_domain = []
+            if self.commission_document_type_id:
+                fiscal_type_domain = [("fiscal_type", "=", "09")]
+
+            record.allowed_product_ids = self.env["product.product"].search(
+                fiscal_type_domain
+            )

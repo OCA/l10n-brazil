@@ -20,7 +20,6 @@ class ResConfigSettings(models.TransientModel):
         string="Default Fiscal Document",
         domain="[('type', '=', 'service')]",
         config_parameter="l10n_br_sale_commission.commission_document_type_id",
-        # config_parameter=""
         help="Default Brazilian Fiscal Document for Fiscal"
         " Document at Commission payment.",
     )
@@ -38,6 +37,12 @@ class ResConfigSettings(models.TransientModel):
         string="Default Product for invoicing",
         config_parameter="l10n_br_sale_commission.commission_product_id",
         help="Default Commission Product for invoicing.",
+        domain="[('id', 'in', allowed_product_ids)]",
+    )
+
+    allowed_product_ids = fields.Many2many(
+        comodel_name="product.product",
+        compute="_compute_allowed_product_ids",
     )
 
     @api.onchange("commission_gen_br_fiscal_doc")
@@ -46,13 +51,13 @@ class ResConfigSettings(models.TransientModel):
             self.commission_document_type_id = False
             self.commission_fiscal_operation_id = False
 
-    @api.onchange("commission_document_type_id")
-    def _onchange_commission_document_type_id(self):
+    @api.depends("commission_document_type_id")
+    def _compute_allowed_product_ids(self):
         for record in self:
-            if record.commission_document_type_id:
-                return {
-                    "domain": {"commission_product_id": [("fiscal_type", "=", "09")]}
-                }
-            else:
-                record.commission_fiscal_operation_id = False
-                return {"domain": {"commission_product_id": False}}
+            fiscal_type_domain = []
+            if self.commission_document_type_id:
+                fiscal_type_domain = [("fiscal_type", "=", "09")]
+
+            record.allowed_product_ids = self.env["product.product"].search(
+                fiscal_type_domain
+            )

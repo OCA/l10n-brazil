@@ -9,54 +9,49 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@id='sale_ebay']" position="inside">
                 <h2>Commission</h2>
-                <div class="row mt16 o_settings_container">
-                    <div class="col-12 col-lg-6 o_setting_box">
-                        <div class="o_setting_box">
-                            <div class="o_setting_left_pane">
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="commission_product_id" />
-                                <div class="text-muted">
-                                    Default Product at Commission payment.
-                                </div>
-                                <div class="mt8">
-                                    <label
-                                        for="commission_product_id"
-                                        class="o_light_label"
-                                    />
-                                    <field
-                                        name="commission_product_id"
-                                        class="oe_inline"
-                                        options="{'no_create': True}"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <group string="Brazilian Fiscal Document">
-
-                        <div class="col-12 col-lg-6 o_setting_box">
-                        <div class="o_setting_box">
+                <div colspan="2" class="row mt16 o_settings_container">
+                    <div colspan="2" class="o_setting_box">
                         <div class="o_setting_left_pane">
                         </div>
-                            <div class="o_setting_left_pane">
-                                <field name="commission_gen_br_fiscal_doc" />
+                        <div colspan="2" class="o_setting_right_pane">
+                            <label for="commission_product_id" />
+                            <div class="text-muted">
+                                Default Product at Commission payment.
                             </div>
-                            <div class="o_setting_right_pane">
-                                <label for="commission_gen_br_fiscal_doc" />
+                            <div>
+                                <field name="allowed_product_ids" invisible="1" />
+                                <field
+                                    name="commission_product_id"
+                                    options="{'no_create': True}"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+		    <group colspan="2" string="Brazilian Fiscal Document">
+                        <div colspan="2" class="o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field
+                                    name="commission_gen_br_fiscal_doc"
+                                    options="{'no_create': True}"
+                                />
+                            </div>
+                            <div
+                                class="o_setting_right_pane"
+                                id="commission_gen_br_fiscal_doc_settings"
+                            >
+                                <label
+                                    for="commission_gen_br_fiscal_doc"
+                                    class="o_light_label"
+                                />
                                 <div class="text-muted">
                                     When create the invoice for commission payment should generate Brazilian Fiscal Document.
                                 </div>
                             </div>
 
                         </div>
-                        </div>
 
-
-                    <div class="col-12 col-lg-20 o_setting_box o_setting_box">
-
-                        <div class="o_setting_box">
+                        <div colspan="2" class="o_setting_box">
                             <div class="o_setting_left_pane">
                             </div>
                             <div class="o_setting_right_pane">
@@ -64,21 +59,17 @@
                                 <div class="text-muted">
                                     Default Brazilian Fiscal Document Type at Commission payment.
                                 </div>
-                                <div class="mt8">
-                                    <label
-                                            for="commission_document_type_id"
-                                            class="o_light_label"
-                                        />
+                                <div colspan="2">
                                     <field
-                                            name="commission_document_type_id"
-                                            class="oe_inline"
-                                            options="{'no_create': True}"
-                                            attrs="{'readonly': [('commission_gen_br_fiscal_doc', '=', False)]}"
-                                        />
+                                        name="commission_document_type_id"
+                                        options="{'no_create': True}"
+                                        attrs="{'readonly': [('commission_gen_br_fiscal_doc', '=', False)]}"
+                                    />
                                 </div>
                             </div>
                         </div>
-                        <div class="o_setting_box">
+
+			<div colspan="2" class="o_setting_box">
                             <div class="o_setting_left_pane">
                             </div>
                             <div class="o_setting_right_pane">
@@ -86,22 +77,17 @@
                                 <div class="text-muted">
                                     Default Brazilian Fiscal Operation at Commission payment.
                                 </div>
-                                <div class="mt8">
-                                    <label
-                                            for="commission_fiscal_operation_id"
-                                            class="o_light_label"
-                                        />
+				<div>
                                     <field
-                                            name="commission_fiscal_operation_id"
-                                            class="oe_inline"
-                                            options="{'no_create': True}"
-                                            attrs="{'readonly': [('commission_gen_br_fiscal_doc', '=', False)]}"
-                                        />
+                                        name="commission_fiscal_operation_id"
+                                        options="{'no_create': True}"
+                                        attrs="{'readonly': [('commission_gen_br_fiscal_doc', '=', False)]}"
+                                    />
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    </group>
+		        </div>
+
+		    </group>
                 </div>
             </xpath>
         </field>
