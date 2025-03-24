@@ -5,13 +5,17 @@ import logging
 from io import BytesIO
 
 from brazilfiscalreport.danfe import Danfe, DanfeConfig, InvoiceDisplay, Margins
-from erpbrasil.edoc.pdf import base
 from lxml import etree
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.edoc.pdf import edoc_pdf_base
+except ImportError:
+    _logger.debug(_("erpbrasil.edoc.pdf lib not installed!"))
 
 
 class IrActionsReport(models.Model):
@@ -112,7 +116,7 @@ class IrActionsReport(models.Model):
         return DanfeConfig(**danfe_config)
 
     def render_danfe_erpbrasil(self, nfe_xml):
-        pdf = base.ImprimirXml.imprimir(
+        pdf = edoc_pdf_base.ImprimirXml.imprimir(
             string_xml=nfe_xml,
         )
         return pdf, "pdf"
