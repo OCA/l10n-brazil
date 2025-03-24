@@ -28,6 +28,7 @@
         # CNAB Mov. Instruction and Return Codes
         "data/cnab_codes/banco_bradesco_cnab_240_400.xml",
         "data/cnab_codes/banco_cef_cnab_240.xml",
+        "data/cnab_codes/banco_do_brasil_cnab_240.xml",
         "data/cnab_codes/banco_do_brasil_cnab_400.xml",
         "data/cnab_codes/banco_itau_cnab_240_400.xml",
         "data/cnab_codes/banco_sicred_cnab_240.xml",
