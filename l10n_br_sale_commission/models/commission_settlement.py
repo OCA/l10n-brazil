@@ -36,15 +36,3 @@ class CommissionSettlement(models.Model):
                 invoice_line._onchange_fiscal_operation_id()
             vals = invoice._convert_to_write(invoice._cache)
         return vals
-
-    # TODO
-    def make_invoices(self, journal, product, date=False, grouped=False):
-        """
-        Because settlement_id could't be set in '_prepare_invoice'
-        we have to set it here
-        """
-        invoices = super().make_invoices(journal, product, date, grouped)
-        for move in invoices:
-            for move_line in move.invoice_line_ids:
-                move_line.settlement_id = self
-        return invoices
