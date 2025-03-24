@@ -11,13 +11,15 @@ from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
-from erpbrasil.transmissao import TransmissaoSOAP
+
+# from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
-from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
-from requests import Session
+
+# from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
+# from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
+# from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.models.datatype import XmlDateTime
 
@@ -911,12 +913,12 @@ class NFe(spec_models.StackedModel):
             return super()._edoc_processor()
 
         self._check_nfe_environment()
-        certificado = self.company_id._get_br_ecertificate()
-        session = Session()
-        session.verify = False
+        # certificado = self.company_id._get_br_ecertificate()
+        # session = Session()
+        # session.verify = False
 
         params = {
-            "transmissao": TransmissaoSOAP(certificado, session),
+            "transmissao": None,  # TransmissaoSOAP(certificado, session),
             "uf": self.company_id.state_id.ibge_code,
             "versao": self.nfe_version,
             "ambiente": self.nfe_environment,
@@ -927,14 +929,16 @@ class NFe(spec_models.StackedModel):
                 envio_sincrono=self.company_id.nfe_enable_sync_transmission,
                 contingencia=self.company_id.nfe_enable_contingency_ws,
             )
-            return edoc_nfe(**params)
+            raise RuntimeError("TODO adapt for NFe!")
+            # return edoc_nfe(**params)
 
         if self.document_type == MODELO_FISCAL_NFCE:
             params.update(
                 csc_token=self.company_id.nfce_csc_token,
                 csc_code=self.company_id.nfce_csc_code,
             )
-            return edoc_nfce(**params)
+            raise RuntimeError("TODO adapt for NFCe!")
+            # return edoc_nfce(**params)
 
     def _check_nfe_environment(self):
         self.ensure_one()
@@ -952,10 +956,7 @@ class NFe(spec_models.StackedModel):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
-            processador = record._edoc_processor()
-            xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
-                0
-            ]
+            xml_file = edoc.to_xml()
             # Delete previous authorization events in draft
             if (
                 record.authorization_event_id
@@ -973,8 +974,13 @@ class NFe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
-            self._validate_xml(xml_assinado)
+            signed_xml = edoc.sign_xml(
+                xml_file,
+                self.company_id.certificate.file,
+                self.company_id.certificate.password,
+                edoc.infNFe.Id,
+            )
+            self._validate_xml(signed_xml)
         return result
 
     def _nfe_update_status_and_save_data(self, process):

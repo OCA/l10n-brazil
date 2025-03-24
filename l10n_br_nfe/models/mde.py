@@ -5,10 +5,9 @@ import base64
 import logging
 import re
 
-from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
-from requests import Session
-
+# from erpbrasil.transmissao import TransmissaoSOAP
+# from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
+# from requests import Session
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -118,15 +117,16 @@ class MDe(models.Model):
         ]
 
     def _get_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
-        session = Session()
-        session.verify = False
+        raise RuntimeError("TODO adapt for NFe!")
+        # certificado = self.env.company._get_br_ecertificate()
+        # session = Session()
+        # session.verify = False
 
-        return edoc_mde(
-            TransmissaoSOAP(certificado, session),
-            self.company_id.state_id.ibge_code,
-            ambiente=self.dfe_id.environment,
-        )
+        # return edoc_mde(
+        #    TransmissaoSOAP(certificado, session),
+        #    self.company_id.state_id.ibge_code,
+        #    ambiente=self.dfe_id.environment,
+        # )
 
     @api.model
     def validate_event_response(self, result, valid_codes):

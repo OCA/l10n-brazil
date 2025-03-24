@@ -5,8 +5,9 @@ from datetime import datetime
 
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
+
+# from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
+# from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 
 from odoo import fields, models
@@ -33,9 +34,11 @@ class InvalidateNumber(models.Model):
                 csc_token=self.company_id.nfce_csc_token,
                 csc_code=self.company_id.nfce_csc_code,
             )
-            return edoc_nfce(**params)
+            raise RuntimeError("TODO adapt for NFCe!")
+            # return edoc_nfce(**params)
 
-        return edoc_nfe(**params)
+        raise RuntimeError("TODO adapt for NFe!")
+        # return edoc_nfe(**params)
 
     def _invalidate(self, document_id=False):
         processador = self._edoc_processor()
