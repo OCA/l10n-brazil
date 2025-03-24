@@ -1,5 +1,6 @@
 # vcrpy  # Needed by payment_pagseguro
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
-nfelib<=2.0.7
 xmldiff
+requests_pkcs12==1.22  # newer versions breaks with signxml 3.2.2
+nfelib @ git+https://github.com/akretion/nfelib@soap2

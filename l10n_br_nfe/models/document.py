@@ -20,6 +20,7 @@ from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
 # from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 # from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 # from requests import Session
+from nfelib.nfe.client.v4_0 import NfeClient
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.models.datatype import XmlDateTime
 
@@ -929,7 +930,14 @@ class NFe(spec_models.StackedModel):
                 envio_sincrono=self.company_id.nfe_enable_sync_transmission,
                 contingencia=self.company_id.nfe_enable_contingency_ws,
             )
-            raise RuntimeError("TODO adapt for NFe!")
+            # raise RuntimeError("TODO adapt for NFe!")
+            return NfeClient(
+                ambiente=self.nfe_environment,
+                uf=self.company_id.state_id.ibge_code,
+                pkcs12_data=self.company_id.certificate.file,
+                fake_certificate=self.company_id.certificate.file,
+                pkcs12_password=self.company_id.certificate.password,
+            )
             # return edoc_nfe(**params)
 
         if self.document_type == MODELO_FISCAL_NFCE:
@@ -1259,7 +1267,19 @@ class NFe(spec_models.StackedModel):
         serialized_nfe = self.serialize()[0]
         nfe_manager = self._edoc_processor()
         authorization_response = None
-        for service_response in nfe_manager.processar_documento(serialized_nfe):
+
+        signed_nfe_xml = serialized_nfe.to_xml(
+            pkcs12_data=self.company_id.certificate.file,
+            pkcs12_password=self.company_id.certificate.password,
+            doc_id=serialized_nfe.infNFe.Id,
+        )
+
+        authorization_response = nfe_manager.envia_documento([signed_nfe_xml])
+        if authorization_response:
+            self._nfe_process_authorization(authorization_response)
+
+        for x in []:
+            #        for service_response in nfe_manager.processar_documento(serialized_nfe):
             if service_response.webservice not in [
                 "nfeAutorizacaoLote",
                 "nfeRetAutorizacaoLote",
