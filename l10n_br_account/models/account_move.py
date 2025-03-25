@@ -322,10 +322,10 @@ class AccountMove(models.Model):
                 vals["fiscal_document_id"] = False
 
         for idx1, move_val in enumerate(new_vals_list):
-            if "line_ids" in move_val:
+            if "invoice_line_ids" in move_val:
                 if fiscal_document_line_ids.get(idx1):
                     idx2 = 0
-                    for line_val in move_val["line_ids"]:
+                    for line_val in move_val["invoice_line_ids"]:
                         if (
                             line_val[0] == 0
                             and line_val[1] == 0
@@ -795,4 +795,4 @@ class AccountMove(models.Model):
         move = self.env["account.move"].browse(move_form.id)
         for line in move.invoice_line_ids:
             line.product_uom_id = line.fiscal_document_line_id.uom_id.id
-        return move_form
+        return move
