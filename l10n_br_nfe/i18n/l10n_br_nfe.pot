@@ -5195,6 +5195,13 @@ msgid "erpbrasil.edoc"
 msgstr ""
 
 #. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
+#, python-format
+msgid "erpbrasil.edoc.pdf lib not installed!"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_med
 msgid ""
 "grupo do detalhamento de Medicamentos e de matérias-primas\n"
