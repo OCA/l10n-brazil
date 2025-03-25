@@ -991,17 +991,17 @@ class NFe(spec_models.StackedModel):
             self._validate_xml(signed_xml)
         return result
 
-    def _nfe_update_status_and_save_data(self, process):
+    def _nfe_update_status_and_save_data(
+        self, response, webservice="", nfe_proc_xml=None
+    ):
         """
         Updates the NFe status based on the webservice response,
         handling different scenarios.
         """
         self.ensure_one()
         force_change_status = False
-        response = process.resposta
-        webservice = process.webservice
-        if hasattr(process, "protocolo"):
-            inf_prot = process.protocolo.infProt
+        if hasattr(response, "protocolo"):
+            inf_prot = response.protocolo.infProt
         else:
             # The ´nfeRetAutorizacaoLote´ webservice allows
             # querying a batch of NFe, therefore in this case the return of protNFe
@@ -1010,7 +1010,7 @@ class NFe(spec_models.StackedModel):
                 inf_prot = response.protNFe[0].infProt
             else:
                 inf_prot = response.protNFe.infProt
-        nfe_proc_xml = getattr(process, "processo_xml", None)
+
         if nfe_proc_xml:
             nfe_proc_xml = nfe_proc_xml.decode()
         self._nfe_save_protocol(inf_prot, nfe_proc_xml)
@@ -1143,18 +1143,19 @@ class NFe(spec_models.StackedModel):
         """
         Inject the final NF-e, tag `nfeProc`, into the response.
         """
-        xml_soap = ws_response_process.retorno.content
-        tree_soap = etree.fromstring(xml_soap)
-        prot_nfe_element = tree_soap.xpath(
-            "//nfe:protNFe", namespaces=NFE_XML_NAMESPACE
-        )[0]
-        proc_nfe_xml = self._nfe_create_proc(prot_nfe_element)
-        if proc_nfe_xml:
-            # it is not always possible to create nfeProc.
-            parser = XmlParser()
-            nfe_proc = parser.from_string(proc_nfe_xml.decode(), TnfeProc)
-            ws_response_process.processo = nfe_proc
-            ws_response_process.processo_xml = proc_nfe_xml
+        if False:  # TODO
+            xml_soap = ws_response_process.retorno.content
+            tree_soap = etree.fromstring(xml_soap)
+            prot_nfe_element = tree_soap.xpath(
+                "//nfe:protNFe", namespaces=NFE_XML_NAMESPACE
+            )[0]
+            proc_nfe_xml = self._nfe_create_proc(prot_nfe_element)
+            if proc_nfe_xml:
+                # it is not always possible to create nfeProc.
+                parser = XmlParser()
+                nfe_proc = parser.from_string(proc_nfe_xml.decode(), TnfeProc)
+                ws_response_process.processo = nfe_proc
+                ws_response_process.processo_xml = proc_nfe_xml
 
     def _nfe_create_proc(self, prot_nfe_element):
         """
@@ -1224,16 +1225,18 @@ class NFe(spec_models.StackedModel):
             return c_stat in ["100", "101", "110"]
 
         nfe_manager = self._edoc_processor()
-        check_response = nfe_manager.consulta_documento(chave=self.document_key)
-        status = check_response.resposta.xMotivo
+        retConsSitNfe = nfe_manager.consulta_documento(chave=self.document_key)
+        status = retConsSitNfe.xMotivo
 
-        if _is_nfe_found(check_response.resposta.cStat):
+        if _is_nfe_found(retConsSitNfe.cStat):
             if not self.authorization_file_id:
                 # There's no need to assemble and persist the NFe file (nfeproc)
                 #  if it is already saved.
-                self._nfe_response_add_proc(check_response)
+                self._nfe_response_add_proc(retConsSitNfe)
             # Updates the information if it is inconsistent in the system.
-            self._nfe_update_status_and_save_data(check_response)
+            self._nfe_update_status_and_save_data(
+                retConsSitNfe, webservice="nfeConsultaNF"
+            )
         return status
 
     def _prepare_nfce_send(self):
@@ -1274,12 +1277,22 @@ class NFe(spec_models.StackedModel):
             doc_id=serialized_nfe.infNFe.Id,
         )
 
-        authorization_response = nfe_manager.envia_documento([signed_nfe_xml])
+        proc_envio = nfe_manager.envia_documento([signed_nfe_xml])
+        # print("----- proc_envio", proc_envio, self.state, self.state_edoc)
+        nfe_manager._aguarda_tempo_medio(proc_envio)  # TODO loop in nfelib
+        authorization_response = nfe_manager.consulta_recibo(proc_envio=proc_envio)
+        # print(
+        #    "----- authorization_response",
+        #    authorization_response,
+        #    self.state,
+        #    self.state_edoc,
+        # )
+
         if authorization_response:
             self._nfe_process_authorization(authorization_response)
 
-        for x in []:
-            #        for service_response in nfe_manager.processar_documento(serialized_nfe):
+        for service_response in []:  # FIXME
+            # for service_response in nfe_manager.processar_documento(serialized_nfe):
             if service_response.webservice not in [
                 "nfeAutorizacaoLote",
                 "nfeRetAutorizacaoLote",
@@ -1312,8 +1325,8 @@ class NFe(spec_models.StackedModel):
                     else:
                         continue
             authorization_response = service_response
-        if authorization_response:
-            self._nfe_process_authorization(authorization_response)
+        # if authorization_response:
+        #    self._nfe_process_authorization(authorization_response)
 
     def _nfe_process_send_asynchronous(self, send_process):
         self.authorization_event_id._save_event_file(
@@ -1324,7 +1337,7 @@ class NFe(spec_models.StackedModel):
         )
         self.state_edoc = "enviada"
 
-    def _nfe_process_authorization(self, authorization_process):
+    def _nfe_process_authorization(self, retConsReciNFe):
         """
         Processes the response to the authorization request (batch processing).
         This can be called the transmission result or the processing result
@@ -1335,16 +1348,32 @@ class NFe(spec_models.StackedModel):
         - 'retConsReciNFe' for asynchronous.
         """
         self.ensure_one()
-        if authorization_process.resposta.cStat in LOTE_PROCESSADO:
+        # print(
+        #    "_nfe_process_authorization(",
+        #    retConsReciNFe,
+        #    retConsReciNFe.cStat,
+        #    self.state,
+        #    self.state_edoc,
+        # )
+        if retConsReciNFe.cStat in LOTE_PROCESSADO:
+            # print("PROCESSADO")
             # Processes the individual result of each NF-e (protNFe).
-            self._nfe_update_status_and_save_data(authorization_process)
+            # TODO (consulta recibo)
+            # nfe_proc_xml = getattr(process, "processo_xml", None)
+            nfe_proc_xml = b"TODO"  # do consulta recibo with nfelib
+            self._nfe_update_status_and_save_data(
+                retConsReciNFe,
+                webservice="nfeRetAutorizacaoLote",
+                nfe_proc_xml=nfe_proc_xml,
+            )
         else:
+            # print("NOT PROCESSADO")
             # Batch processing failure.
             self._change_state(SITUACAO_EDOC_REJEITADA)
             self.write(
                 {
-                    "status_code": authorization_process.resposta.cStat,
-                    "status_name": authorization_process.resposta.xMotivo,
+                    "status_code": retConsReciNFe.cStat,
+                    "status_name": retConsReciNFe.xMotivo,
                 }
             )
 
@@ -1434,7 +1463,8 @@ class NFe(spec_models.StackedModel):
             protocolo_autorizacao=self.authorization_protocol,
             justificativa=self.cancel_reason.replace("\n", "\\n"),
         )
-        processo = processador.enviar_lote_evento(lista_eventos=[evento])
+        retEnvEvento = processador.enviar_lote_evento(lista_eventos=[evento])
+        # print("_nfe_cancel", retEnvEvento)
         # Gravamos o arquivo no disco e no filestore ASAP.
 
         self.cancel_event_id = self.event_ids.create_event_save_xml(
@@ -1443,11 +1473,11 @@ class NFe(spec_models.StackedModel):
                 EVENT_ENV_PROD if self.nfe_environment == "1" else EVENT_ENV_HML
             ),
             event_type="2",
-            xml_file=processo.envio_xml.decode("utf-8"),
+            xml_file="TODO",  # processo.envio_xml.decode("utf-8"),
             document_id=self,
         )
 
-        for retevento in processo.resposta.retEvento:
+        for retevento in retEnvEvento.retEvento:
             if retevento.infEvento.cStat not in CANCELADO:
                 mensagem = "Erro no cancelamento"
                 mensagem += "\nCódigo: " + retevento.infEvento.cStat
@@ -1468,7 +1498,8 @@ class NFe(spec_models.StackedModel):
                         datetime.fromisoformat(retevento.infEvento.dhRegEvento)
                     ),
                     protocol_number=retevento.infEvento.nProt,
-                    file_response_xml=processo.retorno.content.decode("utf-8"),
+                    file_response_xml="TODO",
+                    # file_response_xml = processo.retorno.content.decode("utf-8"),
                 )
 
     def _document_correction(self, justificative):
