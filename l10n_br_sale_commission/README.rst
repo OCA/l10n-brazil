@@ -28,8 +28,22 @@ Brazilian Localization Sales Commissions
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Esse módulo localiza a geração das faturas de comissão permitindo que
-seja gerado um documento fiscal.
+Esse módulo localiza o
+`sale_commission <https://github.com/OCA/commission/tree/16.0/sale_commission>`__
+que implementa a **Comissão nos Pedidos de Venda**, isso é feito com a
+possibilidade de:
+
+-  Cadastrar Representantes/Agentes Comissionados
+-  Atribuir e Configurar Tipos de Comissão
+-  Informar os Representantes/Agentes Commisionados nos Pedidos de Venda
+   ou no cadastro do Cliente
+-  Criar a Fatura para o Pagamento de Commissões de um determinado
+   Período tanto de diversos Representantes/Agentes como de apenas um
+   específico
+
+Ao Localizar esse módulo também é incluída a opção de que a **Fatura de
+Pagamento de Comissões** que será criada também seja um **Documento
+Fiscal do Brasil**, por exemplo uma **Nota Fiscal de Serviço NFS-e**.
 
 **Table of contents**
 
@@ -39,42 +53,79 @@ seja gerado um documento fiscal.
 Installation
 ============
 
-O módulo depende:
+O módulo depende do:
 
-- sale_commission
-- l10n_br_sale
+-  sale_commission
+-  l10n_br_sale
 
 Configuration
 =============
 
-| Após a instalação do módulo vá em:
-| Vendas > Configuração > Configurações
+Para configurar a **Comissão** é necessário:
 
-Na seção de Comissão é possível definir os campos "Produto", "Gera
-Documento Fiscal Brasileiro?", "Tipo do Documento" e "Operação Fiscal"
-padrões a serem usados na criação do Pagamento de Comissões. Ao gerar
-uma fatura para pagamento de comissões você também pode alterar esses
-mesmos campos. O seu usuário deve ser membro do grupo de acesso Gerente
-Fiscal e a opção "Gera Documento Fiscal Brasileiro?" deve estar marcada.
+Cadastrar os **Tipos de Comissão**, que é onde será informado a forma
+que deverá ser feito o Cálculo do Valor das Comissões e em que momento a
+Commissão será Paga, em:
+
+**Comissão > Configuração > Tipos de Comissão**
+
+Cadastrar os **Representantes/Agentes** Comissionados, em:
+
+**Comissão > Representantes**
+
+Informar se será um caso Brasil que deverá gerar um **Documento
+Fiscal**, em:
+
+**Vendas > Configuração > Definições**
+
+Na seção de **Comissão** é possível definir os campos **Produto/Serviço
+da Comissão, Se Gera Documento Fiscal Brasileiro?, Tipo do Documento
+Fiscal e Operação Fiscal** que deverão ser os valores padrões a serem
+usados na criação da **Fatura para Pagamento de Comissões**, mas também
+é possível se necessário, no momento de criação da Fatura alterar esses
+campos.
+
+Verifique as **Permissões de Acesso** para o Usuário que deverá criar a
+Fatura de Comissão, em:
+
+**Definições > Usuários e Empresas > Usuários**
+
+Marcar a Opção **Gerenciar as comissões das faturas**.
 
 Usage
 =====
 
-No wizards de criação de faturas para pagamento das comissões, é
-possível selecionar o documento fiscal e a operação fiscal, caso o
-representante emita uma NFS-e.
+Para usar esse módulo é necessário:
 
-Known issues / Roadmap
-======================
+Informar o(s) **Representante/Agente** na **Linha do Pedido de Vendas**,
+existe um ícone específico que mostra as informações sobre a Comissão.
 
-- Verificar erro ao retornar os campos padrões/default diferenças entre
-  usar o search e o browse, detalhes no arquivo
-  l10n_br_sale_commission/wizards/wizard_invoice.py linha 16, testar na
-  migração.
-- Para resolver o problema de não gerar comissão quando o CFOP Não Gera
-  Financeiro o ideal seria usar o objeto 'sale.commission.mixin' para
-  assim não precisar repetir código nos objeto mas por alguma razão não
-  funcionou.
+**OBS.:** Se no seu Caso de Uso o Cliente está associado a um ou mais
+**Representantes/Agentens** isso pode ser informado no cadastro do
+**Cliente** na aba de **Vendas e Compras** na seção **Vendas** o(s)
+**Representantes/Agentes**, assim ao criar um **Novo Pedido de Vendas**
+essa informação deverá ser carregada por padrão.
+
+Para **Gerar a Fatura de Pagamento das Commissões** é preciso **Liquidar
+as Comissões**, em:
+
+**Comissões > Liquidações > Liquidar as Comissões**
+
+Informe **Até a Data** que será usada, o **Tipo da Commissão** e
+dependendo se deve criar apenas para um **Representante** específico ou
+para todos.
+
+Caso sejam criadas, logo em seguida, o programa vai mostrar/abrir a tela
+com as **Liquidações**, que também podem ser acessadas em:
+
+**Comissões > Liquidações > Liquidações**
+
+Dentro de uma **Liquidação** é possível ver as **Linhas de Comissão**
+referentes, e o ao clicar no botão **Faturar** serão mostradas as opções
+da **Fatura de Pagamento da Comissão**, no caso do Brasil é possível
+selecionar o **Documento e a Operação Fiscal que deverão ser usados**,
+se informados será criado um **Documento Fiscal do Brasil**, por exemplo
+uma **NFS-e**.
 
 Changelog
 =========
@@ -82,17 +133,17 @@ Changelog
 16.0.1.0.0 (2025-03-14)
 -----------------------
 
-- [MIG] Migração para a versão 16.0
+-  [MIG] Migração para a versão 16.0
 
 14.0.1.0.0 (2024-01-09)
 -----------------------
 
-- [MIG] Migração para a versão 14.0
+-  [MIG] Migração para a versão 14.0
 
 12.0.1.0.0 (2022)
 -----------------
 
-- [ADD] Versão inicial do módulo
+-  [ADD] Versão inicial do módulo
 
 Bug Tracker
 ===========
@@ -115,7 +166,19 @@ Authors
 Contributors
 ------------
 
-- Renato Lima <renato.lima@akretion.com.br>
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
+
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Magno Costa <magno.costa@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
+
+-  `KMEE <https://www.kmee.com.br>`__:
+
+   -  Diego Paradeda <diego.paradeda@kmee.com.br>
+
+-  `Escodoo <https://www.escodoo.com.br>`__:
+
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
 Maintainers
 -----------
