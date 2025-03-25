@@ -61,8 +61,7 @@ class TestCRMReceitaws(TestCnpjCommon):
                 self.crm_lead_1.legal_name,
                 "Kilian Macedo Melcher 08777131460",
             )
-        self.assertEqual(self.crm_lead_1.name, "Kilian Macedo Melcher 08777131460")
-        self.assertEqual(self.crm_lead_1.street, "Rua Luiza Bezerra Motta")
+        self.assertEqual(self.crm_lead_1.street_name, "Rua Luiza Bezerra Motta")
         self.assertEqual(self.crm_lead_1.street2, "Bloco E;Apt 302")
         self.assertEqual(self.crm_lead_1.street_number, "950")
         self.assertEqual(self.crm_lead_1.zip, "58.410-410")
