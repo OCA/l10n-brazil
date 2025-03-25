@@ -7,9 +7,6 @@ from odoo import models
 class IrActionsReport(models.Model):
     _inherit = "ir.actions.report"
 
-    def temp_xml_autorizacao(self, xml_string):
-        return super().temp_xml_autorizacao(xml_string=xml_string)
-
     def _render_qweb_html(self, report_ref, res_ids, data=None):
         if report_ref == "main_template_danfe_account":
             return
