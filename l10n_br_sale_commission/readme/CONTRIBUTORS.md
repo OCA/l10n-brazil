@@ -1,1 +1,8 @@
-- Renato Lima \<<renato.lima@akretion.com.br>\>
+- [Akretion](https://www.akretion.com/pt-BR):
+  - Renato Lima \<<renato.lima@akretion.com.br>\>
+  - Magno Costa \<<magno.costa@akretion.com.br>\>
+  - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>
+- [KMEE](https://www.kmee.com.br):
+  - Diego Paradeda \<<diego.paradeda@kmee.com.br>\>
+- [Escodoo](https://www.escodoo.com.br):
+  - Marcel Savegnago \<<marcel.savegnago@escodoo.com.br>\>
