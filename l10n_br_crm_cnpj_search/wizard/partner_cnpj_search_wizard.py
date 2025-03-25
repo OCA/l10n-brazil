@@ -57,12 +57,11 @@ class PartnerCnpjSearchWizard(models.TransientModel):
 
         elif self.env.context.get("default_lead_id"):
             values_to_update_lead = {
-                "name": self.name,
                 "partner_name": self.name,
                 "legal_name": self.legal_name,
                 "inscr_est": self.inscr_est,
                 "zip": self.zip,
-                "street": self.street_name,
+                "street_name": self.street_name,
                 "street_number": self.street_number,
                 "street2": self.street2,
                 "district": self.district,
