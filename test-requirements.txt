@@ -3,3 +3,4 @@ odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 nfelib<=2.0.7
 xmldiff
+erpbrasil.assinatura @ git+https://github.com/erpbrasil/erpbrasil.assinatura@master
