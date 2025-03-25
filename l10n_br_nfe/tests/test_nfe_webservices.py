@@ -4,7 +4,6 @@
 
 
 import logging
-import subprocess
 from unittest import mock
 
 from odoo.fields import Datetime
@@ -21,16 +20,6 @@ from .mock_utils import nfe_mock
 from .test_nfe_serialize import TestNFeExport
 
 _logger = logging.getLogger(__name__)
-
-
-def is_libreoffice_command_available():
-    try:
-        subprocess.run(["libreoffice", "--version"], check=True)
-        return True
-    except subprocess.CalledProcessError:
-        return False
-    except FileNotFoundError:
-        return False
 
 
 class TestNFeWebServices(TestNFeExport):
@@ -54,17 +43,7 @@ class TestNFeWebServices(TestNFeExport):
         for nfe_data in self.nfe_list:
             nfe = nfe_data["nfe"]
 
-            if not is_libreoffice_command_available():
-                with mock.patch.object(NFe, "make_pdf"):
-                    nfe.action_document_send()
-            else:
-                # testing with the original make_pdf requires you have
-                # apt-get install locale
-                # locale-gen pt_BR.UTF-8
-                # dpkg-reconfigure locales
-                # pip install "reportlab==3.5.54"
-                # apt-get install libreoffice
-                nfe.action_document_send()
+            nfe.action_document_send()
 
             self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
 

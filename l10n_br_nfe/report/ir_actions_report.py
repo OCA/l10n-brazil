@@ -1,45 +1,16 @@
 # Copyright 2024 Engenere.one
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import base64
-import logging
 from io import BytesIO
 
 from brazilfiscalreport.danfe import Danfe, DanfeConfig, InvoiceDisplay, Margins
-from lxml import etree
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
 
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.edoc.pdf import edoc_pdf_base
-except ImportError:
-    _logger.debug(_("erpbrasil.edoc.pdf lib not installed!"))
-
 
 class IrActionsReport(models.Model):
     _inherit = "ir.actions.report"
-
-    def temp_xml_autorizacao(self, xml_string):
-        """TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
-        root = etree.fromstring(xml_string)
-        ns = {None: "http://www.portalfiscal.inf.br/nfe"}
-        new_root = etree.Element("nfeProc", nsmap=ns)
-
-        protNFe_node = etree.Element("protNFe")
-        infProt = etree.SubElement(protNFe_node, "infProt")
-        etree.SubElement(infProt, "tpAmb").text = "2"
-        etree.SubElement(infProt, "verAplic").text = ""
-        etree.SubElement(infProt, "dhRecbto").text = None
-        etree.SubElement(infProt, "nProt").text = ""
-        etree.SubElement(infProt, "digVal").text = ""
-        etree.SubElement(infProt, "cStat").text = ""
-        etree.SubElement(infProt, "xMotivo").text = ""
-
-        new_root.append(root)
-        new_root.append(protNFe_node)
-        return etree.tostring(new_root)
 
     def _render_qweb_html(self, report_ref, res_ids, data=None):
         if report_ref == "main_template_danfe":
@@ -67,11 +38,7 @@ class IrActionsReport(models.Model):
         if not nfe_xml:
             raise UserError(_("No xml file was found."))
 
-        if nfe.company_id.danfe_library == "erpbrasil.edoc.pdf":
-            nfe_xml = self.temp_xml_autorizacao(nfe_xml)
-            return self.render_danfe_erpbrasil(nfe_xml)
-        elif nfe.company_id.danfe_library == "brazil_fiscal_report":
-            return self.render_danfe_brazilfiscalreport(nfe, nfe_xml)
+        return self.render_danfe_brazilfiscalreport(nfe, nfe_xml)
 
     def render_danfe_brazilfiscalreport(self, nfe, nfe_xml):
         logo = False
@@ -114,9 +81,3 @@ class IrActionsReport(models.Model):
         if company.danfe_invoice_display == "duplicates_only":
             danfe_config["invoice_display"] = InvoiceDisplay.DUPLICATES_ONLY
         return DanfeConfig(**danfe_config)
-
-    def render_danfe_erpbrasil(self, nfe_xml):
-        pdf = edoc_pdf_base.ImprimirXml.imprimir(
-            string_xml=nfe_xml,
-        )
-        return pdf, "pdf"
