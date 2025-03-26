@@ -1304,6 +1304,25 @@ class NFeLine(spec_models.StackedModel):
                 tax_domain_with_red,
                 limit=1,
             )
+            # Create if not found
+            if not fiscal_tax_id:
+                domain_as_dict = {
+                    key: value for key, operator, value in tax_domain_with_red
+                }
+                percent = domain_as_dict["percent_amount"]
+                fiscal_tax_id = self.env["l10n_br_fiscal.tax"].create(
+                    {
+                        "name": f"ICMS {percent}% Com Red. {icms_percent_red}%",
+                        "tax_group_id": domain_as_dict["tax_group_id"],
+                        "percent_amount": percent,
+                        "cst_in_id": domain_as_dict["cst_in_id"],
+                        "percent_reduction": icms_percent_red,
+                        "percent_debit_credit": 0,
+                        "value_amount": 0,
+                        "icmsst_mva_percent": 0,
+                        "icmsst_value": 0,
+                    }
+                )
 
         if not fiscal_tax_id:
             if tax_domain_with_cst:
