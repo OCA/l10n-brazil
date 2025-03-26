@@ -14,17 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_library
-msgid ""
-"\n"
-"        Choose the library used for generating the DANFE\n"
-"        (Document Auxiliary for Nota Fiscal Eletrônica).\n"
-"        Options include 'erpbrasil.edoc.pdf' and 'brazil_fiscal_report'.\n"
-"        The default library is set to 'erpbrasil.edoc.pdf'.\n"
-"        "
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "# | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL"
 msgstr ""
@@ -286,11 +275,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__danfe_margin_bottom
 msgid "Bottom margin in mm for the DANFE layout."
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__danfe_library__brazil_fiscal_report
-msgid "Brazil Fiscal Report"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1181,11 +1165,6 @@ msgid "Danfe Layout"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_library
-msgid "Danfe Library"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__danfe_margin_bottom
 msgid "Danfe Margin Bottom"
 msgstr ""
@@ -1546,11 +1525,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__danfe_library__erpbrasil_edoc_pdf
-msgid "ERPBrasil"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -5192,13 +5166,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__processador_edoc__oca
 msgid "erpbrasil.edoc"
-msgstr ""
-
-#. module: l10n_br_nfe
-#. odoo-python
-#: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
-#, python-format
-msgid "erpbrasil.edoc.pdf lib not installed!"
 msgstr ""
 
 #. module: l10n_br_nfe
