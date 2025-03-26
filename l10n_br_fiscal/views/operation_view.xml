@@ -82,18 +82,13 @@
                             <field name="fiscal_operation_type" />
                             <field name="fiscal_type" />
                             <field name="code" />
-                            <field name="company_id" />
-                            <field name="edoc_purpose" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
                             />
+                            <field name="edoc_purpose" />
                         </group>
                         <group>
-                            <field
-                                name="company_id"
-                                groups="base.group_multi_company"
-                            />
                             <field name="default_price_unit" />
                             <field name="return_fiscal_operation_id" />
                             <field name="inverse_fiscal_operation_id" />
