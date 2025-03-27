@@ -241,6 +241,7 @@ class FiscalDocument(models.Model):
         the next file if any, either it redirect to the imported
         account.move(s) at the end of the attachments sequence.
         """
+        self._check_document_import()
         move_type = "%s_invoice" % (self.fiscal_operation_type,)
         move_id = self.env["account.move"].import_fiscal_document(
             self, move_type=move_type
@@ -253,3 +254,14 @@ class FiscalDocument(models.Model):
             "res_id": move_id.id,
             "res_model": "account.move",
         }
+
+    def _check_document_import(self):
+        # TODO: Implement more checks
+        if self.fiscal_line_ids.filtered(lambda fl: not fl.product_id):
+            raise UserError(_("At least one document line is missing a product."))
+        if self.fiscal_line_ids.filtered(lambda fl: not fl.uom_id):
+            raise UserError(_("At least one document line is missing a related UoM."))
+        if self.fiscal_line_ids.filtered(lambda fl: not fl.quantity):
+            raise UserError(_("At least one document line has no quantity."))
+        if self.fiscal_line_ids.filtered(lambda fl: not fl.price_unit):
+            raise UserError(_("At least one document line has no price unit."))
