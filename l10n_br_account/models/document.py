@@ -26,6 +26,12 @@ class FiscalDocument(models.Model):
         string="Invoices",
     )
 
+    move_count = fields.Integer(
+        string="Invoice count",
+        compute="_compute_move_count",
+        readonly=True,
+    )
+
     # proxy fields to enable writing the related (shadowed) fields
     # to the fiscal document from the account.move through the _inherits system
     # despite they have the same names.
@@ -116,6 +122,11 @@ class FiscalDocument(models.Model):
                 move_id = record.move_ids[0]
                 if record.date_in_out:
                     move_id.date = record.date_in_out.date()
+
+    @api.depends("move_ids")
+    def _compute_move_count(self):
+        for record in self:
+            record.move_count = len(record.move_ids)
 
     def unlink(self):
         non_draft_documents = self.filtered(
@@ -208,6 +219,25 @@ class FiscalDocument(models.Model):
         if self.move_ids:
             self.move_ids.button_draft()
         return result
+
+    def action_view_invoice(self):
+        self.ensure_one()
+        form_view_name = "account.view_move_form"
+
+        if not self.move_ids or not self.move_ids[0].move_type:
+            return
+        move_type = self.move_ids[0].move_type
+        xmlid = f"account.action_move_{move_type}_type"
+        action = self.env["ir.actions.act_window"]._for_xml_id(xmlid)
+
+        if len(self.move_ids) > 1:
+            action["domain"] = "[('id', 'in', %s)]" % self.move_ids.ids
+        else:
+            form_view = self.env.ref(form_view_name)
+            action["views"] = [(form_view.id, "form")]
+            action["res_id"] = self.move_ids.id
+
+        return action
 
     def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
         self.ensure_one()
