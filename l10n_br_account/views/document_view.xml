@@ -18,9 +18,19 @@
                     <field name="move_count" widget="statinfo" string="Invoices" />
                 </button>
             </xpath>
-          <field name="state_fiscal" position="after">
-              <field name="move_ids" invisible="1" />
-          </field>
+            <field name="state_fiscal" position="after">
+                <field name="move_ids" invisible="1" />
+                <field name="imported_document" invisible="1" />
+            </field>
+            <xpath expr="//button[@name='action_send_email']" position="after">
+                <button
+                    name="action_import_confirm"
+                    string="Confirm Import"
+                    type="object"
+                    class="oe_highlight"
+                    attrs="{'invisible': [('imported_document', '!=', True)]}"
+                />
+            </xpath>
         </field>
     </record>
 
