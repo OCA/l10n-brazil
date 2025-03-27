@@ -791,8 +791,40 @@ class AccountMove(models.Model):
                 )  # required if we disable some fiscal tax updates
                 line_form.fiscal_operation_id = self.fiscal_operation_id
                 line_form.fiscal_document_line_id = line
+
+        # generate specific payment term
+        term_vals = self._prepare_payment_terms_from_nfe40_dup(move_form)
+        if term_vals:
+            move_form.invoice_payment_term_id = (
+                self.env["account.payment.term"]
+                .sudo()
+                .create(
+                    {
+                        "active": False,
+                        "name": f"Custom: {move_form.document_number}",
+                        "line_ids": [(0, 0, term) for term in term_vals],
+                    }
+                )
+            )
+
         move_form.save()
         move = self.env["account.move"].browse(move_form.id)
         for line in move.invoice_line_ids:
             line.product_uom_id = line.fiscal_document_line_id.uom_id.id
         return move
+
+    def _prepare_payment_terms_from_nfe40_dup(self, move_id):
+        if not move_id.fiscal_document_id.sudo().nfe40_dup:
+            return False
+
+        term_vals = []
+        for dup in move_id.fiscal_document_id.nfe40_dup:
+            term_vals.append(
+                {
+                    "value": "fixed",
+                    "value_amount": dup.nfe40_vDup,
+                    "days": (dup.nfe40_dVenc - move_id.invoice_date.date()).days,
+                }
+            )
+        term_vals[-1]["value"] = "balance"
+        return term_vals
