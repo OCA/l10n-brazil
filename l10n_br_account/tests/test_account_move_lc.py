@@ -1090,6 +1090,14 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             move_vals,
         )
 
+    def test_venda_fiscal_document_move_link(self):
+        fiscal_doc_id = self.move_out_venda.fiscal_document_id
+        self.assertEqual(fiscal_doc_id.move_count, 1)
+        view_type = "account.action_move_out_invoice_type"
+        action = self.env["ir.actions.act_window"]._for_xml_id(view_type)
+        res = self.move_out_venda.action_view_invoice()
+        self.assertEqual(res["id"], action["id"])
+
     # TODO test effect of ind_final?
     # ver aqui https://github.com/OCA/l10n-brazil/pull/2347#issuecomment-1548345563
 
