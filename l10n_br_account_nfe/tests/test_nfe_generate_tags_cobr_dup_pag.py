@@ -87,6 +87,10 @@ class TestGeneratePaymentInfo(TransactionCase):
         move_form.partner_id = cls.env.ref("l10n_br_base.res_partner_cliente1_sp")
         move_form.document_type_id = cls.env.ref("l10n_br_fiscal.document_55")
         move_form.fiscal_operation_id = cls.fiscal_operation_id
+        move_form.document_type_id = cls.env.ref("l10n_br_fiscal.document_55")
+        move_form.document_serie_id = cls.env.ref(
+            "l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        )
         move_form.payment_mode_id = cls.payment_mode
         move_form.invoice_payment_term_id = cls.payment_term
         with move_form.invoice_line_ids.new() as line_form:
