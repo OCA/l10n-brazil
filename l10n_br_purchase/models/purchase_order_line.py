@@ -46,16 +46,24 @@ class PurchaseOrderLine(models.Model):
         string="Fiscal Taxes",
     )
 
+    # overriden to disable precompute as it depends on price_unit which is not
+    # precompute in the purchase module. We don't need precompute in purchase.
+    fiscal_price = fields.Float(
+        precompute=False,
+    )
+
+    price_unit = fields.Float(
+        precompute=False,
+    )
+
     quantity = fields.Float(
         string="Mixin Quantity",
         related="product_qty",
-        depends=["product_qty"],
     )
 
     uom_id = fields.Many2one(
         string="Mixin UOM",
         related="product_uom",
-        depends=["product_uom"],
     )
 
     tax_framework = fields.Selection(
@@ -108,12 +116,6 @@ class PurchaseOrderLine(models.Model):
                     }
                 )
         return result
-
-    @api.onchange("product_qty", "product_uom")
-    def _onchange_quantity(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        return self._onchange_commercial_quantity()
 
     def _compute_tax_id(self):
         for line in self:
