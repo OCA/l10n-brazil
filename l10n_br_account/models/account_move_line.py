@@ -122,16 +122,6 @@ class AccountMoveLine(models.Model):
             fiscal_doc_id = move_id.fiscal_document_id.id
             if not fiscal_doc_id:
                 continue
-
-            values.update(
-                self._update_fiscal_quantity(
-                    values.get("product_id"),
-                    values.get("price_unit"),
-                    values.get("quantity"),
-                    values.get("product_uom_id"),
-                    values.get("uot_id"),
-                )
-            )
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
         # This reordering bellow is crucial to ensure accurate linkage between
