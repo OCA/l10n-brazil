@@ -359,7 +359,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self.fiscal_operation_id:
             if not self.price_unit:
                 self._get_product_price()
-            self._onchange_commercial_quantity()
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
                 partner=self._get_fiscal_partner(),
@@ -720,28 +719,20 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
         self._update_fiscal_taxes()
 
-    @api.model
-    def _update_fiscal_quantity(self, product_id, price, quantity, uom_id, uot_id):
-        result = {"uot_id": uom_id, "fiscal_quantity": quantity, "fiscal_price": price}
-        if uot_id and uom_id != uot_id:
-            result["uot_id"] = uot_id
-            if product_id and price and quantity:
-                product = self.env["product.product"].browse(product_id)
-                result["fiscal_price"] = price / (product.uot_factor or 1.0)
-                result["fiscal_quantity"] = quantity * (product.uot_factor or 1.0)
+    @api.depends("uot_id", "uom_id", "price_unit", "quantity")
+    def _compute_fiscal_quantity_and_price(self):
+        for line in self:
+            if not line.uot_id:
+                line.uot_id = line.uom_id
 
-        return result
-
-    @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
-    def _onchange_commercial_quantity(self):
-        product_id = False
-        if self.product_id:
-            product_id = self.product_id.id
-        self.update(
-            self._update_fiscal_quantity(
-                product_id, self.price_unit, self.quantity, self.uom_id, self.uot_id
-            )
-        )
+            fiscal_quantity = line.quantity
+            fiscal_price = line.price_unit
+            if line.product_id and line.price_unit:
+                fiscal_price = line.price_unit / (line.product_id.uot_factor or 1.0)
+            if line.product_id and line.quantity:
+                fiscal_quantity = line.quantity * (line.product_id.uot_factor or 1.0)
+            line.fiscal_quantity = fiscal_quantity
+            line.fiscal_price = fiscal_price
 
     @api.onchange("ii_customhouse_charges")
     def _onchange_ii_customhouse_charges(self):
