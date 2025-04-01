@@ -2,7 +2,6 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
 from odoo.tests import TransactionCase
 
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
@@ -44,17 +43,12 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_same_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_same_state.fiscal_line_ids:
-            # Save the original price_unit value of the line as defined in
-            # the NFe demo data.
-            original_price_unit = line.price_unit
-
             line._onchange_product_id_fiscal()
 
             # Restore the original price_unit value,
             # as the product change might have altered it.
-            line.price_unit = original_price_unit
+            line.price_unit = 100
 
-            line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
@@ -175,7 +169,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         for line in self.nfe_other_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
@@ -294,7 +287,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         for line in self.nfe_not_taxpayer.fiscal_line_ids:
             line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
@@ -400,7 +392,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         for line in self.nfe_not_taxpayer_pf.fiscal_line_ids:
             line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
@@ -506,7 +497,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         for line in self.nfe_export.fiscal_line_ids:
             line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
@@ -573,8 +563,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.pis_tax_id.name,
                 "PIS 0,65%",
-                "Error to mapping PIS 0,65%"
-                " for Venda de Contribuinte p/ o Exterior.",
+                "Error to mapping PIS 0,65% for Venda de Contribuinte p/ o Exterior.",
             )
             self.assertEqual(
                 line.pis_cst_id.code,
@@ -588,8 +577,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.cofins_tax_id.name,
                 "COFINS 3%",
-                "Error to mapping COFINS 3%"
-                " for Venda de Contribuinte p/ o Exterior.",
+                "Error to mapping COFINS 3% for Venda de Contribuinte p/ o Exterior.",
             )
             self.assertEqual(
                 line.cofins_cst_id.code,
@@ -606,7 +594,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         for line in self.nfe_sn_same_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
 
             # set fake estimate tax
             line.ncm_id.tax_estimate_ids.create(
@@ -723,7 +710,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         for line in self.nfe_sn_other_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
@@ -825,7 +811,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         for line in self.nfe_sn_not_taxpayer.fiscal_line_ids:
             line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
@@ -868,8 +853,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.ipi_tax_id.name,
                 "IPI 5%",
-                "Erro ao mapear IPI 5%"
-                " para Venda de Simples Nacional Fora do Estado.",
+                "Erro ao mapear IPI 5% para Venda de Simples Nacional Fora do Estado.",
             )
             self.assertEqual(
                 line.ipi_cst_id.code,
@@ -915,7 +899,6 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         for line in self.nfe_sn_export.fiscal_line_ids:
             line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
@@ -1038,6 +1021,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         # Teste definindo os valores Por Linha
         for line in self.nfe_same_state.fiscal_line_ids:
+            line.price_unit = 100
             line.freight_value = 10.0
             line.insurance_value = 10.0
             line.other_value = 10.0
@@ -1045,19 +1029,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.assertEqual(
             self.nfe_same_state.amount_freight_value,
             20.0,
-            "Unexpected value for the field" " Amount Freight in Fiscal Document line",
+            "Unexpected value for the field Amount Freight in Fiscal Document line",
         )
         self.assertEqual(
             self.nfe_same_state.amount_insurance_value,
             20.0,
-            "Unexpected value for the field"
-            " Amount Insurance in Fiscal Document line",
+            "Unexpected value for the field Amount Insurance in Fiscal Document line",
         )
         self.assertEqual(
             self.nfe_same_state.amount_other_value,
             20.0,
-            "Unexpected value for the field"
-            " Amount Other Value in Fiscal Document line",
+            "Unexpected value for the field Amount Other Value in Fiscal Document line",
         )
 
         # Teste definindo os valores Por Total
@@ -1073,18 +1055,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.freight_value,
                 5.0,
-                "Unexpected value for the field" " Freight in Fiscal Document line",
+                "Unexpected value for the field Freight in Fiscal Document line",
             )
             self.assertEqual(
                 line.insurance_value,
                 5.0,
-                "Unexpected value for the field" " Insurance in Fiscal Document line",
+                "Unexpected value for the field Insurance in Fiscal Document line",
             )
             self.assertEqual(
                 line.other_value,
                 5.0,
-                "Unexpected value for the field"
-                " Other Values in Fiscal Document line",
+                "Unexpected value for the field Other Values in Fiscal Document line",
             )
 
         # Caso que os Campos na Linha não tem valor
@@ -1101,16 +1082,15 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.freight_value,
                 10.0,
-                "Unexpected value for the field" " Freight in Fiscal Document line",
+                "Unexpected value for the field Freight in Fiscal Document line",
             )
             self.assertEqual(
                 line.insurance_value,
                 10.0,
-                "Unexpected value for the field" " Insurance in Fiscal Document line",
+                "Unexpected value for the field Insurance in Fiscal Document line",
             )
             self.assertEqual(
                 line.other_value,
                 10.0,
-                "Unexpected value for the field"
-                " Other Values in Fiscal Document line",
+                "Unexpected value for the field Other Values in Fiscal Document line",
             )

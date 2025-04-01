@@ -6,6 +6,7 @@ from . import (
     test_fiscal_document_nfse,
     test_fiscal_tax,
     test_tax_benefit,
+    test_document_edition,
     test_ibpt_product,
     test_ibpt_service,
     test_icms_regulation,
