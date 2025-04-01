@@ -109,12 +109,6 @@ class PurchaseOrderLine(models.Model):
                 )
         return result
 
-    @api.onchange("product_qty", "product_uom")
-    def _onchange_quantity(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        return self._onchange_commercial_quantity()
-
     def _compute_tax_id(self):
         for line in self:
             if line.fiscal_operation_line_id:
