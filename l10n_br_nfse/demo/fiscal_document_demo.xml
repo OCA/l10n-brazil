@@ -26,12 +26,6 @@
         >
             <value eval="[ref('l10n_br_fiscal.demo_nfse_line_same_state_1-1')]" />
         </function>
-        <function
-            model="l10n_br_fiscal.document.line"
-            name="_onchange_commercial_quantity"
-        >
-            <value eval="[ref('l10n_br_fiscal.demo_nfse_line_same_state_1-1')]" />
-        </function>
     </data>
 
 </odoo>
