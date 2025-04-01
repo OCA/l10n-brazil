@@ -18,6 +18,9 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         """Test Invoicing Picking"""
         self._change_user_company(self.env.ref("base.main_company"))
         picking = self.env.ref("l10n_br_stock_account.main_company-picking_1")
+        for line in picking.move_ids:
+            line.price_unit = 100
+
         # Testa os Impostos Dedutiveis
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
@@ -627,6 +630,8 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         for move in picking.move_ids_without_package:
             self._run_line_onchanges(move)
             move.quantity_done = move.product_uom_qty
+        for line in picking.move_ids:
+            line.price_unit = 100
 
         picking.action_put_in_pack()
         picking.button_validate()
@@ -685,6 +690,8 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
         picking.picking_type_id.pre_generate_fiscal_document_number = "validate"
+        for line in picking.move_ids:
+            line.price_unit = 100
 
         self.picking_move_state(picking)
 
@@ -742,9 +749,10 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
         picking.picking_type_id.pre_generate_fiscal_document_number = "validate"
+        for line in picking.move_ids:
+            line.price_unit = 100
 
         self.picking_move_state(picking)
-
         picking.set_to_be_invoiced()
         self.assertTrue(picking.document_number)
 

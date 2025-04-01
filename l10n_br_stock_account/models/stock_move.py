@@ -116,15 +116,11 @@ class StockMove(models.Model):
                     if tax_ids:
                         record.tax_ids = tax_ids
 
-    @api.onchange("product_id", "product_uom", "product_uom_qty", "price_unit")
+    @api.onchange("product_id", "fiscal_operation_id", "price_unit")
     def _onchange_product_quantity(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        result = self._onchange_commercial_quantity()
-
-        # No Brasil o caso de Ordens de Entrega com Operação Fiscal
-        # de Saída precisam informar o Preço de Custo e não o de Venda
-        # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+        """No Brasil o caso de Ordens de Entrega com Operação Fiscal
+        de Saída precisam informar o Preço de Custo e não o de Venda
+        ex.: Simples Remessa, Remessa p/ Industrialiazação e etc."""
         if (
             self.fiscal_operation_id.fiscal_operation_type == "out"
             and self.price_unit == 0.0
@@ -132,8 +128,6 @@ class StockMove(models.Model):
             self.price_unit = self.product_id.with_company(
                 self.company_id
             ).standard_price
-
-        return result
 
     def _get_new_picking_values(self):
         """Prepares a new picking for this move as it could not be assigned to
@@ -242,21 +236,9 @@ class StockMove(models.Model):
             # Caso Brasil se caracteriza por ter Operação Fiscal
             return new_moves_vals
 
-        self._onchange_commercial_quantity()
         self._onchange_fiscal_taxes()
 
         for new_move_vals in new_moves_vals:
-            product_id = new_move_vals.get("product_id")
-            price_unit = new_move_vals.get("price_unit")
-            quantity = new_move_vals.get("product_uom_qty")
-            uom_id = new_move_vals.get("uom_id")
-            uot_id = new_move_vals.get("uot_id")
-
-            new_move_vals.update(
-                self._update_fiscal_quantity(
-                    product_id, price_unit, quantity, uom_id, uot_id
-                )
-            )
             new_move_vals.update(self._prepare_br_fiscal_dict())
 
         return new_moves_vals
