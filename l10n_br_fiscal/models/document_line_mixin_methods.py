@@ -352,7 +352,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
-    @api.onchange("fiscal_operation_id")
+    @api.onchange(
+        "fiscal_operation_id", "ncm_id", "nbs_id", "cest_id", "service_type_id"
+    )
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
             if not self.price_unit:
@@ -746,10 +748,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self.ii_customhouse_charges:
             self._update_fiscal_taxes()
 
-    @api.onchange("ncm_id", "nbs_id", "cest_id")
-    def _onchange_ncm_id(self):
-        self._onchange_fiscal_operation_id()
-
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         self._update_fiscal_taxes()
@@ -761,11 +759,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self._onchange_fiscal_operation_id()
             if self.city_taxation_code_id.city_id:
                 self.update({"issqn_fg_city_id": self.city_taxation_code_id.city_id})
-
-    @api.onchange("service_type_id")
-    def _onchange_service_type_id(self):
-        if self.service_type_id:
-            self._onchange_fiscal_operation_id()
 
     @api.model
     def _add_fields_to_amount(self):
