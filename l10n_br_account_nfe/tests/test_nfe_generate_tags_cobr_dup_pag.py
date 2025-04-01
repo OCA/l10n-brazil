@@ -190,4 +190,8 @@ class TestGeneratePaymentInfo(TransactionCase):
         """
         invoice = self.invoice
         invoice.fiscal_document_id._document_export()
-        self.assertEqual(invoice.fiscal_document_id.xml_error_message, False)
+        self.assertEqual(
+            invoice.fiscal_document_id.xml_error_message,
+            False,
+            invoice.fiscal_document_id.xml_error_message,
+        )
