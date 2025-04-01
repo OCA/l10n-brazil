@@ -99,6 +99,22 @@ class AccountMoveLine(models.Model):
         compute="_compute_allow_csll_irpj",
     )
 
+    fiscal_price = fields.Float(
+        digits="Product Price",
+        compute="_compute_fiscal_quantity_and_price",
+    )
+
+    uot_id = fields.Many2one(
+        comodel_name="uom.uom",
+        string="Tax UoM",
+        compute="_compute_fiscal_quantity_and_price",
+    )
+
+    fiscal_quantity = fields.Float(
+        digits="Product Unit of Measure",
+        compute="_compute_fiscal_quantity_and_price",
+    )
+
     discount = fields.Float(
         compute="_compute_discounts",
         store=True,
@@ -191,16 +207,6 @@ class AccountMoveLine(models.Model):
 
             if not fiscal_doc_id:
                 continue
-
-            values.update(
-                self._update_fiscal_quantity(
-                    values.get("product_id"),
-                    values.get("price_unit"),
-                    values.get("quantity"),
-                    values.get("product_uom_id"),
-                    values.get("uot_id"),
-                )
-            )
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
         self._inject_shadowed_fields(vals_list)
