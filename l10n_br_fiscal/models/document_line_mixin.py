@@ -127,7 +127,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         help="Indicates potential 'CSLL' and 'IRPJ' tax charges.",
     )
 
-    price_unit = fields.Float(digits="Product Price")
+    price_unit = fields.Float(
+        digits="Product Price",
+        compute="_compute_price_unit_fiscal",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
 
@@ -198,11 +204,28 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="CFOP Destination",
     )
 
-    fiscal_price = fields.Float(digits="Product Price")
+    fiscal_price = fields.Float(
+        digits="Product Price",
+        compute="_compute_fiscal_price",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
-    uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
+    uot_id = fields.Many2one(
+        comodel_name="uom.uom",
+        string="Tax UoM",
+        compute="_compute_uot_id",
+        store=True,
+    )
 
-    fiscal_quantity = fields.Float(digits="Product Unit of Measure")
+    fiscal_quantity = fields.Float(
+        digits="Product Unit of Measure",
+        compute="_compute_fiscal_quantity",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
     discount_value = fields.Monetary()
 
@@ -567,8 +590,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ipi_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST IPI",
-        domain="[('cst_type', '=', fiscal_operation_type),"
-        "('tax_domain', '=', 'ipi')]",
+        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'ipi')]",
     )
 
     ipi_cst_code = fields.Char(
@@ -590,8 +612,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ipi_guideline_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.ipi.guideline",
         string="IPI Guideline",
-        domain="['|', ('cst_in_id', '=', ipi_cst_id),"
-        "('cst_out_id', '=', ipi_cst_id)]",
+        domain="['|', ('cst_in_id', '=', ipi_cst_id),('cst_out_id', '=', ipi_cst_id)]",
     )
 
     # IPI Devolvido Fields
