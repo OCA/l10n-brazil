@@ -48,7 +48,6 @@ class SaleOrderLine(models.Model):
     quantity = fields.Float(
         string="Product Uom Quantity",
         related="product_uom_qty",
-        depends=["product_uom_qty"],
     )
 
     fiscal_qty_delivered = fields.Float(
@@ -61,7 +60,6 @@ class SaleOrderLine(models.Model):
 
     uom_id = fields.Many2one(
         related="product_uom",
-        depends=["product_uom"],
     )
 
     tax_framework = fields.Selection(
@@ -209,11 +207,10 @@ class SaleOrderLine(models.Model):
         result.update(super()._prepare_invoice_line(**optional_values))
         return result
 
-    @api.onchange("product_uom", "product_uom_qty")
-    def _onchange_product_uom(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        self._onchange_commercial_quantity()
+    @api.onchange("product_uom_qty")
+    def _onchange_quantity_fiscal(self):
+        self.fiscal_quantity = 0
+        self._compute_fiscal_quantity()
 
     @api.depends(
         "qty_delivered_method",
@@ -273,28 +270,28 @@ class SaleOrderLine(models.Model):
             res = None
         return res
 
-    def _get_product_price(self):
-        self.ensure_one()
-        if (
-            self.product_id
-            and self.fiscal_operation_id.default_price_unit == "sale_price"
-            and self.order_id.pricelist_id
-            and self.order_id.partner_id
-        ):
-            price = self.with_company(self.company_id)._get_display_price()
-            self.price_unit = self.product_id._get_tax_included_unit_price(
-                self.company_id,
-                self.order_id.currency_id,
-                self.order_id.date_order,
-                "sale",
-                fiscal_position=self.order_id.fiscal_position_id,
-                product_price_unit=price,
-                product_currency=self.currency_id,
-            )
-        elif self.fiscal_operation_id.default_price_unit == "cost_price":
-            self.price_unit = self.product_id.standard_price
-        else:
-            self.price_unit = 0.00
+    def _compute_price_unit_fiscal(self):
+        for line in self:
+            if (
+                line.product_id
+                and line.fiscal_operation_id.default_price_unit == "sale_price"
+                and line.order_id.pricelist_id
+                and line.order_id.partner_id
+            ):
+                price = line.with_company(line.company_id)._get_display_price()
+                line.price_unit = line.product_id._get_tax_included_unit_price(
+                    line.company_id,
+                    line.order_id.currency_id,
+                    line.order_id.date_order,
+                    "sale",
+                    fiscal_position=line.order_id.fiscal_position_id,
+                    product_price_unit=price,
+                    product_currency=line.currency_id,
+                )
+            elif line.fiscal_operation_id.default_price_unit == "cost_price":
+                line.price_unit = line.product_id.standard_price
+            else:
+                line.price_unit = 0
 
     def _get_fiscal_partner(self):
         """
