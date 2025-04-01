@@ -205,12 +205,6 @@ class SaleOrderLine(models.Model):
         result.update(super()._prepare_invoice_line(**optional_values))
         return result
 
-    @api.onchange("product_uom", "product_uom_qty")
-    def _onchange_product_uom(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        self._onchange_commercial_quantity()
-
     @api.depends(
         "qty_delivered_method",
         "analytic_line_ids.so_line",
