@@ -12,8 +12,6 @@ class TestBrPickingInvoicingCommon(TestPickingInvoicingCommon):
 
     def _run_line_onchanges(self, record):
         result = super()._run_line_onchanges(record)
-        # Mixin Fiscal
-        record._onchange_commercial_quantity()
 
         # Stock Move
         record._onchange_product_id_fiscal()
