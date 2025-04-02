@@ -175,7 +175,7 @@
                                 <group
                                         name="brasil"
                                         string="Banco do Brasil"
-                                        attrs="{'invisible': [('bank_code_bc', '!=', '001')]}"
+                                        attrs="{'invisible': ['|', ('bank_code_bc', '!=', '001'), ('payment_method_code', '!=', '400')]}"
                                     >
                                     <field
                                             name="convention_code"
