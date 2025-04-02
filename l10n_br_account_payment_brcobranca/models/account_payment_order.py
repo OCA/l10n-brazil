@@ -31,11 +31,24 @@ class PaymentOrder(models.Model):
         remessa_values.update(
             {
                 "convenio": int(cnab_config.cnab_company_bank_code),
-                "variacao_carteira": cnab_config.boleto_variation.zfill(3),
-                "convenio_lider": cnab_config.convention_code.zfill(7),
                 "carteira": str(cnab_config.boleto_wallet).zfill(2),
             }
         )
+
+        if cnab_config.payment_method_code == "240":
+            remessa_values.update(
+                {
+                    "variacao": cnab_config.boleto_variation.zfill(3),
+                }
+            )
+
+        if cnab_config.payment_method_code == "400":
+            remessa_values.update(
+                {
+                    "variacao_carteira": cnab_config.boleto_variation.zfill(3),
+                    "convenio_lider": cnab_config.convention_code.zfill(7),
+                }
+            )
 
     def _prepare_remessa_santander(self, remessa_values, cnab_config):
         remessa_values.update(
