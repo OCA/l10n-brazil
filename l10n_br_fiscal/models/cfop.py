@@ -70,6 +70,97 @@ class Cfop(models.Model):
         default=CFOP_TYPE_MOVE_DEFAULT,
     )
 
+    ind_nfe = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes"),
+        ],
+        string="Used in NFe",
+        required=True,
+        default="0",
+    )
+
+    ind_cte = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes"),
+        ],
+        string="Used in CTe",
+        required=True,
+        default="0",
+    )
+
+    ind_comunica = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes"),
+        ],
+        string="Communication?",
+        required=True,
+        default="0",
+    )
+
+    ind_transp = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes"),
+        ],
+        string="Transport?",
+        required=True,
+        default="0",
+    )
+
+    ind_devol = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes"),
+        ],
+        string="Return?",
+        required=True,
+        default="0",
+    )
+
+    ind_retor = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes"),
+        ],
+        string="Regress?",
+        required=True,
+        default="0",
+    )
+
+    ind_anula = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes"),
+        ],
+        string="Revocation?",
+        required=True,
+        default="0",
+    )
+
+    ind_remes = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes"),
+        ],
+        string="Shipment?",
+        required=True,
+        default="0",
+    )
+
+    ind_comb = fields.Selection(
+        selection=[
+            ("0", "0 - No"),
+            ("1", "1 - Yes - Without mandatory transportation information"),
+            ("2", "2 - Yes - With mandatory transportation information"),
+        ],
+        string="Fuel?",
+        required=True,
+        default="0",
+    )
+
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="cfop_id",
