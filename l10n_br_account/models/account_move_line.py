@@ -7,8 +7,6 @@ from contextlib import contextmanager
 from odoo import _, api, fields, models
 from odoo.tools import frozendict
 
-from .account_move import InheritsCheckMuteLogger
-
 # These fields have the same name in account.move.line
 # and l10n_br_fiscal.document.line. So they wouldn't get updated
 # by the _inherits system. An alternative would be changing their name
@@ -27,8 +25,14 @@ SHADOWED_FIELDS = [
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
-    _inherit = [_name, "l10n_br_fiscal.document.line.mixin.methods"]
-    _inherits = {"l10n_br_fiscal.document.line": "fiscal_document_line_id"}
+    _fiscal_decorator_model = "l10n_br_fiscal.document.line"
+    _fiscal_decorator_compute_blacklist = ["_compute_fiscal_amounts"]
+    _inherit = [
+        _name,
+        "l10n_br_fiscal.document.line.mixin.methods",
+        "l10n_br_account.decorator.mixin",
+    ]
+    _inherits = {_fiscal_decorator_model: "fiscal_document_line_id"}
 
     fiscal_document_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.line",
@@ -40,63 +44,6 @@ class AccountMoveLine(models.Model):
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
         related="move_id.document_type_id",
-    )
-
-    tax_framework = fields.Selection(
-        related="move_id.company_id.tax_framework",
-        string="Tax Framework",
-    )
-
-    cfop_destination = fields.Selection(
-        related="cfop_id.destination", string="CFOP Destination"
-    )
-
-    partner_company_type = fields.Selection(related="partner_id.company_type")
-
-    ind_final = fields.Selection(related="move_id.ind_final")
-
-    fiscal_genre_code = fields.Char(
-        related="fiscal_genre_id.code",
-        string="Fiscal Product Genre Code",
-    )
-
-    # The following fields belong to the fiscal document line mixin
-    # but they are redefined here to ensure they are recomputed in the
-    # account.move.line views.
-    icms_cst_code = fields.Char(
-        related="icms_cst_id.code",
-        string="ICMS CST Code",
-    )
-
-    ipi_cst_code = fields.Char(
-        related="ipi_cst_id.code",
-        string="IPI CST Code",
-    )
-
-    cofins_cst_code = fields.Char(
-        related="cofins_cst_id.code",
-        string="COFINS CST Code",
-    )
-
-    cofinsst_cst_code = fields.Char(
-        related="cofinsst_cst_id.code",
-        string="COFINS ST CST Code",
-    )
-
-    pis_cst_code = fields.Char(
-        related="pis_cst_id.code",
-        string="PIS CST Code",
-    )
-
-    pisst_cst_code = fields.Char(
-        related="pisst_cst_id.code",
-        string="PIS ST CST Code",
-    )
-
-    partner_is_public_entity = fields.Boolean(related="partner_id.is_public_entity")
-
-    allow_csll_irpj = fields.Boolean(
-        compute="_compute_allow_csll_irpj",
     )
 
     discount = fields.Float(
@@ -143,29 +90,10 @@ class AccountMoveLine(models.Model):
         return True
 
     @api.model
-    def _inherits_check(self):
-        """
-        Overriden to avoid the super method to set the fiscal_document_line_id
-        field as required.
-        """
-        with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
-            res = super()._inherits_check()
-        field = self._fields.get("fiscal_document_line_id")
-        field.required = False  # unset the required = True assignement
-        return res
-
-    @api.model
     def _shadowed_fields(self):
         """Return the list of shadowed fields that are synchronized
         from account.move.line."""
         return SHADOWED_FIELDS
-
-    @api.model
-    def _inject_shadowed_fields(self, vals_list):
-        for vals in vals_list:
-            for field in self._shadowed_fields():
-                if field in vals:
-                    vals[f"fiscal_proxy_{field}"] = vals[field]
 
     @api.model_create_multi
     def create(self, vals_list):
