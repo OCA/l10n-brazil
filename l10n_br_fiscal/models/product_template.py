@@ -53,6 +53,7 @@ class ProductTemplate(models.Model):
         string="NCM",
         compute="_compute_ncm_id",
         store=True,
+        readonly=False,
     )
 
     nbm_id = fields.Many2one(
@@ -65,6 +66,7 @@ class ProductTemplate(models.Model):
         default=TAX_DOMAIN_ICMS,
         compute="_compute_tax_icms_or_issqn",
         store=True,
+        readonly=False,
     )
 
     fiscal_genre_id = fields.Many2one(
@@ -72,6 +74,7 @@ class ProductTemplate(models.Model):
         string="Fiscal Product Genre",
         compute="_compute_fiscal_genre_id",
         store=True,
+        readonly=False,
     )
 
     service_type_id = fields.Many2one(
@@ -85,7 +88,9 @@ class ProductTemplate(models.Model):
     )
 
     fiscal_genre_code = fields.Char(
-        related="fiscal_genre_id.code", store=True, string="Fiscal Product Genre Code"
+        related="fiscal_genre_id.code",
+        store=True,
+        string="Fiscal Product Genre Code",
     )
 
     ipi_guideline_class_id = fields.Many2one(
@@ -109,7 +114,10 @@ class ProductTemplate(models.Model):
     )
 
     uoe_id = fields.Many2one(
-        comodel_name="uom.uom", related="ncm_id.uoe_id", store=True, string="Export UoM"
+        comodel_name="uom.uom",
+        related="ncm_id.uoe_id",
+        store=True,
+        string="Export UoM",
     )
 
     uoe_factor = fields.Float(string="Export UoM Factor", default=1.00)
