@@ -6,7 +6,7 @@ from odoo import fields, models
 
 
 class FiscalDocumentMixin(models.AbstractModel):
-    _inherit = "l10n_br_fiscal.document.mixin.fields"
+    _inherit = "l10n_br_fiscal.document.mixin"
 
     def _get_default_incoterm(self):
         return self.env.company.incoterm_id
