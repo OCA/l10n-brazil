@@ -3,7 +3,11 @@
 
 from odoo import api, models
 
-from ..constants.fiscal import COMMENT_TYPE_COMMERCIAL, COMMENT_TYPE_FISCAL
+from ..constants.fiscal import (
+    COMMENT_TYPE_COMMERCIAL,
+    COMMENT_TYPE_FISCAL,
+    DOCUMENT_ISSUER_COMPANY,
+)
 
 
 class FiscalDocumentMixinMethods(models.AbstractModel):
@@ -23,6 +27,46 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         if default:  # in case you want to use new rather than write later
             return {f"default_{k}": vals[k] for k in vals.keys()}
         return vals
+
+    @api.onchange("document_type_id")
+    def _onchange_document_type_id(self):
+        if self.document_type_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_serie_id = self.document_type_id.get_document_serie(
+                self.company_id, self.fiscal_operation_id
+            )
+
+    @api.onchange("document_serie_id")
+    def _onchange_document_serie_id(self):
+        if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_serie = self.document_serie_id.code
+
+    @api.onchange("fiscal_operation_id")
+    def _onchange_fiscal_operation_id(self):
+        if self.fiscal_operation_id:
+            self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
+            self.edoc_purpose = self.fiscal_operation_id.edoc_purpose
+
+            if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
+                self.document_type_id = self.company_id.document_type_id
+
+            subsequent_documents = [(6, 0, {})]
+            for subsequent_id in self.fiscal_operation_id.mapped(
+                "operation_subsequent_ids"
+            ):
+                subsequent_documents.append(
+                    (
+                        0,
+                        0,
+                        {
+                            "source_document_id": self.id,
+                            "subsequent_operation_id": subsequent_id.id,
+                            "fiscal_operation_id": (
+                                subsequent_id.subsequent_operation_id.id
+                            ),
+                        },
+                    )
+                )
+            self.document_subsequent_ids = subsequent_documents
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
