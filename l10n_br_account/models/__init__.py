@@ -8,6 +8,7 @@ from . import account_tax
 from . import fiscal_tax
 from . import fiscal_operation
 from . import fiscal_operation_line
+from . import fiscal_decorator_mixin
 from . import account_move
 from . import account_move_line
 from . import document
