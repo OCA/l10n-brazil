@@ -4,7 +4,6 @@ from . import data_abstract
 from . import data_product_abstract
 from . import data_ncm_nbs_abstract
 from . import document_mixin_methods
-from . import document_mixin_fields
 from . import document_mixin
 from . import document_line_mixin_methods
 from . import document_line_mixin
