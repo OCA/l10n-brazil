@@ -791,6 +791,11 @@ class AccountMove(models.Model):
                 )  # required if we disable some fiscal tax updates
                 line_form.fiscal_operation_id = self.fiscal_operation_id
                 line_form.fiscal_document_line_id = line
+                # Setting fiscal_price is required or lst_price will be used
+                line_form.fiscal_price = line.fiscal_price
+                # Setting price_unit seems to be required to call computes such
+                # as _onchange_price_subtotal. Otherwise line total won't match
+                line_form.price_unit = line.price_unit
 
         # generate specific payment term
         term_vals = self._prepare_payment_terms_from_nfe40_dup(move_form)
