@@ -46,6 +46,19 @@ msgid "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_anula__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_comb__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_comunica__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_cte__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_devol__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_nfe__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_remes__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_retor__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_transp__0
+msgid "0 - No"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__0
 msgid "0 - imunidade ou não incidência"
 msgstr ""
@@ -128,6 +141,23 @@ msgid "1 - Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_anula__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_comunica__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_cte__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_devol__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_nfe__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_remes__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_retor__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_transp__1
+msgid "1 - Yes"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_comb__1
+msgid "1 - Yes - Without mandatory transportation information"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__benefit_type__1
 msgid "1 - isenção"
 msgstr ""
@@ -151,6 +181,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__tax_framework__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__tax_framework__2
 msgid "2 - Simples Nacional – excesso de sublimite da receita bruta"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__ind_comb__2
+msgid "2 - Yes - With mandatory transportation information"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1810,6 +1845,11 @@ msgid "Commercial"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_comunica
+msgid "Communication?"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_res_company
 msgid "Companies"
 msgstr ""
@@ -3342,6 +3382,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__state_from_id
 msgid "From State"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_comb
+msgid "Fuel?"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5755,6 +5800,11 @@ msgid "Move Settings"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_form
+msgid "Move Type"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__06
 msgid "Multimodal"
 msgstr ""
@@ -7244,6 +7294,11 @@ msgid "Regime especial ou norma específica"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_retor
+msgid "Regress?"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_fiscal__00
 msgid "Regular"
 msgstr ""
@@ -7356,6 +7411,11 @@ msgid "Return in"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_devol
+msgid "Return?"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__state__review
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__state__review
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__state__review
@@ -7363,6 +7423,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Review"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_anula
+msgid "Revocation?"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7588,6 +7653,11 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_fiscal.config_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.fiscal_config_menu
 msgid "Settings"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_remes
+msgid "Shipment?"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8555,6 +8625,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_transp
+msgid "Transport?"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__type_in_out
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cst__cst_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_operation_type
@@ -8674,6 +8749,21 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "Use IBPT API to Update Estimate Taxes for products and services"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_form
+msgid "Used In Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_cte
+msgid "Used in CTe"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_nfe
+msgid "Used in NFe"
 msgstr ""
 
 #. module: l10n_br_fiscal
