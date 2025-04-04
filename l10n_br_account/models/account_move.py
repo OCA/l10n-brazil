@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tests.common import Form
-from odoo.tools import frozendict, mute_logger
+from odoo.tools import frozendict
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -55,25 +55,14 @@ MOVE_TAX_USER_TYPE = {
 SHADOWED_FIELDS = ["company_id", "currency_id", "user_id", "partner_id"]
 
 
-class InheritsCheckMuteLogger(mute_logger):
-    """
-    Mute the Model#_inherits_check warning
-    because the _inherits field is not required.
-    (some account.move may have no fiscal document)
-    """
-
-    def filter(self, record):
-        msg = record.getMessage()
-        if "Field definition for _inherits reference" in msg:
-            return 0
-        return super().filter(record)
-
-
 class AccountMove(models.Model):
     _name = "account.move"
+    _fiscal_decorator_model = "l10n_br_fiscal.document"
+    _fiscal_decorator_compute_blacklist = ["_compute_fiscal_amount"]
     _inherit = [
         _name,
         "l10n_br_fiscal.document.move.mixin",
+        "l10n_br_account.decorator.mixin",
     ]
 
     # an account.move has normally 0 or 1 related fiscal document:
@@ -86,7 +75,7 @@ class AccountMove(models.Model):
     # fiscal_document_id might be used only to sync the "main" fiscal
     # document (or the one currently imported or edited). In this case,
     # fiscal_document_ids contains all the line fiscal documents.
-    _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
+    _inherits = {_fiscal_decorator_model: "fiscal_document_id"}
 
     _order = "date DESC, name DESC"
 
@@ -178,29 +167,10 @@ class AccountMove(models.Model):
         return self.mapped("invoice_line_ids")
 
     @api.model
-    def _inherits_check(self):
-        """
-        Overriden to avoid the super method to set the fiscal_document_id
-        field as required (because some account.move may not have any fiscal document).
-        """
-        with InheritsCheckMuteLogger("odoo.models"):  # mute spurious warnings
-            res = super()._inherits_check()
-        field = self._fields.get("fiscal_document_id")
-        field.required = False  # unset the required = True assignement
-        return res
-
-    @api.model
     def _shadowed_fields(self):
         """Return the list of shadowed fields that are synchronized
         from account.move."""
         return SHADOWED_FIELDS
-
-    @api.model
-    def _inject_shadowed_fields(self, vals_list):
-        for vals in vals_list:
-            for field in self._shadowed_fields():
-                if field in vals:
-                    vals[f"fiscal_proxy_{field}"] = vals[field]
 
     def ensure_one_doc(self):
         self.ensure_one()
