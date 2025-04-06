@@ -135,7 +135,7 @@ class FiscalDocument(models.Model):
 
         if non_draft_documents:
             UserError(
-                _("You cannot delete a fiscal document " "which is not draft state.")
+                _("You cannot delete a fiscal document which is not in draft state!")
             )
         return super().unlink()
 
