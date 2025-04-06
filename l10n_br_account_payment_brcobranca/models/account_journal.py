@@ -72,11 +72,11 @@ class AccountJournal(models.Model):
             result_row_list = parser.result_row_list
 
         # Original Method
-        # Check all key are present in account.bank.statement.line!!
+        # Check that all key are present in account.bank.statement.line!!
         # if not result_row_list:
-        #    raise UserError(_("Nothing to import: " "The file is empty"))
+        #    raise UserError(_("Nothing to import: The file is empty"))
         if not result_row_list and not parser.cnab_return_events:
-            raise UserError(_("Nothing to import: " "The file is empty"))
+            raise UserError(_("Nothing to import: the file is empty!"))
 
         # Creation of CNAB Return Log
         cnab_return_log, file_name = self._create_cnab_return_log(parser)
