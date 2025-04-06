@@ -92,14 +92,12 @@ class TaxDefinition(models.Model):
     cst_code = fields.Char(
         string="CST Code",
         related="cst_id.code",
-        readonly=True,
     )
 
     tax_domain = fields.Selection(
         related="tax_group_id.tax_domain",
         store=True,
         string="Tax Domain",
-        readonly=True,
         states={"draft": [("readonly", False)]},
     )
 

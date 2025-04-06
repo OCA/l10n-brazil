@@ -27,7 +27,6 @@ class CST(models.Model):
     tax_domain = fields.Selection(
         related="tax_group_id.tax_domain",
         string="Tax Domain",
-        readonly=True,
         store=True,
     )
 
