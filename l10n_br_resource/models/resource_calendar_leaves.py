@@ -35,14 +35,12 @@ class ResourceCalendarLeave(models.Model):
         "Estado",
         related="calendar_id.state_id",
         domain="[('country_id','=',country_id)]",
-        readonly=True,
     )
     l10n_br_city_id = fields.Many2one(
         "res.city",
         "Municipio",
         related="calendar_id.l10n_br_city_id",
         domain="[('state_id','=',state_id)]",
-        readonly=True,
     )
     leave_type = fields.Selection(
         string="Tipo",
