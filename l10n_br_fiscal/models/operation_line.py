@@ -155,7 +155,7 @@ class OperationLine(models.Model):
         else:
             if not company.document_type_id:
                 raise UserError(
-                    _("You need set a default fiscal document " "in your company !")
+                    _("You need to set a default fiscal document in your company!")
                 )
 
             document_type = company.document_type_id
