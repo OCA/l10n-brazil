@@ -20,7 +20,6 @@ class CNABImportWizard(models.TransientModel):
     bank_account_cnab_id = fields.Many2one(
         comodel_name="account.account",
         related="journal_id.default_account_id",
-        readonly=True,
     )
     return_file = fields.Binary()
     filename = fields.Char()
