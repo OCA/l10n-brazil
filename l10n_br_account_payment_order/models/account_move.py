@@ -28,7 +28,6 @@ class AccountMove(models.Model):
     eval_payment_mode_instructions = fields.Text(
         string="Instruções de Cobrança do Modo de Pagamento",
         related="cnab_config_id.instructions",
-        readonly=True,
         help="Instruções Ordem de Pagamento configuradas na Configuração do CNAB",
     )
 

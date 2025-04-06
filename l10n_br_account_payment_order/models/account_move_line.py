@@ -119,7 +119,6 @@ class AccountMoveLine(models.Model):
 
     payment_method_code = fields.Char(
         related="payment_method_id.code",
-        readonly=True,
         store=True,
         string="Payment Method Code",
     )
