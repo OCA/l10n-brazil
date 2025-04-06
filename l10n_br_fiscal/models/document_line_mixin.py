@@ -148,12 +148,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     fiscal_operation_type = fields.Selection(
         string="Operation Type",
         related="fiscal_operation_id.fiscal_operation_type",
-        readonly=True,
     )
 
     operation_fiscal_type = fields.Selection(
         related="fiscal_operation_id.fiscal_type",
-        readonly=True,
         string="Operation Fiscal Type",
     )
 
