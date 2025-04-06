@@ -65,14 +65,12 @@ class OperationLine(models.Model):
         related="fiscal_operation_id.fiscal_operation_type",
         string="Fiscal Operation Type",
         store=True,
-        readonly=True,
     )
 
     fiscal_type = fields.Selection(
         related="fiscal_operation_id.fiscal_type",
         string="Fiscal Type",
         store=True,
-        readonly=True,
     )
 
     tax_icms_or_issqn = fields.Selection(
