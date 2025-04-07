@@ -1,15 +1,14 @@
 # Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
 # @author Cristiano Mafra Junior
-import logging
 
 import requests
 from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import punctuation_rm
+from requests.exceptions import RequestException
 
-from odoo import api, fields, models
-
-_logger = logging.getLogger(__name__)
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class PartnerCnpjSearchWizard(models.TransientModel):
@@ -71,15 +70,44 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             response = requests.get(
                 webservice.get_api_url(cnpj_cpf),
                 headers=webservice.get_headers(),
-                timeout=5,
+                timeout=10,
             )
-        except requests.exceptions.Timeout:
-            _logger.debug("Request timed out!")
-        data = webservice.validate(response)
-        values = webservice.import_data(data)
-        values["provider_name"] = provider_name
-        values["cnpj_cpf"] = cnpj_cpf
-        return values
+            if response.status_code == 200:
+                data = webservice.validate(response)
+                values = webservice.import_data(data)
+                values["provider_name"] = provider_name
+                values["cnpj_cpf"] = cnpj_cpf
+                return values
+
+            # Handle specific HTTP error codes
+            if response.status_code == requests.codes.forbidden:
+                raise ValidationError(
+                    _(
+                        "Request to %(url)s Forbidden!",
+                        url=webservice.get_api_url(cnpj_cpf),
+                    )
+                )
+            elif response.status_code == requests.codes.not_found:
+                print("DEBUG FIXME", response.status_code, response)
+                raise ValidationError(
+                    _(
+                        "URL %(url)s not found!",
+                        url=webservice.get_api_url(cnpj_cpf),
+                    )
+                )
+            elif response.status_code == requests.codes.service_unavailable:
+                raise ValidationError(
+                    _(
+                        "Service %(url)s unavailable!",
+                        url=webservice.get_api_url(cnpj_cpf),
+                    )
+                )
+            else:
+                # Handle other unsuccessful status codes
+                response.raise_for_status()
+
+        except RequestException as e:
+            raise ValidationError(_("Error in the request: {}").format(e)) from e
 
     def default_get(self, fields):
         res = super().default_get(fields)
