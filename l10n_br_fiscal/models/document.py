@@ -355,20 +355,32 @@ class Document(models.Model):
         for r in self:
             r.name = r._compute_document_name()
 
-    @api.depends(
-        "fiscal_line_ids.estimate_tax",
-        "fiscal_line_ids.price_gross",
-        "fiscal_line_ids.amount_untaxed",
-        "fiscal_line_ids.amount_tax",
-        "fiscal_line_ids.amount_taxed",
-        "fiscal_line_ids.amount_total",
-        "fiscal_line_ids.financial_total",
-        "fiscal_line_ids.financial_total_gross",
-        "fiscal_line_ids.financial_discount_value",
-        "fiscal_line_ids.amount_tax_included",
-        "fiscal_line_ids.amount_tax_not_included",
-        "fiscal_line_ids.amount_tax_withholding",
-    )
+    @api.model
+    def _get_fiscal_amount_dependencies(self):
+        amount_fields = self._get_amount_fields()
+        amount_dependencies = [
+            "fiscal_line_ids",
+            "amount_financial_discount_value",
+            "amount_freight_value",
+            "amount_insurance_value",
+            "amount_other_value",
+            "fiscal_line_ids.estimate_tax",
+            "fiscal_line_ids.price_gross",
+            "fiscal_line_ids.financial_total",
+            "fiscal_line_ids.financial_total_gross",
+            "fiscal_line_ids.financial_discount_value",
+        ]
+        line_fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields
+        for field in amount_fields:
+            if field in line_fields:
+                amount_dependencies.append(f"fiscal_line_ids.{field}")
+                continue
+            short_field = field.replace("amount_", "")
+            if short_field in line_fields:
+                amount_dependencies.append(f"fiscal_line_ids.{short_field}")
+        return amount_dependencies
+
+    @api.depends(lambda self: self._get_fiscal_amount_dependencies())
     def _compute_fiscal_amount(self):
         return super()._compute_fiscal_amount()
 

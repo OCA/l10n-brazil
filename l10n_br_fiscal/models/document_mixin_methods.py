@@ -41,14 +41,28 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         return amount_fields
 
     def _compute_fiscal_amount(self):
+        """
+        Compute fiscal aggregates like amount_icms, amounth_freight_value...
+        by summing the line values.
+        Freight, insurance and other costs can still be forced as global
+        with the force_compute_delivery_costs_by_total document flag
+        or delivery_costs company flag.
+        At this moment this compute has no @api.depends fields listed here
+        because the mixin is used in sale.order, purchase.order or stock.picking
+        where there is no fiscal_line_ids. Instead it is called from the
+        l10n_br_fiscal_document.document override where @api.depends is defined.
+        Eventually we could define fiscal_line_ids as a computed fields elsewhere
+        instead, but we should first make sure it would work when a sale.order
+        will generate several fiscal documents for instance...
+        """
         fields = self._get_amount_fields()
         for doc in self:
             values = {key: 0.0 for key in fields}
             for line in doc._get_amount_lines():
                 for field in fields:
-                    if field in line._fields.keys():
+                    if field in line._fields:
                         values[field] += line[field]
-                    if field.replace("amount_", "") in line._fields.keys():
+                    elif field.replace("amount_", "") in line._fields:
                         # FIXME this field creates an error in invoice form
                         if field == "amount_financial_discount_value":
                             values[
