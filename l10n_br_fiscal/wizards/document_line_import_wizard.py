@@ -3,30 +3,57 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    PRODUCT_FISCAL_TYPE,
+)
+
 
 class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
     _name = "l10n_br_fiscal.document.line.import.wizard"
     _description = "Wizard for Importing Fiscal Document Lines"
 
     document_line_id = fields.Many2one("l10n_br_fiscal.document.line", readonly=True)
+
+    # Doc session is readonly
     document_code = fields.Char(string="Code")
     document_ean = fields.Char(string="EAN")
     document_name = fields.Char(string="Product")
-
     document_qty = fields.Float()
     document_uom = fields.Char()
     document_uom_trib = fields.Char()
     document_ncm_id = fields.Many2one("l10n_br_fiscal.ncm")
     document_cfop_id = fields.Many2one("l10n_br_fiscal.cfop")
 
-
-
+    # Import session will be written to l10n_br_fiscal.document
     import_product_id = fields.Many2one("product.product", string="Product to Import")
     import_qty = fields.Float(string="Quantity to Import")
     import_ncm_id = fields.Many2one("l10n_br_fiscal.ncm")
     import_cfop_id = fields.Many2one("l10n_br_fiscal.cfop", string="CFOP to Import")
     import_uom_id = fields.Many2one("uom.uom", string="UoM to Import")
     import_uom_trib_id = fields.Many2one("uom.uom", string="UoM Trib to Import")
+
+    # Product details will be read/written from/to product
+    import_product_fiscal_type = fields.Selection(
+        selection=PRODUCT_FISCAL_TYPE, string="Tipo Fiscal"
+    )
+    product_supplierinfo_id = fields.Many2one("product.supplierinfo", readonly=True)
+
+    # Advanced features
+    allow_xml_data_edit = fields.Boolean("Allow XML Data Edit", default=False)
+
+    @api.onchange("import_product_id")
+    def _onchange_import_product_id(self):
+        """
+        Updates the product fields based on the selected `import_product_id`.
+        """
+        self.import_qty = self.document_qty
+
+        if self.import_product_id:
+            if self.import_product_id.uom_id:
+                self.import_uom_id = self.import_product_id.uom_id
+            if self.import_product_id.fiscal_type:
+                self.import_product_fiscal_type = self.import_product_id.fiscal_type
+            self._check_product_supplierinfo()
 
     @api.model
     def default_get(self, fields_list):
@@ -43,6 +70,10 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
             values.update(
                 {
                     "document_line_id": document_line_id,
+                    # XML
+                    "document_ncm_id": document_line.ncm_id.id,
+                    "document_cfop_id": document_line.cfop_id.id,
+                    # L10n_br_fiscal.document
                     "import_product_id": document_line.product_id.id,
                     "import_qty": document_line.quantity,
                     "import_ncm_id": document_line.ncm_id.id,
@@ -81,10 +112,27 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
         if self.document_line_id:
             values = self._prepare_update_values()
             self.document_line_id.write(values)
-            self._check_alternative_uom(self.import_uom_id, self.document_uom)
-            self._check_product_supplierinfo()
-            # self._check_alternative_uom(self.import_uom_id, self.document_uom_trib)
+            self._check_product_supplierinfo(create=True)
             self._check_other_lines_info(values)
+
+    def action_create_product(self):
+        # Remove previously linked product if needed
+        if self.import_product_id or self.document_line_id.product_id:
+            self.import_product_id = False
+            self.document_line_id.product_id = False
+
+        # Apply wizard specific values to match_or_create (MoC)
+        context = {
+            "moc_default_uom_id": self.import_uom_id.id,
+            "moc_default_ncm_id": self.import_ncm_id.id,
+            "moc_default_fiscal_type": self.import_product_fiscal_type,
+        }
+
+        action = self.document_line_id.with_context(context).action_create_product()
+        product_id = action.get("res_id", False)
+        self.import_product_id = product_id
+        self.update_document_data()
+        return action
 
     def _navigate_product(self, direction=False):
         self.ensure_one()
@@ -126,30 +174,46 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
             )
             if not alternative_ids:
                 self.env["uom.uom.alternative"].create(
-                    {"code": alternative, "uom_id": uom_id.id}
+                    {
+                        "code": alternative,
+                        "name": alternative,
+                        "uom_id": uom_id.id,
+                    }
                 )
 
-    def _check_product_supplierinfo(self):
+    def _check_product_supplierinfo(self, create=False):
         if self.import_product_id:
-            product_supplierinfo_id = self.env["product.supplierinfo"].search(
+            supplier_info = self.env["product.supplierinfo"].search(
                 [
                     ("name", "=", self.document_line_id.partner_id.id),
                     ("product_id", "=", self.import_product_id.id),
                     ("product_name", "=", self.document_name),
                     ("product_code", "=", self.document_code),
-                ]
+                    ("partner_uom", "=", self.document_uom),
+                ],
+                limit=1,
             )
-            if not product_supplierinfo_id:
-                product_supplierinfo_id = self.env["product.supplierinfo"].create(
+
+            self.product_supplierinfo_id = False
+
+            if supplier_info:
+                self.product_supplierinfo_id = supplier_info
+                self.import_qty = self.document_qty * supplier_info.partner_uom_factor
+            elif create:
+                partner_uom_factor = (
+                    self.import_qty / self.document_qty if self.document_qty else 1
+                )
+                supplier_info = self.env["product.supplierinfo"].create(
                     {
                         "name": self.document_line_id.partner_id.id,
                         "product_id": self.import_product_id.id,
                         "product_tmpl_id": self.import_product_id.product_tmpl_id.id,
                         "product_name": self.document_name,
+                        "partner_uom": self.document_uom,
+                        "partner_uom_factor": partner_uom_factor,
                         "product_code": self.document_code,
                     }
                 )
-            # TODO: Melhorar a conversão de unidades.
 
     def _check_other_lines_info(self, values):
         pass
