@@ -17,6 +17,12 @@ class ProductProduct(models.Model):
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         domain_name, domain_barcode, domain_default_code = [], [], []
 
+        # Extract overwritten values from context
+        for key, value in self.env.context.items():
+            if "moc_default_" in key:
+                k = key.replace("moc_default_", "")
+                parent_dict[k] = value
+
         if parent_dict.get("nfe40_xProd") and parent_dict.get("nfe40_cProd"):
             supplier_id = self.env["product.supplierinfo"].search(
                 [
@@ -32,10 +38,10 @@ class ProductProduct(models.Model):
             domain_name = [("name", "=", rec_dict.get("name"))]
 
         if (
-            parent_dict.get("nfe40_cEANTrib")
-            and parent_dict["nfe40_cEANTrib"] != "SEM GTIN"
+            # TODO: Consider field duplicity cEANTrib/cEAN
+            parent_dict.get("nfe40_cEAN") and parent_dict["nfe40_cEAN"] != "SEM GTIN"
         ):
-            rec_dict["barcode"] = parent_dict["nfe40_cEANTrib"]
+            rec_dict["barcode"] = parent_dict["nfe40_cEAN"]
             domain_barcode = [("barcode", "=", rec_dict.get("barcode"))]
 
         if parent_dict.get("nfe40_cProd"):
@@ -49,6 +55,12 @@ class ProductProduct(models.Model):
 
         if self._context.get("dont_create_product_product"):
             return False
+
+        if parent_dict.get("uom_id"):
+            rec_dict["uom_id"] = parent_dict.get("uom_id")
+            rec_dict["uom_po_id"] = parent_dict.get("uom_id")
+        if parent_dict.get("fiscal_type"):
+            rec_dict["fiscal_type"] = parent_dict.get("fiscal_type")
 
         if self._context.get("dry_run"):
             rec_id = self.new(rec_dict).id

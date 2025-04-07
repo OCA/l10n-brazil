@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='product_uom']" position="before">
                 <field name="product_code" />
+                <field name="partner_uom" />
                 <field name="partner_uom_factor" />
             </xpath>
         </field>
@@ -20,10 +21,10 @@
             <xpath expr="//sheet" position="inside">
                 <separator string="Import" />
                 <group id="import">
-                    <field name="partner_uom_id" />
+                    <field name="partner_uom" />
                     <field
                         name="partner_uom_factor"
-                        attrs="{'required': [('partner_uom_id', '!=', False)]}"
+                        attrs="{'required': [('partner_uom', '!=', False)]}"
                     />
                 </group>
             </xpath>

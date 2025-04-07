@@ -1419,9 +1419,12 @@ class NFeLine(spec_models.StackedModel):
                 spec_version="40",
                 # dry_run=True
             )
+            # Run match or create with backup of XML data
             # TODO: Melhorar o comportamento ao descartar a criação do produto.
             values = self.read([])[0]
+            values = values.get("line_import_json")
             self._prepare_import_dict(values)
+            # Get overwrite fields from wizard
             record_dict = {}
             self.product_id = self.product_id.match_or_create_m2o(
                 rec_dict=record_dict,

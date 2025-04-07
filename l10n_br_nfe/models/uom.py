@@ -11,6 +11,7 @@ class Uom(models.Model):
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         """If uom not found, break hard, don't create it"""
 
+        # TODO: Consider removing this method
         if rec_dict.get("code"):
             domain = [("code", "=", rec_dict.get("code"))]
             match = self.search(domain, limit=1)
