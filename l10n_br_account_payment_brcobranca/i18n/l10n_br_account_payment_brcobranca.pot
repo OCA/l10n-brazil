@@ -110,7 +110,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 #, python-format
-msgid "Nothing to import: The file is empty"
+msgid "Nothing to import: the file is empty!"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
