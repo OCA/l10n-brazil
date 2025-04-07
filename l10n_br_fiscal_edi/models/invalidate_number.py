@@ -26,14 +26,12 @@ class InvalidateNumber(models.Model):
 
     authorization_date = fields.Datetime(
         string="Authorization Date",
-        readonly=True,
         related="authorization_event_id.protocol_date",
     )
 
     authorization_protocol = fields.Char(
         string="Authorization Protocol",
         related="authorization_event_id.protocol_number",
-        readonly=True,
     )
 
     send_file_id = fields.Many2one(
@@ -41,7 +39,6 @@ class InvalidateNumber(models.Model):
         related="authorization_event_id.file_request_id",
         string="Send Document File XML",
         ondelete="restrict",
-        readonly=True,
     )
 
     authorization_file_id = fields.Many2one(
@@ -49,5 +46,4 @@ class InvalidateNumber(models.Model):
         related="authorization_event_id.file_response_id",
         string="Authorization File XML",
         ondelete="restrict",
-        readonly=True,
     )
