@@ -875,3 +875,53 @@ class TestReturnImport(TestBrAccountPaymentOderCommon):
             test_run_more_than_one_time,
             mocked_response[0],
         )
+
+    def test_5_nordeste_cnab_400(self):
+        """
+        Test import Nordeste Bank CNAB 400, the case has different 'Return Code'
+        for refused 'Instruction Code'.
+        """
+
+        invoice_nordeste_cnab_400 = self.env.ref(
+            "l10n_br_account_payment_order."
+            "demo_invoice_payment_order_nordeste_cnab400"
+        )
+        self._run_boleto_remessa(
+            invoice_nordeste_cnab_400,
+            "boleto_teste_nordeste400.pdf",
+            "teste_remessa_nordeste400.REM",
+        )
+        updated_own_numbers = self._check_updated_own_numbers(invoice_nordeste_cnab_400)
+        test_run_more_than_one_time = True
+        if updated_own_numbers[0] == "00000010":
+            test_run_more_than_one_time = False
+
+        log = self._run_import_return_file(
+            "CNAB400NORDESTE.RET",
+            self.env.ref("l10n_br_account_payment_order.nordeste_journal"),
+            test_run_more_than_one_time,
+        )
+        for line in log.event_ids:
+            self.assertEqual("51-Entrada Rejeitada.", line.occurrences)
+            self.assertEqual("not_accepted", line.move_line_id.cnab_state)
+
+    def test_6_simulate_without_mocked_response(self):
+        """
+        Simulate without Mocked Response, just to keep the Code Coverage.
+        """
+        # Caso Sem uma Resposta Mocked
+        invoice_nordeste_cnab_400 = self.env.ref(
+            "l10n_br_account_payment_order."
+            "demo_invoice_payment_order_nordeste_cnab400"
+        )
+        self._run_boleto_remessa(
+            invoice_nordeste_cnab_400,
+            "boleto_teste_nordeste400.pdf",
+            "teste_remessa_nordeste400.REM",
+        )
+        test_run_more_than_one_time = True
+        self._run_import_return_file(
+            "CNAB400NORDESTE.RET",
+            self.env.ref("l10n_br_account_payment_order.nordeste_journal"),
+            test_run_more_than_one_time,
+        )
