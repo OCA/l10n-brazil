@@ -8977,7 +8977,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #, python-format
-msgid "You need set a default fiscal document in your company !"
+msgid "You need to set a default fiscal document in your company!"
 msgstr ""
 
 #. module: l10n_br_fiscal
