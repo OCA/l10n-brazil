@@ -5680,7 +5680,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_account/models/document.py:0
 #, python-format
-msgid "You cannot delete a fiscal document which is not draft state."
+msgid "You cannot delete a fiscal document which is not in draft state!"
 msgstr ""
 
 #. module: l10n_br_account
