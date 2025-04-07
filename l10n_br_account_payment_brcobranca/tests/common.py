@@ -160,12 +160,20 @@ class TestBrAccountPaymentOderCommon(TestL10nBrAccountPaymentOder):
         # resposta Mock, se não tiver o MOCK como no caso Banco Nordeste CNAB 400
         # o teste não é executado
         if os.environ.get("CI_NO_BRCOBRANCA") or test_run_more_than_one_time:
-            with mock.patch(
-                _provider_class_cnab_parser + "._get_brcobranca_retorno",
-                return_value=mocked_response,
-            ):
-                # Se for um codigo cnab de liquidação retorna as
-                # account.move criadas
-                return self._import_file(file_name, journal)
+            if journal.bank_id.code_bc == "004":
+                _logger.warning(
+                    "The Test run more than one time, in this case the field"
+                    " 'Nosso Número' was increase what make the value different"
+                    f" from the {test_file} test file, by this reason the test"
+                    " need to be 'skipped' to avoid error."
+                )
+            else:
+                with mock.patch(
+                    _provider_class_cnab_parser + "._get_brcobranca_retorno",
+                    return_value=mocked_response,
+                ):
+                    # Se for um codigo cnab de liquidação retorna as
+                    # account.move criadas
+                    return self._import_file(file_name, journal)
         else:
             return self._import_file(file_name, journal)
