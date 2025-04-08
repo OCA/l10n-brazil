@@ -1321,6 +1321,11 @@ msgid "Cobrança Ailos240"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_nordeste_400
+msgid "Cobrança Banco Nordeste 400"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_santander_240
 msgid "Cobrança Banco Santander 240"
 msgstr ""
