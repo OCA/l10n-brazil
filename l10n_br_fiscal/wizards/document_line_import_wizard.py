@@ -197,8 +197,7 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
             self.product_supplierinfo_id = False
 
             if supplier_info:
-                self.product_supplierinfo_id = supplier_info
-                self.import_qty = self.document_qty * supplier_info.partner_uom_factor
+                self._set_supplier_info(supplier_info)
             elif create:
                 partner_uom_factor = (
                     self.import_qty / self.document_qty if self.document_qty else 1
@@ -213,6 +212,21 @@ class L10nBrFiscalDocumentLineImportWizard(models.TransientModel):
                         "partner_uom_factor": partner_uom_factor,
                         "product_code": self.document_code,
                     }
+                )
+
+    def _set_supplier_info(self, supplier_info):
+        self.product_supplierinfo_id = supplier_info
+        self.import_qty = self.document_qty * supplier_info.partner_uom_factor
+        if self.document_line_id.line_import_json:
+            line_json = self.document_line_id.line_import_json
+            price_unit_json = float(line_json.get("nfe40_vUnCom", False))
+
+            if supplier_info.partner_uom_factor == 0:
+                raise ValueError("The partner UoM factor cannot be zero.")
+
+            if price_unit_json:
+                self.document_line_id.price_unit = (
+                    price_unit_json / supplier_info.partner_uom_factor
                 )
 
     def _check_other_lines_info(self, values):
