@@ -1094,6 +1094,37 @@ class NFeLine(spec_models.StackedModel):
                 values["ncm_id"] = (
                     self.env["product.product"].browse(values["product_id"]).ncm_id.id
                 )
+            # Use supplierinfo to fill in UoM and qty
+            if values.get("product_id") and not values.get("uom_id", False):
+                supplier_id = self.env["product.supplierinfo"].search(
+                    [
+                        ("product_code", "=", values["nfe40_cProd"]),
+                        ("product_name", "=", values["nfe40_xProd"]),
+                        # TODO: Investigate the distinction between nfe40_uCom
+                        # (commercial unit) and nfe40_uTrib (tax unit) to determine
+                        # which one should be used here
+                        ("partner_uom", "=", values["nfe40_uCom"]),
+                    ],
+                    limit=1,
+                )
+                uom_id = supplier_id.product_uom
+                values["uom_id"] = uom_id.id
+                # UoM Factor = qty in Primary UoM /  qty in Secondary UoM
+                # note: primary is understood as product_id.uom_id
+                qty_to_import = 0
+                price_unit_to_import = 0
+                if supplier_id.partner_uom_factor:
+                    qty_to_import = (
+                        float(values["quantity"]) * supplier_id.partner_uom_factor
+                    )
+                    price_unit_to_import = (
+                        float(values["price_unit"]) / supplier_id.partner_uom_factor
+                    )
+                values["quantity"] = qty_to_import
+                values["fiscal_quantity"] = qty_to_import
+                # Price must be divided by factor to preserve line total
+                values["price_unit"] = price_unit_to_import
+                values["fiscal_price"] = price_unit_to_import
         return values
 
     def _build_attr(self, node, fields, vals, path, attr):
