@@ -80,13 +80,11 @@ class Document(models.Model):
     authorization_date = fields.Datetime(
         related="authorization_event_id.protocol_date",
         string="Authorization Protocol Date",
-        readonly=True,
     )
 
     authorization_protocol = fields.Char(
         related="authorization_event_id.protocol_number",
         string="Authorization Protocol Number",
-        readonly=True,
     )
 
     send_file_id = fields.Many2one(
@@ -115,13 +113,11 @@ class Document(models.Model):
     cancel_date = fields.Datetime(
         related="cancel_event_id.protocol_date",
         string="Cancel Protocol Date",
-        readonly=True,
     )
 
     cancel_protocol_number = fields.Char(
         related="cancel_event_id.protocol_number",
         string="Cancel Protocol Protocol",
-        readonly=True,
     )
 
     cancel_file_id = fields.Many2one(
@@ -142,13 +138,11 @@ class Document(models.Model):
     invalidate_date = fields.Datetime(
         related="invalidate_event_id.protocol_date",
         string="Invalidate Protocol Date",
-        readonly=True,
     )
 
     invalidate_protocol_number = fields.Char(
         related="invalidate_event_id.protocol_number",
         string="Invalidate Protocol Number",
-        readonly=True,
     )
 
     invalidate_file_id = fields.Many2one(
