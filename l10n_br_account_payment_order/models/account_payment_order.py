@@ -74,7 +74,6 @@ class AccountPaymentOrder(models.Model):
     # os campos relacionados ao CNAB
     payment_method_code = fields.Char(
         related="payment_method_id.code",
-        readonly=True,
         store=True,
         string="Payment Method Code",
     )
