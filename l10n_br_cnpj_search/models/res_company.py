@@ -23,5 +23,4 @@ class ResCompany(models.Model):
 
     company_type = fields.Selection(
         related="partner_id.company_type",
-        readonly=True,
     )
