@@ -42,6 +42,7 @@
         # CNAB Discount Codes
         "data/cnab_codes/banco_ailos_240_boleto_discount_code.xml",
         "data/cnab_codes/banco_bradesco_240_boleto_discount_code.xml",
+        "data/cnab_codes/banco_do_brasil_240_boleto_discount_code.xml",
         "data/cnab_codes/banco_cef_240_boleto_discount_code.xml",
         "data/cnab_codes/banco_santander_240_boleto_discount_code.xml",
         "data/cnab_codes/banco_sicredi_240_boleto_discount_code.xml",
