@@ -52,6 +52,7 @@
         # Protest code
         "data/cnab_codes/banco_ailos_240_boleto_protest_code.xml",
         "data/cnab_codes/banco_bradesco_240_boleto_protest_code.xml",
+        "data/cnab_codes/banco_do_brasil_240_boleto_protest_code.xml",
         "data/cnab_codes/banco_cef_240_boleto_protest_code.xml",
         "data/cnab_codes/banco_itau_240_boleto_protest_code.xml",
         "data/cnab_codes/banco_santander_240_boleto_protest_code.xml",
