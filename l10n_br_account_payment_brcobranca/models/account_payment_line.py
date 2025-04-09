@@ -201,7 +201,10 @@ class AccountPaymentLine(models.Model):
                 if cnab_config.boleto_discount_code_id:
                     discount_code = cnab_config.boleto_discount_code_id.code
             else:
-                if cnab_config.bank_code_bc in ("085", "104", "033", "136"):
+                if cnab_config.bank_code_bc in ("085", "104", "033", "136") or (
+                    cnab_config.bank_code_bc == "001"
+                    and cnab_config.payment_method_id.code == "240"
+                ):
                     # Casos mapeados que enviam Zero para quando não tem valor
                     discount_code = "0"
 
