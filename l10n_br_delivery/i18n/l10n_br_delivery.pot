@@ -85,7 +85,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__carrier_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__carrier_id
 msgid "Carrier"
@@ -137,7 +136,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: model:ir.model,name:l10n_br_delivery.model_l10n_br_fiscal_document_mixin_fields
+#: model:ir.model,name:l10n_br_delivery.model_l10n_br_fiscal_document_mixin
 msgid "Document Fiscal Mixin Fields"
 msgstr ""
 
@@ -165,7 +164,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_payment__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_proxy_incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__fiscal_proxy_incoterm_id
@@ -184,7 +182,6 @@ msgstr ""
 
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_purchase_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_stock_picking__incoterm_id
@@ -212,8 +209,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__fiscal_proxy_incoterm_id
-#: model:ir.model.fields,help:l10n_br_delivery.field_l10n_br_fiscal_document_mixin_fields__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__fiscal_proxy_incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_purchase_order__incoterm_id
 #: model:ir.model.fields,help:l10n_br_delivery.field_sale_order__fiscal_proxy_incoterm_id
