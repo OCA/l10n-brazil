@@ -36,6 +36,14 @@ msgid "<span>Fiscal Details</span>"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_decorator_mixin
+msgid ""
+"A mixin to decorate l10n_br_fiscal_document(.line) easily.\n"
+"    It specially deals with related and compute fields inherited with _inherits.\n"
+"    "
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_form
 msgid "Account"
 msgstr ""
@@ -107,11 +115,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_all_action
 #: model:ir.ui.menu,name:l10n_br_account.document_all_menu
 msgid "All Documents"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__allow_csll_irpj
-msgid "Allow Csll Irpj"
 msgstr ""
 
 #. module: l10n_br_account
@@ -357,17 +360,14 @@ msgid "CFOP"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cfop_destination
-msgid "CFOP Destination"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cnae_id
 msgid "CNAE Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_cnpj_cpf
 msgid "CNPJ"
 msgstr ""
 
@@ -430,11 +430,6 @@ msgid "COFINS Base Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_cst_code
-msgid "COFINS CST Code"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_credit_id
 msgid "COFINS Credit Code"
 msgstr ""
@@ -494,11 +489,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_base_type
 msgid "COFINS ST Base Type"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_cst_code
-msgid "COFINS ST CST Code"
 msgstr ""
 
 #. module: l10n_br_account
@@ -727,7 +717,9 @@ msgid "Cfop"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_is_company
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_is_company
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__partner_is_company
 msgid "Check if the contact is a company, otherwise it is a person"
 msgstr ""
 
@@ -796,102 +788,128 @@ msgid "Comments"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_id
-msgid "Company"
-msgstr ""
-
-#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_cnpj_cpf
 msgid "Company CNPJ"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_city_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_city_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_city_id
 msgid "Company City"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_country_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_country_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_country_id
 msgid "Company Country"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_district
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_district
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_district
 msgid "Company District"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_legal_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_legal_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_legal_name
 msgid "Company Legal Name"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_cnae_main_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_cnae_main_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_cnae_main_id
 msgid "Company Main CNAE"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_inscr_mun
 msgid "Company Municipal Tax Number"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_name
 msgid "Company Name"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_number
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_number
 msgid "Company Number"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_phone
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_phone
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_phone
 msgid "Company Phone"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_inscr_est_st
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_est_st
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_inscr_est_st
 msgid "Company ST State Tax Number"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_state_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_state_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_state_id
 msgid "Company State"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_inscr_est
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_est
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_inscr_est
 msgid "Company State Tax Number"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_street
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_street
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_street
 msgid "Company Street"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_street2
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_street2
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_street2
 msgid "Company Street2"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_suframa
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_suframa
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_suframa
 msgid "Company Suframa"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_tax_framework
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_tax_framework
 msgid "Company Tax Framework"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_company_type
-msgid "Company Type"
-msgstr ""
-
-#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_zip
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_zip
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_zip
 msgid "Company ZIP"
 msgstr ""
 
@@ -903,7 +921,9 @@ msgid "Company mismatch!"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_ind_ie_dest
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_ind_ie_dest
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_ind_ie_dest
 msgid "Contribuinte do ICMS"
 msgstr ""
 
@@ -1376,10 +1396,7 @@ msgid "Deductible Taxes"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__delivery_costs
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__delivery_costs
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__delivery_costs
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__delivery_costs
 msgid ""
 "Define if costs of Insurance, Freight and Other Costs should be informed by "
 "Line or by Total."
@@ -1398,10 +1415,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__delivery_costs
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__delivery_costs
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__delivery_costs
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__delivery_costs
 msgid "Delivery Costs"
 msgstr ""
 
@@ -1893,11 +1907,6 @@ msgid "Fiscal Product Genre"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_genre_code
-msgid "Fiscal Product Genre Code"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_name
 msgid "Fiscal Proxy Name"
@@ -2181,11 +2190,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_base_type
 msgid "ICMS Base Type"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_code
-msgid "ICMS CST Code"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2518,11 +2522,6 @@ msgid "IPI Base Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_cst_code
-msgid "IPI CST Code"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_guideline_id
 msgid "IPI Guideline"
 msgstr ""
@@ -2807,11 +2806,6 @@ msgid "Identificação do vagão (v2.0)"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__cfop_destination
-msgid "Identifies the operation destination."
-msgstr ""
-
-#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Import Fiscal Document"
 msgstr ""
@@ -2946,15 +2940,6 @@ msgstr ""
 msgid ""
 "Indicador de presença do comprador no estabelecimento comercial no momento da oepração\n"
 "\t\t\t\t\t\t\t\t\t\t\t(0-Não se aplica (ex.: Nota Fiscal complementar ou de ajuste;1-Operação presencial;2-Não presencial, internet;3-Não presencial, teleatendimento;4-NFC-e entrega em domicílio;5-Operação presencial, fora do estabelecimento;9-Não presencial, outros)"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__partner_is_public_entity
-msgid ""
-"Indicates whether the entity in question is a public organization or "
-"government-related entity. It encompasses a range of entities such as "
-"municipal governments, state-owned enterprises (where the government is the "
-"largest shareholder), and other government-controlled organizations."
 msgstr ""
 
 #. module: l10n_br_account
@@ -3265,7 +3250,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_legal_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_legal_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_legal_name
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "Legal Name"
@@ -3311,7 +3298,9 @@ msgid "MDF-e Version"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_cnae_main_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_cnae_main_id
 msgid "Main CNAE"
 msgstr ""
 
@@ -3584,7 +3573,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_inscr_mun
 msgid "Municipal Tax Number"
 msgstr ""
 
@@ -3825,20 +3816,8 @@ msgid "Operation"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__operation_fiscal_type
-msgid "Operation Fiscal Type"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_line_id
 msgid "Operation Line"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__operation_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__operation_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__operation_name
-msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3846,11 +3825,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__operation_nature
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__operation_nature
 msgid "Operation Nature"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_type
-msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3928,11 +3902,6 @@ msgid "PIS Base Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_cst_code
-msgid "PIS CST Code"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_credit_id
 msgid "PIS Credit"
 msgstr ""
@@ -3995,11 +3964,6 @@ msgid "PIS ST Base Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_cst_code
-msgid "PIS ST CST Code"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_pisst_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_pisst_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_value
@@ -4033,37 +3997,43 @@ msgid "PL_005d - 11/08/09 - validação do Id"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_id
-msgid "Partner"
-msgstr ""
-
-#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_city_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_city_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_city_id
 msgid "Partner City"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_country_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_country_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_country_id
 msgid "Partner Country"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_district
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_district
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_district
 msgid "Partner District"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_is_company
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_is_company
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_is_company
 msgid "Partner Is Company?"
 msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_name
 msgid "Partner Name"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_number
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_number
 msgid "Partner Number"
 msgstr ""
 
@@ -4078,27 +4048,37 @@ msgid "Partner Order Line (nItemPed)"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_phone
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_phone
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_phone
 msgid "Partner Phone"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_state_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_state_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_state_id
 msgid "Partner State"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_street
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_street
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_street
 msgid "Partner Street"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_street2
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_street2
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_street2
 msgid "Partner Street2"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_zip
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_zip
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_zip
 msgid "Partner Zip"
 msgstr ""
 
@@ -4249,7 +4229,9 @@ msgid "Prefixo do Trem"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__processador_edoc
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__processador_edoc
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__processador_edoc
 msgid "Processador documentos eletrônicos"
 msgstr ""
 
@@ -4294,11 +4276,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_prop
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_prop
 msgid "Proprietário do Veículo"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_is_public_entity
-msgid "Public Entity"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4540,7 +4517,9 @@ msgid "Situação e-doc"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_inscr_est
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_est
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_inscr_est
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "State Tax Number"
@@ -4583,7 +4562,9 @@ msgid "Subsequent documents generated?"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_suframa
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_suframa
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_suframa
 msgid "Suframa"
 msgstr ""
 
@@ -4640,11 +4621,6 @@ msgid "Tax Benefit"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_tax_benefit_code
-msgid "Tax Benefit Code"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_tax_id
 msgid "Tax COFINS"
 msgstr ""
@@ -4670,8 +4646,10 @@ msgid "Tax CSLL RET"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__tax_framework
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_tax_framework
 msgid "Tax Framework"
 msgstr ""
 
@@ -4988,8 +4966,12 @@ msgid "Unidade comercial"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__company_legal_name
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__company_legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_legal_name
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__company_legal_name
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__partner_legal_name
 msgid "Used in fiscal documents"
 msgstr ""
 
