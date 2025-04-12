@@ -1,5 +1,6 @@
 from . import res_company
 from . import res_partner
+from . import document_mixin
 from . import document
 from . import document_related
 from . import document_line
@@ -17,7 +18,6 @@ from . import res_country
 from . import document_type
 from . import res_country_state
 from . import res_city
-from . import document_mixin_fields
 
 spec_schema = "cte"
 spec_version = "40"
