@@ -133,7 +133,13 @@ DEMO_NCM = [
     "ncm_22011000",
 ]
 
-DEMO_NBM = [  # some common NBMs:
+DEMO_NBM = [
+    "nbm_8801100200",
+    "nbm_8801900100",
+    "nbm_190590",
+    "nbm_4014100000",
+    "nbm_96032100",
+    # some common NBMs:
     "nbm_8703210100",
     "nbm_8703210100",
     "nbm_8471490100",
