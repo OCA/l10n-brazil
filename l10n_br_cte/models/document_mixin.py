@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class DocumentMixinFields(models.AbstractModel):
-    _inherit = "l10n_br_fiscal.document.mixin.fields"
+class DocumentMixin(models.AbstractModel):
+    _inherit = "l10n_br_fiscal.document.mixin"
 
     # Sender (Remetente)
     partner_sendering_id = fields.Many2one(
