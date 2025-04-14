@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,6 +19,7 @@ msgid " Sem hora definida"
 msgstr ""
 
 #. module: l10n_br_cte
+#. odoo-python
 #: code:addons/l10n_br_cte/models/document.py:0
 #, python-format
 msgid ""
@@ -147,6 +148,7 @@ msgid "Até a data"
 msgstr ""
 
 #. module: l10n_br_cte
+#. odoo-python
 #: code:addons/l10n_br_cte/models/document.py:0
 #, python-format
 msgid "Authorization Protocol Not Found!"
@@ -189,7 +191,6 @@ msgid "BA"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xBairro
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xBairro
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xBairro
 msgid "Bairro"
@@ -206,14 +207,12 @@ msgid "CE"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_CEP
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CEP
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CEP
 msgid "CEP"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_CEP
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_CEP
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_CEP
 msgid ""
@@ -299,7 +298,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_transporta
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_transporta
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_transporta
 msgid "CNPJ or CPF"
@@ -311,32 +309,24 @@ msgid "CNPJ ou CPF?"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_emit
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_emit
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_emit
 msgid "CNPJ/CPF do Emitente"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_tlocal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_tlocal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_tlocal
 msgid "CNPJ/CPF do Parceiro"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_autxml
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_autxml
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_choice_autxml
 msgid "CNPJ/CPF do Parceiro Autorizado"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_dest
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_exped
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_receb
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_rem
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_choice_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_dest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_exped
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_choice_receb
@@ -676,7 +666,6 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xCpl
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xCpl
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xCpl
 msgid "Complemento"
@@ -1110,7 +1099,6 @@ msgid "Cte40 Emidocant Docant"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_enderFerro
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderFerro
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderFerro
 msgid "Cte40 Enderferro"
@@ -1122,7 +1110,6 @@ msgid "Cte40 Enderreme"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_enderToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderToma
 msgid "Cte40 Endertoma"
@@ -1335,7 +1322,6 @@ msgid "Cte40 Tpdoc"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_UF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_UF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_UF
 msgid "Cte40 Uf"
@@ -1362,7 +1348,6 @@ msgid "Cte40 Veicnovos Infctenorm"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xEnder
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xEnder
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xEnder
 msgid "Cte40 Xender"
@@ -1575,14 +1560,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_cMun
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_cMun
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_cMun
 msgid "Código do município"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_cMun
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_cMun
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_cMun
 msgid ""
@@ -1591,14 +1574,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_cPais
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_cPais
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_cPais
 msgid "Código do país"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_cPais
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_cPais
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_cPais
 msgid ""
@@ -1626,7 +1607,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_ferroenv__cte40_cInt
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_cInt
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_cInt
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_cInt
 msgid "Código interno da Ferrovia envolvida"
@@ -1634,7 +1614,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_ferroenv__cte40_cInt
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_cInt
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_cInt
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_cInt
 msgid ""
@@ -1772,10 +1751,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_enderDest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_enderReme
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_enderToma
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_enderDest
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_enderExped
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_enderReceb
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_enderReme
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_enderToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderDest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_enderExped
@@ -2282,7 +2257,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trsakeyvaluetype__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidadetransp__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidcarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__display_name
@@ -2293,19 +2267,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_city__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_country__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_country_state__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -2329,7 +2290,7 @@ msgid "Document Date"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_mixin_fields
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_mixin
 msgid "Document Fiscal Mixin Fields"
 msgstr ""
 
@@ -2409,7 +2370,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_email
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_email
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_email
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_email
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_email
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_email
 msgid "Endereço de email"
@@ -2938,7 +2898,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trsakeyvaluetype__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidadetransp__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidcarga__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri__id
@@ -2949,19 +2908,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_city__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_config_settings__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_country__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_country_state__id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__id
 msgid "ID"
 msgstr ""
 
@@ -3673,7 +3619,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_emit__cte40_IEST
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_IE
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_IEST
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_IE
@@ -3683,7 +3628,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_dest__cte40_IE
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_IE
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_IE
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_IE
 msgid ""
@@ -3734,7 +3678,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_ISUF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_ISUF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_ISUF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_ISUF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_ISUF
 msgid "Inscrição na SUFRAMA"
@@ -3743,7 +3686,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_ISUF
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_dest__cte40_ISUF
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_ISUF
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_ISUF
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_ISUF
 msgid ""
@@ -3754,21 +3696,18 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_endorsement
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_endorsement
 msgid "Insurance Endorsement"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_policy
 msgid "Insurance Policy"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_insurance_id
 msgid "Insurance Provider"
 msgstr ""
 
@@ -3933,7 +3872,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trsakeyvaluetype____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidadetransp____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidcarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_ir_actions_report____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo_peri____last_update
@@ -3944,19 +3882,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ____last_update
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_comment____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_supplement____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_city____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_config_settings____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_country____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_country_state____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -4229,7 +4154,6 @@ msgid "Leste, S-Sul, O-Oeste"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xLgr
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xLgr
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xLgr
 msgid "Logradouro"
@@ -4602,6 +4526,7 @@ msgid "Natureza da Operação"
 msgstr ""
 
 #. module: l10n_br_cte
+#. odoo-python
 #: code:addons/l10n_br_cte/report/ir_actions_report.py:0
 #, python-format
 msgid "No xml file was found."
@@ -4609,7 +4534,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_xFant
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xFant
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xFant
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xFant
 msgid "Nome Fantasia"
@@ -4633,14 +4557,12 @@ msgid "Nome da Seguradora"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xContato
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xContato
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xContato
 msgid "Nome da pessoa a ser contatada"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_xContato
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_xContato
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_xContato
 msgid ""
@@ -4731,14 +4653,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xMun
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xMun
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xMun
 msgid "Nome do município"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_xMun
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_xMun
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_xMun
 msgid ""
@@ -4747,7 +4667,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xPais
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xPais
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xPais
 msgid "Nome do país"
@@ -4789,7 +4708,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infdocref__cte40_nDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infoutros__cte40_nDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnf__cte40_nDoc
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_nro
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__cte40_nDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_nro
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_nro
@@ -4886,7 +4804,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CNPJ
@@ -4914,7 +4831,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_toma__cte40_CNPJ
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_dest__cte40_CNPJ
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_rem__cte40_CNPJ
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_CNPJ
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_CNPJ
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_CNPJ
 msgid ""
@@ -4945,7 +4861,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_CPF
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_CPF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_CPF
 msgid "Número do CPF"
@@ -4958,7 +4873,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_dest__cte40_CPF
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_rem__cte40_CPF
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tomaterceiro__cte40_CPF
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_CPF
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_CPF
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_CPF
 msgid ""
@@ -5285,7 +5199,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_xNome
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_xNome
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_xNome
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_xNome
 msgid "Razão Social ou Nome do destinatário"
@@ -5322,7 +5235,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_receivering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_receivering_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_receivering_id
 msgid "Receiver Address"
 msgstr ""
 
@@ -5441,7 +5353,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_sendering_id
 msgid "Sender Address"
 msgstr ""
 
@@ -5453,7 +5364,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_shippering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_shippering_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_shippering_id
 msgid "Shipper Address"
 msgstr ""
 
@@ -5653,7 +5563,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_rem__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_fone
-#: model:ir.model.fields,field_description:l10n_br_cte.field_hr_employee_dependent__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo_occ__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_fone
@@ -5662,7 +5571,6 @@ msgid "Telefone"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_fone
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__cte40_fone
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_fone
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_fone
@@ -5682,7 +5590,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_endorsement
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_endorsement
 msgid ""
 "The endorsement number associated with the insurance policy, indicating any "
 "modifications or adjustments to the coverage. This field is primarily used "
@@ -5692,7 +5599,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__insurance_policy
 msgid ""
 "The insurance policy number covering the transported goods. This field is "
 "primarily used when issuing the CT-e."
@@ -5702,7 +5608,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_receb
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_receivering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_receivering_id
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_receivering_id
 msgid ""
 "The intermediary partner who receives the goods before they reach the final "
 "recipient, often involved in verification, temporary storage, or further "
@@ -5712,7 +5617,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_insurance_id
 msgid ""
 "The partner providing insurance coverage for the transported goods. This "
 "field is primarily used when issuing the CT-e."
@@ -5722,7 +5626,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_exped
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_shippering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_shippering_id
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_shippering_id
 msgid ""
 "The partner responsible for delivering the cargo to the carrier, if not done"
 " directly by the sender. This field is primarily used when issuing the CT-e."
@@ -5731,7 +5634,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
-#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin_fields__partner_sendering_id
 msgid ""
 "The partner responsible for sending the goods, typically the issuer of the "
 "document. This field is primarily used when issuing the CT-e."
@@ -6271,7 +6173,6 @@ msgid "Unidade de medida rateada (Peso,Volume)"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_hr_employee_dependent__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_xNome
@@ -6588,6 +6489,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#. odoo-python
 #: code:addons/l10n_br_cte/report/ir_actions_report.py:0
 #, python-format
 msgid "You can only print a DACTE of a CTe(57)."
