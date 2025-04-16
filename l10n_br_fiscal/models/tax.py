@@ -393,7 +393,7 @@ class Tax(models.Model):
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and tax_dict.get("tax_value")
             and operation_line.fiscal_operation_type == FISCAL_OUT
-            and operation_line.fiscal_operation_type == FISCAL_OUT
+            and operation_line.fiscal_operation_type == FISCAL_IN
             and operation_line.fiscal_operation_id.fiscal_type != "return_in"
         ):
             icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
