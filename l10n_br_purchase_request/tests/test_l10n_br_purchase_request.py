@@ -1,12 +1,11 @@
 # Copyright 2022 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import SUPERUSER_ID
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class L10nBrPurchaseRequestBaseTest(SavepointCase):
+class L10nBrPurchaseRequestBaseTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
