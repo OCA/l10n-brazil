@@ -1,4 +1,5 @@
 # Copyright 2019 KMEE
+# Copyright 2021-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import logging
@@ -11,12 +12,36 @@ _logger = logging.getLogger(__name__)
 
 class SpecMixinExport(models.AbstractModel):
     _name = "spec.mixin_export"
-    _description = "a mixin providing serialization features"
+    _description = "A mixin providing serialization features."
 
     @api.model
-    def _get_binding_class(self, class_obj):
+    def _get_binding_class(self, odoo_class) -> type:
+        """
+        Use (_spec_prefix)_binding_type of odoo_class and its binding_module to get
+        the Python binding type for export.
+        """
         binding_module = sys.modules[self._get_spec_property("binding_module")]
-        for attr in class_obj._binding_type.split("."):
+        binding_type = odoo_class._get_spec_property("binding_type")
+        if not binding_type:
+            binding_types = set(
+                map(
+                    lambda clazz: clazz._binding_type,
+                    list(
+                        filter(
+                            lambda clazz: hasattr(clazz, "_binding_type"),
+                            type(odoo_class).mro(),
+                        )
+                    ),
+                )
+            )
+            assert len(binding_types) == 1, (
+                f"Found several (or no) _binding_type attributes in {odoo_class} "
+                f"ancestors: {binding_types}. You can define a "
+                f"_{self._spec_prefix()}_binding_type in {odoo_class} "
+                "to avoid ambiguities."
+            )
+            binding_type = binding_types.pop()
+        for attr in binding_type.split("."):  # this will dive into nested classes
             binding_module = getattr(binding_module, attr)
         return binding_module
 
@@ -60,7 +85,7 @@ class SpecMixinExport(models.AbstractModel):
         binding_class_spec = binding_class.__dataclass_fields__
 
         class_name = class_obj._name.replace(".", "_")
-        export_method_name = "_export_fields_%s" % class_name
+        export_method_name = f"_export_fields_{class_name}"
         if hasattr(self, export_method_name):
             xsd_fields = [i for i in xsd_fields]
             export_method = getattr(self, export_method_name)
@@ -193,7 +218,7 @@ class SpecMixinExport(models.AbstractModel):
         """
         Iterate over an Odoo record and its m2o and o2m sub-records
         using a pre-order tree traversal and map the Odoo record values
-        to  a dict of Python binding values.
+        to a dict of Python binding values.
 
         These values will later be injected as **kwargs in the proper XML Python
         binding constructors. Hence the value can either be simple values or
