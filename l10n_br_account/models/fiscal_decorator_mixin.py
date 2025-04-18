@@ -82,3 +82,18 @@ class FiscalDecoratorMixin(models.AbstractModel):
             for field in self._shadowed_fields():
                 if field in vals:
                     vals[f"fiscal_proxy_{field}"] = vals[field]
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        self._inject_shadowed_fields(vals_list)
+        result = super(
+            FiscalDecoratorMixin, self.with_context(create_from_account=True)
+        ).create(vals_list)
+        return result
+
+    def write(self, values):
+        self._inject_shadowed_fields([values])
+        result = super(
+            FiscalDecoratorMixin, self.with_context(create_from_account=True)
+        ).write(values)
+        return result

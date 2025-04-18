@@ -131,8 +131,6 @@ class AccountMoveLine(models.Model):
             )
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
 
-        self._inject_shadowed_fields(vals_list)
-
         # This reordering bellow is crucial to ensure accurate linkage between
         # account.move.line (aml) and the fiscal document line. In the fiscal create a
         # fiscal document line, leaving only those that should be created. Proper
@@ -155,9 +153,7 @@ class AccountMoveLine(models.Model):
         vals_list = [val for _, val in sorted_indexed_vals_list]
 
         # Create the records
-        result = super(
-            AccountMoveLine, self.with_context(create_from_move_line=True)
-        ).create(vals_list)
+        result = super().create(vals_list)
 
         # Initialize the inverted index list with the same length as the original list
         inverted_index = [0] * len(original_indexes)
