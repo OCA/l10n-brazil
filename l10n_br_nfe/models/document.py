@@ -831,7 +831,7 @@ class NFe(spec_models.StackedModel):
 
     @api.constrains("document_type", "state_edoc", "fiscal_line_ids")
     def _check_product_default_code(self):
-        for rec in self:
+        for rec in self.filtered(filter_processador_edoc_nfe):
             if (
                 rec.document_type in PRODUCT_CODE_FISCAL_DOCUMENT_TYPES
                 and rec.state_edoc == "a_enviar"
@@ -841,26 +841,22 @@ class NFe(spec_models.StackedModel):
                         raise ValidationError(
                             _(
                                 f"The product {line.product_id.display_name} "
-                                f"must have a default code or the product code"
+                                f"must have a default code or the product code "
                                 f"line field (nfe40_cProd) should be filled."
                             )
                         )
 
     @api.constrains("document_date", "document_key", "state_edoc")
     def _check_document_date_key(self):
-        for rec in self:
+        for rec in self.filtered(filter_processador_edoc_nfe):
             if rec.document_key and rec.document_date:
                 key_date_str = rec.document_key[2:6]
                 key_date = datetime.strptime(key_date_str, "%y%m")
 
                 document_date = fields.Datetime.from_string(rec.document_date)
-                if (
-                    rec.document_type in ["55", "65"]
-                    and rec.state_edoc in ["a_enviar", "autorizada"]
-                    and (
-                        key_date.year != document_date.year
-                        or key_date.month != document_date.month
-                    )
+                if rec.state_edoc in ["a_enviar", "autorizada"] and (
+                    key_date.year != document_date.year
+                    or key_date.month != document_date.month
                 ):
                     raise ValidationError(
                         _(
