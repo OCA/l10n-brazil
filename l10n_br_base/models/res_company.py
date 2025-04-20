@@ -1,5 +1,3 @@
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #    Thinkopen - Brasil
 #    Copyright (C) Thinkopen Solutions (<http://www.thinkopensolutions.com.br>)
 #    Akretion
@@ -7,7 +5,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.tools import config
+from odoo.exceptions import UserError
 
 
 class Company(models.Model):
@@ -153,11 +151,22 @@ class Company(models.Model):
         return res
 
     def write(self, values):
+        """
+        Overriden so we can change the currency_id of base.main_company
+        in l10n_br_base/demo/res_company_demo.xml (demo data)
+        """
         try:
             result = super().write(values)
-        except Exception as e:
-            if not config["without_demo"] and values.get("currency_id"):
-                # required for demo installation
+        except UserError as e:
+            demo_main_company = self.env.ref(
+                "base.main_company", raise_if_not_found=False
+            )
+            brl_currency = self.env.ref("base.BRL")
+            if (
+                demo_main_company
+                and self.ids == [demo_main_company.id]
+                and values.get("currency_id") == brl_currency.id
+            ):
                 result = models.Model.write(self, values)
             else:
                 raise e
