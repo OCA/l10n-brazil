@@ -409,19 +409,16 @@ class MDFe(spec_models.StackedModel):
     mdfe30_infTermCarreg = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.carregamento",
         inverse_name="document_id",
-        size=5,
     )
 
     mdfe30_infTermDescarreg = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.descarregamento",
         inverse_name="document_id",
-        size=5,
     )
 
     mdfe30_infEmbComb = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.aquaviario.comboio",
         inverse_name="document_id",
-        size=30,
     )
 
     mdfe30_infUnidCargaVazia = fields.One2many(
@@ -492,7 +489,6 @@ class MDFe(spec_models.StackedModel):
     mdfe30_condutor = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.veiculo.condutor",
         inverse_name="document_id",
-        size=10,
     )
 
     mdfe30_cInt = fields.Char(size=10, string="Código do Veículo")
@@ -516,13 +512,11 @@ class MDFe(spec_models.StackedModel):
     mdfe30_veicReboque = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.reboque",
         inverse_name="document_id",
-        size=3,
     )
 
     mdfe30_lacRodo = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.lacre",
         inverse_name="document_id",
-        size=3,
     )
 
     mdfe30_UF = fields.Selection(selection=TUF, compute="_compute_mdfe30_rodo_uf")
