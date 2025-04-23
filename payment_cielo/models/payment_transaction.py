@@ -88,7 +88,6 @@ class PaymentTransactionCielo(models.Model):
         _logger.info("_create_cielo_charge: Values received:\n%s", pprint.pformat(res))
         return res
 
-    @api.multi
     def cielo_s2s_do_transaction(self, **kwargs):
         self.ensure_one()
         result = self._create_cielo_charge(
@@ -96,7 +95,6 @@ class PaymentTransactionCielo(models.Model):
         )
         return self._cielo_s2s_validate_tree(result)
 
-    @api.multi
     def cielo_s2s_capture_transaction(self):
         """Captures an authorized transaction."""
         _logger.info(
@@ -135,7 +133,6 @@ class PaymentTransactionCielo(models.Model):
                 }
             )
 
-    @api.multi
     def cielo_s2s_void_transaction(self):
         """Voids an authorized transaction."""
         _logger.info(
@@ -172,7 +169,6 @@ class PaymentTransactionCielo(models.Model):
                 }
             )
 
-    @api.multi
     def _cielo_s2s_validate_tree(self, tree):
         """Validates the transaction.
 

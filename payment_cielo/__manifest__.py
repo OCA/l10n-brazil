@@ -5,7 +5,7 @@
     "name": "Payent Cielo",
     "summary": """
         Payment Acquirer: Cielo Implementation""",
-    "version": "12.0.3.2.1",
+    "version": "16.0.1.0.0",
     "development_status": "Alpha",
     "license": "AGPL-3",
     "author": "KMEE INFORMATICA LTDA,Odoo Community Association (OCA)",

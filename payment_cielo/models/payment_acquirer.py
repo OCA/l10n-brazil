@@ -22,7 +22,6 @@ class PaymentAcquirerCielo(models.Model):
     )
     cielo_image_url = fields.Char("Checkout Image URL", groups="base.group_user")
 
-    @api.multi
     def cielo_s2s_form_validate(self, data):
         """Validates user input"""
         self.ensure_one()
@@ -74,7 +73,6 @@ class PaymentAcquirerCielo(models.Model):
         if self.environment == "prod":
             return "api.cieloecommerce.cielo.com.br"
 
-    @api.multi
     def _get_cielo_api_headers(self):
         """Get cielo API headers used in all s2s communication
 
