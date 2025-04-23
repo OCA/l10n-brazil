@@ -45,7 +45,6 @@ class FiscalDecoratorMixin(models.AbstractModel):
                 field_cls = type(field)
                 if (
                     name in self._fields
-                    or name.startswith("fiscal_proxy_")
                     or field_cls in [fields.One2many, fields.Many2many]
                     or not (field.compute or field.related)
                     or (field.compute and field.store)
@@ -76,10 +75,3 @@ class FiscalDecoratorMixin(models.AbstractModel):
             field = self._fields.get(field_name)
             field.required = False  # unset the required = True assignement
         return res
-
-    @api.model
-    def _inject_shadowed_fields(self, vals_list):
-        for vals in vals_list:
-            for field in self._shadowed_fields():
-                if field in vals:
-                    vals[f"fiscal_proxy_{field}"] = vals[field]
