@@ -57,6 +57,45 @@ class AccountMoveLine(models.Model):
         " and '3-3' for the last installment.",
     )
 
+    # -------------------------------------------------------------------------
+    # SHADOWED FIELDS SYNC
+    # -------------------------------------------------------------------------
+
+    name = fields.Char(inverse="_inverse_name")
+    quantity = fields.Float(inverse="_inverse_quantity")
+    price_unit = fields.Float(inverse="_inverse_price_unit")
+
+    @api.model
+    def _shadowed_fields(self):
+        """Return the list of shadowed fields that are synchronized
+        from account.move.line."""
+        return SHADOWED_FIELDS
+
+    @api.onchange("product_id")
+    def _inverse_product_id(self):
+        for line in self:
+            if line.fiscal_document_line_id:
+                line.fiscal_document_line_id.product_id = line.product_id.id
+        return super()._inverse_product_id()
+
+    @api.onchange("name")
+    def _inverse_name(self):
+        for line in self:
+            if line.fiscal_document_line_id:
+                line.fiscal_document_line_id.name = line.name
+
+    @api.onchange("quantity")
+    def _inverse_quantity(self):
+        for line in self:
+            if line.fiscal_document_line_id:
+                line.fiscal_document_line_id.quantity = line.quantity
+
+    @api.onchange("price_unit")
+    def _inverse_price_unit(self):
+        for line in self:
+            if line.fiscal_document_line_id:
+                line.fiscal_document_line_id.price_unit = line.price_unit
+
     @api.depends(
         "quantity",
         "price_unit",
@@ -88,12 +127,6 @@ class AccountMoveLine(models.Model):
         if other_lines:
             return super()._compute_name()
         return True
-
-    @api.model
-    def _shadowed_fields(self):
-        """Return the list of shadowed fields that are synchronized
-        from account.move.line."""
-        return SHADOWED_FIELDS
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -130,8 +163,6 @@ class AccountMoveLine(models.Model):
                 )
             )
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
-
-        self._inject_shadowed_fields(vals_list)
 
         # This reordering bellow is crucial to ensure accurate linkage between
         # account.move.line (aml) and the fiscal document line. In the fiscal create a
