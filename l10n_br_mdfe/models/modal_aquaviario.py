@@ -1,7 +1,8 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields
+from odoo import _, api, fields
+from odoo.exceptions import UserError
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -90,6 +91,19 @@ class MDFeModalAquaviarioCarregamento(spec_models.SpecModel):
                 self._fields["loading_harbor"].selection
             ).get(record.loading_harbor)
 
+    @api.constrains("document_id")
+    def _check_maximum_carregamento(self):
+        for record in self:
+            if record.document_id:
+                count = self.search_count([("document_id", "=", record.document_id.id)])
+                if count > 5:
+                    raise UserError(
+                        _(
+                            "You can only add up to 5 loading terminals "
+                            "for the same MDF-e."
+                        )
+                    )
+
 
 class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
     _name = "l10n_br_mdfe.modal.aquaviario.descarregamento"
@@ -112,6 +126,19 @@ class MDFeModalAquaviarioDescarregamento(spec_models.SpecModel):
             record.mdfe30_xTermDescarreg = dict(
                 self._fields["unloading_harbor"].selection
             ).get(record.unloading_harbor)
+
+    @api.constrains("document_id")
+    def _check_maximum_descarregamento(self):
+        for record in self:
+            if record.document_id:
+                count = self.search_count([("document_id", "=", record.document_id.id)])
+                if count > 5:
+                    raise UserError(
+                        _(
+                            "You can only add up to 5 unloading terminals "
+                            "for the same MDF-e."
+                        )
+                    )
 
 
 class MDFeModalAquaviarioComboio(spec_models.SpecModel):
