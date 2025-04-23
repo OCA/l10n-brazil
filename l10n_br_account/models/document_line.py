@@ -21,30 +21,6 @@ class FiscalDocumentLine(models.Model):
         string="UOM",
     )
 
-    # proxy fields to enable writing the related (shadowed) fields
-    # to the fiscal doc line from the aml through the _inherits system
-    # despite they have the same names.
-    fiscal_proxy_name = fields.Text(
-        string="Fiscal Proxy Name",
-        related="name",
-        readonly=False,
-    )
-    fiscal_proxy_product_id = fields.Many2one(
-        string="Fiscal Proxy Product",
-        related="product_id",
-        readonly=False,
-    )
-    fiscal_proxy_quantity = fields.Float(
-        string="Fiscal Proxy Quantity",
-        related="quantity",
-        readonly=False,
-    )
-    fiscal_proxy_price_unit = fields.Float(
-        string="Fiscal Proxy Price Unit",
-        related="price_unit",
-        readonly=False,
-    )
-
     @api.model_create_multi
     def create(self, vals_list):
         """
