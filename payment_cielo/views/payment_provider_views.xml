@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="acquirer_form_cielo" model="ir.ui.view">
-        <field name="name">payment.acquirer.form.inherit</field>
-        <field name="model">payment.acquirer</field>
-        <field name="inherit_id" ref="payment.acquirer_form" />
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">payment_cielo.provider.form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
         <field name="arch" type="xml">
-            <xpath expr='//group[@name="acquirer"]' position='after'>
-                <group attrs="{'invisible': [('provider', '!=', 'cielo')]}">
+            <group name="provider_credentials" position="inside">
+                <group attrs="{'invisible': [('code', '!=', 'cielo')]}">
                     <field name="cielo_merchant_id" password="True" />
                     <field name="cielo_merchant_key" password="True" />
                 </group>
-            </xpath>
-            <xpath expr='//group[@name="acquirer_config"]' position='after'>
-                <group attrs="{'invisible': [('provider', '!=', 'cielo')]}">
+            </group>
+            <group name="provider_config" position="inside">
+                <group attrs="{'invisible': [('code', '!=', 'cielo')]}">
                     <field name="cielo_image_url" />
                 </group>
-            </xpath>
+            </group>
         </field>
     </record>
+
 </odoo>

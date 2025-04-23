@@ -8,10 +8,12 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class PaymentAcquirerCielo(models.Model):
-    _inherit = "payment.acquirer"
+class PaymentProvider(models.Model):
+    _inherit = "payment.provider"
 
-    provider = fields.Selection(selection_add=[("cielo", "Cielo")])
+    code = fields.Selection(
+        selection_add=[("cielo", "Cielo")], ondelete={"cielo": "set default"}
+    )
     cielo_merchant_key = fields.Char(
         required_if_provider="cielo", groups="base.group_user"
     )
