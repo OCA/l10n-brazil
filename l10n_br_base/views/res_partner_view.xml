@@ -39,71 +39,50 @@
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
             <field name="vat" position="attributes">
-                <attribute name="attrs">
-                    {
-                        'readonly':
-                            [
-                                '|', ('cnpj_cpf', 'not in', [False, ""]),
-                                     ('parent_id', '!=', False),
+                <attribute name="readonly">[
+                    '|', ('cnpj_cpf', 'not in', [False, ""]),
+                         ('parent_id', '!=', False),
 
-                            ]
-                    }
-                </attribute>
+                ]</attribute>
             </field>
             <xpath expr="//h1" position="after">
                 <field name="city_id" invisible="1" />
                 <!-- Allow inject city_id on context above -->
                 <div>
-                    <label
-                        for="legal_name"
-                        string="Full Name"
-                        attrs="{'invisible': [('is_company','=', True)]}"
-                    />
+                    <label for="legal_name" string="Full Name" invisible="is_company" />
                     <label
                         for="legal_name"
                         string="Legal Name"
-                        attrs="{'invisible': [('is_company','!=', True)]}"
+                        invisible="not is_company"
                     />
                 </div>
                 <field name="legal_name" nolabel="1" />
                 <div>
-                    <label
-                        for="cnpj_cpf"
-                        string="CPF"
-                        attrs="{'invisible': [('is_company','=', True)]}"
-                    />
+                    <label for="cnpj_cpf" string="CPF" invisible="is_company" />
                     <label
                         for="cnpj_cpf"
                         string="CNPJ/Vat Number"
-                        attrs="{'invisible': [('is_company','!=', True)]}"
+                        invisible="not is_company"
                     />
                 </div>
                 <field name="cnpj_cpf" nolabel="1" />
                 <div>
-                    <label
-                        for="rg"
-                        string="RG"
-                        attrs="{'invisible': [('is_company','=', True)]}"
-                    />
+                    <label for="rg" string="RG" invisible="is_company" />
                 </div>
-                <field
-                    name="rg"
-                    nolabel="1"
-                    attrs="{'invisible': [('is_company','=', True)]}"
-                />
+                <field name="rg" nolabel="1" invisible="is_company" />
                 <div name="inscr_est">
                          <label
                         for="inscr_est"
                         name="inscr_est"
                         string="IE"
-                        attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
+                        invisible="not is_company and parent_id != False"
                     />
                 </div>
                      <field
                     colspan="4"
                     name="inscr_est"
                     nolabel="1"
-                    attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
+                    invisible="not is_company and parent_id != False"
                 />
             </xpath>
             <page position="after" name="sales_purchases">
@@ -111,17 +90,11 @@
                     <group name="fiscal">
                         <group string="Fiscal Infos" name="fiscal_numbers">
                             <field name="cei_code" />
-                            <field
-                                name="inscr_mun"
-                                attrs="{'invisible': [('is_company','!=', True)]}"
-                            />
-                            <field
-                                name="suframa"
-                                attrs="{'invisible': [('is_company','!=', True)]}"
-                            />
+                            <field name="inscr_mun" invisible="not is_company" />
+                            <field name="suframa" invisible="not is_company" />
                             <field
                                 name="state_tax_number_ids"
-                                attrs="{'invisible': [('is_company','!=', True)]}"
+                                invisible="not is_company"
                             >
                                 <tree editable="bottom">
                                     <field name="partner_id" invisible="1" />
@@ -138,13 +111,10 @@
                         <group string="Other Infos" name="other_infos">
                             <field name="union_entity_code" />
                             <field name="is_accountant" />
-                            <field
-                                name="crc_code"
-                                attrs="{'invisible': [('is_accountant','!=', True)]}"
-                            />
+                            <field name="crc_code" invisible="not is_accountant" />
                             <field
                                 name="crc_state_id"
-                                attrs="{'invisible': [('is_accountant','!=', True)]}"
+                                invisible="not is_accountant"
                                 domain="[('country_id', '=', %(base.br)d)]"
                             />
                             <field name="rntrc_code" />

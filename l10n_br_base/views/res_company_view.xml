@@ -9,42 +9,40 @@
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='vat']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('country_id', '=', %(base.br)d)]}</attribute>
+                <attribute name="invisible">country_id == %(base.br)d</attribute>
             </xpath>
             <field name="company_registry" position="after">
                 <field
                     name="legal_name"
                     placeholder="Legal Name..."
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
                 <field
                     name="cnpj_cpf"
                     placeholder="CNPJ..."
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
                 <field
                     name="inscr_est"
                     placeholder="State Tax Number..."
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
                 <field
                     name="inscr_mun"
                     placeholder="Municipal Tax Number..."
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
                 <field
                     name="suframa"
                     placeholder="Suframa"
-                    attrs="{'invisible': [('state_id', '!=', %(base.state_br_am)d)]}"
+                    invisible="state_id != %(base.state_br_am)d"
                 />
                 <field
                     name="state_tax_number_ids"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 >
                     <tree editable="bottom">
-                        <field name="company_id" invisible="1" />
+                        <field name="company_id" column_invisible="1" />
                         <field name="inscr_est" />
                         <field
                             name="state_id"
@@ -76,7 +74,6 @@
         <field name="name">l10n_br_base.res.company.tree</field>
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_tree" />
-        <field name="field_parent">child_ids</field>
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="cnpj_cpf" />
