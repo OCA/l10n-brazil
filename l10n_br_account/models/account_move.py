@@ -108,6 +108,45 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
+    # -------------------------------------------------------------------------
+    # SHADOWED FIELDS SYNC
+    # -------------------------------------------------------------------------
+
+    user_id = fields.Many2one(inverse="_inverse_user_id")
+
+    @api.model
+    def _shadowed_fields(self):
+        """Return the list of shadowed fields that are synchronized
+        from account.move."""
+        return SHADOWED_FIELDS
+
+    @api.onchange("company_id")
+    def _inverse_company_id(self):
+        for move in self:
+            for doc in move.fiscal_document_ids:
+                doc.company_id = move.company_id
+        return super()._inverse_partner_id()
+
+    @api.onchange("currency_id")
+    def _inverse_currency_id(self):
+        for move in self:
+            for doc in move.fiscal_document_ids:
+                doc.currency_id = move.currency_id
+        return super()._inverse_currency_id()
+
+    @api.onchange("partner_id")
+    def _inverse_partner_id(self):
+        for move in self:
+            for doc in move.fiscal_document_ids:
+                doc.partner_id = move.partner_id
+        return super()._inverse_partner_id()
+
+    @api.onchange("user_id")
+    def _inverse_user_id(self):
+        for move in self:
+            for doc in move.fiscal_document_ids:
+                doc.user_id = move.user_id
+
     @api.onchange("document_type_id")
     def _inverse_document_type_id(self):
         if (self.document_type_id and not self.fiscal_document_id) or (
@@ -120,7 +159,10 @@ class AccountMove(models.Model):
             if move.document_type_id and not move.fiscal_document_id:
                 fiscal_doc_vals = {}
                 for field in self._shadowed_fields():
-                    fiscal_doc_vals[f"fiscal_proxy_{field}"] = getattr(move, field)
+                    val = getattr(move, field)
+                    if self._fields[field].type == "many2one":
+                        val = val.id
+                    fiscal_doc_vals[field] = val
                 move.fiscal_document_id = (
                     self.env["l10n_br_fiscal.document"].create(fiscal_doc_vals).id
                 )
@@ -140,10 +182,10 @@ class AccountMove(models.Model):
                     )
                 )
 
-    @api.depends("line_ids", "invoice_line_ids")
+    @api.depends("line_ids", "invoice_line_ids", "fiscal_document_id")
     def _compute_fiscal_document_ids(self):
         for move in self:
-            docs = self.env["l10n_br_fiscal.document"]
+            docs = move.fiscal_document_id
             for line in move.invoice_line_ids:
                 docs |= line.document_id
             move.fiscal_document_ids = docs
@@ -165,12 +207,6 @@ class AccountMove(models.Model):
     def _get_amount_lines(self):
         """Get object lines instances used to compute fields"""
         return self.mapped("invoice_line_ids")
-
-    @api.model
-    def _shadowed_fields(self):
-        """Return the list of shadowed fields that are synchronized
-        from account.move."""
-        return SHADOWED_FIELDS
 
     def ensure_one_doc(self):
         self.ensure_one()
@@ -432,16 +468,10 @@ class AccountMove(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        self._inject_shadowed_fields(vals_list)
         invoice = super(AccountMove, self.with_context(create_from_move=True)).create(
             vals_list
         )
         return invoice
-
-    def write(self, values):
-        self._inject_shadowed_fields([values])
-        result = super().write(values)
-        return result
 
     def unlink(self):
         """Allow to delete draft or cancelled invoices"""
