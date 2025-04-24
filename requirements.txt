@@ -1,0 +1,3 @@
+# generated from manifests external_dependencies
+brazilcep
+erpbrasil.base>=2.3.0
