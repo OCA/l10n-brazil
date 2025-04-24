@@ -155,6 +155,7 @@ class TestSefaz(TransactionCase):
                 dummy._onchange_cnpj_cpf()
                 action_wizard = dummy.action_open_cnpj_search_wizard()
                 wizard_context = action_wizard.get("context")
+                wizard_context["active_model"] = "res.partner"
                 wizard = Form(
                     self.env["partner.search.wizard"]
                     .with_context(**wizard_context)
