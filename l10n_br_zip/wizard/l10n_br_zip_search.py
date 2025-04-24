@@ -42,9 +42,9 @@ class L10nBrZipSearch(models.TransientModel):
         default="init",
     )
 
-    address_id = fields.Integer(string="Id do objeto", invisible=True)
+    address_id = fields.Integer(string="Id do objeto")
 
-    object_name = fields.Char(string="Nome do Objeto", invisible=True)
+    object_name = fields.Char(string="Nome do Objeto")
 
     @api.model
     def default_get(self, fields_list):
