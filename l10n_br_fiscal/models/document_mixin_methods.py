@@ -158,12 +158,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 # reload fiscal data, operation line, cfop, taxes, etc.
                 line._onchange_fiscal_operation_id()
 
-    @api.onchange("fiscal_operation_id")
-    def _onchange_fiscal_operation_id(self):
-        if self.fiscal_operation_id:
-            self.operation_name = self.fiscal_operation_id.name
-            self.comment_ids = self.fiscal_operation_id.comment_ids
-
     def _inverse_amount_landed_cost(self, field_name):
         """
         Set landed costs values to the document lines; rate by amount.
