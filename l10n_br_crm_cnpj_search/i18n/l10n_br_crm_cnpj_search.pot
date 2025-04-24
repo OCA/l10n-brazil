@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_crm_cnpj_search
-#: model:ir.model,name:l10n_br_crm_cnpj_search.model_l10n_br_base_party_mixin
-msgid "Brazilian partner and company data mixin"
-msgstr ""
-
-#. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_fiscal_page_view_form
 msgid "CNAE Principal"
 msgstr ""
