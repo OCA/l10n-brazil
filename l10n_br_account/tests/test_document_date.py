@@ -60,6 +60,9 @@ class TestInvoiceDiscount(TransactionCase):
                 0,
                 0,
                 {
+                    "fiscal_operation_line_id": cls.env.ref(
+                        "l10n_br_fiscal.fo_venda_revenda"
+                    ).id,
                     "account_id": cls.invoice_line_account_id.id,
                     "product_id": product_id.id,
                     "quantity": 1,
@@ -75,6 +78,8 @@ class TestInvoiceDiscount(TransactionCase):
             .create(
                 {
                     "company_id": cls.company.id,
+                    "partner_id": cls.env.ref("base.res_partner_3").id,
+                    "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
                     "document_serie_id": cls.env.ref(
                         "l10n_br_fiscal.empresa_lc_document_55_serie_1"
                     ).id,
