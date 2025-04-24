@@ -13,12 +13,16 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["payment"],
     "data": [
-        "views/payment_provider_views.xml",
+        # Views Templates
         "views/payment_cielo_templates.xml",
+        # Data
         "data/payment_provider_data.xml",
+        # Views
+        "views/payment_provider_views.xml",
+        "views/payment_icon_data.xml",
     ],
     "images": ["static/description/icon.png"],
     "installable": True,
-    "post_init_hook": "create_missing_journal_for_acquirers",
+    "post_init_hook": "post_init_hook",
     "uninstall_hook": "uninstall_hook",
 }
