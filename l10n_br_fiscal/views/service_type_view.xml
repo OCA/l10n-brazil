@@ -79,7 +79,7 @@
                             id="product_tmpl_button"
                             icon="fa-bars"
                             name="%(product.product_template_action_all)d"
-                            context="{'search_default_service_type_id': active_id}"
+                            context="{'search_default_service_type_id': id}"
                             invisible="product_tmpl_qty == 0"
                         >
                             <field

@@ -58,7 +58,7 @@
                             <field
                                 name="tax_ids"
                                 nolabel="1"
-                                context="{'default_tax_group_id': active_id}"
+                                context="{'default_tax_group_id': id}"
                             />
                         </page>
                         <page
