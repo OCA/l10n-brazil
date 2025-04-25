@@ -77,14 +77,14 @@
             <field
                             name="tax_group_id"
                             force_save="1"
-                            readonly="icms_regulation_id"
+                            readonly="icms_regulation_id != False or state != 'draft'"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
-            <field name="type_in_out" invisible="1" readonly="state != 'draft'" />
+            <field name="type_in_out" invisible="1" />
             <field name="is_taxed" readonly="state != 'draft'" />
             <field
                             name="is_debit_credit"
-                            invisible="not is_taxed"
+                            invisible="is_taxed == False"
                             readonly="state != 'draft'"
                         />
             <field name="custom_tax" readonly="state != 'draft'" />
@@ -100,11 +100,13 @@
                             invisible="not custom_tax or tax_domain not in ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst')"
                             required="custom_tax and tax_domain in ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst')"
                             options="{'no_create': True, 'no_create_edit': True}"
+                            readonly="state != 'draft'"
                         />
             <field
                             name="ipi_guideline_id"
                             invisible="tax_domain != 'ipi'"
                             options="{'no_create': True, 'no_create_edit': True}"
+                            readonly="state != 'draft'"
                         />
             <field
                             name="is_benefit"
@@ -112,10 +114,26 @@
                             readonly="state != 'draft'"
                         />
           </group>
-          <group name="tax_benefit" string="Tax Benefit" invisible="not is_benefit">
-            <field name="code" required="is_benefit" />
-            <field name="description" required="is_benefit" />
-            <field name="benefit_type" required="is_benefit" />
+          <group
+                        name="tax_benefit"
+                        string="Tax Benefit"
+                        invisible="is_benefit == False"
+                    >
+            <field
+                            name="code"
+                            required="is_benefit != False"
+                            readonly="state != 'draft'"
+                        />
+            <field
+                            name="description"
+                            required="is_benefit != False"
+                            readonly="state != 'draft'"
+                        />
+            <field
+                            name="benefit_type"
+                            required="is_benefit != False"
+                            readonly="state != 'draft'"
+                        />
 
           </group>
           <group name="state" string="State">
@@ -123,8 +141,13 @@
                             name="state_from_id"
                             options="{'no_create': True, 'no_create_edit': True}"
                             required="is_benefit"
+                            readonly="state != 'draft'"
                         />
-            <field name="state_to_ids" options="{'no_create': True}" />
+            <field
+                            name="state_to_ids"
+                            options="{'no_create': True}"
+                            readonly="state != 'draft'"
+                        />
           </group>
           <notebook>
             <page name="ncms_page" string="NCM">
@@ -151,6 +174,7 @@
                                     force_save="1"
                                     nolabel="1"
                                     colspan="2"
+                                    readonly="state != 'draft'"
                                 />
                 <field name="ncm_exception" readonly="state != 'draft'" />
                 <field name="not_in_ncms" readonly="state != 'draft'" />
@@ -180,6 +204,7 @@
                                     force_save="1"
                                     nolabel="1"
                                     colspan="2"
+                                    readonly="state != 'draft'"
                                 />
                 <field name="not_in_nbms" readonly="state != 'draft'" />
               </group>
@@ -208,6 +233,7 @@
                                     nolabel="1"
                                     colspan="2"
                                     options="{'no_create': True}"
+                                    readonly="state != 'draft'"
                                 />
               </group>
             </page>
@@ -218,17 +244,30 @@
                                     force_save="1"
                                     nolabel="1"
                                     colspan="2"
+                                    readonly="state != 'draft'"
                                 />
               </group>
             </page>
             <page name="service_types_page" string="Fiscal Service Type">
               <group name="service_types" string="Fiscal Service Types">
-                <field name="service_type_ids" force_save="1" nolabel="1" colspan="2" />
+                <field
+                                    name="service_type_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                    readonly="state != 'draft'"
+                                />
               </group>
             </page>
             <page name="products_page" string="Product">
               <group name="products" string="Products">
-                <field name="product_ids" force_save="1" nolabel="1" colspan="2" />
+                <field
+                                    name="product_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                    readonly="state != 'draft'"
+                                />
               </group>
             </page>
             <page name="fiscal_profile_page" string="Fiscal Profile">

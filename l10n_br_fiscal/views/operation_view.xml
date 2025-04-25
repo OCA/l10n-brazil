@@ -119,16 +119,16 @@
                         <page name="operation_line" string="Operation Line">
                             <field
                                 name="line_ids"
-                                context="{'default_fiscal_operation_id': id, 'default_fiscal_type': fiscal_type, 'default_fiscal_operation_type': fiscal_operation_type, 'form_view_ref': 'l10n_br_fiscal.operation_line_form' , 'show_code_only': 1}"
                                 readonly="state != 'draft'"
+                                context="{'default_fiscal_operation_id': id, 'default_fiscal_type': fiscal_type, 'default_fiscal_operation_type': fiscal_operation_type, 'form_view_ref': 'l10n_br_fiscal.operation_line_form' , 'show_code_only': 1}"
                             >
                             </field>
                         </page>
                         <page name="operation_document_type" string="Fiscal Documents">
                             <field
                                 name="document_type_ids"
-                                context="{'default_fiscal_operation_id': id}"
                                 readonly="state != 'draft'"
+                                context="{'default_fiscal_operation_id': id}"
                             >
                                 <tree>
                                     <field name="document_type_id" />
