@@ -453,6 +453,11 @@ msgid "COFINS Base Type"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_cst_code
+msgid "COFINS CST Code"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_credit_id
 msgid "COFINS Credit Code"
 msgstr ""
@@ -512,6 +517,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_base_type
 msgid "COFINS ST Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_cst_code
+msgid "COFINS ST CST Code"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2867,6 +2877,11 @@ msgid "ICMS Base Type"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_code
+msgid "ICMS CST Code"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_destination_value
 msgid "ICMS Dest. Value"
 msgstr ""
@@ -3193,6 +3208,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_base_type
 msgid "IPI Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_cst_code
+msgid "IPI CST Code"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5058,6 +5078,11 @@ msgid "PIS Base Type"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_cst_code
+msgid "PIS CST Code"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_credit_id
 msgid "PIS Credit"
 msgstr ""
@@ -5117,6 +5142,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_base_type
 msgid "PIS ST Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_cst_code
+msgid "PIS ST CST Code"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5891,6 +5921,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_tax_benefit_id
 msgid "Tax Benefit"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_tax_benefit_code
+msgid "Tax Benefit Code"
 msgstr ""
 
 #. module: l10n_br_account
