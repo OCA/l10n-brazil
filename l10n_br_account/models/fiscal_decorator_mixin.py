@@ -46,8 +46,9 @@ class FiscalDecoratorMixin(models.AbstractModel):
                 if (
                     name in self._fields
                     or name.startswith("fiscal_proxy_")
-                    or (not field.compute and not field.related)
                     or field_cls in [fields.One2many, fields.Many2many]
+                    or not (field.compute or field.related)
+                    or (field.compute and field.store)
                     or field.compute in self._fiscal_decorator_compute_blacklist
                 ):
                     continue
