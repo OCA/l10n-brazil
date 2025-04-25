@@ -8,7 +8,6 @@ import csv
 from io import StringIO
 import logging
 import os
-from odoo import SUPERUSER_ID, api
 from odoo.tools import convert
 from .demo import DEMO_NCM, DEMO_NBM, DEMO_NBS, DEMO_CEST
 
@@ -16,7 +15,7 @@ _logger = logging.getLogger(__name__)
 
 
 def convert_csv_import(
-    cr, module, fname, csvcontent, idref=None, mode="init", noupdate=False
+    env, module, fname, csvcontent, idref=None, mode="init", noupdate=False
 ):
     """
     This is a monkey patch allowing filtering for faster demo/test loading
@@ -36,7 +35,6 @@ def convert_csv_import(
         # at this early stage of data module loading, the demo flag of the fiscal module
         # can still be False, that's why we will consider it's the demo/test mode
         # if the demo flag is set for the l10n_br_base module.
-        env = api.Environment(cr, SUPERUSER_ID, {})
         modules = env["ir.module.module"].search(
             [("name", "in", ("l10n_br_base", "l10n_br_fiscal"))]
         )
@@ -66,7 +64,7 @@ def convert_csv_import(
             csvcontent = output_stream.getvalue().encode()
 
     return convert.convert_csv_import._original_method(
-        cr, module, fname, csvcontent, idref, mode, noupdate
+        env, module, fname, csvcontent, idref, mode, noupdate
     )
 
 
