@@ -86,13 +86,15 @@ class Comment(models.Model):
             order=order,
         )
 
-    def name_get(self):
+    @api.depends("comment")
+    def _compute_display_name(self):
         def truncate_name(name):
             if len(name) > 60:
                 name = f"{name[:60]}..."
             return name
 
-        return [(r.id, f"{truncate_name(r.name)}") for r in self]
+        for record in self:
+            record.display_name = truncate_name(record.comment)
 
     # format_amount function for fiscal observation
     # This way we can format numbers in currency template on fiscal observation

@@ -114,13 +114,15 @@ class DataAbstract(models.AbstractModel):
             name, domain=domain, operator=operator, limit=limit, order=order
         )
 
-    def name_get(self):
+    @api.depends("name", "code")
+    def _compute_display_name(self):
         def truncate_name(name):
             if len(name) > 60:
                 name = f"{name[:60]}..."
             return name
 
-        if self._context.get("show_code_only"):
-            return [(r.id, f"{r.code}") for r in self]
-
-        return [(r.id, f"{r.code} - {truncate_name(r.name)}") for r in self]
+        for record in self:
+            if self._context.get("show_code_only"):
+                record.display_name = record.code
+            else:
+                record.display_name = f"{record.code} - {truncate_name(record.name)}"
