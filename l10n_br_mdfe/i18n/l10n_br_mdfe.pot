@@ -6578,6 +6578,20 @@ msgstr ""
 
 #. module: l10n_br_mdfe
 #. odoo-python
+#: code:addons/l10n_br_mdfe/models/modal_aquaviario.py:0
+#, python-format
+msgid "You can only add up to 5 loading terminals for the same MDF-e."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/modal_aquaviario.py:0
+#, python-format
+msgid "You can only add up to 5 unloading terminals for the same MDF-e."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
 #: code:addons/l10n_br_mdfe/report/ir_actions_report.py:0
 #, python-format
 msgid "You can only print a DAMDFE of a MDFe(58)."
