@@ -80,7 +80,7 @@
                             name="%(product.product_template_action_all)d"
                             domain="['|', ('fiscal_type', '=', '09'), ('fiscal_type', '=', False), ('type', '=', 'service')]"
                             context="{'search_default_nbs_id': active_id, 'default_fiscal_type': '09', 'default_type': 'service'}"
-                            attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}"
+                            invisible="product_tmpl_qty == 0"
                         >
                             <field
                                 string="Products"

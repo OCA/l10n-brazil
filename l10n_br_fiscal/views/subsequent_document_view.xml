@@ -17,7 +17,7 @@
                     name="show_subsequent_document"
                     type="object"
                     string="Show Document"
-                    attrs="{'invisible': [('subsequent_document_id', '=', False)]}"
+                    invisible="subsequent_document_id == False"
                 />
             </tree>
         </field>
@@ -35,7 +35,7 @@
                     name="show_source_document"
                     type="object"
                     string="Show Document"
-                    attrs="{'invisible': [('source_document_id', '=', False)]}"
+                    invisible="source_document_id == False"
                 />
             </tree>
         </field>

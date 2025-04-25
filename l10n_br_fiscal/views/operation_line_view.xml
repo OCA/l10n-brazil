@@ -59,7 +59,7 @@
                             </group>
                             <group
                                 name="general_cfop"
-                                attrs="{'invisible': [('fiscal_operation_type', '=', 'all')]}"
+                                invisible="fiscal_operation_type == 'all'"
                             >
                             <field
                                     name="cfop_internal_id"

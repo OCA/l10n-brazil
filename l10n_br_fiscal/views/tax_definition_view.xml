@@ -73,57 +73,47 @@
             <field
                             name="tax_group_id"
                             force_save="1"
-                            attrs="{'readonly': [('icms_regulation_id', '!=', False)]}"
+                            readonly="icms_regulation_id != False"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
             <field name="type_in_out" invisible="1" />
             <field name="is_taxed" />
-            <field
-                            name="is_debit_credit"
-                            attrs="{'invisible': [('is_taxed', '=', False)]}"
-                        />
+            <field name="is_debit_credit" invisible="is_taxed == False" />
             <field name="custom_tax" />
             <field
                             name="tax_id"
-                            attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"
+                            invisible="custom_tax == False"
+                            required="custom_tax == True"
                         />
             <field
                             name="cst_id"
                             force_save="1"
-                            attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"
+                            invisible="custom_tax == False or tax_domain not in ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst')"
+                            required="custom_tax == True and tax_domain in ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst')"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
             <field
                             name="ipi_guideline_id"
-                            attrs="{'invisible': [('tax_domain', '!=', 'ipi')]}"
+                            invisible="tax_domain != 'ipi'"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
-            <field
-                            name="is_benefit"
-                            attrs="{'invisible': [('tax_domain', '!=', 'icms')]}"
-                        />
+            <field name="is_benefit" invisible="tax_domain != 'icms'" />
           </group>
           <group
                         name="tax_benefit"
                         string="Tax Benefit"
-                        attrs="{'invisible': [('is_benefit', '=', False)]}"
+                        invisible="is_benefit == False"
                     >
-            <field name="code" attrs="{'required': [('is_benefit', '!=', False)]}" />
-            <field
-                            name="description"
-                            attrs="{'required': [('is_benefit', '!=', False)]}"
-                        />
-            <field
-                            name="benefit_type"
-                            attrs="{'required': [('is_benefit', '!=', False)]}"
-                        />
+            <field name="code" required="is_benefit != False" />
+            <field name="description" required="is_benefit != False" />
+            <field name="benefit_type" required="is_benefit != False" />
 
           </group>
           <group name="state" string="State">
             <field
                             name="state_from_id"
                             options="{'no_create': True, 'no_create_edit': True}"
-                            attrs="{'required': [('is_benefit', '=', True)]}"
+                            required="is_benefit == True"
                         />
             <field name="state_to_ids" options="{'no_create': True}" />
           </group>

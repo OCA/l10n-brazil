@@ -30,7 +30,7 @@
                             <group
                                 name="simples"
                                 string="Simples Nacional"
-                                attrs="{'invisible': [('tax_framework', '=', '3')]}"
+                                invisible="tax_framework == '3'"
                             >
                                 <group>
                                     <field name="annual_revenue" />
@@ -47,19 +47,20 @@
                             <group
                                 name="normal"
                                 string="Regime Normal"
-                                attrs="{'invisible': [('tax_framework', '!=', '3')]}"
+                                invisible="tax_framework != '3'"
                             >
                                 <group>
                                     <field
                                         name="profit_calculation"
-                                        attrs="{'required': [('tax_framework', '=', '3')]}"
+                                        required="tax_framework == '3'"
                                     />
                                 </group>
                                 <group>
                                     <field name="is_industry" />
                                     <field
                                         name="industry_type"
-                                        attrs="{'invisible': [('is_industry', '=', False)], 'required': [('is_industry', '=', True)]}"
+                                        invisible="is_industry == False"
+                                        required="is_industry == True"
                                     />
                                 </group>
                             </group>
@@ -93,17 +94,18 @@
                                   <group name="ipi_taxes" string="IPI">
                                       <field
                                         name="ripi"
-                                        attrs="{'invisible': [('tax_framework', '!=', '3')]}"
+                                        invisible="tax_framework != '3'"
                                     />
                                       <field
                                         name="tax_ipi_id"
-                                        attrs="{'invisible': [('tax_framework', '=', '3'), ('ripi', '=', True)], 'required': [('tax_framework', '!=', '3')]}"
+                                        invisible="tax_framework == '3' and ripi == True"
+                                        required="tax_framework != '3'"
                                         domain="{'3': [('id', '!=', %(l10n_br_fiscal.tax_ipi_outros)d), ('tax_group_id', '=', %(l10n_br_fiscal.tax_group_ipi)d)]}.get(tax_framework, [('id', '=', %(l10n_br_fiscal.tax_ipi_outros)d)])"
                                     />
                                       <div
                                         class="text-muted"
                                         colspan="2"
-                                        attrs="{'invisible': [('ripi', '=', False)]}"
+                                        invisible="ripi == False"
                                     >
                                           IPI tax will be calculed by Product NCM and Fiscal Operation.
                                       </div>
@@ -111,13 +113,15 @@
                                   <group name="icms_taxes" string="ICMS">
                                       <field
                                         name="tax_icms_id"
-                                        attrs="{'invisible': [('tax_framework', '=', '3')], 'required': [('tax_framework', 'in', ('1', '2'))]}"
+                                        invisible="tax_framework == '3'"
+                                        required="tax_framework in ('1', '2')"
                                         domain="{'3': [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icms)d)]}.get(tax_framework, [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icmssn)d)])"
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                       <field
                                         name="icms_regulation_id"
-                                        attrs="{'invisible': [('tax_framework', '!=', '3')], 'required': [('tax_framework', '=', '3')]}"
+                                        invisible="tax_framework != '3'"
+                                        required="tax_framework == '3'"
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                   </group>
@@ -142,7 +146,7 @@
                                 <field
                                     name="tax_definition_ids"
                                     nolabel="1"
-                                    context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_company_id': id}"
+                                    context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_fiscal.tax_definition_form', 'default_company_id': id}"
                                     colspan="2"
                                 />
                             </group>
