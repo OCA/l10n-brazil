@@ -49,7 +49,7 @@
                             id="partner_button"
                             icon="fa-bars"
                             name="action_view_partners"
-                            context="{'default_fiscal_profile_id': active_id}"
+                            context="{'default_fiscal_profile_id': id}"
                             invisible="partner_qty == 0"
                         >
                             <field
