@@ -28,14 +28,12 @@ class InvalidateNumber(models.Model):
         readonly=True,
         default=lambda self: self.env.company.id,
         required=True,
-        states={"draft": [("readonly", False)]},
     )
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     document_electronic = fields.Boolean(
@@ -49,27 +47,23 @@ class InvalidateNumber(models.Model):
             ('company_id', '=', company_id)]""",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     number_start = fields.Integer(
         string="Initial Number",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     number_end = fields.Integer(
         string="End Number",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     justification = fields.Char(
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     state = fields.Selection(
