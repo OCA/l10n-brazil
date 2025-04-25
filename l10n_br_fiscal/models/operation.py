@@ -24,14 +24,12 @@ class Operation(models.Model):
     code = fields.Char(
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
 
     name = fields.Char(
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
 
@@ -40,7 +38,6 @@ class Operation(models.Model):
         string="Type",
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
 
@@ -49,7 +46,6 @@ class Operation(models.Model):
         string="Finalidade",
         default=EDOC_PURPOSE_NORMAL,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
 
@@ -58,7 +54,6 @@ class Operation(models.Model):
         string="Default Price Unit?",
         default="sale_price",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
 
@@ -67,7 +62,6 @@ class Operation(models.Model):
         default=OPERATION_FISCAL_TYPE_DEFAULT,
         required=True,
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
 
@@ -75,7 +69,6 @@ class Operation(models.Model):
         comodel_name="l10n_br_fiscal.operation",
         string="Return Operation",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         domain="[('fiscal_operation_type', '!=', fiscal_operation_type), "
         "('fiscal_type', 'in', {'sale': ['sale_refund'], 'purchase': "
         "['purchase_refund'], 'other': ['return_in', 'return_out'],"
@@ -88,7 +81,6 @@ class Operation(models.Model):
         comodel_name="l10n_br_fiscal.operation",
         string="Inverse Operation",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
 
@@ -96,7 +88,6 @@ class Operation(models.Model):
         comodel_name="res.company",
         string="Company",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         tracking=True,
     )
 
@@ -114,7 +105,6 @@ class Operation(models.Model):
         inverse_name="fiscal_operation_id",
         string="Operation Document Types",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     line_ids = fields.One2many(
@@ -122,7 +112,6 @@ class Operation(models.Model):
         inverse_name="fiscal_operation_id",
         string="Operation Line",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         copy=True,
     )
 
