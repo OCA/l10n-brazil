@@ -28,7 +28,7 @@
                             name="web_ribbon"
                             title="Archived"
                             bg_color="bg-danger"
-                            invisible="activeT == True"
+                            invisible="active == True"
                         />
 
                     </div>
