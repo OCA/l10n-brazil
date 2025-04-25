@@ -361,11 +361,9 @@ class Document(models.Model):
             )
         return name
 
-    def name_get(self):
-        res = []
+    def _compute_display_name(self):
         for record in self:
-            res.append((record.id, record._compute_document_name()))
-        return res
+            record.display_name = record._compute_document_name()
 
     @api.depends(
         "issuer",
