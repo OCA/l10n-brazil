@@ -23,7 +23,6 @@
     <record id="cnae_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cnae.tree</field>
         <field name="model">l10n_br_fiscal.cnae</field>
-        <field name="field_parent">children_ids</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="code" />
