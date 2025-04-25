@@ -6,7 +6,7 @@
     <field name="model">l10n_br_fiscal.tax.definition</field>
     <field name="arch" type="xml">
       <tree>
-        <field name="state" invisible="1" />
+        <field name="state" column_invisible="1" />
         <field name="tax_group_id" />
         <field name="is_taxed" />
         <field name="tax_id" />
@@ -23,8 +23,8 @@
                 decoration-info="state in ('draft', 'review')"
                 decoration-muted="state == 'expired'"
             >
-        <field name="state" invisible="1" />
-        <field name="tax_group_id" invisible="1" />
+        <field name="state" column_invisible="1" />
+        <field name="tax_group_id" column_invisible="1" />
         <field name="state_from_id" />
         <field name="state_to_ids" />
         <field name="tax_id" />
