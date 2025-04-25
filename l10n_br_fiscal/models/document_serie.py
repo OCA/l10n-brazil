@@ -78,8 +78,10 @@ class DocumentSerie(models.Model):
                 vals.update({"internal_sequence_id": self._create_sequence(vals)})
         return super().create(vals_list)
 
-    def name_get(self):
-        return [(r.id, f"{r.name}") for r in self]
+    @api.depends("name")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record.name
 
     def _is_invalid_number(self, document_number):
         self.ensure_one()

@@ -63,16 +63,6 @@ class TaxDefinition(models.Model):
         for record in self:
             record.display_name = record._get_complete_name()
 
-    @api.depends("tax_group_id", "tax_id", "cst_code")
-    def name_get(self):
-        result = []
-        for record in self:
-            name = record._get_complete_name()
-            result.append((record.id, name))
-        return result
-
-    display_name = fields.Char(compute="_compute_display_name", store=True)
-
     code = fields.Char(
         size=8,
         states={"draft": [("readonly", False)]},
