@@ -38,7 +38,7 @@
                         name="action_invalidate"
                         type="object"
                         string="Confirmar"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                     />
           </header>

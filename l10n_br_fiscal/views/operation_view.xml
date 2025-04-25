@@ -45,7 +45,7 @@
                     <button
                         name="action_review"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Review"
                         class="oe_highlight"
                         groups="l10n_br_fiscal.group_manager"
@@ -53,7 +53,7 @@
                     <button
                         name="action_approve"
                         type="object"
-                        states="review,expired"
+                        invisible="state not in ('review', 'expired')"
                         string="Approve"
                         class="oe_highlight"
                         groups="l10n_br_fiscal.group_manager"
@@ -61,7 +61,7 @@
                     <button
                         name="action_draft"
                         type="object"
-                        states="review,approved"
+                        invisible="state not in ('review', 'approved')"
                         string="Reset To Draft"
                         class="oe_highlight"
                         groups="l10n_br_fiscal.group_manager"
