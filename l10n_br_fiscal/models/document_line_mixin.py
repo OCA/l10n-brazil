@@ -189,9 +189,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
-        relation="fiscal_tax_rel",
-        column1="document_id",
-        column2="fiscal_tax_id",
         string="Fiscal Taxes",
     )
 
@@ -874,9 +871,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
-        relation="l10n_br_fiscal_document_line_mixin_comment_rel",
-        column1="document_line_mixin_id",
-        column2="comment_id",
         string="Comments",
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
     )

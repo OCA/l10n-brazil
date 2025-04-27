@@ -73,9 +73,6 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
-        relation="l10n_br_fiscal_document_mixin_comment_rel",
-        column1="document_mixin_id",
-        column2="comment_id",
         string="Comments",
         domain=[("object", "=", FISCAL_COMMENT_DOCUMENT)],
         compute="_compute_comment_ids",
