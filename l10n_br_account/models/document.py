@@ -32,6 +32,43 @@ class FiscalDocument(models.Model):
         readonly=True,
     )
 
+    # -------------------------------------------------------------------------
+    # SHADOWED FIELDS SYNC
+    # -------------------------------------------------------------------------
+
+    company_id = fields.Many2one(inverse="_inverse_company_id")
+    currency_id = fields.Many2one(inverse="_inverse_currency_id")
+    partner_id = fields.Many2one(inverse="_inverse_partner_id")
+    user_id = fields.Many2one(inverse="_inverse_user_id")
+
+    @api.onchange("company_id")
+    def _inverse_company_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.company_id != doc.company_id:
+                    move.company_id = doc.company_id
+
+    @api.onchange("currency_id")
+    def _inverse_currency_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.currency_id != doc.currency_id:
+                    move.currency_id = doc.currency_id
+
+    @api.onchange("partner_id")
+    def _inverse_partner_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.partner_id != doc.partner_id:
+                    move.partner_id = doc.partner_id
+
+    @api.onchange("user_id")
+    def _inverse_user_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.user_id != doc.user_id:
+                    move.user_id = doc.user_id
+
     # commented out because of badly written TestInvoiceDiscount.test_date_in_out
     #    def write(self, vals):
     #        if self.document_type_id:
