@@ -34,9 +34,7 @@ class CityTaxationCode(models.Model):
 
     tax_definition_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax.definition",
-        relation="tax_definition_city_taxation_code_rel",
-        column1="city_taxation_code_id",
-        column2="tax_definition_id",
+        relation="tax_definition_city_taxation_code_rel",  # (orm default is too long)
         readonly=True,
         string="Tax Definition",
     )

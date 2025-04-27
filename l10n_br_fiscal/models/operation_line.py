@@ -118,9 +118,6 @@ class OperationLine(models.Model):
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
-        relation="l10n_br_fiscal_operation_line_comment_rel",
-        column1="fiscal_operation_line_id",
-        column2="comment_id",
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
         string="Comment",
     )
