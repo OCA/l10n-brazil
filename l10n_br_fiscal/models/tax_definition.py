@@ -127,10 +127,7 @@ class TaxDefinition(models.Model):
     )
 
     state_to_ids = fields.Many2many(
-        comodel_name="res.country.state",
-        relation="tax_definition_state_to_rel",
-        column1="tax_definition_id",
-        column2="state_id",
+        "res.country.state",
         string="To States",
         domain=[("country_id.code", "=", "BR")],
     )
