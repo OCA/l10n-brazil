@@ -128,9 +128,6 @@ class TaxDefinition(models.Model):
 
     state_to_ids = fields.Many2many(
         comodel_name="res.country.state",
-        relation="tax_definition_state_to_rel",
-        column1="tax_definition_id",
-        column2="state_id",
         string="To States",
         domain=[("country_id.code", "=", "BR")],
     )
@@ -155,9 +152,6 @@ class TaxDefinition(models.Model):
 
     ncm_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.ncm",
-        relation="tax_definition_ncm_rel",
-        column1="tax_definition_id",
-        column2="ncm_id",
         readonly=True,
         string="NCMs",
     )
@@ -170,9 +164,6 @@ class TaxDefinition(models.Model):
 
     cest_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.cest",
-        relation="tax_definition_cest_rel",
-        column1="tax_definition_id",
-        column2="cest_id",
         readonly=True,
         string="CESTs",
     )
@@ -191,34 +182,23 @@ class TaxDefinition(models.Model):
 
     nbm_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.nbm",
-        relation="tax_definition_nbm_rel",
-        column1="tax_definition_id",
-        column2="nbm_id",
         readonly=True,
         string="NBMs",
     )
 
     product_ids = fields.Many2many(
         comodel_name="product.product",
-        relation="tax_definition_product_rel",
-        column1="tax_definition_id",
-        column2="product_id",
         string="Products",
     )
 
     city_taxation_code_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.city.taxation.code",
-        relation="tax_definition_city_taxation_code_rel",
-        column1="tax_definition_id",
-        column2="city_taxation_code_id",
+        relation="tax_definition_city_taxation_code_rel",  # (orm default is too long)
         string="City Taxation Codes",
     )
 
     service_type_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.service.type",
-        relation="tax_definition_service_type_rel",
-        column1="tax_definition_id",
-        column2="service_type_id",
         string="Fiscal Service Types",
     )
 
