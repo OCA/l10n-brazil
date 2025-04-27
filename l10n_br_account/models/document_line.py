@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from odoo.tools import float_compare
 
 
 class FiscalDocumentLine(models.Model):
@@ -20,6 +21,55 @@ class FiscalDocumentLine(models.Model):
         store=True,
         string="UOM",
     )
+
+    # -------------------------------------------------------------------------
+    # SHADOWED FIELDS SYNC
+    # -------------------------------------------------------------------------
+
+    product_id = fields.Many2one(inverse="_inverse_product_id")
+    name = fields.Char(inverse="_inverse_name")
+    quantity = fields.Float(inverse="_inverse_quantity")
+    price_unit = fields.Float(inverse="_inverse_price_unit")
+
+    @api.onchange("product_id")
+    def _inverse_product_id(self):
+        for line in self:
+            for aml in line.account_line_ids:
+                if aml.product_id != line.product_id:
+                    aml.product_id = line.product_id.id
+
+    @api.onchange("name")
+    def _inverse_name(self):
+        for line in self:
+            for aml in line.account_line_ids:
+                if aml.name != line.name:
+                    aml.name = line.name
+
+    @api.onchange("quantity")
+    def _inverse_quantity(self):
+        for line in self:
+            for aml in line.account_line_ids:
+                if (
+                    float_compare(
+                        aml.quantity,
+                        line.quantity,
+                        self.env["decimal.precision"].precision_get(
+                            "Product Unit of Measure"
+                        ),
+                    )
+                    != 0
+                ):
+                    aml.quantity = line.quantity
+
+    @api.onchange("price_unit")
+    def _inverse_price_unit(self):
+        for line in self:
+            for aml in line.account_line_ids:
+                if (
+                    aml.currency_id.compare_amounts(aml.price_unit, line.price_unit)
+                    != 0
+                ):
+                    aml.price_unit = line.price_unit
 
     @api.model_create_multi
     def create(self, vals_list):
