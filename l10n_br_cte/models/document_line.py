@@ -21,7 +21,7 @@ class CTeLine(spec_models.StackedModel):
     # CT-e tag: comp
     ##########################
 
-    cte40_xNome = fields.Text(related="name")
+    cte40_xNome = fields.Char(related="name")
 
     cte40_vComp = fields.Monetary(related="amount_total")
 
