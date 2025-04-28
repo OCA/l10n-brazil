@@ -72,7 +72,7 @@
                             </group>
                             <group colspan="4" string="Secondary CNAE">
                                 <field
-                                    colspan="4"
+                                    colspan="2"
                                     nolabel="1"
                                     name="cnae_secondary_ids"
                                     options="{'no_create': True}"
