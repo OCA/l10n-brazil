@@ -6,23 +6,17 @@
     "name": "Base dos Planos de Contas",
     "summary": """
         Base do Planos de Contas brasileiros""",
-    "version": "16.0.2.1.1",
+    "version": "17.0.1.0.0",
     "license": "AGPL-3",
     "author": "Akretion, KMEE, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima", "mileo"],
-    "category": "Accounting",
+    "category": "Accounting/Localizations/Account Charts",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["account"],
     "data": [
-        # security
-        "security/ir.model.access.csv",
         # Data
-        "data/l10n_br_coa_template.xml",
         "data/account_tax_tag.xml",
-        "data/account_tax_group.xml",
-        "data/account_tax_template.xml",
         # Views
-        "views/account_tax_template.xml",
         "views/account_tax.xml",
     ],
     "development_status": "Production/Stable",
