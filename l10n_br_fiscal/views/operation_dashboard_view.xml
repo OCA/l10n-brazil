@@ -13,6 +13,33 @@
                 <field name="kanban_dashboard" />
                 <field name="color" />
                 <templates>
+
+                    <!-- Novo: kanban-menu separado -->
+                    <t t-name="kanban-menu">
+                        <div class="o_kanban_card_manage_section">
+                            <div role="menuitem" class="o_kanban_manage_reports">
+                                <div class="o_kanban_card_manage_title ps-4 pb-1">
+                                    <span
+                                        class="fw-bolder"
+                                    >Ações</span> <!-- Você pode mudar para 'View' se preferir -->
+                                </div>
+                                <a
+                                    role="menuitem"
+                                    class="dropdown-item"
+                                    type="object"
+                                    name="open_action"
+                                >Ver Todos</a>
+                                <div role="separator" class="dropdown-divider" />
+                                <ul
+                                    t-if="widget.editable"
+                                    class="oe_kanban_colorpicker"
+                                    data-field="color"
+                                />
+                            </div>
+                        </div>
+                    </t>
+
+                    <!-- kanban-box normal -->
                     <t t-name="kanban-box">
                         <div
                             t-attf-class="#{kanban_color(record.color.raw_value)}"
@@ -26,37 +53,24 @@
                                 t-value="record.fiscal_type.raw_value"
                                 t-set="fiscal_type"
                             />
+
                             <div>
-                                <div t-attf-class="o_kanban_card_header">
+                                <div class="o_kanban_card_header">
                                     <div class="o_kanban_card_header_title">
                                         <div class="o_primary">
-                                            <a type="object" name="open_action"><field
-                                                    name="name"
-                                                    readonly="state != 'draft'"
-                                                /></a>
+                                            <a type="object" name="open_action">
+                                                <field name="name" />
+                                            </a>
                                         </div>
                                         <div
                                             class="o_secondary"
                                             t-att-title="dashboard.title"
                                         >
-                                            <field
-                                                name="fiscal_type"
-                                                readonly="state != 'draft'"
-                                            />
+                                            <field name="fiscal_type" />
                                         </div>
                                     </div>
-                                    <div class="o_kanban_manage_button_section">
-                                        <a
-                                            class="o_kanban_manage_toggle_button"
-                                            href="#"
-                                        ><i
-                                                class="fa fa-ellipsis-v"
-                                                role="img"
-                                                aria-label="Manage"
-                                                title="Manage"
-                                            /></a>
-                                    </div>
                                 </div>
+
                                 <div class="container o_kanban_card_content">
                                     <div class="row">
                                         <div class="col-6 o_kanban_primary_left">
@@ -68,6 +82,7 @@
                                                 <span>Novo Documento</span>
                                             </button>
                                         </div>
+
                                         <div class="col-6 o_kanban_primary_right">
                                             <div class="row">
                                                 <div class="col-10">
@@ -76,18 +91,21 @@
                                                         name="open_action"
                                                         context="{'search_default_2confirm': '1'}"
                                                     >
-                                                        <span title="A enviar"><t
+                                                        <span title="A enviar">
+                                                            <t
                                                                 t-esc="dashboard.number_2confirm"
-                                                            /> A enviar</span>
+                                                            /> A enviar
+                                                        </span>
                                                     </a>
                                                 </div>
                                             </div>
+
                                             <div class="row">
                                                 <div class="col-10">
                                                     <a
                                                         type="object"
                                                         name="open_action"
-                                                        context="{'search_default_authorized':1}"
+                                                        context="{'search_default_authorized': 1}"
                                                         id="fiscal_dashboard_sale_pay_link"
                                                     >
                                                         <t
@@ -96,6 +114,7 @@
                                                     </a>
                                                 </div>
                                             </div>
+
                                             <div class="row">
                                                 <div class="col-10">
                                                     <a
@@ -103,20 +122,23 @@
                                                         name="open_action"
                                                         context="{'search_default_cancelled': '1'}"
                                                     >
-                                                        <span
-                                                            title="Faturas canceladas"
-                                                        ><t
+                                                        <span title="Cancelados">
+                                                            <t
                                                                 t-esc="dashboard.number_cancelled"
-                                                            /> Cancelados</span>
+                                                            /> Cancelados
+                                                        </span>
                                                     </a>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </t>
+
                 </templates>
             </kanban>
         </field>
