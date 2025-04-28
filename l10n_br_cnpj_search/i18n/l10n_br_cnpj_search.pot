@@ -24,6 +24,14 @@ msgid "Address"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__br_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__br_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__br_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__br_currency_id
+msgid "BR Company Currency"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
 msgid ""
 "Brazilian CNPJ service API to search partner information using cnpj code."
@@ -102,11 +110,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__br_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__br_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__company_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__br_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__br_currency_id
 msgid "Company Currency"
 msgstr ""
 
