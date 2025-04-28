@@ -19,7 +19,7 @@ class PartyMixin(models.AbstractModel):
     br_currency_id = fields.Many2one(
         comodel_name="res.currency",
         default=lambda self: self.env.ref("base.BRL"),
-        string="Company Currency",
+        string="BR Company Currency",
         readonly=True,
     )
 
