@@ -8009,8 +8009,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__tax_definition_ids
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__tax_definition_ids
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_definition_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Tax Definition"
