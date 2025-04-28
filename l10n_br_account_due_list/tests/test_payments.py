@@ -44,7 +44,7 @@ class TestPayments(common.TransactionCase):
         )
         cls.tax2 = cls.env["account.tax"].create(
             {
-                "name": "TAX 15%",
+                "name": "TAX 15% (br)",
                 "amount_type": "percent",
                 "type_tax_use": "purchase",
                 "amount": 15.0,
