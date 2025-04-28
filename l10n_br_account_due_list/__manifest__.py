@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "16.0.1.0.1",
+    "version": "17.0.1.0.0",
     "depends": ["account_due_list"],
     "data": [
         "views/account_move_view.xml",

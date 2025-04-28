@@ -9,14 +9,14 @@
             <notebook position="inside">
                 <page
                     string="Receivables"
-                    attrs="{'invisible': [('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
+                    invisible="move_type not in ('out_invoice', 'out_refund')"
                     name="receivable_move_line_tab"
                 >
                     <field name="due_line_ids" />
                 </page>
                 <page
                     string="Payables"
-                    attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}"
+                    invisible="move_type not in ('in_invoice', 'in_refund')"
                     name="payable_move_line_tab"
                 >
                     <field name="due_line_ids" />
