@@ -15,7 +15,7 @@ class DocumentLine(models.Model):
         ondelete="cascade",
     )
 
-    name = fields.Text()
+    name = fields.Char()
 
     company_id = fields.Many2one(
         comodel_name="res.company",
