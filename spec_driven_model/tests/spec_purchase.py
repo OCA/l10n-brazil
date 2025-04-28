@@ -10,11 +10,11 @@ class ResPartner(spec_models.SpecModel):
     _name = "res.partner"
     _inherit = ["res.partner", "poxsd.10.usaddress"]
 
-    poxsd10_country = fields.Char(related="country_id.name")
-    poxsd10_name = fields.Char(related="name")
-    poxsd10_street = fields.Char(related="street")
-    poxsd10_city = fields.Char(related="city")
-    poxsd10_state = fields.Char(related="state_id.name")
+    poxsd10_country = fields.Char(related="country_id.name", string="POXSD Country")
+    poxsd10_name = fields.Char(related="name", string="POXSD Name")
+    poxsd10_street = fields.Char(related="street", string="POXSD Street")
+    poxsd10_city = fields.Char(related="city", string="POXSD City")
+    poxsd10_state = fields.Char(related="state_id.name", string="POXSD State")
     # FIXME !!
     # poxsd10_zip = fields.Monetary(
     #     currency_field="brl_currency_id",
@@ -26,9 +26,9 @@ class PurchaseOrderLine(spec_models.SpecModel):
     _name = "fake.purchase.order.line"
     _inherit = ["fake.purchase.order.line", "poxsd.10.item"]
 
-    poxsd10_productName = fields.Char(related="name")
-    poxsd10_quantity = fields.Integer(related="product_qty")
-    poxsd10_USPrice = fields.Monetary(related="price_unit")
+    poxsd10_productName = fields.Char(related="name", string="POXSD Product Name")
+    poxsd10_quantity = fields.Integer(related="product_qty", string="POXSD Product Quantity")
+    poxsd10_USPrice = fields.Monetary(related="price_unit", string="POXSD Product Price")
 
 
 class PurchaseOrder(spec_models.StackedModel):
@@ -46,7 +46,7 @@ class PurchaseOrder(spec_models.StackedModel):
     _poxsd10_stacking_mixin = "poxsd.10.purchaseordertype"
 
     poxsd10_orderDate = fields.Date(compute="_compute_date")
-    poxsd10_confirmDate = fields.Date(related="date_approve")
+    poxsd10_confirmDate = fields.Date(related="date_approve", string="POXSD Approval Date")
     poxsd10_shipTo = fields.Many2one(related="dest_address_id", readonly=False)
     poxsd10_billTo = fields.Many2one(related="partner_id", readonly=False)
     poxsd10_item = fields.One2many(related="order_line", relation_field="order_id")
