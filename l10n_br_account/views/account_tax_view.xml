@@ -12,15 +12,11 @@
     <field name="inherit_id" ref="account.view_tax_form" />
     <field name="arch" type="xml">
       <field name="amount" position="attributes">
-          <attribute
-                    name="attrs"
-                >{'readonly': [('fiscal_tax_ids', '!=', False)]}</attribute>
+          <attribute name="readonly">fiscal_tax_ids</attribute>
           <attribute name="force_save">1</attribute>
       </field>
       <field name="amount_type" position="attributes">
-          <attribute
-                    name="attrs"
-                >{'readonly': [('fiscal_tax_ids', '!=', False)]}</attribute>
+          <attribute name="readonly">fiscal_tax_ids</attribute>
           <attribute name="force_save">1</attribute>
       </field>
       <xpath expr="//notebook" position="inside" groups="l10n_br_fiscal.group_user">

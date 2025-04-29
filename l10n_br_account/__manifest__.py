@@ -19,12 +19,8 @@
     "data": [
         # security
         "security/ir.model.access.csv",
-        # data
-        "data/account_tax_group.xml",
-        "data/account_tax_template.xml",
         # Views
         "views/account_tax_view.xml",
-        "views/account_tax_template_view.xml",
         "views/fiscal_operation_view.xml",
         "views/fiscal_operation_line_view.xml",
         "views/account_move_view.xml",
