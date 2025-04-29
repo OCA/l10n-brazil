@@ -5,54 +5,124 @@
         UOM Alternative
     -->
 
-    <record id="product_uom_unit_unid" model="uom.uom.alternative">
+    <record id="product_uom_unit_unid" model="uom.alias">
         <field name="code">UNID</field>
         <field name="uom_id" ref="uom.product_uom_unit" />
     </record>
 
-    <record id="product_uom_unit_und" model="uom.uom.alternative">
+    <record id="product_uom_unit_und" model="uom.alias">
         <field name="code">UND</field>
         <field name="uom_id" ref="uom.product_uom_unit" />
     </record>
 
-    <record id="product_uom_unit_uni" model="uom.uom.alternative">
+    <record id="product_uom_unit_un" model="uom.alias">
+        <field name="code">UN</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+    </record>
+
+    <record id="product_uom_unit_uni" model="uom.alias">
         <field name="code">UNI</field>
         <field name="uom_id" ref="uom.product_uom_unit" />
     </record>
 
-    <record id="UOM_CENTO_CT" model="uom.uom.alternative">
+    <record id="UOM_CENTO_CT" model="uom.alias">
         <field name="code">CT</field>
         <field name="uom_id" ref="l10n_br_fiscal.UOM_CENTO" />
     </record>
 
-    <record id="UOM_MILHEIRO_MIL" model="uom.uom.alternative">
+    <record id="UOM_MILHEIRO_MIL" model="uom.alias">
         <field name="code">MIL</field>
         <field name="uom_id" ref="l10n_br_fiscal.UOM_MILHEIRO" />
     </record>
 
-    <record id="UOM_MILHEIRO_MI" model="uom.uom.alternative">
+    <record id="UOM_MILHEIRO_MI" model="uom.alias">
         <field name="code">MI</field>
         <field name="uom_id" ref="l10n_br_fiscal.UOM_MILHEIRO" />
     </record>
 
-    <record id="product_uom_meter_mt" model="uom.uom.alternative">
+    <record id="product_uom_meter_mt" model="uom.alias">
         <field name="code">MT</field>
         <field name="uom_id" ref="uom.product_uom_meter" />
     </record>
 
-    <record id="UOM_ROLO_RL" model="uom.uom.alternative">
+    <record id="UOM_ROLO_RL" model="uom.alias">
         <field name="code">RL</field>
         <field name="uom_id" ref="l10n_br_fiscal.UOM_ROLO" />
     </record>
 
-    <record id="UOM_PC_PC" model="uom.uom.alternative">
+    <record id="UOM_PC_PC" model="uom.alias">
         <field name="code">PC</field>
         <field name="uom_id" ref="l10n_br_fiscal.UOM_PC" />
     </record>
 
-    <record id="UOM_PC_PECA" model="uom.uom.alternative">
+    <record id="UOM_PC_PC_1" model="uom.alias">
+        <field name="code">PÇ</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_PC" />
+    </record>
+
+    <record id="UOM_PC_PECA" model="uom.alias">
         <field name="code">PECA</field>
         <field name="uom_id" ref="l10n_br_fiscal.UOM_PC" />
+    </record>
+
+    <record id="UOM_BANDEJA_BANDEJ" model="uom.alias">
+        <field name="code">BANDEJ</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_BANDEJA" />
+    </record>
+
+    <record id="UOM_BISNAGA_BISNAG" model="uom.alias">
+        <field name="code">BISNAG</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_BISNAGA" />
+    </record>
+
+    <record id="UOM_BOMBONA_BOMB" model="uom.alias">
+        <field name="code">BOMB</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_BOMBONA" />
+    </record>
+
+    <record id="UOM_CAPSULA_CAPS" model="uom.alias">
+        <field name="code">CAPS</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_CAPSULA" />
+    </record>
+
+    <record id="UOM_CARTELA_CART" model="uom.alias">
+        <field name="code">CART</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_CARTELA" />
+    </record>
+
+    <record id="UOM_CONJUNTO_CJ" model="uom.alias">
+        <field name="code">CJ</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_CONJUNTO" />
+    </record>
+
+    <record id="UOM_DISPLAY_DISP" model="uom.alias">
+        <field name="code">DISP</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_DISPLAY" />
+    </record>
+
+    <record id="UOM_EMBALAGEM_EMBAL" model="uom.alias">
+        <field name="code">EMBAL</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_EMBALAGEM" />
+    </record>
+
+    <record id="UOM_GARRAFA_GF" model="uom.alias">
+        <field name="code">GF</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_GARRAFA" />
+    </record>
+
+    <record id="UOM_MILILITRO_ML" model="uom.alias">
+        <field name="code">ML</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_MILILITRO" />
+    </record>
+
+    <record id="UOM_QUILATE_K" model="uom.alias">
+        <field name="code">K</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_QUILATE" />
+    </record>
+
+    <record id="UOM_VASILHAME_VASIL" model="uom.alias">
+        <field name="code">VASIL</field>
+        <field name="uom_id" ref="l10n_br_fiscal.UOM_VASILHAME" />
     </record>
 
 </odoo>

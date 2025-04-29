@@ -13,6 +13,7 @@
     "version": "16.0.4.1.0",
     "depends": [
         "product",
+        "uom_alias",
         "l10n_br_base",
     ],
     "data": [
@@ -98,7 +99,6 @@
         "views/res_config_settings_view.xml",
         "views/subsequent_operation_view.xml",
         "views/subsequent_document_view.xml",
-        "views/uom_uom.xml",
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
         "views/operation_dashboard_view.xml",

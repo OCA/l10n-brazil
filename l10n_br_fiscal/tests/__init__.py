@@ -13,6 +13,5 @@ from . import (
     test_partner_profile,
     test_service_type,
     test_subsequent_operation,
-    test_uom_uom,
     test_operation,
 )
