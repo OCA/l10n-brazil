@@ -23,14 +23,14 @@ class AccountMoveReversal(models.TransientModel):
         related="force_fiscal_operation_id.journal_id",
     )
 
-    def reverse_moves(self):
+    def reverse_moves(self, is_modify=False):
         self.ensure_one()
         return super(
             AccountMoveReversal,
             self.with_context(
                 force_fiscal_operation_id=self.force_fiscal_operation_id.id
             ),
-        ).reverse_moves()
+        ).reverse_moves(is_modify)
 
     @api.depends("move_ids", "force_fiscal_operation_id")
     def _compute_journal_id(self):
