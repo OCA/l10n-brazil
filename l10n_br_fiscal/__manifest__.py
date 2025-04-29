@@ -24,7 +24,7 @@
         "data/l10n_br_fiscal_email_template.xml",
         "data/l10n_br_fiscal_data.xml",
         "data/uom_data.xml",
-        "data/uom_alternative_data.xml",
+        "data/uom_alias_data.xml",
         "data/product_data.xml",
         "data/l10n_br_fiscal.partner.profile.csv",
         "data/res_partner_data.xml",
