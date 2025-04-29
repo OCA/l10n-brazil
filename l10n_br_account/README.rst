@@ -21,13 +21,13 @@ Invoicing and accounting entries for Brazil
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_account
+(??)    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_account
+(??)    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_account
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=18.0
+(??)    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -315,25 +315,14 @@ Installation
 
 Este modulo depende dos módulos:
 
--  l10n_br_coa (que depende do módulo account)
--  l10n_br_fiscal
+(??)- do this ...
 
 Configuration
 =============
 
 Antes de seguir este guia, é fundamental que você:
 
-1. **Tenha configurado sua empresa** com o país "Brasil". A maioria dos
-   campos fiscais só aparecerá neste contexto.
-2. Tenha configurado o regime fiscal da sua empresa.
-3. Tenha configurado um Plano de Contas, idealmente deriavdo do plano
-   base do módulo l10n_br_coa.
-4. **Esteja familiarizado com o processo de faturamento padrão do Odoo**
-   através do módulo ``account``.
-5. **Compreenda os conceitos básicos do módulo ``l10n_br_fiscal``**,
-   especialmente o que são Operações Fiscais
-   (``l10n_br_fiscal.operation``) e como o sistema seleciona e calcula
-   os impostos com base nelas.
+(??)- go to ...
 
 Usage
 =====
@@ -341,91 +330,7 @@ Usage
 Passo a Passo: Criando uma Fatura Fiscal
 ----------------------------------------
 
-O processo se inicia a partir da fatura padrão do Odoo, agora "decorada"
-com os campos fiscais necessários.
-
-1. **Navegue até Faturamento** Acesse o menu
-   ``Faturamento > Clientes > Faturas``.
-
-2. **Crie uma Nova Fatura** Clique no botão ``Criar``.
-
-3. **Selecione o Cliente** No campo ``Cliente``, selecione um parceiro
-   configurado para o Brasil. O cadastro do cliente contenha as
-   informações fiscais corretas (CNPJ/CPF, perfil fiscal, endereço,
-   etc.). Nos dados de demonstração, a **AMD do Brasil** é um excelente
-   exemplo.
-
-4. **Preencha os Dados Fiscais do Cabeçalho** Com a instalação do
-   módulo, novos campos fiscais aparecerão no cabeçalho da fatura.
-
-   -  **Tipo de Documento**: Selecione o modelo do documento fiscal.
-      Para uma NF-e, por exemplo, escolha
-      **``55 - Nota Fiscal Eletrônica``**.
-   -  **Operação Fiscal**: Este é um campo chave. Ele define a natureza
-      da transação. Selecione uma operação compatível, como
-      **``Venda de Mercadoria``**.
-
-5. **Adicione as Linhas da Fatura** Na aba ``Linhas da Fatura``, clique
-   em ``Adicionar uma linha``.
-
-   -  Selecione um produto. Usando os dados de demonstração, você pode
-      escolher o produto **``[E-COM08] Storage Box``**.
-   -  Observe que, ao selecionar o produto, os campos fiscais da linha,
-      como ``Operação Fiscal da Linha`` e ``Impostos``, são preenchidos
-      automaticamente com base nas regras da Operação Fiscal principal.
-      Os impostos são calculados e exibidos em tempo real.
-
-Visualizando e Editando os Detalhes Fiscais da Linha
-----------------------------------------------------
-
-A grade de linhas da fatura oferece uma visão simplificada. Para acessar
-todos os detalhes fiscais de uma linha ou para editar manualmente algum
-campo (como um NCM ou CST específico para aquela operação), você pode
-usar o modo de edição em pop-up.
-
--  Clique no ícone de **"abrir registro externo" (um quadrado com uma
-   seta)**, localizado à esquerda da linha do produto na grade editável.
--  Uma janela pop-up se abrirá, exibindo o formulário completo da linha.
-   Nele, você encontrará a aba **``Impostos``**, que contém o
-   detalhamento completo dos cálculos para cada tributo (ICMS, IPI, PIS,
-   COFINS, etc.).
-
-Verificando os Lançamentos Contábeis
-------------------------------------
-
-Após preencher a fatura, você pode (e deve) inspecionar os lançamentos
-contábeis que serão gerados.
-
-1. Acesse a aba **``Lançamentos Contábeis``**.
-2. Nesta aba, você verá todas as contas que serão movimentadas,
-   incluindo as linhas específicas para cada imposto (débito de impostos
-   a recuperar, crédito de impostos a recolher, etc.), refletindo o
-   resultado dos cálculos do motor fiscal.
-
-..
-
-   **Nota Importante**: Para usuários da versão Community do Odoo, a aba
-   ``Lançamentos Contábeis`` pode estar oculta por padrão. A instalação
-   do módulo **``account_usability``** (disponível no repositório
-   ``OCA/account-financial-tools``) é fortemente recomendada para
-   torná-la visível e facilitar a análise contábil.
-
-Após a conferência, você pode ``Confirmar`` a fatura para gerar os
-lançamentos contábeis e prosseguir com a transmissão do documento
-fiscal, caso seja um documento eletrônico.
-
-Acessando a Visão Fiscal Detalhada
-----------------------------------
-
-No canto superior direito do formulário da fatura, você encontrará um
-*smart button* chamado **Detalhe Fiscal**.
-
-Clicar neste botão permite navegar diretamente para a tela do
-``l10n_br_fiscal.document``, que oferece uma visão completa e focada nos
-aspectos puramente fiscais. Nesta tela, é possível consultar detalhes
-aprofundados, gerenciar o ciclo de vida do documento (cancelamento,
-carta de correção) e, para documentos eletrônicos, acompanhar todo o
-histórico de comunicação e o status de transmissão junto à SEFAZ.
+(??)- go to ...
 
 Known issues / Roadmap
 ======================
@@ -443,7 +348,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+(??)`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -500,6 +405,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-renatonlima| |maintainer-rvalyi| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_account>`_ project on GitHub.
+(??)This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
