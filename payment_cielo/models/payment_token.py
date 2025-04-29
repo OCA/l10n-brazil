@@ -14,35 +14,9 @@ _logger = logging.getLogger(__name__)
 class PaymentTokenCielo(models.Model):
     _inherit = "payment.token"
 
-    card_number = fields.Char(
-        string="Number",
-        required=False,
-    )
-
-    card_holder = fields.Char(
-        string="Holder",
-        required=False,
-    )
-
-    card_exp = fields.Char(
-        string="Expiration date",
-        required=False,
-    )
-
-    card_cvc = fields.Char(
-        string="cvc",
-        required=False,
-    )
-
-    card_brand = fields.Char(
-        string="Brand",
-        required=False,
-    )
-
-    cielo_token = fields.Char(
-        string="Token",
-        required=False,
-    )
+    card_token = fields.Char(string="Card Token", required=False)
+    
+    card_brand = fields.Char(string="Brand", required=False)
 
     def _cielo_tokenize(self, values):
         """Tokenize card in cielo server.
