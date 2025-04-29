@@ -14,15 +14,52 @@ class PaymentProvider(models.Model):
     code = fields.Selection(
         selection_add=[("cielo", "Cielo")], ondelete={"cielo": "set default"}
     )
-    cielo_merchant_key = fields.Char(
-        required_if_provider="cielo", groups="base.group_user"
-    )
+
     cielo_merchant_id = fields.Char(
-        string="Cielo Merchant Id",
+        string="Merchant Id",
         required_if_provider="cielo",
         groups="base.group_user",
     )
+
+    cielo_merchant_key = fields.Char(
+        string="Merchant Key",
+        required_if_provider="cielo",
+        groups="base.group_user",
+    )
+  
+    cielo_soft_descriptor = fields.Char(
+        string="Soft Descriptor",
+        required_if_provider="cielo",
+        help="This is the name that will appear on the customer's credit card statement.",
+    )
+
+    # TODO check if this is needed
     cielo_image_url = fields.Char("Checkout Image URL", groups="base.group_user")
+
+    def _compute_feature_support_fields(self):
+        """ Override of `payment` to enable additional features. """
+        super()._compute_feature_support_fields()
+        # TODO cielo supports partial refunds but we implemented only full refunds
+        # TODO cielo support express checkout but we don't have a UI for it yet
+        self.filtered(lambda p: p.code == 'cielo').update({
+            "support_express_checkout": False,
+            "support_manual_capture": True,
+            "support_tokenization": True,
+            "support_refund": 'full_only',
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+    # =================================
 
     def cielo_s2s_form_validate(self, data):
         """Validates user input"""

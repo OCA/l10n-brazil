@@ -5,6 +5,8 @@
         <field name="name">Cielo</field>
         <field name="code">cielo</field>
         <field name="display_as">Credit Card (powered by Cielo)</field>
+        <field name="support_manual_capture" eval="True" />
+        <field name="support_tokenization" eval="True" />
         <field
             name="image_128"
             type="base64"
