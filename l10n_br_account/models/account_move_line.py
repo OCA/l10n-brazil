@@ -188,15 +188,10 @@ class AccountMoveLine(models.Model):
         return sorted_result
 
     def unlink(self):
-        unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
-        for inv_line in self:
-            if not inv_line.exists():
-                continue
-            if inv_line.fiscal_document_line_id:
-                unlink_fiscal_lines |= inv_line.fiscal_document_line_id
+        to_unlink = self.exists().fiscal_document_line_id
         result = super().unlink()
-        unlink_fiscal_lines.unlink()
-        self.clear_caches()
+        to_unlink.unlink()
+
         return result
 
     @contextmanager
