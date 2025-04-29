@@ -28,14 +28,16 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='document_number']" position="after">
-                <field name="name" string="Account Number" invisible="1" />
-                <field name="commercial_partner_id" invisible="1" />
-                <!--field name="reference" invisible="1" /-->
-                <field name="name" invisible="1" />
-                <field name="journal_id" invisible="1" />
-                <field name="move_type" invisible="context.get('move_type',True)" />
-                <field name="currency_id" invisible="1" />
-                <field name="company_currency_id" invisible="1" />
+                <field name="name" string="Account Number" column_invisible="1" />
+                <field name="commercial_partner_id" column_invisible="1" />
+                <field name="name" column_invisible="1" />
+                <field name="journal_id" column_invisible="1" />
+                <field
+                    name="move_type"
+                    column_invisible="context.get('move_type',True)"
+                />
+                <field name="currency_id" column_invisible="1" />
+                <field name="company_currency_id" column_invisible="1" />
             </xpath>
         </field>
     </record>
@@ -56,7 +58,7 @@
             <button
                     name="action_post"
                     type="object"
-                    states="draft"
+                    invisible="state != 'draft'"
                     string="Validate"
                     class="oe_highlight o_invoice_validate"
                     groups="account.group_account_invoice"
@@ -68,7 +70,7 @@
                     type="object"
                     string="Voltar para Digitação"
                     groups="l10n_br_fiscal.group_user"
-                    attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'enviada', 'rejeitada')), ('document_electronic', '=', False)]}"
+                    invisible="state_edoc not in ('a_enviar', 'enviada', 'rejeitada') or not document_electronic"
                     class="btn-secondary"
                 />
         </xpath>
@@ -78,7 +80,7 @@
                     type='action'
                     string='Devolver'
                     groups="account.group_account_invoice"
-                    attrs="{'invisible': ['|',('move_type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"
+                    invisible="move_type in ('in_refund', 'out_refund') or state not in ('open', 'in_payment', 'paid')"
                 />
         </xpath>
         <page name="finance" position="inside">
