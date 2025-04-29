@@ -17,13 +17,13 @@ Invoicing and accounting entries for Brazil
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account
+    :target: https://github.com/OCA/l10n-brazil/tree/17.0/l10n_br_account
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_account
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-17-0/l10n-brazil-17-0-l10n_br_account
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -41,21 +41,21 @@ Installation
 
 To install this module, you need to:
 
-- do this ...
+-  do this ...
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-- go to ...
+-  go to ...
 
 Usage
 =====
 
 To use this module, you need to:
 
-- go to ...
+-  go to ...
 
 Known issues / Roadmap
 ======================
@@ -73,7 +73,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -88,23 +88,23 @@ Authors
 Contributors
 ------------
 
-- `Akretion <https://akretion.com/pt-BR>`__:
+-  `Akretion <https://akretion.com/pt-BR>`__:
 
-  - Renato Lima <renato.lima@akretion.com.br>
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Antônio S. Pereira Neto <neto@engenere.one>
-  - Felipe Motter Pereira <felipe@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Maintainers
 -----------
@@ -130,6 +130,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-renatonlima| |maintainer-rvalyi| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_account>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/17.0/l10n_br_account>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
