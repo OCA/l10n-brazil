@@ -103,7 +103,7 @@ class AccountTax(models.Model):
         else:
             company = self[0].company_id
 
-        fiscal_taxes_results = fiscal_taxes.compute_taxes(
+        fiscal_taxes_results = line.fiscal_tax_ids.compute_taxes(
             company=company,
             partner=partner,
             product=product,
@@ -178,10 +178,12 @@ class AccountTax(models.Model):
                 fiscal_group = tax.tax_group_id.fiscal_tax_group_id
                 tax_amount = fiscal_tax.get("tax_value", 0.0) * sum_repartition_factor
                 tax_base = fiscal_tax.get("base") * sum_repartition_factor
-                if tax.deductible or fiscal_group.tax_withholding:
-                    tax_amount = (
-                        fiscal_tax.get("tax_value", 0.0) * sum_repartition_factor
-                    )
+
+                # TODO: Migracao 17.0
+                # if tax.deductible or fiscal_group.tax_withholding:
+                #     tax_amount = (
+                #         fiscal_tax.get("tax_value", 0.0) * sum_repartition_factor
+                #     )
 
                 account_tax.update(
                     {
