@@ -40,6 +40,7 @@ class FiscalDocument(models.Model):
     currency_id = fields.Many2one(inverse="_inverse_currency_id")
     partner_id = fields.Many2one(inverse="_inverse_partner_id")
     user_id = fields.Many2one(inverse="_inverse_user_id")
+    partner_shipping_id = fields.Many2one(inverse="_inverse_partner_shipping_id")
 
     @api.onchange("company_id")
     def _inverse_company_id(self):
@@ -68,6 +69,13 @@ class FiscalDocument(models.Model):
             for move in doc.move_ids:
                 if move.user_id != doc.user_id:
                     move.user_id = doc.user_id
+
+    @api.onchange("partner_shipping_id")
+    def _inverse_partner_shipping_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.partner_shipping_id != doc.partner_shipping_id:
+                    move.partner_shipping_id = doc.partner_shipping_id
 
     # commented out because of badly written TestInvoiceDiscount.test_date_in_out
     #    def write(self, vals):
