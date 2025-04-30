@@ -50,10 +50,6 @@ MOVE_TAX_USER_TYPE = {
     "in_refund": "purchase",
 }
 
-# l10n_br_fiscal.document field names that are shadowed
-# by account.move fields:
-SHADOWED_FIELDS = ["company_id", "currency_id", "user_id", "partner_id"]
-
 
 class AccountMove(models.Model):
     _name = "account.move"
@@ -110,16 +106,15 @@ class AccountMove(models.Model):
 
     # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC
+    # These fields have the same name in account.move
+    # and l10n_br_fiscal.document. So they wouldn't get updated
+    # by the _inherits system. An alternative would be changing their name
+    # in l10n_br_fiscal but that would make the code unreadable and fiscal mixin
+    # methods would fail to do what we expect from them in the Odoo objects.
     # -------------------------------------------------------------------------
 
     user_id = fields.Many2one(inverse="_inverse_user_id")
     partner_shipping_id = fields.Many2one(inverse="_inverse_partner_shipping_id")
-
-    @api.model
-    def _shadowed_fields(self):
-        """Return the list of shadowed fields that are synchronized
-        from account.move."""
-        return SHADOWED_FIELDS
 
     @api.onchange("company_id")
     def _inverse_company_id(self):
@@ -164,14 +159,8 @@ class AccountMove(models.Model):
     def _compute_fiscal_document_id(self):
         for move in self:
             if move.document_type_id and not move.fiscal_document_id:
-                fiscal_doc_vals = {}
-                for field in self._shadowed_fields():
-                    val = getattr(move, field)
-                    if self._fields[field].type == "many2one":
-                        val = val.id
-                    fiscal_doc_vals[field] = val
                 move.fiscal_document_id = (
-                    self.env["l10n_br_fiscal.document"].create(fiscal_doc_vals).id
+                    self.env["l10n_br_fiscal.document"].create({}).id
                 )
             elif not move.document_type_id and move.fiscal_document_id:
                 bad_fiscal_doc = move.fiscal_document_id
@@ -746,12 +735,6 @@ class AccountMove(models.Model):
         if not move_id or not move.fiscal_document_id:
             move_form.invoice_date = fiscal_document.document_date
             move_form.date = fiscal_document.document_date
-            for field in self._shadowed_fields():
-                if field in ("company_id", "user_id"):  # (readonly fields)
-                    continue
-                if not move_form._view["fields"].get(field):
-                    continue
-                setattr(move_form, field, getattr(fiscal_document, field))
             move_form.document_type_id = fiscal_document.document_type_id
             move_form.fiscal_document_id = fiscal_document
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id

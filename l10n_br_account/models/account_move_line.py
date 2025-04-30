@@ -7,21 +7,6 @@ from contextlib import contextmanager
 from odoo import _, api, fields, models
 from odoo.tools import frozendict
 
-# These fields have the same name in account.move.line
-# and l10n_br_fiscal.document.line. So they wouldn't get updated
-# by the _inherits system. An alternative would be changing their name
-# in l10n_br_fiscal but that would make the code unreadable and fiscal mixin
-# methods would fail to do what we expect from them in the Odoo objects
-# where they are injected.
-# Fields that are related in l10n_br_fiscal.document.line like partner_id or company_id
-# don't need to be written through the account.move.line write.
-SHADOWED_FIELDS = [
-    "product_id",
-    "name",
-    "quantity",
-    "price_unit",
-]
-
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
@@ -59,17 +44,16 @@ class AccountMoveLine(models.Model):
 
     # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC
+    # These fields have the same name in account.move.line
+    # and l10n_br_fiscal.document.line. So they wouldn't get updated
+    # by the _inherits system. An alternative would be changing their name
+    # in l10n_br_fiscal but that would make the code unreadable and fiscal mixin
+    # methods would fail to do what we expect from them in the Odoo objects.
     # -------------------------------------------------------------------------
 
     name = fields.Char(inverse="_inverse_name")
     quantity = fields.Float(inverse="_inverse_quantity")
     price_unit = fields.Float(inverse="_inverse_price_unit")
-
-    @api.model
-    def _shadowed_fields(self):
-        """Return the list of shadowed fields that are synchronized
-        from account.move.line."""
-        return SHADOWED_FIELDS
 
     @api.onchange("product_id")
     def _inverse_product_id(self):
@@ -132,24 +116,10 @@ class AccountMoveLine(models.Model):
     def create(self, vals_list):
         for values in vals_list:
             if values.get("fiscal_document_line_id"):
-                fiscal_line_data = (
-                    self.env["l10n_br_fiscal.document.line"]
-                    .browse(values["fiscal_document_line_id"])
-                    .read(self._shadowed_fields())[0]
-                )
-                for k, v in fiscal_line_data.items():
-                    if isinstance(v, tuple):  # m2o
-                        values[k] = v[0]
-                    else:
-                        values[k] = v
-                continue
-
-            if values.get("exclude_from_invoice_tab"):  # FIXME MIGRATE
                 continue
 
             move_id = self.env["account.move"].browse(values["move_id"])
             fiscal_doc_id = move_id.fiscal_document_id.id
-
             if not fiscal_doc_id:
                 continue
 
@@ -496,12 +466,11 @@ class AccountMoveLine(models.Model):
     @api.onchange("fiscal_document_line_id")
     def _onchange_fiscal_document_line_id(self):
         if self.fiscal_document_line_id:
-            for field in self._shadowed_fields():
-                value = getattr(self.fiscal_document_line_id, field)
-                if isinstance(value, tuple):  # m2o
-                    setattr(self, field, value[0])
-                else:
-                    setattr(self, field, value)
+            # do the onchange dance for fields with the same names:
+            self.product_id = self.fiscal_document_line_id.product_id.id
+            self.name = self.fiscal_document_line_id.name
+            self.quantity = self.fiscal_document_line_id.quantity
+            self.price_unit = self.fiscal_document_line_id.price_unit
             # override the default product uom (set by the onchange):
             self.product_uom_id = self.fiscal_document_line_id.uom_id.id
 
