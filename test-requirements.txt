@@ -2,3 +2,4 @@ odoo-addon-l10n_br_base @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/3
 odoo-addon-l10n_br_fiscal @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/3740/head#subdirectory=l10n_br_fiscal
 odoo-addon-l10n_br_account_due_list @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/3756/head#subdirectory=l10n_br_account_due_list
 odoo-addon-l10n_br_coa @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/3758/head#subdirectory=l10n_br_coa
+odoo-addon-l10n_br_coa_generic @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/3761/head#subdirectory=l10n_br_coa_generic
