@@ -343,9 +343,9 @@ class AccountMove(models.Model):
                         key = frozendict(
                             {
                                 "move_id": invoice.id,
-                                "date_maturity": fields.Date.to_date(term.get("date")),
-                                "discount_date": term.get("discount_date"),
                             }
+                            # "date_maturity": fields.Date.to_date(term.get("date")),
+                            # "discount_date": term.get("discount_date"),
                             # "discount_percentage": term.get("discount_percentage"),
                         )
                         values = {
