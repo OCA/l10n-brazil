@@ -113,6 +113,7 @@ class AccountMove(models.Model):
     # -------------------------------------------------------------------------
 
     user_id = fields.Many2one(inverse="_inverse_user_id")
+    partner_shipping_id = fields.Many2one(inverse="_inverse_partner_shipping_id")
 
     @api.model
     def _shadowed_fields(self):
@@ -146,6 +147,12 @@ class AccountMove(models.Model):
         for move in self:
             for doc in move.fiscal_document_ids:
                 doc.user_id = move.user_id
+
+    @api.onchange("partner_shipping_id")
+    def _inverse_partner_shipping_id(self):
+        for move in self:
+            for doc in move.fiscal_document_ids:
+                doc.partner_shipping_id = move.partner_shipping_id
 
     @api.onchange("document_type_id")
     def _inverse_document_type_id(self):
