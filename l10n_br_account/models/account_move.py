@@ -332,23 +332,34 @@ class AccountMove(models.Model):
                             sign=sign,
                         )
                     )
-                    for term in invoice_payment_terms:
+                    for term in invoice_payment_terms["line_ids"]:
                         key = frozendict(
                             {
                                 "move_id": invoice.id,
                                 "date_maturity": fields.Date.to_date(term.get("date")),
-                                "discount_date": term.get("discount_date"),
+                                "discount_date": invoice_payment_terms.get(
+                                    "discount_date"
+                                ),
+                                # "discount_percentage": invoice_payment_terms.get(
+                                #     "discount_percentage"
+                                # ),
                             }
-                            # "discount_percentage": term.get("discount_percentage"),
                         )
                         values = {
-                            "balance": term["company_amount"],
-                            "amount_currency": term["foreign_amount"],
-                            "discount_amount_currency": term["discount_amount_currency"]
+                            "balance": term.get("company_amount"),
+                            "amount_currency": term.get("foreign_amount"),
+                            "discount_amount_currency": term.get(
+                                "discount_amount_currency"
+                            )
                             or 0.0,
-                            "discount_balance": term["discount_balance"] or 0.0,
-                            "discount_date": term["discount_date"],
-                            # "discount_percentage": term["discount_percentage"],
+                            "discount_balance": invoice_payment_terms.get(
+                                "discount_balance"
+                            )
+                            or 0.0,
+                            "discount_date": invoice_payment_terms.get("discount_date"),
+                            # "discount_percentage": invoice_payment_terms.get(
+                            #     "discount_percentage"
+                            # ),
                         }
                         if key not in invoice.needed_terms:
                             invoice.needed_terms[key] = values
