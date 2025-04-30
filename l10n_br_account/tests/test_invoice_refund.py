@@ -37,7 +37,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
         cls.reverse_vals = {
             "date": fields.Date.from_string("2019-02-01"),
             "reason": "no reason",
-            "refund_method": "refund",
+            # "refund_method": "refund",
             "journal_id": cls.refund_journal.id,
         }
 
