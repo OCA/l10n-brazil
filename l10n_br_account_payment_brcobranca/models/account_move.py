@@ -110,6 +110,19 @@ class AccountMove(models.Model):
 
                 # Conciliação Automatica entre a Linha da Fatura e a Linha criada
                 if self.journal_id.return_auto_reconcile:
+                    if line_to_reconcile.reconciled:
+                        raise UserError(
+                            _(
+                                "The invoice line %(name)s is already reconciled.\n\n"
+                                "Invoice: %(invoice)s\n"
+                                "Account: %(account)s\n"
+                                "Detailed line ID: %(aml)s\n",
+                                name=line_to_reconcile.name,
+                                invoice=line_to_reconcile.move_id.name,
+                                aml=line_to_reconcile,
+                                account=line_to_reconcile.account_id.name,
+                            ),
+                        )
                     if line_to_reconcile:
                         (line + line_to_reconcile).reconcile()
                         line_to_reconcile.cnab_state = "done"
