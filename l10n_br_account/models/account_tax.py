@@ -80,8 +80,14 @@ class AccountTax(models.Model):
             fixed_multiplicator,
         )
 
-        if not fiscal_taxes:
-            fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        line = self._context.get(
+            "taxes_compute_origin_document_line_mixin",
+            self.env["l10n_br_fiscal.document.line.mixin"],
+        )
+        # line may be any model with fiscal properties,
+        # like account.move.line, sale.order.line, etc
+        if "fiscal_tax_ids" not in line._fields:
+            return taxes_results
 
         product = product or self.env["product.product"]
 
