@@ -112,7 +112,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         else:
             company_name = "empresa 2 Lucro Presumido"
             cnpj = "87.396.251/0001-15"
-        chart_template = cls.env.ref("l10n_br_coa_generic.l10n_br_coa_generic_template")
+        chart_template = "br_oca_generic"
         res = super().setup_company_data(
             company_name,
             chart_template,

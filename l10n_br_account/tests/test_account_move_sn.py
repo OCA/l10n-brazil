@@ -53,10 +53,8 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             company_name = "empresa 1 Simples Nacional"
         else:
             company_name = "empresa 2 Simples Nacional"
-        chart_template = cls.env.ref(
-            "l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
-        )
-        res = super().setup_company_data(
+        chart_template = "br_oca_simple"
+        return super().setup_company_data(
             company_name,
             chart_template,
             tax_framework="1",
@@ -73,8 +71,6 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             annual_revenue=815000.0,
             **kwargs,
         )
-        chart_template.load_fiscal_taxes()
-        return res
 
     def test_company_sn_config(self):
         self.assertEqual(
@@ -123,9 +119,9 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
         tax_line_vals_icms = {
             "name": "ICMS - Simples Nacional",
             "product_id": False,
-            "account_id": self.env["account.account"]
-            .search([("name", "=", "ICMS a Recolher")], order="id DESC", limit=1)
-            .id,
+            "account_id": self._get_record_by_name(
+                "account.account", "ICMS a Recolher"
+            ).id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -134,9 +130,7 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "price_subtotal": 0.0,
             "price_total": 0.0,
             "tax_ids": [],
-            "tax_line_id": self.env["account.tax"]
-            .search([("name", "=", "ICMS SN Saida")], order="id DESC", limit=1)
-            .id,
+            "tax_line_id": self._get_record_by_name("account.tax", "ICMS SN Saída").id,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": -27.0,
             "debit": 0.0,
