@@ -444,10 +444,14 @@ class AccountMove(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         self._inject_shadowed_fields(vals_list)
-        invoice = super(AccountMove, self.with_context(create_from_move=True)).create(
+
+        for vals in vals_list:
+            if not vals.get("document_type_id"):
+                vals["fiscal_document_id"] = False
+
+        return super(AccountMove, self.with_context(create_from_move=True)).create(
             vals_list
         )
-        return invoice
 
     def write(self, values):
         self._inject_shadowed_fields([values])
