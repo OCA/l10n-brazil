@@ -67,7 +67,8 @@ class FiscalTax(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         fiscal_taxes = super().create(vals_list)
-        fiscal_taxes._create_account_tax()
+        if not self.env.context.get("install_mode"):
+            fiscal_taxes._create_account_tax()
         return fiscal_taxes
 
     def unlink(self):
