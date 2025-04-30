@@ -338,8 +338,8 @@ class AccountMove(models.Model):
                                 "move_id": invoice.id,
                                 "date_maturity": fields.Date.to_date(term.get("date")),
                                 "discount_date": term.get("discount_date"),
-                                "discount_percentage": term.get("discount_percentage"),
                             }
+                            # "discount_percentage": term.get("discount_percentage"),
                         )
                         values = {
                             "balance": term["company_amount"],
@@ -348,7 +348,7 @@ class AccountMove(models.Model):
                             or 0.0,
                             "discount_balance": term["discount_balance"] or 0.0,
                             "discount_date": term["discount_date"],
-                            "discount_percentage": term["discount_percentage"],
+                            # "discount_percentage": term["discount_percentage"],
                         }
                         if key not in invoice.needed_terms:
                             invoice.needed_terms[key] = values
@@ -366,7 +366,7 @@ class AccountMove(models.Model):
                                     invoice.invoice_date_due
                                 ),
                                 "discount_date": False,
-                                "discount_percentage": 0,
+                                # "discount_percentage": 0,
                             }
                         )
                     ] = {
