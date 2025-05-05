@@ -542,11 +542,6 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model,name:l10n_br_sale.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__fiscal_operation_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
 msgid "Fiscal Operation"
@@ -556,14 +551,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__fiscal_operation_line_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
 msgid "Fiscal Operation Line"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__fiscal_proxy_partner_shipping_id
-msgid "Fiscal Partner Shipping"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1146,11 +1133,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Invoice Lines"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model,name:l10n_br_sale.model_account_move
-msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_br_sale
