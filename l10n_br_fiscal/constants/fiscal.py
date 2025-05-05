@@ -477,12 +477,27 @@ EDOC_PURPOSE = [
     ("2", "Complementar"),
     ("3", "Ajuste"),
     ("4", "Devolução de mercadoria"),
+    ("5", "Nota de Crédito"),
+    ("6", "Nota de Débito"),
 ]
 
 EDOC_PURPOSE_NORMAL = "1"
 EDOC_PURPOSE_COMPLEMENTAR = "2"
 EDOC_PURPOSE_AJUSTE = "3"
 EDOC_PURPOSE_DEVOLUCAO = "4"
+
+EDOC_REFUND_DEBIT_TYPE = [
+    ("01", "Transferência de créditos para Cooperativas"),
+    ("02", "Anulação de Crédito por Saídas Imunes/Isentas"),
+    ("03", "Débitos de notas fiscais não processadas na apuração"),
+    ("04", "Multa e juros"),
+    ("05", "Transferência de crédito de sucessão"),
+]
+
+# TODO - Implementar nas proximas versões da NT da Reforma tributária
+EDOC_REFUND_CREDIT_TYPE = [
+    ("00", "Não Implementado"),
+]
 
 PROCESSADOR_NENHUM = "nenhum"
 PROCESSADOR_OCA = "oca"
