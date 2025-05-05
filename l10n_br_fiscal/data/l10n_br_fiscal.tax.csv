@@ -169,6 +169,7 @@
 "tax_icms_sn_sem_credito_st","ICMS SN Sem Permissão de Crédito e Cobrança de ICMS por ST","percent","0.00","0.00","tax_group_icmssn","cst_icmssn_202","cst_icmssn_202",,,,,"0","4",,
 "tax_icms_suspensao","ICMS Suspensão","percent","0.00","0.00","tax_group_icms","cst_icms_50","cst_icms_50",,,,,"0","4",,
 "tax_icmsfcp_1","FCP 1%","percent","1.00","0.00","tax_group_icmsfcp",,,,,,,"0","4",,
+"tax_icmsfcp_12","FCP 1,20%","percent","1.20","0.00","tax_group_icmsfcp",,,,,,,"0","4",,
 "tax_icmsfcp_16","FCP 1,60%","percent","1.60","0.00","tax_group_icmsfcp",,,,,,,"0","4",,
 "tax_icmsfcp_19","FCP 1,90%","percent","1.90","0.00","tax_group_icmsfcp",,,,,,,"0","4",,
 "tax_icmsfcp_2","FCP 2%","percent","2.00","0.00","tax_group_icmsfcp",,,,,,,"0","4",,

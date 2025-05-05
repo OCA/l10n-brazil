@@ -4000,14 +4000,14 @@
 
   <!-- FCP -->
   <!-- AC -->
-  <record id="tax_icmsfcp_2_regulation_ac_ac" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_icmsfcp_nt_regulation_ac_ac" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
     <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_nt" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
     <field name="state">approved</field>
   </record>
@@ -4037,31 +4037,20 @@
     <field name="state">draft</field>
   </record>
 
+  <!-- AP -->
+  <record id="tax_icmsfcp_nt_regulation_ap_ap" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation" />
+    <field name="state_from_id" ref="base.state_br_al" />
+    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="is_taxed" eval="True" />
+    <field name="is_debit_credit" eval="False" />
+    <field name="custom_tax" eval="True" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_nt" />
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
+    <field name="state">draft</field>
+  </record>
+
   <!-- AM -->
-  <record id="tax_icmsfcp_16_regulation_am_am" model="l10n_br_fiscal.tax.definition">
-    <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
-    <field name="is_taxed" eval="True" />
-    <field name="is_debit_credit" eval="False" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_16" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
-    <field name="state">draft</field>
-  </record>
-
-  <record id="tax_icmsfcp_19_regulation_am_am" model="l10n_br_fiscal.tax.definition">
-    <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
-    <field name="is_taxed" eval="True" />
-    <field name="is_debit_credit" eval="False" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_19" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
-    <field name="state">draft</field>
-  </record>
-
   <record id="tax_icmsfcp_2_regulation_am_am" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
@@ -4074,17 +4063,16 @@
     <field name="state">draft</field>
   </record>
 
-  <!-- AP -->
-  <record id="tax_icmsfcp_nt_regulation_ap_ap" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_icmsfcp_1_2_regulation_am_am" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_ap" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ap')])]" />
-    <field name="is_taxed" eval="False" />
+    <field name="state_from_id" ref="base.state_br_am" />
+    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
-    <field name="custom_tax" eval="False" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_nt" />
+    <field name="custom_tax" eval="True" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_12" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
-    <field name="state">approved</field>
+    <field name="state">draft</field>
   </record>
 
   <!-- BA -->
@@ -4218,7 +4206,7 @@
   </record>
 
   <!-- PB -->
-  <record id="tax_icmsfcp_nt_regulation_pb_pb" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_icmsfcp_2_regulation_pb_pb" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
     <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
@@ -4231,7 +4219,7 @@
   </record>
 
   <!-- PR -->
-  <record id="tax_icmsfcp_2_regulation_pb_pb" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_icmsfcp_2_regulation_pr_pr" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
     <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
@@ -4257,18 +4245,6 @@
   </record>
 
   <!-- PI -->
-  <record id="tax_icmsfcp_1_regulation_pi_pi" model="l10n_br_fiscal.tax.definition">
-    <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
-    <field name="is_taxed" eval="True" />
-    <field name="is_debit_credit" eval="False" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_1" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
-    <field name="state">draft</field>
-  </record>
-
   <record id="tax_icmsfcp_2_regulation_pi_pi" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
@@ -4278,7 +4254,20 @@
     <field name="custom_tax" eval="True" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
-    <field name="state">draft</field>
+    <field name="state">approved</field>
+  </record>
+
+  <!-- RJ -->
+  <record id="tax_icmsfcp_4_regulation_rj_rj" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation" />
+    <field name="state_from_id" ref="base.state_br_rj" />
+    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="is_taxed" eval="True" />
+    <field name="is_debit_credit" eval="False" />
+    <field name="custom_tax" eval="True" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_4" />
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
+    <field name="state">approved</field>
   </record>
 
   <!-- RN -->
@@ -4303,19 +4292,6 @@
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
-    <field name="state">approved</field>
-  </record>
-
-  <!-- RJ -->
-  <record id="tax_icmsfcp_4_regulation_rj_rj" model="l10n_br_fiscal.tax.definition">
-    <field name="icms_regulation_id" ref="tax_icms_regulation" />
-    <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
-    <field name="is_taxed" eval="True" />
-    <field name="is_debit_credit" eval="False" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_4" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
     <field name="state">approved</field>
   </record>
@@ -4383,6 +4359,18 @@
     <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_2" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
     <field name="state">approved</field>
+  </record>
+
+  <record id="tax_icmsfcp_1_regulation_se_se" model="l10n_br_fiscal.tax.definition">
+    <field name="icms_regulation_id" ref="tax_icms_regulation" />
+    <field name="state_from_id" ref="base.state_br_se" />
+    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="is_taxed" eval="True" />
+    <field name="is_debit_credit" eval="False" />
+    <field name="custom_tax" eval="True" />
+    <field name="tax_id" ref="l10n_br_fiscal.tax_icmsfcp_1" />
+    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsfcp" />
+    <field name="state">draft</field>
   </record>
 
   <!-- TO -->
