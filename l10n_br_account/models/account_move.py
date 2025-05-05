@@ -219,7 +219,7 @@ class AccountMove(models.Model):
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         move_type = self.env.context.get("default_move_type", "out_invoice")
-        if not move_type == "entry":
+        if move_type != "entry":
             defaults["fiscal_operation_type"] = MOVE_TO_OPERATION[move_type]
             if defaults["fiscal_operation_type"] == FISCAL_OUT:
                 defaults["issuer"] = DOCUMENT_ISSUER_COMPANY
@@ -533,7 +533,7 @@ class AccountMove(models.Model):
                     )
             move.fiscal_document_ids.filtered(
                 lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
-            ).document_back2draft()
+            ).action_document_back2draft()
         return super().button_draft()
 
     def action_document_send(self):
