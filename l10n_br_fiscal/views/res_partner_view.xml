@@ -32,6 +32,12 @@
                         readonly="fiscal_profile_id"
                     />
                     <field
+                        name="public_entity_type"
+                        force_save="1"
+                        invisible="not is_public_entity"
+                        readonly="fiscal_profile_id"
+                    />
+                    <field
                         name="legal_nature_id"
                         options="{'no_create': True, 'no_create_edit': True}"
                     />

@@ -17,6 +17,8 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     EDOC_PURPOSE,
     EDOC_PURPOSE_NORMAL,
+    EDOC_REFUND_DEBIT_TYPE,
+    EDOC_REFUND_CREDIT_TYPE,
     FISCAL_IN_OUT_DICT,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFCE,
@@ -176,6 +178,16 @@ class Document(models.Model):
         compute="_compute_edoc_purpose",
         store=True,
         precompute=True,
+    )
+
+    edoc_refund_debit_type = fields.Selection(
+        selection=EDOC_REFUND_DEBIT_TYPE,
+        string="Tipo de Nota de Débito",
+    )
+
+    edoc_refund_credit_type = fields.Selection(
+        selection=EDOC_REFUND_CREDIT_TYPE,
+        string="Tipo de Nota de Crédito",
     )
 
     document_type = fields.Char(
