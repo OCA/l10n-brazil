@@ -17,13 +17,14 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     EDOC_PURPOSE,
     EDOC_PURPOSE_NORMAL,
-    EDOC_REFUND_DEBIT_TYPE,
     EDOC_REFUND_CREDIT_TYPE,
+    EDOC_REFUND_DEBIT_TYPE,
     FISCAL_IN_OUT_DICT,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
+    PUBLIC_ENTIRY_TYPE,
     SITUACAO_EDOC,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
@@ -188,6 +189,11 @@ class Document(models.Model):
     edoc_refund_credit_type = fields.Selection(
         selection=EDOC_REFUND_CREDIT_TYPE,
         string="Tipo de Nota de Crédito",
+    )
+
+    public_entity_type = fields.Selection(
+        selection=PUBLIC_ENTIRY_TYPE,
+        string="Tipo de Entidade Governamental",
     )
 
     document_type = fields.Char(
