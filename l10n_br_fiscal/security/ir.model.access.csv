@@ -63,6 +63,7 @@
 "l10n_br_fiscal_operation_user","Fiscal Operation for User","model_l10n_br_fiscal_operation","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_operation_manager","Fiscal Operation for Manager","model_l10n_br_fiscal_operation","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_subsequent_operation","Fiscal Subsequent Operation for Manager","model_l10n_br_fiscal_subsequent_operation","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_subsequent_operation_user","Fiscal Subsequent Operation for User","model_l10n_br_fiscal_subsequent_operation","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_subsequent_document","Fiscal Subsequent Document for Manager","model_l10n_br_fiscal_subsequent_document","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_subsequent_document_user","Fiscal Subsequent Document for User","model_l10n_br_fiscal_subsequent_document","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_operation_line_user","Fiscal Operation Line for User","model_l10n_br_fiscal_operation_line","l10n_br_fiscal.group_user",1,0,0,0
