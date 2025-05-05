@@ -853,7 +853,13 @@ class NFe(spec_models.StackedModel):
                 key_date_str = rec.document_key[2:6]
                 key_date = datetime.strptime(key_date_str, "%y%m")
 
-                document_date = fields.Datetime.from_string(rec.document_date)
+                # Converting the document_date to the user's timezone
+                # This is necessary because the NFe is printed
+                # using the user's local timezone
+                document_date = fields.Datetime.context_timestamp(
+                    rec, rec.document_date
+                )
+
                 if rec.state_edoc in ["a_enviar", "autorizada"] and (
                     key_date.year != document_date.year
                     or key_date.month != document_date.month
