@@ -29,6 +29,12 @@
                         attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"
                     />
                     <field
+                        name="public_entity_type"
+                        force_save="1"
+                        attrs="{'readonly': [('fiscal_profile_id', '!=', False)],
+                                'invisible': [('is_public_entity', '=', False)]}"
+                    />
+                    <field
                         name="legal_nature_id"
                         options="{'no_create': True, 'no_create_edit': True}"
                     />
