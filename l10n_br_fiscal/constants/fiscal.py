@@ -307,6 +307,14 @@ FINAL_CUSTOMER_NO = "0"
 FINAL_CUSTOMER_YES = "1"
 
 
+PUBLIC_ENTIRY_TYPE = [
+    ("1", "União"),
+    ("2", "Estado"),
+    ("3", "Distrito Federal"),
+    ("4", "Município"),
+]
+
+
 CFOP_TYPE_MOVE = [
     ("purchase_industry", "Purchase Industry"),
     ("purchase_commerce", "Purchase Commerce"),
