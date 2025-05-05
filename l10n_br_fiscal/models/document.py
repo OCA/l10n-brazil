@@ -20,6 +20,8 @@ from ..constants.fiscal import (
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
+    EDOC_REFUND_CREDIT_TYPE,
+    PUBLIC_ENTIRY_TYPE,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
@@ -188,6 +190,11 @@ class Document(models.Model):
         string="Correction Events",
         copy=False,
         readonly=True,
+    )
+
+    public_entity_type = fields.Selection(
+        selection=PUBLIC_ENTIRY_TYPE,
+        string="Tipo de Entidade Governamental",
     )
 
     document_type = fields.Char(
