@@ -931,6 +931,11 @@ msgid "Comments"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_cnpj_cpf
@@ -1223,6 +1228,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_xObs
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_xObs
 msgid "Cte40 Xobs"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__currency_id
+msgid "Currency"
 msgstr ""
 
 #. module: l10n_br_account
@@ -1855,8 +1865,22 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_shipping_id
+msgid "Delivery Address"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__delivery_costs
 msgid "Delivery Costs"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__partner_shipping_id
+msgid "Delivery address for current invoice."
 msgstr ""
 
 #. module: l10n_br_account
@@ -2383,22 +2407,6 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_company_id
-msgid "Fiscal Company"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_currency_id
-msgid "Fiscal Currency"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_deductions_value
 msgid "Fiscal Deductions"
 msgstr ""
@@ -2474,14 +2482,6 @@ msgid "Fiscal Operation Type mismatch!"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_partner_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_partner_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_partner_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_partner_id
-msgid "Fiscal Partner"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__fiscal_position_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__fiscal_position_id
 msgid "Fiscal Position"
@@ -2495,30 +2495,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_genre_id
 msgid "Fiscal Product Genre"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_name
-msgid "Fiscal Proxy Name"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_price_unit
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_price_unit
-msgid "Fiscal Proxy Price Unit"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_product_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_product_id
-msgid "Fiscal Proxy Product"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_proxy_quantity
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_proxy_quantity
-msgid "Fiscal Proxy Quantity"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2547,14 +2523,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_type
 msgid "Fiscal Type"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_proxy_user_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_proxy_user_id
-msgid "Fiscal User"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4190,6 +4158,11 @@ msgid "Key"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__name
+msgid "Label"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_lacres
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_lacres
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_lacres
@@ -4644,7 +4617,7 @@ msgid "Nacionalidade da Aeronave"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cte40_xNome
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__name
 msgid "Name"
 msgstr ""
 
@@ -4763,6 +4736,18 @@ msgstr ""
 msgid ""
 "Nome do Município do término da prestação\n"
 "Informar 'EXTERIOR' para operações com o exterior."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cte40_xNome
+msgid "Nome do componente"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__cte40_xNome
+msgid ""
+"Nome do componente\n"
+"Exxemplos: FRETE PESO, FRETE VALOR, SEC/CAT, ADEME, AGENDAMENTO, etc"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5183,6 +5168,11 @@ msgid "PL_005d - 11/08/09 - validação do Id"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_city_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_city_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_city_id
@@ -5415,6 +5405,11 @@ msgid "Prefixo do Trem"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__price_unit
+msgid "Price Unit"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__processador_edoc
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__processador_edoc
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__processador_edoc
@@ -5439,6 +5434,11 @@ msgid ""
 "2 - emissão de NF-e avulsa, pelo contribuinte com seu certificado digital, através do site\n"
 "do Fisco;\n"
 "3- emissão de NF-e pelo contribuinte com aplicativo fornecido pelo Fisco."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__product_id
+msgid "Product"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5556,6 +5556,12 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_qUnid
 msgid "Quantidade total na unidade padrão para tributação"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__quantity
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__quantity
+msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5683,6 +5689,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_shippering_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_shippering_id
 msgid "Shipper Address"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__partner_shipping_id
+msgid "Shipping Address"
 msgstr ""
 
 #. module: l10n_br_account
@@ -6117,6 +6128,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__quantity
+msgid ""
+"The optional quantity expressed by this line, eg: number of product sold. "
+"The quantity is not a legal requirement but is very useful for some reports."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_insurance_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_insurance_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__partner_insurance_id
@@ -6468,6 +6486,11 @@ msgid "Unidade comercial"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_unit
+msgid "Unit Price"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__company_legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__company_legal_name
@@ -6475,6 +6498,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__company_legal_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__partner_legal_name
 msgid "Used in fiscal documents"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__user_id
+msgid "User"
 msgstr ""
 
 #. module: l10n_br_account
