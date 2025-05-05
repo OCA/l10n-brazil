@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 from ..constants.fiscal import (
     NFE_IND_IE_DEST,
     NFE_IND_IE_DEST_DEFAULT,
+    PUBLIC_ENTIRY_TYPE,
     TAX_FRAMEWORK,
     TAX_FRAMEWORK_NORMAL,
 )
@@ -30,6 +31,11 @@ class PartnerProfile(models.Model):
         "range of entities such as municipal governments, state-owned "
         "enterprises (where the government is the largest shareholder), and "
         "other government-controlled organizations.",
+    )
+
+    public_entity_type = fields.Selection(
+        selection=PUBLIC_ENTIRY_TYPE,
+        string="Tipo de Entidade Governamental",
     )
 
     default = fields.Boolean(string="Default Profile", default=True)
