@@ -2,7 +2,7 @@ id,code,name,note,account_type,reconcile,chart_template_id:id
 coa_generic_111101,1.1.1.1.01,Caixa Geral,,asset_cash,1,l10n_br_coa_generic_template
 coa_generic_112101,1.1.2.1.01,Clientes,,asset_receivable,1,l10n_br_coa_generic_template
 coa_generic_112102,1.1.2.1.02,Controle de Débitos (POS),,asset_receivable,1,l10n_br_coa_generic_template
-coa_generic_112201,1.1.2.2.01,(-) Duplicatas Descontadas,,asset_receivable,0,l10n_br_coa_generic_template
+coa_generic_112201,1.1.2.2.01,(-) Duplicatas Descontadas,,asset_receivable,1,l10n_br_coa_generic_template
 coa_generic_112901,1.1.2.9.01,Outros Valores a Receber,,asset_current,1,l10n_br_coa_generic_template
 coa_generic_119001,1.1.9.0.01,Estoque Intermediário (Recebido),,asset_current,0,l10n_br_coa_generic_template
 coa_generic_119002,1.1.9.0.02,Estoque Intermediário (Enviado),,asset_current,0,l10n_br_coa_generic_template
@@ -167,14 +167,14 @@ coa_generic_129801,1.2.9.8.01,Gastos de Organização e Administração,,asset_n
 coa_generic_129802,1.2.9.8.02,Projetos e Desenvolvimento de Novos Produtos,,asset_non_current,0,l10n_br_coa_generic_template
 coa_generic_129901,1.2.9.9.01,(-) Amortização Acumulada - Gastos de Organização e Administração,,asset_non_current,0,l10n_br_coa_generic_template
 coa_generic_129902,1.2.9.9.02,(-) Amortização Acumulada - Projetos e Desenvolvimento de Novos Produtos,,asset_non_current,0,l10n_br_coa_generic_template
-coa_generic_191101,1.9.1.1.01,Bens envidados Conserto Terceiros (5.915/6.915),,off_balance,1,l10n_br_coa_generic_template
-coa_generic_191102,1.9.1.1.02,Bens enviados Conserto ,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_191201,1.9.1.2.01,Produtos enviados para Armazenagem ,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_191203,1.9.1.2.03,Mercadorias enviadas para Armazenagem ,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_191204,1.9.1.2.04,Uso e Consumo enviados para Armazenagem ,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_191301,1.9.1.3.01,Remessa de Venda Produção p/ Entrega Futura (5.116/6.116),,off_balance,1,l10n_br_coa_generic_template
-coa_generic_191303,1.9.1.3.03,Remessa de Venda Mercadorias p/ Entrega Futura (5.117/6.117),,off_balance,1,l10n_br_coa_generic_template
-coa_generic_191304,1.9.1.3.04,Remessas,,off_balance,1,l10n_br_coa_generic_template
+coa_generic_191101,1.9.1.1.01,Bens envidados Conserto Terceiros (5.915/6.915),,off_balance,0,l10n_br_coa_generic_template
+coa_generic_191102,1.9.1.1.02,Bens enviados Conserto ,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_191201,1.9.1.2.01,Produtos enviados para Armazenagem ,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_191203,1.9.1.2.03,Mercadorias enviadas para Armazenagem ,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_191204,1.9.1.2.04,Uso e Consumo enviados para Armazenagem ,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_191301,1.9.1.3.01,Remessa de Venda Produção p/ Entrega Futura (5.116/6.116),,off_balance,0,l10n_br_coa_generic_template
+coa_generic_191303,1.9.1.3.03,Remessa de Venda Mercadorias p/ Entrega Futura (5.117/6.117),,off_balance,0,l10n_br_coa_generic_template
+coa_generic_191304,1.9.1.3.04,Remessas,,off_balance,0,l10n_br_coa_generic_template
 coa_generic_211101,2.1.1.1.01,Fornecedores,,liability_payable,1,l10n_br_coa_generic_template
 coa_generic_212101,2.1.2.1.01,Aluguéis a Pagar,,liability_current,0,l10n_br_coa_generic_template
 coa_generic_212102,2.1.2.1.02,Energia Elétrica a Pagar,,liability_current,0,l10n_br_coa_generic_template
@@ -227,16 +227,16 @@ coa_generic_242302,2.4.2.3.02,Lucros a Realizar,,equity,0,l10n_br_coa_generic_te
 coa_generic_243101,2.4.3.1.01,Quotas de Capital Realizado,,equity,0,l10n_br_coa_generic_template
 coa_generic_244101,2.4.4.1.01,Lucros Acumulados (Períodos Anteriores),,equity,0,l10n_br_coa_generic_template
 coa_generic_244102,2.4.4.1.02,Prejuízos Acumulados,,equity,0,l10n_br_coa_generic_template
-coa_generic_291101,2.9.1.1.01,NFS Bens envidados Conserto Terceiros (5.915/6.915),,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291103,2.9.1.1.03,NFS Bens envidados,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291201,2.9.1.2.01,NFS Produtos enviados para Armazenagem ,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291203,2.9.1.2.03,NFS Mercadorias enviadas para Armazenagem ,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291204,2.9.1.2.04,NFS Uso e Consumo enviados para Armazenagem ,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291301,2.9.1.3.01,NFS Remessa de Venda Produção p/ Entrega Futura (5.116/6.116),,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291302,2.9.1.3.02,NFS Remessa de Venda Mercadorias p/ Entrega Futura (5.117/6.117),,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291303,2.9.1.3.03,NFS Remessas,,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291401,2.9.1.4.01,NFS Remessa Producao a Ordem  (5.923),,off_balance,1,l10n_br_coa_generic_template
-coa_generic_291402,2.9.1.4.02,NFS Remessa Revenda a Ordem  (6.923),,off_balance,1,l10n_br_coa_generic_template
+coa_generic_291101,2.9.1.1.01,NFS Bens envidados Conserto Terceiros (5.915/6.915),,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291103,2.9.1.1.03,NFS Bens envidados,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291201,2.9.1.2.01,NFS Produtos enviados para Armazenagem ,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291203,2.9.1.2.03,NFS Mercadorias enviadas para Armazenagem ,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291204,2.9.1.2.04,NFS Uso e Consumo enviados para Armazenagem ,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291301,2.9.1.3.01,NFS Remessa de Venda Produção p/ Entrega Futura (5.116/6.116),,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291302,2.9.1.3.02,NFS Remessa de Venda Mercadorias p/ Entrega Futura (5.117/6.117),,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291303,2.9.1.3.03,NFS Remessas,,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291401,2.9.1.4.01,NFS Remessa Producao a Ordem  (5.923),,off_balance,0,l10n_br_coa_generic_template
+coa_generic_291402,2.9.1.4.02,NFS Remessa Revenda a Ordem  (6.923),,off_balance,0,l10n_br_coa_generic_template
 coa_generic_311101,3.1.1.1.01,Matérias-primas (Custo),,expense_direct_cost,0,l10n_br_coa_generic_template
 coa_generic_311102,3.1.1.1.02,Materiais de embalagem (Custo),,expense_direct_cost,0,l10n_br_coa_generic_template
 coa_generic_311201,3.1.1.2.01,Salários (Custo Direto),,expense_direct_cost,0,l10n_br_coa_generic_template
