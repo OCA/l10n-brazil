@@ -36,6 +36,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
     def setUpClass(cls, chart_template_ref="br_oca_generic"):
         common.instantiate_accountman = instantiate_accountman
         super().setUpClass(chart_template_ref)
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # super().setUpClass() would duplicate some random IPI tax
         # we need to delete these duplicates to avoid errors:

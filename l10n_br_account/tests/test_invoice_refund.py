@@ -1,7 +1,7 @@
 # Copyright (C) 2021  Ygor Carvalho - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields
+from odoo import fields, Command
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
@@ -12,11 +12,13 @@ class TestInvoiceRefund(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
+        cls.company_presumido = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.sale_account = cls.env["account.account"].create(
             dict(
                 code="X1020",
                 name="Product Refund Sales - (test)",
                 account_type="income",
+                company_id=cls.company_presumido.id,
             )
         )
 
@@ -27,17 +29,19 @@ class TestInvoiceRefund(TransactionCase):
                 type="sale",
                 refund_sequence=True,
                 default_account_id=cls.sale_account.id,
+                company_id=cls.company_presumido.id,
             )
         )
 
         cls.reverse_vals = {
             "date": fields.Date.from_string("2019-02-01"),
             "reason": "no reason",
-            # "refund_method": "refund",
             "journal_id": cls.refund_journal.id,
         }
 
-        cls.invoice = cls.env["account.move"].create(
+        cls.invoice = cls.env["account.move"].with_company(
+            cls.company_presumido
+        ).create(
             dict(
                 name="Test Refund Invoice",
                 move_type="out_invoice",
@@ -51,34 +55,29 @@ class TestInvoiceRefund(TransactionCase):
                     "l10n_br_fiscal.empresa_lc_document_55_serie_1"
                 ).id,
                 invoice_line_ids=[
-                    (
-                        0,
-                        0,
-                        {
-                            "product_id": cls.env.ref("product.product_product_6").id,
-                            "quantity": 1.0,
-                            "price_unit": 100.0,
-                            "account_id": cls.env["account.account"]
-                            .search(
-                                [
-                                    (
-                                        "account_type",
-                                        "=",
-                                        "income",
-                                    ),
-                                    (
-                                        "company_id",
-                                        "=",
-                                        cls.env.company.id,
-                                    ),
-                                ],
-                                limit=1,
-                            )
-                            .id,
-                            "name": "Refund Test",
-                            "uom_id": cls.env.ref("uom.product_uom_unit").id,
-                        },
-                    )
+                    Command.create({
+                        "product_id": cls.env.ref("product.product_product_6").id,
+                        "quantity": 1.0,
+                        "price_unit": 100.0,
+                        "account_id": cls.env["account.account"]
+                        .search(
+                            [
+                                (
+                                    "account_type",
+                                    "=",
+                                    "income",
+                                ),
+                                (
+                                    "company_id",
+                                    "=",
+                                    cls.company_presumido.id,
+                                ),
+                            ],
+                            limit=1,
+                        ).ensure_one().id,
+                        "name": "Refund Test",
+                        "uom_id": cls.env.ref("uom.product_uom_unit").id,
+                    }),
                 ],
             )
         )
@@ -114,14 +113,13 @@ class TestInvoiceRefund(TransactionCase):
         with self.assertRaises(UserError):
             move_reversal.reverse_moves()
 
-        invoice.invoice_line_ids.write(
-            {
-                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
-                "fiscal_operation_line_id": (
-                    self.env.ref("l10n_br_fiscal.fo_venda_venda").id,
-                ),
-            }
-        )
+        for line_id in invoice.invoice_line_ids:
+            line_id["fiscal_operation_id"] = (
+                self.env.ref("l10n_br_fiscal.fo_venda").id,
+            )
+            line_id["fiscal_operation_line_id"] = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            ).id
 
         reversal = move_reversal.reverse_moves()
         reverse_move = self.env["account.move"].browse(reversal["res_id"])
@@ -139,14 +137,14 @@ class TestInvoiceRefund(TransactionCase):
         invoice = self.invoice
 
         invoice.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
-        invoice.invoice_line_ids.write(
-            {
-                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
-                "fiscal_operation_line_id": self.env.ref(
-                    "l10n_br_fiscal.fo_venda_venda"
-                ).id,
-            }
-        )
+
+        for line_id in invoice.invoice_line_ids:
+            line_id["fiscal_operation_id"] = (
+                self.env.ref("l10n_br_fiscal.fo_venda").id,
+            )
+            line_id["fiscal_operation_line_id"] = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            ).id
 
         invoice.action_post()
         self.assertEqual(
