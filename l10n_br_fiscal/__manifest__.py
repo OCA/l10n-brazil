@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "16.0.6.0.1",
+    "version": "16.0.7.0.0",
     "depends": [
         "product",
         "uom_alias",
@@ -21,7 +21,6 @@
         "security/fiscal_security.xml",
         "security/ir.model.access.csv",
         # Data
-        "data/l10n_br_fiscal_email_template.xml",
         "data/l10n_br_fiscal_data.xml",
         "data/uom_data.xml",
         "data/uom.alias.csv",
@@ -83,7 +82,6 @@
         "views/product_genre_view.xml",
         "views/document_type_view.xml",
         "views/document_serie_view.xml",
-        "views/document_email_view.xml",
         "views/simplified_tax_view.xml",
         "views/simplified_tax_range_view.xml",
         "views/operation_view.xml",
@@ -122,7 +120,6 @@
         "demo/fiscal_document_nfse_demo.xml",
         "demo/fiscal_operation_demo.xml",
         "demo/subsequent_operation_demo.xml",
-        "demo/l10n_br_fiscal_document_email.xml",
         "demo/res_users_demo.xml",
         "demo/icms_tax_definition_demo.xml",
         "demo/fiscal_document_demo.xml",

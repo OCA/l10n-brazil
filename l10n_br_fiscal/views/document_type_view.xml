@@ -34,12 +34,6 @@
                                 context="{'default_document_type_id': id}"
                             />
                         </page>
-                        <page name="document_email" string="Email Templates">
-                            <field
-                                name="document_email_ids"
-                                context="{'default_document_type_id': id}"
-                            />
-                        </page>
                     </notebook>
                 </sheet>
             </form>
