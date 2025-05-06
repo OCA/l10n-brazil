@@ -156,9 +156,7 @@ class AccountMoveLine(models.Model):
         vals_list = [val for _, val in sorted_indexed_vals_list]
 
         # Create the records
-        result = super(
-            AccountMoveLine, self.with_context(create_from_move_line=True)
-        ).create(vals_list)
+        result = super().create(vals_list)
 
         # Initialize the inverted index list with the same length as the original list
         inverted_index = [0] * len(original_indexes)
