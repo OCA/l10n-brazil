@@ -433,11 +433,11 @@ SOAP. Ele contém apenas o que há de comum entre os documentos fiscais
 mas esses últimos são implementados em outros módulos. Para um
 determinado documento fiscal como a Nf-e, você tem então por exemplo:</p>
 <ul class="simple">
-<li><tt class="docutils literal">nfelib</tt>: um pacote de data bindings puro Python (que não depende do
-Odoo). Em geral usamos um gerador de código para gerar esses bindings
-a partir dos esquemas XSD da fazenda.</li>
-<li><tt class="docutils literal">l10n_br_nfe_spec</tt>: um modulo de mixins Odoo geridos também a partir
-dos XSD. Esses mixins são apenas as estruturas de dados das
+<li><tt class="docutils literal">nfelib</tt>: um pacote de data bindings puro Python (que não depende
+do Odoo). Em geral usamos um gerador de código para gerar esses
+bindings a partir dos esquemas XSD da fazenda.</li>
+<li><tt class="docutils literal">l10n_br_nfe_spec</tt>: um modulo de mixins Odoo geridos também a
+partir dos XSD. Esses mixins são apenas as estruturas de dados das
 especificações antes de ser injectados em objetos Odoo existantes
 (como res.partner ou l10n_br_fiscal.document) ou até tornados
 concretos caso não exite objetos na Odoo ou na OCA para eles já.</li>
@@ -585,8 +585,8 @@ os pacotes Python</p>
 <h3><a class="toc-backref" href="#toc-entry-2">Configuration</a></h3>
 <p>Para uma boa configuração fiscal, você tem que revisar bem:</p>
 <ul class="simple">
-<li>em Configurações: as operaçoes fiscais que você vai usar, as linhas de
-operação fiscal e as definições das taxas nessas linhas.</li>
+<li>em Configurações: as operaçoes fiscais que você vai usar, as linhas
+de operação fiscal e as definições das taxas nessas linhas.</li>
 <li>a configuração fiscal da sua empresa (aba fiscal)</li>
 <li>a configuração fiscal dos clientes e fornecedores (aba fiscal) e dos
 produtos (aba fiscal).</li>

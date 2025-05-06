@@ -313,12 +313,6 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.document.type", string="Default Document Type"
     )
 
-    document_email_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.email",
-        inverse_name="company_id",
-        string="Email Template Definition",
-    )
-
     document_save_disk = fields.Boolean(
         string="Save Documents to disk",
         default=True,
