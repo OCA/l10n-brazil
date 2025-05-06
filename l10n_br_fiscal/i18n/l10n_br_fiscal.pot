@@ -1829,7 +1829,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__company_id
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__issuer__company
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_email__issuer__company
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__issuer__company
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_pis_cofins__piscofins_type__company
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order__issuer__company
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order__issuer__company
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_picking__issuer__company
 #: model:ir.ui.menu,name:l10n_br_fiscal.company_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #, python-format
@@ -5229,6 +5233,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__issuer
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_email__issuer
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__issuer
 msgid "Issuer"
 msgstr ""
 
@@ -6575,6 +6580,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__partner_id
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__issuer__partner
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_email__issuer__partner
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__issuer__partner
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order__issuer__partner
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order__issuer__partner
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_picking__issuer__partner
 #: model:ir.ui.menu,name:l10n_br_fiscal.partner_menu
 #, python-format
 msgid "Partner"
