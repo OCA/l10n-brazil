@@ -1077,6 +1077,11 @@ msgid "Invoices and Incoming Shipments"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__issuer
+msgid "Issuer"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model,name:l10n_br_purchase.model_account_move
 msgid "Journal Entry"
 msgstr ""
