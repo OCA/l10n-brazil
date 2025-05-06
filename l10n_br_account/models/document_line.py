@@ -83,7 +83,7 @@ class FiscalDocumentLine(models.Model):
         necessary.
         """
 
-        if self._context.get("create_from_move_line"):
+        if self._context.get("create_from_account"):
             # Filter out the dictionaries that do not meet the conditions
             filtered_vals_list = [
                 vals

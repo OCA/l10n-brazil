@@ -462,13 +462,6 @@ class AccountMove(models.Model):
                 }
             )
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        invoice = super(AccountMove, self.with_context(create_from_move=True)).create(
-            vals_list
-        )
-        return invoice
-
     def unlink(self):
         """Allow to delete draft or cancelled invoices"""
         unlink_moves = self.env["account.move"]
