@@ -1134,6 +1134,11 @@ msgid "Invoicing"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__issuer
+msgid "Issuer"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_key
 msgid "Key"
 msgstr ""
