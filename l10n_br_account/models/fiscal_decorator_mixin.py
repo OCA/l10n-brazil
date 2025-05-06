@@ -75,3 +75,8 @@ class FiscalDecoratorMixin(models.AbstractModel):
             field = self._fields.get(field_name)
             field.required = False  # unset the required = True assignement
         return res
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        self = self.with_context(create_from_account=True)
+        return super().create(vals_list)
