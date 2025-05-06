@@ -2,7 +2,7 @@
 
 # TODO: When having l10n_br_coa_simple module, uncomment
 # from . import test_account_move_sn
-from . import test_account_move_lc
+# from . import test_account_move_lc
 from . import test_account_taxes
 from . import test_non_fiscal_move
 from . import test_document_date

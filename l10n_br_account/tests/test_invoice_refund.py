@@ -1,7 +1,7 @@
 # Copyright (C) 2021  Ygor Carvalho - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, Command
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
@@ -39,46 +39,54 @@ class TestInvoiceRefund(TransactionCase):
             "journal_id": cls.refund_journal.id,
         }
 
-        cls.invoice = cls.env["account.move"].with_company(
-            cls.company_presumido
-        ).create(
-            dict(
-                name="Test Refund Invoice",
-                move_type="out_invoice",
-                invoice_payment_term_id=cls.env.ref(
-                    "account.account_payment_term_advance"
-                ).id,
-                partner_id=cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
-                journal_id=cls.refund_journal.id,
-                document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
-                document_serie_id=cls.env.ref(
-                    "l10n_br_fiscal.empresa_lc_document_55_serie_1"
-                ).id,
-                invoice_line_ids=[
-                    Command.create({
-                        "product_id": cls.env.ref("product.product_product_6").id,
-                        "quantity": 1.0,
-                        "price_unit": 100.0,
-                        "account_id": cls.env["account.account"]
-                        .search(
-                            [
-                                (
-                                    "account_type",
-                                    "=",
-                                    "income",
-                                ),
-                                (
-                                    "company_id",
-                                    "=",
-                                    cls.company_presumido.id,
-                                ),
-                            ],
-                            limit=1,
-                        ).ensure_one().id,
-                        "name": "Refund Test",
-                        "uom_id": cls.env.ref("uom.product_uom_unit").id,
-                    }),
-                ],
+        cls.invoice = (
+            cls.env["account.move"]
+            .with_company(cls.company_presumido)
+            .create(
+                dict(
+                    name="Test Refund Invoice",
+                    move_type="out_invoice",
+                    invoice_payment_term_id=cls.env.ref(
+                        "account.account_payment_term_advance"
+                    ).id,
+                    partner_id=cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                    journal_id=cls.refund_journal.id,
+                    document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
+                    document_serie_id=cls.env.ref(
+                        "l10n_br_fiscal.empresa_lc_document_55_serie_1"
+                    ).id,
+                    invoice_line_ids=[
+                        Command.create(
+                            {
+                                "product_id": cls.env.ref(
+                                    "product.product_product_6"
+                                ).id,
+                                "quantity": 1.0,
+                                "price_unit": 100.0,
+                                "account_id": cls.env["account.account"]
+                                .search(
+                                    [
+                                        (
+                                            "account_type",
+                                            "=",
+                                            "income",
+                                        ),
+                                        (
+                                            "company_id",
+                                            "=",
+                                            cls.company_presumido.id,
+                                        ),
+                                    ],
+                                    limit=1,
+                                )
+                                .ensure_one()
+                                .id,
+                                "name": "Refund Test",
+                                "uom_id": cls.env.ref("uom.product_uom_unit").id,
+                            }
+                        ),
+                    ],
+                )
             )
         )
 
