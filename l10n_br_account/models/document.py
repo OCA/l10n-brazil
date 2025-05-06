@@ -169,7 +169,7 @@ class FiscalDocument(models.Model):
         fiscal_document_id despite the _inherits system:
         Odoo will write NULL as the value in this case.
         """
-        if self._context.get("create_from_move"):
+        if self._context.get("create_from_account"):
             filtered_vals_list = []
             for values in vals_list:
                 if values.get("document_type_id") or values.get("document_serie_id"):
