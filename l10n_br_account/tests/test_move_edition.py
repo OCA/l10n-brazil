@@ -1,4 +1,4 @@
-# Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# Copyright 2025-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import logging
@@ -164,10 +164,6 @@ class TestMoveEdition(TransactionCase):
         move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         with move_form.invoice_line_ids.new() as line_form:
             line_form.product_id = self.product_id
-            # it seems the Form framework won't fill it so we fill it:
-            line_form.fiscal_operation_line_id = self.env.ref(
-                "l10n_br_fiscal.fo_venda_revenda"
-            )
             line_form.price_unit = 42
             line_form.quantity = 42
         move = move_form.save()
