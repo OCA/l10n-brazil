@@ -1,6 +1,9 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import math
+import re
+
 from odoo import api, fields, models
 from odoo.tools import float_is_zero
 
@@ -60,6 +63,7 @@ TAX_DICT_VALUES = {
 
 class Tax(models.Model):
     _name = "l10n_br_fiscal.tax"
+    _inherit = "l10n_br_fiscal.data.editable.mixin"
     _order = "sequence, tax_domain, name"
     _description = "Fiscal Tax"
 
@@ -731,3 +735,65 @@ class Tax(models.Model):
             }
 
             self.tax_base_type = ICMS_ST_BASE_TYPE_REL.get(self.icmsst_base_type)
+
+    def _get_xml_id_name(self):
+        """
+        Generate XML ID name like: tax_pis_value_0_0211.
+        It works for 98% of the cases, the common
+        cases for which the user may create a missing tax record.
+        Some other cases like tax_icms_isento or tax_csll_nt don't
+        follow a common pattern, but they are rare exception the user is
+        not expect to create manually.
+        """
+
+        def string_repr(number):
+            integer_part = int(number)
+            if float_is_zero(number - integer_part, 4):
+                return str(integer_part)
+            else:
+                decimal_digits = str(
+                    int(round((number - integer_part) * 1000000))
+                ).rstrip("0")
+                zeros = -int(math.log10(number - integer_part))
+                decimal_str = f"{'0' * zeros}{decimal_digits}"
+                return f"{integer_part}_{decimal_str}"
+
+        self.ensure_one()
+        if not self.tax_domain:
+            return None
+
+        # PIS / COFINS
+        if "pis" in self.tax_domain or "cofins" in self.tax_domain:
+            match = re.search(r"sico (\d+\.?\d*)", self.name.replace(",", "."))
+            if not match:
+                match = re.search(r"sico R\$ (\d+\.?\d*)", self.name.replace(",", "."))
+            if match:
+                if self.percent_amount:
+                    return (
+                        f"tax_{self.tax_domain}_monofasico_"
+                        f"{string_repr(self.percent_amount)}"
+                    )
+                elif self.value_amount:
+                    return (
+                        f"tax_{self.tax_domain}_value_"
+                        f"{string_repr(self.value_amount)}"
+                    )
+
+        match = re.search(
+            r"Aliq. Dif (\d+\.?\d*)% Crédito (\d+\.?\d*)%", self.name.replace(",", ".")
+        )
+        if match:
+            diff = float(match.group(1))  # 0.0
+            credit = float(match.group(2))  # 0.0
+            return (
+                f"tax_{self.tax_domain}_aliqdif_"
+                f"{string_repr(diff)}_cred_{string_repr(credit)}"
+            )
+
+        # OTHERS
+        if self.percent_reduction:
+            return (
+                f"tax_{self.tax_domain}_{string_repr(self.percent_amount)}_"
+                f"red_{string_repr(self.percent_reduction)}"
+            )
+        return f"tax_{self.tax_domain}_{string_repr(self.percent_amount)}"

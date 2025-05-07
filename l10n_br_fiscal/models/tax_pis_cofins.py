@@ -96,3 +96,7 @@ class TaxPisCofins(models.Model):
 
             if domain:
                 r.ncm_ids = ncm.search(domain)
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        return None  # TODO FIXME

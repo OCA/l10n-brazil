@@ -37,3 +37,7 @@ class Cnae(models.Model):
             _("CNAE already exists with this code !"),
         )
     ]
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        return f"cnae_{self.code.replace('.', '').replace('/', '').replace('-', '')}"
