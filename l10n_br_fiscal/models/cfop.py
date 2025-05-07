@@ -198,3 +198,7 @@ class Cfop(models.Model):
             "CFOP already exists with this code !",
         )
     ]
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        return f"cfop_{self.code}"

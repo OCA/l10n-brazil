@@ -116,6 +116,7 @@ class Tax(models.Model):
     """
 
     _name = "l10n_br_fiscal.tax"
+    _inherit = "l10n_br_fiscal.data.editable.mixin"
     _order = "sequence, tax_domain, name"
     _description = "Fiscal Tax"
 
@@ -864,3 +865,53 @@ class Tax(models.Model):
                 tax.tax_base_type = ICMS_ST_BASE_TYPE_REL.get(tax.icmsst_base_type)
             elif tax.tax_base_type is None:
                 tax.tax_base_type = False
+
+    def _get_xml_id_name(self):
+        """
+        Generate XML ID name like: tax_pis_value_0_0211.
+        It works for 98% of the cases, the common
+        cases for which the user may create a missing tax record.
+        Some other cases like tax_icms_isento or tax_csll_nt don't
+        follow a common pattern, but they are rare exception the user is
+        not expect to create manually.
+        """
+
+        def fmt(val):
+            return (
+                str(int(val))
+                if float_is_zero(val - int(val), precision_digits=4)
+                else str(val).replace(".", "_")
+            )
+
+        self.ensure_one()
+        if not self.tax_domain:
+            return None
+
+        name_lower = self.name.lower()
+
+        # PIS / COFINS
+        if self.tax_domain in ("pis", "cofins"):
+            # Monofasico
+            if (
+                "monofásico" in name_lower
+                or "monofasico" in name_lower
+                or "sico" in name_lower
+            ):
+                if self.value_amount:
+                    return f"tax_{self.tax_domain}_value_{fmt(self.value_amount)}"
+                return f"tax_{self.tax_domain}_monofasico_{fmt(self.percent_amount)}"
+
+            # Aliq Dif
+            if "aliq" in name_lower and "dif" in name_lower:
+                # Using fields assuming they are populated correctly for these taxes
+                return (
+                    f"tax_{self.tax_domain}_aliqdif_"
+                    f"{fmt(self.percent_debit_credit)}_cred_{fmt(self.percent_amount)}"
+                )
+
+        # Standard format
+        res = f"tax_{self.tax_domain}_{fmt(self.percent_amount)}"
+        if self.percent_reduction:
+            res += f"_red_{fmt(self.percent_reduction)}"
+
+        return res
