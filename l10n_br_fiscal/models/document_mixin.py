@@ -472,3 +472,37 @@ class FiscalDocumentMixinFields(models.AbstractModel):
     key_random_code = fields.Char(string="Document Key Random Code")
     key_check_digit = fields.Char(string="Document Key Check Digit")
     total_weight = fields.Float(string="Total Weight")
+
+    imported_document = fields.Boolean(string="Imported", default=False)
+
+    ## CTE
+
+    # commitment_date = fields.Datetime("Delivery Date")
+    # expected_date = fields.Datetime("Expected Date")
+
+    # Remetente
+    partner_sendering_id = fields.Many2one(
+        "res.partner",
+        string="Sender Address",
+        help="Responsible for sending the goods, usually the issuer of the NFe.",
+    )
+
+    # Expedidor
+    partner_shippering_id = fields.Many2one(
+        "res.partner",
+        string="Shipper Address",
+        help="The one responsible for delivering the cargo to the carrier when \
+            the shipment is not carried out by the sender.",
+    )
+
+    # Recebedor
+    partner_receivering_id = fields.Many2one(
+        "res.partner",
+        string="Receiver Address",
+        help="Actor who receives the goods. He is considered an intermediary \
+            between the issuer and the final recipient.",
+    )
+
+    partner_insurance_id = fields.Many2one("res.partner", string="Insurance Partner")
+
+    imported_document = fields.Boolean(string="Imported", default=False)
