@@ -2,7 +2,7 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import _, fields, models
 
 
 class ServiceType(models.Model):
@@ -43,3 +43,15 @@ class ServiceType(models.Model):
     )
 
     withholding_possible = fields.Boolean(string="Subject to withholding tax")
+
+    _sql_constraints = [
+        (
+            "fiscal_service_type_code_uniq",
+            "unique (code)",
+            _("service_type already exists with this code!"),
+        )
+    ]
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        return f"service_type_{self.code.replace('.', '')}"

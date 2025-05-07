@@ -2,6 +2,7 @@
 
 from . import (
     test_cfop,
+    test_data_editable_mixin,
     test_cnae,
     test_fiscal_document_serie,
     test_fiscal_document_generic,
@@ -21,4 +22,5 @@ from . import (
     test_tax_pis_cofins,
     test_icmssn,
     test_simplified_tax,
+    test_tax_definition_mixin,
 )

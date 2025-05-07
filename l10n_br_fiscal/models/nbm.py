@@ -50,3 +50,7 @@ class Nbm(models.Model):
             if r.ncms:
                 domain = tools.domain_field_codes(field_codes=r.ncms)
                 r.ncm_ids = ncm.search(domain)
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        return f"nbm_{self.code.replace('.', '')}"

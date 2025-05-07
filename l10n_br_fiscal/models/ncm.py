@@ -76,3 +76,10 @@ class Ncm(models.Model):
 
     def _get_ibpt(self, config, code_unmasked):
         return get_ibpt_product(config, code_unmasked)
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        return (
+            f"ncm_{self.code.replace('.', '')}"
+            f"{self.exception and '_' + self.exception or ''}"
+        )
