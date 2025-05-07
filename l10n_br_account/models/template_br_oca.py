@@ -1,4 +1,5 @@
 # Copyright (C) 2019  Renato Lima - Akretion
+# Copyright 2025 Escodoo - Marcel Savegnago <https://www.escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import Command, models

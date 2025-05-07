@@ -1,12 +1,14 @@
 # Copyright (C) 2023 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
+from contextlib import contextmanager
 
 from odoo.tests.common import tagged
 from odoo.tests.suite import OdooSuite
 
-_logger = logging.getLogger(__name__)
+from odoo.addons.account.tests import common
+
+from .common import instantiate_accountman
 
 
 # ruff: noqa: E501 - line too long
@@ -52,12 +54,12 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
 
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
-        res = super().setUpClass(chart_template_ref)
-        # FIXME the following line should not be required but as for
-        # now if we don't add this group, creating a refund will result
-        # in an attempt to create a l10n_br_fiscal.subsequent.document record.
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
-        return res
+        def instantiate(cls):
+            instantiate_accountman(cls)
+            cls.user.lang = "en_US"
+
+        common.instantiate_accountman = instantiate
+        return super().setUpClass(chart_template_ref)
 
     # The following tests list is taken with
     # cat addons/account/tests/test_account_move_out_invoice.py | grep "def test_"
@@ -84,28 +86,25 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     #        FIXME
     #        return super().test_out_invoice_line_onchange_business_fields_1()
 
-    #    def test_force_out_invoice_line_onchange_accounting_fields_1(self):
-    #        FIXME this test works with most of the l10n-brazil modules
-    #        but fails because of _order = "date desc, date_maturity ASC, id desc"
-    #        inside l10n_br_account_payment_order/models/account_move_line.py
-    #        return super().test_out_invoice_line_onchange_accounting_fields_1()
-
     def test_force_out_invoice_line_onchange_partner_1(self):
         return super().test_out_invoice_line_onchange_partner_1()
 
-        # FIXME
-        #    def test_force_out_invoice_line_onchange_taxes_1(self):
-        # return super().test_out_invoice_line_onchange_taxes_1()
+    def test_force_out_invoice_line_onchange_taxes_1(self):
+        with self._with_invoice_form_force_show_tax_ids():
+            return super().test_out_invoice_line_onchange_taxes_1()
 
     def test_force_out_invoice_line_onchange_rounding_price_subtotal_1(self):
         return super().test_out_invoice_line_onchange_rounding_price_subtotal_1()
 
-    # FIXME
-    # def test_force_out_invoice_line_onchange_rounding_price_subtotal_2(self):
-    # return super().test_out_invoice_line_onchange_rounding_price_subtotal_2()
-    # FIXME
-    # def test_force_out_invoice_line_onchange_taxes_2_price_unit_tax_included(self):
-    # return super().test_out_invoice_line_onchange_taxes_2_price_unit_tax_included()
+    def test_force_out_invoice_line_onchange_rounding_price_subtotal_2(self):
+        with self._with_invoice_form_force_show_tax_ids():
+            return super().test_out_invoice_line_onchange_rounding_price_subtotal_2()
+
+    def test_force_out_invoice_line_onchange_taxes_2_price_unit_tax_included(self):
+        with self._with_invoice_form_force_show_tax_ids():
+            return (
+                super().test_out_invoice_line_onchange_taxes_2_price_unit_tax_included()
+            )
 
     def test_force_out_invoice_line_onchange_analytic(self):
         return super().test_out_invoice_line_onchange_analytic()
@@ -116,17 +115,14 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_line_onchange_cash_rounding_1(self):
         return super().test_out_invoice_line_onchange_cash_rounding_1()
 
-    # def test_force_out_invoice_line_onchange_currency_1(self):
-    # FIXME broken after https://github.com/OCA/l10n-brazil/issues/3617
-    #    return super().test_out_invoice_line_onchange_currency_1()
+    def test_force_out_invoice_line_onchange_currency_1(self):
+        return super().test_out_invoice_line_onchange_currency_1()
 
-    # def test_force_out_invoice_line_tax_fixed_price_include_free_product(self):
-    # FIXME
-    # return super().test_out_invoice_line_tax_fixed_price_include_free_product()
+    def test_force_out_invoice_line_tax_fixed_price_include_free_product(self):
+        return super().test_out_invoice_line_tax_fixed_price_include_free_product()
 
-    # def test_force_out_invoice_line_taxes_fixed_price_include_free_product(self):
-    # FIXME
-    # return super().test_out_invoice_line_taxes_fixed_price_include_free_product()
+    def test_force_out_invoice_line_taxes_fixed_price_include_free_product(self):
+        return super().test_out_invoice_line_taxes_fixed_price_include_free_product()
 
     def test_force_out_invoice_create_refund(self):
         return super().test_out_invoice_create_refund()
@@ -176,11 +172,13 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_recomputation_receivable_lines(self):
         return super().test_out_invoice_recomputation_receivable_lines()
 
-        # def test_force_out_invoice_rounding_recomputation_receivable_lines(self):
-        # return super().test_out_invoice_rounding_recomputation_receivable_lines()
+    def test_force_out_invoice_rounding_recomputation_receivable_lines(self):
+        with self._with_invoice_form_force_show_tax_ids():
+            return super().test_out_invoice_rounding_recomputation_receivable_lines()
 
-        #    def test_force_out_invoice_multi_company(self):
-        # return super().test_out_invoice_multi_company()
+    def test_force_out_invoice_multi_company(self):
+        with self._with_invoice_form_force_show_tax_ids():
+            return super().test_out_invoice_multi_company()
 
     def test_force_out_invoice_multiple_switch_payment_terms(self):
         return super().test_out_invoice_multiple_switch_payment_terms()
@@ -191,11 +189,20 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def test_force_out_invoice_note_and_tax_partner_is_set(self):
         return super().test_out_invoice_note_and_tax_partner_is_set()
 
-        # def test_force_out_invoice_reverse_caba(self):
-        # return super().test_out_invoice_reverse_caba()
-
-        #    def test_force_out_invoice_duplicate_currency_rate(self):
-        # return super().test_out_invoice_duplicate_currency_rate()
+    def test_force_out_invoice_reverse_caba(self):
+        with self._with_invoice_form_force_show_tax_ids():
+            return super().test_out_invoice_reverse_caba()
 
     def test_force_out_invoice_depreciated_account(self):
         return super().test_out_invoice_depreciated_account()
+
+    @contextmanager
+    def _with_invoice_form_force_show_tax_ids(self):
+        env_orig = self.env
+        self.env = self.env(
+            context=dict(env_orig.context, force_show_invoice_tax_ids=True)
+        )
+        self.invoice = self.invoice.with_env(self.env)
+        yield
+        self.env = env_orig
+        self.invoice = self.invoice.with_env(self.env)
