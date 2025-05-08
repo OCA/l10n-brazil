@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import hashlib
 import logging
 import re
 import string
@@ -1112,6 +1113,16 @@ class NFe(spec_models.StackedModel):
                 validar=False,
             )
             record.document_key = chave_edoc.chave
+
+            # Compute CSRT hash
+            if record.nfe40_infRespTec and record.nfe40_infRespTec.CSRT:
+                token_csrt = record.nfe40_infRespTec.CSRT
+                seed = token_csrt + record.document_key
+                hashed = hashlib.sha1(seed.encode()).hexdigest()
+
+                # Convert hex to base64
+                hashed_b64 = base64.b64encode(bytes.fromhex(hashed)).decode()
+                record.nfe40_infRespTec.nfe40_hashCSRT = hashed_b64
 
     def _nfe_consult_receipt(self):
         self.ensure_one()

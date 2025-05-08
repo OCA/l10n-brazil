@@ -39,8 +39,9 @@ class ResCompany(spec_models.SpecModel):
     nfe40_IE = fields.Char(related="partner_id.nfe40_IE")
     nfe40_fone = fields.Char(related="partner_id.nfe40_fone")
     nfe40_CRT = fields.Selection(related="tax_framework")
-    nfe40_idCSRT = fields.Char(related="technical_support_id.idCSRT")
-    nfe40_hashCSRT = fields.Char(related="technical_support_id.hashCSRT")
+
+    nfe40_idCSRT = fields.Char(related="partner_id.nfe40_idCSRT")
+    nfe40_hashCSRT = fields.Char(related="partner_id.nfe40_hashCSRT")
 
     nfe40_enderEmit = fields.Many2one(
         comodel_name="res.partner",

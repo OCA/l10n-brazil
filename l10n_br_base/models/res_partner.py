@@ -26,6 +26,14 @@ class Partner(models.Model):
 
     rntrc_code = fields.Char(string="RNTRC Code", size=12)
 
+    is_technical_support = fields.Boolean(string="Is technical support?")
+
+    nfe40_idCSRT = fields.Char(string="ID CSRT")
+
+    CSRT = fields.Char(string="Token CSRT")
+
+    nfe40_hashCSRT = fields.Char(string="Hash CSRT")
+
     cei_code = fields.Char(string="CEI Code", size=12)
 
     union_entity_code = fields.Char(string="Union Entity code")

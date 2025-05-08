@@ -151,6 +151,19 @@
                                 domain="[('country_id', '=', %(base.br)d)]"
                             />
                             <field name="rntrc_code" />
+                            <field name="is_technical_support" />
+                            <field
+                                name="nfe40_idCSRT"
+                                attrs="{'invisible': [('is_technical_support','!=', True)]}"
+                            />
+                            <field
+                                name="CSRT"
+                                attrs="{'invisible': [('is_technical_support','!=', True)]}"
+                            />
+                            <field
+                                name="nfe40_hashCSRT"
+                                attrs="{'invisible': [('is_technical_support','!=', True)]}"
+                            />
                         </group>
                     </group>
                 </page>
