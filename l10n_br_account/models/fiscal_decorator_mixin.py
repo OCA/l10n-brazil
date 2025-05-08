@@ -28,6 +28,22 @@ class FiscalDecoratorMixin(models.AbstractModel):
     _fiscal_decorator_compute_blacklist = []  # conflicting computes to skip
 
     @api.model
+    def _get_inheritable_fields(self):
+        """
+        Return fields from base models (with and without '.mixin')
+        for fiscal inheritance.
+        """
+        fields = []
+        base_models = [
+            f"{self._fiscal_decorator_model}.mixin",
+            self._fiscal_decorator_model,
+        ]
+        for model in base_models:
+            if model in self.env.registry:
+                fields.extend(self.env.registry[model]._fields.items())
+        return fields
+
+    @api.model
     def _add_inherited_fields(self):
         """
         Add related and computed fields inherited with _inherits from the
@@ -38,28 +54,27 @@ class FiscalDecoratorMixin(models.AbstractModel):
         l10n_br_fiscal.document(.line).mixin.methods, we can preserve the compute
         attribute except for compute in the _fiscal_decorator_compute_blacklist.
         """
-        if self._fiscal_decorator_model is not None:
-            for name, field in self.env.registry[
-                f"{self._fiscal_decorator_model}.mixin"
-            ]._fields.items():
-                field_cls = type(field)
-                if (
-                    name in self._fields
-                    or field_cls in [fields.One2many, fields.Many2many]
-                    or not (field.compute or field.related)
-                    or (field.compute and field.store)
-                    or field.compute in self._fiscal_decorator_compute_blacklist
-                ):
-                    continue
-                self._add_field(
-                    name,
-                    field_cls(
-                        related=field.related,
-                        compute=field.compute,
-                        inverse=field.inverse,
-                        comodel_name=field.comodel_name,
-                    ),
-                )
+        if self._fiscal_decorator_model is None:
+            return super()._add_inherited_fields()
+        for name, field in self._get_inheritable_fields():
+            field_cls = type(field)
+            if (
+                name in self._fields
+                or field_cls in [fields.One2many, fields.Many2many]
+                or not (field.compute or field.related)
+                or (field.compute and field.store)
+                or field.compute in self._fiscal_decorator_compute_blacklist
+            ):
+                continue
+            field_kwargs = {
+                "related": field.related,
+                "compute": field.compute,
+                "inverse": field.inverse,
+                "comodel_name": getattr(field, "comodel_name", None),
+            }
+            if isinstance(field, fields.Selection):
+                field_kwargs["selection"] = field.selection
+            self._add_field(name, field_cls(**field_kwargs))
         return super()._add_inherited_fields()
 
     @api.model
