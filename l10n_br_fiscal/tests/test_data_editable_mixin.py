@@ -16,19 +16,12 @@ class TestIrModelDataEditableMixinOnNcm(TransactionCase):
     with the l10n_br_fiscal.ncm model.
     """
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(
-            context=dict(
-                cls.env.context,
-                tracking_disable=True,
-            )
-        )
-        cls.Ncm = cls.env["l10n_br_fiscal.ncm"]
-        cls.ncm_model_name = "l10n_br_fiscal.ncm"
-        cls.ncm_module_name = "l10n_br_fiscal"
-        cls.IrModelData = cls.env["ir.model.data"].sudo()
+    def setUp(self):
+        super().setUp()
+        self.Ncm = self.env["l10n_br_fiscal.ncm"]
+        self.ncm_model_name = "l10n_br_fiscal.ncm"
+        self.ncm_module_name = "l10n_br_fiscal"
+        self.IrModelData = self.env["ir.model.data"].sudo()
 
     def _create_ncm(self, code_suffix, name_suffix=None, **kwargs):
         code = f"9999.99.{code_suffix:02d}"
