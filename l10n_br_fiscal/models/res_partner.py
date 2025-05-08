@@ -72,21 +72,6 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
-    is_technical_support = fields.Boolean(
-        string="Is technical support?",
-        tracking=True,
-    )
-
-    idCSRT = fields.Char(
-        string="ID CSRT",
-        tracking=True,
-    )
-
-    hashCSRT = fields.Char(
-        string="Hash CSRT",
-        tracking=True,
-    )
-
     cnpj_cpf = fields.Char(
         tracking=True,
     )

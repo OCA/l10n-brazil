@@ -36,17 +36,6 @@
                     <field name="is_anonymous_consumer" />
                 </group>
             </group>
-            <field name="rntrc_code" position="after">
-                <field name="is_technical_support" />
-                <field
-                    name="idCSRT"
-                    attrs="{'invisible': [('is_technical_support','!=', True)]}"
-                />
-                <field
-                    name="hashCSRT"
-                    attrs="{'invisible': [('is_technical_support','!=', True)]}"
-                />
-            </field>
         </field>
     </record>
 
