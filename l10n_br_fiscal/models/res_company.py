@@ -45,8 +45,14 @@ class ResCompany(models.Model):
         partner_fields = super()._get_company_address_field_names()
         return partner_fields + [
             "tax_framework",
+            "legal_nature_id",
             "cnae_main_id",
         ]
+
+    def _inverse_legal_nature_id(self):
+        """Write the l10n_br specific functional fields."""
+        for c in self:
+            c.partner_id.legal_nature_id = c.legal_nature_id
 
     def _inverse_cnae_main_id(self):
         """Write the l10n_br specific functional fields."""
@@ -104,6 +110,13 @@ class ResCompany(models.Model):
                         * 100,
                         record.currency_id.decimal_places,
                     )
+
+    legal_nature_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.legal.nature",
+        string="Legal Nature",
+        compute="_compute_address",
+        inverse="_inverse_legal_nature_id",
+    )
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",

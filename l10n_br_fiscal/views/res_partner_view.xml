@@ -30,7 +30,16 @@
                         attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"
                     />
                     <field
+                        name="legal_nature_id"
+                        options="{'no_create': True, 'no_create_edit': True}"
+                    />
+                    <field
                         name="cnae_main_id"
+                        options="{'no_create': True, 'no_create_edit': True}"
+                    />
+                    <field
+                        name="cnae_secondary_ids"
+                        widget="many2many_tags"
                         options="{'no_create': True, 'no_create_edit': True}"
                     />
                     <field name="ind_final" />

@@ -33,10 +33,21 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
+    legal_nature_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.legal.nature",
+        string="Legal Nature",
+    )
+
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
         domain=[("internal_type", "=", "normal")],
         string="Main CNAE",
+    )
+
+    cnae_secondary_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.cnae",
+        domain="[('internal_type', '=', 'normal'), ('id', '!=', cnae_main_id)]",
+        string="Secondary CNAEs",
     )
 
     ind_ie_dest = fields.Selection(
