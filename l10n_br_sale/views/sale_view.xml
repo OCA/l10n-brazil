@@ -20,6 +20,30 @@
         </field>
     </record>
 
+    <record id="l10n_br_sale_quotation_tree" model="ir.ui.view">
+        <field name="name">l10n_br_sale.quotation.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="fiscal_operation_id" readonly="1" optional="show" />
+            </field>
+        </field>
+    </record>
+
+    <record id="l10n_br_sale_order_tree" model="ir.ui.view">
+        <field name="name">l10n_br_sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="fiscal_operation_id" readonly="1" optional="show" />
+            </field>
+        </field>
+    </record>
+
     <record id="l10n_br_sale_order_form" model="ir.ui.view">
         <field name="name">l10n_br_sale.order.form</field>
         <field name="model">sale.order</field>
@@ -83,7 +107,7 @@
             <group name="sale_shipping" position="inside">
                 <field name="force_compute_delivery_costs_by_total" />
             </group>
-            <field name="validity_date" position="after">
+            <field name="show_update_fpos" position="before">
                 <field name="company_country_id" invisible="True" />
                 <field
                     name="fiscal_operation_id"
@@ -166,6 +190,11 @@
                 expr="//field[@name='order_line']/tree/field[@name='price_unit']"
                 position="after"
             >
+                <field
+                    name="fiscal_operation_id"
+                    options="{'no_create': True}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('parent.fiscal_operation_id', '!=', False)], 'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
                 <field
                     name="discount"
                     groups="!l10n_br_sale.group_discount_per_value"
