@@ -22,8 +22,9 @@ class TestMDFeResPartner(TransactionCase):
         self.assertEqual(self.partner_id.mdfe30_idEstrangeiro, self.partner_id.cnpj_cpf)
 
     def test_inverse_fields(self):
-        self.partner_id.mdfe30_idEstrangeiro = "999999999999"
-        self.assertEqual(self.partner_id.vat, self.partner_id.mdfe30_idEstrangeiro)
+        foreign_partner = self.env.ref("base.res_partner_12")
+        foreign_partner.mdfe30_idEstrangeiro = "999999999999"
+        self.assertEqual(foreign_partner.vat, foreign_partner.mdfe30_idEstrangeiro)
 
         self.partner_id.mdfe30_CNPJ = "97414612000162"
         self.assertEqual(
