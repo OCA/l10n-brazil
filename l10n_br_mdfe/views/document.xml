@@ -214,7 +214,7 @@
                                                 'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view',
                                             }"
                                             domain="[
-                                                ('cnpj_cpf', '!=', False),
+                                                ('vat', '!=', False),
                                                 ('mdfe30_RNTRC', '!=', False),
                                             ]"
                                         />
