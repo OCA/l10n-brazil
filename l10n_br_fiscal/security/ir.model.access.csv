@@ -1,4 +1,7 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_fiscal_legal_nature_user","Legal Nature for User","model_l10n_br_fiscal_legal_nature","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_legal_nature_manager","Legal Nature for Manager","model_l10n_br_fiscal_legal_nature","l10n_br_fiscal.group_manager",1,0,0,0
+"l10n_br_fiscal_legal_nature_maintenance","Legal Nature for Data Maintenance","model_l10n_br_fiscal_legal_nature","l10n_br_fiscal.group_data_maintenance",1,1,1,1
 "l10n_br_fiscal_cnae_user","CNAE for User","model_l10n_br_fiscal_cnae","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_cnae_manager","CNAE for Manager","model_l10n_br_fiscal_cnae","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_cnae_maintenance","CNAE for Data Maintenance","model_l10n_br_fiscal_cnae","l10n_br_fiscal.group_data_maintenance",1,1,1,1
