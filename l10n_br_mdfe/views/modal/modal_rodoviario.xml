@@ -20,7 +20,7 @@
                                     'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view'
                                 }"
                                 domain="[
-                                    ('cnpj_cpf', '!=', False),
+                                    ('vat', '!=', False),
                                     ('mdfe30_RNTRC', '!=', False),
                                 ]"
                             />
@@ -184,7 +184,7 @@
                 <sheet>
                     <group>
                         <field name="is_company" />
-                        <field name="cnpj_cpf" required="1" />
+                        <field name="vat" required="1" />
                         <field name="legal_name" required="1" />
                     </group>
                 </sheet>
@@ -198,7 +198,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="legal_name" required="1" />
-                <field name="cnpj_cpf" required="1" />
+                <field name="vat" required="1" />
             </tree>
         </field>
     </record>
