@@ -19,7 +19,7 @@
                                 'form_view_ref': 'l10n_br_cte.res_partner_tenderfer_form_view'
                             }"
                             domain="[
-                                ('cnpj_cpf', '!=', False),
+                                ('vat', '!=', False),
                             ]"
                         />
                     </group>
