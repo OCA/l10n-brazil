@@ -15,6 +15,21 @@
                     <notebook>
                         <page name="tax_framework" string="Tax Framework">
                             <field name="id" invisible="1" />
+                            <group string="CNAE and Legal Nature">
+                                <field
+                                    name="legal_nature_id"
+                                    options="{'no_create': True, 'no_create_edit': True}"
+                                />
+                                <field
+                                    name="cnae_main_id"
+                                    options="{'no_create': True, 'no_create_edit': True}"
+                                />
+                                <field
+                                    name="cnae_secondary_ids"
+                                    widget="many2many_tags"
+                                    options="{'no_create': True, 'no_create_edit': True}"
+                                />
+                            </group>
                             <group string="Tax Framework">
                                 <field name="tax_framework" />
                                 <field name="accountant_id" />
@@ -62,20 +77,6 @@
                                         attrs="{'invisible': [('is_industry', '=', False)], 'required': [('is_industry', '=', True)]}"
                                     />
                                 </group>
-                            </group>
-                            <group string="CNAE">
-                                <field
-                                    name="cnae_main_id"
-                                    options="{'no_create': True, 'no_create_edit': True}"
-                                />
-                            </group>
-                            <group colspan="4" string="Secondary CNAE">
-                                <field
-                                    colspan="4"
-                                    nolabel="1"
-                                    name="cnae_secondary_ids"
-                                    options="{'no_create': True}"
-                                />
                             </group>
                         </page>
                         <page name="taxes" string="Taxes">
