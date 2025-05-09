@@ -32,6 +32,7 @@ class SpecMixin(models.AbstractModel):
             "choice",
             "xsd_choice_required",
             "xsd_implicit",
+            "original_comodel_name",
         ):
             return True
         else:
