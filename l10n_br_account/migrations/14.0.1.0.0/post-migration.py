@@ -15,16 +15,21 @@ def migrate(env, version):
         WHERE ai.id = am.old_invoice_id AND ai.fiscal_document_id IS NOT NULL
         """,
     )
-    openupgrade.logged_query(
-        env.cr,
-        """
-        UPDATE account_move_line aml
-        SET fiscal_document_line_id = COALESCE(
-            ail.fiscal_document_line_id, aml.fiscal_document_line_id),
-            wh_move_line_id = COALESCE(ail.wh_move_line_id, aml.wh_move_line_id)
-        FROM account_invoice_line ail
-        WHERE aml.old_invoice_line_id = ail.id AND
-            (ail.fiscal_document_line_id IS NOT NULL
-            OR ail.wh_move_line_id IS NOT NULL)
-        """,
-    )
+    if (
+        openupgrade.table_exists(env.cr, "account_invoice_line")
+        and openupgrade.column_exists(env.cr, "account_move_line", "wh_move_line_id")
+        and openupgrade.column_exists(env.cr, "account_invoice_line", "wh_move_line_id")
+    ):
+        openupgrade.logged_query(
+            env.cr,
+            """
+            UPDATE account_move_line aml
+            SET fiscal_document_line_id = COALESCE(
+                ail.fiscal_document_line_id, aml.fiscal_document_line_id),
+                wh_move_line_id = COALESCE(ail.wh_move_line_id, aml.wh_move_line_id)
+            FROM account_invoice_line ail
+            WHERE aml.old_invoice_line_id = ail.id AND
+                (ail.fiscal_document_line_id IS NOT NULL
+                OR ail.wh_move_line_id IS NOT NULL)
+            """,
+        )
