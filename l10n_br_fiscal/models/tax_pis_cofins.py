@@ -18,7 +18,7 @@ class TaxPisCofins(models.Model):
 
     code = fields.Char(required=True)
 
-    name = fields.Text(required=True, index=True)
+    name = fields.Char(required=True, index=True)
 
     piscofins_type = fields.Selection(
         selection=[

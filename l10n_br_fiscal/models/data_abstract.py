@@ -18,7 +18,7 @@ class DataAbstract(models.AbstractModel):
 
     code = fields.Char(required=True, index=True)
 
-    name = fields.Text(required=True, index=True)
+    name = fields.Char(required=True, index=True)
 
     code_unmasked = fields.Char(
         string="Unmasked Code", compute="_compute_code_unmasked", store=True, index=True

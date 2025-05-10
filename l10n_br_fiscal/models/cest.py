@@ -16,7 +16,7 @@ class Cest(models.Model):
 
     code_unmasked = fields.Char(size=7)
 
-    name = fields.Text(required=True, index=True)
+    name = fields.Char(required=True, index=True)
 
     item = fields.Char(required=True)
 
