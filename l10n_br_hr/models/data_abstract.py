@@ -12,7 +12,7 @@ class DataAbstract(models.AbstractModel):
 
     code = fields.Char(required=True, index=True)
 
-    name = fields.Text(required=True, index=True)
+    name = fields.Char(required=True, index=True)
 
     def name_get(self):
         return [(r.id, f"{r.code} - {r.name}") for r in self]
