@@ -94,7 +94,6 @@
                 <div name="inscr_est">
                          <label
                         for="inscr_est"
-                        name="inscr_est"
                         string="IE"
                         attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
                     />
