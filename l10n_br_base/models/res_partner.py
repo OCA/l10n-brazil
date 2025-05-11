@@ -169,10 +169,11 @@ class Partner(models.Model):
                             " number per state for each partner!"
                         )
                     )
-                duplicate_ie = record.search(
+                duplicate_ie = self.env["res.partner"].search(
                     [
                         ("state_id", "=", inscr_est_line.state_id.id),
                         ("inscr_est", "=", inscr_est_line.inscr_est),
+                        ("id", "!=", record.id),
                     ]
                 )
                 if duplicate_ie:
