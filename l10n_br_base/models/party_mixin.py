@@ -66,13 +66,23 @@ class PartyMixin(models.AbstractModel):
     )
 
     country_id = fields.Many2one(
-        comodel_name="res.country.state",
-        default=lambda self: self.env.ref("base.br"),
+        comodel_name="res.country",
+        default=lambda self: self._default_country_id(),
     )
 
     district = fields.Char(
         size=32,
     )
+
+    def _default_country_id(self):
+        """Default country set to Brazil if the current company is Brazilian.
+        Can be overridden in other modules if needed.
+        """
+        return (
+            self.env.ref("base.br")
+            if self.env.company.country_id.code == "BR"
+            else False
+        )
 
     @api.depends("cnpj_cpf")
     def _compute_cnpj_cpf_stripped(self):
