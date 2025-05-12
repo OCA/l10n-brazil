@@ -12,6 +12,23 @@ from odoo.osv import expression
 
 
 class DataAbstract(models.AbstractModel):
+    """
+    Abstract base model for fiscal master data in Brazilian localization.
+
+    This model provides common structure and functionality for fiscal
+    data entities (NCM, CFOP, CST, etc.). It includes:
+    - Standard fields: `code`, `name`, `active`, and a computed
+      `code_unmasked` (for searching codes without punctuation).
+    - Default ordering by `code`.
+    - Enhanced search: Modifies search views and `_name_search`
+      to allow searching by `code`, `code_unmasked`, and `name`
+      simultaneously.
+    - Standardized display name format in `name_get`
+      (`<code> - <name>`).
+    - Permission control for archiving/unarchanging, restricted
+      to users in 'l10n_br_fiscal.group_manager' group.
+    """
+
     _name = "l10n_br_fiscal.data.abstract"
     _description = "Fiscal Data Abstract"
     _order = "code"
@@ -46,6 +63,15 @@ class DataAbstract(models.AbstractModel):
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
+        """
+        Modify search view architecture to enhance 'code' field filtering.
+
+        Intercept the search view definition, altering `filter_domain`
+        for the 'code' field. This lets users search by raw 'code',
+        'code_unmasked' (code without punctuation), or 'name' of the
+        record when typing into the 'code' filter in the search panel.
+        """
+
         model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
         if view_type == "search":
