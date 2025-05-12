@@ -68,6 +68,53 @@ ICMS_ST_BASE_TYPE_REL = {
 
 
 class Tax(models.Model):
+    """
+    Represents a specific Brazilian fiscal tax (e.g., ICMS, IPI, PIS, COFINS)
+    and acts as the core engine for calculating its value in a given context.
+
+    This model is distinct from Odoo's generic `account.tax`. Each record
+    defines a particular tax, its domain (e.g., 'icms', 'ipi'), how its
+    base is calculated (percentage, fixed value, per quantity), applicable
+    rates, percentage reductions, and links to its Tax Group and default
+    CST codes (Código de Situação Tributária).
+
+    Key Responsibilities:
+    1.  **Tax Definition**: Stores the parameters for a single fiscal tax,
+        including its calculation method, rates (percent_amount,
+        value_amount), base reduction (percent_reduction), and specific
+        attributes for complex taxes like ICMS (e.g., icms_base_type,
+        icmsst_base_type, icmsst_mva_percent).
+
+    2.  **Tax Calculation Engine (`compute_taxes` method)**:
+        The primary entry point for tax computation. When called on a
+        recordset of `l10n_br_fiscal.tax` objects (representing all taxes
+        potentially applicable to a transaction line), it iterates through
+        them in a defined sequence. For each tax, it:
+        a.  Initializes a standard dictionary (`TAX_DICT_VALUES`) to hold
+            results.
+        b.  Invokes a specialized internal method (e.g., `_compute_icms`,
+            `_compute_ipi`, or the generic `_compute_tax`) to perform
+            the actual calculation logic for that tax domain. These
+            internal methods determine the tax base, apply reductions,
+            and calculate the tax value.
+        c.  Handles inter-tax dependencies (e.g., IPI value affecting
+            ICMS base).
+        d.  Aggregates results, including total tax included in price,
+            tax not included, and withholding amounts.
+
+    3.  **Contextual Adaptation**: The calculation methods
+        (`_compute_<tax_domain>`) take numerous keyword arguments
+        (`**kwargs`) representing the full fiscal context (company, partner,
+        product, operation details, other calculated taxes, etc.) to ensure
+        taxes are computed according to specific scenarios (e.g., interstate
+        operations, final consumer, import/export).
+
+    This model, in conjunction with `l10n_br_fiscal.tax.definition` (which
+    determines *which* of these `l10n_br_fiscal.tax` records apply),
+    forms the heart of the Brazilian tax calculation system in this
+    localization.
+    """
+
     _name = "l10n_br_fiscal.tax"
     _order = "sequence, tax_domain, name"
     _description = "Fiscal Tax"
@@ -627,14 +674,20 @@ class Tax(models.Model):
 
     @api.model
     def _compute_tax_sequence(self, taxes_dict, **kwargs):
-        """Método para calcular a ordem que os impostos serão calculados.
-        Por padrão é utilizado o campo compute_sequence do objeto para
-        ordenar a sequencia que os impostos serão calculados.
-        Por padrão é obdecida a seguinte sequencia:
+        """
+        Method to determine the order in which taxes will be calculated.
 
-            compute_sequence = {
-                tax_domain: compute_sequence,
+        By default, the `compute_sequence` field of the tax object is used
+        to sort the sequence for tax calculation. The default processing
+        order is based on these `compute_sequence` values, conceptually
+        like:
+
+            {
+                'tax_domain_A': its_compute_sequence_value,
+                'tax_domain_B': its_compute_sequence_value,
+                # ... and so on for other tax domains
             }
+        # Lower compute_sequence values are typically processed earlier.
         """
         # Pega por padrão os valores do campo compute_sequence
         compute_sequence = {t.tax_domain: t.compute_sequence for t in self}
@@ -654,39 +707,66 @@ class Tax(models.Model):
 
     def compute_taxes(self, **kwargs):
         """
-        arguments:
-            company,
-            partner,
-            product,
-            price_unit,
-            quantity,
-            uom_id,
-            fiscal_price,
-            fiscal_quantity,
-            uot_id,
-            discount_value,
-            insurance_value,
-            other_value,
-            freight_value,
-            ii_customhouse_charges,
-            ii_iof_value,
-            ncm,
-            nbs,
-            nbm,
-            cest,
-            operation_line,
-            cfop,
-            icmssn_range,
-            icms_origin,
-            ind_final,
-        return
-            {
-                'amount_included': float
-                'amount_not_included': float
-                'amount_withholding': float
-                'taxes': dict
-            }
+        Compute all applicable Brazilian taxes based on a set of input parameters.
+
+        This method orchestrates the calculation of various taxes (ICMS, IPI, PIS,
+        COFINS, ISSQN, etc.) by calling specialized internal _compute_<tax_domain>
+        methods. It respects a defined computation sequence for taxes and handles
+        interdependencies, such as IPI influencing the ICMS base under certain
+        conditions.
+
+        The result includes the calculated tax values for each domain, amounts
+        included in the price, amounts not included, and withholding amounts.
+        It also calculates an estimated total tax amount as per "Lei da Transparência".
+
+        :param company: res.company record of the emitting company.
+        :param partner: res.partner record of the recipient/customer.
+        :param product: product.product record being taxed.
+        :param price_unit: float, the unit price of the product/service before
+            discounts.
+        :param quantity: float, the quantity of the product/service.
+        :param uom_id: uom.uom record, unit of measure for the quantity.
+        :param fiscal_price: float, the fiscal price unit (e.g., for tax
+            calculation if different from commercial price).
+        :param fiscal_quantity: float, the fiscal quantity (e.g., for tax
+            calculation if different from commercial quantity).
+        :param uot_id: uom.uom record, unit of taxation if different from uom_id.
+        :param discount_value: float, total discount amount for the line.
+        :param insurance_value: float, total insurance amount for the line.
+        :param other_value: float, total other costs/fees for the line.
+        :param freight_value: float, total freight amount for the line.
+        :param ii_customhouse_charges: float, customs house charges for Import Tax
+            (II).
+        :param ii_iof_value: float, IOF value related to Import Tax (II).
+        :param ncm: l10n_br_fiscal.ncm record, NCM code for the product.
+        :param nbs: l10n_br_fiscal.nbs record, NBS code for the service.
+        :param nbm: l10n_br_fiscal.nbm record, NBM code for the product.
+        :param cest: l10n_br_fiscal.cest record, CEST code for the product.
+        :param operation_line: l10n_br_fiscal.operation.line record defining
+            the fiscal context.
+        :param cfop: l10n_br_fiscal.cfop record, the determined CFOP for the
+            operation.
+        :param icmssn_range: l10n_br_fiscal.simplified.tax.range record for
+            Simples Nacional ICMS calculation.
+        :param icms_origin: str, ICMS origin code for the product.
+        :param icms_cst_id: l10n_br_fiscal.cst record, the ICMS CST code.
+        :param icms_relief_id: l10n_br_fiscal.icms.relief record, if ICMS relief
+            applies.
+        :param ind_final: str, indicates if the operation is for a final
+            consumer ('0' or '1').
+
+        :return: dict containing:
+            - 'amount_included': float, sum of tax values included in the price.
+            - 'amount_not_included': float, sum of tax values not included in
+              the price (added on top).
+            - 'amount_withholding': float, sum of withholding tax values.
+            - 'estimate_tax': float, estimated total tax amount for transparency.
+            - 'taxes': dict, where keys are tax domains (e.g., 'icms', 'ipi')
+              and values are dictionaries with detailed calculation results for
+              that tax (base, percent, value, cst, etc., as defined in
+              TAX_DICT_VALUES).
         """
+
         result_amounts = {
             "amount_included": 0.00,
             "amount_not_included": 0.00,
@@ -704,7 +784,7 @@ class Tax(models.Model):
             fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
             kwargs.update({"cst": tax.cst_from_tax(fiscal_operation_type)})
             try:
-                compute_method = getattr(self, "_compute_%s" % tax.tax_domain)
+                compute_method = getattr(self, f"_compute_{tax.tax_domain}")
                 taxes[tax.tax_domain].update(compute_method(tax, taxes, **kwargs))
 
             except AttributeError:
