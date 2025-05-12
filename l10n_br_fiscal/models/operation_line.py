@@ -201,6 +201,52 @@ class OperationLine(models.Model):
         service_type=None,
         ind_final=None,
     ):
+        """
+        Map and determine the applicable fiscal taxes, CFOP, IPI guideline,
+        and ICMS tax benefit for a given context.
+
+        The method aggregates tax definitions from various sources, applying a
+        precedence order:
+        1. Company-level tax definitions.
+        2. NCM-defined taxes (IPI, II).
+        3. ICMS Regulation specific taxes.
+        4. Taxes defined directly on this fiscal operation line.
+        5. Taxes defined on the determined CFOP.
+        6. Taxes from the partner's fiscal profile.
+
+        It also filters taxes based on whether the product is subject to
+        ICMS or ISSQN.
+
+        :param company: The company record (res.company).
+        :param partner: The partner record (res.partner).
+        :param product: Optional product record (product.product).
+        :param fiscal_price: (Unused in direct logic; kept for signature
+            consistency for overrides/extensions)
+        :param fiscal_quantity: (Unused in direct logic; kept for signature
+            consistency for overrides/extensions)
+        :param ncm: Optional NCM record (l10n_br_fiscal.ncm);
+            defaults to product's NCM.
+        :param nbm: Optional NBM record (l10n_br_fiscal.nbm);
+            defaults to product's NBM.
+        :param nbs: Optional NBS record (l10n_br_fiscal.nbs);
+            defaults to product's NBS.
+        :param cest: Optional CEST record (l10n_br_fiscal.cest);
+            defaults to product's CEST.
+        :param city_taxation_code: Optional City Taxation Code record
+            (l10n_br_fiscal.city.taxation.code).
+        :param service_type: Optional Service Type record
+            (l10n_br_fiscal.service.type).
+        :param ind_final: (Passed to icms_regulation_id.map_tax; not directly
+            used for tax calculation here)
+        :return: A dictionary containing:
+            - 'taxes': A dictionary of applicable tax records
+              (l10n_br_fiscal.tax) keyed by their tax_domain.
+            - 'cfop': The determined CFOP record (l10n_br_fiscal.cfop).
+            - 'ipi_guideline': The determined IPI guideline record
+              (l10n_br_fiscal.tax.ipi.guideline).
+            - 'icms_tax_benefit_id': The determined ICMS tax benefit record
+              ID (l10n_br_fiscal.tax.definition) or False.
+        """
         mapping_result = {
             "taxes": {},
             "cfop": False,

@@ -17,6 +17,54 @@ from ..constants.fiscal import (
 
 
 class Operation(models.Model):
+    """
+    Defines a Fiscal Operation, representing the nature and fiscal intent of
+    a transaction (e.g., Sale, Return, Import, Industrialization).
+
+    A Fiscal Operation is a core configuration entity in the Brazilian
+    fiscal localization. It serves as a central point to orchestrate how
+    fiscal documents and their lines are processed by determining:
+
+    1.  **Transaction Type**: Specifies if the operation is an Inbound
+        (e.g., purchase, return from customer), Outbound (e.g., sale,
+        return to supplier), or Other type of fiscal movement.
+
+    2.  **Operation Lines (`line_ids`)**: Each Fiscal Operation contains
+        one or more `l10n_br_fiscal.operation.line` records. These lines
+        define specific rules or conditions (based on partner profiles,
+        product types, company tax regime, etc.) under which a
+        particular set of fiscal treatments apply. The system selects
+        the "best match" operation line based on the context of a
+        transaction.
+
+    3.  **CFOP (Código Fiscal de Operações e Prestações)**: The selected
+        `operation.line` determines the appropriate CFOP codes
+        (internal, external, export) for the transaction line. The CFOP
+        itself carries significant fiscal meaning and influences tax
+        calculations and reporting.
+
+    4.  **Tax Definitions (`tax_definition_ids` on `operation.line` and `cfop`)**:
+        The selected `operation.line` and the determined `cfop` can both
+        hold `l10n_br_fiscal.tax.definition` records. These tax
+        definitions specify which taxes (ICMS, IPI, PIS, COFINS, etc.)
+        apply, along with their respective CST/CSOSN codes and other
+        parameters. This linkage allows the Fiscal Operation to drive
+        the tax calculation engine.
+
+    5.  **Document Characteristics**: It can also define default behaviors
+        or properties for documents generated under this operation, such
+        as the electronic document purpose (`edoc_purpose`), default
+        price type (sale vs. cost), and links to inverse or return
+        operations.
+
+    Essentially, when a fiscal document is created, the user selects a
+    Fiscal Operation. The system then uses this operation and the
+    transactional context (partner, product, company) to find the most
+    suitable `operation.line`. This line, in turn, provides the CFOP
+    and a set of tax definitions, which are then used by the tax engine
+    to calculate all applicable taxes.
+    """
+
     _name = "l10n_br_fiscal.operation"
     _description = "Fiscal Operation"
     _inherit = ["mail.thread", "mail.activity.mixin"]
