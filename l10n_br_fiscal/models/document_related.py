@@ -115,7 +115,7 @@ class DocumentRelated(models.Model):
             self.inscr_est = False
 
         if related.document_type_id.code in ("01", "04"):
-            self.access_key = False
+            self.document_key = False
             self.document_serie = related.document_serie
             self.document_number = related.document_number
             self.state_id = (
