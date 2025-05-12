@@ -49,6 +49,31 @@ from ..constants.issqn import (
 
 
 class FiscalDocumentLineMixin(models.AbstractModel):
+    """
+    Provides the primary field structure for Brazilian fiscal document lines.
+
+    It is inherited by sale.order.line, purchase.order.linne, account.move.line
+    and even stock.move in separate modules.
+    Indeed these business documents need to take care of some fiscal parameters
+    before creating Fiscal Document Lines. And of course,
+    Fiscal Document Lines themselves inherit from this mixin.
+
+    This abstract model defines an extensive set of fields necessary for
+    line-item fiscal calculations and reporting in Brazil. It includes:
+    - Product and quantity information.
+    - Detailed fiscal classifications (NCM, CFOP, CEST, etc.).
+    - Fields for each specific Brazilian tax (ICMS, IPI, PIS, COFINS,
+      ISSQN, etc.), covering their respective bases, rates, and
+      calculated values.
+    - Line-level totals and cost components.
+
+    It inherits computational logic, onchange handlers, and other complex
+    methods from `l10n_br_fiscal.document.line.mixin.methods`. Models
+    that represent actual document lines (e.g.,
+    `l10n_br_fiscal.document.line`) should inherit this mixin to
+    acquire the necessary fiscal field definitions and associated behaviors.
+    """
+
     _name = "l10n_br_fiscal.document.line.mixin"
     _inherit = "l10n_br_fiscal.document.line.mixin.methods"
     _description = "Document Fiscal Mixin"
