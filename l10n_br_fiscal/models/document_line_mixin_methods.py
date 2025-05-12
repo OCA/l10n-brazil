@@ -46,6 +46,28 @@ FISCAL_CST_ID_FIELDS = [
 
 
 class FiscalDocumentLineMixinMethods(models.AbstractModel):
+    """
+    Provides the method implementations for l10n_br_fiscal.document.line.mixin.
+
+    These methods are extracted into this separate mixin due to the way
+    l10n_br_fiscal.document.line is incorporated into account.move.line
+    by the l10n_br_account module (decorator pattern).
+
+    Specifically:
+    - In l10n_br_account, fields from l10n_br_fiscal.document.line
+      are added to account.move.line using Odoo's `_inherits` (composition)
+      mechanism.
+    - The methods in *this* mixin, however, are intended to be inherited
+      using the standard `_inherit` mechanism.
+
+    This separation is crucial because `_inherits` handles field composition
+    but does not inherit methods. Thus, `_inherit` is used to bring in
+    these methods. If these methods were defined in the same class as the
+    fields of l10n_br_fiscal.document.line.mixin (which are subject to
+    `_inherits`), and account.move.line also used `_inherit` on that
+    single class, the fields would be duplicated.
+    """
+
     _name = "l10n_br_fiscal.document.line.mixin.methods"
     _description = "Fiscal Document Mixin Methods"
 
