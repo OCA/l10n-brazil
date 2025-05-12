@@ -31,22 +31,30 @@ from ..constants.fiscal import (
 
 
 class Document(models.Model):
-    """Implementação base dos documentos fiscais
+    """
+    Base implementation for Brazilian fiscal documents.
 
-    Devemos sempre ter em mente que o modelo que vai usar este módulo abstrato
-     tem diversos metodos importantes e a intenção que os módulos da OCA que
-     extendem este modelo, funcionem se possível sem a necessidade de
-     codificação extra.
+    This model serves as the foundational structure for various fiscal
+    documents within the Brazilian localization. It's designed to be
+    extensible, allowing other OCA modules to build upon it, ideally
+    minimizing the need for additional custom coding for common fiscal
+    document functionalities.
 
-    É preciso também estar atento que o documento fiscal tem dois estados:
+    Key aspects to note:
+    - The fiscal document manages two primary states:
+        - Electronic Document State (`state_edoc`): Reflects the status
+          of the document in its electronic lifecycle (e.g., Draft,
+          Authorized, Cancelled).
+        - Fiscal State (`state_fiscal`): Represents the document's status
+          from a purely fiscal accounting perspective (e.g., Regular,
+          Cancelled for fiscal purposes). This state is less automated
+          and often managed by the fiscal responsible to ensure correct
+          reporting, such as in SPED Fiscal.
 
-    - Estado do documento eletrônico / não eletônico: state_edoc
-    - Estado FISCAL: state_fiscal
-
-    O estado fiscal é um campo que é alterado apenas algumas vezes pelo código
-    e é de responsabilidade do responsável fiscal pela empresa de manter a
-    integridade do mesmo, pois ele não tem um fluxo realmente definido e
-    interfere no lançamento do registro no arquivo do SPED FISCAL.
+    This model inherits common fields and methods from
+    `l10n_br_fiscal.document.mixin` and includes features for document
+    numbering, key validation, partner and company fiscal details, line
+    items, and workflows for subsequent document generation and returns.
     """
 
     _name = "l10n_br_fiscal.document"

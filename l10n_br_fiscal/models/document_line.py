@@ -5,6 +5,21 @@ from odoo import fields, models
 
 
 class DocumentLine(models.Model):
+    """
+    Represents a line item within a Brazilian fiscal document.
+
+    This model defines the core structure of a fiscal document line,
+    primarily linking it to its parent document (`l10n_br_fiscal.document`)
+    and holding essential line-specific data like quantity and a
+    descriptive name.
+
+    The vast majority of detailed fiscal fields (e.g., product, NCM,
+    CFOP, various tax bases and values) and their complex computation
+    logic are inherited from `l10n_br_fiscal.document.line.mixin`.
+    This delegation ensures code reusability and keeps this model
+    focused on its direct relationships and core line properties.
+    """
+
     _name = "l10n_br_fiscal.document.line"
     _inherit = "l10n_br_fiscal.document.line.mixin"
     _description = "Fiscal Document Line"
