@@ -33,8 +33,6 @@ class ProductMixin(models.AbstractModel):
                 product.fiscal_genre_id = self.env[
                     "l10n_br_fiscal.product.genre"
                 ].search([("code", "=", product.ncm_id.code[0:2])])
-            elif product.fiscal_genre_id is None:
-                product.fiscal_genere_id = False
 
     @api.depends("fiscal_type")
     def _compute_tax_icms_or_issqn(self):
