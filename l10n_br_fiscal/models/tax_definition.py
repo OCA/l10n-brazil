@@ -16,6 +16,41 @@ from ..constants.icms import ICMS_TAX_BENEFIT_TYPE
 
 
 class TaxDefinition(models.Model):
+    """
+    Represents a detailed rule item within the Brazilian Fiscal Rule Engine.
+
+    This model also acts as a mapping layer, defining specific tax
+    treatments (which tax to apply, with which CST/CSOSN, and under what
+    conditions) based on a combination of contextual fiscal parameters.
+    It essentially defines a "fiscal rule" that dictates how a particular
+    tax should behave in a given scenario.
+
+    Each `tax.definition` record links various fiscal entities such as:
+    - Partner Fiscal Profiles (`fiscal_profile_id`)
+    - Fiscal Operations and their Lines (`fiscal_operation_line_id`)
+    - Company-level defaults (`company_id`)
+    - CFOPs (`cfop_id`)
+    - ICMS Regulations (`icms_regulation_id`)
+
+    to a specific:
+    - Tax Group (`tax_group_id`)
+    - Tax (`tax_id`)
+    - CST/CSOSN code (`cst_id`)
+
+    Furthermore, it allows for conditions based on:
+    - Originating and destination states (`state_from_id`, `state_to_ids`)
+    - Product characteristics (NCM, CEST, NBM, specific products, type)
+    - Partner characteristics (tax framework, ICMS taxpayer status, final consumer)
+    - Company tax framework
+    - Date validity (`date_start`, `date_end`)
+    - Tax benefits (ICMS relief, IPI guidelines)
+
+    The system uses these definitions, particularly through the
+    `map_tax_definition` method, to determine the precise set of taxes and
+    their configurations applicable to a transaction line. This model is
+    central to the dynamic and context-sensitive application of Brazilian taxes.
+    """
+
     _name = "l10n_br_fiscal.tax.definition"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Tax Definition"
@@ -411,6 +446,42 @@ class TaxDefinition(models.Model):
         city_taxation_code=None,
         service_type=None,
     ):
+        """
+        Filter and return tax definitions that match the given criteria.
+
+        This method is used to find the relevant tax definitions from a
+        pre-existing recordset (self) based on the transactional context
+        (company, partner, product, etc.). It constructs a domain to
+        filter these records.
+
+        The matching is based on:
+        - Current record state (not 'expired').
+        - Originating state (state_from_id).
+        - Destination states (state_to_ids), allowing for no specific destination.
+        - NCM, NBM, CEST codes, allowing for no specific code.
+        - City taxation codes, allowing for no specific code.
+        - Service types, allowing for no specific type.
+        - Specific products, allowing for no specific product.
+
+        :param company: The company record (res.company) of the transaction.
+        :param partner: The partner record (res.partner) of the transaction.
+        :param product: The product record (product.product) of the transaction.
+        :param ncm: Optional NCM record (l10n_br_fiscal.ncm);
+            defaults to product's NCM.
+        :param nbm: Optional NBM record (l10n_br_fiscal.nbm);
+            defaults to product's NBM.
+        :param nbs: Optional NBS record (l10n_br_fiscal.nbs);
+            (Note: nbs not used in current domain construction)
+        :param cest: Optional CEST record (l10n_br_fiscal.cest);
+            defaults to product's CEST.
+        :param city_taxation_code: Optional City Taxation Code record
+            (l10n_br_fiscal.city.taxation.code).
+        :param service_type: Optional Service Type record
+            (l10n_br_fiscal.service.type).
+        :return: A recordset of matching
+            l10n_br_fiscal.tax.definition.
+        """
+
         if not ncm:
             ncm = product.ncm_id
 
