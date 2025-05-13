@@ -12,8 +12,6 @@ class ResCompany(models.Model):
 
     mobile = fields.Char(related="partner_id.mobile")
 
-    legal_nature = fields.Char(related="partner_id.legal_nature")
-
     company_currency_id = fields.Many2one(
         "res.currency",
         related="currency_id",

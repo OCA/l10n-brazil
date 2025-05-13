@@ -36,7 +36,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
     phone = fields.Char()
     mobile = fields.Char()
     email = fields.Char()
-    legal_nature = fields.Char()
+    legal_nature_id = fields.Many2one(comodel_name="l10n_br_fiscal.legal.nature")
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         default=lambda self: self.env.ref("base.BRL"),
@@ -112,7 +112,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "phone": self.phone,
             "mobile": self.mobile,
             "email": self.email,
-            "legal_nature": self.legal_nature,
+            "legal_nature_id": self.legal_nature_id,
             "equity_capital": self.equity_capital,
             "cnae_main_id": self.cnae_main_id,
             "cnae_secondary_ids": self.cnae_secondary_ids,
