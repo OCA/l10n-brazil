@@ -147,6 +147,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
+#. odoo-python
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_move.py:0
+#, python-format
+msgid ""
+"The invoice line %(name)s is already reconciled.\n"
+"\n"
+"Invoice: %(invoice)s\n"
+"Account: %(account)s\n"
+"Detailed line ID: %(aml)s\n"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid "Type of import"
 msgstr ""
