@@ -32,7 +32,7 @@ class Lead(models.Model):
                     "inscr_est": self.inscr_est,
                     "inscr_mun": self.inscr_mun,
                     "suframa": self.suframa,
-                    "legal_nature": self.legal_nature,
+                    "legal_nature_id": self.legal_nature_id.id,
                     "equity_capital": self.equity_capital,
                     "cnae_main_id": self.cnae_main_id.id,
                     "cnae_secondary_ids": [(6, 0, self.cnae_secondary_ids.ids)],
