@@ -117,15 +117,26 @@ class CNPJWebservice(models.AbstractModel):
             raise ValidationError(_("%s") % response.reason)
 
     @api.model
+    def _get_legal_nature(self, raw_code):
+        code = punctuation_rm(raw_code)
+        legal_nature_id = False
+        if code:
+            legal_nature_id = (
+                self.env["l10n_br_fiscal.legal.nature"]
+                .search([("code_unmasked", "=", code)])
+                .id
+            )
+        return legal_nature_id
+
+    @api.model
     def _get_cnae(self, raw_code):
         code = punctuation_rm(raw_code)
         cnae_id = False
 
         if code:
-            formatted_code = code[0:4] + "-" + code[4] + "/" + code[5:]
             cnae_id = (
                 self.env["l10n_br_fiscal.cnae"]
-                .search([("code", "=", formatted_code)])
+                .search([("code_unmasked", "=", code)])
                 .id
             )
 
@@ -168,7 +179,7 @@ class CNPJWebservice(models.AbstractModel):
             "district": self.get_data(data, "bairro", title=True),
             "street_number": self.get_data(data, "numero"),
             "zip": self.get_data(data, "cep"),
-            "legal_nature": self.get_data(data, "natureza_juridica"),
+            "legal_nature_id": self._receitaws_get_legal_nature(data),
             "phone": phone,
             "mobile": mobile,
             "state_id": state_id,
@@ -220,6 +231,16 @@ class CNPJWebservice(models.AbstractModel):
                     city_id = city.id
 
         return [state_id, city_id]
+
+    @api.model
+    def _receitaws_get_legal_nature(self, data):
+        legal_nature = data.get("natureza_juridica")
+        if legal_nature:
+            legal_nature = legal_nature.split(" - ")
+            if len(legal_nature) > 1:
+                legal_nature_code = legal_nature[0]
+                return self._get_legal_nature(legal_nature_code)
+        return False
 
     @api.model
     def _receitaws_get_cnae(self, data):
@@ -280,7 +301,6 @@ class CNPJWebservice(models.AbstractModel):
         name = fantasy_name if fantasy_name else legal_name
         phone, mobile = self._serpro_get_phones(data)
         address = data.get("endereco")
-        nature = data.get("naturezaJuridica")
         cep = self.get_data(address, "cep")
 
         res = {
@@ -291,8 +311,7 @@ class CNPJWebservice(models.AbstractModel):
             "street2": self.get_data(address, "complemento", title=True),
             "district": self.get_data(address, "bairro", title=True),
             "street_number": self.get_data(address, "numero"),
-            "legal_nature": self.get_data(nature, "codigo", title=True)
-            + self.get_data(nature, "descricao", title=True),
+            "legal_nature_id": self._serpro_get_legal_nature(data),
             "zip": cep,
             "phone": phone,
             "mobile": mobile,
@@ -389,8 +408,13 @@ class CNPJWebservice(models.AbstractModel):
         return cep_values.get("city_id")
 
     @api.model
+    def _serpro_get_legal_nature(self, data):
+        legal_nature = data.get("naturezaJuridica")
+        legal_nature_code = self.get_data(legal_nature, "codigo")
+        return self._get_legal_nature(legal_nature_code)
+
+    @api.model
     def _serpro_get_cnae(self, data):
         cnae_main = data.get("cnaePrincipal")
         cnae_code = self.get_data(cnae_main, "codigo")
-
         return self._get_cnae(cnae_code)
