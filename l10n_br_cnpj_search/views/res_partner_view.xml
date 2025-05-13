@@ -9,10 +9,8 @@
         <field name="priority">99</field>
         <field name="inherit_id" ref="l10n_br_fiscal.partner_form" />
         <field name="arch" type="xml">
-            <field name="cnae_main_id" position="after">
-                <field name="cnae_secondary_ids" widget="many2many_tags" />
+            <field name="cnae_secondary_ids" position="after">
                 <field name="equity_capital" widget="monetary" />
-                <field name="legal_nature" />
             </field>
 
             <field name="cnpj_cpf" position="replace">

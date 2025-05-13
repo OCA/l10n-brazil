@@ -40,7 +40,7 @@
                     </group>
 
                     <group name="Other Information" string="Other Information">
-                        <field name="legal_nature" />
+                        <field name="legal_nature_id" />
                         <field name="equity_capital" widget="monetary" />
                         <field name="cnae_main_id" string="Main CNAE" />
                         <field
