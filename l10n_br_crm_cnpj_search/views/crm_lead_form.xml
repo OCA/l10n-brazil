@@ -53,7 +53,7 @@
             <page name="lead" position="inside">
                 <group string="Fiscal">
                     <group>
-                        <field name="legal_nature" string="Natureza jurídica" />
+                        <field name="legal_nature_id" string="Natureza jurídica" />
                         <field name="equity_capital" string="Capital social" />
                     </group>
                     <group>

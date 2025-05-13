@@ -41,7 +41,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
                 "phone": self.phone,
                 "mobile": self.mobile,
                 "email_from": self.email,
-                "legal_nature": self.legal_nature,
+                "legal_nature_id": self.legal_nature_id.id,
                 "equity_capital": self.equity_capital,
                 "cnae_main_id": self.cnae_main_id.id,
                 "cnae_secondary_ids": [(6, 0, self.cnae_secondary_ids.ids)]
