@@ -14,7 +14,10 @@ class PartyMixin(models.AbstractModel):
 
     cnae_main_id = fields.Many2one(comodel_name="l10n_br_fiscal.cnae")
 
-    legal_nature = fields.Char()
+    legal_nature_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.legal.nature",
+        string="Legal Nature",
+    )
 
     br_currency_id = fields.Many2one(
         comodel_name="res.currency",
