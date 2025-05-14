@@ -1,4 +1,4 @@
-from . import test_base_class
+from . import common
 from . import test_invoice_normal_workflow
 from . import test_payment_order
 from . import test_payment_order_inbound
