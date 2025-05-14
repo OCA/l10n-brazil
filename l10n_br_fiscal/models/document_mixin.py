@@ -83,6 +83,14 @@ class FiscalDocumentMixin(models.AbstractModel):
             if doc.issuer == DOCUMENT_ISSUER_COMPANY and not doc.document_type_id:
                 doc.document_type_id = doc.company_id.document_type_id
 
+    def is_sale_industry(self):
+        types = self.fiscal_line_ids.mapped("cfop_id").mapped("type_move")
+        return "sale_industry" in types
+
+    def is_sale_commerce(self):
+        types = self.fiscal_line_ids.mapped("cfop_id").mapped("type_move")
+        return "sale_commerce" in types
+
     def _get_amount_lines(self):
         """Get object lines instances used to compute fiscal fields"""
         return self.mapped(self._get_fiscal_lines_field_name())

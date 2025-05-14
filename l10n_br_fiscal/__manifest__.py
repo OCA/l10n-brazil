@@ -106,6 +106,7 @@
         "views/city_taxation_code.xml",
         "views/national_taxation_code.xml",
         "views/operation_dashboard_view.xml",
+        "views/simplified_tax_effecitve_view.xml",
         # Wizards
         "wizards/document_import_wizard.xml",
         # Actions
