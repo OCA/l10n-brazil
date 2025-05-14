@@ -75,8 +75,6 @@
         "views/l10n_br_cnab_config_view.xml",
     ],
     "demo": [
-        "demo/account_payment_method.xml",
-        "demo/mov_instruction_code.xml",
         "demo/res_partner_bank.xml",
         "demo/account_account.xml",
         "demo/account_journal.xml",
@@ -85,7 +83,6 @@
         "demo/account_payment_mode.xml",
         "demo/account_invoice.xml",
         "demo/res_users.xml",
-        "demo/account_payment_order.xml",
     ],
     "installable": True,
     "external_dependencies": {

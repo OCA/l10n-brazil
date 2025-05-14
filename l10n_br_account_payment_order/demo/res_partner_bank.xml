@@ -379,17 +379,6 @@
         <field name="bank_name">Banco Unicred</field>
     </record>
 
-    <record id="main_company_bank_test" model="res.partner.bank">
-        <field name="acc_number">372</field>
-        <field name="acc_number_dig">0</field>
-        <field name="bra_number">1235</field>
-        <field name="bra_number_dig">0</field>
-        <field name="bank_id" ref="l10n_br_base.res_bank_001" />
-        <field name="company_id" ref="base.main_company" />
-        <field name="partner_id" ref="base.main_partner" />
-        <field name="bank_name">Banco do Brasil</field>
-    </record>
-
     <record id="main_company_bank_ailos" model="res.partner.bank">
         <field name="acc_number">373</field>
         <field name="acc_number_dig">0</field>
@@ -400,4 +389,5 @@
         <field name="partner_id" ref="base.main_partner" />
         <field name="bank_name">Banco AILOS</field>
     </record>
+
 </odoo>
