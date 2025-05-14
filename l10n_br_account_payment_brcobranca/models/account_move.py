@@ -5,6 +5,7 @@
 import base64
 import json
 import logging
+import os
 import tempfile
 
 import requests
@@ -21,7 +22,10 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def generate_boleto_pdf(self):
-        if self.payment_mode_id.cnab_config_id.cnab_processor != "brcobranca":
+        if (
+            self.payment_mode_id.cnab_config_id.cnab_processor != "brcobranca"
+            or os.environ.get("CI_NO_BRCOBRANCA")
+        ):
             return super().generate_boleto_pdf()
 
         file_pdf = self.file_boleto_pdf_id

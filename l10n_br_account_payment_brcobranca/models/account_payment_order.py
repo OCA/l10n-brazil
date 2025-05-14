@@ -6,6 +6,7 @@
 
 import json
 import logging
+import os
 import tempfile
 
 import requests
@@ -97,7 +98,9 @@ class PaymentOrder(models.Model):
 
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
-        self.ensure_one()
+        if os.environ.get("CI_NO_BRCOBRANCA"):
+            return (False, False)
+
         cnab_config = self.payment_mode_id.cnab_config_id
         self.file_number = cnab_config.cnab_sequence_id.next_by_id()
 
