@@ -12,7 +12,7 @@ import requests
 from erpbrasil.base import misc
 
 from odoo import _, models
-from odoo.exceptions import Warning as ValidationError
+from odoo.exceptions import ValidationError
 
 from ..constants.br_cobranca import (
     DICT_BRCOBRANCA_CNAB_TYPE,
