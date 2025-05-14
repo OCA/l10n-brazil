@@ -9,7 +9,7 @@ import logging
 
 import requests
 
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
@@ -95,7 +95,14 @@ class CNABFileParser(FileParser):
         )
 
         if res.status_code != 201:
-            raise UserError(res.text)
+            # Retornando apenas as 8 primeiras Linhas do LOG porque é onde estão as
+            # estão as principais informações. Se necessário é possível ver o LOG
+            # completo pelo container ou com a Linha Abaixo:
+            # raise ValidationError(res.text)
+
+            raise ValidationError(
+                "\n".join([str(item) for item in res.text.splitlines()[0:8]])
+            )
 
         string_result = res.json()
         data = json.loads(string_result)

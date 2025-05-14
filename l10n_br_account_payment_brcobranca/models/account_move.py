@@ -10,7 +10,7 @@ import tempfile
 import requests
 
 from odoo import _, models
-from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
 
 from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
 
@@ -32,7 +32,7 @@ class AccountMove(models.Model):
 
         boletos = receivable_ids.send_payment()
         if not boletos:
-            raise UserError(
+            raise ValidationError(
                 _(
                     "It is not possible generated boletos\n"
                     "Make sure the Invoice are in Confirm state and "
@@ -81,7 +81,20 @@ class AccountMove(models.Model):
         if str(res.status_code)[0] == "2":
             pdf_string = res.content
         else:
-            raise UserError(res.text.encode("utf-8"))
+            # Retornando apenas as 2 primeiras Linhas do LOG porque é onde estão as
+            # estão as principais informações, por exemplo:
+            # 1 - 'Puma caught this error: Tipo de convênio não implementado.
+            #     (Brcobranca::NaoImplementado)',
+            # 2 - "/usr/.../brcobranca/boleto/banco_brasil.rb:110:in `nosso_numero'",
+            # 3 - "/usr/.../brcobranca/validations.rb:98:in `block (2 levels) in
+            #     check_presences'",
+            # Se necessário é possível ver o LOG completo pelo container
+            # ou com a linha abaixo:
+            # raise ValidationError(res.text.encode("utf-8"))
+
+            raise ValidationError(
+                "\n".join([str(item) for item in res.text.splitlines()[0:2]])
+            )
 
         return pdf_string
 
@@ -111,7 +124,7 @@ class AccountMove(models.Model):
                 # Conciliação Automatica entre a Linha da Fatura e a Linha criada
                 if self.journal_id.return_auto_reconcile:
                     if line_to_reconcile.reconciled:
-                        raise UserError(
+                        raise ValidationError(
                             _(
                                 "The invoice line %(name)s is already reconciled.\n\n"
                                 "Invoice: %(invoice)s\n"
