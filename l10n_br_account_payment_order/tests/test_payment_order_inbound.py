@@ -1,72 +1,54 @@
-# @ 2020 Akretion - www.akretion.com.br -
-#   Magno Costa <magno.costa@akretion.com.br>
-# @ 2020 KMEE - www.kmee.com.br
-#   Luis Felipe Mileo <mileo@kmee.com.br>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
+# Copyright (C) 2020-Today - Akretion (<http://www.akretion.com>).
+# @author Magno Costa <magno.costa@akretion.com.br>
+# Copyright (C) 2020-Today - KMEE (<http://kmee.com.br>).
+# @author Luis Felipe Mileo <mileo@kmee.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.exceptions import UserError
-from odoo.fields import Date
-from odoo.tests import TransactionCase, tagged
-from odoo.tests.common import Form
+from odoo.exceptions import UserError, ValidationError
+from odoo.tests import tagged
+
+from ..constants import get_boleto_especie_short_name
+from .common import CNABTestCommon
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrderInbound(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+class TestPaymentOrderInbound(CNABTestCommon):
+    def test_invoice_button_add_to_pay_order(self):
+        """Test Invoice Button to Add to a payment order"""
+        self.pay_mode_cef.auto_create_payment_order = False
+        self._invoice_confirm_workflow(self.invoice_cef_240)
+        self.invoice_cef_240.create_account_payment_line()
+        self._get_draft_payment_order(self.invoice_cef_240)
 
-        cls.register_payments_model = cls.env["account.payment.register"].with_context(
-            active_model="account.move"
-        )
-        cls.payment_model = cls.env["account.payment"]
+    def test_payment_order_import_wizard(self):
+        """Test Payment Order Import Wizard"""
+        self.pay_mode_cef.auto_create_payment_order = False
+        self._invoice_confirm_workflow(self.invoice_cef_240)
+        self.import_with_po_wizard(self.invoice_cef_240.payment_mode_id)
 
-        # Get Invoice for test
-        cls.invoice_cef = cls.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_cef_cnab240"
-        )
+    def test_pay_order_inbound_cnab_workflow(self):
+        """Test Payment Order Inbound CNAB workflow"""
 
-        cls.demo_invoice_auto = cls.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_automatic_test"
-        )
-
-        # Journal
-        cls.main_company = cls.env.ref("base.main_company")
-        cls.journal_cash = cls.env["account.journal"].search(
-            [("type", "=", "cash"), ("company_id", "=", cls.main_company.id)], limit=1
-        )
-        cls.partner_akretion = cls.env.ref("l10n_br_base.res_partner_akretion")
-
-    def test_create_payment_order(self):
-        """Test Create Payment Order"""
-
-        # I check that Initially customer invoice is in the "Draft" state
-        self.assertEqual(self.invoice_cef.state, "draft")
-
-        # I validate invoice by creating on
-        self.invoice_cef.action_post()
-
-        # I check that the invoice state is "Posted"
-        self.assertEqual(self.invoice_cef.state, "posted")
-
-        # I check that now there is a move attached to the invoice
-        # assert self.invoice_cef.move_id, "Move not created for open invoice"
-
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
-        )
-
-        assert payment_order, "Payment Order not created."
-
+        self._invoice_confirm_workflow(self.invoice_cef_240)
+        payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+        self.assertEqual(len(payment_order.payment_line_ids), 2)
         # Change status of Move to draft just to test
-        self.invoice_cef.button_cancel()
+        self.invoice_cef_240.button_cancel()
+        self.assertEqual(len(payment_order.payment_line_ids), 0)
+        # TODO Na v13 ao cancelar uma invoice as linhas de lançamentos
+        #  contabeis são mantidas, é preciso confirmar se em nenhum caso
+        #  as linhas são apagadas para assim poder eliminar do Roadmap
+        #  essa questão é os campos que foram sobreescritos no modulo
+        #  para funcionar antes
+        # Nesse caso a account.move deverá ter sido apagada
+        # self.assertEqual(len(self.invoice_cef_240.line_ids), 0)
 
-        # Return the status of Move to Posted
-        self.invoice_cef.action_post()
+        self._invoice_confirm_workflow(self.invoice_cef_240)
 
         # Verificar os campos CNAB na account.move.line
-        for line in self.invoice_cef.line_ids.filtered(lambda line: line.own_number):
+        for line in self.invoice_cef_240.line_ids.filtered(
+            lambda line: line.own_number
+        ):
             assert (
                 line.own_number
             ), "own_number field is not filled in created Move Line."
@@ -79,82 +61,64 @@ class TestPaymentOrderInbound(TransactionCase):
 
         self.assertEqual(test_balance_value, 700.0, "Error with method get_balance()")
 
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
-        )
-
-        # Verifica os campos CNAB na linhas de pagamentos
-        for line in payment_order.payment_line_ids:
-            assert line.own_number, "own_number field is not filled in Payment Line."
-            assert (
-                line.instruction_move_code_id
-            ), "instruction_move_code_id field are not filled in Payment Line."
+        payment_order = self._get_draft_payment_order(self.invoice_cef_240)
 
         # Ordem de Pagto CNAB não pode ser apagada
         with self.assertRaises(UserError):
             payment_order.unlink()
 
-        # Open payment order
-        payment_order.draft2open()
-
-        # A geração do arquivo é feita pelo modulo que implementa a
-        # biblioteca a ser usada
-        # Generate and upload
-        # payment_order.open2generated()
-        # payment_order.generated2uploaded()
-
-        self.assertEqual(payment_order.state, "open")
-
-        # Verifica os campos CNAB na linhas de pagamentos
-        for line in payment_order.payment_line_ids:
-            assert line.own_number, "own_number field is not filled in Payment Line."
-            assert (
-                line.instruction_move_code_id
-            ), "instruction_move_code_id field are not filled in Payment Line."
+        self._run_payment_order_workflow(payment_order)
 
         # Ordem de Pagto CNAB não pode ser Cancelada
         with self.assertRaises(UserError):
             payment_order.action_done_cancel()
 
-        # Testar Cancelamento
-        self.invoice_cef.button_cancel()
+        # Test Sending multiple CNAB Instruction Movements
+        for change in self.changes_to_sending:
+            self._send_new_cnab_instruction_code(
+                self.invoice_cef_240,
+                change.get("change_to_send"),
+                change.get("code_to_check"),
+            )
+
+    def test_warning_when_cnab_config_dont_has_code(self):
+        self._run_invoice_and_order_workflow(self.invoice_itau_400)
+        aml_to_change = self.invoice_itau_400.due_line_ids[0]
+        self.changes_to_sending.append(
+            {
+                "change_to_send": "change_date_maturity",
+                "test_dates_are_equals": True,
+            }
+        )
+        for change in self.changes_to_sending:
+            test_dates_are_equals = False
+            if change.get("test_dates_are_equals"):
+                test_dates_are_equals = True
+            # Caso not_payment não tem Warning
+            if change.get("change_to_send") != "not_payment":
+                self._send_new_cnab_code(
+                    aml_to_change,
+                    change.get("change_to_send"),
+                    warning_error=True,
+                    test_dates_are_equals=test_dates_are_equals,
+                )
 
     def test_payment_outside_cnab_payment_order_draft(self):
         """
         Caso de Pagamento ser feito quando a Ordem de Pagamento em Draft deve
         apagar as linhas de pagamentos.
         """
-        # I validate invoice by creating on
-        self.invoice_cef.action_post()
 
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
-        )
+        self._invoice_confirm_workflow(self.invoice_cef_240)
+        payment_order = self._get_draft_payment_order(self.invoice_cef_240)
         self.assertEqual(len(payment_order.payment_line_ids), 2)
 
-        ctx = {
-            "active_model": "account.move",
-            "active_ids": [self.invoice_cef.id],
-        }
-        register_payments = self.register_payments_model.with_context(**ctx).create(
-            {
-                "payment_date": Date.context_today(self.env.user),
-                "journal_id": self.journal_cash.id,
-                "payment_method_line_id": (
-                    self.journal_cash._get_available_payment_method_lines("inbound")
-                )
-                .filtered(lambda x: x.code == "manual")
-                .id,
-            }
-        )
-
         # Caso a Ordem de Pagamento ainda não esteja Confirmada
-        payment_id = register_payments._create_payments()
-        payment = self.payment_model.browse(payment_id.id)
+        payment = self._make_payment(self.invoice_cef_240, 1000.0)
 
-        self.assertAlmostEqual(payment.amount, 1000)
+        self.assertAlmostEqual(payment.amount, 1000.0)
         self.assertEqual(payment.state, "posted")
-        self.assertEqual(self.invoice_cef.payment_state, "in_payment")
+        self.assertEqual(self.invoice_cef_240.payment_state, "in_payment")
         # Linhas Apagadas
         self.assertEqual(len(payment_order.payment_line_ids), 0)
 
@@ -163,317 +127,158 @@ class TestPaymentOrderInbound(TransactionCase):
         Caso de Pagamento ser feito quando a Ordem de Pagamento em Open deve
         gerar erro por ter uma Instrução CNAB a ser enviada.
         """
-        # I validate invoice by creating on
-        self.invoice_cef.action_post()
-
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
-        )
-
-        # Open payment order
+        self._invoice_confirm_workflow(self.invoice_cef_240)
+        payment_order = self._get_draft_payment_order(self.invoice_cef_240)
         payment_order.draft2open()
         self.assertEqual(payment_order.state, "open")
-
-        ctx = {
-            "active_model": "account.move",
-            "active_ids": [self.invoice_cef.id],
-        }
-        register_payments = self.register_payments_model.with_context(**ctx).create(
-            {
-                "payment_date": Date.context_today(self.env.user),
-                "journal_id": self.journal_cash.id,
-                "payment_method_line_id": (
-                    self.journal_cash._get_available_payment_method_lines("inbound")
-                    .filtered(lambda x: x.code == "manual")
-                    .id
-                ),
-            }
-        )
 
         # Erro de ter uma Instrução CNAB Pendente, como não é possivel gerar a
         # Ordem de Pagto o teste de crição de Write Off e Alteração do Valor do
         # Titulo no caso de um pagamento parcial precisa ser feito no modulo
         # que implementa biblioteca a ser usada.
         with self.assertRaises(UserError):
-            register_payments._create_payments()
-
-    def test_cancel_invoice_payment_order_draft(self):
-        """Test Cancel Invoice when Payment Order Draft."""
-
-        # I validate invoice by creating on
-        self.invoice_cef.action_post()
-
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
-        )
-        self.assertEqual(len(payment_order.payment_line_ids), 2)
-
-        # Testar Cancelamento
-        self.invoice_cef.button_cancel()
-
-        self.assertEqual(len(payment_order.payment_line_ids), 0)
-        # TODO Na v13 ao cancelar uma invoice as linhas de lançamentos
-        #  contabeis são mantidas, é preciso confirmar se em nenhum caso
-        #  as linhas são apagadas para assim poder eliminar do Roadmap
-        #  essa questão é os campos que foram sobreescritos no modulo
-        #  para funcionar antes
-        # Nesse caso a account.move deverá ter sido apagada
-        # self.assertEqual(len(self.invoice_cef.line_ids), 0)
+            self._make_payment(
+                self.invoice_cef_240, self.invoice_cef_240.amount_residual
+            )
 
     def test_payment_by_assign_outstanding_credit(self):
         """
         Caso de Pagamento com CNAB usando o assign_outstanding_credit
         """
-        self.partner_akretion = self.env.ref("l10n_br_base.res_partner_akretion")
-        # I validate invoice by creating on
-        self.invoice_cef.action_post()
-
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
+        self._run_invoice_and_order_workflow(self.invoice_cef_240)
+        self._make_payment(self.invoice_cef_240, 100)
+        payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+        self.assertEqual(
+            payment_order.cnab_config_id.change_title_value_code_id,
+            payment_order.payment_line_ids.mapped("instruction_move_code_id"),
+            "Payment Order with wrong instruction_move_code_id for Write Off",
         )
-        # Open payment order
-        payment_order.draft2open()
-        # Generate and upload
-        # payment_order.open2generated()
-        # payment_order.generated2uploaded()
-        # self.assertEqual(payment_order.state, 'done')
-
-        payment = self.env["account.payment"].create(
-            {
-                "payment_type": "inbound",
-                "payment_method_line_id": (
-                    self.journal_cash._get_available_payment_method_lines("inbound")
-                    .filtered(lambda x: x.code == "manual")
-                    .id
-                ),
-                "partner_type": "customer",
-                "partner_id": self.partner_akretion.id,
-                "amount": 100,
-                "journal_id": self.journal_cash.id,
-            }
-        )
-        payment.action_post()
-        # TODO v13 metodo não encontrado mudou de nome?
-        # credit_aml = payment.move_line_ids.filtered("credit")
-
-        # Erro de ter uma Instrução CNAB Pendente, como não é possivel gerar a
-        # Ordem de Pagto o teste completo de pagamento via
-        # assign_outstanding_credit precisa ser feito no modulo que
-        # implementa biblioteca a ser usada.
-        # with self.assertRaises(UserError):
-        #    self.invoice_cef.assign_outstanding_credit(credit_aml.id)
 
     def test_payment_inbound_payment_in_cash_full(self):
         """Pay a invoice in cash, with a payment already registred to in the bank.
         Then we must cancel the boleto at the bank, creating a movement of "BAIXA".
         :return:
         """
-        # I check that Initially customer invoice is in the "Draft" state
-        self.assertEqual(self.demo_invoice_auto.state, "draft")
-
-        # I validate invoice by creating on
-        self.demo_invoice_auto.action_post()
-
-        # I check that the invoice state is "Posted"
-        self.assertEqual(self.demo_invoice_auto.state, "posted")
-
-        # I check that now there is a move attached to the invoice
-        # assert self.demo_invoice_auto.move_id, "Move not created for open invoice"
-        inv_payment_mode_id = self.demo_invoice_auto.payment_mode_id
-        payment_order = self.env["account.payment.order"].search(
-            [("state", "=", "draft"), ("payment_mode_id", "=", inv_payment_mode_id.id)]
-        )
-        # I check creation of Payment Order
-        assert payment_order, "Payment Order not created."
-        payment_order.draft2open()
-        payment_order.open2generated()
-        payment_order.generated2uploaded()
-
-        open_amount = self.demo_invoice_auto.amount_residual
+        self._run_invoice_and_order_workflow(self.invoice_cef_240)
         # I totally pay the Invoice
-        payment_register = Form(
-            self.env["account.payment.register"].with_context(
-                active_model="account.move",
-                active_ids=self.demo_invoice_auto.ids,
-            )
+        payment = self._make_payment(
+            self.invoice_cef_240, self.invoice_cef_240.amount_residual
         )
-        payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_line_id = (
-            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
-                lambda x: x.code == "manual"
-            )
-        )
-
-        # Perform the partial payment by setting the amount at 300 instead of 500
-        payment_register.amount = open_amount
-
-        payment = payment_register.save()._create_payments()
         self.assertEqual(len(payment), 1)
 
         # I verify that invoice is now in Paid state
         self.assertEqual(
-            self.demo_invoice_auto.payment_state,
+            self.invoice_cef_240.payment_state,
             "in_payment",
             "Invoice is not in Paid state",
         )
-
-        change_payment_order = self.env["account.payment.order"].search(
-            [("state", "=", "draft"), ("payment_mode_id", "=", inv_payment_mode_id.id)]
-        )
-
-        change_payment_order.draft2open()
-        change_payment_order.open2generated()
-        change_payment_order.generated2uploaded()
-
-        assert (
-            self.env.ref(
-                "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
-            ).id
-            in change_payment_order.payment_line_ids.mapped(
-                "instruction_move_code_id"
-            ).ids
-        ), "Payment Order with wrong instruction_move_code_id"
+        self._check_order_with_write_off_code(self.invoice_cef_240)
 
     def test_payment_inbound_payment_in_cash_twice(self):
         """Pay a invoice in cash, with a payment already registred to in the bank.
         Then we must cancel the boleto at the bank, creating a movement of "BAIXA".
         :return:
         """
-        # I check that Initially customer invoice is in the "Draft" state
-        self.assertEqual(self.demo_invoice_auto.state, "draft")
-
-        # I validate invoice by creating on
-        self.demo_invoice_auto.action_post()
-
-        # I check that the invoice state is "Posted"
-        self.assertEqual(self.demo_invoice_auto.state, "posted")
-
-        # I check that now there is a move attached to the invoice
-        # assert self.demo_invoice_auto.move_id, "Move not created for open invoice"
-        inv_payment_mode_id = self.demo_invoice_auto.payment_mode_id
-        payment_order = self.env["account.payment.order"].search(
-            [("state", "=", "draft"), ("payment_mode_id", "=", inv_payment_mode_id.id)]
-        )
-        # I check creation of Payment Order
-        assert payment_order, "Payment Order not created."
-        payment_order.draft2open()
-        payment_order.open2generated()
-        payment_order.generated2uploaded()
-
-        # I pay partial Invoice
-        payment_register = Form(
-            self.env["account.payment.register"].with_context(
-                active_model="account.move",
-                active_ids=self.demo_invoice_auto.ids,
-            )
-        )
-        payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_line_id = (
-            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
-                lambda x: x.code == "manual"
-            )
-        )
-
-        # Perform the partial payment by setting the amount at 300 instead of 1000
-        payment_register.amount = 300
-
-        payment = payment_register.save()._create_payments()
+        self._run_invoice_and_order_workflow(self.invoice_cef_240)
+        payment = self._make_payment(self.invoice_cef_240, 300)
         self.assertEqual(len(payment), 1)
 
-        # I verify that invoice is now is Partial Paid state
         self.assertEqual(
-            self.demo_invoice_auto.payment_state,
+            self.invoice_cef_240.payment_state,
             "partial",
             "Invoice is not in Partial state",
         )
 
         # I totally pay the Invoice
-        payment_register = Form(
-            self.env["account.payment.register"].with_context(
-                active_model="account.move",
-                active_ids=self.demo_invoice_auto.ids,
-            )
+        payment = self._make_payment(
+            self.invoice_cef_240, self.invoice_cef_240.amount_residual
         )
-        payment_register.journal_id = self.journal_cash
-        payment_register.payment_method_line_id = (
-            self.journal_cash._get_available_payment_method_lines("inbound").filtered(
-                lambda x: x.code == "manual"
-            )
-        )
-        # Perform the partial payment by setting the amount at 700 instead of 500
-        payment_register.amount = 700
-
-        payment = payment_register.save()._create_payments()
         self.assertEqual(len(payment), 1)
-
-        # I verify that invoice is now in Paid state
         self.assertEqual(
-            self.demo_invoice_auto.payment_state,
+            self.invoice_cef_240.payment_state,
             "in_payment",
             "Invoice is not in Paid state",
         )
+        self._check_order_with_write_off_code(self.invoice_cef_240)
 
-        change_payment_order = self.env["account.payment.order"].search(
-            [("state", "=", "draft"), ("payment_mode_id", "=", inv_payment_mode_id.id)]
-        )
-
-        change_payment_order.draft2open()
-        change_payment_order.open2generated()
-        change_payment_order.generated2uploaded()
-
-        assert (
-            self.env.ref(
-                "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
-            ).id
-            in change_payment_order.payment_line_ids.mapped(
-                "instruction_move_code_id"
-            ).ids
-        ), "Payment Order with wrong instruction_move_code_id"
-
-    def test_payment_inbound_cancel_invoice_alread_registred(self):
+    def test_payment_inbound_cancel_invoice_already_registred(self):
         """Cancel the invoice with a payment that is already registred at the bank.
         For that you have to create bank movement of "BAIXA" after we cancel
         the invoice.
         :return:
         """
-        # I check that Initially customer invoice is in the "Draft" state
-        self.assertEqual(self.demo_invoice_auto.state, "draft")
+        self._run_invoice_and_order_workflow(self.invoice_cef_240)
+        self.invoice_cef_240.button_cancel()
+        self._check_order_with_write_off_code(self.invoice_cef_240)
 
-        # I validate invoice by creating on
-        self.demo_invoice_auto.action_post()
+    def test_cancel_invoice_no_payment_mode_pay(self):
+        """Test Pay Invoice without payment mode in cash"""
+        self._invoice_confirm_workflow(self.invoice_without_pay_mode)
+        self.assertEqual(self.invoice_without_pay_mode.state, "posted")
+        payment = self._make_payment(
+            self.invoice_without_pay_mode,
+            self.invoice_without_pay_mode.amount_residual,
+        )
+        self.assertEqual(len(payment), 1)
+        self.assertEqual(
+            self.invoice_without_pay_mode.payment_state,
+            "paid",
+            "Invoice is not in Paid state",
+        )
 
-        # I check that the invoice state is "Posted"
-        self.assertEqual(self.demo_invoice_auto.state, "posted")
+    def test_cancel_invoice_no_payment_mode_cancel(self):
+        """Test Cancel Invoice Without Payment Mode"""
+        self._invoice_confirm_workflow(self.invoice_without_pay_mode)
+        self.invoice_without_pay_mode.button_cancel()
+        self.assertEqual(self.invoice_without_pay_mode.state, "cancel")
 
-        # I check that now there is a move attached to the invoice
-        # assert self.demo_invoice_auto.move_id, "Move not created for open invoice"
-        inv_payment_mode_id = self.demo_invoice_auto.payment_mode_id
+    def test_get_boleto_especies_short_name(self):
+        # TODO: deveria estar sendo chamado por algum método?
+        #  Verificar ao mudar o campo o boleto Especie de Char para Objeto
+        name = get_boleto_especie_short_name("01")
+        self.assertEqual(name, "DM")
+        # Teste de Não encontrado
+        not_found = get_boleto_especie_short_name("18")
+        self.assertFalse(not_found)
+
+    def test_constrains_payment_mode(self):
+        """Test account.payment.mode Constrains methods"""
+        with self.assertRaises(ValidationError):
+            self.pay_mode_cef.write(
+                {
+                    "group_lines": True,
+                }
+            )
+
+    def test_cnab_config(self):
+        """Test CNAB Config validations"""
+        with self.assertRaises(ValidationError):
+            self.cnab_config_itau_400.cnab_sequence_id = self.cnab_seq_cef
+        with self.assertRaises(ValidationError):
+            self.cnab_config_itau_400.own_number_sequence_id = self.own_number_seq_cef
+        with self.assertRaises(ValidationError):
+            self.cnab_config_cef.boleto_discount_perc = 101
+        with self.assertRaises(ValidationError):
+            self.cnab_config_itau_400.boleto_wallet = False
+
+    def test_payment_mode_without_payment_order(self):
+        """Test Invoice when Payment Mode not generate Payment Order."""
+        self._invoice_confirm_workflow(self.invoice_cheque)
         payment_order = self.env["account.payment.order"].search(
-            [("state", "=", "draft"), ("payment_mode_id", "=", inv_payment_mode_id.id)]
+            [
+                ("state", "=", "draft"),
+                ("payment_mode_id", "=", self.invoice_cheque.payment_mode_id.id),
+            ]
         )
-        # I check creation of Payment Order
-        assert payment_order, "Payment Order not created."
-        payment_order.draft2open()
-        payment_order.open2generated()
-        payment_order.generated2uploaded()
+        self.assertEqual(len(payment_order), 0)
 
-        self.demo_invoice_auto.button_cancel()
-
-        change_payment_order = self.env["account.payment.order"].search(
-            [("state", "=", "draft"), ("payment_mode_id", "=", inv_payment_mode_id.id)]
-        )
-
-        assert change_payment_order, "Payment Order not created."
-
-        change_payment_order.draft2open()
-        change_payment_order.open2generated()
-        change_payment_order.generated2uploaded()
-
-        assert (
-            self.env.ref(
-                "l10n_br_account_payment_order.manual_test_mov_instruction_code_02"
-            ).id
-            in change_payment_order.payment_line_ids.mapped(
-                "instruction_move_code_id"
-            ).ids
-        ), "Payment Order with wrong instruction_move_code_id"
+    def test_bra_number_constrains(self):
+        """Test bra_number constrains."""
+        with self.assertRaises(UserError):
+            self.env["res.partner.bank"].create(
+                {
+                    "bank_id": self.env.ref("l10n_br_base.res_bank_033").id,
+                    "partner_id": self.partner_a.id,
+                    "bra_number": "12345",
+                }
+            )
