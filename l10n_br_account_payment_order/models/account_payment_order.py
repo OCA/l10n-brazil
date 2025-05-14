@@ -15,7 +15,6 @@ from odoo.exceptions import UserError
 
 from ..constants import (
     BR_CODES_PAYMENT_ORDER,
-    CODE_MANUAL_TEST,
     FORMA_LANCAMENTO,
     INDICATIVO_FORMA_PAGAMENTO,
     TIPO_SERVICO,
@@ -221,7 +220,7 @@ class AccountPaymentOrder(models.Model):
         alteração, baixa e etc."""
 
         self.ensure_one()
-        if self.payment_method_id.code == CODE_MANUAL_TEST:
+        if self.env.context.get("test_not_create_file"):
             return (False, False)
         else:
             return super().generate_payment_file()
