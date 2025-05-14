@@ -48,28 +48,24 @@
         <field name="name">l10n_br_cnab.config.form.view</field>
         <field name="model">l10n_br_cnab.config</field>
         <field name="arch" type="xml">
-            <form string="CNAB Code">
+            <form string="CNAB Config">
                 <sheet>
                     <group>
                         <field name="name" />
-                        <field name="bank_id" />
-                        <field name="payment_method_id" />
+                        <field name="bank_id" required="1" />
+                        <field
+                            name="payment_method_id"
+                            domain="[('code','in',('240', '400', '500'))]"
+                            required="1"
+                        />
                         <field name="comment" />
                         <field name="payment_type" invisible="1" />
-                        <field name="payment_method_id" invisible="1" />
                     </group>
                     <group>
-                        <field
-                            name="cnab_processor"
-                            attrs="{'invisible': [('cnab_processor','=',False),('payment_method_code', 'not in', ('240', '400', '500'))], 'required': [('payment_method_code', 'in', ('240', '400', '500'))]}"
-                        />
+                        <field name="cnab_processor" />
                     </group>
 
-                <group
-                        name='l10n-br-config'
-                        col="2"
-                        attrs="{'invisible': [('payment_method_code', 'not in', ('240','400', '500', 'manual_test') )]}"
-                    >
+                <group name='l10n-br-config' col="2">
                     <notebook name="l10n_br_account_payment_order" colspan="2">
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
@@ -122,7 +118,7 @@
                                 <field name="generate_own_number" />
                                 <field
                                         name="own_number_sequence_id"
-                                        attrs="{'required': [('payment_method_code', 'in', ('240', '400', '500')), ('payment_type', '==', 'inbound')]}"
+                                        attrs="{'required': [('payment_type', '==', 'inbound')]}"
                                     />
                                 <field name="boleto_wallet" />
                                 <field name="boleto_modality" />
@@ -232,11 +228,7 @@
                                 <field name="not_payment_account_id" />
                             </group>
                         </page>
-                        <page
-                                string="Configuração dos Codigos CNAB"
-                                attrs="{'invisible': [('payment_method_code', 'not in', ('240', '400', '500', 'manual_test'))]}"
-                            >
-                            <field name="bank_id" invisible="1" />
+                        <page string="Configuração dos Codigos CNAB">
                             <group
                                     name="return_move_code"
                                     string="Códigos de Retorno do Movimento"
