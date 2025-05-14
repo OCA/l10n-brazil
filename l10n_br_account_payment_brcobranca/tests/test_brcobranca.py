@@ -2,357 +2,257 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import os
 
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from odoo.addons.l10n_br_account_payment_brcobranca.tests.common import (
-    TestBrAccountPaymentOderCommon,
+    TestBRCobrancaCommon,
 )
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrder(TestBrAccountPaymentOderCommon):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
-        # Get Invoice for test
-        cls.invoice_unicred = cls.env.ref(
-            "l10n_br_account_payment_order."
-            "demo_invoice_payment_order_unicred_cnab400"
-        )
-        cls.invoice_cef = cls.env.ref(
-            "l10n_br_account_payment_order." "demo_invoice_payment_order_cef_cnab240"
-        )
-        # I validate invoice by creating on
-        cls.invoice_cef.action_post()
-        payment_order = cls.env["account.payment.order"].search(
-            [("payment_mode_id", "=", cls.invoice_cef.payment_mode_id.id)]
-        )
-        # Open payment order
-        payment_order.draft2open()
-
-        # Verifica se deve testar com o mock
-        cls._check_mocked_method(
-            cls, payment_order, "teste_remessa-cef_240-1.REM", "open2generated"
-        )
-
-        # Confirm Upload
-        payment_order.generated2uploaded()
-
-        # Move Line para alterar
-        cls.aml_to_change = cls.invoice_cef.due_line_ids[0]
-
+class TestPaymentOrder(TestBRCobrancaCommon):
     def test_banco_brasil_cnab_400(self):
         """Teste Boleto e Remessa Banco do Brasil - CNAB 400"""
-        invoice_bb_cnab_400 = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_bb_cnab400"
-        )
-        self._run_boleto_remessa(
-            invoice_bb_cnab_400, "boleto_teste_bb400.pdf", "teste_remessa_bb400.REM"
-        )
+        self._run_invoice_and_order_brcobranca(self.invoice_brasil_400)
 
     def test_banco_itau_cnab_400(self):
         """Teste Boleto e Remessa Banco Itau - CNAB 400"""
-        invoice_itau_cnab_400 = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_itau_cnab400"
-        )
-        self._run_boleto_remessa(
-            invoice_itau_cnab_400,
-            "boleto_teste_itau400.pdf",
-            "teste_remessa_itau400.REM",
-        )
+        self._run_invoice_and_order_brcobranca(self.invoice_itau_400)
 
     def test_banco_bradesco_cnab_400(self):
         """Teste Boleto e Remessa Banco Bradesco - CNAB 400"""
-        invoice_bradesco_cnab_400 = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order"
-        )
-        self._run_boleto_remessa(
-            invoice_bradesco_cnab_400,
-            "boleto_teste_bradesco400.pdf",
-            "teste_remessa_bradesco400.REM",
-        )
+        self._run_invoice_and_order_brcobranca(self.invoice_bradesco_400)
 
     def test_banco_sicred_cnab_240(self):
         """Teste Boleto e Remessa Banco SICREDI - CNAB 240"""
-        invoice_sicred_cnab_240 = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_sicredi_cnab240"
-        )
-
-        self._run_boleto_remessa(
-            invoice_sicred_cnab_240,
-            "boleto_teste_sicredi_cnab240.pdf",
-            "teste_remessa_sicredi240.REM",
-        )
+        self._run_invoice_and_order_brcobranca(self.invoice_sicredi_240)
 
     def test_banco_santander_cnab_400(self):
         """Teste Boleto e Remessa Banco Santander - CNAB 400"""
-        invoice_santander_cnab_400 = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_santander_cnab400"
-        )
-        self._run_boleto_remessa(
-            invoice_santander_cnab_400,
-            "boleto_teste_santander400.pdf",
-            "teste_remessa_santander400.REM",
-        )
+        self._run_invoice_and_order_brcobranca(self.invoice_santander_400)
 
     def test_banco_santander_cnab_240(self):
         """Teste Boleto e Remessa Banco Santander - CNAB 240"""
-        invoice_santander_cnab_240 = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_santander_cnab240"
-        )
-        self._run_boleto_remessa(
-            invoice_santander_cnab_240,
-            "boleto_teste_santander240.pdf",
-            "teste_remessa_santander240.REM",
-        )
+        self._run_invoice_and_order_brcobranca(self.invoice_santander_240)
 
     def test_bank_cnab_not_implement_brcobranca(self):
         """Test Bank CNAB not implemented in BRCobranca."""
-        invoice = self.env.ref(
-            "l10n_br_account_payment_order.demo_invoice_payment_order_itau_cnab240"
-        )
-        # I validate invoice
-        invoice.action_post()
-
-        # I check that the invoice state is "Posted"
-        self.assertEqual(invoice.state, "posted")
+        self.invoice_itau_240.action_post()
+        self.assertEqual(self.invoice_itau_240.state, "posted")
         # O Banco Itau CNAB 240 não está implementado no BRCobranca
         # por isso deve gerar erro.
-        with self.assertRaises(UserError):
-            invoice.view_boleto_pdf()
+        if not os.environ.get("CI_NO_BRCOBRANCA"):
+            with self.assertRaises(UserError):
+                self.invoice_itau_240.view_boleto_pdf()
 
     def test_payment_order_invoice_cancel_process(self):
         """Test Payment Order and Invoice Cancel process."""
 
-        payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
-        )
-
-        # Ordem de Pagto CNAB não pode ser apagada
-        with self.assertRaises(UserError):
-            payment_order.unlink()
-
-        # Ordem de Pagto CNAB não pode ser Cancelada
-        with self.assertRaises(UserError):
-            payment_order.action_done_cancel()
-
-        # Testar Cancelamento
-        self.invoice_cef.button_cancel()
-
-        # Caso de Ordem de Pagamento já confirmado a Linha
-        # e a account.move não pode ser apagadas
-        self.assertEqual(len(payment_order.payment_line_ids), 2)
-        # A partir da v13 as account.move.line relacionadas
-        # continuam exisitindo
-        self.assertEqual(len(self.invoice_cef.line_ids), 3)
-        self.assertEqual(len(self.invoice_cef.invoice_line_ids), 1)
-
-        # Criação do Pedido de Baixa
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
-        )
-
-        for line in payment_order.payment_line_ids:
-            # Caso de Baixa do Titulo
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.write_off_code_id.name,
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_brcobranca(self.invoice_cef_240)
+            payment_order = self.env["account.payment.order"].search(
+                [("payment_mode_id", "=", self.invoice_cef_240.payment_mode_id.id)]
             )
+
+            # Ordem de Pagto CNAB não pode ser apagada
+            with self.assertRaises(UserError):
+                payment_order.unlink()
+
+            # Ordem de Pagto CNAB não pode ser Cancelada
+            with self.assertRaises(UserError):
+                payment_order.action_done_cancel()
+
+            # Testar Cancelamento
+            self.invoice_cef_240.button_cancel()
+
+            # Caso de Ordem de Pagamento já confirmado a Linha
+            # e a account.move não pode ser apagadas
+            self.assertEqual(len(payment_order.payment_line_ids), 2)
+            # A partir da v13 as account.move.line relacionadas continuam existindo
+            self.assertEqual(len(self.invoice_cef_240.line_ids), 3)
+            self.assertEqual(len(self.invoice_cef_240.invoice_line_ids), 1)
+
+            # Criação do Pedido de Baixa
+            self._check_order_with_write_off_code(self.invoice_cef_240)
 
     def test_payment_outside_cnab_writeoff_and_change_tittle_value(self):
         """
         Caso de Pagamento com CNAB já iniciado sendo necessário fazer a Baixa
         de uma Parcela e a Alteração de Valor de Titulo por pagto parcial.
         """
-        self._make_payment(self.invoice_cef, 600)
-        # Ordem de PAgto com alterações
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
-        )
-        for line in payment_order.payment_line_ids:
-            if line.amount_currency == 300:
-                # Caso de Baixa do Titulo
-                self.assertEqual(
-                    line.instruction_move_code_id.name,
-                    line.order_id.cnab_config_id.write_off_code_id.name,
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_brcobranca(self.invoice_cef_240)
+            self._make_payment(self.invoice_cef_240, 600)
+            payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+            for line in payment_order.payment_line_ids:
+                if line.amount_currency == 300:
+                    # Caso de Baixa do Titulo
+                    self.assertEqual(
+                        line.instruction_move_code_id,
+                        line.order_id.cnab_config_id.write_off_code_id,
+                    )
+                else:
+                    # Caso de alteração do valor do titulo por pagamento parcial
+                    self.assertEqual(
+                        line.instruction_move_code_id,
+                        line.order_id.cnab_config_id.change_title_value_code_id,
+                    )
+                    self.assertEqual(
+                        line.move_line_id.amount_residual, line.amount_currency
+                    )
+
+    def test_cnab_workflow_with_multiple_instructions(self):
+        """
+        Test sending multiple CNAB Instructions Code
+        """
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_brcobranca(self.invoice_cef_240)
+            for change in self.changes_to_sending:
+                self._send_new_cnab_instruction_code(
+                    self.invoice_cef_240,
+                    change.get("change_to_send"),
+                    change.get("code_to_check"),
+                    test_not_create_file=False,
                 )
-            else:
-                # Caso de alteração do valor do titulo por pagamento parcial
-                self.assertEqual(
-                    line.instruction_move_code_id.name,
-                    line.order_id.cnab_config_id.change_title_value_code_id.name,
-                )
-                self.assertEqual(
-                    line.move_line_id.amount_residual, line.amount_currency
-                )
-
-    def test_cnab_change_due_date(self):
-        """
-        Test CNAB Change Due Date
-        """
-        self._send_new_cnab_code(self.aml_to_change, "change_date_maturity")
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-2-data_venc.REM",
-            self.invoice_cef.cnab_config_id.change_maturity_date_code_id,
-        )
-
-    def test_cnab_protest(self):
-        """
-        Test CNAB Protesto
-        """
-        self._send_new_cnab_code(self.aml_to_change, "protest_tittle")
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-3-protesto.REM",
-            self.invoice_cef.cnab_config_id.protest_title_code_id,
-        )
-
-    def test_cnab_suspend_protest_and_keep_wallet(self):
-        """
-        Test CNAB Suspend Protest and Keep Wallet
-        """
-        self._send_new_cnab_code(self.aml_to_change, "suspend_protest_keep_wallet")
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-4-sust_prot_mant_carteira.REM",
-            self.invoice_cef.cnab_config_id.suspend_protest_keep_wallet_code_id,
-        )
-
-    def test_cnab_grant_rebate(self):
-        """
-        Test CNAB Grant Rebate
-        """
-        self._send_new_cnab_code(self.aml_to_change, "grant_rebate")
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-5-conceder_abatimento.REM",
-            self.invoice_cef.cnab_config_id.grant_rebate_code_id,
-        )
-
-    def test_cnab_cancel_rebate(self):
-        """
-        Test CNAB Cancel Rebate
-        """
-        self._send_new_cnab_code(self.aml_to_change, "cancel_rebate")
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-6-cancelar_abatimento.REM",
-            self.invoice_cef.cnab_config_id.cancel_rebate_code_id,
-        )
-
-    def test_cnab_grant_discount(self):
-        """
-        Test CNAB Grant Discount
-        """
-        self._send_new_cnab_code(self.aml_to_change, "grant_discount")
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-7-conceder_desconto.REM",
-            self.invoice_cef.cnab_config_id.grant_discount_code_id,
-        )
-
-    def test_cnab_cancel_discount(self):
-        """
-        Test CNAB Cancel Discount
-        """
-        self._send_new_cnab_code(self.aml_to_change, "cancel_discount")
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-8-cancelar_desconto.REM",
-            self.invoice_cef.cnab_config_id.cancel_discount_code_id,
-        )
-        # Suspender Protesto e dar Baixa
-        # TODO: Especificar melhor esse caso
 
     def test_cnab_change_method_not_payment(self):
         """
         Test CNAB Change Method Not Payment
         """
-        self._send_new_cnab_code(self.aml_to_change, "not_payment")
-        self.assertEqual(self.aml_to_change.payment_situation, "nao_pagamento")
-        self.assertEqual(self.aml_to_change.cnab_state, "done")
-        self.assertEqual(self.aml_to_change.reconciled, True)
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
-        )
-        for line in payment_order.payment_line_ids:
-            # Baixa do Titulo
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.write_off_code_id.name,
-            )
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_brcobranca(self.invoice_cef_240)
+            aml_to_change = self.invoice_cef_240.due_line_ids[0]
+            self._send_new_cnab_code(aml_to_change, "not_payment")
+            self.assertEqual(aml_to_change.payment_situation, "nao_pagamento")
+            self.assertEqual(aml_to_change.cnab_state, "done")
+            self.assertEqual(aml_to_change.reconciled, True)
+            self._check_order_with_write_off_code(self.invoice_cef_240)
 
-    def test_payment(self):
+    def test_make_payment_outside_cnab(self):
         """
         Caso de Pagamento com CNAB
         """
-        self._make_payment(self.invoice_cef, 100)
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_brcobranca(self.invoice_cef_240)
+            self._make_payment(self.invoice_cef_240, 100)
+            payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+            for line in payment_order.payment_line_ids:
+                self.assertEqual(
+                    line.instruction_move_code_id.name,
+                    self.cnab_config_cef.change_title_value_code_id.name,
+                )
+            self._run_payment_order_workflow(payment_order, False)
 
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-9-alt_valor_titulo.REM",
-            self.invoice_cef.cnab_config_id.change_title_value_code_id,
-        )
+            self._make_payment(self.invoice_cef_240, 100)
+            payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+            for line in payment_order.payment_line_ids:
+                # Caso de alteração do valor do titulo por pagamento parcial
+                self.assertEqual(
+                    line.instruction_move_code_id,
+                    line.order_id.cnab_config_id.change_title_value_code_id,
+                )
+                self.assertEqual(
+                    line.move_line_id.amount_residual, line.amount_currency
+                )
 
-        self._make_payment(self.invoice_cef, 100)
-        # Ordem de PAgto com alterações
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
-        )
+            self._run_payment_order_workflow(payment_order, False)
+            for line in payment_order.payment_line_ids:
+                self.assertEqual(
+                    line.move_line_id.amount_residual, line.amount_currency
+                )
 
-        for line in payment_order.payment_line_ids:
-            # Caso de alteração do valor do titulo por pagamento parcial
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.change_title_value_code_id.name,
+            # Perform the payment of Amount Residual to Write Off
+            self._make_payment(
+                self.invoice_cef_240, self.invoice_cef_240.amount_residual
             )
-            self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
-        # Ordem de PAgto com alterações
-        self._run_remessa(
-            self.invoice_cef,
-            "teste_remessa-cef_240-10-alt_valor_titulo.REM",
-            self.invoice_cef.cnab_config_id.change_title_value_code_id,
-            check_amount=True,
-        )
+            # Ordem de Pagto com alterações
+            payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+            self._check_order_with_write_off_code(self.invoice_cef_240)
 
-        # Perform the payment of Amount Residual to Write Off
-        self._make_payment(self.invoice_cef, self.invoice_cef.amount_residual)
+    def test_1_unicred_cnab400_valor_menor(self):
+        """
+        Test UNICRED CNAB 400 'Boleto, Arquivo de Remessa' and import two 'Arquivo
+        de Retorno' the first to Confirm the CNAB Instruction, only generate a LOG,
+        and the second for generate the Payment when the received Value are less
+        than Debit in Odoo.
+        """
 
-        # Ordem de PAgto com alterações
-        payment_order = self.env["account.payment.order"].search(
-            [
-                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
-                ("state", "=", "draft"),
-            ]
-        )
-        for line in payment_order.payment_line_ids:
-            # Baixa do Titulo
-            self.assertEqual(
-                line.instruction_move_code_id.name,
-                line.order_id.cnab_config_id.write_off_code_id.name,
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_workflow(self.invoice_unicred_400_1)
+            log = self._run_import_return_file(
+                "CNAB400UNICRED_valor_menor_1.RET",
+                self.journal_unicred,
             )
-            # TODO: Pedido de Baixa está indo com o valor inicial deveria ser
-            #  o ultimo valor enviado ? Já que é um Pedido de Baixa o Banco
-            #  validaria essas atualizações ?
-            #  l.move_line_id.amount_residual = 0.0
-            #  l.amount_currency = 300
-            # self.assertEqual(
-            #    l.move_line_id.amount_residual,
-            #    l.amount_currency)
+
+            self.assertEqual("Banco UNICRED - Conta 372", log.name)
+
+            # Importando o segundo arquivo que gera o Pagamento
+            moves = self._run_import_return_file(
+                "CNAB400UNICRED_valor_menor_2.RET",
+                self.journal_unicred,
+            )
+
+            self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 372", moves.ref)
+            self.assertEqual(self.invoice_unicred_400_1.payment_state, "paid")
+
+    def test_2_unicred_cnab400_valor_maior(self):
+        """
+        Test UNICRED CNAB 400 'Boleto, Arquivo de Remessa' and import two 'Arquivo
+        de Retorno' the first to Confirm the CNAB Instruction, only generate a LOG,
+        and the second for generate the Payment when the received Value are greater
+        than Debit in Odoo.
+        """
+
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_brcobranca(self.invoice_unicred_400_2)
+            log = self._run_import_return_file(
+                "CNAB400UNICRED_valor_maior_3.RET",
+                self.journal_unicred,
+            )
+
+            self.assertEqual("Banco UNICRED - Conta 372", log.name)
+
+            # Importação do Arquivo que Gera Pagamento
+            moves = self._run_import_return_file(
+                "CNAB400UNICRED_valor_maior_4.RET",
+                self.journal_unicred,
+            )
+            self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 372", moves.ref)
+            self.assertEqual(self.invoice_unicred_400_2.payment_state, "paid")
+
+    def test_3_ailos_cnab_240(self):
+        """
+        Test AILOS CNAB 240 'Boleto, Arquivo de Remessa' and import one
+        'Arquivo de Retorno' for generate the Payment.
+        """
+
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_brcobranca(self.invoice_ailos_240)
+            moves = self._run_import_return_file(
+                "CNAB240AILOS.RET",
+                self.journal_ailos,
+            )
+            self.assertEqual(
+                "Retorno CNAB - Banco COOP CENTRAL AILOS - Conta 374", moves.ref
+            )
+            self.assertEqual(self.invoice_ailos_240.payment_state, "paid")
+
+    def test_5_nordeste_cnab_400(self):
+        """
+        Test import Nordeste Bank CNAB 400, the case has different 'Return Code'
+        for refused 'Instruction Code'.
+        """
+
+        if not self._check_ci_no_brcobranca():
+            self._run_invoice_and_order_brcobranca(self.invoice_nordeste_400)
+            log = self._run_import_return_file(
+                "CNAB400NORDESTE.RET",
+                self.journal_nordeste,
+            )
+            for line in log.event_ids:
+                self.assertEqual("51-Entrada Rejeitada.", line.occurrences)
+                self.assertEqual("not_accepted", line.move_line_id.cnab_state)
