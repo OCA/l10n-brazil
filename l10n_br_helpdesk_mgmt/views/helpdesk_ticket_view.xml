@@ -1,0 +1,14 @@
+<odoo>
+    <record id="l10n_br_helpdesk_mgmt_ticket_view_search" model="ir.ui.view">
+        <field name="name">l10n_br_helpdesk_mgmt.ticket.view.search</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.helpdesk_ticket_view_search" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="legal_name" />
+                <field name="cnpj_cpf" />
+                <field name="inscr_est" />
+            </field>
+        </field>
+    </record>
+</odoo>
