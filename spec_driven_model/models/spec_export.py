@@ -246,6 +246,6 @@ class SpecMixinExport(models.AbstractModel):
         sliced_kwargs = {
             key: kwargs.get(key)
             for key in binding_class.__dataclass_fields__.keys()
-            if kwargs.get(key)
+            if kwargs.get(key) is not None
         }
         return binding_class(**sliced_kwargs)
