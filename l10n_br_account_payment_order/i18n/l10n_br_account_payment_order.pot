@@ -929,7 +929,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_code_search_view
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "CNAB Code"
 msgstr ""
 
@@ -943,6 +942,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_config_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__cnab_config_id
 #: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_config
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_search_view
 msgid "CNAB Config"
 msgstr ""
