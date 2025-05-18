@@ -49,7 +49,7 @@ class PurchaseOrder(spec_models.StackedModel):
     poxsd10_confirmDate = fields.Date(related="date_approve", string="POXSD Approval Date")
     poxsd10_shipTo = fields.Many2one(related="dest_address_id", readonly=False)
     poxsd10_billTo = fields.Many2one(related="partner_id", readonly=False)
-    poxsd10_item = fields.One2many(related="order_line", relation_field="order_id")
+    poxsd10_item = fields.One2many(related="order_line")
 
     def _compute_date(self):
         """
