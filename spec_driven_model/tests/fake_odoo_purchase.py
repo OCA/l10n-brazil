@@ -53,7 +53,6 @@ class PurchaseOrder(models.Model):
         index=True,
         copy=False,
         default="draft",
-        tracking=True,
     )
 
     order_line = fields.One2many(
