@@ -281,10 +281,6 @@ class StackedModel(SpecModel):
         2. It is also useful to generate an automatic view of the spec fields.
         3. Finally it is used when exporting as XML.
         """
-        # We are removing the description of the node
-        # to avoid translations error
-        # https://github.com/OCA/l10n-brazil/pull/1272#issuecomment-821806603
-        node._description = None
         if path is None:
             path = stacking_settings["stacking_mixin"].split(".")[-1]
         cls._map_concrete(env.cr.dbname, node._name, cls._name, quiet=True)
