@@ -11,4 +11,14 @@
             </field>
         </field>
     </record>
+    <record id="l10n_br_helpdesk_mgmt_ticket_view_form" model="ir.ui.view">
+        <field name="name">l10n_br_helpdesk_mgmt.ticket.view.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk_mgmt.ticket_view_form" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="cnpj_cpf" />
+            </field>
+        </field>
+    </record>
 </odoo>
