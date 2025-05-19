@@ -164,11 +164,6 @@ msgid "File Name"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_attachment
 msgid "Fiscal Document Attachment"
 msgstr ""
@@ -234,6 +229,11 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__imported_document_ids
 msgid "Imported Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
