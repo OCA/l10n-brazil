@@ -1746,20 +1746,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__document_id
 msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_line
-msgid "Fiscal Document Line"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_related
-msgid "Fiscal Document Related"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1882,6 +1871,13 @@ msgid "Grupo YA. Informações de Pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_line
+msgid ""
+"Grupo a ser informado nas vendas interestarduais para consumidor final,\n"
+"não contribuinte de ICMS"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_detpag__nfe40_card
 msgid "Grupo de Cartões, PIX"
 msgstr ""
@@ -1939,6 +1935,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_obsitem__nfe40_obsCont
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_obsitem__nfe40_obsFisco
 msgid "Grupo de observações de uso livre (para o item da NF-e)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_related
+msgid "Grupo do Cupom Fiscal vinculado à NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2551,6 +2552,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_compra
 msgid "Informações de compras (Nota de Empenho, Pedido e Contrato)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_nfe
