@@ -476,6 +476,7 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tctesimp_obsfisco
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tgtve_obscont
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tgtve_obsfisco
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_comment
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_compl__cte40_obsCont
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_compl__cte40_obsFisco
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_compl__cte40_obsCont
@@ -2446,26 +2447,6 @@ msgid "Ferrovia de origem"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_comment
-msgid "Fiscal Comment"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_line
-msgid "Fiscal Document Line"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_related
-msgid "Fiscal Document Related"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_type
 msgid "Fiscal Document Type"
 msgstr ""
@@ -2595,6 +2576,13 @@ msgid "GO"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_line
+msgid ""
+"Grupo a ser informado nas vendas interestarduais para consumidor final,\n"
+"não contribuinte de ICMS"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_infPAA
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infPAA
 msgid "Grupo de Informação do Provedor"
@@ -2684,6 +2672,11 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_cte_40_infveiculo
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_detgtv__cte40_infVeiculo
 msgid "Grupo de informações dos veículos utilizados no transporte de valores"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_related
+msgid "Grupo do Cupom Fiscal vinculado à NF-e"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3309,6 +3302,11 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tcteos_seg
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infctenorm__cte40_seg
 msgid "Informações de Seguro da Carga"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_cte
