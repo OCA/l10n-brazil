@@ -235,6 +235,11 @@ class AccountMove(models.Model):
         if view_type == "form":
             view = self.env["ir.ui.view"]
 
+            for tax_totals_node in arch.xpath(
+                "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
+            ):
+                tax_totals_node.set("attrs", "{'invisible': True}")
+
             if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
                 invoice_line_form_id = self.env.ref(
                     "l10n_br_account.fiscal_invoice_line_form"
@@ -259,12 +264,6 @@ class AccountMove(models.Model):
                     self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
                 for sub_form_node in arch.xpath("//field[@name='line_ids']/tree"):
                     self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
-                    # TODO kanban??
-        #                for sub_form_node in arch.xpath(
-        #                   "//field[@name='line_ids']/kanban"):
-        #                    self.env["account.move.line"].inject_fiscal_fields(
-        #                       sub_form_node)
-        #
 
         return arch, view
 
