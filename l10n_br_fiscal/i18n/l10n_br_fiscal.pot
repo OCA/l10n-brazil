@@ -1625,6 +1625,13 @@ msgid "CX50"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_comment
+msgid ""
+"Campo de uso livre do contribuinte\n"
+"Informar o nome do campo no atributo xCampo e o conteúdo do campo no XTexto"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__cancelada
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_email__state_edoc__cancelada
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__cancelada
@@ -2959,11 +2966,6 @@ msgid "Fiscal Base Wizard Mixin"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_comment
-msgid "Fiscal Comment"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_data_abstract
 msgid "Fiscal Data Abstract"
 msgstr ""
@@ -2980,7 +2982,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_type_action
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__document_type_id
@@ -3012,7 +3013,6 @@ msgid "Fiscal Document Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_comment__object__l10n_br_fiscal_document_line_mixin
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_comment__object_id__l10n_br_fiscal_document_line_mixin
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
@@ -3026,7 +3026,6 @@ msgid "Fiscal Document Mixin Methods"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_related
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_related_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_related_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_related_form
@@ -3396,6 +3395,18 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_pis_cofins_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_search
 msgid "Group By..."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line
+msgid ""
+"Grupo a ser informado nas vendas interestarduais para consumidor final,\n"
+"não contribuinte de ICMS"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_related
+msgid "Grupo do Cupom Fiscal vinculado à NF-e"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5116,6 +5127,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__industry_type
 msgid "Industry Type"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_fiscal
