@@ -64,6 +64,12 @@ class PurchaseOrder(models.Model):
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
+        if self.env.company.country_id.code != "BR":
+            return arch, view
+        for tax_totals_node in arch.xpath(
+            "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
+        ):
+            tax_totals_node.set("attrs", "{'invisible': True}")
         arch = self.env["purchase.order.line"].inject_fiscal_fields(arch)
         return arch, view
 
