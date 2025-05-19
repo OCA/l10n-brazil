@@ -56,6 +56,7 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
     def setUpClass(cls, chart_template_ref=None):
         def instantiate(cls):
             instantiate_accountman(cls)
+            cls.env["res.lang"]._activate_lang("en_US")
             cls.user.lang = "en_US"
 
         common.instantiate_accountman = instantiate
