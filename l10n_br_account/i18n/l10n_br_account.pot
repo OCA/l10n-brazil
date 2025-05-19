@@ -2412,7 +2412,6 @@ msgid "Fiscal Deductions"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_document_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_document_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_document_id
@@ -2420,7 +2419,6 @@ msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_line
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_document_line_id
 msgid "Fiscal Document Line"
 msgstr ""
@@ -2695,6 +2693,13 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_gross
 msgid "Gross Product/Service Amount"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_line
+msgid ""
+"Grupo a ser informado nas vendas interestarduais para consumidor final,\n"
+"não contribuinte de ICMS"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3800,6 +3805,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_compra
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_compra
 msgid "Informações de compras  (Nota de Empenho, Pedido e Contrato)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_account
