@@ -209,11 +209,6 @@ msgid "Fiscal Closing Period"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model,name:l10n_br_fiscal_closing.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__raiz
 msgid "Folder structure path"
 msgstr ""
@@ -304,6 +299,11 @@ msgstr ""
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__include_pdf_file
 msgid "Include PDF files"
+msgstr ""
+
+#. module: l10n_br_fiscal_closing
+#: model:ir.model,name:l10n_br_fiscal_closing.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
