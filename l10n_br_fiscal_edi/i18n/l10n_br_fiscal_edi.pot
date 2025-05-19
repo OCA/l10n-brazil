@@ -416,7 +416,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
-#: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__document_id
@@ -526,6 +525,11 @@ msgstr ""
 msgid ""
 "In asynchronous processing, a lot receipt number is generated, which is used"
 " for later consultation."
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
