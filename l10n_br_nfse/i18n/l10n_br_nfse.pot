@@ -284,18 +284,15 @@ msgid "Fiscal Deductions"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
+msgid "General Settings"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document_line
-msgid "Fiscal Document Line"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
-msgid "General Settings"
+msgid ""
+"Grupo a ser informado nas vendas interestarduais para consumidor final,\n"
+"não contribuinte de ICMS"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -327,6 +324,11 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Incentivador Cultural: 2 - Não"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_nfse
