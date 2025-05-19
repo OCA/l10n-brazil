@@ -105,12 +105,16 @@ class SaleOrder(models.Model):
         for order in self:
             order._compute_fiscal_amount()
 
-    # TODO v16 override _compute_tax_totals ?
-
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
+        if self.env.company.country_id.code != "BR":
+            return arch, view
         arch = self.env["sale.order.line"].inject_fiscal_fields(arch)
+        for tax_totals_node in arch.xpath(
+            "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
+        ):
+            tax_totals_node.set("attrs", "{'invisible': True}")
         return arch, view
 
     @api.onchange("fiscal_operation_id")
