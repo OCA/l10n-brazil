@@ -2132,16 +2132,6 @@ msgid "Final State"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_related
-msgid "Fiscal Document Related"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_type
 msgid "Fiscal Document Type"
 msgstr ""
@@ -2303,6 +2293,11 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_infTermDescarreg
 msgid "Grupo de informações dos terminais de descarregamento."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_related
+msgid "Grupo do Cupom Fiscal vinculado à NF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2806,6 +2801,11 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_mdfe_modal_aquaviario_transporte_vazio
 msgid "Informações de Transporte Vazio no Modal Aquaviário MDFe"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_mdfe
