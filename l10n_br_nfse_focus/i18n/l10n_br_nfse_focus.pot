@@ -51,11 +51,6 @@ msgid "Error communicating with NFSe service: %s"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
-#: model:ir.model,name:l10n_br_nfse_focus.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_nfse_focus
 #: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse
 msgid "FocusNFE NFSE"
 msgstr ""
@@ -94,6 +89,11 @@ msgstr ""
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
 msgid "HTTP status is 200 or 400 but unable to read json['status']"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
