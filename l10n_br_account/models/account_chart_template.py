@@ -1,7 +1,11 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+import logging
+
+from odoo import _, models
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountChartTemplate(models.Model):
@@ -41,28 +45,65 @@ class AccountChartTemplate(models.Model):
             self.load_fiscal_taxes()
         return account_ref, taxes_ref
 
-    def load_fiscal_taxes(self):
+    def load_fiscal_taxes(self, companies=None):
         """
+        Create missing account.tax for Brazil.
+        Add missing account.account for the Brazilian taxes.
         Relate account taxes with fiscal taxes to enable the Brazilian
         tax engine to kick in with the installed chart of account.
         """
         for coa_tpl in self:
-            companies = self.env["res.company"].search(
-                [("chart_template_id", "=", coa_tpl.id)]
-            )
+            if companies is None:
+                companies = self.env["res.company"].search(
+                    [("chart_template_id", "=", coa_tpl.id)]
+                )
 
             for company in companies:
+                tpl_xmlid = coa_tpl.get_external_id()[coa_tpl.id]
+                if tpl_xmlid not in (  # we could simplify the data of these templates
+                    "l10n_br_coa_simple.l10n_br_coa_simple_chart_template",
+                    "l10n_br_coa_generic.l10n_br_coa_generic",
+                ):
+                    # 1. is there some account.tax to create from tax template?
+                    todo_tax_templates = self.env["account.tax.template"]
+                    for tax_template in self.env["account.tax.template"].search([]):
+                        ref = tax_template.get_external_id()[tax_template.id]
+                        module, name = ref.split(".", 1)
+                        xml_id = f"{module}.{company.id}_{name}"
+                        tax = self.env.ref(xml_id, raise_if_not_found=False)
+                        if tax is None:
+                            todo_tax_templates |= tax_template
+                    todo_tax_templates._generate_tax(company)
+
+                    # 2. ensure the CoA has the minimal tax accounts
+                    _logger.info(
+                        _(
+                            "Company %(company_name)s: generated taxes for "
+                            "%(templates)s. "
+                            "Will now populate default tax accounts for Brazil...",
+                            company_name=company.name,
+                            templates=todo_tax_templates.mapped("name"),
+                        )
+                    )
+                    self._populate_default_br_tax_accounts(company)
+
+                # 3. link l10n_br_fiscal.tax records so the tax engine can kick in
                 taxes = self.env["account.tax"].search(
                     [("company_id", "=", company.id)]
                 )
-
                 for tax in taxes:
                     if tax.get_external_id():
                         tax_ref = tax.get_external_id().get(tax.id)
                         ref_module, ref_name = tax_ref.split(".")
                         ref_name = ref_name.replace(str(company.id) + "_", "")
                         template_source_ref = ".".join(["l10n_br_coa", ref_name])
-                        template_source = self.env.ref(template_source_ref)
+                        template_source = self.env.ref(
+                            template_source_ref, raise_if_not_found=False
+                        )
+                        if (
+                            not template_source
+                        ):  # can happen if CoA had non template taxes
+                            continue
                         tax_source_ref = ".".join([ref_module, ref_name])
                         tax_template = self.env.ref(tax_source_ref)
                         tax.fiscal_tax_ids = (
