@@ -2,18 +2,35 @@
 # Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
+
 from odoo import Command, fields
 from odoo.tests.common import tagged
 
 from .common import AccountMoveBRCommon
+
+_logger = logging.getLogger(__name__)
 
 
 # flake8: noqa: F841
 @tagged("post_install", "-at_install")
 class AccountMoveLucroPresumido(AccountMoveBRCommon):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpClass(
+        cls, chart_template_ref="l10n_br_coa_generic.l10n_br_coa_generic_template"
+    ):
+        try:
+            super().setUpClass(chart_template_ref=chart_template_ref)
+            _logger.info(f"using {chart_template_ref}")
+        except ValueError:
+            _logger.info(
+                f"it seems {chart_template_ref} is not available, "
+                "falling back to l10n_generic_coa.configurable_chart_template."
+            )
+            super().setUpClass()
+            cls.company_data["company"].chart_template_id.sudo().load_fiscal_taxes(
+                companies=[cls.company_data["company"]]
+            )
 
         cls.configure_normal_company_taxes()
 
@@ -115,10 +132,10 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         if company_name == "company_1_data":
             company_name = "empresa 1 Lucro Presumido"
             cnpj = "62.128.834/0001-34"
-        else:
+        elif company_name == "company_2_data":
             company_name = "empresa 2 Lucro Presumido"
             cnpj = "87.396.251/0001-15"
-        chart_template = cls.env.ref("l10n_br_coa_generic.l10n_br_coa_generic_template")
+
         res = super().setup_company_data(
             company_name,
             chart_template,
@@ -135,7 +152,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         )
         res["company"].partner_id.state_id = cls.env.ref("base.state_br_sp").id
         res["company"].partner_id.cnpj_cpf = cnpj
-        chart_template.load_fiscal_taxes()
         return res
 
     def test_venda_fiscal_lines(self):
@@ -330,7 +346,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "amount_tax": 32.5,
             "amount_total": 1032.5,
         }
-
         self.assertInvoiceValues(
             self.move_out_venda,
             [
@@ -1397,7 +1412,15 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_cofins = {
             "name": "COFINS RET",
             "product_id": False,
-            "account_id": self.product_a.property_account_income_id.id,
+            "account_id": self.env["account.account"]
+            .search(
+                [
+                    ("name", "=", "COFINS a Compensar"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
+            .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -1500,7 +1523,15 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_pis = {
             "name": "PIS RET",
             "product_id": False,
-            "account_id": self.product_a.property_account_income_id.id,
+            "account_id": self.env["account.account"]
+            .search(
+                [
+                    ("name", "=", "PIS a Compensar"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
+            .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -1595,7 +1626,15 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_cofins = {
             "name": "COFINS RET",
             "product_id": False,
-            "account_id": self.product_a.property_account_income_id.id,
+            "account_id": self.env["account.account"]
+            .search(
+                [
+                    ("name", "=", "COFINS a Compensar"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
+            .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
@@ -1698,7 +1737,15 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         tax_line_vals_pis = {
             "name": "PIS RET",
             "product_id": False,
-            "account_id": self.product_a.property_account_income_id.id,
+            "account_id": self.env["account.account"]
+            .search(
+                [
+                    ("name", "=", "PIS a Compensar"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
+            .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
             "quantity": False,
