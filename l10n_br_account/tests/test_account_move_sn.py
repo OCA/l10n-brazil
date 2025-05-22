@@ -53,9 +53,11 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             company_name = "empresa 1 Simples Nacional"
         else:
             company_name = "empresa 2 Simples Nacional"
-        chart_template = cls.env.ref(
-            "l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
-        )
+
+        # tests should run both with l10n_generic_coa and
+        # chart_template = cls.env.ref(
+        #     "l10n_br_coa_generic.l10n_br_coa_simple"
+        # )
         res = super().setup_company_data(
             company_name,
             chart_template,
@@ -73,7 +75,6 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             annual_revenue=815000.0,
             **kwargs,
         )
-        chart_template.load_fiscal_taxes()
         return res
 
     def test_company_sn_config(self):
@@ -126,7 +127,7 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "account_id": self.env["account.account"]
             .search(
                 [
-                    ("name", "=", "ICMS a Recolher"),
+                    ("name", "=", "ICMS SN a Recolher"),
                     ("company_id", "=", self.company_data["company"].id),
                 ],
                 limit=1,

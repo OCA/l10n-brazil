@@ -15,14 +15,17 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
 
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref)
+        super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        # super().setUpClass() would duplicate some random IPI tax
-        # we need to delete these duplicates to avoid errors:
-        cls.tax_sale_b.unlink()
-        cls.tax_purchase_b.unlink()
+
+        # Remove default Odoo demo taxes if they conflict or are not needed
+        if hasattr(cls, "tax_sale_b") and cls.tax_sale_b.exists():
+            cls.tax_sale_b.unlink()
+        if hasattr(cls, "tax_purchase_b") and cls.tax_purchase_b.exists():
+            cls.tax_purchase_b.unlink()
 
         cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
+
         cls.product_a.write(
             {
                 "default_code": "prod_a",
@@ -162,34 +165,58 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
 
     @classmethod
     def setup_company_data(cls, company_name, chart_template=None, **kwargs):
-        """
-        You might want to override it to force a single chart_template.
-        The default behavior here is to load one for the SN and another for the LC.
-        """
-        cnpj_cpf = kwargs.get("cnpj_cpf", "")
-        if company_name == "company_2_data":
-            company_name = "empresa 2 Simples Nacional"
-            chart_template = cls.env.ref(
-                "l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
+        # Determine company specifics for LC vs SN for kwargs
+        if "Lucro Presumido" in company_name:
+            kwargs.update(
+                {
+                    "tax_framework": "3",
+                    "profit_calculation": "presumed",
+                    "ripi": True,
+                    "piscofins_id": cls.env.ref(
+                        "l10n_br_fiscal.tax_pis_cofins_columativo"
+                    ).id,
+                    "icms_regulation_id": cls.env.ref(
+                        "l10n_br_fiscal.tax_icms_regulation"
+                    ).id,
+                }
             )
-            cnpj_cpf = "30.360.463/0001-25"
-        elif company_name == "company_1_data":
-            company_name = "empresa 1 Lucro Presumido"
-            chart_template = cls.env.ref(
-                "l10n_br_coa_generic.l10n_br_coa_generic_template"
+        elif "Simples Nacional" in company_name:
+            kwargs.update(
+                {
+                    "tax_framework": "1",
+                    "coefficient_r": False,  # Example
+                    "ripi": True,
+                    "piscofins_id": cls.env.ref(
+                        "l10n_br_fiscal.tax_pis_cofins_simples_nacional"
+                    ).id,
+                    "tax_ipi_id": cls.env.ref("l10n_br_fiscal.tax_ipi_outros").id,
+                    "tax_icms_id": cls.env.ref(
+                        "l10n_br_fiscal.tax_icms_sn_com_credito"
+                    ).id,
+                    "annual_revenue": 815000.0,
+                }
             )
-            cnpj_cpf = "18.751.708/0001-40"
 
         kwargs.update(
             {
                 "country_id": cls.env.ref("base.br").id,
                 "currency_id": cls.env.ref("base.BRL").id,
-                "is_industry": True,
-                "cnpj_cpf": cnpj_cpf,
-                "state_id": cls.env.ref("base.state_br_sp").id,
+                "is_industry": True,  # Assuming this for tests
+                "cnae_main_id": cls.env.ref(
+                    "l10n_br_fiscal.cnae_3101200"
+                ).id,  # Example
+                "document_type_id": cls.env.ref(
+                    "l10n_br_fiscal.document_55"
+                ).id,  # Example
             }
         )
-        return super().setup_company_data(company_name, chart_template, **kwargs)
+
+        company_data_dict = super().setup_company_data(
+            company_name, chart_template=chart_template, **kwargs
+        )
+        company = company_data_dict["company"]
+        company.chart_template_id.sudo().load_fiscal_taxes(companies=[company])
+        return company_data_dict
 
     @classmethod
     def configure_normal_company_taxes(cls):
