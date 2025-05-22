@@ -15,8 +15,12 @@ class AccountTaxTemplate(models.Model):
         string="Fiscal Taxes",
     )
 
-    def _generate_tax(self, company):
-        mapping = super()._generate_tax(company)
+    def _generate_tax(
+        self, company, accounts_exist=False, existing_template_to_tax=None
+    ):
+        mapping = super()._generate_tax(
+            company, accounts_exist, existing_template_to_tax
+        )
         taxes_template = mapping.get("tax_template_to_tax").keys()
 
         for tax_template in taxes_template:
