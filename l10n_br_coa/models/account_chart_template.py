@@ -57,80 +57,31 @@ class AccountChartTemplate(models.Model):
                 ].search(domain)
                 if group_tax_account_template:
                     if tax.deductible:
-                        account_id = group_tax_account_template.ded_account_id
-                        refund_account_id = (
+                        account = group_tax_account_template.ded_account_id
+                        refund_account = (
                             group_tax_account_template.ded_refund_account_id
                         )
                     elif tax.withholdable:
                         if tax.type_tax_use == "purchase":
-                            account_id = group_tax_account_template.account_id
-                            refund_account_id = (
+                            account = group_tax_account_template.account_id
+                            refund_account = (
                                 group_tax_account_template.refund_account_id
                             )
                         else:
-                            account_id = False
-                            refund_account_id = False
+                            account = False
+                            refund_account = False
                     else:
-                        account_id = group_tax_account_template[
+                        account = group_tax_account_template[
                             acc_names.get(tax.type_tax_use, {}).get("account_id")
                         ]
-                        refund_account_id = group_tax_account_template[
+                        refund_account = group_tax_account_template[
                             acc_names.get(tax.type_tax_use, {}).get("refund_account_id")
                         ]
 
-                    tax.write(
-                        {
-                            "invoice_repartition_line_ids": [
-                                (5, 0, 0),
-                                (
-                                    0,
-                                    0,
-                                    {
-                                        "factor_percent": 100,
-                                        "repartition_type": "base",
-                                    },
-                                ),
-                                (
-                                    0,
-                                    0,
-                                    {
-                                        "factor_percent": -100
-                                        if tax.deductible or tax.withholdable
-                                        else 100,
-                                        "repartition_type": "tax",
-                                        "account_id": account_ref.get(
-                                            account_id.id if account_id else None, False
-                                        ),
-                                    },
-                                ),
-                            ],
-                            "refund_repartition_line_ids": [
-                                (5, 0, 0),
-                                (
-                                    0,
-                                    0,
-                                    {
-                                        "factor_percent": 100,
-                                        "repartition_type": "base",
-                                    },
-                                ),
-                                (
-                                    0,
-                                    0,
-                                    {
-                                        "factor_percent": -100
-                                        if tax.deductible or tax.withholdable
-                                        else 100,
-                                        "repartition_type": "tax",
-                                        "account_id": account_ref.get(
-                                            refund_account_id.id
-                                            if refund_account_id
-                                            else None,
-                                            False,
-                                        ),
-                                    },
-                                ),
-                            ],
-                        }
+                    account_id = account_ref[account.id].id if account else False
+                    refund_account_id = (
+                        account_ref[refund_account.id].id if refund_account else False
                     )
+                    tax._update_repartition_lines(account_id, refund_account_id)
+
         return account_ref, taxes_ref
