@@ -22,8 +22,7 @@ def _auto_install_l10n_br_generic_module(env):
             module_name_domain = [("name", "=", "l10n_br_coa_simple")]
 
         # Load all l10n_br COA's in demo mode:
-        env.cr.execute("select demo from ir_module_module where name='l10n_br_base';")
-        if env.cr.fetchone()[0]:
+        if env.ref("base.module_l10n_br_base").demo:
             module_name_domain = [
                 (
                     "name",
