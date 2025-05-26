@@ -81,6 +81,23 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div
+                            class="col-12 col-lg-6 o_setting_box"
+                            id="settings_debug_fiscal_line"
+                        >
+                            <div class="o_setting_left_pane">
+                                <field name="debug_fiscal_line" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="debug_fiscal_line" />
+                                <div class="text-muted">
+                                    Enable the Debug tab in the Fiscal Document Line popup form. Note that
+                                    the debug_message in document lines will consume additional disk space."
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <h2>Fiscal Documents</h2>
                     <div class="row mt16 o_settings_container">

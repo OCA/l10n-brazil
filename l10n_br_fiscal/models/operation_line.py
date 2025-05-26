@@ -1,6 +1,9 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+from io import StringIO
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -12,13 +15,14 @@ from ..constants.fiscal import (
     OPERATION_STATE_DEFAULT,
     PRODUCT_FISCAL_TYPE,
     TAX_DOMAIN_ICMS,
-    TAX_DOMAIN_IPI,
     TAX_DOMAIN_ISSQN,
     TAX_FRAMEWORK,
     TAX_FRAMEWORK_NORMAL,
     TAX_ICMS_OR_ISSQN,
 )
 from ..constants.icms import ICMS_ORIGIN
+
+_logger = logging.getLogger(__name__)
 
 
 class OperationLine(models.Model):
@@ -167,25 +171,6 @@ class OperationLine(models.Model):
             cfop = self.cfop_export_id
         return cfop
 
-    def _build_mapping_result_ipi(self, mapping_result, tax_definition):
-        if tax_definition and tax_definition.ipi_guideline_id:
-            mapping_result["ipi_guideline"] = tax_definition.ipi_guideline_id
-
-    def _build_mapping_result_icms(self, mapping_result, tax_definition):
-        if tax_definition and tax_definition.is_benefit:
-            mapping_result["icms_tax_benefit_id"] = tax_definition.id
-
-    def _build_mapping_result(self, mapping_result, tax_definition):
-        mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
-        self._build_mapping_result_icms(
-            mapping_result,
-            tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS),
-        )
-        self._build_mapping_result_ipi(
-            mapping_result,
-            tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_IPI),
-        )
-
     def map_fiscal_taxes(
         self,
         company,
@@ -247,20 +232,53 @@ class OperationLine(models.Model):
             - 'icms_tax_benefit_id': The determined ICMS tax benefit record
               ID (l10n_br_fiscal.tax.definition) or False.
         """
+
+        self.ensure_one()
+        if not company.state_id:
+            raise UserError(
+                _(
+                    "Company %(company_name)s should have a Federal State defined!",
+                    company_name=company.name,
+                )
+            )
+        if not company.tax_framework:
+            raise UserError(
+                _(
+                    "Company %(company_name)s should have a Tax Framework defined!",
+                    company_name=company.name,
+                )
+            )
+
+        if partner.is_company:
+            if not partner.state_id:
+                raise UserError(
+                    _(
+                        "Partner %(partner_name)s should have a Federal State defined!",
+                        partner_name=partner.name,
+                    )
+                )
+            if not partner.tax_framework:
+                raise UserError(
+                    _(
+                        "Partner %(partner_name)s should have a Tax Framework defined!",
+                        partner_name=partner.name,
+                    )
+                )
+
         mapping_result = {
             "taxes": {},
             "cfop": False,
             "ipi_guideline": self.env.ref("l10n_br_fiscal.tax_guideline_999"),
             "icms_tax_benefit_id": False,
         }
-
-        self.ensure_one()
+        debug_message = StringIO()
+        debug_message.write(f"selected operation: {self.name} ID: {self.id}")
 
         # Define CFOP
         mapping_result["cfop"] = self._get_cfop(company, partner)
 
         # 1 Get Tax Defs from Company
-        for tax_definition in company.tax_definition_ids.map_tax_definition(
+        company.tax_definition_ids.map_tax_definition(
             company,
             partner,
             product,
@@ -270,8 +288,10 @@ class OperationLine(models.Model):
             cest=cest,
             city_taxation_code=city_taxation_code,
             service_type=service_type,
-        ):
-            self._build_mapping_result(mapping_result, tax_definition)
+            mapping_result=mapping_result,
+            debug_label="COMPANY",
+            debug_message=debug_message,
+        )
 
         # 2 From NCM
         if not ncm and product:
@@ -284,6 +304,11 @@ class OperationLine(models.Model):
 
             if mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT:
                 mapping_result["taxes"][tax_ii.tax_domain] = tax_ii
+
+            debug_message.write(
+                f"\n\napplying NCM for IPI: {tax_ipi.name} ID: {tax_ipi.id}"
+                f"\napplying NCM for II: {tax_ii.name} ID: {tax_ii.id}"
+            )
 
             # 3 From ICMS Regulation
             if company.icms_regulation_id:
@@ -298,14 +323,24 @@ class OperationLine(models.Model):
                     ind_final=ind_final,
                 )
 
-                for tax_def in icms_tax_defs:
-                    self._build_mapping_result_icms(mapping_result, tax_def)
+                for tax_definition in icms_tax_defs:
+                    if tax_definition.is_benefit:
+                        mapping_result["icms_tax_benefit_id"] = tax_definition.id
+                        debug_message.write(
+                            f"\n\napplying ICMS regulation Tax Benefit: "
+                            f"{tax_definition.name or ''} ID: {tax_definition.id}"
+                        )
 
                 for tax in icms_taxes:
                     mapping_result["taxes"][tax.tax_domain] = tax
+                if icms_taxes:
+                    debug_message.write(
+                        f"\n\nadding IMCS TAXES from ICMS REGULATION: "
+                        f"{[(tax.tax_domain, tax.id) for tax in icms_taxes]}"
+                    )
 
         # 4 From Operation Line
-        for tax_definition in self.tax_definition_ids.map_tax_definition(
+        self.tax_definition_ids.map_tax_definition(
             company,
             partner,
             product,
@@ -315,13 +350,13 @@ class OperationLine(models.Model):
             cest=cest,
             city_taxation_code=city_taxation_code,
             service_type=service_type,
-        ):
-            self._build_mapping_result(mapping_result, tax_definition)
+            mapping_result=mapping_result,
+            debug_label="OPERATION_LINE",
+            debug_message=debug_message,
+        )
 
         # 5 From CFOP
-        for tax_definition in mapping_result[
-            "cfop"
-        ].tax_definition_ids.map_tax_definition(
+        mapping_result["cfop"].tax_definition_ids.map_tax_definition(
             company,
             partner,
             product,
@@ -331,13 +366,13 @@ class OperationLine(models.Model):
             cest=cest,
             city_taxation_code=city_taxation_code,
             service_type=service_type,
-        ):
-            self._build_mapping_result(mapping_result, tax_definition)
+            mapping_result=mapping_result,
+            debug_label="CFOP",
+            debug_message=debug_message,
+        )
 
         # 6 From Partner Profile
-        for (
-            tax_definition
-        ) in partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
+        partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
             company,
             partner,
             product,
@@ -347,8 +382,10 @@ class OperationLine(models.Model):
             cest=cest,
             city_taxation_code=city_taxation_code,
             service_type=service_type,
-        ):
-            self._build_mapping_result(mapping_result, tax_definition)
+            mapping_result=mapping_result,
+            debug_label="PARTNER PROFILE",
+            debug_message=debug_message,
+        )
 
         if product.tax_icms_or_issqn == TAX_DOMAIN_ICMS:
             mapping_result["taxes"].pop(TAX_DOMAIN_ISSQN, None)
@@ -358,7 +395,9 @@ class OperationLine(models.Model):
             mapping_result["taxes"].pop(TAX_DOMAIN_ICMS, None)
             mapping_result["taxes"].pop(TAX_DOMAIN_ISSQN, None)
 
-        return mapping_result
+        debug_str = debug_message.getvalue()
+        _logger.debug("\n" + debug_str)
+        return mapping_result, debug_str
 
     def action_review(self):
         self.write({"state": "review"})

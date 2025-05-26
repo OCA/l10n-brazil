@@ -1,6 +1,9 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+from pprint import pformat
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -11,8 +14,12 @@ from ..constants.fiscal import (
     FISCAL_OUT,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_IPI,
 )
 from ..constants.icms import ICMS_TAX_BENEFIT_TYPE
+
+_logger = logging.getLogger(__name__)
 
 
 class TaxDefinition(models.Model):
@@ -445,6 +452,9 @@ class TaxDefinition(models.Model):
         cest=None,
         city_taxation_code=None,
         service_type=None,
+        mapping_result=None,
+        debug_label="",
+        debug_message=None,
     ):
         """
         Filter and return tax definitions that match the given criteria.
@@ -482,14 +492,21 @@ class TaxDefinition(models.Model):
             l10n_br_fiscal.tax.definition.
         """
 
-        if not ncm:
-            ncm = product.ncm_id
+        if product:
+            if not ncm:
+                ncm = product.ncm_id
+                if not ncm and product.tax_icms_or_issqn == "icms":
+                    raise UserError(
+                        _(
+                            "Product %(product_name)s has no NCM!",
+                            product_name=product.name,
+                        )
+                    )
 
-        if not nbm:
-            nbm = product.nbm_id
-
-        if not cest:
-            cest = product.cest_id
+            if not nbm:
+                nbm = product.nbm_id
+            if not cest:
+                cest = product.cest_id
 
         domain = [
             ("state", "!=", "expired"),
@@ -517,7 +534,86 @@ class TaxDefinition(models.Model):
             ("product_ids", "=", product.id),
         ]
 
-        return self.search(domain)
+        matches = self.search(domain)
+        debug_args = [
+            company,
+            partner,
+            product,
+            ncm,
+            nbm,
+            ncm,
+            cest,
+            city_taxation_code,
+            service_type,
+        ]
+        for tax_definition in matches:
+            self._build_mapping_result(
+                mapping_result, tax_definition, debug_label, debug_message, debug_args
+            )
+        return matches
+
+    def _build_mapping_result_ipi(self, mapping_result, tax_definition):
+        if tax_definition and tax_definition.ipi_guideline_id:
+            mapping_result["ipi_guideline"] = tax_definition.ipi_guideline_id
+
+    def _build_mapping_result_icms(self, mapping_result, tax_definition):
+        if tax_definition and tax_definition.is_benefit:
+            mapping_result["icms_tax_benefit_id"] = tax_definition.id
+
+    def _build_mapping_result(
+        self, mapping_result, tax_definition, debug_label, debug_message, debug_args
+    ):
+        def convert_odoo_records_to_tuples(data):
+            if isinstance(data, dict):
+                return {
+                    key: convert_odoo_records_to_tuples(value)
+                    for key, value in data.items()
+                }
+            elif isinstance(data, list | tuple | set):
+                return type(data)(convert_odoo_records_to_tuples(item) for item in data)
+            elif hasattr(data, "_name"):  # Check if it's an Odoo record
+                return (
+                    data._name,
+                    getattr(data, "name", ""),
+                    f"ID: {data.id}",
+                )
+            return data
+
+        def debug_tax_definition(message, label, args, definition, mapping_result):
+            args_str = []
+            for arg in args:
+                if isinstance(arg, models.BaseModel):
+                    args_str.append(
+                        f"{arg._name}: {arg.name[:64] if arg.name else ''} ({arg.id})"
+                    )
+                else:
+                    args_str.append(str(arg))
+            args_str = "\n    ".join(args_str)
+            formatted_mapping_result = "\n".join(
+                f"    {line}"
+                for line in pformat(
+                    convert_odoo_records_to_tuples(mapping_result)
+                ).splitlines()
+            )
+            message.write(
+                f"\n\nadding tax_definition for {label}:\n    {args_str}"
+                f"\n->{definition}\nMAPPING RESULT:\n"
+                f"{formatted_mapping_result}"
+            )
+            return message
+
+        mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
+        self._build_mapping_result_icms(
+            mapping_result,
+            tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS),
+        )
+        self._build_mapping_result_ipi(
+            mapping_result,
+            tax_definition.filtered(lambda t: t.tax_domain == TAX_DOMAIN_IPI),
+        )
+        debug_tax_definition(
+            debug_message, debug_label, debug_args, tax_definition, mapping_result
+        )
 
     @api.onchange("is_taxed")
     def _onchange_tribute(self):

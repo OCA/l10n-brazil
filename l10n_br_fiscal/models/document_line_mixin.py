@@ -1688,6 +1688,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="CNAE Code",
     )
 
+    debug_message = fields.Text()
+
     @api.depends("company_id")
     def _compute_currency_id(self):
         for doc_line in self:

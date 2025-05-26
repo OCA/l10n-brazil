@@ -114,6 +114,7 @@
                             </group>
                         </group>
                     </page>
+                    <page name="fiscal_line_debug" string="Debug" />
                     <page name="fiscal_line_extra_info" string="Extra Info">
                         <field name="additional_data" readonly="1" />
                     </page>

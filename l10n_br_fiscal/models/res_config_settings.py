@@ -51,3 +51,10 @@ class ResConfigSettings(models.TransientModel):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs", readonly=False
     )
+
+    debug_fiscal_line = fields.Boolean(
+        string="Debug Tax Mapping in Fiscal Document lines?",
+        help="Enable the Debug tab in the Fiscal Document Line popup form. Note that"
+        "the debug_message in document lines will consume additional disk space.",
+        config_parameter="l10n_br_fiscal.debug_fiscal_line",
+    )

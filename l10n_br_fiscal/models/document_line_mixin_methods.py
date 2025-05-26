@@ -119,6 +119,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     ".//page[@name='fiscal_line_extra_info']",
                     "//page[@name='fiscal_line_extra_info']",
                 ),
+                (
+                    ".//page[@name='fiscal_line_debug']",
+                    "//page[@name='fiscal_line_debug']",
+                ),
                 # these will only collect (invisible) fields for onchanges:
                 (
                     ".//control[@name='fiscal_fields']...",
@@ -138,6 +142,16 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if not placeholder_nodes:
                 continue
             fiscal_nodes = fsc_doc.xpath(fiscal_xpath)
+            if "fiscal_line_debug" in fiscal_xpath:
+                debug_fiscal_line = (
+                    self.env["ir.config_parameter"]
+                    .sudo()
+                    .get_param("l10n_br_fiscal.debug_fiscal_line")
+                )
+                if not debug_fiscal_line:
+                    for target_node in doc.findall(placeholder_xpath):
+                        target_node.getparent().remove(target_node)
+                    continue
             for target_node in placeholder_nodes:
                 if len(fiscal_nodes) == 1:
                     # replace unique placeholder
@@ -315,17 +329,19 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 wrapped_line = line
 
             if wrapped_line.fiscal_operation_line_id:
-                mapping_result = wrapped_line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=wrapped_line.company_id,
-                    partner=wrapped_line._get_fiscal_partner(),
-                    product=wrapped_line.product_id,
-                    ncm=wrapped_line.ncm_id,
-                    nbm=wrapped_line.nbm_id,
-                    nbs=wrapped_line.nbs_id,
-                    cest=wrapped_line.cest_id,
-                    city_taxation_code=wrapped_line.city_taxation_code_id,
-                    service_type=wrapped_line.service_type_id,
-                    ind_final=wrapped_line.ind_final,
+                mapping_result, debug_message = (
+                    wrapped_line.fiscal_operation_line_id.map_fiscal_taxes(
+                        company=wrapped_line.company_id,
+                        partner=wrapped_line._get_fiscal_partner(),
+                        product=wrapped_line.product_id,
+                        ncm=wrapped_line.ncm_id,
+                        nbm=wrapped_line.nbm_id,
+                        nbs=wrapped_line.nbs_id,
+                        cest=wrapped_line.cest_id,
+                        city_taxation_code=wrapped_line.city_taxation_code_id,
+                        service_type=wrapped_line.service_type_id,
+                        ind_final=wrapped_line.ind_final,
+                    )
                 )
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
@@ -337,6 +353,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
+                if debug_message:
+                    line.debug_message = debug_message
+
             else:
                 line.fiscal_tax_ids = [Command.clear()]
 
