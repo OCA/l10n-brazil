@@ -13,10 +13,15 @@ class TestSaleOrderPriceList(TestSaleCommon):
         super().setUpClass(chart_template_ref=chart_template_ref)
 
         cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
+        cls.company_data["product_order_no"].ncm_id = cls.env.ref(
+            "l10n_br_fiscal.ncm_48191000"
+        ).id
 
         Pricelist = cls.env["product.pricelist"]
         PricelistItem = cls.env["product.pricelist.item"]
         SaleOrder = cls.env["sale.order"].with_context(tracking_disable=True)
+
+        cls.company_data["company"].state_id = cls.env.ref("base.state_br_sp").id
 
         # Create a pricelist with especial price for partner_a
         cls.pricelist_partner_a = Pricelist.create(

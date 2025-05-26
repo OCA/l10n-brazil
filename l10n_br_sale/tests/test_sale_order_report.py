@@ -12,6 +12,10 @@ class TestSaleReport(TestSaleCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company_data["company"].state_id = cls.env.ref("base.state_br_sp").id
+        cls.company_data["product_order_no"].ncm_id = cls.env.ref(
+            "l10n_br_fiscal.ncm_48191000"
+        ).id
 
         sale_form = Form(cls.env["sale.order"])
         sale_form.partner_id = cls.partner_a
