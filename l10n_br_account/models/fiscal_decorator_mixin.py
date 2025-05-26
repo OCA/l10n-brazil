@@ -1,8 +1,12 @@
 # Copyright (C) 2025 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 from odoo import api, fields, models
 from odoo.tools import mute_logger
+
+_logger = logging.getLogger(__name__)
 
 
 class InheritsCheckMuteLogger(mute_logger):
@@ -40,25 +44,42 @@ class FiscalDecoratorMixin(models.AbstractModel):
         """
         if self._fiscal_decorator_model is not None:
             for name, field in self.env.registry[
-                f"{self._fiscal_decorator_model}.mixin"
+                self._fiscal_decorator_model
             ]._fields.items():
                 field_cls = type(field)
                 if (
                     name in self._fields
                     or field_cls in [fields.One2many, fields.Many2many]
                     or not (field.compute or field.related)
-                    or (field.compute and field.store)
                     or field.compute in self._fiscal_decorator_compute_blacklist
-                ):
+                ):  # not a problematic case, or expected for o2m and m2m or blacklist
                     continue
+                if field.compute and field.store:
+                    _logger.debug(
+                        f"field {name} is a compute with store=True in "
+                        f"{self._fiscal_decorator_model} with store=True. "
+                        "It may not be refreshed 'live' before saving in "
+                        f"{self._name}. For that, you may want to override "
+                        f"it in {self._name}."
+                    )
+                    continue
+
+                attrs = {
+                    "related": field.related,
+                    "compute": field.compute,
+                    "inverse": field.inverse,
+                    "comodel_name": field.comodel_name,
+                }
+
+                if field.related and field.related.startswith("document_id."):
+                    attrs["related"] = field.related.replace("document_id.", "move_id.")
+
+                if field_cls == fields.Selection:  # required for some NFe/CTe fields
+                    attrs["selection"] = field.selection
+
                 self._add_field(
                     name,
-                    field_cls(
-                        related=field.related,
-                        compute=field.compute,
-                        inverse=field.inverse,
-                        comodel_name=field.comodel_name,
-                    ),
+                    field_cls(**attrs),
                 )
         return super()._add_inherited_fields()
 
