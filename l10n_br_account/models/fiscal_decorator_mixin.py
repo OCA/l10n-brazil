@@ -40,7 +40,7 @@ class FiscalDecoratorMixin(models.AbstractModel):
         """
         if self._fiscal_decorator_model is not None:
             for name, field in self.env.registry[
-                f"{self._fiscal_decorator_model}.mixin"
+                self._fiscal_decorator_model
             ]._fields.items():
                 field_cls = type(field)
                 if (
