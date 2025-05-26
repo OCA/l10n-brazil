@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import logging
+from unittest import mock
 
 from odoo import fields
 from odoo.exceptions import UserError
@@ -162,10 +163,44 @@ class TestMoveEdition(TransactionCase):
             move_form.save()
 
         move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        move_form.ind_final = "1"
         with move_form.invoice_line_ids.new() as line_form:
-            line_form.product_id = self.product_id
+            original_method = type(
+                self.env["l10n_br_fiscal.operation.line"]
+            ).map_fiscal_taxes
+
+            def wrapped_method(self, *args, **kwargs):
+                return original_method(self, *args, **kwargs)
+
+            with mock.patch.object(
+                type(self.env["l10n_br_fiscal.operation.line"]),
+                "map_fiscal_taxes",
+                side_effect=wrapped_method,
+                autospec=True,
+            ) as mocked:
+                line_form.product_id = self.product_id
+
+            # ensure the tax engine is called with the proper
+            # parameters, especially ind_final
+            # as it is related=document_id.ind_final
+            # which is converted to move_id.ind_final to work live
+            mocked.assert_called_with(
+                self.env.ref("l10n_br_fiscal.fo_venda_revenda"),
+                company=move_form.company_id,
+                partner=move_form.partner_id,
+                product=self.product_id,
+                ncm=self.product_id.ncm_id,
+                nbm=self.env["l10n_br_fiscal.nbm"],
+                nbs=self.env["l10n_br_fiscal.nbs"],
+                cest=self.env["l10n_br_fiscal.cest"],
+                city_taxation_code=self.env["l10n_br_fiscal.city.taxation.code"],
+                service_type=self.env["l10n_br_fiscal.service.type"],
+                ind_final="1",
+            )
+
             line_form.price_unit = 42
             line_form.quantity = 42
+
         move = move_form.save()
 
         self.assertEqual(move.state, "draft")
