@@ -270,6 +270,10 @@ class StackedModel(SpecModel):
                             "_stacking_points"
                         ):
                             if name in getattr(cls, attr).keys():
+                                # TODO it seems Odoo would still generate ir.model.data
+                                # records for these fields we skip. They are deleted
+                                # in IrModelData#_process_end. Eventually we could
+                                # avoid creating these records or delete them.
                                 return
         return super()._add_field(name, field)
 
