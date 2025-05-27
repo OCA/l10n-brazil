@@ -4,6 +4,7 @@
 from importlib import import_module
 
 from odoo import api, models
+from odoo.tools import mute_logger
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
 
@@ -170,6 +171,24 @@ class SpecMixin(models.AbstractModel):
         self.env.registry.init_models(
             self.env.cr, remaining_models, {"module": odoo_module}
         )
+
+        # init_models just created ir.model.data records for the "MAGIC FIELDS"
+        # of the remaining_models. If we let these fields, next Odoo update
+        # will decide that these MAGIC FIELDS do not match the fields of the
+        # abstract schema mixins and would take a long time to delete these records
+        # and the fields. This is not what we want, so we just remove these records:
+        imd_magic_field_names = []
+        for model in remaining_models:
+            for field in models.MAGIC_COLUMNS + ["display_name", "__last_update"]:
+                imd_magic_field_names.append(
+                    f"field_{model.replace('.', '_')}__{field}"
+                )
+        imd_recs = self.env["ir.model.data"].search(
+            [("name", "in", imd_magic_field_names)]
+        )
+        with mute_logger("odoo.models"):
+            imd_recs.unlink()
+
         return res
 
     @classmethod
