@@ -4,3 +4,4 @@ from . import spec_mixin
 
 # from . import spec_view
 from . import spec_models
+from . import ir_model
