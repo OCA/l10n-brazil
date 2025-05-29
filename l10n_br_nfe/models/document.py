@@ -432,14 +432,7 @@ class NFe(spec_models.StackedModel):
     @api.depends("partner_id")
     def _compute_nfe_dest_data(self):
         for doc in self:  # TODO if out
-            if (
-                doc.partner_id.is_anonymous_consumer
-                and not doc.partner_id.cnpj_cpf
-                and doc.document_type == MODELO_FISCAL_NFCE
-            ):
-                doc.nfe40_dest = None
-            else:
-                doc.nfe40_dest = doc.partner_id
+            doc.nfe40_dest = doc.partner_id
 
     ##########################
     # NF-e tag: entrega
@@ -710,7 +703,53 @@ class NFe(spec_models.StackedModel):
                 res.IEST = self.company_inscr_est_st
             return res
 
+        if (
+            field_name == "nfe40_dest"
+            and self.has_vat_specification
+            and self.document_type == MODELO_FISCAL_NFCE
+        ):
+            return self._setup_minimal_dest(field_name, xsd_required, class_obj)
+
+        if (
+            field_name == "nfe40_dest"
+            and not self.has_vat_specification
+            and self.partner_id.is_anonymous_consumer
+            and self.document_type == MODELO_FISCAL_NFCE
+        ):
+            return self._setup_no_dest(field_name, xsd_required, class_obj)
+
         return super()._export_many2one(field_name, xsd_required, class_obj)
+
+    def _setup_minimal_dest(self, field_name, xsd_required, class_obj):
+        """
+        Minimal setup dest  for cases with VAT specification
+        commonly known as 'CPF na nota'.
+        """
+        res = super()._export_many2one(field_name, xsd_required, class_obj)
+
+        if len(self.partner_cnpj_cpf) <= 11:
+            # CPF
+            res.CPF = self.partner_cnpj_cpf
+            res.CNPJ = None
+        else:
+            # CNPJ
+            res.CNPJ = self.partner_cnpj_cpf
+            res.CPF = None
+
+        # Remove every non-used attribute for VAT in NF case
+        res.enderDest = None
+        res.CEP = None
+        res.xNome = None
+
+        return res
+
+    def _setup_no_dest(self, field_name, xsd_required, class_obj):
+        """
+        Setup dest for cases without VAT specification and anonymous consumer.
+        """
+        res = super()._export_many2one(field_name, xsd_required, class_obj)
+        res = None
+        return res
 
     def _export_one2many(self, field_name, class_obj=None):
         res = super()._export_one2many(field_name, class_obj)
