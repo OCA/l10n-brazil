@@ -17,10 +17,13 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
+    TAX_FRAMEWORK_NORMAL,
+    TAX_FRAMEWORK_SIMPLES_ALL,
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
+    ICMS_CST_IN_WITH_CREDIT,
     ICMS_CST_RELIEF,
     ICMS_DIFAL_DOUBLE_BASE,
     ICMS_DIFAL_PARTITION,
@@ -30,6 +33,11 @@ from ..constants.icms import (
     ICMS_ST_BASE_TYPE,
     ICMS_ST_BASE_TYPE_DEFAULT,
     ICSM_CST_CSOSN_ST_BASE,
+)
+from ..constants.ipi import IPI_CST_IN_WITH_CREDIT
+from ..constants.pis_cofins import (
+    COFINS_CST_IN_WITH_CREDIT,
+    PIS_CST_IN_WITH_CREDIT,
 )
 
 TAX_DICT_VALUES = {
@@ -345,6 +353,75 @@ class Tax(models.Model):
                     )
 
         return amount_estimate_tax
+
+    @api.model
+    def _compute_cost_unit(self, taxes_dict, **kwargs):
+        """
+        Compute the cost unit based on the fiscal price and quantity.
+        """
+        company = kwargs.get("company")
+        product = kwargs.get("product")
+        fiscal_price = kwargs.get("fiscal_price")
+        fiscal_quantity = kwargs.get("fiscal_quantity")
+        op_line = kwargs.get("operation_line")
+        currency = kwargs.get("currency", company.currency_id)
+        discount_value = kwargs.get("discount_value", 0.00)
+        insurance_value = kwargs.get("insurance_value", 0.00)
+        freight_value = kwargs.get("freight_value", 0.00)
+        other_value = kwargs.get("other_value", 0.00)
+        ii_customhouse_charges = kwargs.get("ii_customhouse_charges", 0.00)
+        ii_iof_value = kwargs.get("ii_iof_value", 0.00)
+        cost_unit = 0.00
+        if not op_line:
+            fiscal_operation_type = FISCAL_OUT
+        else:
+            fiscal_operation_type = op_line.fiscal_operation_type
+
+        if fiscal_operation_type == FISCAL_OUT:
+            cost_unit = product.standard_price
+
+        if fiscal_operation_type == FISCAL_IN:
+            amount_subtotal = currency.round(fiscal_price * fiscal_quantity)
+            amount_subtotal += sum([freight_value, insurance_value, other_value])
+            amount_subtotal -= sum([discount_value])
+
+            if company.tax_framework == TAX_FRAMEWORK_NORMAL:
+                tax_dict_ii = taxes_dict.get("ii", {})
+                amount_subtotal += kwargs.get("ii_customhouse_charges", 0.00)
+                amount_subtotal += kwargs.get("ii_iof_value", 0.00)
+                amount_subtotal += tax_dict_ii.get("tax_value", 0.00)
+
+                tax_dict_pis = taxes_dict.get("pis", {})
+                if tax_dict_pis.get("cst_id"):
+                    if tax_dict_pis.get("cst_id").code in PIS_CST_IN_WITH_CREDIT:
+                        amount_subtotal -= tax_dict_pis.get("tax_value", 0.00)
+
+                tax_dict_cofins = taxes_dict.get("cofins", {})
+                if tax_dict_cofins.get("cst_id"):
+                    if tax_dict_cofins.get("cst_id").code in COFINS_CST_IN_WITH_CREDIT:
+                        amount_subtotal -= tax_dict_cofins.get("tax_value", 0.00)
+
+                tax_dict_icms = taxes_dict.get("icms", {})
+                if tax_dict_icms.get("cst_id"):
+                    if tax_dict_icms.get("cst_id").code in ICMS_CST_IN_WITH_CREDIT:
+                        amount_subtotal -= tax_dict_icms.get("tax_value", 0.00)
+
+                # caso não seja industria, o valor do IPI é adicionado ao custo unitário
+                if not company.is_industry:
+                    tax_dict_ipi = taxes_dict.get("ipi", {})
+                    if tax_dict_ipi.get("cst_id"):
+                        if tax_dict_ipi.get("cst_id").code in IPI_CST_IN_WITH_CREDIT:
+                            amount_subtotal += tax_dict_ipi.get("tax_value", 0.00)
+
+            if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+                tax_dict_icmssn = taxes_dict.get("icmssn", {})
+                if tax_dict_icmssn.get("cst_id"):
+                    if tax_dict_icmssn.get("cst_id").code in ICMS_SN_CST_WITH_CREDIT:
+                        amount_subtotal -= tax_dict_icmssn.get("tax_value", 0.00)
+
+            cost_unit = amount_subtotal / fiscal_quantity
+
+        return cost_unit
 
     @api.model
     def _compute_icms(self, tax, taxes_dict, **kwargs):
@@ -722,6 +799,7 @@ class Tax(models.Model):
 
         # Estimate taxes
         result_amounts["estimate_tax"] = self._compute_estimate_taxes(**kwargs)
+        result_amounts["cost_unit"] = self._compute_cost_unit(taxes, **kwargs)
         result_amounts["taxes"] = taxes
         return result_amounts
 
