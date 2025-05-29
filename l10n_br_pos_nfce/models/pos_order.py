@@ -49,7 +49,7 @@ class PosOrder(models.Model):
             return dict()
 
         payment_mode_id = self.payment_ids[0].payment_method_id.payment_mode_id
-        return {
+        res = {
             "document_type_id": pos_config_id.simplified_document_type_id.id,
             "fiscal_operation_id": pos_config_id.out_pos_fiscal_operation_id.id,
             "ind_pres": "1",
@@ -58,6 +58,22 @@ class PosOrder(models.Model):
             "payment_mode_id": payment_mode_id.id,
             "nfe40_vTroco": self.amount_return,
         }
+        # TODO: When has_vat_specification is added to pos.order, we can
+        # remove this hasattr, for now it's better to be safe
+        if (
+            hasattr(self, "has_vat_specification")
+            and self.has_vat_specification
+            and hasattr(self, "partner_cnpj_cpf")
+            and self.partner_cnpj_cpf
+        ):
+            res.update(
+                {
+                    "has_vat_specification": self.has_vat_specification,
+                    "partner_cnpj_cpf": self.partner_cnpj_cpf,
+                }
+            )
+
+        return res
 
     @api.model
     def _process_order(self, pos_order_vals, draft, existing_order):

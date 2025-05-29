@@ -247,6 +247,18 @@ class PosOrder(models.Model):
         string="Comments",
     )
 
+    partner_cnpj_cpf = fields.Char(
+        string="CNPJ",
+    )
+
+    has_vat_specification = fields.Boolean(
+        string="Has VAT Specification",
+        default=False,
+        help="Indicates whether this fiscal document includes a specific "
+        "VAT (CNPJ/CPF) identification that must be preserved — "
+        "commonly known in Brazil as 'CPF na nota'.",
+    )
+
     additional_data = fields.Text()
 
     def _get_amount_lines(self):
@@ -325,6 +337,10 @@ class PosOrder(models.Model):
         order_fields["cnpj_cpf"] = ui_order.get("cnpj_cpf") or ui_order.get(
             "customer_tax_id"
         )
+
+        if ui_order.get("customer_tax_id", False):
+            order_fields["partner_cnpj_cpf"] = ui_order.get("customer_tax_id")
+            order_fields["has_vat_specification"] = True
 
         order_fields["additional_data"] = ui_order.get("additional_data")
 
