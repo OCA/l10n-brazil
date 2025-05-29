@@ -192,6 +192,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Fiscal Taxes",
     )
 
+    cost_unit = fields.Float(digits="Product Price")
+
     amount_fiscal = fields.Monetary(
         compute="_compute_fiscal_amounts",
     )

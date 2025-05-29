@@ -292,6 +292,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 ),
                 "amount_tax_withholding": compute_result.get("amount_withholding", 0.0),
                 "estimate_tax": compute_result.get("estimate_tax", 0.0),
+                "cost_unit": compute_result.get("cost_unit", 0.0),
             }
             to_update.update(line._prepare_tax_fields(compute_result))
 
