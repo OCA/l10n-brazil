@@ -475,9 +475,10 @@
             <field name="fiscal_position_id" position="after">
                     <field
                     name="fiscal_document_id"
+                    readonly="0"
                     placeholder="Fiscal Document to import..."
                     domain="[('partner_id', '=', partner_id), ('company_id', '=', company_id)]"
-                    attrs="{'invisible': [('state', '!=', 'draft')]}"
+                    attrs="{'invisible': [('state', '!=', 'draft')], 'readonly': False}"
                 />
                 <button
                     name="button_import_fiscal_document"
