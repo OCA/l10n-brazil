@@ -85,6 +85,7 @@ class AccountMove(models.Model):
         copy=False,
         ondelete="cascade",
         store=True,
+        readonly=False,
         compute="_compute_fiscal_document_id",
     )
 
@@ -695,7 +696,9 @@ class AccountMove(models.Model):
             move_form.document_type_id = fiscal_document.document_type_id
             move_form.fiscal_document_id = fiscal_document
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id
+            move_form.document_serie = fiscal_document.document_serie
 
+        unit_and_prices = []  # save units to force them later
         for line in fiscal_document.fiscal_line_ids:
             with move_form.invoice_line_ids.new() as line_form:
                 line_form.cfop_id = (
@@ -703,8 +706,14 @@ class AccountMove(models.Model):
                 )  # required if we disable some fiscal tax updates
                 line_form.fiscal_operation_id = self.fiscal_operation_id
                 line_form.fiscal_document_line_id = line
+                # for some reason trying to set the product_uom_id
+                # here results in strange bugs like unbalanced move
+                # so we will force product_uom_id later
+                # we also save price_unit to reset unit factor effect
+                unit_and_prices.append((line.uot_id.id, line.price_unit))
         move_form.save()
         move = self.env["account.move"].browse(move_form.id)
-        for line in move.invoice_line_ids:
-            line.product_uom_id = line.fiscal_document_line_id.uom_id.id
+        for index, item in enumerate(unit_and_prices):
+            move.invoice_line_ids[index].product_uom_id = item[0]
+            move.invoice_line_ids[index].price_unit = item[1]
         return move_form
