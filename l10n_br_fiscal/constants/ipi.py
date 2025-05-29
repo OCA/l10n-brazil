@@ -25,6 +25,11 @@ CST_IPI_OUT_IN = {
     "99": "49",
 }
 
+IPI_CST_IN_WITH_CREDIT = [
+    "00",  # Tributada integralmente
+    "49",  # Outras
+]
+
 
 IPI_GUIDELINE_GROUP = [
     ("imunidade", "Imunidade"),

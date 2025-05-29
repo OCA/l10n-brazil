@@ -54,6 +54,13 @@ ICMS_ORIGIN_TAX_IMPORTED = ["1", "2", "3", "8"]
 ICMS_CST = ["00", "10", "20", "30", "40", "41", "50", "51", "60", "70", "90"]
 
 
+ICMS_CST_IN_WITH_CREDIT = [
+    "00",  # Tributada integralmente
+    "10",  # Tributada e com cobrança do ICMS por substituição tributária
+    "20",  # Com redução de base de cálculo
+]
+
+
 ICMS_BASE_TYPE = [
     ("0", "Margem Valor Agregado (%)"),
     ("1", "Pauta (valor)"),

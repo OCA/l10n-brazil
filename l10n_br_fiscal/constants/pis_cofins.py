@@ -27,12 +27,32 @@ CST_PIS_IN = [
     "99",
 ]
 
+PIS_CST_IN_WITH_CREDIT = [
+    "50",
+    "51",
+    "52",
+    "53",
+    "54",
+    "55",
+    "56",
+    "60",
+    "61",
+    "62",
+    "63",
+    "64",
+    "65",
+    "66",
+    "67",
+]
+
 CST_PIS_OUT = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "49"]
 
 CST_PIS_NO_TAXED = ["04", "06", "07", "08", "09", "71", "72", "73", "74"]
 
 # Some CST for PIS and COFINS
 CST_COFINS_IN = CST_PIS_IN
+
+COFINS_CST_IN_WITH_CREDIT = PIS_CST_IN_WITH_CREDIT
 
 CST_COFINS_OUT = CST_PIS_OUT
 
