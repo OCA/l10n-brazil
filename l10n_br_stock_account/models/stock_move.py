@@ -298,3 +298,11 @@ class StockMove(models.Model):
             )
 
         return partner
+
+
+class StockValuationLayer(models.Model):
+    """Stock Valuation Layer"""
+
+    _inherit = "stock.valuation.layer"
+
+    unit_cost = fields.Float(digits="Product Price")
