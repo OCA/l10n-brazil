@@ -18,3 +18,10 @@ class StockMove(models.Model):
                 result = self.purchase_line_id.price_unit
 
         return result
+
+    def _get_price_unit(self):
+        """Returns the unit price for the move"""
+        self.ensure_one()
+        price_unit = super()._get_price_unit()
+        price_unit = self.cost_unit
+        return price_unit
