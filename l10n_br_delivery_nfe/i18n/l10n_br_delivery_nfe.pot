@@ -47,9 +47,6 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_transporta
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__nfe40_transporta
-#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_payment__nfe40_transporta
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_transporta
 msgid "Dados do transportador"
 msgstr ""
@@ -285,9 +282,6 @@ msgid "Technical Field: True if the picking has already generated Volume IDs."
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_move__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_payment__nfe40_transporta
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_transporta
 msgid "The partner that is doing the delivery service."
 msgstr ""
