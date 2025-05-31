@@ -124,7 +124,13 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "name": "ICMS - Simples Nacional",
             "product_id": False,
             "account_id": self.env["account.account"]
-            .search([("name", "=", "ICMS a Recolher")], order="id DESC", limit=1)
+            .search(
+                [
+                    ("name", "=", "ICMS a Recolher"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
             .id,
             "partner_id": self.partner_a.id,
             "product_uom_id": False,
@@ -135,7 +141,13 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "price_total": 0.0,
             "tax_ids": [],
             "tax_line_id": self.env["account.tax"]
-            .search([("name", "=", "ICMS SN Saida")], order="id DESC", limit=1)
+            .search(
+                [
+                    ("name", "=", "ICMS SN Saida"),
+                    ("company_id", "=", self.company_data["company"].id),
+                ],
+                limit=1,
+            )
             .id,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": -27.0,
