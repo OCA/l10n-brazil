@@ -1,5 +1,5 @@
 # Copyright 2025-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import logging
 from unittest import mock
