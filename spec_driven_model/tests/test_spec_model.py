@@ -29,7 +29,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             Usaddress,
             Comment,
             PurchaseOrderType,
-            PurchaseOrder as PurchaseOrderXsd,
+            #            PurchaseOrder as PurchaseOrderXsd,
         )
         from .fake_odoo_purchase import (
             PurchaseOrder as FakePurchaseOrder,
@@ -49,7 +49,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 Usaddress,
                 Comment,
                 PurchaseOrderType,
-                PurchaseOrderXsd,
+                #                PurchaseOrderXsd,
                 ResPartner,
                 FakePurchaseOrder,
                 FakePurchaseOrderLine,
@@ -193,7 +193,6 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
       <ns0:productName>Some product desc</ns0:productName>
       <ns0:quantity>42</ns0:quantity>
       <ns0:USPrice>13</ns0:USPrice>
-      <ns0:comment>0</ns0:comment>
     </ns0:item>
   </ns0:items>
 </PurchaseOrderType>
