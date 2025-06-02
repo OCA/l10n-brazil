@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
+import gzip
 import logging
 import re
 import string
@@ -1483,10 +1484,11 @@ class CTe(spec_models.StackedModel):
                 process = None
                 for p in processador.processar_documento(edoc):
                     process = p
-                    if process.webservice == "cteRecepcaoLote":
-                        record.authorization_event_id._save_event_file(
-                            process.envio_xml, "xml"
-                        )
+                    if process.webservice in ["cteRecepcaoLote", "cteRecepcao"]:
+                        send_xml = gzip.decompress(
+                            base64.b64decode(process.envio_xml)
+                        ).decode("utf-8")
+                        record.authorization_event_id._save_event_file(send_xml, "xml")
 
             if process.resposta.cStat in LOTE_PROCESSADO + ["100"]:
                 record.update_status_cte(process)
