@@ -95,7 +95,10 @@ class SpecMixin(models.AbstractModel):
             return res
 
         spec_module = self._get_spec_property("odoo_module")
-        odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
+        if "_spec." in spec_module:
+            odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
+        else:  # for tests:
+            odoo_module = "spec_driven_model"
         load_key = f"_{spec_module}_loaded"
         if hasattr(self.env.registry, load_key):  # hook already done for registry
             return res
@@ -198,7 +201,10 @@ class SpecMixin(models.AbstractModel):
         """
 
         underline_name = cls._name.replace(".", "_")
-        model_id = f"{module_name}_spec.model_{underline_name}"
+        if module_name == "spec_driven_model":
+            model_id = f"spec_driven_model.model_{underline_name}"
+        else:
+            model_id = f"{module_name}_spec.model_{underline_name}"
         user_access_name = f"access_{underline_name}_user"
         if not env["ir.model.access"].search(
             [
