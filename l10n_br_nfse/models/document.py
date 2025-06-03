@@ -266,6 +266,8 @@ class Document(models.Model):
             "carga_tributaria": self.amount_tax,
             "total_recebido": self.amount_price_gross,
             "carga_tributaria_estimada": self.amount_estimate_tax,
+            "customer_additional_data": self.customer_additional_data,
+            "fiscal_additional_data": self.fiscal_additional_data,
         }
 
     def convert_type_nfselib(self, class_object, object_filed, value):
