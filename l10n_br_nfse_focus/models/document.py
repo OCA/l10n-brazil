@@ -146,6 +146,9 @@ class FocusnfeNfse(models.AbstractModel):
             "natureza_operacao": rps_info.get("natureza_operacao"),
             "optante_simples_nacional": rps_info.get("optante_simples_nacional", False),
             "status": rps_info.get("status"),
+            "informacoes_adicionais_contribuinte": rps_info.get(
+                "customer_additional_data", False
+            ),
         }
         codigo_obra = rps_info.get("codigo_obra", False)
         art = rps_info.get("art", False)
