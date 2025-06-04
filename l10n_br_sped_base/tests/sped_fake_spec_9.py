@@ -218,6 +218,7 @@ class Registro0000(models.AbstractModel):
 
 class Registro0007(models.AbstractModel):
     "OUTRAS INSCRIÇÕES CADASTRAIS DA PESSOA JURÍDICA"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.0007"
     _inherit = "l10n_br_sped.mixin.fake"
@@ -243,6 +244,7 @@ class Registro0007(models.AbstractModel):
 
 class RegistroI010(models.AbstractModel):
     "IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.i010"
     _inherit = "l10n_br_sped.mixin.fake"
@@ -314,6 +316,7 @@ class RegistroI010(models.AbstractModel):
 
 class RegistroI012(models.AbstractModel):
     "LIVROS AUXILIARES AO DIÁRIO"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.i012"
     _inherit = "l10n_br_sped.mixin.fake"
@@ -401,6 +404,7 @@ class RegistroI015(models.AbstractModel):
 
 class RegistroI030(models.AbstractModel):
     "TERMO DE ABERTURA"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.i030"
     _inherit = "l10n_br_sped.mixin.fake"
@@ -474,6 +478,7 @@ class RegistroI030(models.AbstractModel):
 
 class RegistroI050(models.AbstractModel):
     "PLANO DE CONTAS"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.i050"
     _inherit = "l10n_br_sped.mixin.fake"
@@ -590,6 +595,7 @@ class RegistroI510(models.AbstractModel):
 
 class RegistroI550(models.AbstractModel):
     "DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.i550"
     _inherit = "l10n_br_sped.mixin.fake"
@@ -614,6 +620,7 @@ class RegistroI550(models.AbstractModel):
 
 class RegistroI555(models.AbstractModel):
     "TOTAIS NO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.i555"
     _inherit = "l10n_br_sped.mixin.fake"
@@ -630,6 +637,7 @@ class RegistroI555(models.AbstractModel):
 
 class RegistroJ900(models.AbstractModel):
     "TERMO DE ENCERRAMENTO"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.j900"
     _inherit = "l10n_br_sped.mixin.fake"
@@ -677,6 +685,7 @@ class RegistroJ900(models.AbstractModel):
 
 class RegistroJ930(models.AbstractModel):
     "SIGNATÁRIOS DA ESCRITURAÇÃO"
+
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = "l10n_br_sped.fake.9.j930"
     _inherit = "l10n_br_sped.mixin.fake"

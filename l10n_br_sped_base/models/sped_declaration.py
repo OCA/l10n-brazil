@@ -65,7 +65,8 @@ class SpedDeclaration(models.AbstractModel):
         return [
             (
                 declaration.id,
-                f"{declaration.DT_FIN:%m-%Y}-{declaration.company_id.name.replace(' ', '_')}",
+                f"{declaration.DT_FIN:%m-%Y}-"
+                f"{declaration.company_id.name.replace(' ', '_')}",
             )
             for declaration in self
         ]

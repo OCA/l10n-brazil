@@ -34,16 +34,38 @@ class TestSpedBase(SavepointCase, FakeModelLoader):
         )
         from .sped_fake_spec_9 import (
             Registro0000 as AbstractRegistro0000,
+        )
+        from .sped_fake_spec_9 import (
             Registro0007 as AbstractRegistro0007,
+        )
+        from .sped_fake_spec_9 import (
             RegistroI010 as AbstractRegistroI010,
+        )
+        from .sped_fake_spec_9 import (
             RegistroI012 as AbstractRegistroI012,
+        )
+        from .sped_fake_spec_9 import (
             RegistroI015 as AbstractRegistroI015,
+        )
+        from .sped_fake_spec_9 import (
             RegistroI030 as AbstractRegistroI030,
+        )
+        from .sped_fake_spec_9 import (
             RegistroI050 as AbstractRegistroI050,
+        )
+        from .sped_fake_spec_9 import (
             RegistroI510 as AbstractRegistroI510,
+        )
+        from .sped_fake_spec_9 import (
             RegistroI550 as AbstractRegistroI550,
+        )
+        from .sped_fake_spec_9 import (
             RegistroI555 as AbstractRegistroI555,
+        )
+        from .sped_fake_spec_9 import (
             RegistroJ900 as AbstractRegistroJ900,
+        )
+        from .sped_fake_spec_9 import (
             RegistroJ930 as AbstractRegistroJ930,
         )
         from .sped_mixin_fake import SpecMixinFAKE
@@ -86,7 +108,7 @@ class TestSpedBase(SavepointCase, FakeModelLoader):
     @classmethod
     def tearDownClass(cls):
         cls.loader.restore_registry()
-        super(TestSpedBase, cls).tearDownClass()
+        super().tearDownClass()
 
     def test_generate_sped(self):
         sped = self.declaration._generate_sped_text()
