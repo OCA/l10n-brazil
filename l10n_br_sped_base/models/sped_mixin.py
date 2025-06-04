@@ -1,6 +1,7 @@
 # Copyright 2023 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import logging
 import datetime
 from collections import defaultdict
 from io import StringIO
@@ -10,6 +11,8 @@ from lxml.builder import E
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_is_zero
+
+_logger = logging.getLogger(__name__)
 
 LAYOUT_VERSIONS = {
     "ecd": "9",
@@ -149,7 +152,7 @@ class SpedMixin(models.AbstractModel):
         if not self._name.endswith("0000"):
             tree.append(E.field(name="declaration_id"))
 
-        for fname, native_field in self._fields.items():
+        for fname, native_field in self._ordered_fields():
             # register fields: the 1st and the required ones
             if not fname.isupper():
                 continue
@@ -171,7 +174,7 @@ class SpedMixin(models.AbstractModel):
             added_fields.add(fname)
             tree.append(E.field(name=fname, string=string))
 
-        for fname, native_field in self._fields.items():
+        for fname, native_field in self._ordered_fields():
             # the register o2m/o2o children:
             if (
                 fname in added_fields
@@ -212,7 +215,7 @@ class SpedMixin(models.AbstractModel):
         self._append_top_view_elements(group, inline=inline)
         group.append(E.field(name="state", invisible="1"))
 
-        for fname, field in self._fields.items():
+        for fname, field in self._ordered_fields():
             if field.automatic:
                 continue
             if field.type == "many2one" and "_Registro" in fname:  # inline m2o parent
@@ -431,6 +434,20 @@ class SpedMixin(models.AbstractModel):
         return declaration
 
     @api.model
+    def _ordered_fields(self):
+        """class _fields in the order they are declared."""
+        code = self._name.split(".")[-1].upper()
+        register_class = next(
+            filter(lambda c: c.__name__ == f"Registro{code}", type(self).mro())
+        )
+        fields = []
+        for name in register_class.__dict__.keys():
+            if name in self._fields:
+                fields.append((name, self._fields[name]))
+
+        return fields
+
+    @api.model
     def _read_register_line(self, line, version):
         """
         Read a single SPED register line and convert it into Odoo record values.
@@ -447,7 +464,8 @@ class SpedMixin(models.AbstractModel):
             ".%s" % (code), ".%s.%s" % (version, code)
         )
         register_spec = self.env[register_spec_model]
-        for fname, field in register_spec._fields.items():
+        _logger.info(f"register_spec: {register_spec}, reading {line}")
+        for fname, field in register_spec._ordered_fields():
             if not fname[0].isupper():  # Skip non-SPED fields
                 continue
             if not values:

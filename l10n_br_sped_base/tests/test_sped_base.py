@@ -119,7 +119,7 @@ class TestSpedBase(SavepointCase, FakeModelLoader):
         self.assertEqual(len(self.declaration._split_sped_text_by_bloco(sped)), 2)
 
     def test_register_tree_view(self):
-        arch = self.env["l10n_br_sped.fake.i010"].fields_view_get(view_type="tree")[
+        arch = self.env["l10n_br_sped.fake.i010"].get_view(view_type="tree")[
             "arch"
         ]
         self.assertIn(  # link to declaration
@@ -133,7 +133,7 @@ class TestSpedBase(SavepointCase, FakeModelLoader):
         )
 
     def test_register_form_view(self):
-        arch = self.env["l10n_br_sped.fake.i010"].fields_view_get(view_type="form")[
+        arch = self.env["l10n_br_sped.fake.i010"].get_view(view_type="form")[
             "arch"
         ]
         self.assertIn(  # link to declaration
@@ -157,7 +157,7 @@ class TestSpedBase(SavepointCase, FakeModelLoader):
         )
 
     def test_declaration_form_view(self):
-        arch = self.env["l10n_br_sped.fake.0000"].fields_view_get(view_type="form")[
+        arch = self.env["l10n_br_sped.fake.0000"].get_view(view_type="form")[
             "arch"
         ]
         self.assertIn(  # some header button
