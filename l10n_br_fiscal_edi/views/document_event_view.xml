@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="event_search" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.event.search</field>
-        <field name="model">l10n_br_fiscal.event</field>
+    <record id="document_event_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.event.search</field>
+        <field name="model">l10n_br_fiscal_edi.document.event</field>
         <field name="arch" type="xml">
             <search string="Fiscal Document Event">
                 <field name="origin" />
@@ -11,9 +11,9 @@
         </field>
     </record>
 
-    <record id="event_tree" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.event.tree</field>
-        <field name="model">l10n_br_fiscal.event</field>
+    <record id="document_event_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.event.tree</field>
+        <field name="model">l10n_br_fiscal_edi.document.event</field>
         <field name="arch" type="xml">
             <tree edit="false" create="false">
                 <field name="type" />
@@ -29,9 +29,9 @@
         </field>
     </record>
 
-    <record id="event_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.event.form</field>
-        <field name="model">l10n_br_fiscal.event</field>
+    <record id="document_event_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.event.form</field>
+        <field name="model">l10n_br_fiscal_edi.document.event</field>
         <field name="arch" type="xml">
             <form string="Eventos Eletronicos" edit="false" create="false">
                 <header>

@@ -34,8 +34,8 @@ FILE_SUFIX_EVENT = {
 
 
 class Event(models.Model):
-    _name = "l10n_br_fiscal.event"
-    _description = "Fiscal Event"
+    _name = "l10n_br_fiscal_edi.document.event"
+    _description = "Fiscal Document Event"
 
     @api.depends("document_id.name", "invalidate_number_id.name")
     def _compute_display_name(self):
