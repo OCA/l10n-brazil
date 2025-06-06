@@ -22,6 +22,9 @@
     "data": [
         # Data
         "data/ir_config_parameter.xml",
+        "data/l10n_br_fiscal_edi.service.csv",
+        "data/l10n_br_fiscal_edi.service.message.csv",
+        "data/l10n_br_fiscal_edi.event.csv",
         # Security
         "security/nfe_security.xml",
         "security/ir.model.access.csv",
