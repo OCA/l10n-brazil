@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="service_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.service.search</field>
+        <field name="model">l10n_br_fiscal_edi.service</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="document_type_ids" />
+            </search>
+        </field>
+    </record>
+
+    <record id="service_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.service.tree</field>
+        <field name="model">l10n_br_fiscal_edi.service</field>
+        <field name="arch" type="xml">
+            <tree edit="false" create="false">
+                <field name="code" />
+                <field name="name" />
+                <field name="document_type_ids" widget="many2many_tags" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="service_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.service.form</field>
+        <field name="model">l10n_br_fiscal_edi.service</field>
+        <field name="arch" type="xml">
+            <form edit="false" create="false">
+                <sheet>
+                    <group>
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="description" />
+                        <field name="document_type_ids" widget="many2many_tags" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
