@@ -36,6 +36,7 @@
                         <field name="description" />
                         <field name="document_type_ids" widget="many2many_tags" />
                     </group>
+                    <field name="service_message_ids" nolabel="1" />
                 </sheet>
             </form>
         </field>

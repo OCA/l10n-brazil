@@ -9,3 +9,6 @@
 "l10n_br_fiscal_edi_service_user","Fiscal Service for User","model_l10n_br_fiscal_edi_service","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_edi_service_manager","Fiscal Service for Manager","model_l10n_br_fiscal_edi_service","l10n_br_fiscal.group_manager",1,0,0,0
 "l10n_br_fiscal_edi_service_maintenance","Fiscal Service for Maintenance","model_l10n_br_fiscal_edi_service","l10n_br_fiscal.group_data_maintenance",1,1,1,1
+"l10n_br_fiscal_edi_service_message_user","Fiscal Service Message for User","model_l10n_br_fiscal_edi_service_message","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_edi_service_message_manager","Fiscal Service Message for Manager","model_l10n_br_fiscal_edi_service_message","l10n_br_fiscal.group_manager",1,0,0,0
+"l10n_br_fiscal_edi_service_message_maintenance","Fiscal Service Message for Maintenance","model_l10n_br_fiscal_edi_service_message","l10n_br_fiscal.group_data_maintenance",1,1,1,1

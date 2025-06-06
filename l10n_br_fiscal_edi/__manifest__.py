@@ -18,6 +18,7 @@
         "security/ir.model.access.csv",
         # Views
         "views/service_view.xml",
+        "views/service_message_view.xml",
         "views/document_view.xml",
         "views/invalidate_number_view.xml",
         "views/document_event_view.xml",

@@ -17,3 +17,9 @@ class Service(models.Model):
         comodel_name="l10n_br_fiscal.document.type",
         string="Document Type",
     )
+
+    service_message_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal_edi.service.message",
+        inverse_name="service_id",
+        string="Fiscal Service Message",
+    )
