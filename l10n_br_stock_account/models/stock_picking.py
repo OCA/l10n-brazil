@@ -48,7 +48,8 @@ class StockPicking(models.Model):
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
-        arch = self.env["stock.move"].inject_fiscal_fields(arch)
+        if self.env.company.country_id.code == "BR":
+            arch = self.env["stock.move"].inject_fiscal_fields(arch)
         return arch, view
 
     def _put_in_pack(self, move_line_ids, create_package_level=True):
