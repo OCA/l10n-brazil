@@ -230,40 +230,35 @@ class AccountMove(models.Model):
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)
-        if self.env.company.country_id.code != "BR":
+        if self.env.company.country_id.code != "BR" or view_type != "form":
             return arch, view
-        if view_type == "form":
-            view = self.env["ir.ui.view"]
 
-            for tax_totals_node in arch.xpath(
-                "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
+        for tax_totals_node in arch.xpath(
+            "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
+        ):
+            tax_totals_node.set("attrs", "{'invisible': True}")
+
+        if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
+            invoice_line_form_id = self.env.ref(
+                "l10n_br_account.fiscal_invoice_line_form"
+            ).id
+            sub_form_node, _sub_view = self.env["account.move.line"]._get_view(
+                view_id=invoice_line_form_id, view_type="form"
+            )
+            self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+
+            for original_sub_form_node in arch.xpath(
+                "//field[@name='invoice_line_ids']/form"
             ):
-                tax_totals_node.set("attrs", "{'invisible': True}")
+                parent = original_sub_form_node.parent
+                parent.remove(original_sub_form_node)
+                parent.append(sub_form_node)
 
-            if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
-                invoice_line_form_id = self.env.ref(
-                    "l10n_br_account.fiscal_invoice_line_form"
-                ).id
-                sub_form_node, _sub_view = self.env["account.move.line"]._get_view(
-                    view_id=invoice_line_form_id, view_type="form"
-                )
+        else:
+            for sub_form_node in arch.xpath("//field[@name='invoice_line_ids']/form"):
                 self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
-
-                # TODO FIXME test this part:
-                for original_sub_form_node in arch.xpath(
-                    "//field[@name='invoice_line_ids']/form"
-                ):
-                    parent = original_sub_form_node.parent
-                    parent.remove(original_sub_form_node)
-                    parent.append(sub_form_node)
-
-            else:
-                for sub_form_node in arch.xpath(
-                    "//field[@name='invoice_line_ids']/form"
-                ):
-                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
-                for sub_form_node in arch.xpath("//field[@name='line_ids']/tree"):
-                    self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
+            for sub_form_node in arch.xpath("//field[@name='line_ids']/tree"):
+                self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
 
         return arch, view
 
