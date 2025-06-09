@@ -1335,19 +1335,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__create_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__create_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__create_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__create_uid
 msgid "Created by"
 msgstr ""
 
@@ -1380,19 +1367,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__create_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__create_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__create_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__create_date
 msgid "Created on"
 msgstr ""
 
@@ -1857,19 +1831,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -2365,19 +2326,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__id
 msgid "ID"
 msgstr ""
 
@@ -3148,19 +3096,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf____last_update
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre____last_update
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -3193,19 +3128,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__write_uid
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__write_uid
 msgid "Last Updated by"
 msgstr ""
 
@@ -3238,19 +3160,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infnf__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infpercurso__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infrec__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infsolicnff__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_lacres__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tmdfe__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tnfenf_infnfe__write_date
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_tprotmdfe__write_date
 msgid "Last Updated on"
 msgstr ""
 
