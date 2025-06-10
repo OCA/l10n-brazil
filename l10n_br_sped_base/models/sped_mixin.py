@@ -1,8 +1,8 @@
 # Copyright 2023 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
-import logging
 import datetime
+import logging
 from collections import defaultdict
 from io import StringIO
 
@@ -75,7 +75,7 @@ class SpedMixin(models.AbstractModel):
                     _("Undefined mapping model for Register %s and model")
                     % (self._name, self.res_model)
                 )
-            res.reference = "%s,%s" % (model.model, res.res_id)
+            res.reference = f"{model.model},{res.res_id}"
 
     def _compute_currency_id(self):
         for item in self:
@@ -125,7 +125,7 @@ class SpedMixin(models.AbstractModel):
         """
 
         register_model_names = list(
-            filter(lambda x: "l10n_br_sped.%s" % (kind,) in x, self.env.keys())
+            filter(lambda x: f"l10n_br_sped.{kind}" in x, self.env.keys())
         )
         register_level2_models = [
             self.env[m]
@@ -205,14 +205,13 @@ class SpedMixin(models.AbstractModel):
         return tree
 
     @api.model
-    def _get_default_form_view(self, inline=False):
-        """Generate a default single-line form view using all fields
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        if view_type != "form":
+            return arch, view
 
-        :return: a tree view as an lxml document
-        :rtype: etree._Element
-        """
         group = E.group(col="4")
-        self._append_top_view_elements(group, inline=inline)
+        self._append_top_view_elements(group)
         group.append(E.field(name="state", invisible="1"))
 
         for fname, field in self._ordered_fields():
@@ -283,7 +282,7 @@ class SpedMixin(models.AbstractModel):
                         field_tag.append(field_tree)
                         field_form = self.env[
                             field.comodel_name
-                        ]._get_default_form_view(inline=True)
+                        ]._get_default_form_view()  # inline=True)
                         field_tag.append(field_form)
                 group.append(field_tag)
                 group.append(E.newline())
@@ -291,12 +290,10 @@ class SpedMixin(models.AbstractModel):
                 group.append(E.field(name=fname, attrs=EDITABLE_ON_DRAFT))
         group.append(E.separator())
         form = E.form()
-        if not inline:
-            self._append_view_header(form)
+        self._append_view_header(form)
         form.append(E.sheet(group, string=self._description))
-        if not inline:
-            self._append_view_footer(form)
-        return form
+        self._append_view_footer(form)
+        return form, view
 
     @api.model
     def _append_view_header(self, form):
@@ -376,11 +373,7 @@ class SpedMixin(models.AbstractModel):
                 if declaration is not None and reg_code == "0000":
                     continue
                 register_class = self.env.get(
-                    "l10n_br_sped.%s.%s"
-                    % (
-                        kind,
-                        reg_code.lower(),
-                    ),
+                    f"l10n_br_sped.{kind}.{reg_code.lower()}",
                     None,
                 )
 
@@ -388,8 +381,12 @@ class SpedMixin(models.AbstractModel):
                     if "001" in reg_code or "990" in reg_code or reg_code == "9999":
                         continue
                     raise UserError(
-                        _("Register %s doesn't match Odoo %s SPED structure!")
-                        % (reg_code, kind)
+                        _(
+                            "Register %(code)s doesn't match "
+                            "Odoo %(kind)s SPED structure!",
+                            code=reg_code,
+                            kind=kind,
+                        )
                     )
 
                 if register_class._sped_level < 3:  # TODO if more than +1 -> error!
@@ -410,13 +407,9 @@ class SpedMixin(models.AbstractModel):
                     vals["declaration_id"] = declaration.id
 
                 if parent:
-                    vals[
-                        "reg_%s_ids_Registro%s_id"
-                        % (
-                            register_class._name.split(".")[-1].upper(),
-                            parent._name.split(".")[-1].upper(),
-                        )
-                    ] = parent.id
+                    register = register_class._name.split(".")[-1].upper()
+                    parent_code = parent._name.split(".")[-1].upper()
+                    vals[f"reg_{register}_ids_Registro{parent_code}_id"] = parent.id
                 register = register_class.create(vals)
                 if reg_code == "0000":
                     declaration = register
@@ -426,7 +419,7 @@ class SpedMixin(models.AbstractModel):
                 previous_register = register
 
         log_msg = StringIO()
-        log_msg.write("<h3>%s</h3>" % (_("Imported from file:"),))
+        log_msg.write(f"<h3>{_('Imported from file:')}</h3>")
         for _code, registers in level_2_registers.items():
             registers[0]._log_chatter_sped_item(log_msg, 2, registers)
         declaration.message_post(body=log_msg.getvalue())
@@ -438,7 +431,9 @@ class SpedMixin(models.AbstractModel):
         """class _fields in the order they are declared."""
         code = self._name.split(".")[-1].upper()
         register_class = next(
-            filter(lambda c: c.__name__ == f"Registro{code}", type(self).mro())
+            filter(
+                lambda c: c.__name__ == f"Registro{code}", reversed(type(self).mro())
+            )
         )
         fields = []
         for name in register_class.__dict__.keys():
@@ -460,9 +455,7 @@ class SpedMixin(models.AbstractModel):
         values = line.split("|")[2:][:-1]
         register_vals = {"is_imported": True}
         code = self._name[-4:]
-        register_spec_model = self._name.replace(
-            ".%s" % (code), ".%s.%s" % (version, code)
-        )
+        register_spec_model = self._name.replace(f".{code}", f".{version}.{code}")
         register_spec = self.env[register_spec_model]
         _logger.info(f"register_spec: {register_spec}, reading {line}")
         for fname, field in register_spec._ordered_fields():
@@ -472,8 +465,8 @@ class SpedMixin(models.AbstractModel):
                 break
             if field.type in ("many2one", "one2many"):
                 raise RuntimeError(
-                    "Bad register fields! more values than fields in Odoo! %s %s"
-                    % (fname, values),
+                    "Bad register fields! more values "
+                    f"than fields in Odoo! {fname} {values}"
                 )
             val = values.pop(0)
 
@@ -503,7 +496,7 @@ class SpedMixin(models.AbstractModel):
             f".{code.lower()}", f".{version}.{code.lower()}"
         )
         register_spec = self.env[register_spec_model]
-        keys = [k for k, v in register_spec._fields.items()] or ["id"]
+        keys = [k for k, v in register_spec._ordered_fields()] or ["id"]
 
         if len(self):
             count_by_register[code] += len(self)
@@ -563,9 +556,11 @@ class SpedMixin(models.AbstractModel):
             return (
                 ""
                 if float_is_zero(value, precision_digits=8)
-                else str(int(value))
-                if float_is_zero(value % 1, precision_digits=8)
-                else str(value)
+                else (
+                    str(int(value))
+                    if float_is_zero(value % 1, precision_digits=8)
+                    else str(value)
+                )
             )
         else:
             return str(value)
