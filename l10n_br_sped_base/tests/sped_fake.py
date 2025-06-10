@@ -17,11 +17,10 @@ from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
 
 
 class Registro0000(models.Model):
-    """
-    ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DO EMPRESÁRIO OU DA
+    """ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DO EMPRESÁRIO OU DA
     SOCIEDADE EMPRESÁRIA"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.0000"
     _inherit = ["l10n_br_sped.fake.9.0000"]
     _odoo_model = "res.company"
@@ -76,8 +75,9 @@ class Registro0000(models.Model):
 
     @api.model
     def _append_top_view_elements(self, group, inline=False):
-        super()._append_top_view_elements(group)
+        res = super()._append_top_view_elements(group)
         group.append(E.field(name="ind_esc", required="1", attrs=EDITABLE_ON_DRAFT))
+        return res
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
@@ -114,7 +114,7 @@ class Registro0000(models.Model):
 class Registro0007(models.Model):
     "OUTRAS INSCRIÇÕES CADASTRAIS DA PESSOA JURÍDICA"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.0007"
     _inherit = "l10n_br_sped.fake.9.0007"
 
@@ -122,7 +122,7 @@ class Registro0007(models.Model):
 class RegistroI010(models.Model):
     "IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.i010"
     _inherit = "l10n_br_sped.fake.9.i010"
 
@@ -138,7 +138,7 @@ class RegistroI010(models.Model):
 class RegistroI012(models.Model):
     "LIVROS AUXILIARES AO DIÁRIO"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.i012"
     _inherit = "l10n_br_sped.fake.9.i012"
 
@@ -147,7 +147,7 @@ class RegistroI015(models.Model):
     """IDENTIFICAÇÃO DAS CONTAS DA ESCRITURAÇÃO RESUMIDA A QUE SE REFERE A
     ESCRITURAÇÃO AUXILIAR"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.i015"
     _inherit = "l10n_br_sped.fake.9.i015"
 
@@ -155,7 +155,7 @@ class RegistroI015(models.Model):
 class RegistroI030(models.Model):
     "TERMO DE ABERTURA"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.i030"
     _inherit = "l10n_br_sped.fake.9.i030"
 
@@ -163,7 +163,7 @@ class RegistroI030(models.Model):
 class RegistroI050(models.Model):
     "PLANO DE CONTAS"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.i050"
     _inherit = "l10n_br_sped.fake.9.i050"
 
@@ -172,7 +172,7 @@ class RegistroI510(models.Model):
     """DEFINIÇÃO DOS CAMPOS DO LIVRO RAZÃO AUXILIAR COM LEIAUTE
     PARAMETRIZÁVEL"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.i510"
     _inherit = "l10n_br_sped.fake.9.i510"
 
@@ -180,7 +180,7 @@ class RegistroI510(models.Model):
 class RegistroI550(models.Model):
     "DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.i550"
     _inherit = "l10n_br_sped.fake.9.i550"
 
@@ -196,7 +196,7 @@ class RegistroI550(models.Model):
         if len(self):
             count_by_register[code] += len(self)
         for rec in self:
-            sped.write("\n|%s|" % (code,))
+            sped.write(f"\n|{code}|")
             sped.write(rec.RZ_CONT)
             sped.write("|")
             line_count[0] += 1
@@ -209,7 +209,7 @@ class RegistroI550(models.Model):
 class RegistroI555(models.Model):
     "TOTAIS NO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.i555"
     _inherit = "l10n_br_sped.fake.9.i555"
 
@@ -225,7 +225,7 @@ class RegistroI555(models.Model):
         if len(self):
             count_by_register[code] += len(self)
         for rec in self:
-            sped.write("\n|%s|" % (code,))
+            sped.write(f"\n|{code}|")
             sped.write(rec.RZ_CONT_TOT or "")
             sped.write("|")
             line_count[0] += 1
@@ -234,7 +234,7 @@ class RegistroI555(models.Model):
 class RegistroJ900(models.Model):
     "TERMO DE ENCERRAMENTO"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.j900"
     _inherit = "l10n_br_sped.fake.9.j900"
 
@@ -242,6 +242,6 @@ class RegistroJ900(models.Model):
 class RegistroJ930(models.Model):
     "SIGNATÁRIOS DA ESCRITURAÇÃO"
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.fake.j930"
     _inherit = "l10n_br_sped.fake.9.j930"
