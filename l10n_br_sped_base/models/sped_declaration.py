@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import base64
+import logging
 from collections import defaultdict
 from io import StringIO
 
@@ -10,6 +11,8 @@ from lxml.builder import E
 from odoo import _, api, fields, models
 
 from .sped_mixin import LAYOUT_VERSIONS
+
+_logger = logging.getLogger(__name__)
 
 
 class SpedDeclaration(models.AbstractModel):
@@ -74,21 +77,28 @@ class SpedDeclaration(models.AbstractModel):
     def button_populate_sped_from_odoo(self):
         """Populate SPED registers from Odoo."""
         # TODO add cron pulling from Odoo for open declarations
+        self.ensure_one()
         log_msg = StringIO()
-        log_msg.write("<h3>%s</h3>" % (_("Pulled from Odoo:"),))
+        log_msg.write(f"<h3>{_('Pulled from Odoo')}</h3>")
         kind = self._get_kind()
-        top_registers = (
-            self.env["l10n_br_sped.mixin"]
-            .with_context(
-                company_id=self.company_id.id,
-                declaration=self,
-                default_declaration_id=self.id,
-            )
-            ._get_top_registers(kind)
+        mixin_env = self.env["l10n_br_sped.mixin"].with_context(
+            company_id=self.company_id.id,
+            declaration=self,
+            default_declaration_id=self.id,
         )
-        for register in top_registers:
-            register._pull_records_from_odoo(kind, level=2, log_msg=log_msg)
+        top_registers = mixin_env._get_top_registers(kind)
 
+        for register_model in top_registers:  # Iterate over models, not instances
+            try:
+                register_model._pull_records_from_odoo(kind, level=2, log_msg=log_msg)
+            except Exception as e:
+                _logger.error(
+                    f"Error pulling records for {register_model._name}: {e}",
+                    exc_info=True,
+                )
+                log_msg.write(
+                    f"<p style='color:red;'>Error processing {register_model._name}: {e}</p>"
+                )
         self.message_post(body=log_msg.getvalue())
 
     def button_flush_registers(self):
@@ -113,15 +123,12 @@ class SpedDeclaration(models.AbstractModel):
         self.env["ir.attachment"].create(attachment_vals)
 
     def _split_sped_text_by_bloco(self, sped_txt):
-        blocos = {}
-        # Split the text by bloco
+        blocos = defaultdict(list)
         current_bloco = None
         for line in sped_txt.splitlines():
             if line.startswith(("|0", "|9")):
                 continue
             current_bloco = line[1]
-            if current_bloco not in blocos:
-                blocos[current_bloco] = []
             if current_bloco:
                 blocos[current_bloco].append(line)
 
