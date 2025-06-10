@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import base64
+from io import StringIO
 from os import path
 from unittest import mock
 from unittest.mock import patch  # Ensure patch is from unittest.mock
@@ -325,3 +326,127 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             self.assertEqual(
                 bloco_attachment_val["name"], f"FAKE-bloco_X-{decl_name_part}.txt"
             )
+
+    def test_pull_records_from_odoo_logic(self):
+        """
+        Test the core logic of _pull_records_from_odoo for a sample register.
+        We'll use l10n_br_sped.fake.0007 which doesn't have _odoo_model defined,
+        so it will fall into the 'elif hasattr(self, "_map_from_odoo"):' block
+        if we define _map_from_odoo on it for the test.
+
+        If we want to test a register that *does* have _odoo_model,
+        we'd need to create some res.partner records for example.
+        Let's first test the case where _map_from_odoo is called directly.
+        """
+        declaration = self.declaration
+        log_msg_container = StringIO()  # To pass to the method
+
+        Reg0007Model = self.env["l10n_br_sped.fake.0007"]
+
+        # Scenario 1: Register uses only _map_from_odoo (no _odoo_model or _odoo_query)
+        # We need to make sure _map_from_odoo is defined on the test model.
+        # Let's patch it for this test to control its return value.
+
+        mapped_values_for_0007 = {
+            "COD_ENT_REF": "01",  # Example value
+            "COD_INSCR": "Z1234567",  # Example value
+            "declaration_id": declaration.id,  # Should be set by _pull_records
+        }
+
+        # We are calling Reg0007Model._pull_records_from_odoo(...)
+        with patch.object(
+            type(Reg0007Model), "_map_from_odoo", return_value=mapped_values_for_0007
+        ) as mock_map_0007, patch.object(
+            type(Reg0007Model), "create", wraps=Reg0007Model.create
+        ) as mock_create_0007:
+            Reg0007Model.with_context(declaration=declaration)._pull_records_from_odoo(
+                kind="fake", level=2, log_msg=log_msg_container
+            )
+
+            mock_map_0007.assert_called_once_with(None, None, declaration)
+
+            # Assert 'create' was called with the mapped values
+            mock_create_0007.assert_called_once()
+            created_vals = mock_create_0007.call_args[0][0]
+            self.assertEqual(
+                created_vals.get("COD_ENT_REF"), mapped_values_for_0007["COD_ENT_REF"]
+            )
+            self.assertEqual(
+                created_vals.get("COD_INSCR"), mapped_values_for_0007["COD_INSCR"]
+            )
+            self.assertEqual(created_vals.get("declaration_id"), declaration.id)
+
+        # Check that one record was actually created
+        created_0007_records = Reg0007Model.search(
+            [("declaration_id", "=", declaration.id)]
+        )
+        self.assertEqual(len(created_0007_records), 2)
+        self.assertEqual(created_0007_records[-1].COD_ENT_REF, "01")
+
+        # Scenario 2: Register uses _odoo_model and _odoo_domain
+        RegI010Model = self.env["l10n_br_sped.fake.i010"]
+
+        # Create some dummy Odoo records that _odoo_domain would find
+        # For this, we need a simple model to act as the source. Let's use 'res.partner'
+        # and create a couple of partners.
+        PartnerModel = self.env["res.partner"]
+        partner1 = PartnerModel.create({"name": "Test Partner SPED 1"})
+        partner2 = PartnerModel.create({"name": "Test Partner SPED 2"})
+
+        # Define what _map_from_odoo for I010 should return for each partner
+        def i010_map_side_effect(record, parent_record, decl, index=0):
+            if record == partner1:
+                return {"IND_ESC": "G", "COD_VER_LC": "9.00", "declaration_id": decl.id}
+            if record == partner2:
+                return {"IND_ESC": "R", "COD_VER_LC": "9.00", "declaration_id": decl.id}
+            return {}
+
+        # Temporarily set _odoo_model and mock _odoo_domain for RegI010Model
+        # and mock its _map_from_odoo
+        with patch.object(
+            type(RegI010Model), "_odoo_model", "res.partner"
+        ), patch.object(
+            type(RegI010Model),
+            "_odoo_domain",
+            return_value=[("id", "in", [partner1.id, partner2.id])],
+        ) as mock_domain_i010, patch.object(
+            type(RegI010Model), "_map_from_odoo", side_effect=i010_map_side_effect
+        ) as mock_map_i010, patch.object(
+            type(RegI010Model), "create", wraps=RegI010Model.create
+        ) as mock_create_i010:
+            # Clear previous log_msg
+            log_msg_container = StringIO()
+            RegI010Model.with_context(declaration=declaration)._pull_records_from_odoo(
+                kind="fake", level=2, log_msg=log_msg_container
+            )
+
+            mock_domain_i010.assert_called_once_with(None, declaration)
+            self.assertEqual(
+                mock_map_i010.call_count, 2
+            )  # Called for partner1 and partner2
+
+            # Check calls to _map_from_odoo
+            mock_map_i010.assert_any_call(partner1, None, declaration, index=0)
+            mock_map_i010.assert_any_call(partner2, None, declaration, index=1)
+
+            # Check calls to create
+            self.assertEqual(mock_create_i010.call_count, 2)
+            created_vals_1 = mock_create_i010.call_args_list[0][0][
+                0
+            ]  # First call, first arg, vals dict
+            created_vals_2 = mock_create_i010.call_args_list[1][0][
+                0
+            ]  # Second call, first arg, vals dict
+
+            self.assertEqual(created_vals_1.get("IND_ESC"), "G")
+            self.assertEqual(created_vals_1.get("res_model"), "res.partner")
+            self.assertEqual(created_vals_1.get("res_id"), partner1.id)
+
+            self.assertEqual(created_vals_2.get("IND_ESC"), "R")
+            self.assertEqual(created_vals_2.get("res_model"), "res.partner")
+            self.assertEqual(created_vals_2.get("res_id"), partner2.id)
+
+        created_i010_records = RegI010Model.search(
+            [("declaration_id", "=", declaration.id)]
+        )
+        self.assertEqual(len(created_i010_records), 3)

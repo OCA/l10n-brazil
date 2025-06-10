@@ -118,6 +118,10 @@ class Registro0007(models.Model):
     _name = "l10n_br_sped.fake.0007"
     _inherit = "l10n_br_sped.fake.9.0007"
 
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {}
+
 
 class RegistroI010(models.Model):
     "IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL"
