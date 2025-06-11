@@ -196,16 +196,16 @@
                                         <field name="mdfe30_cInt" />
                                         <field
                                             name="mdfe30_placa"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', ['58'])]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
                                         />
                                         <field name="mdfe30_RENAVAM" />
                                         <field
                                             name="mdfe30_tpCar"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', ['58'])]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
                                         />
                                         <field
                                             name="mdfe30_tpRod"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', ['58'])]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
                                         />
                                         <field name="rodo_vehicle_state_id" />
                                         <field
@@ -222,7 +222,7 @@
                                     <group>
                                         <field
                                             name="mdfe30_tara"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', ['58'])]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
                                         />
                                         <field name="mdfe30_capKG" />
                                         <field name="mdfe30_capM3" />
