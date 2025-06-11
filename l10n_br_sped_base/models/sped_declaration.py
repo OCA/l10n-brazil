@@ -177,7 +177,8 @@ class SpedDeclaration(models.AbstractModel):
                     exc_info=True,
                 )
                 log_msg.write(
-                    f"<p style='color:red;'>Error processing {register_model._name}: {e}</p>"
+                    "<p style='color:red;'>Error "
+                    f"processing {register_model._name}: {e}</p>"
                 )
         self.message_post(body=log_msg.getvalue())
 
@@ -356,21 +357,13 @@ class SpedDeclaration(models.AbstractModel):
             registers = register_class.search(domain)
             if bloco != last_bloco:
                 if last_bloco:
-                    sped.write(
-                        "\n|%s990|%s|"
-                        % (
-                            last_bloco,
-                            line_count[0] + 1,
-                        )
-                    )
-                    count_by_register["%s990" % (bloco,)] = 1
+                    sped.write(f"\n|{last_bloco}990|{line_count[0] + 1}|")
+                    count_by_register[f"{bloco}990"] = 1
                     line_total += line_count[0] + 1
                     line_count = [0]
 
-                sped.write(
-                    "\n|%s001|%s|" % (bloco, 0 if count_by_bloco[bloco] > 0 else 1)
-                )
-                count_by_register["%s001" % (bloco,)] = 1
+                sped.write(f"\n|{bloco}001|{0 if count_by_bloco[bloco] > 0 else 1}|")
+                count_by_register[f"{bloco}001"] = 1
                 line_count[0] += 1
             registers._generate_register_text(
                 sped, version, line_count, count_by_register
@@ -394,9 +387,9 @@ class SpedDeclaration(models.AbstractModel):
         ):
             code = item[0]
             num = item[1]
-            sped.write("\n|9900|%s|%s|" % (code, num))
-        sped.write("\n|9990|%s|" % (len(count_by_register.keys()) + 3,))
+            sped.write(f"\n|9900|{code}|{num}|")
+        sped.write(f"\n|9990|{len(count_by_register.keys()) + 3}|")
 
         line_total += line_count[0] + len(count_by_register.keys()) + 4
-        sped.write("\n|9999|%s|" % (line_total,))
+        sped.write(f"\n|9999|{line_total}|")
         return sped.getvalue()
