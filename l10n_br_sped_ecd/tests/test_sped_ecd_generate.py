@@ -127,7 +127,7 @@ class SpedTest(AccountMoveBRCommon):
             icms_regulation_id=cls.env.ref("l10n_br_fiscal.tax_icms_regulation").id,
             cnae_main_id=cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
             document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
-            **kwargs
+            **kwargs,
         )
         res["company"].partner_id.state_id = cls.env.ref("base.state_br_sp").id
         chart_template.load_fiscal_taxes()
@@ -136,7 +136,6 @@ class SpedTest(AccountMoveBRCommon):
     def test_generate_sped(self):
         self.env["l10n_br_sped.mixin"]._flush_registers("ecd")
         file_path = path.join(self.demo_path, "demo_ecd_output.txt")
-        self.env["l10n_br_sped.mixin"]
         declaration = self.env["l10n_br_sped.declaration"].create({})
         # sped_mixin._import_file(file_path, "ecd")
         sped = declaration._generate_sped_text()
