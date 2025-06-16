@@ -86,7 +86,7 @@ class Registro0000(models.AbstractModel):
     """ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DO EMPRESÁRIO OU DA
     SOCIEDADE EMPRESÁRIA"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.0000"
     _inherit = "l10n_br_sped.declaration"
     _sped_level = 0
@@ -115,8 +115,8 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="14",
         help=(
-            "Número de inscrição da pessoa jurídica no CNPJ. Observação: Esse "
-            "CNPJ é sempre da Sócia Ostensiva, no caso do arquivo da SCP."
+            "Número de inscrição da pessoa jurídica no CNPJ. Observação: Esse CNPJ é "
+            "sempre da Sócia Ostensiva, no caso do arquivo da SCP."
         ),
     )
 
@@ -133,9 +133,8 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="7",
         help=(
-            "Código do município do domicílio fiscal da pessoa jurídica, "
-            "conforme tabela do IBGE – Instituto Brasileiro de Geografia e "
-            "Estatística."
+            "Código do município do domicílio fiscal da pessoa jurídica, conforme "
+            "tabela do IBGE – Instituto Brasileiro de Geografia e Estatística."
         ),
     )
 
@@ -145,9 +144,7 @@ class Registro0000(models.AbstractModel):
         string="Indicador de situação especial",
         xsd_type="numeric_code",
         sped_length="1",
-        help=(
-            "Indicador de situação especial (conforme tabela publicada pelo " "Sped)."
-        ),
+        help="Indicador de situação especial (conforme tabela publicada pelo Sped).",
     )
 
     IND_SIT_INI_PER = fields.Char(
@@ -156,8 +153,8 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Indicador de situação no início do período (conforme tabela "
-            "publicada pelo Sped)."
+            "Indicador de situação no início do período (conforme tabela publicada pelo"
+            " Sped)."
         ),
     )
 
@@ -167,9 +164,9 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Indicador de existência de NIRE: 0 – Empresa não possui registro "
-            "na Junta Comercial (não possui NIRE) 1 – Empresa possui registro "
-            "na Junta Comercial (possui NIRE)"
+            "Indicador de existência de NIRE: 0 – Empresa não possui registro na Junta "
+            "Comercial (não possui NIRE) 1 – Empresa possui registro na Junta Comercial"
+            " (possui NIRE)"
         ),
     )
 
@@ -178,9 +175,7 @@ class Registro0000(models.AbstractModel):
         required=True,
         xsd_type="numeric_code",
         sped_length="1",
-        help=(
-            "Indicador de finalidade da escrituração: 0 - Original 1 – " "Substituta"
-        ),
+        help="Indicador de finalidade da escrituração: 0 - Original 1 – Substituta",
     )
 
     COD_HASH_SUB = fields.Char(
@@ -193,11 +188,10 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Indicador de entidade sujeita a auditoria independente: 0 – "
-            "Empresa não é entidade sujeita a auditoria independente. 1 – "
-            "Empresa é entidade sujeita a auditoria independente – Ativo Total"
-            " superior a R$ 240.000.000,00 ou Receita Bruta Anual superior "
-            "R$300.000.000,00."
+            "Indicador de entidade sujeita a auditoria independente: 0 – Empresa não é "
+            "entidade sujeita a auditoria independente. 1 – Empresa é entidade sujeita "
+            "a auditoria independente – Ativo Total superior a R$ 240.000.000,00 ou "
+            "Receita Bruta Anual superior R$300.000.000,00."
         ),
     )
 
@@ -206,9 +200,9 @@ class Registro0000(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador do tipo de ECD: 0 – ECD de empresa não participante de "
-            "SCP como sócio ostensivo. 1 – ECD de empresa participante de SCP "
-            "como sócio ostensivo. 2 – ECD da SCP."
+            "Indicador do tipo de ECD: 0 – ECD de empresa não participante de SCP como "
+            "sócio ostensivo. 1 – ECD de empresa participante de SCP como sócio "
+            "ostensivo. 2 – ECD da SCP."
         ),
     )
 
@@ -217,9 +211,9 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="14",
         help=(
-            "CNPJ da SCP (Art. 4º, XVII, da IN RFB nº 1.863, de 27 de dezembro"
-            " de 2018). Observação: Só deve ser preenchido pela própria SCP "
-            "com o CNPJ da SCP (Não é preenchido pelo sócio ostensivo)."
+            "CNPJ da SCP (Anexo I, XVIII, da IN RFB nº 2.119, de 06 de dezembro de "
+            "2022). Observação: Só deve ser preenchido pela própria SCP com o CNPJ da "
+            "SCP (Não é preenchido pelo sócio ostensivo)."
         ),
     )
 
@@ -228,11 +222,11 @@ class Registro0000(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Identificação de moeda funcional: Indica que a escrituração "
-            "abrange valores com base na moeda funcional (art. 287 da "
-            "Instrução Normativa RFB nº 1.700, de 14 de março de 2017). "
-            "Observação: Deverá ser utilizado o registro I020 para informação "
-            "de campos adicionais, conforme instruções do item 1.24."
+            "Identificação de moeda funcional: Indica que a escrituração abrange "
+            "valores com base na moeda funcional (art. 287 da Instrução Normativa RFB "
+            "nº 1.700, de 14 de março de 2017). Observação: Deverá ser utilizado o "
+            "registro I020 para informação de campos adicionais, conforme instruções do"
+            " item 1.24."
         ),
     )
 
@@ -241,11 +235,10 @@ class Registro0000(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Escriturações Contábeis Consolidadas: (Deve ser preenchido pela "
-            "empresa controladora obrigada a informar demonstrações contábeis "
-            "consolidadas, nos termos da Lei nº 6.404/76 e/ou do "
-            "Pronunciamento Técnico CPC 36 – Demonstrações Consolidadas) S – "
-            "Sim N – Não"
+            "Escriturações Contábeis Consolidadas: (Deve ser preenchido pela empresa "
+            "controladora obrigada a informar demonstrações contábeis consolidadas, nos"
+            " termos da Lei nº 6.404/76 e/ou do Pronunciamento Técnico CPC 36 – "
+            "Demonstrações Consolidadas) S – Sim N – Não"
         ),
     )
 
@@ -255,9 +248,8 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Indicador da modalidade de escrituração centralizada ou "
-            "descentralizada: 0 – Escrituração Centralizada 1 – Escrituração "
-            "Descentralizada"
+            "Indicador da modalidade de escrituração centralizada ou descentralizada: 0"
+            " – Escrituração Centralizada 1 – Escrituração Descentralizada"
         ),
     )
 
@@ -267,8 +259,8 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Indicador de mudança de plano de contas: 0 – Não houve mudança no"
-            " plano de contas. 1 – Houve mudança no plano de contas."
+            "Indicador de mudança de plano de contas: 0 – Não houve mudança no plano de"
+            " contas. 1 – Houve mudança no plano de contas."
         ),
     )
 
@@ -276,22 +268,23 @@ class Registro0000(models.AbstractModel):
         string="O Código do Plano de Contas Referencial",
         sped_length="2",
         help=(
-            "O Código do Plano de Contas Referencial que será utilizado para o"
-            " mapeamento de todas as contas analíticas: 1 – PJ em Geral – "
-            "Lucro Real 2 – PJ em Geral – Lucro Presumido 3 – Financeiras – "
-            "Lucro Real 4 – Seguradoras – Lucro Real 5 – Imunes e Isentas em "
-            "Geral 6 – Imunes e Isentas – Financeiras 7 – Imunes e Isentas – "
-            "Seguradoras 8 – Entidades Fechadas de Previdência Complementar 9 "
-            "– Partidos Políticos 10 – Financeiras – Lucro Presumido "
-            "bservação: Caso a pessoa jurídica não realize o mapeamento para "
-            "os planos referenciais na ECD, este campo deve ficar em branco."
+            "O Código do Plano de Contas Referencial que será utilizado para o "
+            "mapeamento de todas as contas analíticas: 1 – PJ em Geral – Lucro Real 2 –"
+            " PJ em Geral – Lucro Presumido 3 – Financeiras – Lucro Real 4 – "
+            "Seguradoras – Lucro Real 5 – Imunes e Isentas em Geral 6 – Imunes e "
+            "Isentas – Financeiras 7 – Imunes e Isentas – Seguradoras 8 – Entidades "
+            "Fechadas de Previdência Complementar 9 – Partidos Políticos 10 – "
+            "Financeiras – Lucro Presumido bservação: Caso a pessoa jurídica não "
+            "realize o mapeamento para os planos referenciais na ECD, este campo deve "
+            "ficar em branco."
         ),
     )
 
 
 class Registro0007(models.AbstractModel):
     "OUTRAS INSCRIÇÕES CADASTRAIS DA PESSOA JURÍDICA"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.0007"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -300,23 +293,24 @@ class Registro0007(models.AbstractModel):
         string="Código da instituição responsável",
         required=True,
         help=(
-            "Código da instituição responsável pela administração do cadastro "
-            "(conforme tabela publicada pelo Sped)."
+            "Código da instituição responsável pela administração do cadastro (conforme"
+            " tabela publicada pelo Sped)."
         ),
     )
 
     COD_INSCR = fields.Char(
         string="Código cadastral da pessoa jurídica",
         help=(
-            "Código cadastral da pessoa jurídica na instituição identificada "
-            "no campo 02."
+            "Código cadastral da pessoa jurídica na instituição identificada no campo "
+            "02."
         ),
     )
 
 
 class Registro0020(models.AbstractModel):
     "ESCRITURAÇÃO CONTÁBIL DESCENTRALIZADA"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.0020"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -337,9 +331,7 @@ class Registro0020(models.AbstractModel):
         required=True,
         xsd_type="numeric_code",
         sped_length="14",
-        help=(
-            "Número de inscrição da pessoa jurídica no CNPJ da matriz ou da " "filial."
-        ),
+        help=("Número de inscrição da pessoa jurídica no CNPJ da matriz ou da filial."),
     )
 
     UF = fields.Char(
@@ -367,16 +359,13 @@ class Registro0020(models.AbstractModel):
         string="Número de Identificação do Registro de Empresas",
         xsd_type="numeric_code",
         sped_length="11",
-        help=(
-            "Número de Identificação do Registro de Empresas da matriz ou da "
-            "filial na Junta Comercial."
-        ),
     )
 
 
 class Registro0035(models.AbstractModel):
     "IDENTIFICAÇÃO DAS SCP"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.0035"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -386,8 +375,8 @@ class Registro0035(models.AbstractModel):
         required=True,
         sped_length="14",
         help=(
-            "CNPJ da SCP (Art. 4º, XVII, da Instrução Normativa RFB nº 1.863, "
-            "de 27 de dezembro de 2018)."
+            "CNPJ da SCP (Aenxo I, XVIII, da Instrução Normativa RFB nº 2.119, de 06 de"
+            " dezembro de 2022)."
         ),
     )
 
@@ -396,7 +385,8 @@ class Registro0035(models.AbstractModel):
 
 class Registro0150(models.AbstractModel):
     "TABELA DE CADASTRO DO PARTICIPANTE"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.0150"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -405,8 +395,8 @@ class Registro0150(models.AbstractModel):
         string="Código de identificação do participante",
         required=True,
         help=(
-            "Código de identificação do participante no arquivo criado pela "
-            "própria pessoa jurídica."
+            "Código de identificação do participante no arquivo criado pela própria "
+            "pessoa jurídica."
         ),
     )
 
@@ -420,8 +410,8 @@ class Registro0150(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="5",
         help=(
-            "Código do país do participante, conforme a tabela do Banco "
-            "Central do Brasil."
+            "Código do país do participante, conforme a tabela do Banco Central do "
+            "Brasil."
         ),
     )
 
@@ -479,7 +469,8 @@ class Registro0150(models.AbstractModel):
 
 class Registro0180(models.AbstractModel):
     "IDENTIFICAÇÃO DO RELACIONAMENTO COM O PARTICIPANTE"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.0180"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -489,7 +480,7 @@ class Registro0180(models.AbstractModel):
         required=True,
         xsd_type="numeric_code",
         sped_length="2",
-        help=("Código do relacionamento conforme tabela publicada pelo Sped."),
+        help="Código do relacionamento conforme tabela publicada pelo Sped.",
     )
 
     DT_INI_REL = fields.Date(
@@ -510,7 +501,8 @@ class Registro0180(models.AbstractModel):
 
 class RegistroI010(models.AbstractModel):
     "IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i010"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -520,12 +512,12 @@ class RegistroI010(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "G R A B Z Indicador da forma de escrituração contábil: - Livro "
-            "Diário (Completo sem escrituração auxiliar). - Livro Diário com "
-            "Escrituração Resumida (com escrituração auxiliar). - Livro Diário"
-            " Auxiliar ao Diário com Escrituração Resumida. - Livro Balancetes"
-            " Diários e Balanços. – Razão Auxiliar (Livro Contábil Auxiliar "
-            "conforme leiaute definido nos registros I500 a I555)."
+            "G R A B Z Indicador da forma de escrituração contábil: - Livro Diário "
+            "(Completo sem escrituração auxiliar). - Livro Diário com Escrituração "
+            "Resumida (com escrituração auxiliar). - Livro Diário Auxiliar ao Diário "
+            "com Escrituração Resumida. - Livro Balancetes Diários e Balanços. – Razão "
+            "Auxiliar (Livro Contábil Auxiliar conforme leiaute definido nos registros "
+            "I500 a I555)."
         ),
     )
 
@@ -612,8 +604,8 @@ class RegistroI010(models.AbstractModel):
         sped_card="1:12",
         sped_required=True,
         help=(
-            "I350 SALDOS DAS CONTAS DE RESULTADO ANTES DO ENCERRAMENTO – "
-            "IDENTIFICAÇÃO DA DATA"
+            "I350 SALDOS DAS CONTAS DE RESULTADO ANTES DO ENCERRAMENTO – IDENTIFICAÇÃO "
+            "DA DATA"
         ),
     )
 
@@ -624,8 +616,8 @@ class RegistroI010(models.AbstractModel):
         sped_card="0:N",
         sped_required=True,
         help=(
-            "I500 PARÂMETROS DE IMPRESSÃO/VISUALIZAÇÃO DO LIVRO RAZÃO AUXILIAR"
-            " COM LEIAUTE PARAMETRIZÁVEL"
+            "I500 PARÂMETROS DE IMPRESSÃO/VISUALIZAÇÃO DO LIVRO RAZÃO AUXILIAR COM "
+            "LEIAUTE PARAMETRIZÁVEL"
         ),
     )
 
@@ -647,13 +639,14 @@ class RegistroI010(models.AbstractModel):
         string="I550",
         sped_card="0:N",
         sped_required=True,
-        help=("I550 DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"),
+        help="I550 DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL",
     )
 
 
 class RegistroI012(models.AbstractModel):
     "LIVROS AUXILIARES AO DIÁRIO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i012"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -667,7 +660,7 @@ class RegistroI012(models.AbstractModel):
         required=True,
         sped_length="8",
         help=(
-            "Natureza do livro associado; finalidade a que se destina o " "instrumento."
+            "Natureza do livro associado; finalidade a que se destina o instrumento."
         ),
     )
 
@@ -677,8 +670,8 @@ class RegistroI012(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Tipo de escrituração do livro associado: 0 – digital (incluído no"
-            " Sped). 1 – outros."
+            "Tipo de escrituração do livro associado: 0 – digital (incluído no Sped). 1"
+            " – outros."
         ),
     )
 
@@ -686,8 +679,8 @@ class RegistroI012(models.AbstractModel):
         string="Código Hash do arquivo correspondente",
         sped_length="4",
         help=(
-            "Código Hash do arquivo correspondente ao livro auxiliar utilizado"
-            " na assinatura digital."
+            "Código Hash do arquivo correspondente ao livro auxiliar utilizado na "
+            "assinatura digital."
         ),
     )
 
@@ -705,8 +698,8 @@ class RegistroI012(models.AbstractModel):
         sped_card="1:N",
         sped_required=True,
         help=(
-            "I015 IDENTIFICAÇÃO DAS CONTAS DA ESCRITURAÇÃO RESUMIDA A QUE SE "
-            "REFERE A ESCRITURAÇÃO AUXILIAR"
+            "I015 IDENTIFICAÇÃO DAS CONTAS DA ESCRITURAÇÃO RESUMIDA A QUE SE REFERE A "
+            "ESCRITURAÇÃO AUXILIAR"
         ),
     )
 
@@ -715,7 +708,7 @@ class RegistroI015(models.AbstractModel):
     """IDENTIFICAÇÃO DAS CONTAS DA ESCRITURAÇÃO RESUMIDA A QUE SE REFERE A
     ESCRITURAÇÃO AUXILIAR"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i015"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -724,9 +717,9 @@ class RegistroI015(models.AbstractModel):
         string="Código da(s) conta(s) analítica(s) do Livro Diário",
         required=True,
         help=(
-            "Código da(s) conta(s) analítica(s) do Livro Diário com "
-            "Escrituração Resumida (R) que recebe os lançamentos globais (deve"
-            " corresponder a uma conta sintética no livro auxiliar)."
+            "Código da(s) conta(s) analítica(s) do Livro Diário com Escrituração "
+            "Resumida (R) que recebe os lançamentos globais (deve corresponder a uma "
+            "conta sintética no livro auxiliar)."
         ),
     )
 
@@ -740,7 +733,8 @@ class RegistroI015(models.AbstractModel):
 
 class RegistroI020(models.AbstractModel):
     "CAMPOS ADICIONAIS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i020"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -764,11 +758,11 @@ class RegistroI020(models.AbstractModel):
         string="C Indicação do tipo de dado",
         required=True,
         help=(
-            "C Indicação do tipo de dado (N: numérico; C: caractere). N: "
-            "numérico - campos adicionais que conterão informações de valores "
-            "em espécie (moeda), com duas decimais. : caractere - campos "
-            "adicionais que conterão outras informações que não sejam valores "
-            "em espécie (moeda), Exemplos: Códigos, CNPJ, CPF, etc."
+            "C Indicação do tipo de dado (N: numérico; C: caractere). N: numérico - "
+            "campos adicionais que conterão informações de valores em espécie (moeda), "
+            "com duas decimais. : caractere - campos adicionais que conterão outras "
+            "informações que não sejam valores em espécie (moeda), Exemplos: Códigos, "
+            "CNPJ, CPF, etc."
         ),
     )
 
@@ -776,8 +770,8 @@ class RegistroI020(models.AbstractModel):
         string="Indicador da situação do saldo inicial",
         sped_length="1",
         help=(
-            "Indicador da situação do saldo inicial em moeda funcional: D - "
-            "Devedor; C - Credor."
+            "Indicador da situação do saldo inicial em moeda funcional: D - Devedor; C "
+            "- Credor."
         ),
     )
 
@@ -791,7 +785,8 @@ class RegistroI020(models.AbstractModel):
 
 class RegistroI030(models.AbstractModel):
     "TERMO DE ABERTURA"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i030"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -810,7 +805,7 @@ class RegistroI030(models.AbstractModel):
         string="Natureza do livro; finalidade a que se destina",
         required=True,
         sped_length="8",
-        help=("Natureza do livro; finalidade a que se destina o instrumento."),
+        help="Natureza do livro; finalidade a que se destina o instrumento.",
     )
 
     QTD_LIN = fields.Integer(
@@ -823,7 +818,7 @@ class RegistroI030(models.AbstractModel):
         string="Número de Identificação do Registro de Empresas",
         xsd_type="numeric_code",
         sped_length="11",
-        help=("Número de Identificação do Registro de Empresas da Junta " "Comercial."),
+        help="Número de Identificação do Registro de Empresas da Junta Comercial.",
     )
 
     CNPJ = fields.Char(
@@ -841,8 +836,8 @@ class RegistroI030(models.AbstractModel):
         string="Data de arquivamento do ato de conversão",
         sped_length="8",
         help=(
-            "Data de arquivamento do ato de conversão de sociedade simples em "
-            "sociedade empresária."
+            "Data de arquivamento do ato de conversão de sociedade simples em sociedade"
+            " empresária."
         ),
     )
 
@@ -864,7 +859,8 @@ class RegistroI030(models.AbstractModel):
 
 class RegistroI050(models.AbstractModel):
     "PLANO DE CONTAS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i050"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -878,8 +874,8 @@ class RegistroI050(models.AbstractModel):
         required=True,
         sped_length="2",
         help=(
-            "Código da natureza da conta/grupo de contas, conforme tabela "
-            "publicada pelo Sped."
+            "Código da natureza da conta/grupo de contas, conforme tabela publicada "
+            "pelo Sped."
         ),
     )
 
@@ -888,8 +884,8 @@ class RegistroI050(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador do tipo de conta: S - Sintética (grupo de contas) A - "
-            "Analítica (conta)"
+            "Indicador do tipo de conta: S - Sintética (grupo de contas) A - Analítica "
+            "(conta)"
         ),
     )
 
@@ -904,8 +900,8 @@ class RegistroI050(models.AbstractModel):
     COD_CTA_SUP = fields.Char(
         string="Código da conta sintética /grupo de contas",
         help=(
-            "Código da conta sintética /grupo de contas de nível imediatamente"
-            " superior."
+            "Código da conta sintética /grupo de contas de nível imediatamente "
+            "superior."
         ),
     )
 
@@ -945,7 +941,8 @@ class RegistroI050(models.AbstractModel):
 
 class RegistroI051(models.AbstractModel):
     "PLANO DE CONTAS REFERENCIAL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i051"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -956,9 +953,9 @@ class RegistroI051(models.AbstractModel):
         string="Código da conta de acordo com o plano",
         required=True,
         help=(
-            "Código da conta de acordo com o plano de contas referencial, "
-            "conforme tabela publicada pelos órgãos indicados no campo "
-            "COD_PLAN_REF do registro 0000."
+            "Código da conta de acordo com o plano de contas referencial, conforme "
+            "tabela publicada pelos órgãos indicados no campo COD_PLAN_REF do registro "
+            "0000."
         ),
     )
 
@@ -972,7 +969,8 @@ class RegistroI051(models.AbstractModel):
 
 class RegistroI052(models.AbstractModel):
     "INDICAÇÃO DOS CÓDIGOS DE AGLUTINAÇÃO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i052"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -983,8 +981,8 @@ class RegistroI052(models.AbstractModel):
         string="Código de aglutinação utilizado",
         required=True,
         help=(
-            "Código de aglutinação utilizado nas demonstrações contábeis do "
-            "bloco J (Somente para as contas analíticas)."
+            "Código de aglutinação utilizado nas demonstrações contábeis do bloco J "
+            "(Somente para as contas analíticas)."
         ),
     )
 
@@ -998,7 +996,8 @@ class RegistroI052(models.AbstractModel):
 
 class RegistroI053(models.AbstractModel):
     "SUBCONTAS CORRELATAS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i053"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -1014,8 +1013,8 @@ class RegistroI053(models.AbstractModel):
         string="Código da subconta correlata",
         required=True,
         help=(
-            "Código da subconta correlata (deve estar no plano de contas e só "
-            "pode estar relacionada a um único grupo)"
+            "Código da subconta correlata (deve estar no plano de contas e só pode "
+            "estar relacionada a um único grupo)"
         ),
     )
 
@@ -1024,8 +1023,8 @@ class RegistroI053(models.AbstractModel):
         required=True,
         sped_length="2",
         help=(
-            "Natureza da subconta correlata (conforme tabela de natureza da "
-            "subconta publicada no Sped )"
+            "Natureza da subconta correlata (conforme tabela de natureza da subconta "
+            "publicada no Sped )"
         ),
     )
 
@@ -1039,7 +1038,8 @@ class RegistroI053(models.AbstractModel):
 
 class RegistroI075(models.AbstractModel):
     "TABELA DE HISTÓRICO PADRONIZADO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i075"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1058,7 +1058,8 @@ class RegistroI075(models.AbstractModel):
 
 class RegistroI100(models.AbstractModel):
     "CENTRO DE CUSTOS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i100"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1081,7 +1082,8 @@ class RegistroI100(models.AbstractModel):
 
 class RegistroI150(models.AbstractModel):
     "SALDOS PERIÓDICOS – IDENTIFICAÇÃO DO PERÍODO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i150"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1112,7 +1114,8 @@ class RegistroI150(models.AbstractModel):
 
 class RegistroI155(models.AbstractModel):
     "DETALHES DOS SALDOS PERIÓDICOS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i155"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -1132,7 +1135,7 @@ class RegistroI155(models.AbstractModel):
     IND_DC_INI = fields.Char(
         string="Indicador da situação do saldo inicial",
         sped_length="1",
-        help=("Indicador da situação do saldo inicial: D - Devedor; C - Credor."),
+        help="Indicador da situação do saldo inicial: D - Devedor; C - Credor.",
     )
 
     VL_DEB = fields.Monetary(
@@ -1162,7 +1165,7 @@ class RegistroI155(models.AbstractModel):
     IND_DC_FIN = fields.Char(
         string="Indicador da situação do saldo final",
         sped_length="1",
-        help=("Indicador da situação do saldo final: D - Devedor; C - Credor."),
+        help="Indicador da situação do saldo final: D - Devedor; C - Credor.",
     )
 
     VL_SLD_INI_MF = fields.Monetary(
@@ -1171,8 +1174,8 @@ class RegistroI155(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor do saldo inicial do período em moeda funcional, convertido "
-            "para reais."
+            "Valor do saldo inicial do período em moeda funcional, convertido para "
+            "reais."
         ),
     )
 
@@ -1180,8 +1183,8 @@ class RegistroI155(models.AbstractModel):
         string="IND_DC_INI_MF",
         sped_length="1",
         help=(
-            "Indicador da situação do saldo inicial em moeda funcional: D - "
-            "Devedor; C - Credor."
+            "Indicador da situação do saldo inicial em moeda funcional: D - Devedor; C "
+            "- Credor."
         ),
     )
 
@@ -1191,8 +1194,8 @@ class RegistroI155(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor total dos débitos do período em moeda funcional, convertido"
-            " para reais."
+            "Valor total dos débitos do período em moeda funcional, convertido para "
+            "reais."
         ),
     )
 
@@ -1202,8 +1205,8 @@ class RegistroI155(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor total dos créditos do período em moeda funcional, "
-            "convertido para reais."
+            "Valor total dos créditos do período em moeda funcional, convertido para "
+            "reais."
         ),
     )
 
@@ -1213,8 +1216,7 @@ class RegistroI155(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor do saldo final do período em moeda funcional, convertido "
-            "para reais."
+            "Valor do saldo final do período em moeda funcional, convertido para reais."
         ),
     )
 
@@ -1222,8 +1224,8 @@ class RegistroI155(models.AbstractModel):
         string="IND_DC_FIN_MF",
         sped_length="1",
         help=(
-            "Indicador da situação do saldo final em moeda funcional: D - "
-            "Devedor; C - Credor."
+            "Indicador da situação do saldo final em moeda funcional: D - Devedor; C - "
+            "Credor."
         ),
     )
 
@@ -1246,7 +1248,8 @@ class RegistroI155(models.AbstractModel):
 
 class RegistroI157(models.AbstractModel):
     "TRANSFERÊNCIA DE SALDOS DO PLANO DE CONTAS ANTERIOR"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i157"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 5
@@ -1273,7 +1276,7 @@ class RegistroI157(models.AbstractModel):
     IND_DC_INI = fields.Char(
         string="Indicador da situação do saldo inicial",
         sped_length="1",
-        help=("Indicador da situação do saldo inicial: D - Devedor; C - Credor."),
+        help="Indicador da situação do saldo inicial: D - Devedor; C - Credor.",
     )
 
     VL_SLD_INI_MF = fields.Monetary(
@@ -1282,8 +1285,8 @@ class RegistroI157(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor do saldo inicial do período em moeda funcional, convertido "
-            "para reais."
+            "Valor do saldo inicial do período em moeda funcional, convertido para "
+            "reais."
         ),
     )
 
@@ -1291,8 +1294,8 @@ class RegistroI157(models.AbstractModel):
         string="IND_DC_INI_MF",
         sped_length="1",
         help=(
-            "Indicador da situação do saldo inicial em moeda funcional: D - "
-            "Devedor; C - Credor."
+            "Indicador da situação do saldo inicial em moeda funcional: D - Devedor; C "
+            "- Credor."
         ),
     )
 
@@ -1306,7 +1309,8 @@ class RegistroI157(models.AbstractModel):
 
 class RegistroI200(models.AbstractModel):
     "LANÇAMENTO CONTÁBIL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i200"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1314,7 +1318,7 @@ class RegistroI200(models.AbstractModel):
     NUM_LCTO = fields.Char(
         string="Número ou Código de identificação único",
         required=True,
-        help=("Número ou Código de identificação único do lançamento contábil."),
+        help="Número ou Código de identificação único do lançamento contábil.",
     )
 
     DT_LCTO = fields.Date(string="Data do lançamento", required=True, sped_length="8")
@@ -1333,9 +1337,9 @@ class RegistroI200(models.AbstractModel):
         sped_length="1",
         help=(
             "Indicador do tipo de lançamento: N - Lançamento normal (todos os "
-            "lançamentos, exceto os de encerramento das contas de resultado); "
-            "E - Lançamento de encerramento de contas de resultado. X – "
-            "Lançamento extemporâneo."
+            "lançamentos, exceto os de encerramento das contas de resultado); E - "
+            "Lançamento de encerramento de contas de resultado. X – Lançamento "
+            "extemporâneo."
         ),
     )
 
@@ -1343,10 +1347,10 @@ class RegistroI200(models.AbstractModel):
         string="O Data de ocorrência dos fatos objeto",
         sped_length="8",
         help=(
-            "O Data de ocorrência dos fatos objeto do lançamento extemporâneo."
-            " bservação: Caso não seja possível precisar a data a que se "
-            "refiram os fatos do lançamento extemporâneo, informar a data de "
-            "encerramento do exercício em que ocorreram esses fatos."
+            "O Data de ocorrência dos fatos objeto do lançamento extemporâneo. "
+            "bservação: Caso não seja possível precisar a data a que se refiram os "
+            "fatos do lançamento extemporâneo, informar a data de encerramento do "
+            "exercício em que ocorreram esses fatos."
         ),
     )
 
@@ -1355,7 +1359,7 @@ class RegistroI200(models.AbstractModel):
         sped_length="19",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("Valor do lançamento em moeda funcional, convertido para reais."),
+        help="Valor do lançamento em moeda funcional, convertido para reais.",
     )
 
     reg_I200_ids_RegistroI010_id = fields.Many2one(
@@ -1376,7 +1380,8 @@ class RegistroI200(models.AbstractModel):
 
 class RegistroI250(models.AbstractModel):
     "PARTIDAS DO LANÇAMENTO CONTÁBIL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i250"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -1404,7 +1409,7 @@ class RegistroI250(models.AbstractModel):
 
     NUM_ARQ = fields.Char(
         string="Número",
-        help=("Número, Código ou caminho de localização dos documentos " "arquivados."),
+        help="Número, Código ou caminho de localização dos documentos arquivados.",
     )
 
     COD_HIST_PAD = fields.Char(
@@ -1416,21 +1421,20 @@ class RegistroI250(models.AbstractModel):
         string="O Histórico completo da partida",
         sped_length="65535",
         help=(
-            "O Histórico completo da partida ou histórico complementar. "
-            "bservação: Caso o lançamento seja do tipo “X” – lançamento "
-            "extemporâneo - em qualquer das formas de retificação, o histórico"
-            " do lançamento extemporâneo deve especificar o motivo da "
-            "correção, a data e o número do lançamento de origem (item 32 do "
-            "ITG 2000 (R1))."
+            "O Histórico completo da partida ou histórico complementar. bservação: Caso"
+            " o lançamento seja do tipo “X” – lançamento extemporâneo - em qualquer das"
+            " formas de retificação, o histórico do lançamento extemporâneo deve "
+            "especificar o motivo da correção, a data e o número do lançamento de "
+            "origem (item 32 do ITG 2000 (R1))."
         ),
     )
 
     COD_PART = fields.Char(
         string="Código de identificação do participante",
         help=(
-            "Código de identificação do participante na partida conforme "
-            "tabela 0150 (preencher somente quando identificado o tipo de "
-            "participação no registro 0180)."
+            "Código de identificação do participante na partida conforme tabela 0150 "
+            "(preencher somente quando identificado o tipo de participação no registro "
+            "0180)."
         ),
     )
 
@@ -1446,8 +1450,8 @@ class RegistroI250(models.AbstractModel):
         string="Indicador da natureza da partida",
         sped_length="1",
         help=(
-            "Indicador da natureza da partida em moeda funcional: D - Débito; "
-            "C - Crédito."
+            "Indicador da natureza da partida em moeda funcional: D - Débito; C - "
+            "Crédito."
         ),
     )
 
@@ -1461,7 +1465,8 @@ class RegistroI250(models.AbstractModel):
 
 class RegistroI300(models.AbstractModel):
     "BALANCETES DIÁRIOS – IDENTIFICAÇÃO DA DATA"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i300"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1486,7 +1491,8 @@ class RegistroI300(models.AbstractModel):
 
 class RegistroI310(models.AbstractModel):
     "DETALHES DO BALANCETE DIÁRIO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i310"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -1518,7 +1524,7 @@ class RegistroI310(models.AbstractModel):
         sped_length="19",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("Total dos débitos do dia em moeda funcional, convertido para " "reais."),
+        help="Total dos débitos do dia em moeda funcional, convertido para reais.",
     )
 
     VAL_CRED_MF = fields.Monetary(
@@ -1526,9 +1532,7 @@ class RegistroI310(models.AbstractModel):
         sped_length="19",
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=(
-            "Total dos créditos do dia em moeda funcional, convertido para " "reais."
-        ),
+        help="Total dos créditos do dia em moeda funcional, convertido para reais.",
     )
 
     reg_I310_ids_RegistroI300_id = fields.Many2one(
@@ -1543,7 +1547,7 @@ class RegistroI350(models.AbstractModel):
     """SALDOS DAS CONTAS DE RESULTADO ANTES DO ENCERRAMENTO – IDENTIFICAÇÃO DA
     DATA"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i350"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1565,15 +1569,14 @@ class RegistroI350(models.AbstractModel):
         string="I355",
         sped_card="1:N",
         sped_required=True,
-        help=(
-            "I355 DOS SALDOS DAS CONTAS DE RESULTADO ANTES DO DETALHES " "ENCERRAMENTO"
-        ),
+        help=("I355 DOS SALDOS DAS CONTAS DE RESULTADO ANTES DO DETALHES ENCERRAMENTO"),
     )
 
 
 class RegistroI355(models.AbstractModel):
     "DOS SALDOS DAS CONTAS DE RESULTADO ANTES DO DETALHES ENCERRAMENTO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i355"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -1597,7 +1600,7 @@ class RegistroI355(models.AbstractModel):
         string="Indicador da situação do saldo final",
         required=True,
         sped_length="1",
-        help=("Indicador da situação do saldo final: D - Devedor; C - Credor."),
+        help="Indicador da situação do saldo final: D - Devedor; C - Credor.",
     )
 
     VL_CTA_MF = fields.Monetary(
@@ -1606,8 +1609,8 @@ class RegistroI355(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor do saldo final antes do lançamento de encerramento em moeda"
-            " funcional, convertido para reais."
+            "Valor do saldo final antes do lançamento de encerramento em moeda "
+            "funcional, convertido para reais."
         ),
     )
 
@@ -1615,8 +1618,8 @@ class RegistroI355(models.AbstractModel):
         string="Indicador da situação do saldo final (IND_DC_MF)",
         sped_length="1",
         help=(
-            "Indicador da situação do saldo final em moeda funcional: D - "
-            "Devedor; C - Credor."
+            "Indicador da situação do saldo final em moeda funcional: D - Devedor; C - "
+            "Credor."
         ),
     )
 
@@ -1626,8 +1629,8 @@ class RegistroI355(models.AbstractModel):
         required=True,
         ondelete="cascade",
         help=(
-            "SALDOS DAS CONTAS DE RESULTADO ANTES DO ENCERRAMENTO – "
-            "IDENTIFICAÇÃO DA DATA"
+            "SALDOS DAS CONTAS DE RESULTADO ANTES DO ENCERRAMENTO – IDENTIFICAÇÃO DA "
+            "DATA"
         ),
     )
 
@@ -1636,7 +1639,7 @@ class RegistroI500(models.AbstractModel):
     """PARÂMETROS DE IMPRESSÃO/VISUALIZAÇÃO DO LIVRO RAZÃO AUXILIAR COM LEIAUTE
     PARAMETRIZÁVEL"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i500"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1660,7 +1663,7 @@ class RegistroI510(models.AbstractModel):
     """DEFINIÇÃO DOS CAMPOS DO LIVRO RAZÃO AUXILIAR COM LEIAUTE
     PARAMETRIZÁVEL"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i510"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1676,7 +1679,7 @@ class RegistroI510(models.AbstractModel):
         string="Descrição do campo",
         required=True,
         sped_length="5",
-        help=("Descrição do campo (utilizada na visualização do Livro Auxiliar)"),
+        help="Descrição do campo (utilizada na visualização do Livro Auxiliar)",
     )
 
     TIPO_CAMPO = fields.Char(
@@ -1704,7 +1707,7 @@ class RegistroI510(models.AbstractModel):
         required=True,
         xsd_type="numeric_code",
         sped_length="3",
-        help=("Largura da coluna no relatório (em quantidade de caracteres)."),
+        help="Largura da coluna no relatório (em quantidade de caracteres).",
     )
 
     reg_I510_ids_RegistroI010_id = fields.Many2one(
@@ -1717,7 +1720,8 @@ class RegistroI510(models.AbstractModel):
 
 class RegistroI550(models.AbstractModel):
     "DETALHES DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i550"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1735,13 +1739,14 @@ class RegistroI550(models.AbstractModel):
         string="I555",
         sped_card="0:N",
         sped_required=True,
-        help=("I555 TOTAIS NO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"),
+        help="I555 TOTAIS NO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL",
     )
 
 
 class RegistroI555(models.AbstractModel):
     "TOTAIS NO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.i555"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -1757,7 +1762,8 @@ class RegistroI555(models.AbstractModel):
 
 class RegistroJ005(models.AbstractModel):
     "DEMONSTRAÇÕES CONTÁBEIS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j005"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -1767,12 +1773,9 @@ class RegistroJ005(models.AbstractModel):
         required=True,
         sped_length="8",
         help=(
-            "O Data inicial das demonstrações contábeis. bservação: A data "
-            "inicial das demonstrações deve ser a data posterior ao último "
-            "encerramento do exercício, mesmo que essa data não esteja no "
-            "período da ECD transmitida. Exemplo: Data do Último Encerramento "
-            "do Exercício: 31/12/2021 Data Inicial das Demonstrações "
-            "Contábeis: 01/01/2022"
+            "O Data inicial das demonstrações contábeis. bservação: A data inicial das "
+            "demonstrações deve ser a data posterior ao último encerramento do "
+            "exercício, mesmo que essa data não"
         ),
     )
 
@@ -1785,10 +1788,9 @@ class RegistroJ005(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Identificação das demonstrações: 1 – demonstrações contábeis da "
-            "pessoa jurídica a que se refere a escrituração (inclusive "
-            "Matrix/Filiais); 2 – demonstrações consolidadas ou de outras "
-            "pessoas jurídicas."
+            "Identificação das demonstrações: 1 – demonstrações contábeis da pessoa "
+            "jurídica a que se refere a escrituração (inclusive Matrix/Filiais); 2 – "
+            "demonstrações consolidadas ou de outras pessoas jurídicas."
         ),
     )
 
@@ -1818,8 +1820,8 @@ class RegistroJ005(models.AbstractModel):
         sped_card="1:N",
         sped_required=True,
         help=(
-            "J210 DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO "
-            "(DLPA)/DEMONSTRAÇÃO DE MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"
+            "J210 DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO (DLPA)/DEMONSTRAÇÃO"
+            " DE MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"
         ),
     )
 
@@ -1843,7 +1845,8 @@ class RegistroJ005(models.AbstractModel):
 
 class RegistroJ100(models.AbstractModel):
     "BALANÇO PATRIMONIAL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j100"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1852,11 +1855,10 @@ class RegistroJ100(models.AbstractModel):
         string="O Código de aglutinação atribuído",
         required=True,
         help=(
-            "O Código de aglutinação atribuído pela pessoa jurídica. "
-            "bservação: Caso o indicador de código de aglutinação seja "
-            "totalizador (T), o código de aglutinação deve ser informado, mas "
-            "não deve estar cadastrado no registro I052 – os códigos de "
-            "aglutinação informados no registro I052 são somente"
+            "O Código de aglutinação atribuído pela pessoa jurídica. bservação: Caso o "
+            "indicador de código de aglutinação seja totalizador (T), o código de "
+            "aglutinação deve ser informado, mas não deve estar cadastrado no registro "
+            "I052 – os códigos de aglutinação informados no registro I052 são somente"
         ),
     )
 
@@ -1865,10 +1867,9 @@ class RegistroJ100(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador do tipo de código de aglutinação das linhas: T – "
-            "Totalizador (nível que totaliza um ou mais níveis inferiores da "
-            "demonstração financeira) D – Detalhe (nível mais detalhado da "
-            "demonstração financeira)"
+            "Indicador do tipo de código de aglutinação das linhas: T – Totalizador "
+            "(nível que totaliza um ou mais níveis inferiores da demonstração "
+            "financeira) D – Detalhe (nível mais detalhado da demonstração financeira)"
         ),
     )
 
@@ -1876,16 +1877,16 @@ class RegistroJ100(models.AbstractModel):
         string="Nível do Código de aglutinação",
         required=True,
         help=(
-            "Nível do Código de aglutinação (mesmo conceito do plano de contas"
-            " – Registro I050)."
+            "Nível do Código de aglutinação (mesmo conceito do plano de contas – "
+            "Registro I050)."
         ),
     )
 
     COD_AGL_SUP = fields.Char(
         string="Código de aglutinação sintético/grupo de código",
         help=(
-            "Código de aglutinação sintético/grupo de código de aglutinação de"
-            " nível superior."
+            "Código de aglutinação sintético/grupo de código de aglutinação de nível "
+            "superior."
         ),
     )
 
@@ -1894,8 +1895,8 @@ class RegistroJ100(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador de grupo do balanço: A – Ativo; P – Passivo e "
-            "Patrimônio Líquido."
+            "Indicador de grupo do balanço: A – Ativo; P – Passivo e Patrimônio "
+            "Líquido."
         ),
     )
 
@@ -1910,8 +1911,8 @@ class RegistroJ100(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor inicial do código de aglutinação no Balanço Patrimonial no "
-            "exercício informado, ou de período definido em norma específica."
+            "Valor inicial do código de aglutinação no Balanço Patrimonial no exercício"
+            " informado, ou de período definido em norma específica."
         ),
     )
 
@@ -1920,8 +1921,8 @@ class RegistroJ100(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador da situação do saldo inicial informado no campo "
-            "anterior: D - Devedor; C – Credor."
+            "Indicador da situação do saldo inicial informado no campo anterior: D - "
+            "Devedor; C – Credor."
         ),
     )
 
@@ -1932,8 +1933,8 @@ class RegistroJ100(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor final do código de aglutinação no Balanço Patrimonial no "
-            "exercício informado, ou de período definido em norma específica."
+            "Valor final do código de aglutinação no Balanço Patrimonial no exercício "
+            "informado, ou de período definido em norma específica."
         ),
     )
 
@@ -1942,8 +1943,8 @@ class RegistroJ100(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador da situação do saldo final informado no campo anterior:"
-            " D - Devedor; C – Credor."
+            "Indicador da situação do saldo final informado no campo anterior: D - "
+            "Devedor; C – Credor."
         ),
     )
 
@@ -1951,8 +1952,8 @@ class RegistroJ100(models.AbstractModel):
         string="Referência a numeração",
         sped_length="12",
         help=(
-            "Referência a numeração das notas explicativas relativas às "
-            "demonstrações contábeis."
+            "Referência a numeração das notas explicativas relativas às demonstrações "
+            "contábeis."
         ),
     )
 
@@ -1966,7 +1967,8 @@ class RegistroJ100(models.AbstractModel):
 
 class RegistroJ150(models.AbstractModel):
     "DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO (DRE)"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j150"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -1977,18 +1979,16 @@ class RegistroJ150(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="19",
         help=(
-            "O Número de ordem da linha na visualização da demonstração. rdem "
-            "de apresentação da linha na visualização do registro J150."
+            "O Número de ordem da linha na visualização da demonstração. rdem de "
+            "apresentação da linha na visualização do registro J150."
         ),
     )
 
     COD_AGL = fields.Char(
         string="O Código de aglutinação das linhas",
         help=(
-            "O Código de aglutinação das linhas, atribuído pela pessoa "
-            "jurídica. bservação: Caso o indicador de código de aglutinação "
-            "seja totalizador (T), o código de aglutinação deve ser informado,"
-            " mas não deve estar cadastrado no"
+            "O Código de aglutinação das linhas, atribuído pela pessoa jurídica. "
+            "bservação: Caso o indicador de código de"
         ),
     )
 
@@ -1997,10 +1997,9 @@ class RegistroJ150(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador do tipo de código de aglutinação das linhas: T – "
-            "Totalizador (nível que totaliza um ou mais níveis inferiores da "
-            "demonstração financeira) D – Detalhe (nível mais detalhado da "
-            "demonstração financeira)"
+            "Indicador do tipo de código de aglutinação das linhas: T – Totalizador "
+            "(nível que totaliza um ou mais níveis inferiores da demonstração "
+            "financeira) D – Detalhe (nível mais detalhado da demonstração financeira)"
         ),
     )
 
@@ -2008,16 +2007,16 @@ class RegistroJ150(models.AbstractModel):
         string="Nível do Código de aglutinação",
         required=True,
         help=(
-            "Nível do Código de aglutinação (mesmo conceito do plano de contas"
-            " – Registro I050)."
+            "Nível do Código de aglutinação (mesmo conceito do plano de contas – "
+            "Registro I050)."
         ),
     )
 
     COD_AGL_SUP = fields.Char(
         string="Código de aglutinação sintético/grupo de código",
         help=(
-            "Código de aglutinação sintético/grupo de código de aglutinação de"
-            " nível superior."
+            "Código de aglutinação sintético/grupo de código de aglutinação de nível "
+            "superior."
         ),
     )
 
@@ -2031,8 +2030,8 @@ class RegistroJ150(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Valor do saldo final da linha no período imediatamente anterior "
-            "(saldo final da DRE anterior)."
+            "Valor do saldo final da linha no período imediatamente anterior (saldo "
+            "final da DRE anterior)."
         ),
     )
 
@@ -2040,8 +2039,8 @@ class RegistroJ150(models.AbstractModel):
         string="Indicador da situação do valor final da linha",
         sped_length="1",
         help=(
-            "Indicador da situação do valor final da linha no período "
-            "imediatamente anterior: D – Devedor; C – Credor."
+            "Indicador da situação do valor final da linha no período imediatamente "
+            "anterior: D – Devedor; C – Credor."
         ),
     )
 
@@ -2059,8 +2058,8 @@ class RegistroJ150(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador da situação do valor final da linha antes do "
-            "encerramento do exercício: D – Devedor; C – Credor."
+            "Indicador da situação do valor final da linha antes do encerramento do "
+            "exercício: D – Devedor; C – Credor."
         ),
     )
 
@@ -2069,11 +2068,10 @@ class RegistroJ150(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "D R Indicador de grupo da DRE: – Linha totalizadora ou de detalhe"
-            " da demonstração que, por sua natureza de despesa, represente "
-            "redução do lucro. – Linha totalizadora ou de detalhe da "
-            "demonstração que, por sua natureza de receita, represente "
-            "incremento do lucro."
+            "D R Indicador de grupo da DRE: – Linha totalizadora ou de detalhe da "
+            "demonstração que, por sua natureza de despesa, represente redução do "
+            "lucro. – Linha totalizadora ou de detalhe da demonstração que, por sua "
+            "natureza de receita, represente incremento do lucro."
         ),
     )
 
@@ -2081,8 +2079,8 @@ class RegistroJ150(models.AbstractModel):
         string="Referência a numeração",
         sped_length="12",
         help=(
-            "Referência a numeração das notas explicativas relativas às "
-            "demonstrações contábeis."
+            "Referência a numeração das notas explicativas relativas às demonstrações "
+            "contábeis."
         ),
     )
 
@@ -2098,7 +2096,7 @@ class RegistroJ210(models.AbstractModel):
     """DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO (DLPA)/DEMONSTRAÇÃO DE
     MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j210"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2109,9 +2107,9 @@ class RegistroJ210(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Indicador do tipo de demonstração: 0 – DLPA – Demonstração de "
-            "Lucro ou Prejuízos Acumulados 1 – DMPL – Demonstração de Mutações"
-            " do Patrimônio Líquido"
+            "Indicador do tipo de demonstração: 0 – DLPA – Demonstração de Lucro ou "
+            "Prejuízos Acumulados 1 – DMPL – Demonstração de Mutações do Patrimônio "
+            "Líquido"
         ),
     )
 
@@ -2119,8 +2117,8 @@ class RegistroJ210(models.AbstractModel):
         string="Código de aglutinação das contas analíticas",
         required=True,
         help=(
-            "Código de aglutinação das contas analíticas do patrimônio "
-            "líquido, atribuído pela empresa."
+            "Código de aglutinação das contas analíticas do patrimônio líquido, "
+            "atribuído pela empresa."
         ),
     )
 
@@ -2135,8 +2133,8 @@ class RegistroJ210(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Saldo inicial do código de aglutinação na demonstração do período"
-            " informado."
+            "Saldo inicial do código de aglutinação na demonstração do período "
+            "informado."
         ),
     )
 
@@ -2145,8 +2143,8 @@ class RegistroJ210(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador da situação do saldo inicial informado no campo "
-            "anterior: D – Devedor C – Credor"
+            "Indicador da situação do saldo inicial informado no campo anterior: D – "
+            "Devedor C – Credor"
         ),
     )
 
@@ -2157,8 +2155,7 @@ class RegistroJ210(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Saldo final do código de aglutinação na demonstração do período "
-            "informado."
+            "Saldo final do código de aglutinação na demonstração do período informado."
         ),
     )
 
@@ -2167,8 +2164,8 @@ class RegistroJ210(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador da situação do saldo final informado no campo anterior:"
-            " D – Devedor C – Credor"
+            "Indicador da situação do saldo final informado no campo anterior: D – "
+            "Devedor C – Credor"
         ),
     )
 
@@ -2176,8 +2173,8 @@ class RegistroJ210(models.AbstractModel):
         string="Referência à numeração",
         sped_length="12",
         help=(
-            "Referência à numeração das notas explicativas relativas às "
-            "demonstrações contábeis."
+            "Referência à numeração das notas explicativas relativas às demonstrações "
+            "contábeis."
         ),
     )
 
@@ -2195,8 +2192,8 @@ class RegistroJ210(models.AbstractModel):
         sped_card="1:N",
         sped_required=True,
         help=(
-            "J215 FATO CONTÁBIL QUE ALTERA A CONTA LUCROS ACUMULADOS OU A "
-            "CONTA PREJUÍZOS ACUMULADOS OU O PATRIMÔNIO LÍQUIDO"
+            "J215 FATO CONTÁBIL QUE ALTERA A CONTA LUCROS ACUMULADOS OU A CONTA "
+            "PREJUÍZOS ACUMULADOS OU O PATRIMÔNIO LÍQUIDO"
         ),
     )
 
@@ -2205,7 +2202,7 @@ class RegistroJ215(models.AbstractModel):
     """FATO CONTÁBIL QUE ALTERA A CONTA LUCROS ACUMULADOS OU A CONTA PREJUÍZOS
     ACUMULADOS OU O PATRIMÔNIO LÍQUIDO"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j215"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -2229,9 +2226,8 @@ class RegistroJ215(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador de situação do saldo informado no campo anterior: D – "
-            "Devedor C – Credor P – Subtotal ou total positivo N – Subtotal ou"
-            " total negativo"
+            "Indicador de situação do saldo informado no campo anterior: D – Devedor C "
+            "– Credor P – Subtotal ou total positivo N – Subtotal ou total negativo"
         ),
     )
 
@@ -2241,15 +2237,16 @@ class RegistroJ215(models.AbstractModel):
         required=True,
         ondelete="cascade",
         help=(
-            "DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO "
-            "(DLPA)/DEMONSTRAÇÃO DE MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"
+            "DE OU DEMONSTRAÇÃO LUCROS PREJUÍZOS ACUMULADOS DO (DLPA)/DEMONSTRAÇÃO DE "
+            "MUTAÇÕES PATRIMÔNIO LÍQUIDO (DMPL)"
         ),
     )
 
 
 class RegistroJ800(models.AbstractModel):
     "OUTRAS INFORMAÇÕES"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j800"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2259,10 +2256,10 @@ class RegistroJ800(models.AbstractModel):
         required=True,
         sped_length="3",
         help=(
-            "Tipo de documento: 001: Demonstração do Resultado Abrangente do "
-            "Período 002: Demonstração dos Fluxos de Caixa 003: Demonstração "
-            "do Valor Adicionado 010: Notas Explicativas 011: Relatório da "
-            "Administração 012: Parecer dos Auditores 099: Outros"
+            "Tipo de documento: 001: Demonstração do Resultado Abrangente do Período "
+            "002: Demonstração dos Fluxos de Caixa 003: Demonstração do Valor "
+            "Adicionado 010: Notas Explicativas 011: Relatório da Administração 012: "
+            "Parecer dos Auditores 099: Outros"
         ),
     )
 
@@ -2273,18 +2270,17 @@ class RegistroJ800(models.AbstractModel):
         sped_length="41",
         help=(
             "Hash do arquivo .rtf incluído. Observação: O HASH é preenchido "
-            "automaticamente pelo sistema (não é editável e não pode ser "
-            "alterado)."
+            "automaticamente pelo sistema (não é editável e não pode ser alterado)."
         ),
     )
 
     ARQ_RTF = fields.Char(
         string="Sequência de bytes que representem",
         required=True,
-        sped_length="Não existe limite de tamanho",
+        sped_length="3 megabytes",
         help=(
-            "Sequência de bytes que representem um único arquivo no formato "
-            "RTF (Rich Text Format)."
+            "Sequência de bytes que representem um único arquivo no formato RTF (Rich "
+            "Text Format)."
         ),
     )
 
@@ -2292,7 +2288,7 @@ class RegistroJ800(models.AbstractModel):
         string="Indicador de fim do arquivo RTF",
         required=True,
         sped_length="7",
-        help=("Indicador de fim do arquivo RTF. Texto fixo contendo “J800FIM”."),
+        help="Indicador de fim do arquivo RTF. Texto fixo contendo “J800FIM”.",
     )
 
     reg_J800_ids_RegistroJ005_id = fields.Many2one(
@@ -2305,7 +2301,8 @@ class RegistroJ800(models.AbstractModel):
 
 class RegistroJ801(models.AbstractModel):
     "TERMO DE VERIFICAÇÃO PARA FINS DE SUBSTITUIÇÃO DA ECD"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j801"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2315,8 +2312,7 @@ class RegistroJ801(models.AbstractModel):
         required=True,
         sped_length="3",
         help=(
-            "Tipo de documento: 001: Termo de Verificação para Fins "
-            "Substituição da ECD"
+            "Tipo de documento: 001: Termo de Verificação para Fins Substituição da ECD"
         ),
     )
 
@@ -2327,13 +2323,12 @@ class RegistroJ801(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "O Código do motivo da substituição: 001 – Mudanças de saldos das "
-            "contas que não podem ser realizadas por meio de lançamentos "
-            "extemporâneos 002 – Alteração de assinatura 003 – Alteração de "
-            "demonstrações contábeis 004 – Alteração da forma de escrituração "
-            "contábil 005 – Alteração do número do livro 099 – Outros "
-            "bservação: O código a ser adotado deve ser aquele cujo motivo é o"
-            " preponderante na substituição da ECD."
+            "O Código do motivo da substituição: 001 – Mudanças de saldos das contas "
+            "que não podem ser realizadas por meio de lançamentos extemporâneos 002 – "
+            "Alteração de assinatura 003 – Alteração de demonstrações contábeis 004 – "
+            "Alteração da forma de escrituração contábil 005 – Alteração do número do "
+            "livro 099 – Outros bservação: O código a ser adotado deve ser aquele cujo "
+            "motivo é o preponderante na substituição da ECD."
         ),
     )
 
@@ -2342,18 +2337,17 @@ class RegistroJ801(models.AbstractModel):
         sped_length="41",
         help=(
             "Hash do arquivo .rtf incluído. Observação: O HASH é preenchido "
-            "automaticamente pelo sistema (não é editável e não pode ser "
-            "alterado)."
+            "automaticamente pelo sistema (não é editável e não pode ser alterado)."
         ),
     )
 
     ARQ_RTF = fields.Char(
         string="Sequência de bytes que representem",
         required=True,
-        sped_length="Não existe limite de tamanho",
+        sped_length="3 megabytes",
         help=(
-            "Sequência de bytes que representem um único arquivo no formato "
-            "RTF (Rich Text Format)."
+            "Sequência de bytes que representem um único arquivo no formato RTF (Rich "
+            "Text Format)."
         ),
     )
 
@@ -2361,7 +2355,7 @@ class RegistroJ801(models.AbstractModel):
         string="Indicador de fim do arquivo RTF",
         required=True,
         sped_length="7",
-        help=("Indicador de fim do arquivo RTF. Texto fixo contendo “J801FIM”."),
+        help="Indicador de fim do arquivo RTF. Texto fixo contendo “J801FIM”.",
     )
 
     reg_J801_ids_RegistroJ005_id = fields.Many2one(
@@ -2374,7 +2368,8 @@ class RegistroJ801(models.AbstractModel):
 
 class RegistroJ900(models.AbstractModel):
     "TERMO DE ENCERRAMENTO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j900"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -2393,7 +2388,7 @@ class RegistroJ900(models.AbstractModel):
         string="Natureza do livro; finalidade a que se destinou",
         required=True,
         sped_length="8",
-        help=("Natureza do livro; finalidade a que se destinou o instrumento."),
+        help="Natureza do livro; finalidade a que se destinou o instrumento.",
     )
 
     NOME = fields.Char(string="Nome empresarial", required=True, sped_length="(*)")
@@ -2425,8 +2420,7 @@ class RegistroJ900(models.AbstractModel):
         sped_card="1:N",
         sped_required=True,
         help=(
-            "J932 SIGNATÁRIOS DO TERMO DE VERIFICAÇÃO PARA FINS DE "
-            "SUBSTITUIÇÃO DA ECD"
+            "J932 SIGNATÁRIOS DO TERMO DE VERIFICAÇÃO PARA FINS DE SUBSTITUIÇÃO DA ECD"
         ),
     )
 
@@ -2441,7 +2435,8 @@ class RegistroJ900(models.AbstractModel):
 
 class RegistroJ930(models.AbstractModel):
     "SIGNATÁRIOS DA ESCRITURAÇÃO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j930"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2471,8 +2466,7 @@ class RegistroJ930(models.AbstractModel):
     IND_CRC = fields.Char(
         string="Número de inscrição do contabilista",
         help=(
-            "Número de inscrição do contabilista no Conselho Regional de "
-            "Contabilidade."
+            "Número de inscrição do contabilista no Conselho Regional de Contabilidade."
         ),
     )
 
@@ -2489,17 +2483,15 @@ class RegistroJ930(models.AbstractModel):
     NUM_SEQ_CRC = fields.Char(
         string="Número da Certidão de Regularidade Profissional",
         help=(
-            "Número da Certidão de Regularidade Profissional do Contador no "
-            "seguinte formato: UF/ano/número"
+            "Número da Certidão de Regularidade Profissional do Contador no seguinte "
+            "formato: UF/ano/número"
         ),
     )
 
     DT_CRC = fields.Date(
         string="Data de validade da Certidão",
         sped_length="8",
-        help=(
-            "Data de validade da Certidão de Regularidade Profissional do " "Contador"
-        ),
+        help="Data de validade da Certidão de Regularidade Profissional do Contador",
     )
 
     IND_RESP_LEGAL = fields.Char(
@@ -2507,9 +2499,8 @@ class RegistroJ930(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Identificação do signatário que será validado como responsável "
-            "pela assinatura da ECD, conforme atos societários: S – Sim N – "
-            "Não"
+            "Identificação do signatário que será validado como responsável pela "
+            "assinatura da ECD, conforme atos societários: S – Sim N – Não"
         ),
     )
 
@@ -2524,7 +2515,7 @@ class RegistroJ930(models.AbstractModel):
 class RegistroJ932(models.AbstractModel):
     """SIGNATÁRIOS DO TERMO DE VERIFICAÇÃO PARA FINS DE SUBSTITUIÇÃO DA ECD"""
 
-    _description = textwrap.dedent("    %s" % (__doc__,))
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j932"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2543,7 +2534,7 @@ class RegistroJ932(models.AbstractModel):
     IDENT_QUALIF_T = fields.Char(
         string="Qualificação do assinante do termo de verificação",
         required=True,
-        help=("Qualificação do assinante do termo de verificação, conforme " "tabela."),
+        help="Qualificação do assinante do termo de verificação, conforme tabela.",
     )
 
     COD_ASSIN_T = fields.Char(
@@ -2551,8 +2542,8 @@ class RegistroJ932(models.AbstractModel):
         required=True,
         sped_length="3",
         help=(
-            "Código de qualificação do assinante do termo de verificação, "
-            "conforme tabela."
+            "Código de qualificação do assinante do termo de verificação, conforme "
+            "tabela."
         ),
     )
 
@@ -2571,17 +2562,15 @@ class RegistroJ932(models.AbstractModel):
     NUM_SEQ_CRC_T = fields.Char(
         string="Número da Certidão de Regularidade Profissional",
         help=(
-            "Número da Certidão de Regularidade Profissional do Contador no "
-            "seguinte formato: UF/ano/número"
+            "Número da Certidão de Regularidade Profissional do Contador no seguinte "
+            "formato: UF/ano/número"
         ),
     )
 
     DT_CRC_T = fields.Date(
         string="Data de validade da Certidão",
         sped_length="8",
-        help=(
-            "Data de validade da Certidão de Regularidade Profissional do " "Contador"
-        ),
+        help="Data de validade da Certidão de Regularidade Profissional do Contador",
     )
 
     reg_J932_ids_RegistroJ900_id = fields.Many2one(
@@ -2594,7 +2583,8 @@ class RegistroJ932(models.AbstractModel):
 
 class RegistroJ935(models.AbstractModel):
     "IDENTIFICAÇÃO DOS AUDITORES INDEPENDENTES"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.j935"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2613,8 +2603,7 @@ class RegistroJ935(models.AbstractModel):
         string="Nome do auditor independente ou pessoa jurídica",
         required=True,
         help=(
-            "Nome do auditor independente ou pessoa jurídica de auditoria "
-            "independente."
+            "Nome do auditor independente ou pessoa jurídica de auditoria independente."
         ),
     )
 
@@ -2630,7 +2619,8 @@ class RegistroJ935(models.AbstractModel):
 
 class RegistroK030(models.AbstractModel):
     "PERÍODO DA ESCRITURAÇÃO CONTÁBIL CONSOLIDADA"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k030"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -2654,7 +2644,8 @@ class RegistroK030(models.AbstractModel):
 
 class RegistroK100(models.AbstractModel):
     "RELAÇÃO DAS EMPRESAS CONSOLIDADAS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k100"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2664,9 +2655,7 @@ class RegistroK100(models.AbstractModel):
         required=True,
         xsd_type="numeric_code",
         sped_length="5",
-        help=(
-            "Código do país da empresa, conforme tabela do Banco Central do " "Brasil."
-        ),
+        help=("Código do país da empresa, conforme tabela do Banco Central do Brasil."),
     )
 
     EMP_COD = fields.Char(
@@ -2695,10 +2684,9 @@ class RegistroK100(models.AbstractModel):
             4,
         ),
         help=(
-            "Percentual de participação total do conglomerado na empresa no "
-            "final do período consolidado. Observação: Neste campo, deve ser "
-            "informado o percentual de participação acionária da empresa "
-            "titular da ECD."
+            "Percentual de participação total do conglomerado na empresa no final do "
+            "período consolidado. Observação: Neste campo, deve ser informado o "
+            "percentual de participação acionária da empresa titular da ECD."
         ),
     )
 
@@ -2719,9 +2707,8 @@ class RegistroK100(models.AbstractModel):
             4,
         ),
         help=(
-            "Percentual de consolidação da empresa no final do período "
-            "consolidado: Informar o percentual do resultado da empresa que "
-            "foi para a consolidação."
+            "Percentual de consolidação da empresa no final do período consolidado: "
+            "Informar o percentual do resultado da empresa que foi para a consolidação."
         ),
     )
 
@@ -2730,8 +2717,8 @@ class RegistroK100(models.AbstractModel):
         required=True,
         sped_length="8",
         help=(
-            "Data inicial do período da escrituração contábil da empresa que "
-            "foi consolidada."
+            "Data inicial do período da escrituração contábil da empresa que foi "
+            "consolidada."
         ),
     )
 
@@ -2740,8 +2727,8 @@ class RegistroK100(models.AbstractModel):
         required=True,
         sped_length="8",
         help=(
-            "Data final do período da escrituração contábil da empresa que foi"
-            " consolidada"
+            "Data final do período da escrituração contábil da empresa que foi "
+            "consolidada"
         ),
     )
 
@@ -2763,7 +2750,8 @@ class RegistroK100(models.AbstractModel):
 
 class RegistroK110(models.AbstractModel):
     "RELAÇÃO DOS EVENTOS SOCIETÁRIOS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k110"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -2773,9 +2761,9 @@ class RegistroK110(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Evento societário ocorrido no período: 1 – Aquisição 2 – "
-            "Alienação 3 – Fusão 4 – Cisão Parcial 5 – Cisão Total 6 – "
-            "Incorporação 7 – Extinção 8 – Constituição"
+            "Evento societário ocorrido no período: 1 – Aquisição 2 – Alienação 3 – "
+            "Fusão 4 – Cisão Parcial 5 – Cisão Total 6 – Incorporação 7 – Extinção 8 – "
+            "Constituição"
         ),
     )
 
@@ -2801,7 +2789,8 @@ class RegistroK110(models.AbstractModel):
 
 class RegistroK115(models.AbstractModel):
     "EMPRESAS PARTICIPANTES DO EVENTO SOCIETÁRIO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k115"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 5
@@ -2818,8 +2807,8 @@ class RegistroK115(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Condição da empresa relacionada à operação: 1 – Sucessora; 2 – "
-            "Adquirente; 3 – Alienante."
+            "Condição da empresa relacionada à operação: 1 – Sucessora; 2 – Adquirente;"
+            " 3 – Alienante."
         ),
     )
 
@@ -2845,7 +2834,8 @@ class RegistroK115(models.AbstractModel):
 
 class RegistroK200(models.AbstractModel):
     "PLANO DE CONTAS CONSOLIDADO"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k200"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 2
@@ -2855,8 +2845,8 @@ class RegistroK200(models.AbstractModel):
         required=True,
         sped_length="2",
         help=(
-            "Código da natureza da conta/grupo de contas, conforme tabela "
-            "publicada pelo Sped."
+            "Código da natureza da conta/grupo de contas, conforme tabela publicada "
+            "pelo Sped."
         ),
     )
 
@@ -2865,8 +2855,8 @@ class RegistroK200(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Indicador do tipo de conta: S - Sintética (grupo de contas); A - "
-            "Analítica (conta)."
+            "Indicador do tipo de conta: S - Sintética (grupo de contas); A - Analítica"
+            " (conta)."
         ),
     )
 
@@ -2884,7 +2874,7 @@ class RegistroK200(models.AbstractModel):
         string="K210",
         sped_card="1:N",
         sped_required=True,
-        help=("K210 MAPEAMENTO PARA O PLANO DE CONTAS DAS EMPRESAS CONSOLIDADAS"),
+        help="K210 MAPEAMENTO PARA O PLANO DE CONTAS DAS EMPRESAS CONSOLIDADAS",
     )
 
     reg_K300_ids = fields.One2many(
@@ -2898,7 +2888,8 @@ class RegistroK200(models.AbstractModel):
 
 class RegistroK210(models.AbstractModel):
     "MAPEAMENTO PARA O PLANO DE CONTAS DAS EMPRESAS CONSOLIDADAS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k210"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2924,7 +2915,8 @@ class RegistroK210(models.AbstractModel):
 
 class RegistroK300(models.AbstractModel):
     "SALDOS DAS CONTAS CONSOLIDADAS"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k300"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 3
@@ -2943,7 +2935,7 @@ class RegistroK300(models.AbstractModel):
         string="Indicador da situação do valor aglutinado",
         required=True,
         sped_length="1",
-        help=("Indicador da situação do valor aglutinado: D – Devedor C – Credor"),
+        help="Indicador da situação do valor aglutinado: D – Devedor C – Credor",
     )
 
     VAL_EL = fields.Monetary(
@@ -2958,7 +2950,7 @@ class RegistroK300(models.AbstractModel):
         string="Indicador da situação do valor eliminado",
         required=True,
         sped_length="1",
-        help=("Indicador da situação do valor eliminado: D – Devedor C – Credor"),
+        help="Indicador da situação do valor eliminado: D – Devedor C – Credor",
     )
 
     VAL_CS = fields.Monetary(
@@ -2974,7 +2966,7 @@ class RegistroK300(models.AbstractModel):
         string="Indicador da situação do valor consolidado",
         required=True,
         sped_length="1",
-        help=("Indicador da situação do valor consolidado: D – Devedor C – " "Credor"),
+        help="Indicador da situação do valor consolidado: D – Devedor C – Credor",
     )
 
     reg_K300_ids_RegistroK200_id = fields.Many2one(
@@ -2990,13 +2982,14 @@ class RegistroK300(models.AbstractModel):
         string="K310",
         sped_card="0:N",
         sped_required=True,
-        help=("K310 EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL"),
+        help="K310 EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL",
     )
 
 
 class RegistroK310(models.AbstractModel):
     "EMPRESAS DETENTORAS DAS PARCELAS DO VALOR ELIMINADO TOTAL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k310"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 4
@@ -3006,7 +2999,7 @@ class RegistroK310(models.AbstractModel):
         required=True,
         xsd_type="numeric_code",
         sped_length="4",
-        help=("Código da empresa detentora do valor aglutinado que foi eliminado"),
+        help="Código da empresa detentora do valor aglutinado que foi eliminado",
     )
 
     VALOR = fields.Monetary(
@@ -3021,7 +3014,7 @@ class RegistroK310(models.AbstractModel):
         string="Indicador da situação do valor eliminado",
         required=True,
         sped_length="1",
-        help=("Indicador da situação do valor eliminado: D – Devedor C – Credor"),
+        help="Indicador da situação do valor eliminado: D – Devedor C – Credor",
     )
 
     reg_K310_ids_RegistroK300_id = fields.Many2one(
@@ -3037,13 +3030,14 @@ class RegistroK310(models.AbstractModel):
         string="K315",
         sped_card="0:N",
         sped_required=True,
-        help=("K315 EMPRESAS CONTRAPARTES DAS PARCELAS DO VALOR ELIMINADO TOTAL"),
+        help="K315 EMPRESAS CONTRAPARTES DAS PARCELAS DO VALOR ELIMINADO TOTAL",
     )
 
 
 class RegistroK315(models.AbstractModel):
     "EMPRESAS CONTRAPARTES DAS PARCELAS DO VALOR ELIMINADO TOTAL"
-    _description = textwrap.dedent("    %s" % (__doc__,))
+
+    _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.9.k315"
     _inherit = "l10n_br_sped.mixin.ecd"
     _sped_level = 5
@@ -3071,7 +3065,7 @@ class RegistroK315(models.AbstractModel):
         string="Indicador da situação do valor eliminado",
         required=True,
         sped_length="1",
-        help=("Indicador da situação do valor eliminado: D – Devedor C – Credor"),
+        help="Indicador da situação do valor eliminado: D – Devedor C – Credor",
     )
 
     reg_K315_ids_RegistroK310_id = fields.Many2one(
