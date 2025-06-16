@@ -17,7 +17,8 @@ from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
 
 
 class Registro0000(models.Model):
-    """ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DO EMPRESÁRIO OU DA SOCIEDADE EMPRESÁRIA."""
+    """ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DO EMPRESÁRIO OU DA SOCIEDADE
+    EMPRESÁRIA."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.0000"
@@ -141,7 +142,7 @@ class Registro0020(models.Model):
     #         "IE": 0,  # Inscrição estadual da matriz ou da filial.
     #         "COD_MUN": 0,  # Código do município do domicílio da matriz ou da fil...
     #         "IM": 0,  # Número de Inscrição Municipal da matriz ou da filial.
-    #         "NIRE": 0,  # Número de Identificação do Registro de Empresas da matr...
+    #         "NIRE": 0,  # Número de Identificação do Registro de Empresas
     #     }
 
 
@@ -260,7 +261,8 @@ class RegistroI012(models.Model):
 
 
 class RegistroI015(models.Model):
-    """IDENTIFICAÇÃO DAS CONTAS DA ESCRITURAÇÃO RESUMIDA A QUE SE REFERE A ESCRITURAÇÃO AUXILIAR."""
+    """IDENTIFICAÇÃO DAS CONTAS DA ESCRITURAÇÃO RESUMIDA A QUE SE REFERE A
+    ESCRITURAÇÃO AUXILIAR."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.i015"
@@ -484,17 +486,18 @@ class RegistroI200(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return []  # ("company_id", "=", declaration.company_id.id), ("state", "=", "open")]
+        # ("company_id", "=", declaration.company_id.id), ("state", "=", "open")]
+        return []
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "NUM_LCTO": record.name,  # Número ou Código de identificação único do lançamen...
+            "NUM_LCTO": record.name,  # Número ou Código de identificação
             "DT_LCTO": record.create_date,  # Data do lançamento.
             "VL_LCTO": record.amount_total,  # Valor do lançamento.
             "IND_LCTO": "N",
-            "DT_LCTO_EXT": record.date,  # O Data de ocorrência dos fatos objeto do lançame...
-            "VL_LCTO_MF": record.amount_total,  # Valor do lançamento em moeda funcional, convertid...
+            "DT_LCTO_EXT": record.date,  # O Data de ocorrência dos fatos
+            "VL_LCTO_MF": record.amount_total,  # Valor do lançamento em moeda funcional
         }
 
 
@@ -520,7 +523,7 @@ class RegistroI250(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "COD_CTA": record.account_id.code,  # Código da conta analítica debitada/creditada.
+            "COD_CTA": record.account_id.code,
             # "COD_CCUS": 0,  # Código do centro de custos.
             "VL_DC": record.amount_currency,  # Valor da partida.
             "IND_DC": record.debit > 0
@@ -529,8 +532,8 @@ class RegistroI250(models.Model):
             # "NUM_ARQ": 0,  # Número, Código ou caminho de localização dos documen...
             # "COD_HIST_PAD": 0,  # Código do histórico padronizado, conforme tabel...
             # "HIST": 0,  # O Histórico completo da partida ou histórico complement...
-            "COD_PART": record.partner_id.id,  # ?,  # Código de identificação do participante na partida ...
-            "VL_DC_MF": record.amount_currency,  # Valor da partida em moeda funcional, convertido par...
+            "COD_PART": record.partner_id.id,  # ?,  # Código identificação participante
+            "VL_DC_MF": record.amount_currency,  # Valor da partida em moeda funcional
             # "IND_DC_MF": 0,  # Indicador da natureza da partida em moeda funciona...
         }
 
@@ -602,7 +605,8 @@ class RegistroI355(models.Model):
 
 
 class RegistroI500(models.Model):
-    """PARÂMETROS DE IMPRESSÃO/VISUALIZAÇÃO DO LIVRO RAZÃO AUXILIAR COM LEIAUTE PARAMETRIZÁVEL."""
+    """PARÂMETROS DE IMPRESSÃO/VISUALIZAÇÃO DO LIVRO RAZÃO AUXILIAR COM LEIAUTE
+    PARAMETRIZÁVEL."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.i500"
