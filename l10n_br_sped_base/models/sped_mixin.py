@@ -72,8 +72,12 @@ class SpedMixin(models.AbstractModel):
             model = self.env["ir.model"].search([("model", "=", res.res_model)])
             if not model:
                 raise UserError(
-                    _("Undefined mapping model for Register %s and model")
-                    % (self._name, self.res_model)
+                    _(
+                        "Undefined mapping model for Register "
+                        "%(name)s and model %(model)s",
+                        name=self._name,
+                        model=self.res_model,
+                    )
                 )
             res.reference = f"{model.model},{res.res_id}"
 
@@ -527,19 +531,17 @@ class SpedMixin(models.AbstractModel):
             if not fname.isupper():
                 continue
 
-            val = self._format_field_value(register_spec, fname, value)
+            val = self._format_field_value(register_spec._fields[fname], value)
             sped.write(f"{val}|")
 
-    def _format_field_value(self, register_spec, fname, value):
+    def _format_field_value(self, field, value):
         """
         Format the field value based on its type.
 
-        :param register_spec: Register specification model
-        :param fname: Field name
+        :param field: Field object
         :param value: Field value
         :return: Formatted field value as string
         """
-        field = register_spec._fields[fname]
         if field.type == "date":
             return value.strftime("%d%m%Y") if value else ""
         elif field.type == "char" or field.type == "selection":
@@ -552,7 +554,7 @@ class SpedMixin(models.AbstractModel):
                 if float_is_zero(value % 1, 6)
                 else str(round(value, 6)).replace(".", ",")
             )
-        elif field.type == "monetary":
+        elif field.type == "monetary":  # TODO is is usefull? (not used now)
             return (
                 ""
                 if float_is_zero(value, precision_digits=8)

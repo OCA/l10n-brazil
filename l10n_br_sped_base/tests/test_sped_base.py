@@ -2,14 +2,17 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import base64
+from datetime import date
 from io import StringIO
 from os import path
 from unittest import mock
-from unittest.mock import patch  # Ensure patch is from unittest.mock
+from unittest.mock import patch
 
 from lxml import etree
 from odoo_test_helper import FakeModelLoader
 
+from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_sped_base
@@ -157,6 +160,89 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             arch,
         )
 
+    def test_format_field_value(self):
+        """
+        Test the _format_field_value method from SpedMixin,
+        focusing on Float and Monetary types.
+        """
+        mixin_instance = self.env["l10n_br_sped.fake.9.0000"]
+
+        # --- Test Float field formatting ---
+        mock_float_field = mock.Mock()
+        mock_float_field.type = "float"
+        mock_float_field.sped_decimals = 2  # Simulate the attribute you might add
+
+        # Test float with 2 decimals
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_float_field, 1234.567),
+            "1234,567",
+        )
+        # Test float that results in integer after rounding
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_float_field, 1234.001),
+            "1234,001",
+        )
+        # Test zero float
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_float_field, 0.0),
+            "0",
+        )
+
+        # --- Test Monetary field formatting ---
+        mock_monetary_field = mock.Mock()
+        mock_monetary_field.type = "monetary"
+
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_monetary_field, 789.123),
+            "789.123",
+        )
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_monetary_field, 789.00),
+            "789",
+        )
+        # Test zero monetary
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_monetary_field, 0.0),
+            "",  # Your current logic returns "" for zero
+        )
+
+        # --- Test Integer field formatting ---
+        mock_integer_field = mock.Mock()
+        mock_integer_field.type = "integer"
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_integer_field, 123),
+            "123",
+        )
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_integer_field, 0),
+            "",
+        )
+
+        # --- Test Char field formatting ---
+        mock_char_field = mock.Mock()
+        mock_char_field.type = "char"
+        self.assertEqual(
+            mixin_instance._format_field_value(
+                mock_char_field,
+                "Test String",
+            ),
+            "Test String",
+        )
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_char_field, False),
+            "",
+        )
+
+        # --- Test Date field formatting ---
+        mock_date_field = mock.Mock()
+        mock_date_field.type = "date"
+        test_date = date(2023, 10, 26)
+        self.assertEqual(
+            mixin_instance._format_field_value(mock_date_field, test_date),
+            "26102023",
+        )
+        self.assertEqual(mixin_instance._format_field_value(mock_date_field, None), "")
+
     def test_declaration_form_view(self):
         arch, _view = self.env["l10n_br_sped.fake.0000"]._get_view(view_type="form")
         arch = etree.tostring(arch, encoding="unicode")
@@ -186,18 +272,22 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         mock_j900_pull_func = mock.Mock()
         fake_top_register_proxies = [ModelI010_proxy, ModelJ900_proxy]
 
-        with patch.object(
-            type(self.env["l10n_br_sped.mixin"]),
-            "_get_top_registers",
-            return_value=fake_top_register_proxies,
-        ) as mock_get_top, patch.object(
-            type(ModelI010_proxy),
-            "_pull_records_from_odoo",
-            side_effect=mock_i010_pull_func,
-        ), patch.object(
-            type(ModelJ900_proxy),
-            "_pull_records_from_odoo",
-            side_effect=mock_j900_pull_func,
+        with (
+            patch.object(
+                type(self.env["l10n_br_sped.mixin"]),
+                "_get_top_registers",
+                return_value=fake_top_register_proxies,
+            ) as mock_get_top,
+            patch.object(
+                type(ModelI010_proxy),
+                "_pull_records_from_odoo",
+                side_effect=mock_i010_pull_func,
+            ),
+            patch.object(
+                type(ModelJ900_proxy),
+                "_pull_records_from_odoo",
+                side_effect=mock_j900_pull_func,
+            ),
         ):
             declaration.button_populate_sped_from_odoo()
 
@@ -326,6 +416,130 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             self.assertEqual(
                 bloco_attachment_val["name"], f"FAKE-bloco_X-{decl_name_part}.txt"
             )
+            declaration._compute_fiscal_documents()
+            declaration.button_done()
+            declaration.button_draft()
+            declaration.button_flush_registers()
+
+    def test_declaration_defaults_and_onchange_company(self):
+        """
+        Test default date methods and onchange_company_id for SpedDeclaration.
+        """
+        DeclarationModel = self.env[
+            "l10n_br_sped.fake.0000"
+        ]  # Using your fake 0000 model
+
+        # 1. Test default date methods
+        # Get today's date as Odoo would in fields.Date.context_today(self)
+        today = fields.Date.context_today(
+            DeclarationModel
+        )  # Pass a model or record for context
+
+        expected_dt_ini = today.replace(year=today.year - 1)
+        expected_dt_fin = today.replace(year=today.year + 1)  # Your default is year + 1
+
+        self.assertEqual(
+            DeclarationModel._get_default_dt_ini(),
+            expected_dt_ini,
+            "Default DT_INI is not as expected.",
+        )
+        self.assertEqual(
+            DeclarationModel._get_default_dt_fin(),
+            expected_dt_fin,
+            "Default DT_FIN is not as expected.",
+        )
+
+        # 2. Test declaration creation with defaults
+        # We need a company for the default value of company_id
+        # self.env.company is usually set in test environments
+        self.assertTrue(self.env.company, "Default company not found for test.")
+
+        new_declaration = DeclarationModel.create(
+            {
+                "TIP_ECD": "0",
+                "LECD": "009",
+                "NOME": "test",
+                "CNPJ": "Z1234567",
+                "UF": "SP",
+                "IND_NIRE": "0",
+                "IND_GRANDE_PORTE": "0",
+                "IDENT_MF": "BRL",
+                "IND_ESC_CONS": "S",
+                "IND_CENTRALIZADA": "0",
+                "IND_MUDANC_PC": "0",
+            }
+        )
+
+        self.assertEqual(
+            new_declaration.company_id,
+            self.env.company,
+            "Default company_id not set correctly.",
+        )
+        self.assertEqual(
+            new_declaration.DT_INI,
+            expected_dt_ini,
+            "DT_INI on new record not set to default.",
+        )
+        self.assertEqual(
+            new_declaration.DT_FIN,
+            expected_dt_fin,  # Adjusted to year + 1 as per your code
+            "DT_FIN on new record not set to default.",
+        )
+        self.assertEqual(
+            new_declaration.state, "draft", "Default state is not 'draft'."
+        )
+
+        # 3. Test onchange_company_id
+        declaration_for_onchange = DeclarationModel.new()
+
+        # Store original values that might be changed by onchange
+        original_nome = declaration_for_onchange.NOME
+
+        # Mock _map_from_odoo to return some values
+        # Note: _map_from_odoo is on the *concrete* class l10n_br_sped.fake.0000
+        # The onchange calls self._map_from_odoo
+        mocked_map_values = {
+            "NOME": "Mapped Company Name",
+            "CNPJ": "12345678000199",
+        }
+
+        with patch.object(
+            type(declaration_for_onchange),
+            "_map_from_odoo",
+            return_value=mocked_map_values,
+        ) as mock_map:
+            # Trigger the onchange
+            declaration_for_onchange.company_id = self.env.company  # Or another company
+            declaration_for_onchange.onchange_company_id()
+
+            # Assert _map_from_odoo was called
+            mock_map.assert_called_once_with(self.env.company, None, None)
+
+            # Assert that fields were updated based on mocked_map_values
+            self.assertEqual(declaration_for_onchange.NOME, "Mapped Company Name")
+            self.assertEqual(declaration_for_onchange.CNPJ, "12345678000199")
+            # If NOME was previously set, ensure it changed
+            self.assertNotEqual(
+                original_nome, "Mapped Company Name", "NOME should have changed."
+            )
+
+        # Test onchange with no company_id (should simply return)
+        declaration_no_company = DeclarationModel.new({"NOME": "Initial Name"})
+        declaration_no_company.company_id = False  # Set to None/False
+        # We don't need to mock _map_from_odoo here as it shouldn't be called
+        with patch.object(
+            type(declaration_no_company), "_map_from_odoo"
+        ) as mock_map_no_company:
+            res = declaration_no_company.onchange_company_id()
+            self.assertIsNone(
+                res, "onchange_company_id should return None if no company_id."
+            )
+            mock_map_no_company.assert_not_called()
+            self.assertEqual(
+                declaration_no_company.NOME,
+                "Initial Name",
+                "Fields should not change if company_id is False.",
+            )
 
     def test_pull_records_from_odoo_logic(self):
         """
@@ -354,11 +568,16 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         }
 
         # We are calling Reg0007Model._pull_records_from_odoo(...)
-        with patch.object(
-            type(Reg0007Model), "_map_from_odoo", return_value=mapped_values_for_0007
-        ) as mock_map_0007, patch.object(
-            type(Reg0007Model), "create", wraps=Reg0007Model.create
-        ) as mock_create_0007:
+        with (
+            patch.object(
+                type(Reg0007Model),
+                "_map_from_odoo",
+                return_value=mapped_values_for_0007,
+            ) as mock_map_0007,
+            patch.object(
+                type(Reg0007Model), "create", wraps=Reg0007Model.create
+            ) as mock_create_0007,
+        ):
             Reg0007Model.with_context(declaration=declaration)._pull_records_from_odoo(
                 kind="fake", level=2, log_msg=log_msg_container
             )
@@ -403,17 +622,20 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
 
         # Temporarily set _odoo_model and mock _odoo_domain for RegI010Model
         # and mock its _map_from_odoo
-        with patch.object(
-            type(RegI010Model), "_odoo_model", "res.partner"
-        ), patch.object(
-            type(RegI010Model),
-            "_odoo_domain",
-            return_value=[("id", "in", [partner1.id, partner2.id])],
-        ) as mock_domain_i010, patch.object(
-            type(RegI010Model), "_map_from_odoo", side_effect=i010_map_side_effect
-        ) as mock_map_i010, patch.object(
-            type(RegI010Model), "create", wraps=RegI010Model.create
-        ) as mock_create_i010:
+        with (
+            patch.object(type(RegI010Model), "_odoo_model", "res.partner"),
+            patch.object(
+                type(RegI010Model),
+                "_odoo_domain",
+                return_value=[("id", "in", [partner1.id, partner2.id])],
+            ) as mock_domain_i010,
+            patch.object(
+                type(RegI010Model), "_map_from_odoo", side_effect=i010_map_side_effect
+            ) as mock_map_i010,
+            patch.object(
+                type(RegI010Model), "create", wraps=RegI010Model.create
+            ) as mock_create_i010,
+        ):
             # Clear previous log_msg
             log_msg_container = StringIO()
             RegI010Model.with_context(declaration=declaration)._pull_records_from_odoo(
@@ -450,3 +672,81 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             [("declaration_id", "=", declaration.id)]
         )
         self.assertEqual(len(created_i010_records), 3)
+
+    def test_compute_reference(self):
+        """
+        Test the _compute_reference method from SpedMixin.
+        """
+        FakeRegModel = self.env["l10n_br_sped.fake.0007"]
+
+        # Scenario 1: res_model and res_id are set
+        # Ensure the ir.model for 'res.partner' exists (it should by default in Odoo)
+        partner_model = self.env["ir.model"].search(
+            [("model", "=", "res.partner")], limit=1
+        )
+        self.assertTrue(
+            partner_model,
+            "ir.model for res.partner not found, test prerequisite missing.",
+        )
+
+        fake_reg_instance1 = FakeRegModel.create(
+            {
+                "res_model": "res.partner",
+                "res_id": 123,
+                "COD_ENT_REF": "01",
+                "declaration_id": self.declaration.id,
+            }
+        )
+
+        # Accessing the field triggers the compute method
+        self.assertEqual(
+            fake_reg_instance1.reference,
+            "res.partner,123",
+            "Reference string not computed as expected.",
+        )
+
+        # Scenario 2: res_model is not set
+        fake_reg_instance2 = FakeRegModel.create(
+            {
+                "res_model": False,  # Explicitly set to False or None
+                "res_id": 456,
+                "COD_ENT_REF": "01",
+                "declaration_id": self.declaration.id,
+            }
+        )
+        self.assertEqual(
+            fake_reg_instance2.reference,
+            "",
+            "Reference should be empty if res_model is not set.",
+        )
+
+        # Scenario 3: res_model is set but ir.model does not exist
+        with self.assertRaisesRegex(
+            UserError,
+            "Undefined mapping model for Register l10n_br_sped.fake.0007 "
+            "and model non.existent.model",
+        ):
+            fake_reg_instance3 = FakeRegModel.create(
+                {
+                    "res_model": "non.existent.model",
+                    "res_id": 789,
+                    "COD_ENT_REF": "01",
+                    "declaration_id": self.declaration.id,
+                }
+            )
+            _ = fake_reg_instance3.reference  # Trigger compute
+
+        # Scenario 4: res_model is set, res_id is 0 or False
+        fake_reg_instance4 = FakeRegModel.create(
+            {
+                "res_model": "res.partner",
+                "res_id": 0,
+                "COD_ENT_REF": "01",
+                "declaration_id": self.declaration.id,
+            }
+        )
+        self.assertEqual(
+            fake_reg_instance4.reference,
+            "res.partner,0",
+            "Reference string not computed as expected for res_id=0.",
+        )
