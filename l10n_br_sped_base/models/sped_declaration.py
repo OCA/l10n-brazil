@@ -61,7 +61,7 @@ class SpedDeclaration(models.AbstractModel):
     split_sped_by_bloco = fields.Boolean()
 
     debug = fields.Boolean(
-        help=_(
+        help=(
             "If True, will pull draft account moves and "
             "draft fiscal documents from a larger date period "
             "to help developpers develop and debug the mappings"
@@ -116,7 +116,7 @@ class SpedDeclaration(models.AbstractModel):
         for record in self:
             if record.debug:
                 fiscal_document_ids = self.env["l10n_br_fiscal.document"].search(
-                    [], order="DESC", limit=100
+                    [], order="id DESC", limit=100
                 )
             else:
                 fiscal_document_ids = self.env["l10n_br_fiscal.document"].search(
@@ -184,6 +184,9 @@ class SpedDeclaration(models.AbstractModel):
     def button_flush_registers(self):
         self.ensure_one()
         self.env["l10n_br_sped.mixin"]._flush_registers(self._get_kind(), self.id)
+        self.message_post(
+            body=f"<h3>{_('Flushed all Registers from Declaration!')}</h3>"
+        )
 
     def button_done(self):
         self.state = "done"
@@ -323,6 +326,7 @@ class SpedDeclaration(models.AbstractModel):
         """Append top-level elements to the form view."""
         group.append(E.field(name="company_id"))
         group.append(E.field(name="split_sped_by_bloco"))
+        group.append(E.field(name="debug"))
         group.append(E.separator(colspan="4"))
 
     def _generate_sped_text(self, version=None):

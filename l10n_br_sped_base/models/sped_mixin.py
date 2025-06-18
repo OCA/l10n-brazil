@@ -92,7 +92,7 @@ class SpedMixin(models.AbstractModel):
             return super()._valid_field_parameter(field, name)
 
     @api.model
-    def _odoo_domain(self):
+    def _odoo_domain(self, parent_record, declaration):
         return []
 
     @api.model
