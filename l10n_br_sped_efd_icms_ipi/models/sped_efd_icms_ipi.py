@@ -357,7 +357,7 @@ class Registro0190(models.Model):
             msg_err = _(f"UOM without code: {record.name}")
             raise UserError(msg_err)
         return {
-            "UNID": record.code,  # Código da unidade de medida
+            "UNID": record.name,  # Código da unidade de medida
             "DESCR": record.name,  # Descrição da unidade de medida
         }
 
@@ -387,7 +387,7 @@ class Registro0200(models.Model):
             "DESCR_ITEM": record.name,
             "COD_BARRA": record.barcode,
             # "COD_ANT_ITEM": "", # Não preencher. Ele deve ser especificado no Registro 0205
-            "UNID_INV": record.uom_id.code,
+            "UNID_INV": record.uom_id.name,
             "TIPO_ITEM": record.fiscal_type,
             "COD_NCM": record.ncm_id.code,
             "EX_IPI": record.ncm_id.exception,
@@ -464,13 +464,41 @@ class Registro0220(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.0220"
     _inherit = "l10n_br_sped.efd_icms_ipi.17.0220"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "UNID_CONV": 0,  # Unidade comercial a ser convertida na unidade de e...
-    #         "FAT_CONV": 0,  # Fator de conversão: fator utilizado para converter ...
-    #         "COD_BARRA": 0,  # Representação alfanumérica do código de barra da u...
-    #     }
+    @api.model
+    def _odoo_query(self, parent_record, declaration):
+        return {
+            """
+                select distinct
+                    uom.code as unid_conv
+                    ,uom.factor as fat_conv
+                from
+                    l10n_br_fiscal_document as fd,
+                    l10n_br_fiscal_document_line as fdl,
+                    uom_uom as uom
+                where
+                    fd.id = fdl.document_id
+                    and uom.id = fdl.uot_id
+                    and document_date between %s and %s
+                    and (document_type in ('01', '1B', '04', '55', '65'))
+                    and (state_edoc = 'autorizada')
+                    and uom.id <> fdl.uot_id
+                order by 1
+            """,
+            declaration.DT_INI,
+            declaration.DT_FIN,
+        }
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "UNID_CONV": record.get(
+                "unid_conv"
+            ),  # Unidade comercial a ser convertida na unidade de e...
+            "FAT_CONV": record.get(
+                "fat_conv"
+            ),  # Fator de conversão: fator utilizado para converter ...
+            "COD_BARRA": 0,  # Representação alfanumérica do código de barra da u...
+        }
 
 
 class Registro0300(models.Model):
