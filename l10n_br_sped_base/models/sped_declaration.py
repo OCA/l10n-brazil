@@ -60,6 +60,43 @@ class SpedDeclaration(models.AbstractModel):
 
     split_sped_by_bloco = fields.Boolean()
 
+    debug = fields.Boolean(
+        help=_(
+            "If True, will pull draft account moves and "
+            "draft fiscal documents from a larger date period "
+            "to help developpers develop and debug the mappings"
+        )
+    )
+
+    fiscal_document_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document",
+        compute="_compute_fiscal_documents",
+    )
+
+    fiscal_document_partner_ids = fields.One2many(
+        comodel_name="res.partner", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_document_line_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.line", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_product_ids = fields.One2many(
+        comodel_name="product.product", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_operation_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.operation", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_comment_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.comment", compute="_compute_fiscal_documents"
+    )
+
+    fiscal_uom_ids = fields.One2many(
+        comodel_name="uom.uom", compute="_compute_fiscal_documents"
+    )
+
     @api.model
     def _get_kind(self) -> str:
         return self._name.replace(".0000", "").split(".")[-1]
@@ -73,6 +110,49 @@ class SpedDeclaration(models.AbstractModel):
             )
             for declaration in self
         ]
+
+    @api.depends("company_id", "DT_INI", "DT_FIN")
+    def _compute_fiscal_documents(self):
+        for record in self:
+            if record.debug:
+                fiscal_document_ids = self.env["l10n_br_fiscal.document"].search(
+                    [], order="DESC", limit=100
+                )
+            else:
+                fiscal_document_ids = self.env["l10n_br_fiscal.document"].search(
+                    [
+                        ("company_id", "=", record.company_id.id),
+                        (
+                            "state_edoc",
+                            "in",
+                            ("autorizada", "cancelada", "denegada", "inutilizada"),
+                        ),
+                        ("document_date", ">=", record.DT_INI),
+                        ("document_date", "<=", record.DT_FIN),
+                    ]
+                )
+
+            record.fiscal_document_partner_ids = fiscal_document_ids.mapped(
+                "partner_id"
+            )
+            record.fiscal_document_line_ids = fiscal_document_ids.mapped(
+                "fiscal_line_ids"
+            )
+            # TODO: Complementar com produtos dos outros blocos!!!!
+            record.fiscal_product_ids = record.fiscal_document_line_ids.mapped(
+                "product_id"
+            )
+
+            record.fiscal_document_ids = fiscal_document_ids
+            record.fiscal_operation_ids = record.fiscal_document_ids.mapped(
+                "fiscal_operation_id"
+            )
+            record.fiscal_comment_ids = record.fiscal_document_ids.mapped(
+                "comment_ids"
+            ) | record.fiscal_document_line_ids.mapped("comment_ids")
+
+            # TODO: Complementar com unidades de medidas de outros blocos!!!
+            record.fiscal_uom_ids = record.fiscal_document_line_ids.mapped("uom_id")
 
     def button_populate_sped_from_odoo(self):
         """Populate SPED registers from Odoo."""
