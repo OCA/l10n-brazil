@@ -13,6 +13,7 @@ class SpecMixinEFDPISCOFINS(models.AbstractModel):
     declaration_id = fields.Many2one(
         comodel_name="l10n_br_sped.efd_pis_cofins.0000",
         required=True,
+        ondelete="cascade",
     )
 
     state = fields.Selection(related="declaration_id.state")
