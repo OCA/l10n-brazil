@@ -966,6 +966,11 @@ msgid "Email Thread"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__state_edoc__encerrada
+msgid "Encerrada"
+msgstr ""
+
+#. module: l10n_br_pos
 #. openerp-web
 #: code:addons/l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.js:0
 #: code:addons/l10n_br_pos/static/src/js/models.js:0
