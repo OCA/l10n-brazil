@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ========================
 Módulo fiscal brasileiro
 ========================
@@ -17,7 +13,7 @@ Módulo fiscal brasileiro
 .. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -45,19 +41,19 @@ precisam deles para calcular os impostos ou emitir documentos fiscais.
 
 Produtos:
 
-- tipo fiscal
-- NCM (com ligações com os impostos)
-- genêro fiscal
-- CEST
-- NBM
-- NBS
-- tipo de serviço
-- unidades fiscais
+-  tipo fiscal
+-  NCM (com ligações com os impostos)
+-  genêro fiscal
+-  CEST
+-  NBM
+-  NBS
+-  tipo de serviço
+-  unidades fiscais
 
 Parceiros:
 
-- CNAE
-- perfil fiscal
+-  CNAE
+-  perfil fiscal
 
 Conceito de documento fiscal
 ----------------------------
@@ -96,17 +92,17 @@ SOAP. Ele contém apenas o que há de comum entre os documentos fiscais
 mas esses últimos são implementados em outros módulos. Para um
 determinado documento fiscal como a Nf-e, você tem então por exemplo:
 
-- ``nfelib``: um pacote de data bindings puro Python (que não depende do
-  Odoo). Em geral usamos um gerador de código para gerar esses bindings
-  a partir dos esquemas XSD da fazenda.
-- ``l10n_br_nfe_spec``: um modulo de mixins Odoo geridos também a partir
-  dos XSD. Esses mixins são apenas as estruturas de dados das
-  especificações antes de ser injectados em objetos Odoo existantes
-  (como res.partner ou l10n_br_fiscal.document) ou até tornados
-  concretos caso não exite objetos na Odoo ou na OCA para eles já.
-- ``l10n_br_nfe``: um módulo Odoo que trata de injectar esses mappings
-  fiscais nos objetos Odoo e que implementa a lógica como os wizards
-  para a transmissão.
+-  ``nfelib``: um pacote de data bindings puro Python (que não depende
+   do Odoo). Em geral usamos um gerador de código para gerar esses
+   bindings a partir dos esquemas XSD da fazenda.
+-  ``l10n_br_nfe_spec``: um modulo de mixins Odoo geridos também a
+   partir dos XSD. Esses mixins são apenas as estruturas de dados das
+   especificações antes de ser injectados em objetos Odoo existantes
+   (como res.partner ou l10n_br_fiscal.document) ou até tornados
+   concretos caso não exite objetos na Odoo ou na OCA para eles já.
+-  ``l10n_br_nfe``: um módulo Odoo que trata de injectar esses mappings
+   fiscais nos objetos Odoo e que implementa a lógica como os wizards
+   para a transmissão.
 
 A transmissão é realizada usando uma lib de transmissão como
 ``erpbrasil.doc`` (baseada em Python Zeep). Importante: no caso da
@@ -165,21 +161,21 @@ Impostos brasileiros
 O módulo l10n_br_fiscal lida com os principais impostos brasileiros
 como:
 
-- ICMS do Simples Nacional
-- ICMS do Regime normal
-- IPI
-- PIS
-- COFINS
-- ISSQN
-- IRPJ
-- II
-- CSLL
-- INSS
+-  ICMS do Simples Nacional
+-  ICMS do Regime normal
+-  IPI
+-  PIS
+-  COFINS
+-  ISSQN
+-  IRPJ
+-  II
+-  CSLL
+-  INSS
 
 O módulo l10n_br_fiscal também lida com:
 
-- ST
-- retenções
+-  ST
+-  retenções
 
 |image1|
 
@@ -223,12 +219,12 @@ No Odoo nativo, o conceito mais parecido com a operação fiscal e o
 usava. Porém, a posição fiscal do Odoo não resolve muito os nossos
 problemas pois:
 
-- no Brasil se tem uma operação fiscal por linha de documento fiscal
-- a posição fiscal do Odoo desconhece a lógica da parametrização fiscal
-  brasileira
-- já que puxamos o cadastro dos impostos no módulo l10n_br_fiscal fora
-  do módulo account (sem depender dele), não temos ainda o objeto
-  ``account.fiscal.position`` neste módulo.
+-  no Brasil se tem uma operação fiscal por linha de documento fiscal
+-  a posição fiscal do Odoo desconhece a lógica da parametrização fiscal
+   brasileira
+-  já que puxamos o cadastro dos impostos no módulo l10n_br_fiscal fora
+   do módulo account (sem depender dele), não temos ainda o objeto
+   ``account.fiscal.position`` neste módulo.
 
 Com tudo, optamos por criar um objeto ``l10n_br_fiscal.operation`` que
 faz exactamente o que precisamos para o Brasil. Mais adiante, no módulo
@@ -251,19 +247,19 @@ Installation
 Para instalar o módulo l10n_br_fiscal, você precisa de instalar primeiro
 os pacotes Python
 
-- erpbrasil.base
-- erpbrasil.assinatura
+-  erpbrasil.base
+-  erpbrasil.assinatura
 
 Configuration
 =============
 
 Para uma boa configuração fiscal, você tem que revisar bem:
 
-- em Configurações: as operaçoes fiscais que você vai usar, as linhas de
-  operação fiscal e as definições das taxas nessas linhas.
-- a configuração fiscal da sua empresa (aba fiscal)
-- a configuração fiscal dos clientes e fornecedores (aba fiscal) e dos
-  produtos (aba fiscal).
+-  em Configurações: as operaçoes fiscais que você vai usar, as linhas
+   de operação fiscal e as definições das taxas nessas linhas.
+-  a configuração fiscal da sua empresa (aba fiscal)
+-  a configuração fiscal dos clientes e fornecedores (aba fiscal) e dos
+   produtos (aba fiscal).
 
 Usage
 =====
@@ -304,25 +300,25 @@ Authors
 Contributors
 ------------
 
-- `Akretion <https://www.akretion.com/pt-BR>`__:
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  - Renato Lima <renato.lima@akretion.com.br>
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
-  - Magno Costa <magno.costa@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Magno Costa <magno.costa@akretion.com.br>
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Mileo <mileo@kmee.com.br>
-  - Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Antônio S. Pereira Neto <neto@engenere.one>
-  - Felipe Motter Pereira <felipe@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Maintainers
 -----------
