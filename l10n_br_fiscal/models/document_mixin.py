@@ -128,7 +128,6 @@ class FiscalDocumentMixin(models.AbstractModel):
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Currency",
-        default=lambda self: self.env.company.currency_id,
     )
 
     amount_price_gross = fields.Monetary(
