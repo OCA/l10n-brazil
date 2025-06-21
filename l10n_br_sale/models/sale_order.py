@@ -115,6 +115,14 @@ class SaleOrder(models.Model):
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
         ):
             tax_totals_node.set("attrs", "{'invisible': True}")
+
+        if view_type == "form" and (
+            self.user_has_groups("l10n_br_sale.group_line_fiscal_detail")
+            or self.env.context.get("force_line_fiscal_detail_edition")
+        ):
+            for sub_tree_node in arch.xpath("//field[@name='order_line']/tree"):
+                sub_tree_node.attrib["editable"] = ""
+
         return arch, view
 
     @api.onchange("fiscal_operation_id")

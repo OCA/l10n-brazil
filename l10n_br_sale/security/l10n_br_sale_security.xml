@@ -18,4 +18,12 @@
         />
   </record>
 
+  <record id="group_line_fiscal_detail" model="res.groups">
+    <field name="name">Brazilian Fiscal details (popup) in Sale Order Lines</field>
+    <field
+            name="category_id"
+            ref="l10n_br_fiscal.module_category_l10n_br_fiscal_management"
+        />
+  </record>
+
 </odoo>
