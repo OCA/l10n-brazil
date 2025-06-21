@@ -21,7 +21,8 @@ class L10nBrSaleDiscount(TransactionCase):
         ).id
         sale_manager_user = cls.env.ref("sales_team.group_sale_manager")
         fiscal_user = cls.env.ref("l10n_br_fiscal.group_user")
-        user_groups = [sale_manager_user.id, fiscal_user.id]
+        line_fiscal_detail = cls.env.ref("l10n_br_sale.group_line_fiscal_detail")
+        user_groups = [sale_manager_user.id, fiscal_user.id, line_fiscal_detail.id]
         cls.user = (
             cls.env["res.users"]
             .with_user(cls.env.user)
