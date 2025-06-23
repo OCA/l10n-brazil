@@ -40,23 +40,45 @@
                     'picking_type_code': picking_type_code}</attribute>
             </field>
             <xpath
-                expr="//field[@name='move_ids_without_package']//tree"
-                position="attributes"
+                expr="//field[@name='move_ids_without_package']//tree/field[@name='product_id']"
+                position="before"
             >
-                <attribute name="editable" />
+                <button
+                    name="dummy_button_for_js"
+                    icon="fa-external-link"
+                    title="Edit in Form"
+                    class="btn-sm btn-link p-0 edit-line-popup"
+                />
             </xpath>
             <xpath
                 expr="//field[@name='move_ids_without_package']//tree/field[@name='invoice_state']"
                 position="after"
             >
                 <field
-                    name="fiscal_operation_id"
-                    attrs="{'column_invisible': ['|', ('parent.invoice_state', '=', 'none'), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
-                />
-                <field
                     name="fiscal_operation_line_id"
                     attrs="{'column_invisible': ['|', ('parent.invoice_state', '=', 'none'), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
+                <control
+                    name="fiscal_fields"
+                    invisible="1"
+                /><!-- this is a dynamic fiscal fields placeholder-->
+                <control
+                    name="fiscal_taxes_fields"
+                    string="Taxes"
+                    invisible="1"
+                /><!-- this is a dynamic fiscal fields placeholder-->
+
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="freight_value" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
             </xpath>
             <xpath
                 expr="//field[@name='move_ids_without_package']//form"
