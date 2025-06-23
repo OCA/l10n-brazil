@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+
+  <record id="group_line_fiscal_detail" model="res.groups">
+    <field name="name">Brazilian Fiscal details (popup) in Purchase Order Lines</field>
+    <field
+            name="category_id"
+            ref="l10n_br_fiscal.module_category_l10n_br_fiscal_management"
+        />
+  </record>
+
+</odoo>
