@@ -260,6 +260,13 @@ class AccountMove(models.Model):
             for sub_form_node in arch.xpath("//field[@name='line_ids']/tree"):
                 self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
 
+        if view_type == "form" and (
+            self.user_has_groups("l10n_br_account.group_line_fiscal_detail")
+            or self.env.context.get("force_line_fiscal_detail")
+        ):
+            for sub_tree_node in arch.xpath("//field[@name='invoice_line_ids']/tree"):
+                sub_tree_node.attrib["editable"] = ""
+
         return arch, view
 
     @api.depends(
