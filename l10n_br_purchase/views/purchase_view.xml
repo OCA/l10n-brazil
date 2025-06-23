@@ -40,12 +40,46 @@
                   <attribute
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id}</attribute>
-              </xpath>
-              <!-- Edit order_line Tree view -->
-              <xpath expr="//field[@name='order_line']/tree" position="attributes">
-                  <attribute name="editable" />
-              </xpath>
-              <xpath
+            </xpath>
+
+            <!-- Edit order_line Tree view -->
+            <xpath expr="//field[@name='order_line']/tree" position="inside">
+                <control
+                    name="fiscal_fields"
+                    invisible="1"
+                /><!-- this is a dynamic fiscal fields placeholder-->
+                <control
+                    name="fiscal_taxes_fields"
+                    string="Taxes"
+                    invisible="1"
+                /><!-- this is a dynamic fiscal fields placeholder-->
+
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="freight_value" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
+            </xpath>
+
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='product_id']"
+                position="before"
+            >
+                <button
+                    name="dummy_button_for_js"
+                    icon="fa-external-link"
+                    title="Edit in Form"
+                    class="btn-sm btn-link p-0 edit-line-popup"
+                />
+            </xpath>
+
+            <xpath
                 expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
                 position="attributes"
             >
@@ -57,18 +91,24 @@
                 expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
                 position="before"
             >
+                <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
                   <field
                     name="fiscal_tax_ids"
                     attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
                     widget="many2many_tags"
                 />
               </xpath>
+
               <!-- Edit order_line Form view -->
               <xpath expr="//field[@name='order_line']/form" position="inside">
-                  <group name="fiscal_fields" invisible="1">
+                  <group
+                    name="fiscal_fields"
+                    invisible="1"
+                ><!-- this is a dynamic fiscal fields placeholder-->
                       <field name="fiscal_operation_type" invisible="1" readonly="1" />
-                      <field name="fiscal_genre_code" invisible="1" />
-                      <field name="tax_framework" invisible="1" />
                       <field name="tax_icms_or_issqn" invisible="1" />
                       <field name="product_uom" invisible="1" />
                   </group>
