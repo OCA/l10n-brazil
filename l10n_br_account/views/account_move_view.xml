@@ -132,25 +132,57 @@
 
 
             <!-- invoice_line_ids tree (Invoice Lines) -->
-            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
-              <attribute
-                    name="editable"
-                /><!-- TODO put this in a view with a specific group? -->
-            </xpath>
             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
                 <attribute
                     name="context"
                 >{'default_move_type': context.get('default_move_type'), 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
             </xpath>
             <xpath
+                expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']"
+                position="before"
+            >
+                <button
+                    name="dummy_button_for_js"
+                    icon="fa-external-link"
+                    title="Edit in Form"
+                    class="btn-sm btn-link p-0 edit-line-popup"
+                />
+            </xpath>
+            <xpath
                 expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
                 position="replace"
             >
+                <control
+                    name="fiscal_fields"
+                    invisible="1"
+                /><!-- this is a dynamic fiscal fields placeholder-->
+                <control
+                    name="fiscal_taxes_fields"
+                    string="Taxes"
+                    invisible="1"
+                /><!-- this is a dynamic fiscal fields placeholder-->
+
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="freight_value" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
+                <field name="fiscal_operation_type" invisible="1" />
+                <field name="ipi_cst_id" invisible="1" />
+                <field name="ipi_guideline_id" invisible="1" />
+
                 <field
                     name="tax_ids"
                     optional="hide"
                     widget="many2many_tags"
                     options="{'no_create': True}"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}"
                 />
                 <field name="fiscal_document_line_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
@@ -170,8 +202,12 @@
                 <field name="product_uom_id" optional="hide" />
                 <field name="fiscal_genre_id" optional="hide" />
                 <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                />
+                <field
                     name="fiscal_tax_ids"
-                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                    attrs="{'column_invisible': [('document_type_id', '=', False)]}"
                     widget="many2many_tags"
                     options="{'no_create': True}"
                 />
