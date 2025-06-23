@@ -13,6 +13,7 @@
     "data": [
         # Security
         "security/ir.model.access.csv",
+        "security/l10n_br_purchase_security.xml",
         # Data
         "data/company.xml",
         # View

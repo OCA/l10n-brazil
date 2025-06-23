@@ -71,6 +71,14 @@ class PurchaseOrder(models.Model):
         ):
             tax_totals_node.set("attrs", "{'invisible': True}")
         arch = self.env["purchase.order.line"].inject_fiscal_fields(arch)
+
+        if view_type == "form" and (
+            self.user_has_groups("l10n_br_purchase.group_line_fiscal_detail")
+            or self.env.context.get("force_line_fiscal_detail")
+        ):
+            for sub_tree_node in arch.xpath("//field[@name='order_line']/tree"):
+                sub_tree_node.attrib["editable"] = ""
+
         return arch, view
 
     @api.onchange("fiscal_operation_id")
