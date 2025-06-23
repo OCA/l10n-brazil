@@ -19,6 +19,7 @@
     "data": [
         # security
         "security/ir.model.access.csv",
+        "security/l10n_br_account_security.xml",
         # data
         "data/account_tax_group.xml",
         "data/account_tax_template.xml",
