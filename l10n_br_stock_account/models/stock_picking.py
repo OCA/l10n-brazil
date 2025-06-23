@@ -31,6 +31,10 @@ class StockPicking(models.Model):
         store=True,
     )
 
+    currency_id = fields.Many2one(
+        default=lambda self: self.env.company.currency_id,
+    )
+
     def _get_amount_lines(self):
         """Get object lines instances used to compute fields"""
         return self.mapped("move_ids")
@@ -50,6 +54,7 @@ class StockPicking(models.Model):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code == "BR":
             arch = self.env["stock.move"].inject_fiscal_fields(arch)
+
         return arch, view
 
     def _put_in_pack(self, move_line_ids, create_package_level=True):
