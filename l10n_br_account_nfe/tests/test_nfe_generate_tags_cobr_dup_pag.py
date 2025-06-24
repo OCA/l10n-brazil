@@ -21,6 +21,11 @@ class TestGeneratePaymentInfo(TransactionCase):
         companies = cls.env["res.company"].search([])
         cls.env.user.company_ids = [(6, 0, companies.ids)]
         cls.env.user.company_id = cls.company
+        # for some reason this invoice should be created with the popup mode.
+        # it seems like a test framework glitch because in the browser it works fine
+        cls.env.user.groups_id |= cls.env.ref(
+            "l10n_br_account.group_line_fiscal_detail"
+        )
 
         cls.payment_mode = cls.env["account.payment.mode"].create(
             {
