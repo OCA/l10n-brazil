@@ -56,11 +56,15 @@ msgstr ""
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_declaration__state__done
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecd_0000__state__done
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecd_9_0000__state__done
 msgid "Done"
 msgstr ""
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_declaration__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecd_0000__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecd_9_0000__state__draft
 msgid "Draft"
 msgstr ""
 
