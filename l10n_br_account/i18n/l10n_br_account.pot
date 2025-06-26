@@ -293,6 +293,11 @@ msgid "Base vBC/pIPI/qUnid/vUnid"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:res.groups,name:l10n_br_account.group_line_fiscal_detail
+msgid "Brazilian Fiscal details (popup) in Account Move Lines"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_partner_form
 msgid "Brazilian Instant Payment Keys (PIX)"
 msgstr ""
@@ -1581,6 +1586,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_docAnt
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_docAnt
 msgid "Documentos de Transporte Anterior"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Edit in Form"
 msgstr ""
 
 #. module: l10n_br_account
