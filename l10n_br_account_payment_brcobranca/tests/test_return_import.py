@@ -16,7 +16,7 @@ class TestReturnImport(TestBrAccountPaymentOderCommon):
         # Para evitar erros nos testes de variação da Sequencia do
         # Nosso Numero/own_number quando se roda mais de uma vez
         result = []
-        for line in invoice.financial_move_line_ids:
+        for line in invoice.due_line_ids:
             # Arquivo de retorno vem
             # UNICRED = NOSSO NUMERO + Digito Verificador
             # AILOS = NOSSO NUMERO
