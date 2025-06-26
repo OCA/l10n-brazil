@@ -18,9 +18,9 @@
         "security/ir.model.access.csv",
         # Data
         "data/l10n_br_coa_template.xml",
-        "data/account_tax_tag.xml",
-        "data/account_tax_group.xml",
-        "data/account_tax_template.xml",
+        "data/account.account.tag.csv",
+        "data/account.tax.group.csv",
+        "data/account.tax.template.csv",
         # Views
         "views/account_tax_template.xml",
         "views/account_tax.xml",

@@ -1,0 +1,61 @@
+id,name,description,amount,type_tax_use,price_include,deductible,withholdable,tax_group_id:id,chart_template_id:id
+l10n_br_coa.tax_template_out_ipi,"IPI Saída",IPI,0.00,sale,0,0,0,l10n_br_coa.tax_group_ipi,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_ipi,"IPI Entrada",IPI,0.00,purchase,0,0,0,l10n_br_coa.tax_group_ipi,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_ipi_deductible,"IPI Entrada Dedutível",IPI,0.00,purchase,0,1,0,l10n_br_coa.tax_group_ipi,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_ipi_deductible,"IPI Saida Dedutível",IPI,0.00,sale,0,1,0,l10n_br_coa.tax_group_ipi,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_ii,"II Saída",II,0.00,sale,0,0,0,l10n_br_coa.tax_group_ii,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_ii,"II Entrada",II,0.00,purchase,0,0,0,l10n_br_coa.tax_group_ii,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_ii_in_deductible,"II Entrada Dedutível",II,0.00,purchase,0,1,0,l10n_br_coa.tax_group_ii,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_ii_out_deductible,"II Saida Dedutível",II,0.00,sale,0,1,0,l10n_br_coa.tax_group_ii,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_icms,"ICMS Saida",ICMS,0.00,sale,0,0,0,l10n_br_coa.tax_group_icms,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_icms,"ICMS Entrada",ICMS,0.00,purchase,0,0,0,l10n_br_coa.tax_group_icms,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_icms_in_deductible,"ICMS Entrada Dedutível",ICMS,0.00,purchase,0,1,0,l10n_br_coa.tax_group_icms,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_icms_out_deductible,"ICMS Saida Dedutível",ICMS,0.00,sale,0,1,0,l10n_br_coa.tax_group_icms,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_icmssn,"ICMS SN Saida","ICMS SN",0.00,sale,0,0,0,l10n_br_coa.tax_group_icmssn,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_icmssn,"ICMS SN Entrada","ICMS SN",0.00,purchase,0,0,0,l10n_br_coa.tax_group_icmssn,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_icms_subist,"ICMS Saida Subist","ICMS Subist",0.00,sale,0,0,0,l10n_br_coa.tax_group_icmsst,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_icms_subist,"ICMS Entrada Subist","ICMS Subist",0.00,purchase,0,0,0,l10n_br_coa.tax_group_icmsst,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_icmsfcp,"ICMS Saida FCP","ICMS FCP",0.00,sale,0,0,0,l10n_br_coa.tax_group_icmsfcp,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_icmsfcp,"ICMS Entrada FCP","ICMS FCP",0.00,purchase,0,0,0,l10n_br_coa.tax_group_icmsfcp,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_icmsfcp_st,"ICMS Saida FCP ST","ICMS FCP ST",0.00,sale,0,0,0,l10n_br_coa.tax_group_icmsfcp_st,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_icmsfcp_st,"ICMS Entrada FCP ST","ICMS FCP ST",0.00,purchase,0,0,0,l10n_br_coa.tax_group_icmsfcp_st,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_pis,"PIS Saida",PIS,0.00,sale,0,0,0,l10n_br_coa.tax_group_pis,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_pisst,"PIS ST Saida","PIS ST",0.00,sale,0,0,0,l10n_br_coa.tax_group_pisst,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_pis_wh,"PIS WH Saida","PIS WH",0.00,sale,0,0,1,l10n_br_coa.tax_group_pis_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_pis,"PIS Entrada",PIS,0.00,purchase,0,0,0,l10n_br_coa.tax_group_pis,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_pisst,"PIS ST Entrada","PIS ST",0.00,purchase,0,0,0,l10n_br_coa.tax_group_pisst,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_pis_wh,"PIS WH Entrada","PIS WH",0.00,purchase,0,0,1,l10n_br_coa.tax_group_pis_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_pis_deductible,"PIS Entrada Dedutível",PIS,0.00,purchase,0,1,0,l10n_br_coa.tax_group_pis,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_pis_deductible,"PIS Saida Dedutível",PIS,0.00,sale,0,1,0,l10n_br_coa.tax_group_pis,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_cofins,"COFINS Saida",COFINS,0.00,sale,0,0,0,l10n_br_coa.tax_group_cofins,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_cofinsst,"COFINS ST Saida","COFINS ST",0.00,sale,0,0,0,l10n_br_coa.tax_group_cofinsst,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_cofins_wh,"COFINS WH Saida","COFINS WH",0.00,sale,0,0,1,l10n_br_coa.tax_group_cofins_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_cofins,"COFINS Entrada",COFINS,0.00,purchase,0,0,0,l10n_br_coa.tax_group_cofins,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_cofinsst,"COFINS ST Entrada","COFINS ST",0.00,purchase,0,0,0,l10n_br_coa.tax_group_cofinsst,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_cofins_wh,"COFINS WH Entrada","COFINS WH",0.00,purchase,0,0,1,l10n_br_coa.tax_group_cofins_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_cofins_in_deductible,"COFINS Entrada Dedutível",COFINS,0.00,purchase,0,1,0,l10n_br_coa.tax_group_cofins,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_cofins_out_deductible,"COFINS Saida Dedutível",COFINS,0.00,sale,0,1,0,l10n_br_coa.tax_group_cofins,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_issqn,"ISSQN Saida",ISSQN,0.00,sale,0,0,0,l10n_br_coa.tax_group_issqn,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_issqn_deductible,"ISSQN Saída Dedutível",ISSQN,0.00,sale,0,1,0,l10n_br_coa.tax_group_issqn,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_issqn_wh,"ISSQN WH Saída","ISSQN WH",0.00,sale,0,0,1,l10n_br_coa.tax_group_issqn_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_issqn,"ISSQN Entrada",ISSQN,0.00,purchase,0,0,0,l10n_br_coa.tax_group_issqn,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_issqn_deductible,"ISSQN Entrada Dedutível",ISSQN,0.00,purchase,0,1,0,l10n_br_coa.tax_group_issqn,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_issqn_wh,"ISSQN WH Entrada","ISSQN WH",0.00,purchase,0,0,1,l10n_br_coa.tax_group_issqn_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_irpj,IRPJ,IRPJ,0.00,sale,0,0,0,l10n_br_coa.tax_group_irpj,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_irpj_deductible,"IRPJ Saída Dedutível",IRPJ,0.00,sale,0,1,0,l10n_br_coa.tax_group_irpj,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_irpj_wh,"IRPJ WH Saída","IRPJ WH",0.00,sale,0,0,1,l10n_br_coa.tax_group_irpj_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_irpj,IRPJ,IRPJ,0.00,purchase,0,0,0,l10n_br_coa.tax_group_irpj,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_irpj_deductible,"IRPJ Entrada Dedutível",IRPJ,0.00,purchase,0,1,0,l10n_br_coa.tax_group_irpj,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_irpj_wh,"IRPJ WH Entrada","IRPJ WH",0.00,purchase,0,0,1,l10n_br_coa.tax_group_irpj_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_csll,CSLL,CSLL,0.00,sale,0,0,0,l10n_br_coa.tax_group_csll,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_csll_deductible,"CSLL Saída Dedutível",CSLL,0.00,sale,0,1,0,l10n_br_coa.tax_group_csll,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_csll_wh,"CSLL WH Saída","CSLL WH",0.00,sale,0,0,1,l10n_br_coa.tax_group_csll_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_csll,CSLL,CSLL,0.00,purchase,0,0,0,l10n_br_coa.tax_group_csll,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_csll_deductible,"CSLL Entrada Dedutível",CSLL,0.00,purchase,0,1,0,l10n_br_coa.tax_group_csll,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_csll_wh,"CSLL WH Entrada","CSLL WH",0.00,purchase,0,0,1,l10n_br_coa.tax_group_csll_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_inss,"INSS Saída",INSS,0.00,sale,0,0,0,l10n_br_coa.tax_group_inss,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_out_inss_wh,"INSS WH Saída","INSS WH",0.00,sale,0,0,1,l10n_br_coa.tax_group_inss_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_inss,"INSS Entrada",INSS,0.00,purchase,0,0,0,l10n_br_coa.tax_group_inss,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_in_inss_wh,"INSS WH Entrada","INSS WH",0.00,purchase,0,0,1,l10n_br_coa.tax_group_inss_wh,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_simples,"Simples Nacional","Simples Nacional",0.00,none,0,0,0,l10n_br_coa.tax_group_simples,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_others,Others,Others,0.00,none,0,0,0,l10n_br_coa.tax_group_others,l10n_br_coa.l10n_br_coa_template
