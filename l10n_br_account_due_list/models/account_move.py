@@ -4,35 +4,35 @@
 from odoo import api, fields, models
 
 
-class AccountInvoice(models.Model):
+class AccountMove(models.Model):
     _inherit = "account.move"
 
-    financial_move_line_ids = fields.Many2many(
+    due_line_ids = fields.One2many(
         comodel_name="account.move.line",
-        relation="account_invoice_account_financial_move_line_rel",
-        compute="_compute_financial",
-        store=True,
-        string="Financial Move Lines",
+        inverse_name="move_id",
+        string="Installments",
+        readonly=True,
+        domain=[("display_type", "=", "payment_term")],
     )
 
     payment_move_line_ids = fields.Many2many(
-        "account.move.line",
-        string="Payment Move Lines",
-        compute="_compute_payments",
-        store=True,
+        comodel_name="account.move.line",
+        string="Payment Lines",
+        compute="_compute_payment_lines",
+        readonly=True,
+        help="Payment journal items reconciled with this invoice.",
     )
 
-    @api.depends("line_ids", "state")
-    def _compute_financial(self):
-        for move in self:
-            lines = move.line_ids.filtered(
-                lambda line: line.account_id.account_type
-                in ("asset_receivable", "liability_payable")
-            )
-            move.financial_move_line_ids = lines.sorted()
-
-    @api.depends("line_ids.amount_residual")
-    def _compute_payments(self):
+    @api.depends(
+        "line_ids.matched_debit_ids",
+        "line_ids.matched_credit_ids",
+        "line_ids.amount_residual",
+    )
+    def _compute_payment_lines(self):
+        """
+        Compute the payment lines by finding all journal items that have been
+        reconciled with the receivable/payable lines of this invoice.
+        """
         for move in self:
             (
                 invoice_partials,
