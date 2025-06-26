@@ -136,7 +136,7 @@ class TestGeneratePaymentInfo(TransactionCase):
         self.assertEqual(self.invoice.nfe40_vDesc, 0.0)
         self.assertEqual(self.invoice.nfe40_vLiq, 450.0)
         self.assertEqual(self.invoice.nfe40_dup[0].nfe40_nDup, "001")
-        venc = self.invoice.financial_move_line_ids[0].date_maturity
+        venc = self.invoice.due_line_ids[0].date_maturity
         self.assertEqual(self.invoice.nfe40_dup[0].nfe40_dVenc, venc)
         self.assertEqual(self.invoice.nfe40_dup[0].nfe40_vDup, 450.0)
 
@@ -145,7 +145,7 @@ class TestGeneratePaymentInfo(TransactionCase):
         self.assertEqual(self.invoice_demo_data.nfe40_vDesc, 0.0)
         self.assertEqual(self.invoice_demo_data.nfe40_vLiq, 1000)
         self.assertEqual(self.invoice_demo_data.nfe40_dup[0].nfe40_nDup, "001")
-        venc = self.invoice_demo_data.financial_move_line_ids[0].date_maturity
+        venc = self.invoice_demo_data.due_line_ids[0].date_maturity
         self.assertEqual(self.invoice_demo_data.nfe40_dup[0].nfe40_dVenc, venc)
         self.assertEqual(self.invoice_demo_data.nfe40_dup[0].nfe40_vDup, 330.0)
 
