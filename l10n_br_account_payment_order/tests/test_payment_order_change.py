@@ -25,9 +25,9 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         if cls.invoice_auto.state == "draft":
             cls.invoice_auto.action_post()
 
-        cls.financial_move_line_ids = cls.invoice_auto.financial_move_line_ids
-        cls.financial_move_line_0 = cls.financial_move_line_ids[0]
-        cls.financial_move_line_1 = cls.financial_move_line_ids[1]
+        cls.due_line_ids = cls.invoice_auto.due_line_ids
+        cls.financial_move_line_0 = cls.due_line_ids[0]
+        cls.financial_move_line_1 = cls.due_line_ids[1]
 
         assert cls.financial_move_line_0, "Move 0 not created for open invoice"
         assert cls.financial_move_line_1, "Move 1 not created for open invoice"
@@ -47,7 +47,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         cls.invoice_manual.payment_mode_id.auto_create_payment_order = True
         if cls.invoice_manual.state == "draft":
             cls.invoice_manual.action_post()
-        cls.aml_to_raise_warning = cls.invoice_manual.financial_move_line_ids[0]
+        cls.aml_to_raise_warning = cls.invoice_manual.due_line_ids[0]
         payment_order = cls.env["account.payment.order"].search(
             [
                 ("state", "=", "draft"),
@@ -62,11 +62,11 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
 
     def test_change_date_maturity_multiple(self):
         """Test Creation of a Payment Order an change MULTIPLE due date"""
-        date_maturity = self.financial_move_line_ids.mapped("date_maturity")
+        date_maturity = self.due_line_ids.mapped("date_maturity")
         new_date = date.today() + relativedelta(years=1)
         self._send_and_check_new_cnab_code(
             self.invoice_auto,
-            self.financial_move_line_ids,
+            self.due_line_ids,
             "change_date_maturity",
             "l10n_br_account_payment_order.manual_test_mov_instruction_code_06",
         )
@@ -118,8 +118,8 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
     #     self._invoice_payment_order_all_workflow(
     #         invoice
     #     )
-    #     financial_move_line_ids = invoice.financial_move_line_ids[0]
-    #     with Form(self._prepare_change_view(financial_move_line_ids),
+    #     due_line_ids = invoice.due_line_ids[0]
+    #     with Form(self._prepare_change_view(due_line_ids),
     #               view=self.chance_view_id) as f:
     #         f.change_type = 'change_payment_mode'
     #         f.payment_mode_id = self.env.ref(
