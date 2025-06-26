@@ -38,11 +38,11 @@ class DocumentNfe(models.Model):
     # Compute Methods
     ##########################
 
-    @api.depends("move_ids", "move_ids.financial_move_line_ids")
+    @api.depends("move_ids", "move_ids.due_line_ids")
     def _compute_nfe40_dup(self):
         for record in self.filtered(lambda x: x._need_compute_nfe40_dup()):
             dups_vals = []
-            for count, mov in enumerate(record.move_ids.financial_move_line_ids, 1):
+            for count, mov in enumerate(record.move_ids.due_line_ids, 1):
                 dups_vals.append(
                     {
                         "nfe40_nDup": str(count).zfill(3),
@@ -110,8 +110,8 @@ class DocumentNfe(models.Model):
     def _is_installment(self):
         """checks if the payment is in cash (á vista) or in installments (a prazo)"""
         self.ensure_one()
-        self.move_ids.financial_move_line_ids.mapped("date_maturity")
-        moves_terms = self.move_ids.financial_move_line_ids.filtered(
+        self.move_ids.due_line_ids.mapped("date_maturity")
+        moves_terms = self.move_ids.due_line_ids.filtered(
             lambda move_line: move_line.date_maturity
             and move_line.date_maturity > move_line.date
         )
