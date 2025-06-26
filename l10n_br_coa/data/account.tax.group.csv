@@ -1,0 +1,25 @@
+id,name
+l10n_br_coa.tax_group_ipi,IPI
+l10n_br_coa.tax_group_ii,II
+l10n_br_coa.tax_group_icms,ICMS
+l10n_br_coa.tax_group_icmssn,ICMS SN
+l10n_br_coa.tax_group_icmsst,ICMS ST
+l10n_br_coa.tax_group_icmsfcp,ICMS FCP
+l10n_br_coa.tax_group_icmsfcp_st,ICMS FCP ST
+l10n_br_coa.tax_group_pis,PIS
+l10n_br_coa.tax_group_pisst,PIS ST
+l10n_br_coa.tax_group_pis_wh,PIS WH
+l10n_br_coa.tax_group_cofins,COFINS
+l10n_br_coa.tax_group_cofinsst,COFINS ST
+l10n_br_coa.tax_group_cofins_wh,COFINS WH
+l10n_br_coa.tax_group_issqn,ISSQN
+l10n_br_coa.tax_group_issqn_wh,ISSQN WH
+l10n_br_coa.tax_group_csll,CSLL
+l10n_br_coa.tax_group_csll_wh,CSLL WH
+l10n_br_coa.tax_group_ir,IR
+l10n_br_coa.tax_group_irpj,IRPJ
+l10n_br_coa.tax_group_irpj_wh,IRPJ WH
+l10n_br_coa.tax_group_inss,INSS
+l10n_br_coa.tax_group_inss_wh,INSS WH
+l10n_br_coa.tax_group_simples,"Simples Nacional"
+l10n_br_coa.tax_group_others,Outros
