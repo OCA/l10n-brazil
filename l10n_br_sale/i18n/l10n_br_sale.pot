@@ -115,6 +115,11 @@ msgid "Ativo Imobilizado"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:res.groups,name:l10n_br_sale.group_line_fiscal_detail
+msgid "Brazilian Fiscal details (popup) in Sale Order Lines"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ind_pres
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__ind_pres
 msgid "Buyer Presence"
@@ -482,6 +487,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_type_id
 msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Edit in Form"
 msgstr ""
 
 #. module: l10n_br_sale
