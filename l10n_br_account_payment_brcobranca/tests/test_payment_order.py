@@ -42,7 +42,7 @@ class TestPaymentOrder(TestBrAccountPaymentOderCommon):
         payment_order.generated2uploaded()
 
         # Move Line para alterar
-        cls.aml_to_change = cls.invoice_cef.financial_move_line_ids[0]
+        cls.aml_to_change = cls.invoice_cef.due_line_ids[0]
 
     def test_banco_brasil_cnab_400(self):
         """Teste Boleto e Remessa Banco do Brasil - CNAB 400"""
