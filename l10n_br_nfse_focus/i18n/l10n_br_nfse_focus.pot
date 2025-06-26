@@ -71,6 +71,11 @@ msgid "FocusNFe Production Token"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_force_odoo_danfse
+msgid "Force Odoo DANFSE"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
@@ -89,6 +94,27 @@ msgstr ""
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
 msgid "HTTP status is 200 or 400 but unable to read json['status']"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_update_authorized_document_status
+msgid ""
+"If checked, authorized documents will be included in the status check "
+"wizard. The system will verify the status of the documents with Focus NFE, "
+"and if there are discrepancies with the status in Odoo, it will "
+"automatically update the status in the system."
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_force_odoo_danfse
+msgid ""
+"If checked, the system will always use the Odoo DANFSE instead of the Focus "
+"DANFSE."
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_update_authorized_document_status
+msgid "Include Authorized Documents in Status Check"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -118,16 +144,16 @@ msgid "NFSe Provider"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__item_lista_servico
+msgid "Service Type"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #. odoo-python
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #: code:addons/l10n_br_nfse_focus/models/document.py:0
 #, python-format
-msgid "Processado com Sucesso"
-msgstr ""
-
-#. module: l10n_br_nfse_focus
-#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__item_lista_servico
-msgid "Service Type"
+msgid "Successfully Processed"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
