@@ -28,7 +28,7 @@ class AccountMove(models.Model):
         self.file_boleto_pdf_id = False
         file_pdf.unlink()
 
-        receivable_ids = self.mapped("financial_move_line_ids")
+        receivable_ids = self.mapped("due_line_ids")
 
         boletos = receivable_ids.send_payment()
         if not boletos:
