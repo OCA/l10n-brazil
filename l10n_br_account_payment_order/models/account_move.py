@@ -108,13 +108,7 @@ class AccountMove(models.Model):
         # por isso nesse caso tbm nada a ser feito
         if self.payment_mode_id.payment_method_code not in BR_CODES_PAYMENT_ORDER:
             return
-        # TODO - apesar do campo financial_move_line_ids ser do tipo
-        #  compute esta sendo preciso chamar o metodo porque as vezes
-        #  ocorre da linha vir vazia o que impede de entrar no FOR
-        #  abaixo causando o não preenchimento de dados usados no Boleto,
-        #  isso deve ser melhor investigado
-        self._compute_financial()
-        for index, interval in enumerate(self.financial_move_line_ids):
+        for index, interval in enumerate(self.due_line_ids):
             inv_number = self.get_invoice_fiscal_number().split("/")[-1]
             numero_documento = inv_number + "/" + str(index + 1).zfill(2)
             cnab_config = interval.payment_mode_id.cnab_config_id
@@ -153,7 +147,7 @@ class AccountMove(models.Model):
         if cnab_already_start:
             # Solicitar a Baixa do CNAB
             invoice = self.env["account.move"].search([("move_id", "=", self.id)])
-            for l_aml in invoice.mapped("financial_move_line_ids"):
+            for l_aml in invoice.mapped("due_line_ids"):
                 l_aml.update_cnab_for_cancel_invoice()
 
         return super().unlink()
