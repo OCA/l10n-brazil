@@ -34,6 +34,7 @@
         "views/cnab_menu.xml",
     ],
     "demo": [],
+    "installable": False,
     "post_init_hook": "post_init_hook",
     "external_dependencies": {"python": ["pyyaml", "unidecode"]},
 }

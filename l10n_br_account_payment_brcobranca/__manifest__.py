@@ -32,4 +32,5 @@
             "erpbrasil.base>=2.3.0",
         ]
     },
+    "installable": False,
 }
