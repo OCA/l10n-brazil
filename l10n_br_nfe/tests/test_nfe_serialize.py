@@ -7,6 +7,7 @@ import os
 
 from xmldiff import main
 
+from odoo import Command
 from odoo.tests.common import TransactionCase
 from odoo.tools import config
 
@@ -40,10 +41,8 @@ class TestNFeExport(TransactionCase):
         nfe._compute_fiscal_amount()
         nfe._register_hook()  # required in v16 for next statement
         nfe.nfe40_detPag = [
-            (5, 0, 0),
-            (
-                0,
-                0,
+            Command.clear(),
+            Command.create(
                 {
                     "nfe40_indPag": "0",
                     "nfe40_tPag": "01",
