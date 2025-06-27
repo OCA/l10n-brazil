@@ -1,7 +1,7 @@
 # Copyright (C) 2011  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import Command, api, fields, models
 
 
 class L10nBrZipSearch(models.TransientModel):
@@ -85,7 +85,9 @@ class L10nBrZipSearch(models.TransientModel):
         context = dict(self.env.context)
         context.update({"address_id": data.address_id, "object_name": data.object_name})
 
-        self.write({"state": "done", "zip_ids": [[6, 0, [zip.id for zip in zip_ids]]]})
+        self.write(
+            {"state": "done", "zip_ids": [Command.set([zip.id for zip in zip_ids])]}
+        )
 
         return {
             "type": "ir.actions.act_window",
@@ -102,7 +104,7 @@ class L10nBrZipSearch(models.TransientModel):
     def zip_new_search(self):
         data = self.read()[0]
         self.ensure_one()
-        self.write({"state": "init", "zip_ids": [[6, 0, []]]})
+        self.write({"state": "init", "zip_ids": [Command.clear()]})
 
         return {
             "type": "ir.actions.act_window",
