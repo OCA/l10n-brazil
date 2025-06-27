@@ -2,7 +2,7 @@
 # Copyright (C) 2021  Magno Costa - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import exceptions
+from odoo import Command, exceptions
 from odoo.tests import Form, tagged
 
 from odoo.addons.l10n_br_sale.hooks import sale_set_journal_in_fiscal_operation
@@ -91,7 +91,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             )
 
         self.env["stock.immediate.transfer"].create(
-            {"pick_ids": [(4, stock_picking.id)]}
+            {"pick_ids": [Command.link(stock_picking.id)]}
         ).process()
 
         # O valor do price_unit da stock.move é alterado ao Confirmar o
