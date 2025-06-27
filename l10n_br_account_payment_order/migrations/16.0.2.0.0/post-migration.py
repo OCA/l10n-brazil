@@ -6,6 +6,8 @@
 
 from openupgradelib import openupgrade
 
+from odoo import Command
+
 
 def unifying_cnab_codes(env):
     # Codigo de Instrução do Movimento
@@ -124,8 +126,8 @@ def unifying_cnab_codes(env):
                 "name": row[1],
                 "code": row[2],
                 "code_type": "return_move_code",
-                "bank_ids": [(6, 0, bank_ids)],
-                "payment_method_ids": [(6, 0, payment_method_ids)],
+                "bank_ids": [Command.set(bank_ids)],
+                "payment_method_ids": [Command.set(payment_method_ids)],
             }
         )
 
@@ -174,8 +176,8 @@ def unifying_cnab_codes(env):
                 "name": row[1],
                 "code": row[2],
                 "code_type": "wallet_code",
-                "bank_ids": [(6, 0, bank_ids)],
-                "payment_method_ids": [(6, 0, payment_method_ids)],
+                "bank_ids": [Command.set(bank_ids)],
+                "payment_method_ids": [Command.set(payment_method_ids)],
             }
         )
 
