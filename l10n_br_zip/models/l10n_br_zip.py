@@ -5,7 +5,7 @@
 from brazilcep import WebService, get_address_from_cep
 from erpbrasil.base import misc
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -211,7 +211,7 @@ class L10nBrZip(models.Model):
                 "country_id": obj.country_id.id,
                 "state_id": obj.state_id.id,
                 "city_id": obj.city_id.id,
-                "zip_ids": [[6, 0, [zip.id for zip in zips]]],
+                "zip_ids": [Command.set([zip.id for zip in zips])],
                 "address_id": obj.id,
                 "object_name": obj._name,
             }
