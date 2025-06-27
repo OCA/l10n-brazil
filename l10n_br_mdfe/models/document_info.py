@@ -1,7 +1,7 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields
+from odoo import Command, api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -76,20 +76,22 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
     @api.depends("document_type", "nfe_ids", "cte_ids")
     def _compute_document_data(self):
         for record in self:
-            record.mdfe30_infCTe = [(5, 0, 0)]
-            record.mdfe30_infNFe = [(5, 0, 0)]
-            record.mdfe30_infMDFeTransp = [(5, 0, 0)]
+            record.mdfe30_infCTe = [Command.clear()]
+            record.mdfe30_infNFe = [Command.clear()]
+            record.mdfe30_infMDFeTransp = [Command.clear()]
 
             if record.document_type == "nfe":
                 record.mdfe30_infNFe = [
-                    (0, 0, {"mdfe30_chNFe": nfe.mdfe30_chNFe}) for nfe in record.nfe_ids
+                    Command.create({"mdfe30_chNFe": nfe.mdfe30_chNFe})
+                    for nfe in record.nfe_ids
                 ]
             elif record.document_type == "cte":
                 record.mdfe30_infCTe = [
-                    (0, 0, {"mdfe30_chCTe": cte.mdfe30_chCTe}) for cte in record.cte_ids
+                    Command.create({"mdfe30_chCTe": cte.mdfe30_chCTe})
+                    for cte in record.cte_ids
                 ]
             else:
                 record.mdfe30_infMDFeTransp = [
-                    (0, 0, {"mdfe30_chMDFe": mdfe.mdfe30_chMDFe})
+                    Command.create({"mdfe30_chMDFe": mdfe.mdfe30_chMDFe})
                     for mdfe in record.mdfe_ids
                 ]
