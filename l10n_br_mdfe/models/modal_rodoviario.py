@@ -66,7 +66,7 @@ class MDFeModalRodoviario(spec_models.StackedModel):
     # def _compute_contractor(self):
     #     for record in self:
     #         record.mdfe30_infContratante = [
-    #             (6, 0, record.document_id.mdfe30_infContratante.ids)
+    #             Command.set(record.document_id.mdfe30_infContratante.ids)
     #         ]
 
 
