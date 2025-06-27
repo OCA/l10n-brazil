@@ -7,7 +7,7 @@ from os.path import dirname
 
 from erpbrasil.base.misc import punctuation_rm
 
-from odoo import _, api, models
+from odoo import Command, _, api, models
 from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -350,7 +350,7 @@ class CNPJWebservice(models.AbstractModel):
             child_ids.append(partner_id)
 
         return {
-            "child_ids": [(6, 0, child_ids)],
+            "child_ids": [Command.set(child_ids)],
         }
 
     @api.model
