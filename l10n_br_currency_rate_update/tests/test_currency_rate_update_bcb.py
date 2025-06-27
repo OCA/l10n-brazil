@@ -9,7 +9,7 @@ from unittest import mock
 from dateutil.relativedelta import relativedelta
 from decorator import decorate
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests.common import TransactionCase
 
 _logger = logging.getLogger(__name__)
@@ -112,8 +112,8 @@ class TestCurrencyRateUpdateBCB(TransactionCase):
             {
                 "service": "BCB",
                 "currency_ids": [
-                    (4, cls.usd_currency.id),
-                    (4, cls.eur_currency.id),
+                    Command.link(cls.usd_currency.id),
+                    Command.link(cls.eur_currency.id),
                 ],
             }
         )
