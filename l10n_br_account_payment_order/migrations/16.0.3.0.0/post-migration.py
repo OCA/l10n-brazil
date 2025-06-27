@@ -7,6 +7,8 @@
 
 from openupgradelib import openupgrade
 
+from odoo import Command
+
 
 def update_payment_mode_inbound(env):
     """Atualiza o Modo de Pagamento"""
@@ -110,7 +112,7 @@ def update_payment_mode_inbound(env):
         # os codigos CNAB estão no campo payment_mode_id
         liq_code_ids = [lrow[0] for lrow in env.cr.fetchall()]
         if liq_code_ids:
-            cnab_config.liq_return_move_code_ids = [(6, 0, liq_code_ids)]
+            cnab_config.liq_return_move_code_ids = [Command.set(liq_code_ids)]
 
         # Codigos ainda Char
         cnab_config.write(
