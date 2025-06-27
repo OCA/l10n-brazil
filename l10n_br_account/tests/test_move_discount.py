@@ -1,6 +1,7 @@
 # Copyright (C) 2023-Today - Engenere (<https://engenere.one>).
 # @author Felipe Motter Pereira <felipe@engenere.one>
 
+from odoo import Command
 from odoo.tests import TransactionCase
 
 
@@ -12,7 +13,7 @@ class TestInvoiceDiscount(TransactionCase):
 
         # set default user company
         companies = self.env["res.company"].search([])
-        self.env.user.company_ids = [(6, 0, companies.ids)]
+        self.env.user.company_ids = [Command.set(companies.ids)]
         self.env.user.company_id = self.company
 
         self.invoice_account_id = self.env["account.account"].create(
