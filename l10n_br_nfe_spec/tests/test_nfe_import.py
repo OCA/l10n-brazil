@@ -9,8 +9,7 @@ import nfelib
 import pkg_resources
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
-from odoo import api, fields, models
-from odoo.fields import Command
+from odoo import Command, api, fields, models
 from odoo.models import BaseModel, NewId
 from odoo.tests import TransactionCase
 from odoo.tools import OrderedSet
@@ -88,7 +87,7 @@ def build_attrs_fake(self, node, create_m2o=False):
                 lines = []
                 for line in [li for li in value if li]:
                     line_vals = comodel.build_attrs_fake(line, create_m2o=create_m2o)
-                    lines.append((0, 0, line_vals))
+                    lines.append(Command.create(line_vals))
                 vals[key] = lines
 
     for k, v in fields.items():
