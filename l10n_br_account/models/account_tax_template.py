@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import Command, fields, models
 
 
 class AccountTaxTemplate(models.Model):
@@ -22,7 +22,7 @@ class AccountTaxTemplate(models.Model):
         for tax_template in taxes_template:
             tax_id = mapping.get("tax_template_to_tax").get(tax_template.id)
             self.env["account.tax"].browse(tax_id).write(
-                {"fiscal_tax_ids": [(6, 0, tax_template.fiscal_tax_ids.ids)]}
+                {"fiscal_tax_ids": [Command.set(tax_template.fiscal_tax_ids.ids)]}
             )
 
         return mapping

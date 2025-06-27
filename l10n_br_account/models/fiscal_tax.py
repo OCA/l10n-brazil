@@ -1,7 +1,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import Command, api, fields, models
 
 
 class FiscalTax(models.Model):
@@ -54,7 +54,7 @@ class FiscalTax(models.Model):
                     tax_values = {
                         "name": fiscal_tax.name + " " + tax_users.get(tax_use),
                         "type_tax_use": tax_use,
-                        "fiscal_tax_ids": [(4, fiscal_tax.id)],
+                        "fiscal_tax_ids": [Command.link(fiscal_tax.id)],
                         "tax_group_id": fiscal_tax.tax_group_id.account_tax_group().id,
                         "amount": 0.00,
                     }
@@ -62,7 +62,7 @@ class FiscalTax(models.Model):
                     self.env["account.tax"].create(tax_values)
 
             else:
-                account_taxes.write({"fiscal_tax_ids": [(4, fiscal_tax.id)]})
+                account_taxes.write({"fiscal_tax_ids": [Command.link(fiscal_tax.id)]})
 
     @api.model_create_multi
     def create(self, vals_list):
