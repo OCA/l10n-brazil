@@ -4,13 +4,13 @@
     <record id="base.user_admin" model="res.users">
         <field
             name="company_ids"
-            eval="[(4, ref('base.main_company')), (4, ref('l10n_br_base.empresa_simples_nacional')), (4, ref('l10n_br_base.empresa_lucro_presumido'))]"
+            eval="[Command.link(ref('base.main_company')), Command.link(ref('l10n_br_base.empresa_simples_nacional')), Command.link(ref('l10n_br_base.empresa_lucro_presumido'))]"
         />
     </record>
     <record id="base.user_demo" model="res.users">
         <field
             name="company_ids"
-            eval="[(4, ref('base.main_company')), (4, ref('l10n_br_base.empresa_simples_nacional')), (4, ref('l10n_br_base.empresa_lucro_presumido'))]"
+            eval="[Command.link(ref('base.main_company')), Command.link(ref('l10n_br_base.empresa_simples_nacional')), Command.link(ref('l10n_br_base.empresa_lucro_presumido'))]"
         />
     </record>
     <record id="partner_demo_simples" model="res.partner">
@@ -50,7 +50,7 @@
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field
             name="company_ids"
-            eval="[(4, ref('l10n_br_base.empresa_simples_nacional'))]"
+            eval="[Command.link(ref('l10n_br_base.empresa_simples_nacional'))]"
         />
         <field
             name="groups_id"
@@ -68,7 +68,7 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field
             name="company_ids"
-            eval="[(4, ref('l10n_br_base.empresa_lucro_presumido'))]"
+            eval="[Command.link(ref('l10n_br_base.empresa_lucro_presumido'))]"
         />
         <field
             name="groups_id"
