@@ -37,9 +37,12 @@
         <field name="mdfe_final_state_id" ref="base.state_br_ac" />
         <field
             name="mdfe_loading_city_ids"
-            eval="[(6, 0, [ref('l10n_br_base.city_1200013')])]"
+            eval="[Command.set([ref('l10n_br_base.city_1200013')])]"
         />
-        <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+        <field
+            name="mdfe_route_state_ids"
+            eval="[Command.set([ref('base.state_br_pb')])]"
+        />
         <field name="mdfe_modal">4</field>
     </record>
 
@@ -53,7 +56,7 @@
         <field name="document_type">nfe</field>
         <field
             name="nfe_ids"
-            eval="[(6, 0, [ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
+            eval="[Command.set([ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
         />
     </record>
 
@@ -96,9 +99,12 @@
         <field name="mdfe_final_state_id" ref="base.state_br_ac" />
         <field
             name="mdfe_loading_city_ids"
-            eval="[(6, 0, [ref('l10n_br_base.city_1200013')])]"
+            eval="[Command.set([ref('l10n_br_base.city_1200013')])]"
         />
-        <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+        <field
+            name="mdfe_route_state_ids"
+            eval="[Command.set([ref('base.state_br_pb')])]"
+        />
         <field name="mdfe_modal">1</field>
     </record>
 
@@ -112,7 +118,7 @@
         <field name="document_type">nfe</field>
         <field
             name="nfe_ids"
-            eval="[(6, 0, [ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
+            eval="[Command.set([ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
         />
     </record>
 
@@ -152,9 +158,12 @@
         <field name="mdfe_final_state_id" ref="base.state_br_ac" />
         <field
             name="mdfe_loading_city_ids"
-            eval="[(6, 0, [ref('l10n_br_base.city_1200013')])]"
+            eval="[Command.set([ref('l10n_br_base.city_1200013')])]"
         />
-        <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+        <field
+            name="mdfe_route_state_ids"
+            eval="[Command.set([ref('base.state_br_pb')])]"
+        />
         <field name="mdfe_modal">2</field>
     </record>
 
@@ -165,7 +174,7 @@
         <field name="document_type">nfe</field>
         <field
             name="nfe_ids"
-            eval="[(6, 0, [ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
+            eval="[Command.set([ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
         />
     </record>
 
@@ -205,9 +214,12 @@
         <field name="mdfe_final_state_id" ref="base.state_br_ac" />
         <field
             name="mdfe_loading_city_ids"
-            eval="[(6, 0, [ref('l10n_br_base.city_1200013')])]"
+            eval="[Command.set([ref('l10n_br_base.city_1200013')])]"
         />
-        <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+        <field
+            name="mdfe_route_state_ids"
+            eval="[Command.set([ref('base.state_br_pb')])]"
+        />
         <field name="mdfe_modal">3</field>
     </record>
 
@@ -221,7 +233,7 @@
         <field name="document_type">nfe</field>
         <field
             name="nfe_ids"
-            eval="[(6, 0, [ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
+            eval="[Command.set([ref('l10n_br_mdfe.demo_mdfe_related_nfe')])]"
         />
     </record>
 

@@ -14,7 +14,7 @@ from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
 from requests import Session
 
-from odoo import api, fields
+from odoo import Command, api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -285,11 +285,9 @@ class MDFe(spec_models.StackedModel):
     @api.depends("mdfe_loading_city_ids")
     def _compute_mdfe30_inf_carrega(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
-            record.mdfe30_infMunCarrega = [(5, 0, 0)]
+            record.mdfe30_infMunCarrega = [Command.clear()]
             record.mdfe30_infMunCarrega = [
-                (
-                    0,
-                    0,
+                Command.create(
                     {
                         "mdfe30_cMunCarrega": city.ibge_code,
                         "mdfe30_xMunCarrega": city.name,
@@ -304,7 +302,7 @@ class MDFe(spec_models.StackedModel):
                 [("ibge_code", "=", record.mdfe30_infMunCarrega.mdfe30_cMunCarrega)]
             )
             if city_ids:
-                record.mdfe_loading_city_ids = [(6, 0, city_ids.ids)]
+                record.mdfe_loading_city_ids = [Command.set(city_ids.ids)]
 
     def _inverse_mdfe30_initial_final_state(self):
         for record in self:
@@ -332,11 +330,9 @@ class MDFe(spec_models.StackedModel):
     @api.depends("mdfe_route_state_ids")
     def _compute_mdfe30_inf_percurso(self):
         for record in self:
-            record.mdfe30_infPercurso = [(5, 0, 0)]
+            record.mdfe30_infPercurso = [Command.clear()]
             record.mdfe30_infPercurso = [
-                (
-                    0,
-                    0,
+                Command.create(
                     {
                         "mdfe30_UFPer": state.code,
                     },
