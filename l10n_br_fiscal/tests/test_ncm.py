@@ -2,6 +2,7 @@
 #   Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo import Command
 from odoo.exceptions import AccessError
 from odoo.tests import TransactionCase
 
@@ -16,7 +17,9 @@ class TestNcm(TransactionCase):
             {
                 "name": "Test User Manager",
                 "login": "test_user_manager",
-                "groups_id": [(6, 0, [cls.env.ref("l10n_br_fiscal.group_manager").id])],
+                "groups_id": [
+                    Command.set([cls.env.ref("l10n_br_fiscal.group_manager").id])
+                ],
             }
         )
 

@@ -6,7 +6,7 @@
   <record id="tax_icms_regulation_ac_ac_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -19,7 +19,7 @@
   <record id="tax_icms_regulation_ac_ac_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -35,7 +35,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -51,7 +51,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -67,7 +67,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -80,7 +80,7 @@
   <record id="tax_icms_regulation_ac_ac_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -93,7 +93,7 @@
   <record id="tax_icms_regulation_ac_ac_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -108,7 +108,7 @@
     <field name="state_from_id" ref="base.state_br_ac" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_al'), ref('base.state_br_am'),
+            eval="[Command.set([ref('base.state_br_al'), ref('base.state_br_am'),
       ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
@@ -124,7 +124,7 @@
   <record id="tax_icms_regulation_al_al_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -137,7 +137,7 @@
   <record id="tax_icms_regulation_al_al_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -153,7 +153,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -169,7 +169,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -185,7 +185,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -198,7 +198,7 @@
   <record id="tax_icms_regulation_al_al_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -213,7 +213,7 @@
     <field name="state_from_id" ref="base.state_br_al" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_am'),
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_am'),
       ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
@@ -229,7 +229,7 @@
   <record id="tax_icms_regulation_am_am_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -242,7 +242,7 @@
   <record id="tax_icms_regulation_am_am_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -258,7 +258,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -274,7 +274,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -290,7 +290,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -303,7 +303,7 @@
   <record id="tax_icms_regulation_am_am_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -316,7 +316,7 @@
   <record id="tax_icms_regulation_am_am_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -329,7 +329,7 @@
   <record id="tax_icms_regulation_am_am_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -344,7 +344,7 @@
     <field name="state_from_id" ref="base.state_br_am" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -359,7 +359,7 @@
   <record id="tax_icms_regulation_ap_ap_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ap" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ap')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ap')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -372,7 +372,7 @@
   <record id="tax_icms_regulation_ap_ap_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ap" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ap')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ap')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -388,7 +388,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ap" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ap')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ap')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -404,7 +404,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ap" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ap')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ap')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -420,7 +420,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ap" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ap')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ap')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -433,7 +433,7 @@
   <record id="tax_icms_regulation_ap_ap_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ap" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ap')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ap')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -446,7 +446,7 @@
   <record id="tax_icms_regulation_ap_ap_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ap" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ap')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ap')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -461,7 +461,7 @@
     <field name="state_from_id" ref="base.state_br_ap" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -476,7 +476,7 @@
   <record id="tax_icms_regulation_ba_ba_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -489,7 +489,7 @@
   <record id="tax_icms_regulation_ba_ba_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -505,7 +505,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -521,7 +521,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -537,7 +537,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -550,7 +550,7 @@
   <record id="tax_icms_regulation_ba_ba_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -563,7 +563,7 @@
   <record id="tax_icms_regulation_ba_ba_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -576,7 +576,7 @@
   <record id="tax_icms_regulation_ba_ba_17" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -589,7 +589,7 @@
   <record id="tax_icms_regulation_ba_ba_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -602,7 +602,7 @@
   <record id="tax_icms_regulation_ba_ba_38" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -617,7 +617,7 @@
     <field name="state_from_id" ref="base.state_br_ba" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -632,7 +632,7 @@
   <record id="tax_icms_regulation_ce_ce_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -645,7 +645,7 @@
   <record id="tax_icms_regulation_ce_ce_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -661,7 +661,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -677,7 +677,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -693,7 +693,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -706,7 +706,7 @@
   <record id="tax_icms_regulation_ce_ce_4" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -719,7 +719,7 @@
   <record id="tax_icms_regulation_ce_ce_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -732,7 +732,7 @@
   <record id="tax_icms_regulation_ce_ce_17" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -745,7 +745,7 @@
   <record id="tax_icms_regulation_ce_ce_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -760,7 +760,7 @@
     <field name="state_from_id" ref="base.state_br_ce" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -775,7 +775,7 @@
   <record id="tax_icms_regulation_df_df_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -788,7 +788,7 @@
   <record id="tax_icms_regulation_df_df_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -804,7 +804,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -820,7 +820,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -836,7 +836,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -849,7 +849,7 @@
   <record id="tax_icms_regulation_df_df_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -862,7 +862,7 @@
   <record id="tax_icms_regulation_df_df_21" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -875,7 +875,7 @@
   <record id="tax_icms_regulation_df_df_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -890,7 +890,7 @@
     <field name="state_from_id" ref="base.state_br_df" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -905,7 +905,7 @@
   <record id="tax_icms_regulation_es_es_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -918,7 +918,7 @@
   <record id="tax_icms_regulation_es_es_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -934,7 +934,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -950,7 +950,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -966,7 +966,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -979,7 +979,7 @@
   <record id="tax_icms_regulation_es_es_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -992,7 +992,7 @@
   <record id="tax_icms_regulation_es_es_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1005,7 +1005,7 @@
   <record id="tax_icms_regulation_es_es_27" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1018,7 +1018,7 @@
   <record id="tax_icms_regulation_es_es_30" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1033,7 +1033,7 @@
     <field name="state_from_id" ref="base.state_br_es" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -1048,7 +1048,7 @@
   <record id="tax_icms_regulation_go_go_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1061,7 +1061,7 @@
   <record id="tax_icms_regulation_go_go_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1077,7 +1077,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1093,7 +1093,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1109,7 +1109,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_19" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
@@ -1119,7 +1119,7 @@
   <record id="tax_icms_regulation_go_go_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_12" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
@@ -1129,7 +1129,7 @@
   <record id="tax_icms_regulation_go_go_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_25" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
@@ -1139,7 +1139,7 @@
   <record id="tax_icms_regulation_go_go_27" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_27" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
@@ -1149,7 +1149,7 @@
   <record id="tax_icms_regulation_go_go_29" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_29" />
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_00" />
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
@@ -1161,7 +1161,7 @@
     <field name="state_from_id" ref="base.state_br_go" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -1176,7 +1176,7 @@
   <record id="tax_icms_regulation_ma_ma_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ma" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ma')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ma')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1189,7 +1189,7 @@
   <record id="tax_icms_regulation_ma_ma_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ma" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ma')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ma')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1205,7 +1205,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ma" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ma')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ma')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1221,7 +1221,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ma" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ma')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ma')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1237,7 +1237,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ma" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ma')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ma')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1250,7 +1250,7 @@
   <record id="tax_icms_regulation_ma_ma_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ma" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ma')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ma')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1263,7 +1263,7 @@
   <record id="tax_icms_regulation_ma_ma_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ma" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ma')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ma')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1278,7 +1278,7 @@
     <field name="state_from_id" ref="base.state_br_ma" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -1293,7 +1293,7 @@
   <record id="tax_icms_regulation_mt_mt_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1306,7 +1306,7 @@
   <record id="tax_icms_regulation_mt_mt_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1322,7 +1322,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1338,7 +1338,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1354,7 +1354,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1367,7 +1367,7 @@
   <record id="tax_icms_regulation_mt_mt_0" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1380,7 +1380,7 @@
   <record id="tax_icms_regulation_mt_mt_10" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1393,7 +1393,7 @@
   <record id="tax_icms_regulation_mt_mt_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1406,7 +1406,7 @@
   <record id="tax_icms_regulation_mt_mt_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1419,7 +1419,7 @@
   <record id="tax_icms_regulation_mt_mt_27" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1432,7 +1432,7 @@
   <record id="tax_icms_regulation_mt_mt_30" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1447,7 +1447,7 @@
     <field name="state_from_id" ref="base.state_br_mt" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -1462,7 +1462,7 @@
   <record id="tax_icms_regulation_ms_ms_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1475,7 +1475,7 @@
   <record id="tax_icms_regulation_ms_ms_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1491,7 +1491,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1507,7 +1507,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1523,7 +1523,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1536,7 +1536,7 @@
   <record id="tax_icms_regulation_ms_ms_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1549,7 +1549,7 @@
   <record id="tax_icms_regulation_ms_ms_20" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1562,7 +1562,7 @@
   <record id="tax_icms_regulation_ms_ms_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1575,7 +1575,7 @@
   <record id="tax_icms_regulation_ms_ms_27" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1590,7 +1590,7 @@
     <field name="state_from_id" ref="base.state_br_ms" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -1605,7 +1605,7 @@
   <record id="tax_icms_regulation_mg_mg_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1618,7 +1618,7 @@
   <record id="tax_icms_regulation_mg_mg_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1634,7 +1634,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1650,7 +1650,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1666,7 +1666,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1679,7 +1679,7 @@
   <record id="tax_icms_regulation_mg_mg_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1692,7 +1692,7 @@
   <record id="tax_icms_regulation_mg_mg_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1705,7 +1705,7 @@
   <record id="tax_icms_regulation_mg_mg_19" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1718,7 +1718,7 @@
   <record id="tax_icms_regulation_mg_mg_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1731,7 +1731,7 @@
   <record id="tax_icms_regulation_mg_mg_27" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1744,7 +1744,7 @@
   <record id="tax_icms_regulation_mg_mg_30" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1759,7 +1759,7 @@
     <field name="state_from_id" ref="base.state_br_mg" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -1775,7 +1775,7 @@
     <field name="state_from_id" ref="base.state_br_mg" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_pr'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
+            eval="[Command.set([ref('base.state_br_pr'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -1790,7 +1790,7 @@
   <record id="tax_icms_regulation_pa_pa_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1803,7 +1803,7 @@
   <record id="tax_icms_regulation_pa_pa_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1819,7 +1819,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1835,7 +1835,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1851,7 +1851,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1864,7 +1864,7 @@
   <record id="tax_icms_regulation_pa_pa_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1877,7 +1877,7 @@
   <record id="tax_icms_regulation_pa_pa_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1890,7 +1890,7 @@
   <record id="tax_icms_regulation_pa_pa_21" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1903,7 +1903,7 @@
   <record id="tax_icms_regulation_pa_pa_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1916,7 +1916,7 @@
   <record id="tax_icms_regulation_pa_pa_30" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -1931,7 +1931,7 @@
     <field name="state_from_id" ref="base.state_br_pa" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -1946,7 +1946,7 @@
   <record id="tax_icms_regulation_pb_pb_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pb')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1959,7 +1959,7 @@
   <record id="tax_icms_regulation_pb_pb_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pb')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1975,7 +1975,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pb')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -1991,7 +1991,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pb')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2007,7 +2007,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pb')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2020,7 +2020,7 @@
   <record id="tax_icms_regulation_pb_pb_28" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pb')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2035,7 +2035,7 @@
     <field name="state_from_id" ref="base.state_br_pb" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -2050,7 +2050,7 @@
   <record id="tax_icms_regulation_pr_pr_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2063,7 +2063,7 @@
   <record id="tax_icms_regulation_pr_pr_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2079,7 +2079,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2095,7 +2095,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2111,7 +2111,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2124,7 +2124,7 @@
   <record id="tax_icms_regulation_pr_pr_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2137,7 +2137,7 @@
   <record id="tax_icms_regulation_pr_pr_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2150,7 +2150,7 @@
   <record id="tax_icms_regulation_pr_pr_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2163,7 +2163,7 @@
   <record id="tax_icms_regulation_pr_pr_29" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2178,7 +2178,7 @@
     <field name="state_from_id" ref="base.state_br_pr" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -2194,7 +2194,7 @@
     <field name="state_from_id" ref="base.state_br_pr" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_mg'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
+            eval="[Command.set([ref('base.state_br_mg'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -2209,7 +2209,7 @@
   <record id="tax_icms_regulation_pe_pe_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2222,7 +2222,7 @@
   <record id="tax_icms_regulation_pe_pe_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2238,7 +2238,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2254,7 +2254,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2270,7 +2270,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2283,7 +2283,7 @@
   <record id="tax_icms_regulation_pe_pe_1" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2296,7 +2296,7 @@
   <record id="tax_icms_regulation_pe_pe_4" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2309,7 +2309,7 @@
   <record id="tax_icms_regulation_pe_pe_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2322,7 +2322,7 @@
   <record id="tax_icms_regulation_pe_pe_8_5" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2335,7 +2335,7 @@
   <record id="tax_icms_regulation_pe_pe_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2348,7 +2348,7 @@
   <record id="tax_icms_regulation_pe_pe_17" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2361,7 +2361,7 @@
   <record id="tax_icms_regulation_pe_pe_20" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2374,7 +2374,7 @@
   <record id="tax_icms_regulation_pe_pe_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2387,7 +2387,7 @@
   <record id="tax_icms_regulation_pe_pe_27" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2400,7 +2400,7 @@
   <record id="tax_icms_regulation_pe_pe_28" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2415,7 +2415,7 @@
     <field name="state_from_id" ref="base.state_br_pe" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pr'), ref('base.state_br_pb'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pr'), ref('base.state_br_pb'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -2430,7 +2430,7 @@
   <record id="tax_icms_regulation_pi_pi_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2443,7 +2443,7 @@
   <record id="tax_icms_regulation_pi_pi_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2459,7 +2459,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2475,7 +2475,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2491,7 +2491,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2504,7 +2504,7 @@
   <record id="tax_icms_regulation_pi_pi_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2517,7 +2517,7 @@
   <record id="tax_icms_regulation_pi_pi_17" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2530,7 +2530,7 @@
   <record id="tax_icms_regulation_pi_pi_20" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2543,7 +2543,7 @@
   <record id="tax_icms_regulation_pi_pi_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2556,7 +2556,7 @@
   <record id="tax_icms_regulation_pi_pi_30" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2571,7 +2571,7 @@
     <field name="state_from_id" ref="base.state_br_pi" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pr'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pr'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -2586,7 +2586,7 @@
   <record id="tax_icms_regulation_rj_rj_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2599,7 +2599,7 @@
   <record id="tax_icms_regulation_rj_rj_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2615,7 +2615,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2631,7 +2631,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2647,7 +2647,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2660,7 +2660,7 @@
   <record id="tax_icms_regulation_rj_rj_6" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2673,7 +2673,7 @@
   <record id="tax_icms_regulation_rj_rj_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2686,7 +2686,7 @@
   <record id="tax_icms_regulation_rj_rj_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2699,7 +2699,7 @@
   <record id="tax_icms_regulation_rj_rj_18" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2712,7 +2712,7 @@
   <record id="tax_icms_regulation_rj_rj_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2725,7 +2725,7 @@
   <record id="tax_icms_regulation_rj_rj_30" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2738,7 +2738,7 @@
   <record id="tax_icms_regulation_rj_rj_35" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2751,7 +2751,7 @@
   <record id="tax_icms_regulation_rj_rj_37" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2766,7 +2766,7 @@
     <field name="state_from_id" ref="base.state_br_rj" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -2782,7 +2782,7 @@
     <field name="state_from_id" ref="base.state_br_rj" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_mg'), ref('base.state_br_pr'), ref('base.state_br_rs'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
+            eval="[Command.set([ref('base.state_br_mg'), ref('base.state_br_pr'), ref('base.state_br_rs'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -2797,7 +2797,7 @@
   <record id="tax_icms_regulation_rn_rn_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2810,7 +2810,7 @@
   <record id="tax_icms_regulation_rn_rn_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2826,7 +2826,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2842,7 +2842,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2858,7 +2858,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2871,7 +2871,7 @@
   <record id="tax_icms_regulation_rn_rn_13" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2884,7 +2884,7 @@
   <record id="tax_icms_regulation_rn_rn_17" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2897,7 +2897,7 @@
   <record id="tax_icms_regulation_rn_rn_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -2912,7 +2912,7 @@
     <field name="state_from_id" ref="base.state_br_rn" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pr'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pr'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -2927,7 +2927,7 @@
   <record id="tax_icms_regulation_rs_rs_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2940,7 +2940,7 @@
   <record id="tax_icms_regulation_rs_rs_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2956,7 +2956,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2972,7 +2972,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -2988,7 +2988,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3001,7 +3001,7 @@
   <record id="tax_icms_regulation_rs_rs_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3014,7 +3014,7 @@
   <record id="tax_icms_regulation_rs_rs_20" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3027,7 +3027,7 @@
   <record id="tax_icms_regulation_rs_rs_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3042,7 +3042,7 @@
     <field name="state_from_id" ref="base.state_br_rs" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3058,7 +3058,7 @@
     <field name="state_from_id" ref="base.state_br_rs" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_mg'), ref('base.state_br_pr'), ref('base.state_br_rj'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
+            eval="[Command.set([ref('base.state_br_mg'), ref('base.state_br_pr'), ref('base.state_br_rj'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3073,7 +3073,7 @@
   <record id="tax_icms_regulation_ro_ro_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3086,7 +3086,7 @@
   <record id="tax_icms_regulation_ro_ro_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3102,7 +3102,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3118,7 +3118,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3134,7 +3134,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3147,7 +3147,7 @@
   <record id="tax_icms_regulation_ro_ro_9" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3160,7 +3160,7 @@
   <record id="tax_icms_regulation_ro_ro_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3173,7 +3173,7 @@
   <record id="tax_icms_regulation_ro_ro_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3186,7 +3186,7 @@
   <record id="tax_icms_regulation_ro_ro_35" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3201,7 +3201,7 @@
     <field name="state_from_id" ref="base.state_br_ro" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3216,7 +3216,7 @@
   <record id="tax_icms_regulation_rr_rr_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3229,7 +3229,7 @@
   <record id="tax_icms_regulation_rr_rr_isento" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3245,7 +3245,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3261,7 +3261,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3277,7 +3277,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3290,7 +3290,7 @@
   <record id="tax_icms_regulation_rr_rr_4" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3303,7 +3303,7 @@
   <record id="tax_icms_regulation_rr_rr_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3316,7 +3316,7 @@
   <record id="tax_icms_regulation_rr_rr_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3331,7 +3331,7 @@
     <field name="state_from_id" ref="base.state_br_rr" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3346,7 +3346,7 @@
   <record id="tax_icms_regulation_sc_sc_icms_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3362,7 +3362,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3378,7 +3378,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3394,7 +3394,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3410,7 +3410,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3424,7 +3424,7 @@
   <record id="tax_icms_regulation_sc_sc_icms_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3437,7 +3437,7 @@
   <record id="tax_icms_regulation_sc_sc_icms_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3451,7 +3451,7 @@
   <record id="tax_icms_regulation_sc_sc_icms_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3471,7 +3471,7 @@
     <field name="state_from_id" ref="base.state_br_sc" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3487,7 +3487,7 @@
     <field name="state_from_id" ref="base.state_br_sc" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_mg'), ref('base.state_br_pr'), ref('base.state_br_rj'), ref('base.state_br_rs'), ref('base.state_br_sp')])]"
+            eval="[Command.set([ref('base.state_br_mg'), ref('base.state_br_pr'), ref('base.state_br_rj'), ref('base.state_br_rs'), ref('base.state_br_sp')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3502,7 +3502,7 @@
   <record id="tax_icms_regulation_sp_sp_icms_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3518,7 +3518,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3535,7 +3535,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3551,7 +3551,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3567,7 +3567,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3580,7 +3580,7 @@
   <record id="tax_icms_regulation_sp_sp_icms_4" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3593,7 +3593,7 @@
   <record id="tax_icms_regulation_sp_sp_icms_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="nbms">4014.10.0000</field>
@@ -3607,7 +3607,7 @@
   <record id="tax_icms_regulation_sp_sp_icms_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3628,7 +3628,7 @@
   <record id="tax_icms_regulation_sp_sp_icms_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3653,7 +3653,7 @@
     <field name="state_from_id" ref="base.state_br_sp" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_se'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3669,7 +3669,7 @@
     <field name="state_from_id" ref="base.state_br_sp" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_mg'), ref('base.state_br_pr'), ref('base.state_br_rj'), ref('base.state_br_rs'), ref('base.state_br_sc')])]"
+            eval="[Command.set([ref('base.state_br_mg'), ref('base.state_br_pr'), ref('base.state_br_rj'), ref('base.state_br_rs'), ref('base.state_br_sc')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3684,7 +3684,7 @@
   <record id="tax_icms_regulation_se_se_icms_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3700,7 +3700,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3716,7 +3716,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3732,7 +3732,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3748,7 +3748,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3761,7 +3761,7 @@
   <record id="tax_icms_regulation_se_se_0" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3774,7 +3774,7 @@
   <record id="tax_icms_regulation_se_se_7" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3787,7 +3787,7 @@
   <record id="tax_icms_regulation_se_se_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3800,7 +3800,7 @@
   <record id="tax_icms_regulation_se_se_14" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3813,7 +3813,7 @@
   <record id="tax_icms_regulation_se_se_17" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3826,7 +3826,7 @@
   <record id="tax_icms_regulation_se_se_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3839,7 +3839,7 @@
   <record id="tax_icms_regulation_se_se_27" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3854,7 +3854,7 @@
     <field name="state_from_id" ref="base.state_br_se" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_to')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_to')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -3869,7 +3869,7 @@
   <record id="tax_icms_regulation_to_to_icms_nt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3885,7 +3885,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3901,7 +3901,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3917,7 +3917,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -3933,7 +3933,7 @@
     >
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3946,7 +3946,7 @@
   <record id="tax_icms_regulation_to_to_4" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3959,7 +3959,7 @@
   <record id="tax_icms_regulation_to_to_12" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3972,7 +3972,7 @@
   <record id="tax_icms_regulation_to_to_25" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
     <field name="custom_tax" eval="True" />
@@ -3987,7 +3987,7 @@
     <field name="state_from_id" ref="base.state_br_to" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se')])]"
+            eval="[Command.set([ref('base.state_br_ac'), ref('base.state_br_al'), ref('base.state_br_am'), ref('base.state_br_ap'), ref('base.state_br_ba'), ref('base.state_br_ce'), ref('base.state_br_df'), ref('base.state_br_es'), ref('base.state_br_go'), ref('base.state_br_ma'), ref('base.state_br_mt'), ref('base.state_br_ms'), ref('base.state_br_mg'), ref('base.state_br_pa'), ref('base.state_br_pb'), ref('base.state_br_pr'), ref('base.state_br_pe'), ref('base.state_br_pi'), ref('base.state_br_rn'), ref('base.state_br_rs'), ref('base.state_br_rj'), ref('base.state_br_ro'), ref('base.state_br_rr'), ref('base.state_br_sc'), ref('base.state_br_sp'), ref('base.state_br_se')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />
@@ -4003,7 +4003,7 @@
   <record id="tax_icmsfcp_nt_regulation_ac_ac" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ac" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ac')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ac')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4016,7 +4016,7 @@
   <record id="tax_icmsfcp_1_regulation_al_al" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4028,7 +4028,7 @@
   <record id="tax_icmsfcp_2_regulation_al_al" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4041,7 +4041,7 @@
   <record id="tax_icmsfcp_nt_regulation_ap_ap" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_al" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_al')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_al')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4054,7 +4054,7 @@
   <record id="tax_icmsfcp_2_regulation_am_am" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4066,7 +4066,7 @@
   <record id="tax_icmsfcp_1_2_regulation_am_am" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_am" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_am')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_am')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4079,7 +4079,7 @@
   <record id="tax_icmsfcp_2_regulation_ba_ba" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ba" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ba')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ba')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4092,7 +4092,7 @@
   <record id="tax_icmsfcp_2_regulation_ce_ce" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ce" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ce')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ce')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4105,7 +4105,7 @@
   <record id="tax_icmsfcp_2_regulation_df_df" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_df" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_df')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_df')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4118,7 +4118,7 @@
   <record id="tax_icmsfcp_2_regulation_es_es" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_es" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_es')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_es')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4131,7 +4131,7 @@
   <record id="tax_icmsfcp_2_regulation_go_go" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_go" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_go')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_go')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4144,7 +4144,7 @@
   <record id="tax_icmsfcp_2_regulation_ma_ma" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ma" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ma')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ma')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4157,7 +4157,7 @@
   <record id="tax_icmsfcp_2_regulation_mt_mt" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mt" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mt')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mt')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4170,7 +4170,7 @@
   <record id="tax_icmsfcp_2_regulation_ms_ms" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ms" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ms')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ms')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4183,7 +4183,7 @@
   <record id="tax_icmsfcp_2_regulation_mg_mg" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_mg" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_mg')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_mg')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4196,7 +4196,7 @@
   <record id="tax_icmsfcp_nt_regulation_pa_pa" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pa" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pa')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pa')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="False" />
@@ -4209,7 +4209,7 @@
   <record id="tax_icmsfcp_2_regulation_pb_pb" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pb" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pb')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4222,7 +4222,7 @@
   <record id="tax_icmsfcp_2_regulation_pr_pr" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4235,7 +4235,7 @@
   <record id="tax_icmsfcp_2_regulation_pe_pe" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pe" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pe')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pe')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4248,7 +4248,7 @@
   <record id="tax_icmsfcp_2_regulation_pi_pi" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_pi" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_pi')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_pi')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4261,7 +4261,7 @@
   <record id="tax_icmsfcp_4_regulation_rj_rj" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rj" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rj')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rj')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4274,7 +4274,7 @@
   <record id="tax_icmsfcp_2_regulation_rn_rn" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rn" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rn')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rn')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4287,7 +4287,7 @@
   <record id="tax_icmsfcp_2_regulation_rs_rs" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rs" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rs')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rs')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4300,7 +4300,7 @@
   <record id="tax_icmsfcp_2_regulation_ro_ro" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_ro" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_ro')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_ro')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4313,7 +4313,7 @@
   <record id="tax_icmsfcp_2_regulation_rr_rr" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_rr" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_rr')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_rr')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4326,7 +4326,7 @@
   <record id="tax_icmsfcp_nt_regulation_sc_sc" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sc" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sc')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sc')])]" />
     <field name="is_taxed" eval="False" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4339,7 +4339,7 @@
   <record id="tax_icmsfcp_2_regulation_sp_sp" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_sp" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_sp')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4352,7 +4352,7 @@
   <record id="tax_icmsfcp_2_regulation_se_se" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4364,7 +4364,7 @@
   <record id="tax_icmsfcp_1_regulation_se_se" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_se" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_se')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_se')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4377,7 +4377,7 @@
   <record id="tax_icmsfcp_2_regulation_to_to" model="l10n_br_fiscal.tax.definition">
     <field name="icms_regulation_id" ref="tax_icms_regulation" />
     <field name="state_from_id" ref="base.state_br_to" />
-    <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_to')])]" />
+    <field name="state_to_ids" eval="[Command.set([ref('base.state_br_to')])]" />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="False" />
     <field name="custom_tax" eval="True" />
@@ -4393,7 +4393,7 @@
     <field name="state_from_id" ref="base.state_br_sp" />
     <field
             name="state_to_ids"
-            eval="[(6, 0, [ref('base.state_br_mg'), ref('base.state_br_rj'), ref('base.state_br_rs'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
+            eval="[Command.set([ref('base.state_br_mg'), ref('base.state_br_rj'), ref('base.state_br_rs'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
         />
     <field name="is_taxed" eval="True" />
     <field name="is_debit_credit" eval="True" />

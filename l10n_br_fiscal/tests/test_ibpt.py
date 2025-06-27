@@ -8,6 +8,7 @@ from os import environ
 from decorator import decorate
 from erpbrasil.base import misc
 
+from odoo import Command
 from odoo.tests import TransactionCase
 from odoo.tools import config as odooconfig
 
@@ -95,7 +96,7 @@ class TestIbpt(TransactionCase):
         """Add a company to the user's allowed & set to current."""
         user.write(
             {
-                "company_ids": [(6, 0, (company + user.company_ids).ids)],
+                "company_ids": [Command.set((company + user.company_ids).ids)],
                 "company_id": company.id,
             }
         )
