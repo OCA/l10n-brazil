@@ -8,7 +8,7 @@ import base64
 
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.osv import expression
 
@@ -103,7 +103,7 @@ class NfeImport(models.TransientModel):
                 .id
             )
 
-        self.imported_products_ids = [(6, 0, product_ids)]
+        self.imported_products_ids = [Command.set(product_ids)]
 
     def _prepare_imported_product_values(self, product):
         taxes = self._get_taxes_from_xml_product(product)
@@ -351,7 +351,9 @@ class NfeImportProducts(models.TransientModel):
                 "partner_uom_factor": self.uom_conversion_factor,
             }
         )
-        self.product_id.write({"seller_ids": [(4, self.product_supplier_id.id)]})
+        self.product_id.write(
+            {"seller_ids": [Command.link(self.product_supplier_id.id)]}
+        )
 
     def _update_product_supplier(self):
         self.product_supplier_id.write(
