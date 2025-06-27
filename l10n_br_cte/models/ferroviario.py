@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 
-from odoo import api, fields
+from odoo import Command, api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -44,7 +44,7 @@ class Ferrov(spec_models.StackedModel):
     @api.depends("document_id.cte40_ferroEnv")
     def _compute_railroad(self):
         for record in self:
-            record.cte40_ferroEnv = [(6, 0, record.document_id.cte40_ferroEnv.ids)]
+            record.cte40_ferroEnv = [Command.set(record.document_id.cte40_ferroEnv.ids)]
 
     def _prepare_dacte_values(self):
         if not self:
