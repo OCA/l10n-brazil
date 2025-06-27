@@ -9,7 +9,7 @@ from datetime import datetime
 from enum import Enum
 from typing import ForwardRef
 
-from odoo import api, models
+from odoo import Command, api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -136,7 +136,7 @@ class SpecMixinImport(models.AbstractModel):
                     line_vals = comodel.build_attrs(
                         line, path=child_path, defaults_model=comodel
                     )
-                    lines.append((0, 0, line_vals))
+                    lines.append(Command.create(line_vals))
                 vals[key] = lines
             else:
                 # m2o
