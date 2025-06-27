@@ -46,7 +46,7 @@
         <field name="medium_id" ref="utm.utm_medium_banner" />
         <field name="source_id" ref="utm.utm_source_monster" />
         <field name="incoterm" ref="account.incoterm_FOB" />
-        <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor1'))]" />
+        <field name="tag_ids" eval="[Command.link(ref('sales_team.categ_oppor1'))]" />
     </record>
 
     <record id="main_company-sale_order_line_1_1" model="sale.order.line">
@@ -156,7 +156,7 @@
         <field name="incoterm" ref="account.incoterm_FOB" />
         <field
             name="tag_ids"
-            eval="[(4, ref('sales_team.categ_oppor1')), (4, ref('sales_team.categ_oppor3'))]"
+            eval="[Command.link(ref('sales_team.categ_oppor1')), Command.link(ref('sales_team.categ_oppor3'))]"
         />
     </record>
 
@@ -244,7 +244,7 @@
         <field name="medium_id" ref="utm.utm_medium_banner" />
         <field name="source_id" ref="utm.utm_source_monster" />
         <field name="incoterm" ref="account.incoterm_FOB" />
-        <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor1'))]" />
+        <field name="tag_ids" eval="[Command.link(ref('sales_team.categ_oppor1'))]" />
     </record>
 
     <record id="main_company-sale_order_line_3_1" model="sale.order.line">
@@ -351,7 +351,7 @@
         <field name="medium_id" ref="utm.utm_medium_banner" />
         <field name="source_id" ref="utm.utm_source_monster" />
         <field name="incoterm" ref="account.incoterm_FOB" />
-        <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor1'))]" />
+        <field name="tag_ids" eval="[Command.link(ref('sales_team.categ_oppor1'))]" />
     </record>
 
     <record id="main_company-sale_order_line_4_1" model="sale.order.line">
@@ -458,7 +458,7 @@
         <field name="medium_id" ref="utm.utm_medium_banner" />
         <field name="source_id" ref="utm.utm_source_monster" />
         <field name="incoterm" ref="account.incoterm_FOB" />
-        <field name="tag_ids" eval="[(4, ref('sales_team.categ_oppor1'))]" />
+        <field name="tag_ids" eval="[Command.link(ref('sales_team.categ_oppor1'))]" />
     </record>
 
     <record id="lucro_presumido-sale_order_line_1_1" model="sale.order.line">
