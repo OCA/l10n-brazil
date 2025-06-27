@@ -3,6 +3,7 @@
 
 from io import StringIO
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
@@ -168,20 +169,20 @@ class MDFeStructure(TransactionCase):
         mdfe = self.env.ref("l10n_br_mdfe.demo_mdfe_sn_modal_aquaviario")
         with self.assertRaises(UserError):
             mdfe.mdfe30_infTermCarreg = [
-                (0, 0, {"loading_harbor": "BRADR"}),
-                (0, 0, {"loading_harbor": "BRAFU"}),
-                (0, 0, {"loading_harbor": "BRAJU"}),
-                (0, 0, {"loading_harbor": "BRALT"}),
-                (0, 0, {"loading_harbor": "BRAMM"}),
-                (0, 0, {"loading_harbor": "BRAMW"}),
+                Command.create({"loading_harbor": "BRADR"}),
+                Command.create({"loading_harbor": "BRAFU"}),
+                Command.create({"loading_harbor": "BRAJU"}),
+                Command.create({"loading_harbor": "BRALT"}),
+                Command.create({"loading_harbor": "BRAMM"}),
+                Command.create({"loading_harbor": "BRAMW"}),
             ]
 
         with self.assertRaises(UserError):
             mdfe.mdfe30_infTermDescarreg = [
-                (0, 0, {"unloading_harbor": "BRAFU"}),
-                (0, 0, {"unloading_harbor": "BRBZC"}),
-                (0, 0, {"unloading_harbor": "BRAJU"}),
-                (0, 0, {"unloading_harbor": "BRALT"}),
-                (0, 0, {"unloading_harbor": "BRAMM"}),
-                (0, 0, {"unloading_harbor": "BRAMW"}),
+                Command.create({"unloading_harbor": "BRAFU"}),
+                Command.create({"unloading_harbor": "BRBZC"}),
+                Command.create({"unloading_harbor": "BRAJU"}),
+                Command.create({"unloading_harbor": "BRALT"}),
+                Command.create({"unloading_harbor": "BRAMM"}),
+                Command.create({"unloading_harbor": "BRAMW"}),
             ]
