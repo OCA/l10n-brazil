@@ -2,6 +2,7 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from odoo import Command
 from odoo.tests import Form, TransactionCase
 
 
@@ -33,8 +34,8 @@ class L10nBrSaleDiscount(TransactionCase):
                     "login": "test_user",
                     "email": "test@oca.com",
                     "company_id": cls.company.id,
-                    "company_ids": [(4, cls.company.id)],
-                    "groups_id": [(6, 0, user_groups)],
+                    "company_ids": [Command.link(cls.company.id)],
+                    "groups_id": [Command.set(user_groups)],
                 }
             )
         )
@@ -73,8 +74,8 @@ class L10nBrSaleDiscount(TransactionCase):
         cls.sales_view_id = "l10n_br_sale.l10n_br_sale_order_form"
 
     def test_l10n_br_sale_discount_value(self):
-        self.user.groups_id = [(4, self.group_discount_per_value_id)]
-        self.user.groups_id = [(4, self.group_discount_per_so_line)]
+        self.user.groups_id = [Command.link(self.group_discount_per_value_id)]
+        self.user.groups_id = [Command.link(self.group_discount_per_so_line)]
 
         self.assertTrue(self.order_line.user_discount_value)
         self.assertFalse(self.order_line.user_total_discount)
@@ -90,9 +91,9 @@ class L10nBrSaleDiscount(TransactionCase):
                 line.discount = 20
 
     def test_l10n_br_sale_discount_value_with_total(self):
-        self.user.groups_id = [(4, self.group_discount_per_value_id)]
-        self.user.groups_id = [(4, self.group_total_discount_id)]
-        self.user.groups_id = [(4, self.group_discount_per_so_line)]
+        self.user.groups_id = [Command.link(self.group_discount_per_value_id)]
+        self.user.groups_id = [Command.link(self.group_total_discount_id)]
+        self.user.groups_id = [Command.link(self.group_discount_per_so_line)]
 
         self.assertTrue(self.order_line.user_discount_value)
         self.assertTrue(self.order_line.user_total_discount)
@@ -128,7 +129,7 @@ class L10nBrSaleDiscount(TransactionCase):
         self.assertFalse(self.order_line.user_total_discount)
         self.assertTrue(self.order_line.need_change_discount_value())
 
-        self.user.groups_id = [(4, self.group_discount_per_so_line)]
+        self.user.groups_id = [Command.link(self.group_discount_per_so_line)]
         order = Form(self.order)
         with order.order_line.edit(0) as line:
             line.discount = 33
@@ -139,8 +140,8 @@ class L10nBrSaleDiscount(TransactionCase):
                 line.discount_value = 20
 
     def test_l10n_br_sale_discount_percent_with_total(self):
-        self.user.groups_id = [(4, self.group_total_discount_id)]
-        self.user.groups_id = [(4, self.group_discount_per_so_line)]
+        self.user.groups_id = [Command.link(self.group_total_discount_id)]
+        self.user.groups_id = [Command.link(self.group_discount_per_so_line)]
 
         self.assertFalse(self.order_line.user_discount_value)
         self.assertTrue(self.order_line.user_total_discount)
