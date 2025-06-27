@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import Command, api, fields, models
 
 
 class AccountMoveLineCNABChange(models.TransientModel):
@@ -13,7 +13,7 @@ class AccountMoveLineCNABChange(models.TransientModel):
         res = super().default_get(fields_list)
         if self.env.context.get("active_model") == "account.move.line":
             active_ids = self.env.context.get("active_ids")
-            res["account_move_line_ids"] = [(6, 0, active_ids)]
+            res["account_move_line_ids"] = [Command.set(active_ids)]
             if active_ids and len(active_ids) == 1:
                 move_line_id = self.account_move_line_ids.browse(active_ids)
                 if move_line_id.date_maturity:
