@@ -1,6 +1,7 @@
 # Copyright 2023 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from odoo import Command
 from odoo.tests import TransactionCase
 
 
@@ -25,9 +26,11 @@ class TestTaxBenefit(TransactionCase):
                 "tax_id": self.env.ref("l10n_br_fiscal.tax_icms_12_red_26_57").id,
                 "cst_id": self.env.ref("l10n_br_fiscal.cst_icms_20").id,
                 "state_from_id": self.env.ref("base.state_br_sp").id,
-                "state_to_ids": [(6, 0, self.env.ref("base.state_br_mg").ids)],
+                "state_to_ids": [Command.set(self.env.ref("base.state_br_mg").ids)],
                 "ncms": "73269090",
-                "ncm_ids": [(6, 0, self.env.ref("l10n_br_fiscal.ncm_73269090").ids)],
+                "ncm_ids": [
+                    Command.set(self.env.ref("l10n_br_fiscal.ncm_73269090").ids)
+                ],
                 "state": "approved",
             }
         )
