@@ -2,6 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo import Command
 from odoo.tests.common import Form, TransactionCase
 from odoo.tools import mute_logger
 
@@ -47,7 +48,7 @@ class StockRuleTest(TransactionCase):
 
         # Set this route on `product.product_product_3`
         cls.env.ref("product.product_product_3").write(
-            {"route_ids": [(4, cls.product_route.id)]}
+            {"route_ids": [Command.link(cls.product_route.id)]}
         )
 
     def test_procument_order(self):
