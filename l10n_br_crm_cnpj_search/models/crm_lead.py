@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import Command, fields, models
 
 
 class Lead(models.Model):
@@ -35,7 +35,7 @@ class Lead(models.Model):
                     "legal_nature_id": self.legal_nature_id.id,
                     "equity_capital": self.equity_capital,
                     "cnae_main_id": self.cnae_main_id.id,
-                    "cnae_secondary_ids": [(6, 0, self.cnae_secondary_ids.ids)],
+                    "cnae_secondary_ids": [Command.set(self.cnae_secondary_ids.ids)],
                 }
             )
         else:
