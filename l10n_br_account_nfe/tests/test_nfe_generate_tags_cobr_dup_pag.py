@@ -5,6 +5,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import Form, TransactionCase, tagged
 
@@ -19,7 +20,7 @@ class TestGeneratePaymentInfo(TransactionCase):
 
         # set default user company
         companies = cls.env["res.company"].search([])
-        cls.env.user.company_ids = [(6, 0, companies.ids)]
+        cls.env.user.company_ids = [Command.set(companies.ids)]
         cls.env.user.company_id = cls.company
         # for some reason this invoice should be created with the popup mode.
         # it seems like a test framework glitch because in the browser it works fine
