@@ -14,10 +14,10 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_account_due_list
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_bank_statement_line__financial_move_line_ids
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__financial_move_line_ids
-#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_payment__financial_move_line_ids
-msgid "Financial Move Lines"
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_bank_statement_line__due_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__due_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_payment__due_line_ids
+msgid "Installments"
 msgstr ""
 
 #. module: l10n_br_account_due_list
@@ -34,7 +34,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_bank_statement_line__payment_move_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_move__payment_move_line_ids
 #: model:ir.model.fields,field_description:l10n_br_account_due_list.field_account_payment__payment_move_line_ids
-msgid "Payment Move Lines"
+msgid "Payment Lines"
+msgstr ""
+
+#. module: l10n_br_account_due_list
+#: model:ir.model.fields,help:l10n_br_account_due_list.field_account_bank_statement_line__payment_move_line_ids
+#: model:ir.model.fields,help:l10n_br_account_due_list.field_account_move__payment_move_line_ids
+#: model:ir.model.fields,help:l10n_br_account_due_list.field_account_payment__payment_move_line_ids
+msgid "Payment journal items reconciled with this invoice."
 msgstr ""
 
 #. module: l10n_br_account_due_list
