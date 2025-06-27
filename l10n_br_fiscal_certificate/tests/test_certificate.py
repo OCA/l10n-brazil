@@ -5,7 +5,7 @@ from datetime import timedelta
 
 from erpbrasil.assinatura import misc
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 from odoo.tools.misc import format_date
@@ -67,7 +67,7 @@ class TestCertificate(TransactionCase):
         """Add a company to the user's allowed & set to current."""
         user.write(
             {
-                "company_ids": [(6, 0, (company + user.company_ids).ids)],
+                "company_ids": [Command.set((company + user.company_ids).ids)],
                 "company_id": company.id,
             }
         )
