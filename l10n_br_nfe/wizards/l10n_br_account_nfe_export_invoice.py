@@ -7,7 +7,7 @@ import time
 from datetime import datetime
 
 from odoo import _, fields, models
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import UserError
 
 
 class L10nBrAccountNfeExportInvoice(models.TransientModel):
