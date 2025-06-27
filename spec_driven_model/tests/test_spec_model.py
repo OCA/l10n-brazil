@@ -6,8 +6,6 @@ from odoo_test_helper import FakeModelLoader
 from odoo.models import NewId
 from odoo.tests import TransactionCase
 
-# from ..hooks import get_remaining_spec_models
-
 
 class TestSpecModel(TransactionCase, FakeModelLoader):
     """
@@ -21,7 +19,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
 
-        # import a simpilified equivalend of purchase module
+        # import a simpilified equivalent of purchase module
         from .fake_mixin import PoXsdMixin
         from .spec_poxsd import (
             Items,
@@ -29,7 +27,6 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             Usaddress,
             Comment,
             PurchaseOrderType,
-            #            PurchaseOrder as PurchaseOrderXsd,
         )
         from .fake_odoo_purchase import (
             PurchaseOrder as FakePurchaseOrder,
@@ -49,7 +46,6 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 Usaddress,
                 Comment,
                 PurchaseOrderType,
-                #                PurchaseOrderXsd,
                 ResPartner,
                 FakePurchaseOrder,
                 FakePurchaseOrderLine,
