@@ -1,6 +1,7 @@
 # Copyright 2023 KMEE (Felipe Zago Rodrigues <felipe.zago@kmee.com.br>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from odoo import Command
 from odoo.tests import TransactionCase
 
 
@@ -56,8 +57,10 @@ class TestAccountNFCeContingency(TransactionCase):
                 "payment_mode_id": payment_mode.id,
                 "company_id": cls.env.ref("base.main_company").id,
                 "line_ids": [
-                    (0, 0, {"account_id": receivable_account_id.id, "credit": 10}),
-                    (0, 0, {"account_id": payable_account_id.id, "debit": 10}),
+                    Command.create(
+                        {"account_id": receivable_account_id.id, "credit": 10}
+                    ),
+                    Command.create({"account_id": payable_account_id.id, "debit": 10}),
                 ],
             }
         )

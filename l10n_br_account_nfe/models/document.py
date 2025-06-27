@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -40,9 +40,9 @@ class DocumentNfe(models.Model):
 
     @api.depends("move_ids", "move_ids.due_line_ids")
     def _compute_nfe40_dup(self):
-        for record in self.filtered(lambda x: x._need_compute_nfe40_dup()):
+        for rec in self.filtered(lambda x: x._need_compute_nfe40_dup()):
             dups_vals = []
-            for count, mov in enumerate(record.move_ids.due_line_ids, 1):
+            for count, mov in enumerate(rec.move_ids.due_line_ids, 1):
                 dups_vals.append(
                     {
                         "nfe40_nDup": str(count).zfill(3),
@@ -50,8 +50,8 @@ class DocumentNfe(models.Model):
                         "nfe40_vDup": mov.debit,
                     }
                 )
-            record.nfe40_dup = [(2, dup, 0) for dup in record.nfe40_dup.ids]
-            record.nfe40_dup = [(0, 0, dup) for dup in dups_vals]
+            rec.nfe40_dup = [Command.delete(dup.id) for dup in rec.nfe40_dup]
+            rec.nfe40_dup = [Command.create(dup) for dup in dups_vals]
 
     ##########################
     # NF-e tag: Pag
@@ -100,8 +100,10 @@ class DocumentNfe(models.Model):
                 for field in det_pag_vals
             }
             if det_pag_vals != detpag_current:
-                rec.nfe40_detPag = [(2, detpag, 0) for detpag in rec.nfe40_detPag.ids]
-                rec.nfe40_detPag = [(0, 0, det_pag_vals)]
+                rec.nfe40_detPag = [
+                    Command.delete(det_pag.id) for det_pag in rec.nfe40_detPag
+                ]
+                rec.nfe40_detPag = [Command.create(det_pag_vals)]
 
     ################################
     # Business Model Methods

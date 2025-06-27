@@ -2,7 +2,7 @@
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import SUPERUSER_ID, api, tools
+from odoo import SUPERUSER_ID, Command, api, tools
 
 
 def post_init_hook(cr, registry):
@@ -23,7 +23,7 @@ def load_simples_nacional_demo(env, registry):
     if company_sn:
         # Allow all companies for OdooBot user and set default user company
         companies = env["res.company"].search([])
-        env.user.company_ids = [(6, 0, companies.ids)]
+        env.user.company_ids = [Command.set(companies.ids)]
         env.user.company_id = company_sn
 
         tools.convert_file(
