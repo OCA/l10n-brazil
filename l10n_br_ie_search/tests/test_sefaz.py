@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from erpbrasil.assinatura import misc
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 from odoo.tools.misc import format_date
@@ -99,7 +99,7 @@ class TestSefaz(TransactionCase):
         """Add a company to the user's allowed & set to current."""
         user.write(
             {
-                "company_ids": [(6, 0, (company + user.company_ids).ids)],
+                "company_ids": [Command.set((company + user.company_ids).ids)],
                 "company_id": company.id,
             }
         )
