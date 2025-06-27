@@ -6,7 +6,7 @@ from ast import literal_eval
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
@@ -705,7 +705,7 @@ class Document(models.Model):
         if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
             self.document_type_id = self.company_id.document_type_id
 
-        subsequent_documents = [(6, 0, {})]
+        subsequent_documents = [Command.set({})]
         for subsequent_id in self.fiscal_operation_id.mapped(
             "operation_subsequent_ids"
         ):
