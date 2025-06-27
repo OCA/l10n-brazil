@@ -22,7 +22,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10})
         ]"
         />
     </record>
@@ -58,7 +58,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            (0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 199, 'quantity': 5})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 199, 'quantity': 5})
         ]"
         />
     </record>
