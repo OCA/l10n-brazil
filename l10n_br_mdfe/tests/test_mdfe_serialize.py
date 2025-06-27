@@ -8,6 +8,7 @@ from datetime import datetime
 
 from xmldiff import main
 
+from odoo import Command
 from odoo.tests.common import TransactionCase
 from odoo.tools import config
 
@@ -170,12 +171,12 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_cPrtEmb = "BRADR"
         mdfe.mdfe30_cPrtDest = "BRAFU"
         mdfe.mdfe30_infTermCarreg = [
-            (0, 0, {"loading_harbor": "BRADR"}),
-            (0, 0, {"loading_harbor": "BRANT"}),
+            Command.create({"loading_harbor": "BRADR"}),
+            Command.create({"loading_harbor": "BRANT"}),
         ]
         mdfe.mdfe30_infTermDescarreg = [
-            (0, 0, {"unloading_harbor": "BRAFU"}),
-            (0, 0, {"unloading_harbor": "BRBZC"}),
+            Command.create({"unloading_harbor": "BRAFU"}),
+            Command.create({"unloading_harbor": "BRBZC"}),
         ]
 
     def prepare_modal_ferroviario_data(self, mdfe):
@@ -187,9 +188,7 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_xDest = "TES"
         mdfe.mdfe30_qVag = 2
         mdfe.mdfe30_vag = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "mdfe30_pesoBC": 500,
                     "mdfe30_pesoR": 1,
@@ -200,9 +199,7 @@ class TestMDFeSerialize(TransactionCase):
                     "mdfe30_TU": 1,
                 },
             ),
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "mdfe30_pesoBC": 500,
                     "mdfe30_pesoR": 1,
