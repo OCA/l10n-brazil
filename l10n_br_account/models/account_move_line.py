@@ -4,7 +4,7 @@
 
 from contextlib import contextmanager
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.tools import frozendict
 
 
@@ -438,8 +438,8 @@ class AccountMoveLine(models.Model):
                             tax["analytic"] or not tax["use_in_tax_closing"]
                         )
                         and line.analytic_distribution,
-                        "tax_ids": [(6, 0, tax["tax_ids"])],
-                        "tax_tag_ids": [(6, 0, tax["tag_ids"])],
+                        "tax_ids": [Command.set(tax["tax_ids"])],
+                        "tax_tag_ids": [Command.set(tax["tag_ids"])],
                         "partner_id": line.move_id.partner_id.id or line.partner_id.id,
                         "move_id": line.move_id.id,
                         "display_type": line.display_type,
@@ -458,7 +458,7 @@ class AccountMoveLine(models.Model):
             }
             if not line.tax_repartition_line_id:
                 line.compute_all_tax[frozendict({"id": line.id})] = {
-                    "tax_tag_ids": [(6, 0, compute_all_currency["base_tags"])],
+                    "tax_tag_ids": [Command.set(compute_all_currency["base_tags"])],
                 }
 
     @api.onchange("fiscal_document_line_id")

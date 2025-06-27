@@ -4,7 +4,7 @@
 import logging
 from unittest import mock
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 from odoo.tests.common import Form
@@ -54,9 +54,9 @@ class TestMoveEdition(TransactionCase):
                 "groups_id": [
                     # we purposely don't give Fiscal access rights now to ensure
                     # non fiscal operations are still allowed
-                    (6, 0, cls.env.user.groups_id.ids),
-                    (4, cls.env.ref("account.group_account_manager").id),
-                    (4, cls.env.ref("account.group_account_user").id),
+                    Command.set(cls.env.user.groups_id.ids),
+                    Command.link(cls.env.ref("account.group_account_manager").id),
+                    Command.link(cls.env.ref("account.group_account_user").id),
                 ],
             }
         )
@@ -64,7 +64,7 @@ class TestMoveEdition(TransactionCase):
         companies = cls.env["res.company"].search([])
         cls.user.write(
             {
-                "company_ids": [(6, 0, companies.ids)],
+                "company_ids": [Command.set(companies.ids)],
                 "company_id": cls.company.id,
             }
         )
