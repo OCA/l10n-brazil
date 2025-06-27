@@ -7,7 +7,7 @@ from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import punctuation_rm
 
-from odoo import api, fields, models
+from odoo import Command, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -119,7 +119,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "company_type": "company",
         }
         if self.child_ids:
-            values_to_update["child_ids"] = [(6, 0, self.child_ids.ids)]
+            values_to_update["child_ids"] = [Command.set(self.child_ids.ids)]
 
         non_empty_values = {
             key: value for key, value in values_to_update.items() if value
