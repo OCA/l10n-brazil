@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import Command, models
 
 
 class StockInvoiceOnshipping(models.TransientModel):
@@ -88,7 +88,7 @@ class StockInvoiceOnshipping(models.TransientModel):
             return values
 
         sale_line_id = moves.sale_line_id
-        values["sale_line_ids"] = [(6, 0, sale_line_id.ids)]
+        values["sale_line_ids"] = [Command.set(sale_line_id.ids)]
         sale_line_id = moves.sale_line_id
         analytic_account_id = sale_line_id.order_id.analytic_account_id.id
         if sale_line_id.analytic_distribution and not sale_line_id.display_type:
