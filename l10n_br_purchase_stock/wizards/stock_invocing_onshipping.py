@@ -2,7 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models
+from odoo import Command, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
 
@@ -193,7 +193,7 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         for line in section_note_lines:
             line_vals = line._prepare_account_move_line()
-            invoice_values["invoice_line_ids"].append((0, 0, line_vals))
+            invoice_values["invoice_line_ids"].append(Command.create(line_vals))
 
         # Resequence
         for ln in invoice_values["invoice_line_ids"]:
