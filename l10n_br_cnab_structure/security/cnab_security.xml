@@ -16,11 +16,14 @@
     </record>
 
     <record id="base.user_admin" model="res.users">
-        <field name="groups_id" eval="[(4, ref('group_cnab_constructor'))]" />
+        <field name="groups_id" eval="[Command.link(ref('group_cnab_constructor'))]" />
     </record>
 
     <record id="base.group_system" model="res.groups">
-        <field name="implied_ids" eval="[(4, ref('group_cnab_constructor'))]" />
+        <field
+            name="implied_ids"
+            eval="[Command.link(ref('group_cnab_constructor'))]"
+        />
     </record>
 
 </odoo>
