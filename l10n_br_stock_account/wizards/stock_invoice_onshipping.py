@@ -1,7 +1,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -179,7 +179,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         # TODO: Analisar se isso é um problema da Localização e se existe
         #  alguma forma de resolver, por enquanto está sendo informado
         #  novamente aqui
-        values["tax_ids"] = [(6, 0, move.tax_ids.ids)]
+        values["tax_ids"] = [Command.set(move.tax_ids.ids)]
 
         return values
 
