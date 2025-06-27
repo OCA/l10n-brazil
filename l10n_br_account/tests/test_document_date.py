@@ -5,6 +5,7 @@ from datetime import datetime, time, timedelta
 
 from pytz import UTC, timezone
 
+from odoo import Command
 from odoo.tests import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
@@ -19,7 +20,7 @@ class TestInvoiceDiscount(TransactionCase):
 
         # set default user company
         companies = cls.env["res.company"].search([])
-        cls.env.user.company_ids = [(6, 0, companies.ids)]
+        cls.env.user.company_ids = [Command.set(companies.ids)]
         cls.env.user.company_id = cls.company
 
         cls.invoice_account_id = cls.env["account.account"].create(
