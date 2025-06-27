@@ -6,6 +6,7 @@ from unittest import mock
 
 from erpbrasil.assinatura import misc
 
+from odoo import Command
 from odoo.fields import Datetime
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -159,19 +160,15 @@ class TestNFCe(TestNFeExport):
     def test_prepare_nfce_payment(self):
         amount = self.document_id.amount_financial_total / 2
         self.document_id.nfe40_detPag = [
-            (5, 0, 0),
-            (
-                0,
-                0,
+            Command.clear(),
+            Command.create(
                 {
                     "nfe40_indPag": "0",
                     "nfe40_tPag": "99",
                     "nfe40_vPag": amount,
                 },
             ),
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "nfe40_indPag": "0",
                     "nfe40_tPag": "99",
@@ -204,10 +201,8 @@ class TestNFCe(TestNFeExport):
         self.assertEqual(line1["product_unit_total"], 320)
 
         self.document_id.nfe40_detPag = [
-            (5, 0, 0),
-            (
-                0,
-                0,
+            Command.clear(),
+            Command.create(
                 {
                     "nfe40_indPag": "1",
                     "nfe40_tPag": "01",

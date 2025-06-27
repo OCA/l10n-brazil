@@ -16,12 +16,18 @@
 
     <record id="group_manager" model="res.groups">
         <field name="name">NFe Manager</field>
-        <field name="implied_ids" eval="[(4, ref('l10n_br_nfe.group_user'))]" />
+        <field
+            name="implied_ids"
+            eval="[Command.link(ref('l10n_br_nfe.group_user'))]"
+        />
         <field name="category_id" ref="l10n_br_nfe.module_category_l10n_br_nfe" />
     </record>
 
     <record id="base.user_admin" model="res.users">
-        <field name="groups_id" eval="[(4, ref('l10n_br_nfe.group_manager'))]" />
+        <field
+            name="groups_id"
+            eval="[Command.link(ref('l10n_br_nfe.group_manager'))]"
+        />
     </record>
 
 
