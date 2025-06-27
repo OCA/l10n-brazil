@@ -1,7 +1,7 @@
 # Copyright (C) 2024 Diego Paradeda - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -42,7 +42,7 @@ class StockGenerateVolumes(models.TransientModel):
 
         picking_id = self._load_picking_id()
         vols_data = picking_id.prepare_vols_data_from_picking()
-        vol_ids = [(0, 0, vol) for vol in vols_data]
+        vol_ids = [Command.create(vol) for vol in vols_data]
 
         result["vol_ids"] = vol_ids
         return result
