@@ -154,12 +154,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__nfe_environment
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__nfe_environment
-msgid "Ambiente"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vProd
 msgid "Amount without discount."
 msgstr ""
@@ -182,18 +176,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_arma
 msgid "Armamentos"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__file
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__file
-msgid "Arquivo"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__sign_xml
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__sign_xml
-msgid "Assinar XML"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -606,7 +588,6 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__company_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__company_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__company_id
 msgid "Company"
@@ -731,10 +712,6 @@ msgid "Country state"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__create_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__create_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__create_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__create_uid
@@ -742,10 +719,6 @@ msgid "Created by"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__create_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__create_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__create_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__create_date
@@ -1313,10 +1286,6 @@ msgid "Digest Value"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__display_name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__display_name
@@ -1375,12 +1344,6 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__document
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__document
-msgid "Documento"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Documento Auxiliar da Nota Fiscal do Consumidor Eletrônica"
 msgstr ""
@@ -1399,11 +1362,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_account_product_nfe_export
-msgid "Eletronic Fiscal Document Export"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1495,12 +1453,6 @@ msgid "Entrega"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice_result__status__error
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_result__status__error
-msgid "Erro"
-msgstr ""
-
-#. module: l10n_br_nfe
 #. odoo-python
 #: code:addons/l10n_br_nfe/models/mde.py:0
 #, python-format
@@ -1571,11 +1523,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_import_xml_form
 msgid "Existing Document"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_account_product_nfe_export_invoice
-msgid "Export eletronic invoice"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1839,8 +1786,6 @@ msgid "Here you can create NF-es"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export__nfe_environment__2
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice__nfe_environment__2
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_environment__2
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_environment__2
 msgid "Homologação"
@@ -1947,10 +1892,6 @@ msgid "ICMSST"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__id
@@ -2130,11 +2071,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.actions.act_window,name:l10n_br_nfe.l10n_br_nfe_import_xml_action
 msgid "Importar NF-e XML"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__import_status_draft
-msgid "Importar NFs com status em rascunho"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2539,10 +2475,6 @@ msgid "Justification"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result____last_update
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde____last_update
@@ -2550,10 +2482,6 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__write_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__write_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__write_uid
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__write_uid
@@ -2561,10 +2489,6 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__write_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__write_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__write_date
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__write_date
@@ -2646,12 +2570,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
 msgid "Meio de Pagamento"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__message
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__message
-msgid "Mensagem"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2830,17 +2748,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_environment
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_environment
 msgid "NFe Environment"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_account_product_nfe_export_invoice_result
-msgid "NFe Export Invoice Result"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__nfe_export_result
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__nfe_export_result
-msgid "NFe Export Result"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3053,12 +2960,6 @@ msgstr ""
 #: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
 #, python-format
 msgid "No xml file was found."
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__name
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__name
-msgid "Nome"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3576,11 +3477,6 @@ msgid "Product Internal Reference"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_account_product_nfe_export_result
-msgid "Product NFe Export Result"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_name
 msgid "Product Name"
 msgstr ""
@@ -3606,8 +3502,6 @@ msgid "Produto Normal"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export__nfe_environment__1
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice__nfe_environment__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_environment__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_environment__1
 msgid "Produção"
@@ -3808,12 +3702,6 @@ msgid "Rps Number"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__export_folder
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__export_folder
-msgid "Salvar na Pasta de Exportação"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__operation_type__1
 msgid "Saída"
 msgstr ""
@@ -3907,16 +3795,8 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__status
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__status
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_status
 msgid "Status"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice_result__status__success
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_result__status__success
-msgid "Sucesso"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4093,12 +3973,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_veicprod__nfe40_tpVeic
 msgid "Tipo de veículo (utilizar tabela RENAVAM)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__file_type
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__file_type
-msgid "Tipo do Arquivo"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4802,20 +4676,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice_result__wizard_id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_result__wizard_id
-msgid "Wizard ID"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_import_wizard_mixin
 msgid "Wizard Import Document Mixin"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export__file_type__xml
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice__file_type__xml
-msgid "XML"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4853,12 +4715,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tretconsrecinfe__nfe40_cUF
 msgid "código da UF de atendimento"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export__state__done
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice__state__done
-msgid "done"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4901,12 +4757,6 @@ msgstr ""
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_impostodevol
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_impostoDevol
 msgid "impostoDevol"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export__state__init
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_account_product_nfe_export_invoice__state__init
-msgid "init"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -5086,12 +4936,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_choice_nfref
 msgid "refNFe/refNF/refNFP/refCTe/refECF"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export__state
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_account_product_nfe_export_invoice__state
-msgid "state"
 msgstr ""
 
 #. module: l10n_br_nfe
