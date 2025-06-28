@@ -4,7 +4,7 @@
 {
     "name": "MDFe",
     "summary": """Brazilian Eletronic Invoice MDF-e""",
-    "version": "16.0.1.2.0",
+    "version": "16.0.1.2.1",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "KMEE,Escodoo,Odoo Community Association (OCA)",
