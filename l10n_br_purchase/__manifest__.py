@@ -28,7 +28,7 @@
         "demo/product.xml",
         "demo/l10n_br_purchase.xml",
     ],
-    "installable": True,
+    "installable": False,
     "post_init_hook": "post_init_hook",
     "auto_install": False,
 }

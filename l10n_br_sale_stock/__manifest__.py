@@ -20,6 +20,6 @@
         "demo/l10n_br_sale_stock_demo.xml",
         "demo/sale_order_demo.xml",
     ],
-    "installable": True,
+    "installable": False,
     "auto_install": True,
 }
