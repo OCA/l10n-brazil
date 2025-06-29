@@ -87,7 +87,7 @@
         "demo/res_users.xml",
         "demo/account_payment_order.xml",
     ],
-    "installable": False,
+    "installable": True,
     "external_dependencies": {
         "python": [
             "erpbrasil.base>=2.3.0",
