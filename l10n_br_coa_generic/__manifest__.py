@@ -7,7 +7,7 @@
         (Micro e pequenas empresas)""",
     "category": "Accounting/Localizations/Account Charts",
     "license": "AGPL-3",
-    "author": "KMEE, " "Odoo Community Association (OCA)",
+    "author": "KMEE, Odoo Community Association (OCA)",
     "maintainers": ["mileo"],
     "development_status": "Production/Stable",
     "website": "https://github.com/OCA/l10n-brazil",
