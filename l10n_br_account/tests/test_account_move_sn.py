@@ -1,17 +1,34 @@
 # Copyright 2023 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
+
 from odoo import fields
 from odoo.tests.common import tagged
 
 from .common import AccountMoveBRCommon
 
+_logger = logging.getLogger(__name__)
+
 
 @tagged("post_install", "-at_install")
 class AccountMoveSimpleNacional(AccountMoveBRCommon):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpClass(
+        cls, chart_template_ref="l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
+    ):
+        try:
+            super().setUpClass(chart_template_ref=chart_template_ref)
+            _logger.info(f"using {chart_template_ref}")
+        except ValueError:
+            _logger.info(
+                f"it seems {chart_template_ref} is not available, "
+                "falling back to l10n_generic_coa.configurable_chart_template."
+            )
+            super().setUpClass()
+            cls.company_data["company"].chart_template_id.sudo().load_fiscal_taxes(
+                companies=[cls.company_data["company"]]
+            )
 
         cls.icms_tax_definition_empresa_simples_nacional = cls.env[
             "l10n_br_fiscal.tax.definition"
@@ -51,13 +68,10 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
     def setup_company_data(cls, company_name, chart_template=None, **kwargs):
         if company_name == "company_1_data":
             company_name = "empresa 1 Simples Nacional"
-        else:
+
+        elif company_name == "company_2_data":
             company_name = "empresa 2 Simples Nacional"
 
-        # tests should run both with l10n_generic_coa and
-        # chart_template = cls.env.ref(
-        #     "l10n_br_coa_generic.l10n_br_coa_simple"
-        # )
         res = super().setup_company_data(
             company_name,
             chart_template,

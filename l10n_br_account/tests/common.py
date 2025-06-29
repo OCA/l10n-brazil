@@ -214,8 +214,6 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         company_data_dict = super().setup_company_data(
             company_name, chart_template=chart_template, **kwargs
         )
-        company = company_data_dict["company"]
-        company.chart_template_id.sudo().load_fiscal_taxes(companies=[company])
         return company_data_dict
 
     @classmethod
