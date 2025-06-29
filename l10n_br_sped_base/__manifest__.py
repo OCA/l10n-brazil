@@ -12,6 +12,7 @@
     "depends": ["l10n_br_fiscal"],
     "maintainers": ["rvalyi"],
     "development_status": "Alpha",
+    "installable": False,
     "data": [
         "views/sped_base.xml",
     ],
