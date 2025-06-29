@@ -15,7 +15,7 @@
         "security/ir.model.access.csv",
         "views/closing.xml",
     ],
-    "installable": True,
+    "installable": False,
     "external_dependencies": {
         "python": [
             "erpbrasil.base>=2.3.0",
