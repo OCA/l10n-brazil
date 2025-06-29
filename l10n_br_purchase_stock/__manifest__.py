@@ -22,6 +22,6 @@
     "demo": [
         "demo/purchase_order.xml",
     ],
-    "installable": False,
+    "installable": True,
     "auto_install": True,
 }
