@@ -41,7 +41,7 @@
         "demo/fiscal_document_demo.xml",
     ],
     "post_init_hook": "post_init_hook",
-    "installable": False,
+    "installable": True,
     "auto_install": False,
     "external_dependencies": {
         "python": [

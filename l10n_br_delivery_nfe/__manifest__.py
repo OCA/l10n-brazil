@@ -29,6 +29,6 @@
         "views/product_template_view.xml",
         "views/stock_picking_view.xml",
     ],
-    "installable": False,
+    "installable": True,
     "auto_install": True,
 }

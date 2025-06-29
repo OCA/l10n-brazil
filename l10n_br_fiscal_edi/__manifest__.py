@@ -35,5 +35,5 @@
         # Wizards
         "wizards/document_import_wizard_mixin.xml",
     ],
-    "installable": False,
+    "installable": True,
 }
