@@ -59,33 +59,40 @@ class AccountChartTemplate(models.Model):
                 )
 
             for company in companies:
-                tpl_xmlid = coa_tpl.get_external_id()[coa_tpl.id]
-                if tpl_xmlid not in (  # we could simplify the data of these templates
-                    "l10n_br_coa_simple.l10n_br_coa_simple_chart_template",
-                    "l10n_br_coa_generic.l10n_br_coa_generic",
-                ):
-                    # 1. is there some account.tax to create from tax template?
-                    todo_tax_templates = self.env["account.tax.template"]
-                    for tax_template in self.env["account.tax.template"].search([]):
-                        ref = tax_template.get_external_id()[tax_template.id]
-                        module, name = ref.split(".", 1)
-                        xml_id = f"{module}.{company.id}_{name}"
-                        tax = self.env.ref(xml_id, raise_if_not_found=False)
-                        if tax is None:
-                            todo_tax_templates |= tax_template
-                    todo_tax_templates._generate_tax(company)
+                # 1. is there some account.tax to create from tax template?
+                todo_tax_templates = self.env["account.tax.template"]
+                for tax_template in self.env["account.tax.template"].search([]):
+                    ref = tax_template.get_external_id()[tax_template.id]
+                    module, name = ref.split(".", 1)
+                    xml_id = f"{module}.{company.id}_{name}"
+                    tax = self.env.ref(xml_id, raise_if_not_found=False)
+                    if tax is None:
+                        todo_tax_templates |= tax_template
+                todo_tax_templates.sudo()._generate_tax(company)
 
-                    # 2. ensure the CoA has the minimal tax accounts
-                    _logger.info(
-                        _(
-                            "Company %(company_name)s: generated taxes for "
-                            "%(templates)s. "
-                            "Will now populate default tax accounts for Brazil...",
-                            company_name=company.name,
-                            templates=todo_tax_templates.mapped("name"),
-                        )
+                # 2. ensure the CoA has the minimal tax accounts
+                _logger.info(
+                    _(
+                        "Company %(company_name)s: generated taxes for "
+                        "%(templates)s. "
+                        "Will now populate default tax accounts for Brazil...",
+                        company_name=company.name,
+                        templates=todo_tax_templates.mapped("name"),
                     )
-                    self._populate_default_br_tax_accounts(company)
+                )
+                tpl_xmlid = coa_tpl.get_external_id()[coa_tpl.id]
+                if tpl_xmlid == "l10n_br_coa_simple.l10n_br_coa_simple_chart_template":
+                    self.sudo()._populate_default_br_tax_accounts(
+                        company, flavor="itg", review_suffix=""
+                    )
+                elif tpl_xmlid == "l10n_br_coa_generic.l10n_br_coa_generic_template":
+                    self.sudo()._populate_default_br_tax_accounts(
+                        company, flavor="cfc", review_suffix=""
+                    )
+                else:
+                    self.sudo()._populate_default_br_tax_accounts(
+                        company, flavor="cfc" if company.tax_framework == "3" else "itg"
+                    )
 
                 # 3. link l10n_br_fiscal.tax records so the tax engine can kick in
                 taxes = self.env["account.tax"].search(
@@ -94,6 +101,8 @@ class AccountChartTemplate(models.Model):
                 for tax in taxes:
                     if tax.get_external_id():
                         tax_ref = tax.get_external_id().get(tax.id)
+                        if not tax_ref:
+                            continue
                         ref_module, ref_name = tax_ref.split(".")
                         ref_name = ref_name.replace(str(company.id) + "_", "")
                         template_source_ref = ".".join(["l10n_br_coa", ref_name])
