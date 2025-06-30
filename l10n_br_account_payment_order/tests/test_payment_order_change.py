@@ -65,6 +65,55 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
             ).ids
         ), "Payment Order with wrong instruction_move_code_id"
 
+    def test_change_discount_date_multiple(self):
+        """Test creation of a Payment Order and change MULTIPLE discount dates"""
+        self._invoice_payment_order_all_workflow(self.invoice_auto)
+        old_discount_dates = self.financial_move_line_ids.mapped("date")
+        new_discount_date = date.today() + timedelta(days=90)
+
+        with Form(
+            self._prepare_change_view(self.financial_move_line_ids),
+            view=self.chance_view_id,
+        ) as f:
+            f.change_type = "change_discount_date"
+            f.date = new_discount_date
+        change_wizard = f.save()
+        change_wizard.doit()
+
+        for line in self.financial_move_line_ids:
+            self.assertEqual(
+                line.date,
+                new_discount_date,
+                "Discount date was not updated for one or more lines",
+            )
+        self.assertIn(
+            new_discount_date,
+            self.financial_move_line_ids.mapped("date"),
+            "Discount date not found in any of the move lines",
+        )
+        self.assertNotEqual(
+            old_discount_dates[0],
+            new_discount_date,
+            "Discount date was not actually changed",
+        )
+
+        change_payment_order = self.env["account.payment.order"].search(
+            [
+                ("state", "=", "draft"),
+                ("payment_mode_id", "=", self.invoice_auto.payment_mode_id.id),
+            ]
+        )
+        self._payment_order_all_workflow(change_payment_order)
+
+        assert (
+            self.env.ref(
+                "l10n_br_account_payment_order.manual_test_mov_instruction_code_16"
+            ).id
+            in change_payment_order.payment_line_ids.mapped(
+                "instruction_move_code_id"
+            ).ids
+        ), "Payment Order with wrong instruction_move_code_id"
+
     def test_change_date_maturity_one(self):
         """Test Creation of a Payment Order an change ONE due date"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
@@ -100,6 +149,49 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         assert (
             self.env.ref(
                 "l10n_br_account_payment_order.manual_test_mov_instruction_code_06"
+            ).id
+            in change_payment_order.payment_line_ids.mapped(
+                "instruction_move_code_id"
+            ).ids
+        ), "Payment Order with wrong instruction_move_code_id"
+
+    def test_change_discount_date_one(self):
+        """Test creation of a Payment Order and change ONE discount date"""
+        self._invoice_payment_order_all_workflow(self.invoice_auto)
+        old_discount_date = self.financial_move_line_0.date
+        new_discount_date = date.today() + timedelta(days=10)
+
+        with Form(
+            self._prepare_change_view(self.financial_move_line_0),
+            view=self.chance_view_id,
+        ) as f:
+            f.change_type = "change_discount_date"
+            f.date = new_discount_date
+        change_wizard = f.save()
+        change_wizard.doit()
+
+        self.assertEqual(
+            self.env["account.move.line"].browse(self.financial_move_line_0.id).date,
+            new_discount_date,
+            "Discount date was not updated",
+        )
+        self.assertNotEqual(
+            old_discount_date,
+            new_discount_date,
+            "Discount date was not actually changed",
+        )
+
+        change_payment_order = self.env["account.payment.order"].search(
+            [
+                ("state", "=", "draft"),
+                ("payment_mode_id", "=", self.invoice_auto.payment_mode_id.id),
+            ]
+        )
+        self._payment_order_all_workflow(change_payment_order)
+
+        assert (
+            self.env.ref(
+                "l10n_br_account_payment_order.manual_test_mov_instruction_code_16"
             ).id
             in change_payment_order.payment_line_ids.mapped(
                 "instruction_move_code_id"

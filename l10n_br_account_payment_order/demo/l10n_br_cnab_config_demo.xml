@@ -841,6 +841,10 @@
             name="change_maturity_date_code_id"
             ref="manual_test_mov_instruction_code_06"
         />
+        <field
+            name="change_discount_date_code_id"
+            ref="manual_test_mov_instruction_code_16"
+        />
         <field name="protest_title_code_id" ref="manual_test_mov_instruction_code_09" />
         <field
             name="suspend_protest_keep_wallet_code_id"
@@ -898,6 +902,10 @@
         <field
             name="change_maturity_date_code_id"
             ref="manual_test_mov_instruction_code_06"
+        />
+        <field
+            name="change_discount_date_code_id"
+            ref="manual_test_mov_instruction_code_16"
         />
         <field name="protest_title_code_id" ref="manual_test_mov_instruction_code_09" />
         <field
