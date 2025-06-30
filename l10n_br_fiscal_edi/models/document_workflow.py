@@ -186,8 +186,6 @@ class DocumentWorkflow(models.AbstractModel):
         elif new_state == SITUACAO_EDOC_INUTILIZADA:
             self._exec_after_SITUACAO_EDOC_INUTILIZADA(old_state, new_state)
 
-        self._generates_subsequent_operations()
-
     def _change_state(self, new_state, force_change=False):
         """Método para alterar o estado do documento fiscal, mantendo a
         integridade do workflow da invoice.
