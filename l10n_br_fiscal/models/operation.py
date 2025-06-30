@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
@@ -180,12 +180,6 @@ class Operation(models.Model):
         string="Comment",
     )
 
-    operation_subsequent_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.subsequent.operation",
-        inverse_name="fiscal_operation_id",
-        string="Subsequent Operation",
-    )
-
     _sql_constraints = [
         (
             "fiscal_operation_code_uniq",
@@ -309,11 +303,6 @@ class Operation(models.Model):
 
         best_line = max(lines, key=score)
         return best_line
-
-    @api.onchange("operation_subsequent_ids")
-    def _onchange_operation_subsequent_ids(self):
-        for sub_operation in self.operation_subsequent_ids:
-            sub_operation.fiscal_operation_id = self.id
 
     def copy(self, default=None):
         """
