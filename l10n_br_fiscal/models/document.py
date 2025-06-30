@@ -6,7 +6,7 @@ from ast import literal_eval
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
-from odoo import Command, _, api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
@@ -54,7 +54,7 @@ class Document(models.Model):
     This model inherits common fields and methods from
     `l10n_br_fiscal.document.mixin` and includes features for document
     numbering, key validation, partner and company fiscal details, line
-    items, and workflows for subsequent document generation and returns.
+    items and returns.
     """
 
     _name = "l10n_br_fiscal.document"
@@ -192,18 +192,6 @@ class Document(models.Model):
     # while state_edoc avoids colliding with the state field
     # of objects where the fiscal mixin might be injected.
     state = fields.Selection(related="state_edoc", string="State")
-
-    document_subsequent_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.subsequent.document",
-        inverse_name="source_document_id",
-        copy=True,
-    )
-
-    document_subsequent_generated = fields.Boolean(
-        string="Subsequent documents generated?",
-        compute="_compute_document_subsequent_generated",
-        default=False,
-    )
 
     transport_modal = fields.Selection(
         selection=[
@@ -455,9 +443,9 @@ class Document(models.Model):
 
             if documents:
                 raise ValidationError(
-                    _(
-                        "There is already a fiscal document with this " "key: {} !"
-                    ).format(record.document_key)
+                    _("There is already a fiscal document with this key: {} !").format(
+                        record.document_key
+                    )
                 )
             else:
                 ChaveEdoc(chave=record.document_key, validar=True)
@@ -602,8 +590,7 @@ class Document(models.Model):
             if not fsc_op:
                 raise ValidationError(
                     _(
-                        "The fiscal operation {} has no return Fiscal "
-                        "Operation defined"
+                        "The fiscal operation {} has no return Fiscal Operation defined"
                     ).format(record.fiscal_operation_id)
                 )
 
@@ -676,72 +663,10 @@ class Document(models.Model):
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         result = super()._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id:
+            self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
+
         if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
             self.document_type_id = self.company_id.document_type_id
 
-        subsequent_documents = [Command.set({})]
-        for subsequent_id in self.fiscal_operation_id.mapped(
-            "operation_subsequent_ids"
-        ):
-            subsequent_documents.append(
-                (
-                    0,
-                    0,
-                    {
-                        "source_document_id": self.id,
-                        "subsequent_operation_id": subsequent_id.id,
-                        "fiscal_operation_id": subsequent_id.subsequent_operation_id.id,
-                    },
-                )
-            )
-        self.document_subsequent_ids = subsequent_documents
         return result
-
-    def _prepare_referenced_subsequent(self, doc_referenced):
-        self.ensure_one()
-        return {
-            "document_id": self.id,
-            "document_related_id": doc_referenced.id,
-            "document_type_id": doc_referenced.document_type_id.id,
-            "document_serie": doc_referenced.document_serie,
-            "document_number": doc_referenced.document_number,
-            "document_date": doc_referenced.document_date,
-            "document_key": doc_referenced.document_key,
-        }
-
-    def _document_reference(self, documents_referenced):
-        self.ensure_one()
-        for doc_referenced in documents_referenced:
-            self.env["l10n_br_fiscal.document.related"].create(
-                self._prepare_referenced_subsequent(doc_referenced)
-            )
-
-    @api.depends("document_subsequent_ids.subsequent_document_id")
-    def _compute_document_subsequent_generated(self):
-        for document in self:
-            if not document.document_subsequent_ids:
-                document.document_subsequent_generated = False
-            else:
-                document.document_subsequent_generated = all(
-                    subsequent_id.operation_performed
-                    for subsequent_id in document.document_subsequent_ids
-                )
-
-    def _generates_subsequent_operations(self):
-        for record in self.filtered(lambda doc: not doc.document_subsequent_generated):
-            for subsequent_id in record.document_subsequent_ids.filtered(
-                lambda doc_sub: doc_sub._confirms_document_generation()
-            ):
-                subsequent_id.generate_subsequent_document()
-
-    def cancel_edoc(self):
-        self.ensure_one()
-        if any(
-            doc.state_edoc == SITUACAO_EDOC_AUTORIZADA
-            for doc in self.document_subsequent_ids.mapped("document_subsequent_ids")
-        ):
-            message = _(
-                "Canceling the document is not allowed: one or more "
-                "associated documents have already been authorized."
-            )
-            raise UserWarning(message)

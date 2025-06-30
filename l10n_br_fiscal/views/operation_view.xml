@@ -126,13 +126,6 @@
                                 </form>
                             </field>
                         </page>
-                        <page name="subsequent_operation" string="Operations">
-                            <group>
-                                <field name="return_fiscal_operation_id" />
-                                <field name="inverse_fiscal_operation_id" />
-                            </group>
-                            <field name="operation_subsequent_ids" />
-                        </page>
                         <page name="notes" string="Notes">
                             <field name="comment_ids" />
                         </page>
