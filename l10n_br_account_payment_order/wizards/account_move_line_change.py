@@ -30,6 +30,7 @@ class AccountMoveLineCNABChange(models.TransientModel):
     # Muitas opções são permitidas, verificar manual do respectivo CNAB usado.
     change_type = fields.Selection(
         selection=[
+            ("change_discount_date", "Data de Desconto"),
             ("change_date_maturity", "Vencimento"),
             # TODO: É preciso mais detalhes dessa operação ao enviar fora o
             #  codigo de alteração e carteira o que mais deve ir ?
@@ -53,7 +54,7 @@ class AccountMoveLineCNABChange(models.TransientModel):
         ],
         string="Tipo Alteração",
     )
-    date_maturity = fields.Date()
+    date = fields.Date()
     payment_mode_id = fields.Many2one(comodel_name="account.payment.mode")
     reason = fields.Text(string="Justificativa")
     rebate_value = fields.Float(string="Valor de Abatimento")
@@ -63,7 +64,7 @@ class AccountMoveLineCNABChange(models.TransientModel):
         self.account_move_line_ids._identify_cnab_change(
             change_type=self.change_type,
             reason=self.reason,
-            new_date=self.date_maturity,
+            new_date=self.date,
             new_payment_mode_id=self.payment_mode_id,
             rebate_value=self.rebate_value,
             discount_value=self.discount_value,
