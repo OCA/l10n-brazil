@@ -150,12 +150,6 @@ msgid "CNAE Code"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__cnpj_cpf
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
-msgid "CNPJ/CPF"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_percent
 msgid "COFINS %"
 msgstr ""
@@ -1114,11 +1108,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
-msgid "Inscr. Estadual"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__insurance_endorsement
 msgid "Insurance Endorsement"
 msgstr ""
@@ -1153,11 +1142,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_key
 msgid "Key"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__legal_name
-msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1478,11 +1462,6 @@ msgid "Public Entity"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
-msgid "Razão Social"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_receivering_id
 msgid "Receiver Address"
 msgstr ""
@@ -1540,11 +1519,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__sale_fiscal_operation_id
 msgid "Standard Sales Fiscal Operation"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ie
-msgid "State Tax Number/RG"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1790,11 +1764,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_untaxed
 msgid "Untaxed Amount"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__legal_name
-msgid "Used in fiscal documents"
 msgstr ""
 
 #. module: l10n_br_sale
