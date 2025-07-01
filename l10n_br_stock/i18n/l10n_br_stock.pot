@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_stock
-#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__cnpj_cpf
-msgid "CNPJ/CPF"
-msgstr ""
-
-#. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_out
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_out
 msgid "Delivery Orders"
