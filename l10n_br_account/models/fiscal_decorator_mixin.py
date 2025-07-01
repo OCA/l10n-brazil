@@ -63,6 +63,10 @@ class FiscalDecoratorMixin(models.AbstractModel):
                         f"it in {self._name}."
                     )
                     continue
+                if isinstance(field.compute, str) and not hasattr(
+                    self.__class__, field.compute
+                ):
+                    continue
 
                 attrs = {
                     "related": field.related,
