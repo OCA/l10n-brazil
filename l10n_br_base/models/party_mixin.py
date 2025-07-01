@@ -5,6 +5,7 @@ from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import api, fields, models
+from odoo.osv import expression
 
 
 class PartyMixin(models.AbstractModel):
@@ -89,6 +90,27 @@ class PartyMixin(models.AbstractModel):
     def _inverse_cnpj_cpf(self):
         for partner in self:
             partner.vat = cnpj_cpf.formata(str(self.cnpj_cpf))
+
+    @api.model
+    def search(self, domain, offset=0, limit=None, order=None, count=False):
+        """in the case of a simple search with only OR terms and a vat ilike condition,
+        inject the possibility to match the cnpj_cpf_stripped field.
+        """
+        if not any(term == "&" for term in domain) and not self._context.get(
+            "no_stripped_match"
+        ):
+            for term in domain:
+                if (
+                    isinstance(term, list | tuple)
+                    and len(term) == 3
+                    and term[0] == "vat"
+                    and term[1] == "ilike"
+                ):
+                    domain = expression.OR(
+                        [domain, [("cnpj_cpf_stripped", "ilike", term[2])]]
+                    )
+                    break
+        return super().search(domain, offset, limit, order, count)
 
     @api.onchange("cnpj_cpf")
     def _onchange_cnpj_cpf(self):  # TODO, see comment bellow
