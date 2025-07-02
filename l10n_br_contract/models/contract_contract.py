@@ -1,7 +1,8 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class ContractContract(models.Model):
@@ -108,6 +109,7 @@ class ContractContract(models.Model):
         :return: list of dictionaries (inv_ids)
         """
         super_inv_vals = super()._prepare_recurring_invoices_values(date_ref=date_ref)
+        # TODO adapt for multi-countries
 
         if not self.fiscal_operation_id:
             for inv_val in super_inv_vals:
@@ -135,6 +137,8 @@ class ContractContract(models.Model):
                 operation_line_id = self.env["l10n_br_fiscal.operation.line"].browse(
                     inv_line[2].get("fiscal_operation_line_id")
                 )
+                if not operation_line_id:
+                    raise UserError(_("The contract has no fiscal operation defined!"))
 
                 fiscal_document_type = operation_line_id.get_document_type(
                     self.company_id
