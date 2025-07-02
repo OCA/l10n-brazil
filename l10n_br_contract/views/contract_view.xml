@@ -11,6 +11,12 @@
             <field name="fiscal_position_id" position="after">
                 <field name="country_id" invisible="1" />
                 <field
+                    name="company_id"
+                    invisible="1"
+                    groups="!base.group_multi_company"
+                />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field
                     name="fiscal_operation_id"
                     options="{'no_create': True}"
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
@@ -40,8 +46,8 @@
                 <attribute name="editable" />
             </xpath>
             <xpath
-                expr="//field[@name='contract_line_fixed_ids']/tree/button"
-                position="before"
+                expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='last_date_invoiced']"
+                position="after"
             >
                 <field name="country_id" invisible="1" />
                 <field

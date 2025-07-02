@@ -44,7 +44,7 @@ class ContractLine(models.Model):
 
     line_recurrence = fields.Boolean(related="contract_id.line_recurrence")
 
-    def _prepare_invoice_line(self, move_form):
+    def _prepare_invoice_line(self):
         self.ensure_one()
 
         contract = self.contract_id
@@ -52,7 +52,7 @@ class ContractLine(models.Model):
         if contract.contract_recalculate_taxes_before_invoice:
             self._onchange_fiscal_operation_id()
 
-        invoice_line_vals = super()._prepare_invoice_line(move_form)
+        invoice_line_vals = super()._prepare_invoice_line()
 
         # Por algum motivo com a localização o campo company_currency_id
         # nao vem em invoice_line_val e isto impacta com o modulo contract
