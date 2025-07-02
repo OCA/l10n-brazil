@@ -10,7 +10,7 @@ from unittest import mock
 from odoo.modules import get_resource_path
 from odoo.tests import Form, tagged
 
-from odoo.addons.l10n_br_account_payment_order.tests.test_base_class import (
+from odoo.addons.l10n_br_account_payment_order.tests.common import (
     TestL10nBrAccountPaymentOder,
 )
 
