@@ -1,10 +1,11 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import Form, SavepointCase
+from odoo.exceptions import UserError
+from odoo.tests.common import Form, TransactionCase
 
 
-class TestL10nBrContract(SavepointCase):
+class TestL10nBrContract(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -12,6 +13,7 @@ class TestL10nBrContract(SavepointCase):
         # Create contract with 3 lines, two resale products and one service
         contract_form = Form(cls.env["contract.contract"])
         contract_form.name = "Test Contract"
+        contract_form.line_recurrence = True
         contract_form.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
 
         cls.contract_id = contract_form.save()
@@ -29,6 +31,20 @@ class TestL10nBrContract(SavepointCase):
 
         # Create Invoice and Fiscal Documents related to the contract
         cls.contract_id.recurring_create_invoice()
+
+    def test_user_error_missing_fiscal_operation(self):
+        contract_form = Form(self.env["contract.contract"])
+        contract_form.name = "Contract Without Fiscal Operation Line"
+        contract_form.line_recurrence = True
+        contract_form.partner_id = self.env.ref("l10n_br_base.res_partner_kmee")
+        contract = contract_form.save()
+
+        with Form(contract) as contract_form:
+            with contract_form.contract_line_ids.new() as line:
+                line.product_id = self.env.ref("product.expense_product")
+
+        with self.assertRaises(UserError):
+            contract.recurring_create_invoice()
 
     def test_created_fiscal_documents(self):
         """

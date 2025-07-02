@@ -88,17 +88,15 @@ class ContractContract(models.Model):
 
     def _prepare_invoice(self, date_invoice, journal=None):
         self.ensure_one()
-        invoice_vals, move_form = super()._prepare_invoice(date_invoice, journal)
+        invoice_vals = super()._prepare_invoice(date_invoice, journal)
         invoice_vals.update(self._prepare_br_fiscal_dict())
-        return invoice_vals, move_form
+        return invoice_vals
 
     def _recurring_create_invoice(self, date_ref=False):
         moves = super()._recurring_create_invoice(date_ref)
 
         for move in moves:
-            move.fiscal_document_id._onchange_document_serie_id()
-            move.fiscal_document_id._onchange_company_id()
-            move._onchange_invoice_line_ids()
+            move.fiscal_document_id._compute_document_serie_id()
 
         return moves
 
