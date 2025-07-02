@@ -17,18 +17,19 @@ Brazilian Localization Contract
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_contract
+    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_contract
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_contract
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_contract
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module was written to extend the functionality of contract module to support the adequacy of Brazilian contract standards
+This module was written to extend the functionality of contract module
+to support the adequacy of Brazilian contract standards
 
 **Table of contents**
 
@@ -50,15 +51,15 @@ Usage
 
 To use this module, you need to:
 
-* Run the core contract flow normally
+- Run the core contract flow normally
 
 Changelog
 =========
 
 14.0.1.0.0 (2022-06-08)
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
-* [MIG] Migração para a versão 14.
+- [MIG] Migração para a versão 14.
 
 Bug Tracker
 ===========
@@ -66,7 +67,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_contract%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_contract%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -74,28 +75,28 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+- `KMEE <https://www.kmee.com.br>`__:
 
-  * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
-  * Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+  - Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+  - Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 
-* `Akretion <https://akretion.com/pt-BR>`_:
+- `Akretion <https://akretion.com/pt-BR>`__:
 
-  * Renato Lima <renato.lima@akretion.com.br>
+  - Renato Lima <renato.lima@akretion.com.br>
 
-* `Escodoo <https://www.escodoo.com.br>`_:
+- `Escodoo <https://www.escodoo.com.br>`__:
 
-  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -118,6 +119,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-mileo| |maintainer-marcelsavegnago| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_contract>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_contract>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
