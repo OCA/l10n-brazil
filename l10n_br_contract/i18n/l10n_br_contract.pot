@@ -1497,6 +1497,12 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_contract
+#: code:addons/l10n_br_contract/models/contract_contract.py:0
+#, python-format
+msgid "The contract has no fiscal operation defined!"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__insurance_endorsement
 msgid ""
 "The endorsement number associated with the insurance policy, indicating any "
