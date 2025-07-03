@@ -20,11 +20,6 @@ _tables_renames = [
     ),
     # l10n_br_fiscal/models/res_company.py: cnae_secondary_ids
     ("res_company_fiscal_cnae_rel", "l10n_br_fiscal_cnae_res_company_rel"),
-    # l10n_br_fiscal/models/product_template.py: tax_definition_ids
-    (
-        "tax_definition_product_rel",
-        "l10n_br_fiscal_tax_definition_product_template_rel",
-    ),
     # l10n_br_fiscal/models/document_mixin.py: comment_ids
     # (Abstract, assumes concrete l10n_br_fiscal.document)
     (
@@ -92,14 +87,6 @@ _columns_renames = {
     "l10n_br_fiscal_cnae_res_company_rel": [
         ("company_id", "res_company_id"),
         ("cnae_id", "l10n_br_fiscal_cnae_id"),
-    ],
-    # tax_definition_product_rel -> l10n_br_fiscal_tax_definition_product_template_rel
-    "l10n_br_fiscal_tax_definition_product_template_rel": [
-        (
-            "product_id",
-            "product_template_id",
-        ),  # Assuming it was product_template's field
-        ("tax_definition_id", "l10n_br_fiscal_tax_definition_id"),
     ],
     # l10n_br_fiscal_document_mixin_comment_rel
     # -> l10n_br_fiscal_comment_l10n_br_fiscal_document_rel
@@ -183,6 +170,43 @@ _columns_renames = {
 }
 
 
+def rename_tables(cr, table_spec):
+    """
+    Rename tables without touching indexes or constraints.
+    Verify that the table exists before renaming it.
+    """
+    for old, new in table_spec:
+        # Check whether the table exists
+        cr.execute("SELECT to_regclass(%s)", (old,))
+        if cr.fetchone()[0] is None:
+            _logger.info(f"Table {old} not found – skipping rename")
+            continue
+
+        _logger.info(f"Renaming table {old} → {new}")
+        openupgrade.logged_query(
+            cr,
+            f"ALTER TABLE {old} RENAME TO {new}",
+        )
+
+
+def rename_columns(cr, column_spec):
+    """
+    Rename columns of existing tables.
+    """
+    for table, columns in column_spec.items():
+        cr.execute("SELECT to_regclass(%s)", (table,))
+        if cr.fetchone()[0] is None:
+            _logger.info(f"Table {table} not found – skipping column renames")
+            continue
+
+        for old, new in columns:
+            _logger.info(f"Renaming {table}.{old} → {new}")
+            openupgrade.logged_query(
+                cr,
+                f"ALTER TABLE {table} RENAME {old} TO {new}",
+            )
+
+
 @openupgrade.migrate()
 def migrate(env, version):
     """
@@ -192,5 +216,5 @@ def migrate(env, version):
     openupgrade.logged_query(
         env.cr, "DROP TABLE l10n_br_fiscal_tax_definition_res_country_state_rel;"
     )  # see https://github.com/OCA/l10n-brazil/issues/3748
-    openupgrade.rename_tables(env.cr, _tables_renames)
-    openupgrade.rename_columns(env.cr, _columns_renames)
+    rename_tables(env.cr, _tables_renames)
+    rename_columns(env.cr, _columns_renames)
