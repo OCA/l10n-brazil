@@ -30,3 +30,13 @@ class TestUi(HttpCase):
         self.assertEqual(record.country_id.code, "BR")
         self.assertEqual(record.state_id.code, "MG")
         self.assertEqual(record.city_id.ibge_code, "3132404")
+
+        record.create_company()
+        partner = self.env["res.partner"].search(
+            [
+                ("name", "=", "Empresa X"),
+            ],
+            limit=1,
+        )
+        self.assertEqual(partner.l10n_br_ie_code, record.l10n_br_ie_code)
+        self.assertEqual(partner.l10n_br_im_code, record.l10n_br_im_code)

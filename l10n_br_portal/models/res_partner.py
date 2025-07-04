@@ -1,6 +1,7 @@
 # Copyright 2023 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+
 from odoo import models
 
 
@@ -9,7 +10,7 @@ class ResPartner(models.Model):
     _inherit = [_name, "l10n_br_base.party.mixin"]
 
     def can_edit_vat(self):
-        can_edit_vat = super(ResPartner, self).can_edit_vat()
+        can_edit_vat = super().can_edit_vat()
         if not can_edit_vat:
             return can_edit_vat
-        return not self.cnpj_cpf
+        return not self.vat
