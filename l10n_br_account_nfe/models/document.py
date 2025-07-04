@@ -40,7 +40,9 @@ class DocumentNfe(models.Model):
 
     @api.depends("move_ids", "move_ids.due_line_ids")
     def _compute_nfe40_dup(self):
-        for rec in self.filtered(lambda x: x._need_compute_nfe40_dup()):
+        for rec in self.filtered(
+            lambda x: x._need_compute_nfe40_dup() and x._is_installment()
+        ):
             dups_vals = []
             for count, mov in enumerate(rec.move_ids.due_line_ids, 1):
                 dups_vals.append(
@@ -81,7 +83,7 @@ class DocumentNfe(models.Model):
         for rec in self.filtered(lambda x: x._need_compute_nfe_tags()):
             if rec._is_without_payment():
                 det_pag_vals = {
-                    "nfe40_indPag": A_VISTA,
+                    "nfe40_indPag": False,
                     "nfe40_tPag": SEM_PAGAMENTO,
                     "nfe40_vPag": 0.00,
                 }
@@ -136,6 +138,10 @@ class DocumentNfe(models.Model):
         if not self.amount_financial_total:
             return True
         if self.nfe40_tpNF == NFE_IN:
+            return True
+        if not self.move_ids.payment_mode_id:
+            return True
+        if self.move_ids.payment_mode_id.fiscal_payment_mode == "90":
             return True
         else:
             return False
