@@ -15,7 +15,7 @@ class L10nBrPortal(CustomerPortal):
         "city_id",
         "district",
         "street_number",
-        "cnpj_cpf",
+        "vat",
         "zipcode",
         "street_name",
     ]
@@ -23,11 +23,11 @@ class L10nBrPortal(CustomerPortal):
         set(CustomerPortal.OPTIONAL_BILLING_FIELDS) - {"state_id"}
     ) + [
         "legal_name",
-        "inscr_est",
-        "inscr_mun",
+        "l10n_br_ie_code",
+        "l10n_br_im_code",
         "street2",
         "mobile",
-        "rg",
+        "l10n_br_rg_code",
     ]
 
     def _prepare_portal_layout_values(self):
@@ -42,11 +42,14 @@ class L10nBrPortal(CustomerPortal):
 
     @http.route(["/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
+        city_id = None
         if post and post.get("city_id"):
-            city_id = request.env["res.city"].sudo().browse(int(post.get("city_id")))
+            city_id = request.env["res.city"].sudo().browse(int(post["city_id"]))
             if city_id:
                 post["city"] = city_id.name
         res = super().account(redirect, **post)
+        if city_id:
+            request.env.user.partner_id.sudo().write({"city_id": city_id.id})
         return res
 
     @http.route("/l10n_br/zip_search", type="json", auth="user", website=True)

@@ -131,7 +131,7 @@ msgid "Mobile"
 msgstr "Celular"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_im_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Municipal Tax Number"
 msgstr "Número da Inscrição Municipal"
@@ -152,7 +152,7 @@ msgid "Phone"
 msgstr "Telefone"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__rg
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_rg_code
 msgid "RG"
 msgstr "RG"
 
@@ -162,7 +162,7 @@ msgid "State / Province"
 msgstr "Estado / Província"
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_ie_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"

@@ -10,7 +10,7 @@ odoo.define("l10n_br_portal.l10n_br_portal", function (require) {
         return $.Deferred().reject("DOM doesn't contain '.o_portal'");
     }
 
-    var cleaveCNPJ = new Cleave(".input-cnpj-cpf", {
+    var cleaveCNPJ = new Cleave(".input-vat", {
         blocks: [2, 3, 3, 4, 2],
         delimiters: [".", ".", "-"],
         numericOnly: true,
