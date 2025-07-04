@@ -1,14 +1,13 @@
 odoo.define("l10n_br_portal.tour", function (require) {
     "use strict";
 
-    var ajax = require("web.ajax");
     var session = require("web.session");
     var tour = require("web_tour.tour");
 
     var domReady = new Promise(function (resolve) {
         $(resolve);
     });
-    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
+    var ready = Promise.all([domReady, session.is_bound]);
 
     tour.register(
         "l10n_br_portal_tour",
@@ -25,7 +24,7 @@ odoo.define("l10n_br_portal.tour", function (require) {
             },
             {
                 content: "Complete CPF",
-                trigger: "input[name='cnpj_cpf']",
+                trigger: "input[name='vat']",
                 run: "text 89604455095",
             },
             {
@@ -34,24 +33,43 @@ odoo.define("l10n_br_portal.tour", function (require) {
                 run: "text Empresa X",
             },
             {
-                content: "Complete Company CNPJ/VAT",
-                trigger: "input[name='vat']",
-                run: "text 34565346000159",
-            },
-            {
                 content: "Complete State Tax Number",
-                trigger: "input[name='inscr_est']",
+                trigger: "input[name='l10n_br_ie_code']",
                 run: "text ISENTO",
             },
             {
                 content: "Complete Municipal Tax Number",
-                trigger: "input[name='inscr_mun']",
+                trigger: "input[name='l10n_br_im_code']",
                 run: "text 12345",
             },
             {
                 content: "Complete ZIP",
                 trigger: "input[name='zipcode']",
                 run: "text 37500015",
+            },
+            {
+                content: "Complete DISTRICT",
+                trigger: "input[name='district']",
+                run: "text Teste",
+            },
+            {
+                content: "Complete NUMBER",
+                trigger: "input[name='street_number']",
+                run: "text 200",
+            },
+            {
+                content: "check country is Brasil",
+                trigger: 'select[name=country_id]:contains("Brazil")',
+                run: function () {
+                    /* Keep empty ... */
+                },
+            },
+            {
+                content: "check state is Minas Gerais",
+                trigger: 'select[name=state_id]:contains("Minas Gerais")',
+                run: function () {
+                    /* Keep empty ... */
+                },
             },
             {
                 content: "check city is Itajubá",
@@ -62,10 +80,7 @@ odoo.define("l10n_br_portal.tour", function (require) {
             },
             {
                 trigger: "button[type='submit']",
-            },
-            {
-                content: "Go /my url",
-                trigger: 'a[href*="/my"]',
+                run: "click",
             },
         ]
     );
