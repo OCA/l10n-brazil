@@ -125,6 +125,7 @@ class DocumentNfe(models.Model):
             and self.amount_financial_total > 0
             and self.nfe40_tpNF == NFE_OUT
             and self.document_type != "65"
+            and self._is_installment()
         ):
             return True
         else:
@@ -136,6 +137,10 @@ class DocumentNfe(models.Model):
         if not self.amount_financial_total:
             return True
         if self.nfe40_tpNF == NFE_IN:
+            return True
+        if not self.move_ids.payment_mode_id:
+            return True
+        if self.move_ids.payment_mode_id.fiscal_payment_mode == "90":
             return True
         else:
             return False
