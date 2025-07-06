@@ -134,6 +134,8 @@
                     domain here that is checked before the dynamic fiscal
                     placeholders kick in.
                 -->
+                <field name="fiscal_operation_type" invisible="1" />
+                <field name="cfop_id" invisible="1" />
                 <field name="tax_framework" invisible="1" />
                 <field name="fiscal_operation_id" invisible="1" />
                 <field name="freight_value" invisible="1" />
