@@ -40,18 +40,20 @@ class DocumentNfe(models.Model):
 
     @api.depends("move_ids", "move_ids.due_line_ids")
     def _compute_nfe40_dup(self):
-        for rec in self.filtered(lambda x: x._need_compute_nfe40_dup()):
-            dups_vals = []
-            for count, mov in enumerate(rec.move_ids.due_line_ids, 1):
-                dups_vals.append(
+        for rec in self:
+            dup_vals = []
+            if rec._need_compute_nfe40_dup():
+                dup_vals = [
                     {
-                        "nfe40_nDup": str(count).zfill(3),
-                        "nfe40_dVenc": mov.date_maturity,
-                        "nfe40_vDup": mov.debit,
+                        "nfe40_nDup": f"{idx:03d}",
+                        "nfe40_dVenc": line.date_maturity,
+                        "nfe40_vDup": line.debit,
                     }
-                )
-            rec.nfe40_dup = [Command.delete(dup.id) for dup in rec.nfe40_dup]
-            rec.nfe40_dup = [Command.create(dup) for dup in dups_vals]
+                    for idx, line in enumerate(rec.move_ids.due_line_ids, 1)
+                ]
+            rec.nfe40_dup = [Command.clear()] + [
+                Command.create(vals) for vals in dup_vals
+            ]
 
     ##########################
     # NF-e tag: Pag
@@ -120,15 +122,16 @@ class DocumentNfe(models.Model):
         return True if len(moves_terms) > 0 else False
 
     def _need_compute_nfe40_dup(self):
-        if (
+        """
+        Return **True** when NF-e 4.0 <dup> (installment) tags must be generated.
+        """
+        return (
             self._need_compute_nfe_tags()
             and self.amount_financial_total > 0
             and self.nfe40_tpNF == NFE_OUT
             and self.document_type != "65"
-        ):
-            return True
-        else:
-            return False
+            and self._is_installment()
+        )
 
     def _is_without_payment(self):
         if self.edoc_purpose in (EDOC_PURPOSE_DEVOLUCAO, EDOC_PURPOSE_AJUSTE):
