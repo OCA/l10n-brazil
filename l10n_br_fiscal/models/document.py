@@ -163,6 +163,9 @@ class Document(models.Model):
         selection=EDOC_PURPOSE,
         string="Finalidade",
         default=EDOC_PURPOSE_NORMAL,
+        compute="_compute_edoc_purpose",
+        store=True,
+        precompute=True,
     )
 
     document_type = fields.Char(
@@ -665,13 +668,14 @@ class Document(models.Model):
         # see https://github.com/OCA/l10n-brazil/pull/3272
         pass
 
+    @api.depends("fiscal_operation_id")
+    def _compute_edoc_purpose(self):
+        for record in self:
+            record.edoc_purpose = record.fiscal_operation_id.edoc_purpose
+
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         result = super()._onchange_fiscal_operation_id()
-        if self.fiscal_operation_id:
-            self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
-            self.edoc_purpose = self.fiscal_operation_id.edoc_purpose
-
         if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
             self.document_type_id = self.company_id.document_type_id
 
