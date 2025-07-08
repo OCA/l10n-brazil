@@ -1,3 +1,3 @@
 To configure this module, you need to:
 
-#. Do nothing
+1.  Do nothing
