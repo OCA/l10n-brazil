@@ -2,10 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 
-class L10nBrSaleInvoicePlanBaseTest(SavepointCase):
+class L10nBrSaleInvoicePlanBaseTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
