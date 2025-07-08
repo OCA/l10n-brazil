@@ -739,13 +739,11 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__a_enviar
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__a_enviar
 msgid "Aguardando envio"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__enviada
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__enviada
 msgid "Aguardando processamento"
 msgstr ""
 
@@ -988,7 +986,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__autorizada
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__autorizada
 msgid "Autorizada"
 msgstr ""
 
@@ -1604,7 +1601,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__cancelada
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__cancelada
 msgid "Cancelada"
 msgstr ""
 
@@ -1626,15 +1622,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Cancelar"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid ""
-"Canceling the document is not allowed: one or more associated documents have"
-" already been authorized."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2054,16 +2041,6 @@ msgid "Create a new Fiscal Partner Profile"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.subsequent_document_action
-msgid "Create a new Subsequent Document"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.subsequent_operation_action
-msgid "Create a new Subsequent operation"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_action
 msgid "Create a new fiscal operation"
 msgstr ""
@@ -2115,8 +2092,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__create_uid
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__create_uid
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__create_uid
@@ -2160,8 +2135,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__create_date
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__create_date
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__create_date
@@ -2365,7 +2338,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__denegada
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__denegada
 msgid "Denegada"
 msgstr ""
 
@@ -2447,8 +2419,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__display_name
@@ -2548,11 +2518,6 @@ msgid "Document Series"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_subsequent_ids
-msgid "Document Subsequent"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
 msgstr ""
@@ -2566,7 +2531,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__document_type_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__operation_document_type_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Document Type"
 msgstr ""
@@ -2630,7 +2594,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__em_digitacao
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__em_digitacao
 msgid "Em digitação"
 msgstr ""
 
@@ -3285,28 +3248,8 @@ msgid "General"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__generation_situation
-msgid "Generation Situation"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "Geral"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__nota_de_cupom
-msgid "Gerar Nota Fiscal de Cupons Fiscais"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__nota_de_remessa
-msgid "Gerar Nota Fiscal de Remessa"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__sequence
-msgid "Gives the sequence order when displaying a list"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -4495,8 +4438,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__id
@@ -5123,7 +5064,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__inutilizada
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__inutilizada
 msgid "Inutilizada"
 msgstr ""
 
@@ -5291,8 +5231,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate____last_update
@@ -5341,8 +5279,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__write_uid
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__write_uid
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__write_uid
@@ -5386,8 +5322,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__write_date
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__write_date
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__write_date
@@ -5546,11 +5480,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__manual_fiscal_additional_data
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__manual_fiscal_additional_data
 msgid "Manual Fiscal Additional Data"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__manual
-msgid "Manualmente"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6210,24 +6139,13 @@ msgid "Operation Name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__operation_performed
-msgid "Operation Performed"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_operation_type
 msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__subsequent_operation_id
-msgid "Operation to be performed"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.operations_config_menu
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 msgid "Operations"
 msgstr ""
 
@@ -6269,11 +6187,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__icms_origin
 msgid "Origin"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__fiscal_operation_id
-msgid "Origin operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6594,7 +6507,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_status_wizard__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__partner_ids
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__partner_id
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_contract__issuer__partner
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__issuer__partner
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__issuer__partner
@@ -7144,11 +7056,6 @@ msgid "Reference"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__reference_document
-msgid "Referencing source document"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "Regime Normal"
 msgstr ""
@@ -7180,7 +7087,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__rejeitada
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_subsequent_operation__generation_situation__rejeitada
 msgid "Rejeitada"
 msgstr ""
 
@@ -7212,11 +7118,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.service_type_form
 msgid "Related Produts"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__fiscal_operation_id
-msgid "Related operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7422,7 +7323,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_comment__sequence
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__internal_sequence_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__sequence
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__sequence
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__sequence
 msgid "Sequence"
@@ -7506,13 +7406,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_shipping_id
 msgid "Shipping Address"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.source_document_tree
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.subsequent_document_tree
-msgid "Show Document"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7601,16 +7494,6 @@ msgid "Source"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.source_document_tree
-msgid "Source Operation"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__source_document_id
-msgid "Source document"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__date_start
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__date_start
 msgid "Start Date"
@@ -7691,33 +7574,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__fiscal_type__05
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__fiscal_type__05
 msgid "Subproduto"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.actions.act_window,name:l10n_br_fiscal.subsequent_document_action
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_subsequent_document
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__subsequent_document_id
-#: model:ir.ui.menu,name:l10n_br_fiscal.subsequent_document_menu
-msgid "Subsequent Document"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.actions.act_window,name:l10n_br_fiscal.subsequent_operation_action
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_subsequent_operation
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__operation_subsequent_ids
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__subsequent_operation_id
-#: model:ir.ui.menu,name:l10n_br_fiscal.subsequent_operation_menu
-msgid "Subsequent Operation"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_subsequent_generated
-msgid "Subsequent documents generated?"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Subsequents Documents"
 msgstr ""
 
 #. module: l10n_br_fiscal
