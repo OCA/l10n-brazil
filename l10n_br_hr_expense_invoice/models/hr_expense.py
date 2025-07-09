@@ -5,7 +5,7 @@ from odoo import api, fields, models
 
 
 class HrExpense(models.Model):
-    _inherit = ["hr.expense"]
+    _inherit = "hr.expense"
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
@@ -28,12 +28,6 @@ class HrExpense(models.Model):
 
         return vals
 
-    def _prepare_invoice_line_values(self):
-        res = super()._prepare_invoice_line_values()
-        for line in res:
-            line.update({"fiscal_operation_id": self.fiscal_operation_id.id})
-        return res
-
     def _prepare_invoice_values(self):
         res = super()._prepare_invoice_values()
         res.update(
@@ -42,6 +36,7 @@ class HrExpense(models.Model):
                 "fiscal_operation_id": self.fiscal_operation_id.id,
                 "fiscal_operation_type": "in",
                 "document_type_id": self.fiscal_operation_id.id,
+                "user_id": self.env.user.id,
             }
         )
         return res
@@ -53,27 +48,18 @@ class HrExpense(models.Model):
             [("id", "=", self.invoice_id.id)], limit=1
         )
 
-        invoice_vals = invoice._convert_to_write(invoice._cache)
-        invoice_vals.update(
+        invoice.write(
             {
                 "currency_id": self.currency_id.id,
+                "partner_id": self.employee_id.address_home_id.id,
+                "user_id": self.env.user.id,
             }
         )
 
-        invoice.write(invoice_vals)
-
-        invoice.fiscal_document_id._onchange_document_serie_id()
-        invoice.fiscal_document_id._onchange_company_id()
+        invoice.fiscal_document_id._compute_document_serie_id()
 
         for line in invoice.invoice_line_ids:
-            line._onchange_product_id()
-            line._onchange_product_id_fiscal()
             line.price_unit = self.unit_amount
-            line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_operation_line_id()
-            line._onchange_fiscal_tax_ids()
-
-        invoice._onchange_invoice_line_ids()
 
         self.write(
             {

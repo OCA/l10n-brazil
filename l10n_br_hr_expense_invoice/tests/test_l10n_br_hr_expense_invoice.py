@@ -1,47 +1,56 @@
-from odoo.tests.common import SavepointCase
+# Copyright 2024 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+from odoo.fields import Command
+from odoo.tests.common import TransactionCase
 
 
-class TestL10nBrHrExpenseInvoice(SavepointCase):
+class TestL10nBrHrExpenseInvoice(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.sheet_id = cls.env["hr.expense.sheet"].create(
-            {
-                "name": "First Expense for employee",
-                "employee_id": cls.env.ref("hr.employee_admin").id,
-                "company_id": cls.env.ref("base.main_company").id,
-                "expense_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "name": "expense_1",
-                            "product_id": cls.env.ref("hr_expense.car_travel").id,
-                            "product_uom_id": cls.env.ref(
-                                "hr_expense.car_travel"
-                            ).uom_id.id,
-                            "unit_amount": 500.0,
-                            "employee_id": cls.env.ref("hr.employee_admin").id,
-                        },
-                    ),
-                    (
-                        0,
-                        0,
-                        {
-                            "name": "expense_2",
-                            "product_id": cls.env.ref("hr_expense.air_ticket").id,
-                            "product_uom_id": cls.env.ref(
-                                "hr_expense.air_ticket"
-                            ).uom_id.id,
-                            "unit_amount": 700.0,
-                            "employee_id": cls.env.ref("hr.employee_admin").id,
-                            "fiscal_operation_id": cls.env.ref(
-                                "l10n_br_fiscal.fo_venda"
-                            ).id,
-                        },
-                    ),
-                ],
-            }
+        cls.user = cls.env.ref("base.user_admin")
+        cls.env.user = cls.user
+        cls.sheet_id = (
+            cls.env["hr.expense.sheet"]
+            .create(
+                {
+                    "name": "First Expense for employee",
+                    "employee_id": cls.env.ref("hr.employee_admin").id,
+                    "company_id": cls.env.ref("base.main_company").id,
+                    "expense_line_ids": [
+                        Command.create(
+                            {
+                                "name": "expense_1",
+                                "product_id": cls.env.ref(
+                                    "hr_expense.expense_product_meal"
+                                ).id,
+                                "product_uom_id": cls.env.ref(
+                                    "hr_expense.expense_product_meal"
+                                ).uom_id.id,
+                                "unit_amount": 500.0,
+                                "employee_id": cls.env.ref("hr.employee_admin").id,
+                            }
+                        ),
+                        Command.create(
+                            {
+                                "name": "expense_2",
+                                "product_id": cls.env.ref(
+                                    "hr_expense.expense_product_mileage"
+                                ).id,
+                                "product_uom_id": cls.env.ref(
+                                    "hr_expense.expense_product_mileage"
+                                ).uom_id.id,
+                                "unit_amount": 700.0,
+                                "employee_id": cls.env.ref("hr.employee_admin").id,
+                                "fiscal_operation_id": cls.env.ref(
+                                    "l10n_br_fiscal.fo_venda"
+                                ).id,
+                            }
+                        ),
+                    ],
+                }
+            )
+            .with_user(cls.user)
         )
 
         cls.sheet_id.action_submit_sheet()
@@ -69,3 +78,5 @@ class TestL10nBrHrExpenseInvoice(SavepointCase):
             invoice_2.fiscal_operation_id,
             "Fiscal operation ID should be set for expense 2.",
         )
+        self.assertEqual(invoice_1.user_id, self.user)
+        self.assertEqual(invoice_2.user_id, self.user)
