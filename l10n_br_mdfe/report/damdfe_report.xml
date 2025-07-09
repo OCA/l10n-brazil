@@ -1,5 +1,5 @@
 <odoo>
-        <record id="report_damdfe" model="ir.actions.report">
+        <record id="main_template_damdfe" model="ir.actions.report">
             <field name="name">DAMDFE</field>
             <field name="model">l10n_br_fiscal.document</field>
             <field name="report_type">qweb-pdf</field>

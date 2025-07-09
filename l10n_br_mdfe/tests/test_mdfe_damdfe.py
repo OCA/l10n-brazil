@@ -24,7 +24,7 @@ class TestDamdfeGeneration(TransactionCase):
         mdfe.document_type_id = self.env.ref("l10n_br_fiscal.document_01")
         mdfe.action_document_confirm()
         with self.assertRaises(UserError) as captured_exception:
-            damdfe_report._render_qweb_pdf([mdfe.id])
+            damdfe_report._render_qweb_pdf("main_template_damdfe", [mdfe.id])
         self.assertEqual(
             captured_exception.exception.args[0],
             "You can only print a DAMDFE of a MDFe(58).",
