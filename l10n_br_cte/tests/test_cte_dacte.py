@@ -24,7 +24,7 @@ class TestDacteGeneration(TransactionCase):
         cte.document_type_id = self.env.ref("l10n_br_fiscal.document_01")
         cte.action_document_confirm()
         with self.assertRaises(UserError) as captured_exception:
-            dacte_report._render_qweb_pdf([cte.id])
+            dacte_report._render_qweb_pdf("main_template_dacte", [cte.id])
         self.assertEqual(
             captured_exception.exception.args[0],
             "You can only print a DACTE of a CTe(57).",
