@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.actions.report,print_report_name:l10n_br_cte.report_dacte
+#: model:ir.actions.report,print_report_name:l10n_br_cte.main_template_dacte
 msgid "'%s' % (object.document_key)"
 msgstr ""
 
@@ -1423,7 +1423,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.actions.report,name:l10n_br_cte.report_dacte
+#: model:ir.actions.report,name:l10n_br_cte.main_template_dacte
 msgid "DACTE"
 msgstr ""
 
