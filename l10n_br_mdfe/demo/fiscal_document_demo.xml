@@ -41,6 +41,29 @@
         />
         <field name="mdfe_route_state_ids" eval="[(6, 0, [ref('base.state_br_pb')])]" />
         <field name="mdfe_modal">4</field>
+        <field
+            name="mdfe30_vag"
+            eval="[
+            (0, 0, {
+                'mdfe30_pesoBC': 500,
+                'mdfe30_pesoR': 1,
+                'mdfe30_tpVag': '123',
+                'mdfe30_serie': '123',
+                'mdfe30_nVag': '123',
+                'mdfe30_nSeq': 123,
+                'mdfe30_TU': 1,
+            }),
+            (0, 0, {
+                'mdfe30_pesoBC': 500,
+                'mdfe30_pesoR': 1,
+                'mdfe30_tpVag': '321',
+                'mdfe30_serie': '321',
+                'mdfe30_nVag': '321',
+                'mdfe30_nSeq': 321,
+                'mdfe30_TU': 1,
+            })
+        ]"
+        />
     </record>
 
     <record
