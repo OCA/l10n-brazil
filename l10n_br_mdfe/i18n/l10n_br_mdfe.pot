@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_mdfe
-#: model:ir.actions.report,print_report_name:l10n_br_mdfe.report_damdfe
+#: model:ir.actions.report,print_report_name:l10n_br_mdfe.main_template_damdfe
 msgid "'%s' % (object.document_key)"
 msgstr ""
 
@@ -1585,7 +1585,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.actions.report,name:l10n_br_mdfe.report_damdfe
+#: model:ir.actions.report,name:l10n_br_mdfe.main_template_damdfe
 msgid "DAMDFE"
 msgstr ""
 
