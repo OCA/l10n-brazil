@@ -22,6 +22,4 @@ class HrContractSalaryUnit(models.Model):
     )
 
     def name_get(self):
-        return [
-            (record.id, "{} - {} ".format(record.code, record.name)) for record in self
-        ]
+        return [(record.id, f"{record.code} - {record.name} ") for record in self]
