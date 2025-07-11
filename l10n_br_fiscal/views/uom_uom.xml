@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 Engenere
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="uom_uom_form_view">
+        <field name="name">uom.uom.form (in l10n_br_fiscal)</field>
+        <field name="model">uom.uom</field>
+        <field name="inherit_id" ref="uom.product_uom_form_view" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="code" required="1" />
+            </field>
+            <field name="name" position="after">
+                <field name="description" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="uom_uom_tree_view">
+        <field name="name">uom.uom.tree (in l10n_br_fiscal)</field>
+        <field name="model">uom.uom</field>
+        <field name="inherit_id" ref="uom.product_uom_tree_view" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="code" required="1" />
+            </field>
+            <field name="name" position="after">
+                <field name="description" required="1" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="uom_category_form_inherit_code_desc">
+        <field name="name">uom.category.form (in l10n_br_fiscal)</field>
+        <field name="model">uom.category</field>
+        <field name="inherit_id" ref="uom.product_uom_categ_form_view" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='uom_ids']/tree/field[@name='name']"
+                position="before"
+            >
+                <field name="code" />
+            </xpath>
+            <xpath
+                expr="//field[@name='uom_ids']/tree/field[@name='name']"
+                position="after"
+            >
+                <field name="description" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
