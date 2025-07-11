@@ -159,7 +159,7 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_CFOP = fields.Char(related="cfop_id.code")
 
-    nfe40_uCom = fields.Char(related="uom_id.name")
+    nfe40_uCom = fields.Char(related="uom_id.code")
 
     nfe40_qCom = fields.Float(string="nfe40 qCom", related="quantity")
 
@@ -172,7 +172,7 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_cEANTrib = fields.Char(related="product_id.barcode")
 
-    nfe40_uTrib = fields.Char(related="uot_id.name")
+    nfe40_uTrib = fields.Char(related="uot_id.code")
 
     nfe40_qTrib = fields.Float(string="nfe40_qTrib", related="fiscal_quantity")
 
