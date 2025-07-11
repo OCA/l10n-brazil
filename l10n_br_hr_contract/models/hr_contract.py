@@ -104,10 +104,11 @@ class HrContract(models.Model):
                         {"job_id": record.job_id.id}
                     )
 
-    @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        if vals.get("department_id") and vals.get("employee_id"):
-            employee = self.env["hr.employee"].browse(vals.get("employee_id"))
-            employee.department_id = vals.get("department_id")
+    @api.model_create_multi
+    def create(self, vals_list):
+        res = super().create(vals_list)
+        for vals in vals_list:
+            if vals.get("department_id") and vals.get("employee_id"):
+                employee = self.env["hr.employee"].browse(vals.get("employee_id"))
+                employee.department_id = vals.get("department_id")
         return res

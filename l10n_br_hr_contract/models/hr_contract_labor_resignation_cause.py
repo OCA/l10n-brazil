@@ -1,4 +1,5 @@
 # Copyright (C) 2016  Daniel Sadamo - KMEE Informática
+# Copyright 2025 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields, models
@@ -6,19 +7,11 @@ from odoo import fields, models
 
 class HrContractResignationCause(models.Model):
     _name = "hr.contract.resignation.cause"
+    _inherit = "l10n_br_hr_contract.data.abstract"
     _description = "Motivo da demissão"
 
-    name = fields.Char(string="Resignation cause", required=True)
+    name = fields.Char(string="Resignation cause")
 
-    code = fields.Char(string="Resignation cause code", required=True)
+    code = fields.Char(string="Resignation cause code")
 
     fgts_withdraw_code = fields.Char(string="FGTS withdrawal code")
-
-    def name_get(self):
-        result = []
-        for record in self:
-            name = record["name"]
-            if record["code"]:
-                name = record["code"] + " - " + name
-            result.append((record["id"], name))
-        return result
