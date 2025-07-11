@@ -106,7 +106,7 @@ class HrContract(models.Model):
 
     @api.model
     def create(self, vals):
-        res = super(HrContract, self).create(vals)
+        res = super().create(vals)
         if vals.get("department_id") and vals.get("employee_id"):
             employee = self.env["hr.employee"].browse(vals.get("employee_id"))
             employee.department_id = vals.get("department_id")
