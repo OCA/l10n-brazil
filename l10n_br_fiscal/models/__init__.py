@@ -50,6 +50,7 @@ from . import document_related
 from . import document_line
 from . import res_config_settings
 from . import res_country_state
+from . import uom_uom
 from . import operation_dashboard
 from . import city_taxation_code
 from . import document_supplement
