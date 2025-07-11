@@ -628,14 +628,17 @@ class AccountMove(models.Model):
                 )
                 line._onchange_fiscal_operation_id()
 
-            # Adds the related document to the NF-e.
-            # this is required for correct xml validation
-            if record.document_type_id and record.document_type_id.code in (
-                MODELO_FISCAL_NFE
-            ):
-                record.fiscal_document_id._document_reference(
-                    record.reversed_entry_id.fiscal_document_id
-                )
+            # This method is in l10n_br_fiscal_subsequent_document module, the IF
+            # is necessary to avoid a 'glue module' or direct dependence.
+            if hasattr(record.fiscal_document_id, "_document_reference"):
+                # Add the related document to the NF-e.
+                # this is required for correct xml validation
+                if record.document_type_id and record.document_type_id.code in (
+                    MODELO_FISCAL_NFE
+                ):
+                    record.fiscal_document_id._document_reference(
+                        record.reversed_entry_id.fiscal_document_id
+                    )
 
         return new_moves
 
