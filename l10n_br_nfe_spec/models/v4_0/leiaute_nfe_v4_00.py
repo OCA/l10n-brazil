@@ -783,6 +783,8 @@ TFINNFE = [
     ("2", "2"),
     ("3", "3"),
     ("4", "4"),
+    ("5", "5"),
+    ("6", "6"),
 ]
 
 # Tipo processo de emissão da NF-e
@@ -791,6 +793,28 @@ TPROCEMI = [
     ("1", "1"),
     ("2", "2"),
     ("3", "3"),
+]
+
+# Tipo de Nota de Crédito: 01=Multa e juros; 02=Apropriação de crédito
+# presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC
+# 214/25)
+TTPNFCREDITO = [
+    ("01", "01"),
+    ("02", "02"),
+]
+
+# Tipo de Nota de Débito: 01=Transferência de créditos para Cooperativas;
+# 02=Anulação de Crédito por Saídas Imunes/Isentas; 03=Débitos de notas
+# fiscais não processadas na apuração; 04=Multa e juros; 05=Transferência de
+# crédito de sucessão); 06=Pagamento antecipado; 07=Perda em estoque
+TTPNFDEBITO = [
+    ("01", "01"),
+    ("02", "02"),
+    ("03", "03"),
+    ("04", "04"),
+    ("05", "05"),
+    ("06", "06"),
+    ("07", "07"),
 ]
 
 # Tipo Origem da mercadoria CST ICMS origem da mercadoria: 0-Nacional
@@ -857,6 +881,17 @@ EMIT_CRT = [
     ("2", "Simples Nacional – excesso de sublimite de receita bruta"),
     ("3", "Regime Normal."),
     ("4", "Simples Nacional - Microempreendedor individual - MEI"),
+]
+
+# Tipo da Guia
+GUIATRANSITO_TPGUIA = [
+    ("1", "GTA"),
+    ("2", "TTA"),
+    ("3", "DTA"),
+    ("4", "ATV"),
+    ("5", "PTV"),
+    ("6", "GTV"),
+    ("7", "Guia Florestal (DOF, SisFlora - PA e MT, SIAM - MG)"),
 ]
 
 # Identificador de Local de destino da operação
@@ -943,6 +978,11 @@ PROCREF_TPATO = [
     ("12", "Autorização específica"),
     ("14", "Ajuste SINIEF"),
     ("15", "Convênio ICMS."),
+]
+
+# Indicador de fornecimento de bem móvel usado
+PROD_INDBEMMOVELUSADO = [
+    ("1", "Bem Móvel Usado"),
 ]
 
 PROD_INDESCALA = [
@@ -1726,6 +1766,12 @@ class InfNfe(models.AbstractModel):
         help="Grupo para informações da solicitação da NFF",
     )
 
+    nfe40_agropecuario = fields.Many2one(
+        comodel_name="nfe.40.agropecuario",
+        string="Produtos Agropecurários Animais",
+        help="Produtos Agropecurários Animais, Vegetais e Florestais",
+    )
+
     nfe40_versao = fields.Char(
         string="Versão do leiaute (v4.00)", xsd_required=True, xsd_type="TVerNFe"
     )
@@ -1834,6 +1880,17 @@ class Ide(models.AbstractModel):
         ),
     )
 
+    nfe40_cMunFGIBS = fields.Char(
+        string="município de ocorrência do fato gerador",
+        xsd_type="TCodMunIBGE",
+        help=(
+            "município de ocorrência do fato gerador do fato gerador do IBS / "
+            "CBS.\nCampo preenchido somente quando “indPres = 5 (Operação "
+            "presencial, fora do estabelecimento) ”, e não tiver endereço do "
+            "destinatário (Grupo: E05) ou local de entrega (Grupo: G01)."
+        ),
+    )
+
     nfe40_tpImp = fields.Selection(
         IDE_TPIMP,
         string="Formato de impressão do DANFE",
@@ -1879,8 +1936,25 @@ class Ide(models.AbstractModel):
         xsd_type="TFinNFe",
         help=(
             "Finalidade da emissão da NF-e:\n1 - NFe normal\n2 - NFe "
-            "complementar\n3 - NFe de ajuste\n4 - Devolução/Retorno"
+            "complementar\n3 - NFe de ajuste\n4 - Devolução/Retorno\n5 - Nota "
+            "de crédito\n6 - Nota de débito"
         ),
+    )
+
+    nfe40_tpNFDebito = fields.Selection(
+        TTPNFDEBITO,
+        string="Tipo de Nota de Débito",
+        xsd_type="TTpNFDebito",
+        help=(
+            "Tipo de Nota de Débito:\n01=Transferência de créditos para "
+            "Cooperativas; \n02=Anulação de Crédito por Saídas Imunes/Isentas;"
+            " \n03=Débitos de notas fiscais não processadas na apuração; "
+            "\n04=Multa e juros; \n05=Transferência de crédito de sucessão."
+        ),
+    )
+
+    nfe40_tpNFCredito = fields.Selection(
+        TTPNFCREDITO, string="Tipo de Nota de Crédito", xsd_type="TTpNFCredito"
     )
 
     nfe40_indFinal = fields.Selection(
@@ -1951,6 +2025,19 @@ class Ide(models.AbstractModel):
         "nfe.40.nfref",
         "nfe40_NFref_ide_id",
         string="Grupo de infromações da NF referenciada",
+    )
+
+    nfe40_gCompraGov = fields.Char(
+        string="Grupo de Compras Governamentais", xsd_type="TCompraGov"
+    )
+
+    nfe40_gPagAntecipado = fields.Many2one(
+        comodel_name="nfe.40.gpagantecipado",
+        string="Informado para abater",
+        help=(
+            "Informado para abater as parcelas de antecipação de pagamento, "
+            "conforme Art. 10. § 4º"
+        ),
     )
 
 
@@ -2173,6 +2260,22 @@ class RefEcf(models.AbstractModel):
         string="Número do Contador de Ordem de Operação",
         xsd_required=True,
         help=("Número do Contador de Ordem de Operação - COO vinculado à NF-e"),
+    )
+
+
+class GPagAntecipado(models.AbstractModel):
+    """Informado para abater as parcelas de antecipação de pagamento, conforme
+    Art. 10. § 4º"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.gpagantecipado"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Ide.GPagAntecipado"
+
+    nfe40_refNFe = fields.Char(
+        string="refNFe",
+        xsd_type="TChNFe",
+        help="Chave de acesso da NF-e de antecipação de pagamento",
     )
 
 
@@ -2432,6 +2535,21 @@ class Det(models.AbstractModel):
         help="Grupo de observações de uso livre (para o item da NF-e)",
     )
 
+    nfe40_vItem = fields.Monetary(
+        string="Valor total do Item",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total do Item, correspondente à sua participação no total "
+            "da nota. A soma dos itens deverá corresponder ao total da nota."
+        ),
+    )
+
+    nfe40_DFeReferenciado = fields.Many2one(
+        comodel_name="nfe.40.dfereferenciado",
+        string="Referenciamento de item de outros DFe",
+    )
+
     nfe40_nItem = fields.Char(string="Número do item do NF", xsd_required=True)
 
 
@@ -2597,8 +2715,8 @@ class Prod(models.AbstractModel):
             10,
         ),
         help=(
-            "Valor unitário de tributação - - alterado para aceitar 0 a 10 "
-            "casas decimais e 11 inteiros"
+            "Valor unitário de tributação - alterado para aceitar 0 a 10 casas"
+            " decimais e 11 inteiros"
         ),
     )
 
@@ -2637,11 +2755,17 @@ class Prod(models.AbstractModel):
         ),
     )
 
+    nfe40_indBemMovelUsado = fields.Selection(
+        PROD_INDBEMMOVELUSADO,
+        string="indBemMovelUsado",
+        help=("Indicador de fornecimento de bem móvel usado: 1-Bem Móvel Usado"),
+    )
+
     nfe40_DI = fields.One2many(
         "nfe.40.di",
         "nfe40_DI_prod_id",
-        string="Delcaração de Importação",
-        help="Delcaração de Importação\n(NT 2011/004)",
+        string="Declaração de Importação",
+        help="Declaração de Importação (NT 2011/004)",
     )
 
     nfe40_detExport = fields.One2many(
@@ -2749,8 +2873,7 @@ class GCred(models.AbstractModel):
 
 
 class Di(models.AbstractModel):
-    """Delcaração de Importação
-    (NT 2011/004)"""
+    "Declaração de Importação (NT 2011/004)"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "nfe.40.di"
@@ -3505,32 +3628,21 @@ class Imposto(models.AbstractModel):
     )
 
     nfe40_ICMS = fields.Many2one(
-        comodel_name="nfe.40.icms",
-        string="Dados do ICMS Normal e ST",
-        choice="imposto",
-        xsd_choice_required=True,
+        comodel_name="nfe.40.icms", string="Dados do ICMS Normal e ST", choice="imposto"
     )
 
     nfe40_IPI = fields.Many2one(
-        comodel_name="nfe.40.tipi",
-        string="IPI",
-        choice="imposto",
-        xsd_choice_required=True,
-        xsd_type="TIpi",
+        comodel_name="nfe.40.tipi", string="IPI", choice="imposto", xsd_type="TIpi"
     )
 
     nfe40_II = fields.Many2one(
         comodel_name="nfe.40.ii",
         string="Dados do Imposto de Importação",
         choice="imposto",
-        xsd_choice_required=True,
     )
 
     nfe40_ISSQN = fields.Many2one(
-        comodel_name="nfe.40.issqn",
-        string="ISSQN",
-        choice="imposto",
-        xsd_choice_required=True,
+        comodel_name="nfe.40.issqn", string="ISSQN", choice="imposto"
     )
 
     nfe40_PIS = fields.Many2one(comodel_name="nfe.40.pis", string="Dados do PIS")
@@ -3556,6 +3668,16 @@ class Imposto(models.AbstractModel):
             "Grupo a ser informado nas vendas interestarduais para consumidor "
             "final, não contribuinte de ICMS"
         ),
+    )
+
+    nfe40_IS = fields.Char(
+        string="Grupo de informações do Imposto Seletivo", xsd_type="TIS"
+    )
+
+    nfe40_IBSCBS = fields.Char(
+        string="Grupo de informações dos tributos IBS",
+        xsd_type="TTribNFe",
+        help=("Grupo de informações dos tributos IBS, CBS e Imposto Seletivo"),
     )
 
 
@@ -4988,6 +5110,29 @@ class DetObsFisco(models.AbstractModel):
     nfe40_xCampo = fields.Char(string="xCampo", xsd_required=True)
 
 
+class DfeReferenciado(models.AbstractModel):
+    "Referenciamento de item de outros DFe"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.dfereferenciado"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Det.DfeReferenciado"
+
+    nfe40_chaveAcesso = fields.Char(
+        string="Chave de Acesso do DFe referenciado",
+        xsd_required=True,
+        xsd_type="TChNFe",
+    )
+
+    nfe40_nItem = fields.Char(
+        string="Número do item do documento referenciado",
+        help=(
+            "Número do item do documento referenciado. Corresponde ao atributo"
+            " nItem do elemento det do documento original."
+        ),
+    )
+
+
 class Total(models.AbstractModel):
     "Dados dos totais da NF-e"
 
@@ -5008,6 +5153,16 @@ class Total(models.AbstractModel):
 
     nfe40_retTrib = fields.Many2one(
         comodel_name="nfe.40.rettrib", string="Retenção de Tributos Federais"
+    )
+
+    nfe40_ISTot = fields.Char(
+        string="ISTot",
+        xsd_type="TISTot",
+        help="Valores totais da NF com Imposto Seletivo",
+    )
+
+    nfe40_IBSCBSTot = fields.Char(
+        string="Valores totais da NF com IBS / CBS", xsd_type="TIBSCBSMonoTot"
     )
 
 
@@ -6097,6 +6252,87 @@ class InfSolicNff(models.AbstractModel):
     nfe40_xSolic = fields.Char(
         string="Solicitação do pedido de emissão da NFF", xsd_required=True
     )
+
+
+class Agropecuario(models.AbstractModel):
+    "Produtos Agropecurários Animais, Vegetais e Florestais"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.agropecuario"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Agropecuario"
+
+    nfe40_defensivo = fields.One2many(
+        "nfe.40.defensivo",
+        "nfe40_defensivo_agropecuario_id",
+        string="Defensivo Agrícola / Agrotóxico",
+        choice="agropecuario",
+        xsd_choice_required=True,
+    )
+
+    nfe40_guiaTransito = fields.Many2one(
+        comodel_name="nfe.40.guiatransito",
+        string="guiaTransito",
+        choice="agropecuario",
+        xsd_choice_required=True,
+        help=(
+            "Guias De Trânsito de produtos agropecurários animais, vegetais e "
+            "de origem florestal."
+        ),
+    )
+
+
+class Defensivo(models.AbstractModel):
+    "Defensivo Agrícola / Agrotóxico"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.defensivo"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Agropecuario.Defensivo"
+
+    nfe40_defensivo_agropecuario_id = fields.Many2one(
+        comodel_name="nfe.40.agropecuario", xsd_implicit=True, ondelete="cascade"
+    )
+    nfe40_nReceituario = fields.Char(
+        string="Número do Receituário ou Receita",
+        xsd_required=True,
+        help="Número do Receituário ou Receita do Defensivo / Agrotóxico",
+    )
+
+    nfe40_CPFRespTec = fields.Char(
+        string="CPF",
+        xsd_required=True,
+        xsd_type="TCpf",
+        help="CPF do Responsável Técnico pelo receituário",
+    )
+
+
+class GuiaTransito(models.AbstractModel):
+    """Guias De Trânsito de produtos agropecurários animais, vegetais e de
+    origem florestal."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.guiatransito"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tnfe.InfNfe.Agropecuario.GuiaTransito"
+
+    nfe40_tpGuia = fields.Selection(
+        GUIATRANSITO_TPGUIA,
+        string="Tipo da Guia: 1 - GTA; 2 - TTA; 3",
+        xsd_required=True,
+        help=(
+            "Tipo da Guia: 1 - GTA; 2 - TTA; 3 - DTA; 4 - ATV; 5 - PTV; 6 - "
+            "GTV; 7 - Guia Florestal (DOF, SisFlora - PA e MT, SIAM - MG)"
+        ),
+    )
+
+    nfe40_UFGuia = fields.Selection(
+        TUFEMI, string="UFGuia", xsd_required=True, xsd_type="TUfEmi"
+    )
+
+    nfe40_serieGuia = fields.Char(string="Série da Guia")
+
+    nfe40_nGuia = fields.Char(string="Número da Guia", xsd_required=True)
 
 
 class InfNfeSupl(models.AbstractModel):
