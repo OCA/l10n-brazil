@@ -144,6 +144,7 @@ class DocumentNfe(models.Model):
                 rec.state_edoc == "em_digitacao"
                 or not rec._need_compute_nfe_tags()
                 or rec._is_without_payment()
+                or rec.move_ids.move_type in ("out_refund", "in_refund")  # TODO TESTE
             ):
                 continue
 
