@@ -6,26 +6,19 @@ import textwrap
 
 from odoo import fields, models
 
-__NAMESPACE__ = "http://www.portalfiscal.inf.br/mdfe"
+from .ev_alteracao_pagto_serv_mdfe_v3_00 import (
+    COMP_TPCOMP,
+    INFPAG_INDANTECIPAADIANT,
+    INFPAG_INDPAG,
+    INFPAG_TPANTECIP,
+)
 
-# Tipo do Componente
-COMP_TPCOMP = [
-    ("01", "Vale Pedágio"),
-    ("02", "Impostos, taxas e contribuições"),
-    ("03", "Despesas (bancárias, meios de pagamento, outras)"),
-    ("99", "Outros"),
-]
+__NAMESPACE__ = "http://www.portalfiscal.inf.br/mdfe"
 
 # Descrição do Evento - “Pagamento Operação MDF-e”
 EVPAGTOOPERMDFE_DESCEVENTO = [
     ("Pagamento Operação MDF-e", "Pagamento Operação MDF-e"),
     ("Pagamento Operacao MDF-e", "Pagamento Operacao MDF-e"),
-]
-
-# Indicador da Forma de Pagamento
-INFPAG_INDPAG = [
-    ("0", "Pagamento à Vista"),
-    ("1", "Pagamento à Prazo"),
 ]
 
 
@@ -169,12 +162,34 @@ class EvPagtoOperMdfeInfPag(models.AbstractModel):
         help="Valor do Adiantamento (usar apenas em pagamento à Prazo",
     )
 
+    mdfe30_indAntecipaAdiant = fields.Selection(
+        INFPAG_INDANTECIPAADIANT,
+        string="Indicador para declarar concordância",
+        help=(
+            "Indicador para declarar concordância em antecipar o "
+            "adiantamento\nOperação de transporte com utilização de veículos "
+            "de frotas dedicadas ou fidelizadas.\nPreencher com “1” para "
+            "indicar operação de transporte de alto desempenho, demais casos "
+            "não informar a tag"
+        ),
+    )
+
     mdfe30_infPrazo = fields.One2many(
         "mdfe.30.evpagtoopermdfe_infprazo",
         "mdfe30_infPrazo_infPag_id",
         string="Informações do pagamento a prazo",
         help=(
             "Informações do pagamento a prazo.\nInformar somente se indPag for à Prazo"
+        ),
+    )
+
+    mdfe30_tpAntecip = fields.Selection(
+        INFPAG_TPANTECIP,
+        string="Tipo de Permissão em relação",
+        help=(
+            "Tipo de Permissão em relação a antecipação das parcelas\n0 - Não "
+            "permite antecipar\n1 - Permite antecipar as parcelas\n2 - Permite"
+            " antecipar as parcelas mediante confirmação"
         ),
     )
 
