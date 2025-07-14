@@ -122,6 +122,15 @@ class Aquav(models.AbstractModel):
         help="Informações das Undades de Transporte vazias",
     )
 
+    mdfe30_MMSI = fields.Char(
+        string="Maritime Mobile Service Identify",
+        help=(
+            "Maritime Mobile Service Identify\nPreencher com o MMSI (Maritime "
+            "Mobile Service Identify) fornecido pela ANATEL ou autoridade de "
+            "telecomunicações de origem da embarcação"
+        ),
+    )
+
 
 class InfTermCarreg(models.AbstractModel):
     "Grupo de informações dos terminais de carregamento."

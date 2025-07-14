@@ -50,6 +50,11 @@ IDE_TPEMIS = [
     ("3", "Regime Especial NFF"),
 ]
 
+# Indicador de Prestação parcial
+INFCTE_INDPRESTACAOPARCIAL = [
+    ("1", "1"),
+]
+
 # Indicador de Reentrega
 INFCTE_INDREENTREGA = [
     ("1", "1"),
@@ -84,6 +89,7 @@ PRODPRED_TPCARGA = [
     ("09", "Perigosa (carga frigorificada)"),
     ("10", "Perigosa (conteinerizada)"),
     ("11", "Perigosa (carga geral)."),
+    ("12", "Granel pressurizada"),
 ]
 
 # Código da unidade de medida do Peso Bruto da Carga / Mercadorias
@@ -1025,7 +1031,11 @@ class TmdfeInfMdfe(models.AbstractModel):
     mdfe30_prodPred = fields.Many2one(
         comodel_name="mdfe.30.prodpred",
         string="Produto predominante",
-        help=("Produto predominante\nInformar a descrição do produto predominante"),
+        help=(
+            "Produto predominante\nInformar a descrição do produto "
+            "predominante, conforme o item de maior valor financeiro conforme "
+            "Resolução ANTT n° 5.867 de 2020)."
+        ),
     )
 
     mdfe30_tot = fields.Many2one(
@@ -1067,9 +1077,15 @@ class TmdfeInfMdfe(models.AbstractModel):
     )
 
     mdfe30_infSolicNFF = fields.Many2one(
-        comodel_name="mdfe.30.infsolicnff",
+        comodel_name="mdfe.30.tmdfe_infsolicnff",
         string="Grupo de informações do pedido",
         help=("Grupo de informações do pedido de emissão da Nota Fiscal Fácil"),
+    )
+
+    mdfe30_infPAA = fields.Many2one(
+        comodel_name="mdfe.30.tmdfe_infpaa",
+        string="Grupo de Informação do Provedor",
+        help="Grupo de Informação do Provedor de Assinatura e Autorização",
     )
 
     mdfe30_versao = fields.Char(
@@ -1521,6 +1537,17 @@ class InfCte(models.AbstractModel):
         help="Grupo de informações da Entrega Parcial (Corte de Voo)",
     )
 
+    mdfe30_indPrestacaoParcial = fields.Selection(
+        INFCTE_INDPRESTACAOPARCIAL, string="Indicador de Prestação parcial"
+    )
+
+    mdfe30_infNFePrestParcial = fields.One2many(
+        "mdfe.30.infnfeprestparcial",
+        "mdfe30_infNFePrestParcial_infCTe_id",
+        string="Grupo de informações das NFe",
+        help=("Grupo de informações das NFe que foram entregues do CTe relacionado"),
+    )
+
 
 class InfCtePeri(models.AbstractModel):
     """Preenchido quando for transporte de produtos classificados pela ONU como
@@ -1617,6 +1644,22 @@ class InfEntregaParcial(models.AbstractModel):
             11,
             4,
         ),
+    )
+
+
+class InfNfePrestParcial(models.AbstractModel):
+    "Grupo de informações das NFe que foram entregues do CTe relacionado"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "mdfe.30.infnfeprestparcial"
+    _inherit = "spec.mixin.mdfe"
+    _binding_type = "Tmdfe.InfMdfe.InfDoc.InfMunDescarga.InfCte.InfNfePrestParcial"
+
+    mdfe30_infNFePrestParcial_infCTe_id = fields.Many2one(
+        comodel_name="mdfe.30.infcte", xsd_implicit=True, ondelete="cascade"
+    )
+    mdfe30_chNFe = fields.Char(
+        string="Nota Fiscal Eletrônica", xsd_required=True, xsd_type="TChCTe"
     )
 
 
@@ -1954,7 +1997,8 @@ class InfSeg(models.AbstractModel):
 
 class ProdPred(models.AbstractModel):
     """Produto predominante
-    Informar a descrição do produto predominante"""
+    Informar a descrição do produto predominante, conforme o item de maior valor
+    financeiro conforme Resolução ANTT n° 5.867 de 2020)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "mdfe.30.prodpred"
@@ -1972,7 +2016,7 @@ class ProdPred(models.AbstractModel):
             "Geral;\n06-Neogranel;\n07-Perigosa (granel sólido);\n08-Perigosa "
             "(granel líquido);\n09-Perigosa (carga "
             "frigorificada);\n10-Perigosa (conteinerizada);\n11-Perigosa "
-            "(carga geral)."
+            "(carga geral).\n12-Granel pressurizada"
         ),
     )
 
@@ -2208,11 +2252,11 @@ class InfAdic(models.AbstractModel):
     )
 
 
-class InfSolicNff(models.AbstractModel):
+class TmdfeInfSolicNff(models.AbstractModel):
     "Grupo de informações do pedido de emissão da Nota Fiscal Fácil"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "mdfe.30.infsolicnff"
+    _name = "mdfe.30.tmdfe_infsolicnff"
     _inherit = "spec.mixin.mdfe"
     _binding_type = "Tmdfe.InfMdfe.InfSolicNff"
 
@@ -2224,6 +2268,56 @@ class InfSolicNff(models.AbstractModel):
             "totalidade de campos informados no aplicativo emissor "
             "serializado."
         ),
+    )
+
+
+class TmdfeInfPaa(models.AbstractModel):
+    "Grupo de Informação do Provedor de Assinatura e Autorização"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "mdfe.30.tmdfe_infpaa"
+    _inherit = "spec.mixin.mdfe"
+    _binding_type = "Tmdfe.InfMdfe.InfPaa"
+
+    mdfe30_CNPJPAA = fields.Char(
+        string="CNPJ do Provedor de Assinatura",
+        xsd_required=True,
+        xsd_type="TCnpj",
+        help="CNPJ do Provedor de Assinatura e Autorização",
+    )
+
+    mdfe30_PAASignature = fields.Many2one(
+        comodel_name="mdfe.30.tmdfe_paasignature",
+        string="Assinatura RSA do Emitente",
+        xsd_required=True,
+        help="Assinatura RSA do Emitente para DFe gerados por PAA",
+    )
+
+
+class TmdfePaasignature(models.AbstractModel):
+    "Assinatura RSA do Emitente para DFe gerados por PAA"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "mdfe.30.tmdfe_paasignature"
+    _inherit = "spec.mixin.mdfe"
+    _binding_type = "Tmdfe.InfMdfe.InfPaa.Paasignature"
+
+    mdfe30_signatureValue = fields.Char(
+        string="Assinatura digital padrão RSA",
+        xsd_required=True,
+        xsd_type="xs:base64Binary",
+        help=(
+            "Assinatura digital padrão RSA\nConverter o atributo Id do DFe "
+            "para array de bytes e assinar com a chave privada do RSA com "
+            "algoritmo SHA1 gerando um valor no formato base64."
+        ),
+    )
+
+    mdfe30_RSAKeyValue = fields.Many2one(
+        comodel_name="mdfe.30.trsakeyvaluetype",
+        string="Chave Publica no padrão XML RSA Key",
+        xsd_required=True,
+        xsd_type="TRSAKeyValueType",
     )
 
 
