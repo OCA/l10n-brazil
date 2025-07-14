@@ -123,7 +123,7 @@ class MDFeStructure(TransactionCase):
             ._fields["mdfe30_infSolicNFF"]
             .comodel_name
         )
-        self.assertEqual(model, "mdfe.30.infsolicnff")
+        self.assertEqual(model, "mdfe.30.tmdfe_infsolicnff")
 
     # def test_m2o_stacked(self):
     #     # not stacked because optional
