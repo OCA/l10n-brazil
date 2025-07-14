@@ -6,15 +6,18 @@ import textwrap
 
 from odoo import fields, models
 
-from .ev_alteracao_pagto_serv_mdfe_v3_00 import (
-    COMP_TPCOMP,
-    INFPAG_INDANTECIPAADIANT,
-    INFPAG_INDPAG,
-    INFPAG_TPANTECIP,
-)
 from .tipos_geral_mdfe_v3_00 import TUF
 
 __NAMESPACE__ = "http://www.portalfiscal.inf.br/mdfe"
+
+# Tipo do Componente
+COMP_TPCOMP_2 = [
+    ("01", "Vale Pedágio"),
+    ("02", "Impostos, taxas e contribuições"),
+    ("03", "Despesas (bancárias, meios de pagamento, outras)"),
+    ("04", "Frete"),
+    ("99", "Outros"),
+]
 
 # Tipo do Vale Pedagio
 DISP_TPVALEPED = [
@@ -29,6 +32,28 @@ DISP_TPVALEPED = [
 # demais casos não informar a tag
 INFPAG_INDALTODESEMP = [
     ("1", "1"),
+]
+
+# Indicador para declarar concordância em antecipar o adiantamento
+# Operação de transporte com utilização de veículos de frotas dedicadas ou
+# fidelizadas.
+# Preencher com “1” para indicar operação de transporte de alto desempenho,
+# demais casos não informar a tag
+INFPAG_INDANTECIPAADIANT_2 = [
+    ("1", "1"),
+]
+
+# Indicador da Forma de Pagamento
+INFPAG_INDPAG_2 = [
+    ("0", "Pagamento à Vista"),
+    ("1", "Pagamento à Prazo"),
+]
+
+# Tipo de Permissão em relação a antecipação das parcelas
+INFPAG_TPANTECIP_2 = [
+    ("0", "Não permite antecipar"),
+    ("1", "Permite antecipar as parcelas"),
+    ("2", "Permite antecipar as parcelas mediante confirmação"),
 ]
 
 # Tipo Proprietário ou possuidor
@@ -463,7 +488,7 @@ class RodoInfPag(models.AbstractModel):
     )
 
     mdfe30_indPag = fields.Selection(
-        INFPAG_INDPAG,
+        INFPAG_INDPAG_2,
         string="Indicador da Forma",
         xsd_required=True,
         help=(
@@ -479,7 +504,7 @@ class RodoInfPag(models.AbstractModel):
     )
 
     mdfe30_indAntecipaAdiant = fields.Selection(
-        INFPAG_INDANTECIPAADIANT,
+        INFPAG_INDANTECIPAADIANT_2,
         string="Indicador para declarar concordância",
         help=(
             "Indicador para declarar concordância em antecipar o "
@@ -498,7 +523,7 @@ class RodoInfPag(models.AbstractModel):
     )
 
     mdfe30_tpAntecip = fields.Selection(
-        INFPAG_TPANTECIP,
+        INFPAG_TPANTECIP_2,
         string="Tipo de Permissão em relação",
         help=(
             "Tipo de Permissão em relação a antecipação das parcelas\n0 - Não "
@@ -526,7 +551,7 @@ class RodoComp(models.AbstractModel):
         comodel_name="mdfe.30.rodo_infpag", xsd_implicit=True, ondelete="cascade"
     )
     mdfe30_tpComp = fields.Selection(
-        COMP_TPCOMP,
+        COMP_TPCOMP_2,
         string="Tipo do Componente",
         xsd_required=True,
         help=(
