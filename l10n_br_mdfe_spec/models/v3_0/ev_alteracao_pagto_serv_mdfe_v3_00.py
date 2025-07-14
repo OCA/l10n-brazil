@@ -6,98 +6,86 @@ import textwrap
 
 from odoo import fields, models
 
-from .ev_alteracao_pagto_serv_mdfe_v3_00 import (
-    COMP_TPCOMP,
-    INFPAG_INDANTECIPAADIANT,
-    INFPAG_INDPAG,
-    INFPAG_TPANTECIP,
-)
-
 __NAMESPACE__ = "http://www.portalfiscal.inf.br/mdfe"
 
-# Descrição do Evento - “Pagamento Operação MDF-e”
-EVPAGTOOPERMDFE_DESCEVENTO = [
-    ("Pagamento Operação MDF-e", "Pagamento Operação MDF-e"),
-    ("Pagamento Operacao MDF-e", "Pagamento Operacao MDF-e"),
+# Tipo do Componente
+COMP_TPCOMP = [
+    ("01", "Vale Pedágio"),
+    ("02", "Impostos, taxas e contribuições"),
+    ("03", "Despesas (bancárias, meios de pagamento, outras)"),
+    ("99", "Outros"),
+]
+
+# Descrição do Evento - “Alteração Pagamento Serviço MDFe”
+EVALTERACAOPAGTOSERVMDFE_DESCEVENTO = [
+    ("Alteração Pagamento Serviço MDFe", "Alteração Pagamento Serviço MDFe"),
+    ("Alteracao Pagamento Servico MDFe", "Alteracao Pagamento Servico MDFe"),
+]
+
+# Indicador para declarar concordância em antecipar o adiantamento
+# Operação de transporte com utilização de veículos de frotas dedicadas ou
+# fidelizadas.
+# Preencher com “1” para indicar operação de transporte de alto desempenho,
+# demais casos não informar a tag
+INFPAG_INDANTECIPAADIANT = [
+    ("1", "1"),
+]
+
+# Indicador da Forma de Pagamento
+INFPAG_INDPAG = [
+    ("0", "Pagamento à Vista"),
+    ("1", "Pagamento à Prazo"),
+]
+
+# Tipo de Permissão em relação a antecipação das parcelas
+INFPAG_TPANTECIP = [
+    ("0", "Não permite antecipar"),
+    ("1", "Permite antecipar as parcelas"),
+    ("2", "Permite antecipar as parcelas mediante confirmação"),
 ]
 
 
-class EvPagtoOperMdfe(models.AbstractModel):
-    """Schema XML de validação do evento de pagamento da operação de transporte
-    110116"""
+class EvAlteracaoPagtoServMdfe(models.AbstractModel):
+    """Schema XML de validação do evento de alteração do pagamento do serviçp
+    de transporte 110118"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "mdfe.30.evpagtoopermdfe"
+    _name = "mdfe.30.evalteracaopagtoservmdfe"
     _inherit = "spec.mixin.mdfe"
-    _binding_type = "EvPagtoOperMdfe"
+    _binding_type = "EvAlteracaoPagtoServMdfe"
 
     mdfe30_descEvento = fields.Selection(
-        EVPAGTOOPERMDFE_DESCEVENTO,
+        EVALTERACAOPAGTOSERVMDFE_DESCEVENTO,
         string="Descrição do Evento",
         xsd_required=True,
-        help="Descrição do Evento - “Pagamento Operação MDF-e”",
+        help="Descrição do Evento - “Alteração Pagamento Serviço MDFe”",
     )
 
     mdfe30_nProt = fields.Char(
         string="Número do Protocolo de Status do MDF-e",
         xsd_required=True,
         xsd_type="TProt",
-        help=(
-            "Número do Protocolo de Status do MDF-e. \n1 posição tipo de "
-            "autorizador (9 - SEFAZ Nacional ); \n2 posições ano;\n10 "
-            "seqüencial no ano."
-        ),
-    )
-
-    mdfe30_infViagens = fields.Many2one(
-        comodel_name="mdfe.30.infviagens",
-        string="Informações do total",
-        xsd_required=True,
-        help=(
-            "Informações do total de viagens acobertadas pelo Evento "
-            "“pagamento do frete”"
-        ),
     )
 
     mdfe30_infPag = fields.One2many(
-        "mdfe.30.evpagtoopermdfe_infpag",
-        "mdfe30_infPag_evPagtoOperMDFe_id",
+        "mdfe.30.evalteracaopagtoservmdfe_infpag",
+        "mdfe30_infPag_evAlteracaoPagtoServMDFe_id",
         string="Informações do Pagamento do Frete",
     )
 
 
-class InfViagens(models.AbstractModel):
-    """Informações do total de viagens acobertadas pelo Evento “pagamento do
-    frete”"""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "mdfe.30.infviagens"
-    _inherit = "spec.mixin.mdfe"
-    _binding_type = "EvPagtoOperMdfe.InfViagens"
-
-    mdfe30_qtdViagens = fields.Char(
-        string="Quantidade total",
-        xsd_required=True,
-        help=("Quantidade total de viagens realizadas com o pagamento do Frete"),
-    )
-
-    mdfe30_nroViagem = fields.Char(
-        string="Número de referência da viagem",
-        xsd_required=True,
-        help="Número de referência da viagem do MDFe referenciado.",
-    )
-
-
-class EvPagtoOperMdfeInfPag(models.AbstractModel):
+class EvAlteracaoPagtoServMdfeInfPag(models.AbstractModel):
     "Informações do Pagamento do Frete"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "mdfe.30.evpagtoopermdfe_infpag"
+    _name = "mdfe.30.evalteracaopagtoservmdfe_infpag"
     _inherit = "spec.mixin.mdfe"
-    _binding_type = "EvPagtoOperMdfe.InfPag"
+    _binding_type = "EvAlteracaoPagtoServMdfe.InfPag"
 
-    mdfe30_infPag_evPagtoOperMDFe_id = fields.Many2one(
-        comodel_name="mdfe.30.evpagtoopermdfe", xsd_implicit=True, ondelete="cascade"
+    mdfe30_infPag_evAlteracaoPagtoServMDFe_id = fields.Many2one(
+        comodel_name="mdfe.30.evalteracaopagtoservmdfe",
+        xsd_implicit=True,
+        ondelete="cascade",
     )
     mdfe30_xNome = fields.Char(
         string="Razão social ou Nome do responsavel",
@@ -134,7 +122,7 @@ class EvPagtoOperMdfeInfPag(models.AbstractModel):
     )
 
     mdfe30_comp = fields.One2many(
-        "mdfe.30.evpagtoopermdfe_comp",
+        "mdfe.30.evalteracaopagtoservmdfe_comp",
         "mdfe30_Comp_infPag_id",
         string="Componentes do Pagamentoi do Frete",
     )
@@ -175,7 +163,7 @@ class EvPagtoOperMdfeInfPag(models.AbstractModel):
     )
 
     mdfe30_infPrazo = fields.One2many(
-        "mdfe.30.evpagtoopermdfe_infprazo",
+        "mdfe.30.evalteracaopagtoservmdfe_infprazo",
         "mdfe30_infPrazo_infPag_id",
         string="Informações do pagamento a prazo",
         help=(
@@ -194,22 +182,22 @@ class EvPagtoOperMdfeInfPag(models.AbstractModel):
     )
 
     mdfe30_infBanc = fields.Many2one(
-        comodel_name="mdfe.30.evpagtoopermdfe_infbanc",
+        comodel_name="mdfe.30.evalteracaopagtoservmdfe_infbanc",
         string="Informações bancárias",
         xsd_required=True,
     )
 
 
-class EvPagtoOperMdfeComp(models.AbstractModel):
+class EvAlteracaoPagtoServMdfeComp(models.AbstractModel):
     "Componentes do Pagamentoi do Frete"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "mdfe.30.evpagtoopermdfe_comp"
+    _name = "mdfe.30.evalteracaopagtoservmdfe_comp"
     _inherit = "spec.mixin.mdfe"
-    _binding_type = "EvPagtoOperMdfe.InfPag.Comp"
+    _binding_type = "EvAlteracaoPagtoServMdfe.InfPag.Comp"
 
     mdfe30_Comp_infPag_id = fields.Many2one(
-        comodel_name="mdfe.30.evpagtoopermdfe_infpag",
+        comodel_name="mdfe.30.evalteracaopagtoservmdfe_infpag",
         xsd_implicit=True,
         ondelete="cascade",
     )
@@ -234,17 +222,17 @@ class EvPagtoOperMdfeComp(models.AbstractModel):
     mdfe30_xComp = fields.Char(string="Descrição do componente do tipo Outros")
 
 
-class EvPagtoOperMdfeInfPrazo(models.AbstractModel):
+class EvAlteracaoPagtoServMdfeInfPrazo(models.AbstractModel):
     """Informações do pagamento a prazo.
     Informar somente se indPag for à Prazo"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "mdfe.30.evpagtoopermdfe_infprazo"
+    _name = "mdfe.30.evalteracaopagtoservmdfe_infprazo"
     _inherit = "spec.mixin.mdfe"
-    _binding_type = "EvPagtoOperMdfe.InfPag.InfPrazo"
+    _binding_type = "EvAlteracaoPagtoServMdfe.InfPag.InfPrazo"
 
     mdfe30_infPrazo_infPag_id = fields.Many2one(
-        comodel_name="mdfe.30.evpagtoopermdfe_infpag",
+        comodel_name="mdfe.30.evalteracaopagtoservmdfe_infpag",
         xsd_implicit=True,
         ondelete="cascade",
     )
@@ -265,13 +253,13 @@ class EvPagtoOperMdfeInfPrazo(models.AbstractModel):
     )
 
 
-class EvPagtoOperMdfeInfBanc(models.AbstractModel):
+class EvAlteracaoPagtoServMdfeInfBanc(models.AbstractModel):
     "Informações bancárias"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "mdfe.30.evpagtoopermdfe_infbanc"
+    _name = "mdfe.30.evalteracaopagtoservmdfe_infbanc"
     _inherit = "spec.mixin.mdfe"
-    _binding_type = "EvPagtoOperMdfe.InfPag.InfBanc"
+    _binding_type = "EvAlteracaoPagtoServMdfe.InfPag.InfBanc"
 
     mdfe30_codBanco = fields.Char(
         string="Número do banco", choice="infbanc", xsd_choice_required=True
