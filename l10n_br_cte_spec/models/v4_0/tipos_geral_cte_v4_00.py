@@ -91,12 +91,6 @@ TMODCTOS = [
 ]
 
 # Tipo Modelo Documento Fiscal
-TMODCT_CARGA_OS = [
-    ("57", "57"),
-    ("67", "67"),
-]
-
-# Tipo Modelo Documento Fiscal
 TMODGTVE = [
     ("64", "64"),
 ]
