@@ -102,8 +102,8 @@ TFINCTE = [
 
 # Tipos Finalidade de CT-e Simplificado
 TFINCTESIMP = [
-    ("4", "4"),
     ("5", "5"),
+    ("6", "6"),
 ]
 
 # Tipo Finalidade da GTV-e
@@ -173,9 +173,34 @@ IDE_RETIRA = [
 ]
 
 # Forma de emissão do CT-e
-IDE_TPEMIS = [
+IDE_TPEMIS_1 = [
     ("1", "Normal"),
     ("2", "2"),
+]
+
+# Forma de emissão do CT-e
+IDE_TPEMIS_2 = [
+    ("1", "Normal"),
+    ("3", "3"),
+    ("4", "4"),
+    ("7", "Autorização pela SVC-RS"),
+    ("8", "Autorização pela SVC-SP"),
+]
+
+# Forma de emissão do CT-e
+IDE_TPEMIS_3 = [
+    ("1", "Normal"),
+    ("3", "3"),
+    ("4", "4"),
+    ("5", "Contingência FSDA"),
+    ("7", "Autorização pela SVC-RS"),
+    ("8", "Autorização pela SVC-SP"),
+]
+
+# Forma de emissão do CT-e
+IDE_TPEMIS_4 = [
+    ("1", "Normal"),
+    ("5", "Contingência FSDA"),
     ("7", "Autorização pela SVC-RS"),
     ("8", "Autorização pela SVC-SP"),
 ]
@@ -187,8 +212,31 @@ IDE_TPIMP = [
 ]
 
 # Tipo do Serviço
-IDE_TPSERV = [
+IDE_TPSERV_1 = [
     ("9", "9"),
+]
+
+# Tipo do Serviço
+IDE_TPSERV_2 = [
+    ("0", "0"),
+    ("1", "1"),
+    ("2", "2"),
+]
+
+# Tipo do Serviço
+IDE_TPSERV_3 = [
+    ("0", "0"),
+    ("1", "1"),
+    ("2", "2"),
+    ("3", "3"),
+    ("4", "4"),
+]
+
+# Tipo do Serviço
+IDE_TPSERV_4 = [
+    ("6", "Transporte de Pessoas"),
+    ("7", "Transporte de Valores"),
+    ("8", "Excesso de Bagagem."),
 ]
 
 # Indicador de CT-e Alteração de Tomador
@@ -201,14 +249,6 @@ INFCTESUB_INDALTERATOMA = [
 INFDOCANT_TPPREST = [
     ("1", "Total"),
     ("2", "Parcial"),
-]
-
-# Tipo da Espécie
-INFESPECIE_TPESPECIE = [
-    ("1", "Numerário"),
-    ("2", "Cheque"),
-    ("3", "Moeda"),
-    ("4", "Outros"),
 ]
 
 # Nacionalidade do Numerário
@@ -292,7 +332,7 @@ TOMA3_TOMA = [
 ]
 
 # Tomador do Serviço
-TOMA4_TOMA = [
+TOMA4_TOMA_1 = [
     ("4", "Outros"),
 ]
 
@@ -309,9 +349,18 @@ TOMA_INDIETOMA = [
 ]
 
 # Tomador do Serviço
-TOMA_TOMA = [
+TOMA_TOMA_1 = [
     ("0", "Remetente"),
     ("1", "Expedidor"),
+]
+
+# Tomador do Serviço
+TOMA_TOMA_2 = [
+    ("0", "Remetente"),
+    ("1", "Expedidor"),
+    ("2", "Recebedor"),
+    ("3", "Destinatário"),
+    ("4", "Terceiro"),
 ]
 
 
@@ -1210,7 +1259,7 @@ class TcteOsIde(models.AbstractModel):
     )
 
     cte40_tpEmis = fields.Selection(
-        IDE_TPEMIS,
+        IDE_TPEMIS_4,
         string="Forma de emissão do CT-e",
         xsd_required=True,
         help=(
@@ -1245,7 +1294,7 @@ class TcteOsIde(models.AbstractModel):
         xsd_required=True,
         help=(
             "Tipo do CT-e OS\nPreencher com:\n0 - CT-e Normal; \n1 - CT-e "
-            "Complementar; \n\n3 - CT-e de Substituição."
+            "Complementar; \n3 - CT-e de Substituição."
         ),
     )
 
@@ -1314,7 +1363,7 @@ class TcteOsIde(models.AbstractModel):
     )
 
     cte40_tpServ = fields.Selection(
-        IDE_TPSERV,
+        IDE_TPSERV_4,
         string="Tipo do Serviço",
         xsd_required=True,
         help=(
@@ -1403,6 +1452,10 @@ class TcteOsIde(models.AbstractModel):
     )
 
     cte40_xJust = fields.Char(string="Justificativa da entrada em contingência")
+
+    cte40_gCompraGov = fields.Char(
+        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
+    )
 
 
 class InfPercurso(models.AbstractModel):
@@ -1715,6 +1768,19 @@ class TcteOsImp(models.AbstractModel):
             "Informações dos tributos federais\nGrupo a ser informado nas "
             "prestações interestaduais para consumidor final, não contribuinte"
             " do ICMS"
+        ),
+    )
+
+    cte40_IBSCBS = fields.Char(
+        string="Grupo de informações do IBS e CBS", xsd_type="TTribCTe"
+    )
+
+    cte40_vTotDFe = fields.Monetary(
+        string="Valor total do documento fiscal",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total da CBS)"
         ),
     )
 
@@ -2340,13 +2406,12 @@ class TgtveIde(models.AbstractModel):
     )
 
     cte40_tpEmis = fields.Selection(
-        IDE_TPEMIS,
+        IDE_TPEMIS_1,
         string="Forma de emissão da GTV-e",
         xsd_required=True,
         help=(
-            "Forma de emissão da GTV-e\nPreencher com:\n1 - Normal;\n 2- "
-            "Contingencia offline \n7 - Autorização pela SVC-RS;\n 8 - "
-            "Autorização pela SVC-SP"
+            "Forma de emissão da GTV-e\nPreencher com:\n1 - Normal;\n2- "
+            "Contingencia offline"
         ),
     )
 
@@ -2425,7 +2490,7 @@ class TgtveIde(models.AbstractModel):
     )
 
     cte40_tpServ = fields.Selection(
-        IDE_TPSERV,
+        IDE_TPSERV_1,
         string="Tipo do Serviço",
         xsd_required=True,
         help="Tipo do Serviço\nPreencher com: \n\n9 - GTV",
@@ -2491,7 +2556,7 @@ class TgtveToma(models.AbstractModel):
     _binding_type = "Tgtve.InfCte.Ide.Toma"
 
     cte40_toma = fields.Selection(
-        TOMA_TOMA,
+        TOMA_TOMA_1,
         string="Tomador do Serviço",
         xsd_required=True,
         help=(
@@ -2853,12 +2918,6 @@ class TgtveInfEspecie(models.AbstractModel):
     cte40_infEspecie_detGTV_id = fields.Many2one(
         comodel_name="cte.40.detgtv", xsd_implicit=True, ondelete="cascade"
     )
-    cte40_tpEspecie = fields.Selection(
-        INFESPECIE_TPESPECIE,
-        string="Tipo da Espécie",
-        xsd_required=True,
-        help=("Tipo da Espécie\n1 - Cédula\n2 - Cheque\n3 - Moeda\n4 - Outros"),
-    )
 
     cte40_vEspecie = fields.Monetary(
         string="Valor Transportada em Espécie indicada",
@@ -2983,9 +3042,7 @@ class TretCte(models.AbstractModel):
     )
 
     cte40_cStat = fields.Char(
-        string="código do status do retorno da consulta",
-        xsd_required=True,
-        xsd_type="TStat",
+        string="código do status do retorno da consulta", xsd_required=True
     )
 
     cte40_xMotivo = fields.Char(
@@ -3465,7 +3522,7 @@ class TcteIde(models.AbstractModel):
     )
 
     cte40_tpEmis = fields.Selection(
-        IDE_TPEMIS,
+        IDE_TPEMIS_3,
         string="Forma de emissão do CT-e",
         xsd_required=True,
         help=(
@@ -3579,7 +3636,7 @@ class TcteIde(models.AbstractModel):
     )
 
     cte40_tpServ = fields.Selection(
-        IDE_TPSERV,
+        IDE_TPSERV_3,
         string="Tipo do Serviço",
         xsd_required=True,
         help=(
@@ -3698,6 +3755,10 @@ class TcteIde(models.AbstractModel):
 
     cte40_xJust = fields.Char(string="Justificativa da entrada em contingência")
 
+    cte40_gCompraGov = fields.Char(
+        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
+    )
+
 
 class Toma3(models.AbstractModel):
     """Indicador do "papel" do tomador do serviço no CT-e"""
@@ -3730,7 +3791,7 @@ class TcteToma4(models.AbstractModel):
     _binding_type = "Tcte.InfCte.Ide.Toma4"
 
     cte40_toma = fields.Selection(
-        TOMA4_TOMA,
+        TOMA4_TOMA_1,
         string="Tomador do Serviço",
         xsd_required=True,
         help=(
@@ -4548,6 +4609,19 @@ class TcteImp(models.AbstractModel):
         ),
     )
 
+    cte40_IBSCBS = fields.Char(
+        string="Grupo de informações do IBS e CBS", xsd_type="TTribCTe"
+    )
+
+    cte40_vTotDFe = fields.Monetary(
+        string="Valor total do documento fiscal",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total da CBS)"
+        ),
+    )
+
 
 class TcteAutXml(models.AbstractModel):
     """Autorizados para download do XML do DF-e
@@ -4855,6 +4929,14 @@ class TcteInfDoc(models.AbstractModel):
         xsd_choice_required=True,
     )
 
+    cte40_infDCe = fields.One2many(
+        "cte.40.infdce",
+        "cte40_infDCe_infDoc_id",
+        string="Informações das DCe",
+        choice="infdoc",
+        xsd_choice_required=True,
+    )
+
 
 class TcteInfNf(models.AbstractModel):
     """Informações das NF
@@ -5128,6 +5210,22 @@ class InfOutros(models.AbstractModel):
             "(Carreta/Reboque/Vagão)\nDeve ser preenchido com as informações "
             "das unidades de transporte utilizadas."
         ),
+    )
+
+
+class InfDce(models.AbstractModel):
+    "Informações das DCe"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "cte.40.infdce"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Tcte.InfCte.InfCteNorm.InfDoc.InfDce"
+
+    cte40_infDCe_infDoc_id = fields.Many2one(
+        comodel_name="cte.40.tcte_infdoc", xsd_implicit=True, ondelete="cascade"
+    )
+    cte40_chave = fields.Char(
+        string="Chave de acesso da DCe", xsd_required=True, xsd_type="TChDFe"
     )
 
 
@@ -5715,7 +5813,7 @@ class TcteSimpIde(models.AbstractModel):
     )
 
     cte40_tpEmis = fields.Selection(
-        IDE_TPEMIS,
+        IDE_TPEMIS_2,
         string="Forma de emissão do CT-e",
         xsd_required=True,
         help=(
@@ -5749,8 +5847,8 @@ class TcteSimpIde(models.AbstractModel):
         string="Tipo do CT-e Simplificado",
         xsd_required=True,
         help=(
-            "Tipo do CT-e Simplificado\nPreencher com:\n4 - CTe "
-            "Simplificado\n5 - Substituição CTe Simplificado"
+            "Tipo do CT-e Simplificado\nPreencher com:\n5 - CTe "
+            "Simplificado\n6 - Substituição CTe Simplificado"
         ),
     )
 
@@ -5816,7 +5914,7 @@ class TcteSimpIde(models.AbstractModel):
     )
 
     cte40_tpServ = fields.Selection(
-        IDE_TPSERV,
+        IDE_TPSERV_2,
         string="Tipo do Serviço",
         xsd_required=True,
         help=(
@@ -5867,6 +5965,10 @@ class TcteSimpIde(models.AbstractModel):
     )
 
     cte40_xJust = fields.Char(string="Justificativa da entrada em contingência")
+
+    cte40_gCompraGov = fields.Char(
+        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
+    )
 
 
 class TcteSimpCompl(models.AbstractModel):
@@ -6097,7 +6199,7 @@ class TcteSimpToma(models.AbstractModel):
     _binding_type = "TcteSimp.InfCte.Toma"
 
     cte40_toma = fields.Selection(
-        TOMA_TOMA,
+        TOMA_TOMA_2,
         string="Tomador do Serviço",
         xsd_required=True,
         help=(
@@ -6113,8 +6215,7 @@ class TcteSimpToma(models.AbstractModel):
         help=(
             "Indicador do papel do tomador na prestação do serviço:\n1 – "
             "Contribuinte ICMS;\n2 – Contribuinte isento de inscrição;\n9 – "
-            "Não Contribuinte\nAplica-se ao tomador que for indicado no toma3 "
-            "ou toma4"
+            "Não Contribuinte\nAplica-se ao tomador que for indicado no toma"
         ),
     )
 
@@ -6418,9 +6519,7 @@ class TcteSimpInfNfe(models.AbstractModel):
     cte40_infNFe_det_id = fields.Many2one(
         comodel_name="cte.40.det", xsd_implicit=True, ondelete="cascade"
     )
-    cte40_chNFe = fields.Char(
-        string="Chave de acesso da NF-e", xsd_required=True, xsd_type="TChDFe"
-    )
+    cte40_chNFe = fields.Char(string="Chave de acesso da NF-e", xsd_required=True)
 
     cte40_PIN = fields.Char(
         string="PIN SUFRAMA",
@@ -6652,6 +6751,10 @@ class TcteSimpImp(models.AbstractModel):
         ),
     )
 
+    cte40_IBSCBS = fields.Char(
+        string="Grupo de informações do IBS e CBS", xsd_type="TTribCTe"
+    )
+
 
 class Total(models.AbstractModel):
     "Valores Totais do CTe"
@@ -6677,6 +6780,15 @@ class Total(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
+    )
+
+    cte40_vTotDFe = fields.Monetary(
+        string="Valor total do documento fiscal",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total da CBS)"
+        ),
     )
 
 
