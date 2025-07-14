@@ -8,6 +8,20 @@ from odoo import fields, models
 
 __NAMESPACE__ = "http://www.portalfiscal.inf.br/cte"
 
+# Classificação do Dutoviário
+DUTO_CLASSDUTO = [
+    ("1", "Gasoduto 2 - Mineroduto 3 - Oleoduto"),
+    ("2", "Mineroduto 3 - Oleoduto"),
+    ("3", "Oleoduto"),
+]
+
+# Tipo de contratação do serviço de transporte
+DUTO_TPCONTRATACAO = [
+    ("0", "Ponta a ponto"),
+    ("1", "Capacidade de Entrada"),
+    ("2", "Capacidade de Saida"),
+]
+
 
 class Duto(models.AbstractModel):
     "Informações do modal Dutoviário"
@@ -37,3 +51,28 @@ class Duto(models.AbstractModel):
         xsd_required=True,
         xsd_type="TData",
     )
+
+    cte40_classDuto = fields.Selection(
+        DUTO_CLASSDUTO,
+        string="Classificação do Dutoviário",
+        help=(
+            "Classificação do Dutoviário\nInformar: 1 - Gasoduto 2 - "
+            "Mineroduto 3 - Oleoduto"
+        ),
+    )
+
+    cte40_tpContratacao = fields.Selection(
+        DUTO_TPCONTRATACAO,
+        string="Tipo de contratação do serviço",
+        help=(
+            "Tipo de contratação do serviço de transporte (apenas para "
+            "gasoduto)\nInformar:\n0 - Ponta a ponto\n1 - Capacidade de "
+            "Entrada \n2 - Capacidade de Saida"
+        ),
+    )
+
+    cte40_codPontoEntrada = fields.Char(string="Código do Ponto de Entrada")
+
+    cte40_codPontoSaida = fields.Char(string="Código do Ponto de Saída")
+
+    cte40_nContrato = fields.Char(string="Número do Contrato de Capacidade")
