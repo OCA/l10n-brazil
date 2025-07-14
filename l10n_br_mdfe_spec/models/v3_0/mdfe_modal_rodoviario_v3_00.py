@@ -6,9 +6,11 @@ import textwrap
 
 from odoo import fields, models
 
-from .ev_pagto_oper_mdfe_v3_00 import (
+from .ev_alteracao_pagto_serv_mdfe_v3_00 import (
     COMP_TPCOMP,
+    INFPAG_INDANTECIPAADIANT,
     INFPAG_INDPAG,
+    INFPAG_TPANTECIP,
 )
 from .tipos_geral_mdfe_v3_00 import TUF
 
@@ -17,8 +19,7 @@ __NAMESPACE__ = "http://www.portalfiscal.inf.br/mdfe"
 # Tipo do Vale Pedagio
 DISP_TPVALEPED = [
     ("01", "TAG"),
-    ("02", "Cupom"),
-    ("03", "Cartão"),
+    ("04", "Leitura de placa (pela placa de identificação veicular)"),
 ]
 
 # Indicador de operação de transporte de alto desempenho
@@ -168,7 +169,7 @@ class InfAntt(models.AbstractModel):
     mdfe30_infPag = fields.One2many(
         "mdfe.30.rodo_infpag",
         "mdfe30_infPag_infANTT_id",
-        string="Informações do Pagamento do Frete",
+        string="Informações do Pagamento do Contrato",
     )
 
 
@@ -185,7 +186,6 @@ class InfCiot(models.AbstractModel):
     )
     mdfe30_CIOT = fields.Char(
         string="Código Identificador da Operação",
-        xsd_required=True,
         help=(
             "Código Identificador da Operação de Transporte\nTambém Conhecido "
             "como conta frete"
@@ -294,12 +294,7 @@ class Disp(models.AbstractModel):
     )
 
     mdfe30_nCompra = fields.Char(
-        string="Número do comprovante de compra",
-        help=(
-            "Número do comprovante de compra\nNúmero de ordem do comprovante "
-            "de compra do Vale-Pedágio fornecido para cada veículo ou "
-            "combinação veicular, por viagem."
-        ),
+        string="Identificador", help="Identificador do vale pedagio obrigatório - IDVPO"
     )
 
     mdfe30_vValePed = fields.Monetary(
@@ -317,7 +312,10 @@ class Disp(models.AbstractModel):
     mdfe30_tpValePed = fields.Selection(
         DISP_TPVALEPED,
         string="Tipo do Vale Pedagio",
-        help="Tipo do Vale Pedagio\n01 - TAG; 02 - Cupom; 03 - Cartão",
+        help=(
+            "Tipo do Vale Pedagio\n01 - TAG; 04 - Leitura de placa (pela placa"
+            " de identificação veicular)"
+        ),
     )
 
 
@@ -363,9 +361,40 @@ class InfContratante(models.AbstractModel):
         help=("Identificador do contratante em caso de contratante estrangeiro"),
     )
 
+    mdfe30_infContrato = fields.Many2one(
+        comodel_name="mdfe.30.infcontrato",
+        string="Grupo de informações do contrato",
+        help=("Grupo de informações do contrato entre transportador e contratante"),
+    )
+
+
+class InfContrato(models.AbstractModel):
+    "Grupo de informações do contrato entre transportador e contratante"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "mdfe.30.infcontrato"
+    _inherit = "spec.mixin.mdfe"
+    _binding_type = "Rodo.InfAntt.InfContratante.InfContrato"
+
+    mdfe30_NroContrato = fields.Char(
+        string="Número do contrato do transportador",
+        xsd_required=True,
+        help=(
+            "Número do contrato do transportador com o contratante quando este"
+            " existir para prestações continuadas"
+        ),
+    )
+
+    mdfe30_vContratoGlobal = fields.Monetary(
+        string="Valor global do contrato",
+        xsd_required=True,
+        xsd_type="TDec_1302Opc",
+        currency_field="brl_currency_id",
+    )
+
 
 class RodoInfPag(models.AbstractModel):
-    "Informações do Pagamento do Frete"
+    "Informações do Pagamento do Contrato"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "mdfe.30.rodo_infpag"
@@ -412,7 +441,7 @@ class RodoInfPag(models.AbstractModel):
     mdfe30_comp = fields.One2many(
         "mdfe.30.rodo_comp",
         "mdfe30_Comp_infPag_id",
-        string="Componentes do Pagamentoi do Frete",
+        string="Componentes do Pagamentoi do Contrato",
     )
 
     mdfe30_vContrato = fields.Monetary(
@@ -449,12 +478,32 @@ class RodoInfPag(models.AbstractModel):
         help="Valor do Adiantamento (usar apenas em pagamento à Prazo",
     )
 
+    mdfe30_indAntecipaAdiant = fields.Selection(
+        INFPAG_INDANTECIPAADIANT,
+        string="Indicador para declarar concordância",
+        help=(
+            "Indicador para declarar concordância em antecipar o "
+            "adiantamento\nInformar a tag somente se for autorizado antecipar "
+            "o adiantamento"
+        ),
+    )
+
     mdfe30_infPrazo = fields.One2many(
         "mdfe.30.rodo_infprazo",
         "mdfe30_infPrazo_infPag_id",
         string="Informações do pagamento a prazo",
         help=(
             "Informações do pagamento a prazo.\nInformar somente se indPag for à Prazo"
+        ),
+    )
+
+    mdfe30_tpAntecip = fields.Selection(
+        INFPAG_TPANTECIP,
+        string="Tipo de Permissão em relação",
+        help=(
+            "Tipo de Permissão em relação a antecipação das parcelas\n0 - Não "
+            "permite antecipar\n\n1 - Permite antecipar as parcelas\n\n2 - "
+            "Permite antecipar as parcelas mediante confirmação"
         ),
     )
 
@@ -466,7 +515,7 @@ class RodoInfPag(models.AbstractModel):
 
 
 class RodoComp(models.AbstractModel):
-    "Componentes do Pagamentoi do Frete"
+    "Componentes do Pagamentoi do Contrato"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "mdfe.30.rodo_comp"
@@ -481,9 +530,9 @@ class RodoComp(models.AbstractModel):
         string="Tipo do Componente",
         xsd_required=True,
         help=(
-            "Tipo do Componente\nPreencher com: 01 - Vale Pedágio; \n02 - "
+            "Tipo do Componente\nPreencher com: \n01 - Vale Pedágio; \n02 - "
             "Impostos, taxas e contribuições; \n03 - Despesas (bancárias, "
-            "meios de pagamento, outras)\n; 99 - Outros"
+            "meios de pagamento, outras);\n04 - Frete\n99 - Outros"
         ),
     )
 
