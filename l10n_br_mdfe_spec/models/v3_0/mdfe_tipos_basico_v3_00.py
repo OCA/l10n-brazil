@@ -2313,13 +2313,6 @@ class TmdfePaasignature(models.AbstractModel):
         ),
     )
 
-    mdfe30_RSAKeyValue = fields.Many2one(
-        comodel_name="mdfe.30.trsakeyvaluetype",
-        string="Chave Publica no padrão XML RSA Key",
-        xsd_required=True,
-        xsd_type="TRSAKeyValueType",
-    )
-
 
 class InfMdfeSupl(models.AbstractModel):
     "Informações suplementares do MDF-e"
