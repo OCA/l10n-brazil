@@ -69,7 +69,7 @@ class MDFe(spec_models.StackedModel):
     _mdfe30_stacking_force_paths = [
         "infmdfe.infAdic",
         "infmdfe.tot",
-        "infmdfe.infsolicnff",
+        "infmdfe.tmdfe_infsolicnff",
         "infmdfe.InfDoc",
     ]
     _mdfe_search_keys = ["mdfe30_Id"]
@@ -91,7 +91,8 @@ class MDFe(spec_models.StackedModel):
     ≡ <autXML> res.partner
     > <infAdic>
     - <infRespTec> res.partner
-    - <infSolicNFF>"""
+    - <infSolicNFF>
+    - <infPAA>"""
 
     mdfe_version = fields.Selection(
         string="MDF-e Version",
