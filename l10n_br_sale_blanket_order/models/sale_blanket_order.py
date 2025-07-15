@@ -41,7 +41,7 @@ class SaleBlanketOrder(models.Model):
 
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
-        related="partner_id.cnpj_cpf",
+        related="partner_id.vat",
     )
 
     legal_name = fields.Char(
@@ -49,9 +49,9 @@ class SaleBlanketOrder(models.Model):
         related="partner_id.legal_name",
     )
 
-    ie = fields.Char(
+    l10n_br_ie_code = fields.Char(
         string="State Tax Number/RG",
-        related="partner_id.inscr_est",
+        related="partner_id.l10n_br_ie_code",
     )
 
     comment_ids = fields.Many2many(
@@ -66,13 +66,17 @@ class SaleBlanketOrder(models.Model):
         copy=False,
     )
 
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "line_ids"
+
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("line_ids")
 
     @api.depends("line_ids")
     def _compute_amount(self):
-        return super()._compute_amount()
+        return super()._compute_amount_all()
 
     @api.depends("line_ids.price_total")
     def _amount_all(self):
@@ -108,6 +112,4 @@ class SaleBlanketOrder(models.Model):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        result = super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
-        return result

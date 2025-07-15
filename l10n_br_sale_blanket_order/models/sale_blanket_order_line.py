@@ -11,17 +11,12 @@ class SaleBlanketOrderLine(models.Model):
     country_id = fields.Many2one(related="company_id.country_id", store=True)
 
     @api.model
-    def _default_fiscal_operation(self):
-        return self.env.company.sale_fiscal_operation_id
-
-    @api.model
     def _fiscal_operation_domain(self):
         domain = [("state", "=", "approved")]
         return domain
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
@@ -45,18 +40,15 @@ class SaleBlanketOrderLine(models.Model):
     quantity = fields.Float(
         string="Product Uom Quantity",
         related="original_uom_qty",
-        depends=["original_uom_qty"],
     )
 
     fiscal_qty_delivered = fields.Float(
         string="Fiscal Utm Qty Delivered",
         related="delivered_uom_qty",
-        depends=["delivered_uom_qty"],
     )
 
     uom_id = fields.Many2one(
         related="product_uom",
-        depends=["product_uom"],
     )
 
     tax_framework = fields.Selection(
@@ -95,7 +87,7 @@ class SaleBlanketOrderLine(models.Model):
         company = self.env.company
         domain = []
         if company.cnae_main_id and company.cnae_secondary_ids:
-            cnae_main_id = (company.cnae_main_id.id,)
+            cnae_main_id = company.cnae_main_id.id
             cnae_secondary_ids = company.cnae_secondary_ids.ids
             domain = ["|", ("id", "in", cnae_secondary_ids), ("id", "=", cnae_main_id)]
         return domain
@@ -115,63 +107,43 @@ class SaleBlanketOrderLine(models.Model):
         ]
 
     @api.depends(
-        "original_uom_qty",
+        "quantity",
         "price_unit",
         "fiscal_price",
         "fiscal_quantity",
-        "taxes_id",
+        "fiscal_tax_ids",
     )
     def _compute_amount(self):
         """Compute the amounts of the Sale Blanket Order line."""
         result = super()._compute_amount()
         for line in self:
-            # Update taxes fields
-            line._update_fiscal_taxes()
-            # Call mixin compute method
-            line._compute_amounts()
-            # Update record
             line.update(
                 {
-                    "price_subtotal": line.amount_untaxed,
-                    "price_tax": line.amount_tax,
-                    "price_gross": line.amount_untaxed,
-                    "price_total": line.amount_total,
+                    "price_subtotal": line.fiscal_amount_untaxed,
+                    "price_tax": line.fiscal_amount_tax,
+                    "price_gross": line.fiscal_amount_untaxed,
+                    "price_total": line.fiscal_amount_total,
                 }
             )
         return result
 
-    @api.onchange("product_uom", "original_uom_qty")
-    def _onchange_product_uom(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        self._onchange_commercial_quantity()
-
-    @api.onchange("fiscal_tax_ids")
-    def _onchange_fiscal_tax_ids(self):
-        if self.product_id and self.fiscal_operation_line_id:
-            super()._onchange_fiscal_tax_ids()
-            self.taxes_id = self.fiscal_tax_ids.account_taxes(
-                user_type="sale", fiscal_operation=self.fiscal_operation_id
-            )
-
-    def _get_product_price(self):
-        self.ensure_one()
-
-        if (
-            self.fiscal_operation_id.default_price_unit == "sale_price"
-            and self.order_id.pricelist_id
-            and self.order_id.partner_id
-        ):
-            self.price_unit = self.product_id._get_tax_included_unit_price(
-                self.company_id,
-                self.order_id.currency_id,
-                self.order_id.validity_date,
-                "sale",
-                fiscal_position=self.order_id.fiscal_position_id,
-                product_price_unit=self._get_display_price(self.product_id),
-                product_currency=self.order_id.currency_id,
-            )
-        elif self.fiscal_operation_id.default_price_unit == "cost_price":
-            self.price_unit = self.product_id.standard_price
-        else:
-            self.price_unit = 0.00
+    def _compute_price_unit_fiscal(self):
+        for line in self:
+            if (
+                line.fiscal_operation_id.default_price_unit == "sale_price"
+                and line.order_id.pricelist_id
+                and line.order_id.partner_id
+            ):
+                line.price_unit = line.product_id._get_tax_included_unit_price(
+                    line.company_id,
+                    line.order_id.currency_id,
+                    line.order_id.validity_date,
+                    "sale",
+                    fiscal_position=line.order_id.fiscal_position_id,
+                    product_price_unit=line._get_display_price(line.product_id),
+                    product_currency=line.order_id.currency_id,
+                )
+            elif line.fiscal_operation_id.default_price_unit == "cost_price":
+                line.price_unit = line.product_id.standard_price
+            else:
+                line.price_unit = 0.00
