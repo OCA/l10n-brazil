@@ -3,13 +3,15 @@
 
 from datetime import date, timedelta
 
-from odoo.tests.common import SavepointCase
+from odoo.fields import Command
+from odoo.tests.common import TransactionCase
 
 
-class L10nBrSaleBLanketOrderTest(SavepointCase):
+class L10nBrSaleBLanketOrderTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # Set up some test data like partner, payment term, company, pricelist, etc.
         cls.partner = cls.env.ref("base.res_partner_1")
@@ -17,9 +19,13 @@ class L10nBrSaleBLanketOrderTest(SavepointCase):
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.pricelist = cls.env.ref("product.list0")
         cls.validity_date = date.today() + timedelta(days=2)
+        cls.cnae_secondary = cls.env.ref("l10n_br_fiscal.cnae_31021")
 
         cls.product = cls.env.ref("product.product_product_27")
         cls.product_uom = cls.env.ref("uom.product_uom_unit")
+
+        cls.company.cnae_secondary_ids = [(6, 0, [cls.cnae_secondary.id])]
+        cls.env.company = cls.company
 
     # Helper method to create a new Blanket Order for testing.
     def _create_blanket_order(self):
@@ -29,15 +35,13 @@ class L10nBrSaleBLanketOrderTest(SavepointCase):
             "payment_term_id": self.payment_term.id,
             "pricelist_id": self.pricelist.id,
             "line_ids": [
-                (
-                    0,
-                    0,
+                Command.create(
                     {
                         "product_id": self.product.id,
                         "product_uom": self.product_uom.id,
                         "original_uom_qty": 20.0,
                         "price_unit": 25.0,
-                    },
+                    }
                 )
             ],
         }
@@ -49,19 +53,21 @@ class L10nBrSaleBLanketOrderTest(SavepointCase):
 
     # Helper method to create a new wizard for testing, based on a Blanket Order.
     def _create_wizard(self, blanket_order):
-        lines = []
-        for line in blanket_order.line_ids:
-            line_vals = {
-                "blanket_line_id": line.id,
-                "product_id": line.product_id.id,
-                "date_schedule": line.date_schedule,
-                "remaining_uom_qty": line.remaining_uom_qty,
-                "price_unit": line.price_unit,
-                "product_uom": line.product_uom,
-                "qty": line.remaining_uom_qty,
-                "partner_id": line.partner_id,
-            }
-            lines.append((0, 0, line_vals))
+        lines = [
+            Command.create(
+                {
+                    "blanket_line_id": line.id,
+                    "product_id": line.product_id.id,
+                    "date_schedule": line.date_schedule,
+                    "remaining_uom_qty": line.remaining_uom_qty,
+                    "price_unit": line.price_unit,
+                    "product_uom": line.product_uom,
+                    "qty": line.remaining_uom_qty,
+                    "partner_id": line.partner_id.id,
+                }
+            )
+            for line in blanket_order.line_ids
+        ]
 
         # Create a new wizard record for the given Blanket Order
         wizard = (
@@ -81,11 +87,15 @@ class L10nBrSaleBLanketOrderTest(SavepointCase):
     def test_confirm_and_process_blanket_order_and_invoice(self):
         # Create a new Blanket Order for testing
         blanket_order = self._create_blanket_order()
+        blanket_order._onchange_fiscal_operation_id()
+        blanket_order._amount_all()
 
         # Check if the blanket order is in "draft" state initially
         self.assertEqual(
             blanket_order.state, "draft", "Error: Blanket Order is not in draft state."
         )
+        self.assertEqual(blanket_order.fiscal_operation_id.code, "VD")
+        self.assertEqual(blanket_order.fiscal_operation_id.fiscal_type, "sale")
 
         # Confirm the blanket order
         blanket_order.sudo().action_confirm()
@@ -146,20 +156,26 @@ class L10nBrSaleBLanketOrderTest(SavepointCase):
             "Error: Sale Order is not in sale state after confirm.",
         )
 
-        # Create invoice for the sale order
-        invoices = {
-            line.fiscal_operation_line_id.get_document_type(line.company_id)
-            for line in sale_order.order_line
-        }
+        invoice_wizard = (
+            self.env["sale.advance.payment.inv"]
+            .with_context(active_ids=sale_order.ids, active_model="sale.order")
+            .create(
+                {
+                    "advance_payment_method": "delivered",
+                }
+            )
+        )
 
-        # Ensure there is at least one invoice created
-        self.assertTrue(invoices, "Error: No invoices were created.")
+        invoice_wizard.create_invoices()
 
-        # Get the IDs of the invoices
-        invoice_ids = [invoice.id for invoice in invoices]
+        invoices = sale_order.invoice_ids
+        self.assertTrue(invoices)
 
-        # Get the invoices related to the sale order
-        invoices = self.env["account.move"].search([("id", "in", invoice_ids)])
+        for invoice in invoices:
+            self.assertEqual(
+                invoice.fiscal_operation_id,
+                sale_order.order_line[0].fiscal_operation_id,
+            )
 
         # Check if all invoices are in "draft" state initially
         self.assertTrue(
@@ -176,3 +192,12 @@ class L10nBrSaleBLanketOrderTest(SavepointCase):
             all(invoice.state == "posted" for invoice in invoices),
             "Error: Not all invoices are in posted state after validation.",
         )
+
+    def test_cnae_domain(self):
+        domain = self.env["sale.blanket.order.line"]._cnae_domain()
+        expected_domain = [
+            "|",
+            ("id", "in", [self.cnae_secondary.id]),
+            ("id", "=", self.company.cnae_main_id.id),
+        ]
+        self.assertEqual(domain, expected_domain)

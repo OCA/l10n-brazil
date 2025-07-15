@@ -31,10 +31,8 @@ class SaleBlanketOrderWizard(models.TransientModel):
         :return: dict
         """
         line = self.env["account.move.line"].new(values.copy())
-        line._onchange_price_subtotal()
         new_values = line._convert_to_write(line._cache)
         values.update(new_values)
-        del values["move_id"]
         return values
 
     def _prepare_so_vals(
@@ -44,6 +42,8 @@ class SaleBlanketOrderWizard(models.TransientModel):
         currency_id,
         pricelist_id,
         payment_term_id,
+        client_order_ref,
+        tag_ids,
         order_lines_by_customer,
     ):
         vals = super()._prepare_so_vals(
@@ -52,6 +52,8 @@ class SaleBlanketOrderWizard(models.TransientModel):
             currency_id=currency_id,
             pricelist_id=pricelist_id,
             payment_term_id=payment_term_id,
+            client_order_ref=client_order_ref,
+            tag_ids=tag_ids,
             order_lines_by_customer=order_lines_by_customer,
         )
 

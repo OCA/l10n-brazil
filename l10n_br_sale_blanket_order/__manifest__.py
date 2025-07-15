@@ -5,7 +5,7 @@
     "name": "Brazilian Localization Sale Blanket Order",
     "summary": """
         Brazilian Localization Sale Blanket Order""",
-    "version": "14.0.1.2.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "Escodoo,Odoo Community Association (OCA)",
     "maintainers": ["marcelsavegnago"],
@@ -13,6 +13,7 @@
     "depends": ["sale_blanket_order", "l10n_br_sale"],
     "data": [
         "views/sale_blanket_order.xml",
+        "views/sale_blanket_order_line.xml",
     ],
     "demo": [
         "demo/l10n_br_sale_blanket_order.xml",
