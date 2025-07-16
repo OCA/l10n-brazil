@@ -1997,15 +1997,21 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_infPAA
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_infPAA
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_infPAA
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_infPAA
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_infPAA
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_infPAA
 msgid "Grupo de Informação do Provedor"
 msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_infPAA
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__mdfe30_infPAA
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_infPAA
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__mdfe30_infPAA
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_infPAA
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_infPAA
 msgid "Grupo de Informação do Provedor de Assinatura e Autorização"
 msgstr ""
 
@@ -4110,14 +4116,20 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_proPred
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__mdfe30_prodPred
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_proPred
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__mdfe30_prodPred
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_proPred
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_prodPred
 msgid ""
 "Produto predominante\n"
 "Informar a descrição do produto predominante"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__mdfe30_prodPred
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__mdfe30_prodPred
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_prodPred
+msgid ""
+"Produto predominante\n"
+"Informar a descrição do produto predominante, conforme o item de maior valor financeiro conforme Resolução ANTT n° 5.867 de 2020)."
 msgstr ""
 
 #. module: l10n_br_account
