@@ -1989,8 +1989,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_gCompraGov
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_gCompraGov
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_gCompraGov
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_gCompraGov
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_gCompraGov
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_gCompraGov
 msgid "Grupo de Compras Governamentais"
 msgstr ""
@@ -2055,6 +2058,13 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_procRef
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_procRef
 msgid "Grupo de informações do  processo referenciado"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_IBSCBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_IBSCBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_IBSCBS
+msgid "Grupo de informações do IBS e CBS"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5207,6 +5217,22 @@ msgstr ""
 msgid ""
 "Valor total do Item, correspondente à sua participação no total da nota. A "
 "soma dos itens deverá corresponder ao total da nota."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_vTotDFe
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_vTotDFe
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_vTotDFe
+msgid "Valor total do documento fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_vTotDFe
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_vTotDFe
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_vTotDFe
+msgid ""
+"Valor total do documento fiscal \n"
+"(vTPrest + total do IBS + total da CBS)"
 msgstr ""
 
 #. module: l10n_br_account
