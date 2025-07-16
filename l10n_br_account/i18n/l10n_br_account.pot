@@ -274,13 +274,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vBCRetPrev
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vBCRetPrev
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vBCRetPrev
-msgid "Base de Cálculo da Retenção"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_vBCRetPrev
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_vBCRetPrev
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_vBCRetPrev
@@ -1071,11 +1064,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_cBarraTrib
-msgid "Código de barras"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_cBarraTrib
 msgid "Código de barras da unidade tributável diferente do padrão GTIN"
 msgstr ""
@@ -1141,7 +1129,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_cNF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_cNF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_cNF
-msgid "Código numérico que compõe a Chave"
+msgid "Código numérico que compõe"
 msgstr ""
 
 #. module: l10n_br_account
@@ -1345,20 +1333,18 @@ msgid "Date IN/OUT"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__deductible_taxes
-msgid "Deductible Taxes"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_DI
-msgid "Delcaração de Importação"
+msgid "Declaração de Importação"
 msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_DI
-msgid ""
-"Delcaração de Importação\n"
-"(NT 2011/004)"
+msgid "Declaração de Importação (NT 2011/004)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__deductible_taxes
+msgid "Deductible Taxes"
 msgstr ""
 
 #. module: l10n_br_account
@@ -1421,13 +1407,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
 msgid "Devolver"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_cDV
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_cDV
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_cDV
-msgid "Digito Verificador da Chave de Acesso"
 msgstr ""
 
 #. module: l10n_br_account
@@ -1688,7 +1667,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_indTot
-msgid "Este campo deverá ser preenchido"
+msgid "Este campo deverá ser preenchido com"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2010,6 +1989,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_gCompraGov
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_gCompraGov
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_gCompraGov
+msgid "Grupo de Compras Governamentais"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_infPAA
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_infPAA
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_infPAA
@@ -2027,7 +2013,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_infIntermed
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_infIntermed
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_infIntermed
-msgid "Grupo de Informações do Intermediador"
+msgid "Grupo de Informações"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2035,13 +2021,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_infIntermed
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_infIntermed
 msgid "Grupo de Informações do Intermediador da Transação"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_detPag
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_detPag
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_detPag
-msgid "Grupo de detalhamento da forma"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2073,6 +2052,11 @@ msgid "Grupo de informações do  processo referenciado"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_IS
+msgid "Grupo de informações do Imposto Seletivo"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_infSolicNFF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_infSolicNFF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_infSolicNFF
@@ -2090,6 +2074,16 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_infSolicNFF
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_infSolicNFF
 msgid "Grupo de informações do pedido de emissão da Nota Fiscal Fácil"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_IBSCBS
+msgid "Grupo de informações dos tributos IBS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_IBSCBS
+msgid "Grupo de informações dos tributos IBS, CBS e Imposto Seletivo"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2117,13 +2111,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_obsItem
 msgid "Grupo de observações de uso livre (para o item da NF-e)"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_infSolicNFF
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_infSolicNFF
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_infSolicNFF
-msgid "Grupo para informações da solicitação"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2661,6 +2648,13 @@ msgid "ISSQN Value"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_ISTot
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_ISTot
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_ISTot
+msgid "ISTot"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_procEmi
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_procEmi
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_procEmi
@@ -2814,6 +2808,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_indBemMovelUsado
+msgid "Indicador de fornecimento de bem móvel usado: 1-Bem Móvel Usado"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_indIntermed
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_indIntermed
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_indIntermed
@@ -2873,8 +2872,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_comb
-msgid "Informar apenas para operações"
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_gPagAntecipado
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_gPagAntecipado
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_gPagAntecipado
+msgid "Informado para abater"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_gPagAntecipado
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_gPagAntecipado
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_gPagAntecipado
+msgid ""
+"Informado para abater as parcelas de antecipação de pagamento, conforme Art."
+" 10. § 4º"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2949,13 +2959,6 @@ msgid ""
 "2 - Peso Cubado; sempre em quilogramas;\n"
 "3 - Quantidade de volumes, sempre em unidades (obrigatório);\n"
 "4 - Cubagem, sempre em metros cúbicos (obrigatório apenas quando for impossível preencher as dimensões da(s) embalagem(ens) na tag xDime do leiaute do Aéreo)."
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_cana
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_cana
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_cana
-msgid "Informações de registro aquisições"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3234,13 +3237,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe_loading_city_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe_loading_city_ids
 msgid "Loading Cities"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_xLocExporta
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_xLocExporta
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_xLocExporta
-msgid "Local de Embarque ou de transposição"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3534,6 +3530,11 @@ msgid "NFe Version"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_NVE
+msgid "NVE"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_nac
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_nac
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_nac
@@ -3614,13 +3615,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_NVE
-msgid "Nomenclatura de Valor aduaneio"
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_NVE
+msgid "Nomenclatura de Valor aduaneio e Estatístico"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_NVE
-msgid "Nomenclatura de Valor aduaneio e Estatístico"
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_nProcesso
+msgid "Número"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3706,11 +3707,6 @@ msgstr ""
 msgid ""
 "Número do CPF\n"
 "Informar os zeros não significativos."
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_nProcesso
-msgid "Número do Processo administrativo"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3985,11 +3981,6 @@ msgid "Payment Term Number"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pFCPST
-msgid "Percentual de FCP retido"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_pFCPST
 msgid "Percentual de FCP retido por substituição tributária."
 msgstr ""
@@ -4005,18 +3996,13 @@ msgid "Percentual de redução da BC"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pRedBCEfet
-msgid "Percentual de redução da base"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_pRedBCEfet
 msgid "Percentual de redução da base de cálculo efetiva."
 msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pBCOp
-msgid "Percentual para determinação do valor"
+msgid "Percentual para determinação"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4024,11 +4010,6 @@ msgstr ""
 msgid ""
 "Percentual para determinação do valor  da Base de Cálculo da operação "
 "própria."
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pFCPSTRet
-msgid "Percentual relativo ao Fundo de Combate"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4096,7 +4077,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_procEmi
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_procEmi
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_procEmi
-msgid "Processo de emissão utilizado"
+msgid "Processo de emissão utilizado com"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4140,6 +4121,20 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_agropecuario
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_agropecuario
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_agropecuario
+msgid "Produtos Agropecurários Animais"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_agropecuario
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_agropecuario
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_agropecuario
+msgid "Produtos Agropecurários Animais, Vegetais e Florestais"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_prop
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_prop
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_prop
@@ -4166,11 +4161,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_qSelo
 msgid "Quantidade de selo de controle do IPI"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_qUnid
-msgid "Quantidade total na unidade padrão"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4220,6 +4210,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_receivering_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_receivering_id
 msgid "Receiver Address"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_DFeReferenciado
+msgid "Referenciamento de item de outros DFe"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4294,13 +4289,6 @@ msgid "Show related invoices"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_UFSaidaPais
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_UFSaidaPais
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_UFSaidaPais
-msgid "Sigla da UF de Embarque"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_UFSaidaPais
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_UFSaidaPais
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_UFSaidaPais
@@ -4309,7 +4297,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_UFST
-msgid "Sigla da UF para qual é devido o ICMS ST"
+msgid "Sigla da UF para qual é devido"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4679,6 +4667,33 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_tpNFCredito
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_tpNFCredito
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_tpNFCredito
+msgid "Tipo de Nota de Crédito"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_tpNFDebito
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_tpNFDebito
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_tpNFDebito
+msgid "Tipo de Nota de Débito"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_tpNFDebito
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_tpNFDebito
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_tpNFDebito
+msgid ""
+"Tipo de Nota de Débito:\n"
+"01=Transferência de créditos para Cooperativas; \n"
+"02=Anulação de Crédito por Saídas Imunes/Isentas; \n"
+"03=Débitos de notas fiscais não processadas na apuração; \n"
+"04=Multa e juros; \n"
+"05=Transferência de crédito de sucessão."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_choice_prod
 msgid "Tipo de Produto"
 msgstr ""
@@ -4844,6 +4859,13 @@ msgid "UF do Veículo"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_UFSaidaPais
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_UFSaidaPais
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_UFSaidaPais
+msgid "UFSaidaPais"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__uom_id
 msgid "UOM"
 msgstr ""
@@ -4871,13 +4893,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vICMSMonoRet
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vICMSMonoRet
 msgid "Valor"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vServ
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vServ
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vServ
-msgid "Valor Total"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4964,7 +4979,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vBCFCPST
-msgid "Valor da Base de cálculo do FCP retido"
+msgid "Valor da Base de cálculo"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5021,13 +5036,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_vTar
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_vTar
 msgid "Valor da tarifa"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vDeducao
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vDeducao
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vDeducao
-msgid "Valor dedução para redução da base"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5178,6 +5186,32 @@ msgid "Valor total do ICMS monofásico sujeito a retenção"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vItem
+msgid "Valor total do Item"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_vItem
+msgid ""
+"Valor total do Item, correspondente à sua participação no total da nota. A "
+"soma dos itens deverá corresponder ao total da nota."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_IBSCBSTot
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_IBSCBSTot
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_IBSCBSTot
+msgid "Valores totais da NF com IBS / CBS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_ISTot
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_ISTot
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_ISTot
+msgid "Valores totais da NF com Imposto Seletivo"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__verify_code
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__verify_code
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__verify_code
@@ -5280,10 +5314,27 @@ msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_dhCont
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_dhCont
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_dhCont
-msgid "data e hora de entrada"
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_cBarraTrib
+msgid "cBarraTrib"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_cDV
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_cDV
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_cDV
+msgid "cDV"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_cana
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_cana
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_cana
+msgid "cana"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_comb
+msgid "comb"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5296,8 +5347,22 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_detPag
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_detPag
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_detPag
+msgid "detPag"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_dhCont
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_dhCont
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_dhCont
+msgid "dhCont"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_med
-msgid "grupo do detalhamento de Medicamentos"
+msgid "grupo"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5312,6 +5377,11 @@ msgid "impostoDevol"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_indBemMovelUsado
+msgid "indBemMovelUsado"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_indEscala
 msgid "indEscala"
 msgstr ""
@@ -5322,10 +5392,48 @@ msgid "infProdEmb"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_infSolicNFF
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_infSolicNFF
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_infSolicNFF
+msgid "infSolicNFF"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_veicNovos
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_veicNovos
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_veicNovos
 msgid "informações dos veículos transportados"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_cMunFGIBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_cMunFGIBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_cMunFGIBS
+msgid "município de ocorrência do fato gerador"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__nfe40_cMunFGIBS
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_cMunFGIBS
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_cMunFGIBS
+msgid ""
+"município de ocorrência do fato gerador do fato gerador do IBS / CBS.\n"
+"Campo preenchido somente quando “indPres = 5 (Operação presencial, fora do estabelecimento) ”, e não tiver endereço do destinatário (Grupo: E05) ou local de entrega (Grupo: G01)."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pFCPST
+msgid "pFCPST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pFCPSTRet
+msgid "pFCPSTRet"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pRedBCEfet
+msgid "pRedBCEfet"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5343,13 +5451,44 @@ msgid "qBCMonoReten"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_qUnid
+msgid "qUnid"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_rastro
 msgid "rastro"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vBCRetPrev
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vBCRetPrev
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vBCRetPrev
+msgid "vBCRetPrev"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vDeducao
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vDeducao
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vDeducao
+msgid "vDeducao"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vICMSSTDest
 msgid "vICMSSTDest"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vServ
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vServ
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vServ
+msgid "vServ"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vBCSTRet
+msgid "valor da BC"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5360,11 +5499,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_vICMSSTDest
 msgid "valor da BC do ICMS ST da UF destino (v2.0)"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_vBCSTRet
-msgid "valor da BC do ICMS ST retido"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5406,4 +5540,11 @@ msgstr ""
 msgid ""
 "versão do aplicativo utilizado no processo de\n"
 "emissão"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_xLocExporta
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_xLocExporta
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_xLocExporta
+msgid "xLocExporta"
 msgstr ""
