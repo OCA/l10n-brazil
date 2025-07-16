@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_cte
-#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpHor__0
-msgid " Sem hora definida"
-msgstr ""
-
-#. module: l10n_br_cte
 #. odoo-python
 #: code:addons/l10n_br_cte/models/document.py:0
 #, python-format
@@ -540,9 +535,8 @@ msgid "Chassi do veículo"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_paasignature__cte40_RSAKeyValue
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_paasignature__cte40_RSAKeyValue
-msgid "Chave Publica no padrão XML RSA Key"
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infdce__cte40_chave
+msgid "Chave de acesso da DCe"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -659,6 +653,18 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_CST
 msgid "Classificação Tributária do Serviço"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_classDuto
+msgid "Classificação do Dutoviário"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_classDuto
+msgid ""
+"Classificação do Dutoviário\n"
+"Informar: 1 - Gasoduto 2 - Mineroduto 3 - Oleoduto"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -935,6 +941,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infCTeSupl
 msgid "Cte40 Infctesupl"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infdce__cte40_infDCe_infDoc_id
+msgid "Cte40 Infdce Infdoc"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1300,6 +1311,16 @@ msgstr ""
 msgid ""
 "Código do Município de término da prestação\n"
 "Utilizar a tabela do IBGE. Informar 9999999 para operações com o exterior."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_codPontoEntrada
+msgid "Código do Ponto de Entrada"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_codPontoSaida
+msgid "Código do Ponto de Saída"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2067,11 +2088,6 @@ msgid "Expedidor"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trsakeyvaluetype__cte40_Exponent
-msgid "Exponent"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__cte40_ferrEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_ferrEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_ferrEmi
@@ -2136,9 +2152,7 @@ msgid ""
 "Forma de emissão da GTV-e\n"
 "Preencher com:\n"
 "1 - Normal;\n"
-" 2- Contingencia offline \n"
-"7 - Autorização pela SVC-RS;\n"
-" 8 - Autorização pela SVC-SP"
+"2- Contingencia offline"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2238,6 +2252,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_gCompraGov
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_gCompraGov
+msgid "Grupo de Compras Governamentais"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_infPAA
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infPAA
 msgid "Grupo de Informação do Provedor"
@@ -2296,6 +2316,12 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_infCTeNorm
 msgid "Grupo de informações do CT-e OS Normal"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_imp__cte40_IBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_imp__cte40_IBSCBS
+msgid "Grupo de informações do IBS e CBS"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2693,6 +2719,15 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_indIEToma
+msgid ""
+"Indicador do papel do tomador na prestação do serviço:\n"
+"1 – Contribuinte ICMS;\n"
+"2 – Contribuinte isento de inscrição;\n"
+"9 – Não Contribuinte\n"
+"Aplica-se ao tomador que for indicado no toma"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_indIEToma
 msgid ""
 "Indicador do papel do tomador na prestação do serviço:\n"
@@ -2740,6 +2775,12 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_cte_40_infservico
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infctenorm__cte40_infServico
 msgid "Informações da Prestação do Serviço"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_cte_40_infdce
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__cte40_infDCe
+msgid "Informações das DCe"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3537,11 +3578,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trsakeyvaluetype__cte40_Modulus
-msgid "Modulus"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnf__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnfe__brl_currency_id
@@ -3556,6 +3592,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_iddocantele__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_iddocantpap__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infctemultimodal__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infdce__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infdocant__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infdocref__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infglobalizado__brl_currency_id
@@ -3654,7 +3691,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve_inffisco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve_infprot__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trsakeyvaluetype__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidadetransp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidcarga__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__brl_currency_id
@@ -4079,6 +4115,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_nCT
 msgid "Número do CT-e OS"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_nContrato
+msgid "Número do Contrato de Capacidade"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4541,6 +4582,11 @@ msgid "SP"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpHor__0
+msgid "Sem hora definida"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
 msgid "Sender Address"
@@ -4864,21 +4910,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infespecie__cte40_tpEspecie
-msgid "Tipo da Espécie"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_infespecie__cte40_tpEspecie
-msgid ""
-"Tipo da Espécie\n"
-"1 - Cédula\n"
-"2 - Cheque\n"
-"3 - Moeda\n"
-"4 - Outros"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_tpCTe
 msgid "Tipo da GTV-e"
 msgstr ""
@@ -4998,6 +5029,21 @@ msgid ""
 "\t\t\t\t\t\t1-Mútuo;\n"
 "\t\t\t\t\t\t2-Rodoferroviário;\n"
 "\t\t\t\t\t\t3-Rodoviário."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_tpContratacao
+msgid "Tipo de contratação do serviço"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_tpContratacao
+msgid ""
+"Tipo de contratação do serviço de transporte (apenas para gasoduto)\n"
+"Informar:\n"
+"0 - Ponta a ponto\n"
+"1 - Capacidade de Entrada \n"
+"2 - Capacidade de Saida"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5125,7 +5171,6 @@ msgid ""
 "Preencher com:\n"
 "0 - CT-e Normal; \n"
 "1 - CT-e Complementar; \n"
-"\n"
 "3 - CT-e de Substituição."
 msgstr ""
 
@@ -5139,8 +5184,8 @@ msgstr ""
 msgid ""
 "Tipo do CT-e Simplificado\n"
 "Preencher com:\n"
-"4 - CTe Simplificado\n"
-"5 - Substituição CTe Simplificado"
+"5 - CTe Simplificado\n"
+"6 - Substituição CTe Simplificado"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5238,11 +5283,6 @@ msgstr ""
 msgid ""
 "Tipo período\n"
 "4-no período"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_trsakeyvaluetype
-msgid "Tipo que representa uma chave publica padrão RSA"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5578,6 +5618,20 @@ msgstr ""
 msgid ""
 "Valor total da carga\n"
 "Dever ser informado para todos os modais, com exceção para o Dutoviário."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_imp__cte40_vTotDFe
+#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_total__cte40_vTotDFe
+msgid "Valor total do documento fiscal"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_imp__cte40_vTotDFe
+#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_total__cte40_vTotDFe
+msgid ""
+"Valor total do documento fiscal \n"
+"(vTPrest + total do IBS + total da CBS)"
 msgstr ""
 
 #. module: l10n_br_cte
