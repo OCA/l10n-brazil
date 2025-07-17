@@ -11,17 +11,17 @@ from odoo import _
 from odoo.exceptions import ValidationError
 
 
-def check_ie(env, inscr_est, state, country):
+def check_ie(env, l10n_br_ie_code, state, country):
     """
     Checks if 'Inscrição Estadual' field is valid
     using erpbrasil library
     :param env:
-    :param inscr_est:
+    :param l10n_br_ie_code:
     :param state:
     :param country:
     :return:
     """
-    if env and inscr_est and state and country:
+    if env and l10n_br_ie_code and state and country:
         if country != env.ref("base.br"):
             return  # skip check
 
@@ -35,14 +35,14 @@ def check_ie(env, inscr_est, state, country):
         # TODO: em aberto debate sobre:
         #  Se no caso da empresa ser 'isenta' do IE o campo
         #  deve estar vazio ou pode ter algum valor como abaixo
-        if inscr_est in ("isento", "isenta", "ISENTO", "ISENTA"):
+        if l10n_br_ie_code in ("isento", "isenta", "ISENTO", "ISENTA"):
             return  # skip check
 
-        if not ie.validar(state.code.lower(), inscr_est):
+        if not ie.validar(state.code.lower(), l10n_br_ie_code):
             raise ValidationError(
                 _(
                     "Estadual Inscription %(inscr)s Invalid for State %(state)s!",
-                    inscr=inscr_est,
+                    inscr=l10n_br_ie_code,
                     state=state.name,
                 )
             )

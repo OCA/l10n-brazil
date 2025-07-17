@@ -23,7 +23,7 @@ class StateTaxNumbers(models.Model):
         ondelete="cascade",
     )
 
-    inscr_est = fields.Char(string="State Tax Number", size=16, required=True)
+    l10n_br_ie_code = fields.Char(string="State Tax Number", size=16, required=True)
 
     state_id = fields.Many2one(
         comodel_name="res.country.state", string="State", required=True

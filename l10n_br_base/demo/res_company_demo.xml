@@ -16,7 +16,7 @@
         <field name="website">www.example.com</field>
         <field name="is_company" eval="True" />
         <field name="cnpj_cpf">97.231.608/0001-69</field>
-        <field name="inscr_est">454.504.604.553</field>
+        <field name="l10n_br_ie_code">454.504.604.553</field>
     </record>
     <function model="res.partner" name="_onchange_city_id">
         <value eval="[ref('base.main_partner')]" />
@@ -44,7 +44,7 @@
         <field name="email">info@suaempresa.com.br</field>
         <field name="is_company" eval="True" />
         <field name="cnpj_cpf">81.583.054/0001-29</field>
-        <field name="inscr_est">078.016.350.838</field>
+        <field name="l10n_br_ie_code">078.016.350.838</field>
     </record>
     <function model="res.partner" name="_onchange_city_id">
         <value eval="[ref('lucro_presumido_partner')]" />
@@ -73,7 +73,7 @@
         <field name="website">www.example.com</field>
         <field name="is_company" eval="True" />
         <field name="cnpj_cpf">59.594.315/0001-57</field>
-        <field name="inscr_est">755.338.250.133</field>
+        <field name="l10n_br_ie_code">755.338.250.133</field>
     </record>
     <function model="res.partner" name="_onchange_city_id">
         <value eval="[ref('simples_nacional_partner')]" />
