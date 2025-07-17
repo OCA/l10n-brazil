@@ -20,7 +20,7 @@ class OtherIETest(TransactionCase):
                 "name": "Akretion Sao Paulo",
                 "legal_name": "Akretion Sao Paulo",
                 "cnpj_cpf": "26.905.703/0001-52",
-                "inscr_est": "932.446.119.086",
+                "l10n_br_ie_code": "932.446.119.086",
                 "street": "Rua Paulo Dias",
                 "street_number": "586",
                 "district": "Alumínio",
@@ -45,7 +45,7 @@ class OtherIETest(TransactionCase):
                         0,
                         {
                             "state_id": self.env.ref("base.state_br_ba").id,
-                            "inscr_est": 41902653,
+                            "l10n_br_ie_code": 41902653,
                         },
                     )
                 ]
@@ -54,7 +54,7 @@ class OtherIETest(TransactionCase):
         self.assertTrue(result, "Error to included valid IE.")
         for line in self.company.partner_id.state_tax_number_ids:
             result = False
-            if line.inscr_est == "41902653":
+            if line.l10n_br_ie_code == "41902653":
                 result = True
             self.assertTrue(result, "Error in method to update other IE(s) on partner.")
 
@@ -67,7 +67,7 @@ class OtherIETest(TransactionCase):
                             0,
                             {
                                 "state_id": self.env.ref("base.state_br_ba").id,
-                                "inscr_est": 67729139,
+                                "l10n_br_ie_code": 67729139,
                             },
                         )
                     ]
@@ -90,7 +90,7 @@ class OtherIETest(TransactionCase):
                             0,
                             {
                                 "state_id": self.env.ref("base.state_br_am").id,
-                                "inscr_est": "042933681",
+                                "l10n_br_ie_code": "042933681",
                             },
                         )
                     ]
@@ -110,7 +110,7 @@ class OtherIETest(TransactionCase):
                             0,
                             {
                                 "state_id": self.env.ref("base.state_br_sp").id,
-                                "inscr_est": 692015742119,
+                                "l10n_br_ie_code": 692015742119,
                             },
                         )
                     ]
@@ -132,7 +132,7 @@ class OtherIETest(TransactionCase):
                         0,
                         {
                             "state_id": self.env.ref("base.state_br_ba").id,
-                            "inscr_est": 41902653,
+                            "l10n_br_ie_code": 41902653,
                         },
                     )
                 ]
@@ -141,6 +141,6 @@ class OtherIETest(TransactionCase):
         self.assertTrue(result, "Error to included valid IE.")
         for line in self.company.state_tax_number_ids:
             result = False
-            if line.inscr_est == "41902653":
+            if line.l10n_br_ie_code == "41902653":
                 result = True
             self.assertTrue(result, "Error in method to update other IE(s) on Company.")
