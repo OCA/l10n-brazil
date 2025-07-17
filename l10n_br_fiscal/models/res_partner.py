@@ -91,7 +91,7 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
-    inscr_mun = fields.Char(
+    l10n_br_im_code = fields.Char(
         tracking=True,
     )
 
@@ -140,5 +140,5 @@ class ResPartner(models.Model):
             "fiscal_profile_id",
             "ind_final",
             "l10n_br_ie_code",
-            "inscr_mun",
+            "l10n_br_im_code",
         ]
