@@ -13,6 +13,12 @@ _provider_class = _module_ns + ".models.l10n_br_zip" + ".L10nBrZip"
 @tagged("post_install", "-at_install")
 class TestUi(HttpCase):
     def test_01_l10n_br_website_sale_tour(self):
+        provider = self.env.ref("payment.payment_provider_demo")
+        provider.sudo().write(
+            {
+                "state": "test",
+            }
+        )
         tour = (
             "odoo.__DEBUG__.services['web_tour.tour']",
             "l10n_br_website_sale_tour",
@@ -21,7 +27,7 @@ class TestUi(HttpCase):
             "zip_code": "12246250",
             "street_name": " Rua do Aruana",
             "district": "Parque Residencial Aquarius",
-            "city_id": self.env.ref("l10n_br_base.city_3549904").id,
+            "city_id": self.env.ref("l10n_br_base.city_3500105").id,
             "state_id": self.env.ref("base.state_br_sp").id,
             "country_id": self.env.ref("base.br").id,
         }
@@ -31,8 +37,8 @@ class TestUi(HttpCase):
         ):
             self.browser_js(
                 url_path="/shop",
-                code="%s.run('%s')" % tour,
-                ready="%s.tours.%s.ready" % tour,
+                code=f"{tour[0]}.run('{tour[1]}')",
+                ready=f"{tour[0]}.tours.{tour[1]}.ready",
                 login="admin",
                 timeout=20000,
             )
@@ -44,4 +50,4 @@ class TestUi(HttpCase):
             .partner_shipping_id
         )
         self.assertEqual(record.state_id.code, "SP")
-        self.assertEqual(record.city_id.ibge_code, "3549904")
+        self.assertEqual(record.city_id.ibge_code, "3500105")

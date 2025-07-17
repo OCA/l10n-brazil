@@ -12,7 +12,7 @@ odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
         return $.Deferred().reject("DOM doesn't contain '.checkout_autoformat'");
     }
 
-    function formatCpfCnpj(inputValue) {
+    function formatVat(inputValue) {
         // Remove non-numeric characters
         let value = inputValue.replace(/\D/g, "");
 
@@ -39,9 +39,9 @@ odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
         return value;
     }
 
-    $("#input_cnpj_cpf").on("blur", function () {
+    $("#input_vat").on("blur", function () {
         var value = $(this).val();
-        var formattedValue = formatCpfCnpj(value);
+        var formattedValue = formatVat(value);
         $(this).val(formattedValue);
     });
 

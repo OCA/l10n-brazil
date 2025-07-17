@@ -204,41 +204,41 @@
         <xpath expr="//div[contains(@t-attf-class, 'div_vat')]" position="after">
             <div class="w-100" />
             <div
-                t-attf-class="form-group #{error.get('inscr_est') and 'o_has_error' or ''} col-lg-6 div_inscr_est"
+                t-attf-class="form-group #{error.get('l10n_br_ie_code') and 'o_has_error' or ''} col-lg-6 div_l10n_br_ie_code"
             >
                 <label
                     class="col-form-label font-weight-normal label-optional"
-                    for="inscr_est"
+                    for="l10n_br_ie_code"
                 >State Tax Number</label>
                 <t
                     t-set="vat_not_editable_message"
                 >Changing State Tax number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</t>
                 <input
                     type="text"
-                    name="inscr_est"
-                    t-attf-class="form-control #{error.get('inscr_est') and 'is-invalid' or ''}"
-                    t-att-value="'inscr_est' in checkout and checkout['inscr_est']"
-                    t-att-readonly="'1' if 'inscr_est' in checkout and checkout['inscr_est'] and not can_edit_vat else None"
-                    t-att-title="vat_not_editable_message if 'inscr_est' in checkout and checkout['inscr_est'] and not can_edit_vat else None"
+                    name="l10n_br_ie_code"
+                    t-attf-class="form-control #{error.get('l10n_br_ie_code') and 'is-invalid' or ''}"
+                    t-att-value="'l10n_br_ie_code' in checkout and checkout['l10n_br_ie_code']"
+                    t-att-readonly="'1' if 'l10n_br_ie_code' in checkout and checkout['l10n_br_ie_code'] and not can_edit_vat else None"
+                    t-att-title="vat_not_editable_message if 'l10n_br_ie_code' in checkout and checkout['l10n_br_ie_code'] and not can_edit_vat else None"
                 />
             </div>
             <div
-                t-attf-class="form-group #{error.get('inscr_mun') and 'o_has_error' or ''} col-lg-6 div_inscr_mun"
+                t-attf-class="form-group #{error.get('l10n_br_im_code') and 'o_has_error' or ''} col-lg-6 div_l10n_br_im_code"
             >
                 <label
                     class="col-form-label font-weight-normal label-optional"
-                    for="inscr_mun"
-                >State Tax Number</label>
+                    for="l10n_br_im_code"
+                >Municipal Tax Number</label>
                 <t
                     t-set="vat_not_editable_message"
                 >Changing Municipal Tax number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</t>
                 <input
                     type="text"
-                    name="inscr_mun"
-                    t-attf-class="form-control #{error.get('inscr_mun') and 'is-invalid' or ''}"
-                    t-att-value="'inscr_mun' in checkout and checkout['inscr_mun']"
-                    t-att-readonly="'1' if 'inscr_mun' in checkout and checkout['inscr_mun'] and not can_edit_vat else None"
-                    t-att-title="vat_not_editable_message if 'inscr_mun' in checkout and checkout['inscr_mun'] and not can_edit_vat else None"
+                    name="l10n_br_im_code"
+                    t-attf-class="form-control #{error.get('l10n_br_im_code') and 'is-invalid' or ''}"
+                    t-att-value="'l10n_br_im_code' in checkout and checkout['l10n_br_im_code']"
+                    t-att-readonly="'1' if 'l10n_br_im_code' in checkout and checkout['l10n_br_im_code'] and not can_edit_vat else None"
+                    t-att-title="vat_not_editable_message if 'l10n_br_im_code' in checkout and checkout['l10n_br_im_code'] and not can_edit_vat else None"
                 />
             </div>
         </xpath>
