@@ -539,9 +539,9 @@ class CTe(spec_models.StackedModel):
                 stn_id = self.company_id.state_tax_number_ids.filtered(
                     lambda stn: stn.state_id == dest_state_id
                 )
-                iest = stn_id.inscr_est
+                iest = stn_id.l10n_br_ie_code
                 iest = re.sub("[^0-9]+", "", iest)
-        self.company_inscr_est_st = iest
+        self.company_l10n_br_ie_code_st = iest
 
     ##########################
     # CT-e tag: rem
@@ -1249,8 +1249,8 @@ class CTe(spec_models.StackedModel):
         ):
             self._set_cte40_IEST()
             res = super()._export_many2one(field_name, xsd_required, class_obj)
-            if self.company_inscr_est_st:
-                res.IEST = self.company_inscr_est_st
+            if self.company_l10n_br_ie_code_st:
+                res.IEST = self.company_l10n_br_ie_code_st
             return res
 
         return super()._export_many2one(field_name, xsd_required, class_obj)

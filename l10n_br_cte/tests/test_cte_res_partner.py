@@ -34,7 +34,7 @@ class TestCTeResPartner(TransactionCase):
         )
 
         self.partner_id.cte40_IE = "630514648079"
-        self.assertEqual(self.partner_id.inscr_est, self.partner_id.cte40_IE)
+        self.assertEqual(self.partner_id.l10n_br_ie_code, self.partner_id.cte40_IE)
 
         self.partner_id.cte40_CEP = "04324240"
         self.assertEqual(self.partner_id.zip, format_zipcode(self.partner_id.cte40_CEP))

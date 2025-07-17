@@ -325,7 +325,7 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.cte40_enderFerro = rec.id
 
-    @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
+    @api.depends("company_type", "l10n_br_ie_code", "cnpj_cpf", "country_id")
     def _compute_cte_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
@@ -375,8 +375,8 @@ class ResPartner(spec_models.SpecModel):
                 rec.cte40_CNPJ = ""
                 rec.cte40_CPF = ""
 
-            if rec.inscr_est:
-                rec.cte40_IE = punctuation_rm(rec.inscr_est)
+            if rec.l10n_br_ie_code:
+                rec.cte40_IE = punctuation_rm(rec.l10n_br_ie_code)
             else:
                 rec.cte40_IE = None
 
@@ -435,7 +435,7 @@ class ResPartner(spec_models.SpecModel):
     def _inverse_cte40_IE(self):
         for rec in self:
             if rec.cte40_IE:
-                rec.inscr_est = str(rec.cte40_IE)
+                rec.l10n_br_ie_code = str(rec.cte40_IE)
 
     def _inverse_cte40_CEP(self):
         for rec in self:
