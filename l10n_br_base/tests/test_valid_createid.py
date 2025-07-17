@@ -281,8 +281,8 @@ class ValidCreateIdTest(TransactionCase):
             "The company INSCR_EST must be the same as the partner INSCR_EST",
         )
         self.assertEqual(
-            company.inscr_mun,
-            partner.inscr_mun,
+            company.l10n_br_im_code,
+            partner.l10n_br_im_code,
             "The company INSCR_MUN must be the same as the partner INSCR_MUN",
         )
 
