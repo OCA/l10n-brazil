@@ -93,7 +93,7 @@ msgid "Legal Nature"
 msgstr "Natureza jurídica"
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_im_code
 msgid "Municipal Tax Number"
 msgstr "Cod. Municipal"
 

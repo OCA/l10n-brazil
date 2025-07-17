@@ -136,7 +136,7 @@ class Lead(models.Model):
                 result["legal_name"] = self.partner_id.legal_name
                 result["cnpj"] = self.partner_id.cnpj_cpf
                 result["l10n_br_ie_code"] = self.partner_id.l10n_br_ie_code
-                result["inscr_mun"] = self.partner_id.inscr_mun
+                result["l10n_br_im_code"] = self.partner_id.l10n_br_im_code
                 result["l10n_br_isuf_code"] = self.partner_id.l10n_br_isuf_code
             else:
                 result["partner_name"] = self.partner_id.parent_id.name or False
@@ -145,7 +145,9 @@ class Lead(models.Model):
                 result["l10n_br_ie_code"] = (
                     self.partner_id.parent_id.l10n_br_ie_code or False
                 )
-                result["inscr_mun"] = self.partner_id.parent_id.inscr_mun or False
+                result["l10n_br_im_code"] = (
+                    self.partner_id.parent_id.l10n_br_im_code or False
+                )
                 result["l10n_br_isuf_code"] = (
                     self.partner_id.parent_id.l10n_br_isuf_code or False
                 )
@@ -178,7 +180,7 @@ class Lead(models.Model):
                 {
                     "cnpj_cpf": self.cnpj,
                     "l10n_br_ie_code": self.l10n_br_ie_code,
-                    "inscr_mun": self.inscr_mun,
+                    "l10n_br_im_code": self.l10n_br_im_code,
                     "l10n_br_isuf_code": self.l10n_br_isuf_code,
                 }
             )
