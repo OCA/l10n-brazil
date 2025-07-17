@@ -29,7 +29,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             values_to_update = {
                 "partner_name": self.name,
                 "legal_name": self.legal_name,
-                "inscr_est": self.inscr_est,
+                "l10n_br_ie_code": self.l10n_br_ie_code,
                 "zip": self.zip,
                 "street_name": self.street_name,
                 "street_number": self.street_number,

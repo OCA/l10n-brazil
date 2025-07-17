@@ -29,7 +29,7 @@ class Lead(models.Model):
             values.update(
                 {
                     "cnpj_cpf": self.cnpj,
-                    "inscr_est": self.inscr_est,
+                    "l10n_br_ie_code": self.l10n_br_ie_code,
                     "inscr_mun": self.inscr_mun,
                     "l10n_br_isuf_code": self.l10n_br_isuf_code,
                     "legal_nature_id": self.legal_nature_id.id,
@@ -42,7 +42,7 @@ class Lead(models.Model):
             values.update(
                 {
                     "cnpj_cpf": self.cpf,
-                    "inscr_est": self.rg,
+                    "l10n_br_ie_code": self.rg,
                     "rg": self.rg,
                 }
             )
