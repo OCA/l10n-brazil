@@ -61,8 +61,8 @@ class TestICMSRegulation(TransactionCase):
 
     def find_icms_tax(self, in_state_id, out_state_id, ncm_id, ind_final):
         self.partner.state_id = in_state_id
-        self.company.partner_id.inscr_est = False
-        self.company.inscr_est = False
+        self.company.partner_id.l10n_br_ie_code = False
+        self.company.l10n_br_ie_code = False
         self.company.state_id = out_state_id
         self.product.ncm_id = ncm_id
 
