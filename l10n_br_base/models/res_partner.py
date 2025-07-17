@@ -19,7 +19,7 @@ class Partner(models.Model):
     @property
     def _rec_names_search(self):
         names = super()._rec_names_search
-        names += ["cnpj_cpf_stripped", "legal_name", "inscr_est"]
+        names += ["cnpj_cpf_stripped", "legal_name", "l10n_br_ie_code"]
         return names
 
     def _inverse_street_data(self):
@@ -154,7 +154,7 @@ class Partner(models.Model):
                                         "Estadual Inscription %(incr_est)s!",
                                         name=partner.name,
                                         partner_id=partner.id,
-                                        incr_est=partner.inscr_est,
+                                        incr_est=partner.l10n_br_ie_code,
                                     )
                                 )
                     else:
@@ -210,15 +210,15 @@ class Partner(models.Model):
         :Return: True or False.
         """
         for record in self:
-            for inscr_est_line in record.state_tax_number_ids:
+            for l10n_br_ie_code_line in record.state_tax_number_ids:
                 check_ie(
                     record.env,
-                    inscr_est_line.inscr_est,
-                    inscr_est_line.state_id,
+                    l10n_br_ie_code_line.l10n_br_ie_code,
+                    l10n_br_ie_code_line.state_id,
                     record.country_id,
                 )
 
-                if inscr_est_line.state_id.id == record.state_id.id:
+                if l10n_br_ie_code_line.state_id.id == record.state_id.id:
                     raise ValidationError(
                         _(
                             "There can only be one state tax"
@@ -227,8 +227,8 @@ class Partner(models.Model):
                     )
                 duplicate_ie = self.env["res.partner"].search(
                     [
-                        ("state_id", "=", inscr_est_line.state_id.id),
-                        ("inscr_est", "=", inscr_est_line.inscr_est),
+                        ("state_id", "=", l10n_br_ie_code_line.state_id.id),
+                        ("l10n_br_ie_code", "=", l10n_br_ie_code_line.l10n_br_ie_code),
                         ("id", "!=", record.id),
                     ]
                 )
