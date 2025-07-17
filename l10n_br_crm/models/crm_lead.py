@@ -133,14 +133,16 @@ class Lead(models.Model):
                 result["cnpj"] = self.partner_id.cnpj_cpf
                 result["inscr_est"] = self.partner_id.inscr_est
                 result["inscr_mun"] = self.partner_id.inscr_mun
-                result["suframa"] = self.partner_id.suframa
+                result["l10n_br_isuf_code"] = self.partner_id.l10n_br_isuf_code
             else:
                 result["partner_name"] = self.partner_id.parent_id.name or False
                 result["legal_name"] = self.partner_id.parent_id.legal_name or False
                 result["cnpj"] = self.partner_id.parent_id.cnpj_cpf or False
                 result["inscr_est"] = self.partner_id.parent_id.inscr_est or False
                 result["inscr_mun"] = self.partner_id.parent_id.inscr_mun or False
-                result["suframa"] = self.partner_id.parent_id.suframa or False
+                result["l10n_br_isuf_code"] = (
+                    self.partner_id.parent_id.l10n_br_isuf_code or False
+                )
                 result["website"] = self.partner_id.parent_id.website or False
                 result["cpf"] = self.partner_id.cnpj_cpf
                 result["rg"] = self.partner_id.rg
@@ -171,7 +173,7 @@ class Lead(models.Model):
                     "cnpj_cpf": self.cnpj,
                     "inscr_est": self.inscr_est,
                     "inscr_mun": self.inscr_mun,
-                    "suframa": self.suframa,
+                    "l10n_br_isuf_code": self.l10n_br_isuf_code,
                 }
             )
         else:
