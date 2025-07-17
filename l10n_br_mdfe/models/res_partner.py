@@ -206,7 +206,7 @@ class ResPartner(spec_models.SpecModel):
         compute_sudo=True,
     )
 
-    @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
+    @api.depends("company_type", "l10n_br_ie_code", "cnpj_cpf", "country_id")
     def _compute_mdfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
@@ -243,8 +243,8 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_CNPJ = ""
                 rec.mdfe30_CPF = ""
 
-            if rec.inscr_est:
-                rec.mdfe30_IE = punctuation_rm(rec.inscr_est)
+            if rec.l10n_br_ie_code:
+                rec.mdfe30_IE = punctuation_rm(rec.l10n_br_ie_code)
             else:
                 rec.mdfe30_IE = None
 
@@ -284,7 +284,7 @@ class ResPartner(spec_models.SpecModel):
     def _inverse_mdfe30_IE(self):
         for rec in self:
             if rec.mdfe30_IE:
-                rec.inscr_est = str(rec.mdfe30_IE)
+                rec.l10n_br_ie_code = str(rec.mdfe30_IE)
 
     def _inverse_mdfe30_CEP(self):
         for rec in self:
