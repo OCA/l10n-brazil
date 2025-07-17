@@ -30,7 +30,7 @@ class Lead(models.Model):
                 {
                     "cnpj_cpf": self.cnpj,
                     "l10n_br_ie_code": self.l10n_br_ie_code,
-                    "inscr_mun": self.inscr_mun,
+                    "l10n_br_im_code": self.l10n_br_im_code,
                     "l10n_br_isuf_code": self.l10n_br_isuf_code,
                     "legal_nature_id": self.legal_nature_id.id,
                     "equity_capital": self.equity_capital,
