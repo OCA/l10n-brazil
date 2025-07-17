@@ -66,11 +66,11 @@ class L10nBrBaseOnchangeTest(TransactionCase):
             "692015742119",
             "The inverse function to field inscr_mun failed.",
         )
-        self.company_01.suframa = "1234"
+        self.company_01.l10n_br_isuf_code = "1234"
         self.assertEqual(
-            self.company_01.partner_id.suframa,
+            self.company_01.partner_id.l10n_br_isuf_code,
             "1234",
-            "The inverse function to field suframa failed.",
+            "The inverse function to field l10n_br_isuf_code failed.",
         )
 
     def test_display_address(self):
