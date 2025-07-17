@@ -202,7 +202,7 @@ msgid "Identification"
 msgstr "Identificação"
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__l10n_br_ie_code
 msgid "Inscr Est"
 msgstr "Inscr Estadual"
 
