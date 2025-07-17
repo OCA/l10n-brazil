@@ -248,9 +248,9 @@ class Document(models.Model):
         related="partner_id.inscr_mun",
     )
 
-    partner_suframa = fields.Char(
+    partner_l10n_br_isuf_code = fields.Char(
         string="Suframa",
-        related="partner_id.suframa",
+        related="partner_id.l10n_br_isuf_code",
     )
 
     partner_cnae_main_id = fields.Many2one(
@@ -351,9 +351,9 @@ class Document(models.Model):
         related="company_id.inscr_mun",
     )
 
-    company_suframa = fields.Char(
+    company_l10n_br_isuf_code = fields.Char(
         string="Company Suframa",
-        related="company_id.suframa",
+        related="company_id.l10n_br_isuf_code",
     )
 
     company_cnae_main_id = fields.Many2one(
