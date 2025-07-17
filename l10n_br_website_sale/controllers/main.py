@@ -22,57 +22,58 @@ class L10nBrWebsiteSale(WebsiteSale):
         order = request.website.sale_get_order()
 
         for line in order.order_line:
-            line._onchange_product_id_fiscal()
-            line._onchange_commercial_quantity()
+            line._compute_product_fiscal_fields()
             line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
+            line._onchange_fiscal_tax_ids()
 
         return super().confirm_order(**post)
 
     def _get_mandatory_fields_billing(self, country_id=False):
         req = super()._get_mandatory_fields_billing(country_id)
         company_country_code = request.website.company_id.country_id.code
-        if country_id:
-            if (
-                self._get_country_code(country_id) == "BR"
-                and company_country_code == "BR"
-            ):
-                req.remove("city")
-                req.remove("street")
-                extension = [
-                    "street_name",
-                    "street_number",
-                    "district",
-                    "country_id",
-                    "state_id",
-                    "city_id",
-                    "zip",
-                    "cnpj_cpf",
-                ]
-                req.extend(extension)
+        # If the billing country hasn't been submitted yet (e.g. the country
+        # select was left untouched), fall back to the company's own country
+        # so BR-specific requirements (including VAT) are not silently
+        # skipped.
+        billing_country_code = (
+            self._get_country_code(country_id) if country_id else company_country_code
+        )
+        if billing_country_code == "BR" and company_country_code == "BR":
+            req.remove("city")
+            req.remove("street")
+            extension = [
+                "street_name",
+                "street_number",
+                "district",
+                "country_id",
+                "state_id",
+                "city_id",
+                "zip",
+                "vat",
+            ]
+            req.extend(extension)
         return req
 
     def _get_mandatory_fields_shipping(self, country_id=False):
         req = super()._get_mandatory_fields_shipping(country_id)
         company_country_code = request.website.company_id.country_id.code
-        if country_id:
-            if (
-                self._get_country_code(country_id) == "BR"
-                and company_country_code == "BR"
-            ):
-                req.remove("city")
-                req.remove("street")
-                extension = [
-                    "country_id",
-                    "state_id",
-                    "city_id",
-                    "zip",
-                    "street_name",
-                    "street_number",
-                    "district",
-                ]
-                req.extend(extension)
+        shipping_country_code = (
+            self._get_country_code(country_id) if country_id else company_country_code
+        )
+        if shipping_country_code == "BR" and company_country_code == "BR":
+            req.remove("city")
+            req.remove("street")
+            extension = [
+                "country_id",
+                "state_id",
+                "city_id",
+                "zip",
+                "street_name",
+                "street_number",
+                "district",
+            ]
+            req.extend(extension)
         return req
 
     @http.route(
@@ -116,21 +117,26 @@ class L10nBrWebsiteSale(WebsiteSale):
 
         # Check if the current country is not Brazil and remove specific errors
         if self._get_country_code(new_values.get("country_id")) != "BR":
-            error_fields = ["state_id", "city_id", "cnpj_cpf", "inscr_est", "inscr_mun"]
+            error_fields = [
+                "state_id",
+                "city_id",
+                "vat",
+                "l10n_br_ie_code",
+                "l10n_br_im_code",
+            ]
             for field in error_fields:
                 errors.pop(field, None)
 
         # Expected fields that may be updated in new_values if not present in errors
         expected_fields = [
             "city_id",
-            "cnpj_cpf",
             "company_type",
             "street_name",
             "street_number",
             "district",
             "mobile",
-            "inscr_est",
-            "inscr_mun",
+            "l10n_br_ie_code",
+            "l10n_br_im_code",
             "vat",
         ]
 
@@ -146,30 +152,21 @@ class L10nBrWebsiteSale(WebsiteSale):
         error, error_message = super().checkout_form_validate(
             mode, all_form_values, data
         )
-        if "cnpj_cpf" in data:
+        if "vat" in data and data["vat"]:
             if (
                 "country_id" in data
                 and self._get_country_code(data["country_id"]) == "BR"
             ):
                 order = request.website.sale_get_order()
                 if order.partner_id.is_company:
-                    if not cnpj_cpf.validar(data["cnpj_cpf"]):
-                        error["cnpj_cpf"] = "error"
-                        error_message.append("CNPJ Inválido")
-                elif not cnpj_cpf.validar(data["cnpj_cpf"]):
-                    error["cnpj_cpf"] = "error"
-                    error_message.append("CPF Inválido")
+                    if not cnpj_cpf.validar(data["vat"]):
+                        error["vat"] = "error"
+                        error_message.append("CNPJ inválido")
+                else:
+                    if not cnpj_cpf.validar(data["vat"]):
+                        error["vat"] = "error"
+                        error_message.append("CPF inválido")
 
-                if "cnpj_cpf" not in error:
-                    all_form_values["cnpj_cpf"] = data["cnpj_cpf"]
-        if "vat" in data and data["vat"]:
-            if (
-                "country_id" in data
-                and self._get_country_code(data["country_id"]) == "BR"
-            ):
-                if not cnpj_cpf.validar(data["vat"]):
-                    error["cnpj_cpf"] = "error"
-                    error_message.append("VAT Inválido")
             if "vat" not in error:
                 all_form_values["vat"] = data["vat"]
 
