@@ -1,14 +1,13 @@
 odoo.define("l10n_br_website_sale.tour", function (require) {
     "use strict";
 
-    var ajax = require("web.ajax");
     var session = require("web.session");
     var tour = require("web_tour.tour");
 
     var domReady = new Promise(function (resolve) {
         $(resolve);
     });
-    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
+    var ready = Promise.all([domReady, session.is_bound]);
 
     tour.register(
         "l10n_br_website_sale_tour",
@@ -33,17 +32,26 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
                 timeout: 10000,
             },
             {
-                content: "click on add to cart",
-                trigger:
-                    '#product_detail form[action^="/shop/cart/update"]' +
-                    " .btn-primary",
+                content: "click in modal on 'ADD TO CART' button",
+                trigger: 'a:contains("ADD TO CART")',
             },
             {
-                content: "click in modal on 'Proceed to checkout' button",
-                trigger: 'a:contains("Process Checkout")',
+                content: "click on add to cart",
+                trigger: '#product_detail form[action^="/shop/cart"]' + " .btn-primary",
+            },
+            {
+                content: "Go directly to /shop/checkout",
+                trigger: "body",
+                run: function () {
+                    window.location.href = "/shop/checkout";
+                },
+                timeout: 10000,
+            },
+            {
+                content: "Go directly to /shop/checkout",
+                trigger: "body",
                 run: function () {
                     window.location.href = "/shop/address";
-                    // Redirect in JS to avoid the RPC loop (20x1sec)
                 },
                 timeout: 10000,
             },
@@ -63,6 +71,26 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
                 run: "text 12981901669",
             },
             {
+                content: "Complete mobile",
+                trigger: "input[name='mobile']",
+                run: "text 12981901669",
+            },
+            {
+                content: "Complete CPF",
+                trigger: "input[name='vat']",
+                run: "text 89604455095",
+            },
+            {
+                content: "Complete NUMBER",
+                trigger: "input[name='street_number']",
+                run: "text 200",
+            },
+            {
+                content: "Complete DISTRICT",
+                trigger: "input[name='district']",
+                run: "text Cobre",
+            },
+            {
                 content: "check state is São Paulo",
                 trigger: 'select[name=state_id]:contains("São Paulo")',
                 run: function () {
@@ -73,14 +101,11 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
                 timeout: 20000,
             },
             {
-                content: "check city is São José dos Campos",
-                trigger: 'select[name=city_id]:contains("São José dos Campos")',
-                timeout: 20000,
-            },
-            {
-                content: "Complete number",
-                trigger: "input[name='street_number']",
-                run: "text 23",
+                content: "check city is Adamantina",
+                trigger: 'select[name=city_id]:contains("Adamantina")',
+                run: function () {
+                    /* Keep empty ... */
+                },
             },
             {
                 content: "click in Next",
@@ -91,19 +116,6 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
                 content: "click in modal Pay Now",
                 trigger: 'button[type="submit"]',
                 timeout: 20000,
-            },
-            {
-                content: "finish",
-                trigger: '.oe_website_sale:contains("Please make a payment to:")',
-                // Leave /shop/confirmation to prevent RPC loop to
-                //      /shop/payment/get_status.
-                // The RPC could be handled in python while the tour is
-                //      killed (and the session), leading to crashes
-                run: function () {
-                    // Redirect in JS to avoid the RPC loop (20x1sec)
-                    window.location.href = "/aboutus";
-                },
-                timeout: 30000,
             },
         ]
     );
