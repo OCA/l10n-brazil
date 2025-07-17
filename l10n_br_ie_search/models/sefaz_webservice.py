@@ -32,7 +32,7 @@ class SefazWebservice(models.AbstractModel):
             if "IE" in el.tag:
                 IE = el.text
         res = {
-            "inscr_est": IE,
+            "l10n_br_ie_code": IE,
         }
         return res
 
@@ -74,7 +74,7 @@ class SefazWebservice(models.AbstractModel):
     @api.model
     def _sintegra_import_data(self, data):
         res = {
-            "inscr_est": self.get_data(data, "inscricao_estadual"),
+            "l10n_br_ie_code": self.get_data(data, "inscricao_estadual"),
         }
         return res
 
