@@ -35,7 +35,7 @@
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
-                    name="suframa"
+                    name="l10n_br_isuf_code"
                     placeholder="Suframa"
                     attrs="{'invisible': [('state_id', '!=', %(base.state_br_am)d)]}"
                 />
