@@ -797,7 +797,7 @@ msgid "Company Phone"
 msgstr "Telefone da Empresa"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_est_st
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_l10n_br_ie_code_st
 msgid "Company ST State Tax Number"
 msgstr ""
 
@@ -807,7 +807,7 @@ msgid "Company State"
 msgstr "Estado da Empresa"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_est
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_l10n_br_ie_code
 msgid "Company State Tax Number"
 msgstr "Número da Inscrição Estadual da Empresa"
 
@@ -3702,7 +3702,7 @@ msgid "Situação e-doc"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_est
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_l10n_br_ie_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "State Tax Number"
