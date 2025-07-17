@@ -218,7 +218,7 @@ row {
                             Insc. Municipal
                         </div>
                         <div class="col-2 linha centro bl bb">
-                            <span t-field="doc.company_id.inscr_mun" />
+                            <span t-field="doc.company_id.l10n_br_im_code" />
                         </div>
                         <div class="col-1 rotulo bl bb">
                             Município
@@ -289,7 +289,7 @@ row {
                     Insc. Municipal
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.partner_id.inscr_mun" />
+                    <span t-field="doc.partner_id.l10n_br_im_code" />
                 </div>
                 <div class="col-1 rotulo br">
                     Município
