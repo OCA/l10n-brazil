@@ -75,7 +75,7 @@
                             />
                             <field name="legal_name" />
                             <field
-                                name="inscr_est"
+                                name="l10n_br_ie_code"
                                 attrs="{
                                 'invisible': [('is_company', '=', False)],
                             }"
