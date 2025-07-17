@@ -94,7 +94,7 @@ class Registro0000(models.Model):
             "UF": record.state_id.code,
             "IE": misc.punctuation_rm(record.l10n_br_ie_code),
             "COD_MUN": record.city_id.ibge_code,
-            "IM": misc.punctuation_rm(record.inscr_mun or ""),
+            "IM": misc.punctuation_rm(record.l10n_br_im_code or ""),
             # "IND_SIT_ESP": (will use the declaration field directly),
             # "IND_SIT_INI_PER": (will use the declaration field directly),
             "IND_NIRE": 0,  # TODO
