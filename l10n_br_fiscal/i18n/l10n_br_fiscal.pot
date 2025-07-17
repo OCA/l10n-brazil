@@ -1859,7 +1859,7 @@ msgid "Company Main CNAE"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_l10n_br_im_code
 msgid "Company Municipal Tax Number"
 msgstr ""
 
@@ -5621,9 +5621,9 @@ msgid "Multimodal"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_inscr_mun
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__inscr_mun
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_l10n_br_im_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__l10n_br_im_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__l10n_br_im_code
 msgid "Municipal Tax Number"
 msgstr ""
 
