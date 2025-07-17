@@ -65,7 +65,7 @@ msgid "Receipts"
 msgstr "Recebimentos"
 
 #. module: l10n_br_stock
-#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
