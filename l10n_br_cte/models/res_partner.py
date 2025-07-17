@@ -183,7 +183,7 @@ class ResPartner(spec_models.SpecModel):
         inverse="_inverse_cte40_IE",
         compute_sudo=True,
     )
-    cte40_ISUF = fields.Char(related="suframa")
+    cte40_ISUF = fields.Char(related="l10n_br_isuf_code")
     cte40_email = fields.Char(related="email")
     cte40_xEnder = fields.Char(
         compute="_compute_cte40_xEnder",
