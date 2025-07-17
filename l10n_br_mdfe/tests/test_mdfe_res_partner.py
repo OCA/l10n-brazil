@@ -37,7 +37,7 @@ class TestMDFeResPartner(TransactionCase):
         )
 
         self.partner_id.mdfe30_IE = "630514648079"
-        self.assertEqual(self.partner_id.inscr_est, self.partner_id.mdfe30_IE)
+        self.assertEqual(self.partner_id.l10n_br_ie_code, self.partner_id.mdfe30_IE)
 
         self.partner_id.mdfe30_CEP = "04324240"
         self.assertEqual(
