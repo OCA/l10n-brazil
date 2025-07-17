@@ -78,7 +78,7 @@
                             <tbody>
                                 <td>
                                     <strong>State Registration: </strong> <t
-                                        t-esc="header['inscr_est']"
+                                        t-esc="header['l10n_br_ie_code']"
                                     />
                                 </td>
                                 <td width="230" />
