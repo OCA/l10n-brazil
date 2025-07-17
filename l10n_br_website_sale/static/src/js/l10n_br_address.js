@@ -12,7 +12,7 @@ odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
         return $.Deferred().reject("DOM doesn't contain '.checkout_autoformat'");
     }
 
-    function formatCpfCnpj(inputValue) {
+    function formatVat(inputValue) {
         // Remove non-numeric characters
         let value = inputValue.replace(/\D/g, "");
 
@@ -39,11 +39,27 @@ odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
         return value;
     }
 
-    $("#input_cnpj_cpf").on("blur", function () {
+    $("#input_vat").on("blur", function () {
         var value = $(this).val();
-        var formattedValue = formatCpfCnpj(value);
+        var formattedValue = formatVat(value);
         $(this).val(formattedValue);
     });
+
+    function toggleStateTaxFields() {
+        var $companyName = $("input[name='company_name']");
+        if (!$companyName.length) {
+            return;
+        }
+        var hasCompanyName = Boolean($companyName.val().trim());
+        $(".div_l10n_br_ie_code, .div_l10n_br_im_code").toggle(hasCompanyName);
+    }
+
+    toggleStateTaxFields();
+    $checkout_autoformat_selector.on(
+        "input",
+        "input[name='company_name']",
+        toggleStateTaxFields
+    );
 
     var zip_cleave = new Cleave(".input-zipcode", {
         blocks: [5, 3],

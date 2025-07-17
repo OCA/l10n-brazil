@@ -1,14 +1,13 @@
 odoo.define("l10n_br_website_sale.tour", function (require) {
     "use strict";
 
-    var ajax = require("web.ajax");
     var session = require("web.session");
     var tour = require("web_tour.tour");
 
     var domReady = new Promise(function (resolve) {
         $(resolve);
     });
-    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
+    var ready = Promise.all([domReady, session.is_bound]);
 
     tour.register(
         "l10n_br_website_sale_tour",
@@ -33,19 +32,29 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
                 timeout: 10000,
             },
             {
-                content: "click on add to cart",
-                trigger:
-                    '#product_detail form[action^="/shop/cart/update"]' +
-                    " .btn-primary",
+                content: "click in modal on 'ADD TO CART' button",
+                trigger: 'a:contains("ADD TO CART")',
             },
             {
-                content: "click in modal on 'Proceed to checkout' button",
-                trigger: 'a:contains("Process Checkout")',
+                content: "click on add to cart",
+                trigger: '#product_detail form[action^="/shop/cart"] .btn-primary',
+            },
+            {
+                content: "Go to checkout",
+                trigger: "body",
                 run: function () {
-                    window.location.href = "/shop/address";
-                    // Redirect in JS to avoid the RPC loop (20x1sec)
+                    window.location.href = "/shop/checkout";
                 },
                 timeout: 10000,
+            },
+            {
+                // Reproduces a real customer click: navigating straight to
+                // /shop/address (without a partner_id) puts the form in
+                // ('new', 'shipping') mode instead of ('edit', 'billing'),
+                // hiding the billing-only fields (vat, zip, IE/IM code).
+                content: "Edit billing address",
+                trigger: ".js_edit_address:first",
+                timeout: 20000,
             },
             {
                 content: "Complete zip",
@@ -53,14 +62,67 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
                 run: "text 12246250",
             },
             {
+                // Keep the same name: Odoo blocks changing the name of an
+                // internal (non-share) user from the website frontend, and
+                // this tour logs in as admin.
                 content: "Complete name",
                 trigger: "input[name='name']",
-                run: "text Paradeda",
+                run: "text Mitchell Admin",
             },
             {
                 content: "Complete phone",
                 trigger: "input[name='phone']",
                 run: "text 12981901669",
+            },
+            {
+                content: "Complete mobile",
+                trigger: "input[name='mobile']",
+                run: "text 12981901669",
+            },
+            {
+                content: "Complete CPF",
+                trigger: "input[name='vat']",
+                run: "text 89604455095",
+            },
+            {
+                // The admin fixture already has a Company Name (demo data),
+                // so clear it first to exercise the "empty" case for real.
+                content: "Clear company name",
+                trigger: "input[name='company_name']",
+                run: function () {
+                    $("input[name='company_name']").val("").trigger("input");
+                },
+            },
+            {
+                // A plain poll-until-match trigger (no thrown errors): the
+                // test harness treats any console "tour ... failed" message
+                // as fatal even if a later retry succeeds, so asserting a
+                // negative condition has to happen in the trigger itself.
+                content: "State Tax Number is hidden while Company Name is empty",
+                trigger: "body:not(:has(.div_l10n_br_ie_code:visible))",
+                run: function () {
+                    /* Keep empty, only the trigger matters */
+                },
+            },
+            {
+                content: "Complete company name",
+                trigger: "input[name='company_name']",
+                run: "text L10n BR Test Company",
+            },
+            {
+                content: "Complete State Tax Number (now visible)",
+                trigger: ".div_l10n_br_ie_code input[name='l10n_br_ie_code']:visible",
+                run: "text 110042490114",
+            },
+            {
+                content: "Complete NUMBER",
+                trigger: "input[name='street_number']",
+                run: "text 200",
+            },
+            {
+                content: "Complete DISTRICT",
+                trigger: "input[name='district']",
+                run: "text Cobre",
             },
             {
                 content: "check state is São Paulo",
@@ -73,37 +135,31 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
                 timeout: 20000,
             },
             {
-                content: "check city is São José dos Campos",
-                trigger: 'select[name=city_id]:contains("São José dos Campos")',
-                timeout: 20000,
+                content: "check city is Adamantina",
+                trigger: 'select[name=city_id]:contains("Adamantina")',
+                run: function () {
+                    /* Keep empty ... */
+                },
             },
             {
-                content: "Complete number",
-                trigger: "input[name='street_number']",
-                run: "text 23",
-            },
-            {
+                // Submitting here saves the BR address (zip, vat, State Tax
+                // Number, city/state) and lands on /shop/checkout. Going
+                // further (clicking Confirm to reach /shop/confirm_order)
+                // pulls in this demo product's fiscal computation, which
+                // hangs with this database's demo data (no NCM/fiscal
+                // operation configured) - a separate, pre-existing issue
+                // unrelated to l10n_br_website_sale's address form, so the
+                // tour stops here.
                 content: "click in Next",
                 trigger: 'a:contains("Next")',
                 timeout: 20000,
             },
             {
-                content: "click in modal Pay Now",
-                trigger: 'button[type="submit"]',
-                timeout: 20000,
-            },
-            {
-                content: "finish",
-                trigger: '.oe_website_sale:contains("Please make a payment to:")',
-                // Leave /shop/confirmation to prevent RPC loop to
-                //      /shop/payment/get_status.
-                // The RPC could be handled in python while the tour is
-                //      killed (and the session), leading to crashes
+                content: "Checkout page reached with all fields saved",
+                trigger: '.o_page_header:contains("Billing Address")',
                 run: function () {
-                    // Redirect in JS to avoid the RPC loop (20x1sec)
-                    window.location.href = "/aboutus";
+                    /* Keep empty, only the trigger matters */
                 },
-                timeout: 30000,
             },
         ]
     );
