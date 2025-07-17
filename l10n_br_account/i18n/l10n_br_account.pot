@@ -795,9 +795,9 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_inscr_est_st
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_inscr_est_st
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_inscr_est_st
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_l10n_br_ie_code_st
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_l10n_br_ie_code_st
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_l10n_br_ie_code_st
 msgid "Company ST State Tax Number"
 msgstr ""
 
