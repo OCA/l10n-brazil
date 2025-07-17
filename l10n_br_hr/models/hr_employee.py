@@ -57,7 +57,7 @@ class HrEmployee(models.Model):
     rg = fields.Char(
         string="RG",
         store=True,
-        related="address_home_id.inscr_est",
+        related="address_home_id.l10n_br_ie_code",
         help="National ID number",
         groups="hr.group_hr_user",
     )

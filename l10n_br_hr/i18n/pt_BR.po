@@ -1689,7 +1689,7 @@ msgid "State"
 msgstr "Estado"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
