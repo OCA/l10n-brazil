@@ -1218,9 +1218,9 @@ msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__vat
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__vat
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__vat
 msgid "CNPJ/CPF"
 msgstr ""
 

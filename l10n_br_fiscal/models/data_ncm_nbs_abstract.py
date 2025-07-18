@@ -89,7 +89,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
                 config = DeOlhoNoImposto(
                     company.ibpt_token,
-                    misc.punctuation_rm(company.cnpj_cpf),
+                    misc.punctuation_rm(company.vat),
                     company.state_id.code,
                     odooconfig.get("ibpt_request_timeout")
                     or self.env["ir.config_parameter"]
