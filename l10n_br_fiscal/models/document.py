@@ -230,7 +230,7 @@ class Document(models.Model):
 
     partner_cnpj_cpf = fields.Char(
         string="CNPJ",
-        related="partner_id.cnpj_cpf",
+        related="partner_id.vat",
     )
 
     partner_l10n_br_ie_code = fields.Char(
@@ -334,7 +334,7 @@ class Document(models.Model):
 
     company_cnpj_cpf = fields.Char(
         string="Company CNPJ",
-        related="company_id.cnpj_cpf",
+        related="company_id.vat",
     )
 
     company_l10n_br_ie_code = fields.Char(

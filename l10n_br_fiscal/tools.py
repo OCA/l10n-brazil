@@ -48,7 +48,7 @@ def domain_field_codes(
 def path_edoc_company(company_id):
     db_name = company_id._cr.dbname
     filestore = tools.config.filestore(db_name)
-    return "/".join([filestore, "edoc", punctuation_rm(company_id.cnpj_cpf)])
+    return "/".join([filestore, "edoc", punctuation_rm(company_id.vat)])
 
 
 def build_edoc_path(

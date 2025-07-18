@@ -83,7 +83,7 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
-    cnpj_cpf = fields.Char(
+    vat = fields.Char(
         tracking=True,
     )
 

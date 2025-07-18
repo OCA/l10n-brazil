@@ -128,7 +128,7 @@ class DocumentRelated(models.Model):
                 or False
             )
 
-            self.cnpj_cpf = related.partner_id and related.partner_id.cnpj_cpf or False
+            self.cnpj_cpf = related.partner_id and related.partner_id.vat or False
 
             if related.partner_id.is_company:
                 self.cpfcnpj_type = "cnpj"
