@@ -9,10 +9,10 @@
             <field name="cnae_secondary_ids" position="after">
                 <field name="equity_capital" widget="monetary" />
             </field>
-            <field name="cnpj_cpf" position="replace">
-                <label for="cnpj_cpf" string="CNPJ" />
+            <field name="vat" position="replace">
+                <label for="vat" string="CNPJ" />
                      <div class="o_row" colspan="1">
-                        <field name="cnpj_cpf" />
+                        <field name="vat" />
                         <button
                         name="action_open_cnpj_search_wizard"
                         type="object"

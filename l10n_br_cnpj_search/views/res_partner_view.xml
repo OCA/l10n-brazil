@@ -13,9 +13,9 @@
                 <field name="equity_capital" widget="monetary" />
             </field>
 
-            <field name="cnpj_cpf" position="replace">
+            <field name="vat" position="replace">
                      <div class="o_row" colspan="4">
-                        <field name="cnpj_cpf" nolabel="1" />
+                        <field name="vat" nolabel="1" />
                         <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
