@@ -21,10 +21,11 @@ class FakeRetorno:
 
 @tagged("post_install", "-at_install")
 class TestSintegra(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.retorno = FakeRetorno()
-        self.retorno.text = {
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.retorno = FakeRetorno()
+        cls.retorno.text = {
             "code": "0",
             "status": "OK",
             "message": "Pesquisa realizada com sucesso.",
@@ -56,22 +57,24 @@ class TestSintegra(TransactionCase):
             "bairro": "Itaim bibi",
             "ibge": {"codigo_municipio": "3550308", "codigo_uf": "35"},
         }
-        self.retorno.status_code = 200
-        self.model = self.env["res.partner"]
-        self.set_param_cnpj("cnpj_provider", "receitaws")
-        self.set_param("sintegra_token", "C3144731-15F5-4F87-AC74-8887E4900A13")
-        self.set_param("ie_search", "sintegraws")
+        cls.retorno.status_code = 200
+        cls.model = cls.env["res.partner"]
+        cls.set_param_cnpj("cnpj_provider", "receitaws")
+        cls.set_param("sintegra_token", "C3144731-15F5-4F87-AC74-8887E4900A13")
+        cls.set_param("ie_search", "sintegraws")
 
-    def set_param_cnpj(self, param_name, param_value):
+    @classmethod
+    def set_param_cnpj(cls, param_name, param_value):
         (
-            self.env["ir.config_parameter"]
+            cls.env["ir.config_parameter"]
             .sudo()
             .set_param("l10n_br_cnpj_search." + param_name, param_value)
         )
 
-    def set_param(self, param_name, param_value):
+    @classmethod
+    def set_param(cls, param_name, param_value):
         (
-            self.env["ir.config_parameter"]
+            cls.env["ir.config_parameter"]
             .sudo()
             .set_param("l10n_br_ie_search." + param_name, param_value)
         )
