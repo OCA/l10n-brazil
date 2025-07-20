@@ -6,14 +6,10 @@ from odoo.tests.common import TransactionCase
 
 
 class TestDanfeGeneration(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
     def test_generate_danfe_brazil_fiscal_report(self):
         nfe = self.env.ref("l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11")
         nfe.action_document_confirm()
         nfe.view_pdf()
-
         self.assertTrue(nfe.file_report_id)
 
     def test_generate_danfe_document_type_error(self):
@@ -35,5 +31,4 @@ class TestDanfeGeneration(TransactionCase):
         nfe.action_document_confirm()
         nfe.issuer = "partner"
         nfe.view_pdf()
-
         self.assertTrue(nfe.file_report_id)
