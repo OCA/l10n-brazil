@@ -131,19 +131,20 @@ class PartyMixin(models.AbstractModel):
         for partner in self:
             partner.cnpj_cpf = partner.vat
 
-    @api.depends("cnpj_cpf")
+    @api.depends("vat")
     def _compute_cnpj_cpf_stripped(self):
         for record in self:
-            if record.cnpj_cpf:
+            if record.vat:
                 record.cnpj_cpf_stripped = "".join(
-                    char for char in record.cnpj_cpf if char.isalnum()
+                    char for char in record.vat if char.isalnum()
                 )
             else:
                 record.cnpj_cpf_stripped = False
 
     @api.onchange("zip")
     def _onchange_zip(self):
-        self.zip = misc.format_zipcode(self.zip, self.country_id.code)
+        if self.country_id:
+            self.zip = misc.format_zipcode(self.zip, self.country_id.code)
 
     # TODO: O metodo tanto no res.partner quanto no res.company chamam
     #  _onchange_state e aqui também deveria, porém por algum motivo

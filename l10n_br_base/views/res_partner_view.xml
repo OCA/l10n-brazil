@@ -12,7 +12,7 @@
             <field name="name" position="after">
                 <field name="legal_name" />
                 <field
-                    name="cnpj_cpf"
+                    name="vat"
                     filter_domain="['|', ('vat', 'ilike', self), ('cnpj_cpf_stripped', 'ilike', self)]"
                 />
             </field>
@@ -26,7 +26,7 @@
         <field name="arch" type="xml">
             <field name="display_name" position="after">
                 <field name="legal_name" />
-                <field name="cnpj_cpf" />
+                <field name="vat" />
                 <field name="l10n_br_ie_code" />
             </field>
         </field>
@@ -43,7 +43,7 @@
                     {
                         'readonly':
                             [
-                                '|', ('cnpj_cpf', 'not in', [False, ""]),
+                                '|', ('vat', 'not in', [False, ""]),
                                      ('parent_id', '!=', False),
 
                             ]
@@ -68,17 +68,17 @@
                 <field name="legal_name" nolabel="1" />
                 <div>
                     <label
-                        for="cnpj_cpf"
+                        for="vat"
                         string="CPF"
                         attrs="{'invisible': [('is_company','=', True)]}"
                     />
                     <label
-                        for="cnpj_cpf"
+                        for="vat"
                         string="CNPJ/Vat Number"
                         attrs="{'invisible': [('is_company','!=', True)]}"
                     />
                 </div>
-                <field name="cnpj_cpf" nolabel="1" />
+                <field name="vat" nolabel="1" />
                 <div>
                     <label
                         for="rg"

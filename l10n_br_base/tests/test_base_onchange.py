@@ -16,7 +16,7 @@ class L10nBrBaseOnchangeTest(TransactionCase):
             .create(
                 {
                     "name": "Company Test 1",
-                    "cnpj_cpf": "02.960.895/0001-31",
+                    "vat": "02.960.895/0001-31",
                     "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
                     "zip": "29161-695",
                 }

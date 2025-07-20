@@ -8,20 +8,10 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='vat']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('country_id', '=', %(base.br)d)]}</attribute>
-            </xpath>
             <field name="company_registry" position="after">
                 <field
                     name="legal_name"
                     placeholder="Legal Name..."
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
-                />
-                <field
-                    name="cnpj_cpf"
-                    placeholder="CNPJ..."
                     attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
@@ -79,7 +69,7 @@
         <field name="field_parent">child_ids</field>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="cnpj_cpf" />
+                <field name="vat" />
             </field>
         </field>
     </record>
