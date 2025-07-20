@@ -13,10 +13,10 @@ from odoo.addons.l10n_br_cnpj_search.tests.common import TestCnpjCommon
 
 @tagged("post_install", "-at_install")
 class TestReceitaWS(TestCnpjCommon):
-    def setUp(self):
-        super().setUp()
-
-        self.set_param("cnpj_provider", "receitaws")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.set_param("cnpj_provider", "receitaws")
 
     def test_receita_ws_success(self):
         kilian = self.model.create(

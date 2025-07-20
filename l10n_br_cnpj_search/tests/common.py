@@ -311,9 +311,10 @@ class TestCnpjCommon(TransactionCase):
             },
         }
 
-    def set_param(self, param_name, param_value):
+    @classmethod
+    def set_param(cls, param_name, param_value):
         (
-            self.env["ir.config_parameter"]
+            cls.env["ir.config_parameter"]
             .sudo()
             .set_param("l10n_br_cnpj_search." + param_name, param_value)
         )
