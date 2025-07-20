@@ -6,7 +6,8 @@ from .test_l10n_br_purchase import L10nBrPurchaseBaseTest
 
 
 class TestL10nBrPurchaseSN(L10nBrPurchaseBaseTest):
-    def setUp(self):
-        super().setUp()
-        self.company = self.env.ref("l10n_br_base.empresa_simples_nacional")
-        self.po_products = self.env.ref("l10n_br_purchase.sn_po_only_products")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
+        cls.po_products = cls.env.ref("l10n_br_purchase.sn_po_only_products")
