@@ -5,11 +5,11 @@ from odoo.tests import TransactionCase
 
 
 class TestNFCeResPartner(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
-        self.partner_id = self.env.ref("l10n_br_base.res_partner_kmee")
-        self.partner_id.is_anonymous_consumer = True
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
+        cls.partner_id.is_anonymous_consumer = True
 
     def test_compute_fields(self):
         self.partner_id._compute_nfe40_ender()

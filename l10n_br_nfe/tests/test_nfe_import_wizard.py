@@ -12,8 +12,9 @@ from ..wizards.import_document import NfeImport
 
 
 class NFeImportWizardTest(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
         def test_xml_path(filename):
             return os.path.join(
@@ -27,11 +28,11 @@ class NFeImportWizardTest(TransactionCase):
 
         path_1 = test_xml_path("NFe35200181583054000129550010000000052062777166.xml")
         with open(path_1, "rb") as f:
-            self.xml_1 = f.read()
+            cls.xml_1 = f.read()
 
-        self.wizard = False
-        self.product_1 = self.env["product.product"].create({"name": "Product Test 1"})
-        self.partner_1 = self.env["res.partner"].create({"name": "Partner Test 1"})
+        cls.wizard = False
+        cls.product_1 = cls.env["product.product"].create({"name": "Product Test 1"})
+        cls.partner_1 = cls.env["res.partner"].create({"name": "Partner Test 1"})
 
     def _prepare_wizard(self, xml):
         self.wizard = self.env["l10n_br_nfe.import_xml"].create(
