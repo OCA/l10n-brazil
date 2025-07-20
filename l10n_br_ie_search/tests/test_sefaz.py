@@ -20,10 +20,11 @@ class FakeRetorno:
 
 @tagged("post_install", "-at_install")
 class TestSefaz(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.retorno = FakeRetorno()
-        self.retorno.text = """<?xml version="1.0" encoding="utf-8"?><soap:Envelope
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.retorno = FakeRetorno()
+        cls.retorno.text = """<?xml version="1.0" encoding="utf-8"?><soap:Envelope
             xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"><soap:Body>
@@ -46,51 +47,52 @@ class TestSefaz(TransactionCase):
             <CEP>01222001</CEP>
             </ender></infCad></infCons></retConsCad></nfeResultMsg>
             </soap:Body></soap:Envelope>"""
-        self.retorno.ok = (True,)
-        self.set_param("ie_search", "sefaz")
-        self.model = self.env["res.company"]
-        self.company_model = self.env["res.company"]
-        self.certificate_model = self.env["l10n_br_fiscal.certificate"]
-        self.cert_passwd = "123456"
-        self.cert_country = "BR"
-        self.cert_issuer_a = "EMISSOR A TESTE"
-        self.cert_issuer_b = "EMISSOR B TESTE"
-        self.cert_subject_valid = "CERTIFICADO VALIDO TESTE"
-        self.cert_date_exp = fields.Datetime.today() + timedelta(days=365)
-        self.cert_subject_invalid = "CERTIFICADO INVALIDO TESTE"
-        self.cert_name = "{} - {} - {} - Valid: {}".format(
+        cls.retorno.ok = (True,)
+        cls.set_param("ie_search", "sefaz")
+        cls.model = cls.env["res.company"]
+        cls.company_model = cls.env["res.company"]
+        cls.certificate_model = cls.env["l10n_br_fiscal.certificate"]
+        cls.cert_passwd = "123456"
+        cls.cert_country = "BR"
+        cls.cert_issuer_a = "EMISSOR A TESTE"
+        cls.cert_issuer_b = "EMISSOR B TESTE"
+        cls.cert_subject_valid = "CERTIFICADO VALIDO TESTE"
+        cls.cert_date_exp = fields.Datetime.today() + timedelta(days=365)
+        cls.cert_subject_invalid = "CERTIFICADO INVALIDO TESTE"
+        cls.cert_name = "{} - {} - {} - Valid: {}".format(
             "NF-E",
             "A1",
-            self.cert_subject_valid,
-            format_date(self.env, self.cert_date_exp),
+            cls.cert_subject_valid,
+            format_date(cls.env, cls.cert_date_exp),
         )
 
-        self.certificate_valid = misc.create_fake_certificate_file(
+        cls.certificate_valid = misc.create_fake_certificate_file(
             valid=True,
-            passwd=self.cert_passwd,
-            issuer=self.cert_issuer_a,
-            country=self.cert_country,
-            subject=self.cert_subject_valid,
+            passwd=cls.cert_passwd,
+            issuer=cls.cert_issuer_a,
+            country=cls.cert_country,
+            subject=cls.cert_subject_valid,
         )
-        self.certificate_invalid = misc.create_fake_certificate_file(
+        cls.certificate_invalid = misc.create_fake_certificate_file(
             valid=False,
-            passwd=self.cert_passwd,
-            issuer=self.cert_issuer_b,
-            country=self.cert_country,
-            subject=self.cert_subject_invalid,
+            passwd=cls.cert_passwd,
+            issuer=cls.cert_issuer_b,
+            country=cls.cert_country,
+            subject=cls.cert_subject_invalid,
         )
-        self.cert = self.certificate_model.create(
+        cls.cert = cls.certificate_model.create(
             {
                 "type": "nf-e",
                 "subtype": "a1",
-                "password": self.cert_passwd,
-                "file": self.certificate_valid,
+                "password": cls.cert_passwd,
+                "file": cls.certificate_valid,
             }
         )
 
-    def set_param(self, param_name, param_value):
+    @classmethod
+    def set_param(cls, param_name, param_value):
         (
-            self.env["ir.config_parameter"]
+            cls.env["ir.config_parameter"]
             .sudo()
             .set_param("l10n_br_ie_search." + param_name, param_value)
         )
