@@ -18,15 +18,17 @@ _logger = logging.getLogger(__name__)
 
 
 class TestMDFeSerialize(TransactionCase):
-    def setUp(self, mdfe_list):
-        super().setUp()
-        self.mdfe_list = mdfe_list
-        for mdfe_data in self.mdfe_list:
-            mdfe = self.env.ref(mdfe_data["record_ref"])
+    @classmethod
+    def setUpClass(cls, mdfe_list):
+        super().setUpClass()
+        cls.mdfe_list = mdfe_list
+        for mdfe_data in cls.mdfe_list:
+            mdfe = cls.env.ref(mdfe_data["record_ref"])
             mdfe_data["mdfe"] = mdfe
-            self.prepare_test_mdfe(mdfe)
+            cls.prepare_test_mdfe(mdfe)
 
-    def prepare_test_mdfe(self, mdfe):
+    @classmethod
+    def prepare_test_mdfe(cls, mdfe):
         """
         Performs actions necessary to prepare an MDFe of the demo data to
         perform the tests
@@ -42,26 +44,25 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_cMDF = "20801844"
 
         if mdfe.mdfe_modal == "1":
-            self.prepare_modal_rodoviario_data(mdfe)
+            cls.prepare_modal_rodoviario_data(mdfe)
         elif mdfe.mdfe_modal == "2":
-            self.prepare_modal_aereo_data(mdfe)
+            cls.prepare_modal_aereo_data(mdfe)
         elif mdfe.mdfe_modal == "3":
-            self.prepare_modal_aquaviario_data(mdfe)
+            cls.prepare_modal_aquaviario_data(mdfe)
         elif mdfe.mdfe_modal == "4":
-            self.prepare_modal_ferroviario_data(mdfe)
+            cls.prepare_modal_ferroviario_data(mdfe)
 
         mdfe._document_export()
 
-    def prepare_modal_rodoviario_data(self, mdfe):
+    @classmethod
+    def prepare_modal_rodoviario_data(cls, mdfe):
         mdfe.mdfe30_codAgPorto = "12345678"
 
         # infANTT
         mdfe.mdfe30_RNTRC = "12345678"
         mdfe.mdfe30_categCombVeic = "02"
         mdfe.mdfe30_infCIOT = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "is_company": False,
                     "mdfe30_CIOT": "123456789101",
@@ -70,9 +71,7 @@ class TestMDFeSerialize(TransactionCase):
             ),
         ]
         mdfe.mdfe30_disp = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "mdfe30_CNPJForn": "99999999999999",
                     "mdfe30_CNPJPg": "99999999999999",
@@ -83,11 +82,9 @@ class TestMDFeSerialize(TransactionCase):
             ),
         ]
         mdfe.mdfe30_infPag = [
-            (
-                0,
-                0,
+            Command.create(
                 {
-                    "partner_id": self.env.ref("l10n_br_base.res_partner_intel").id,
+                    "partner_id": cls.env.ref("l10n_br_base.res_partner_intel").id,
                     "mdfe30_vContrato": 5,
                     "mdfe30_indPag": "0",
                     "payment_type": "pix",
@@ -116,19 +113,15 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_capM3 = 300
         mdfe.mdfe30_tpRod = "03"
         mdfe.mdfe30_tpCar = "00"
-        mdfe.rodo_vehicle_state_id = self.env.ref("base.state_br_ac").id
+        mdfe.rodo_vehicle_state_id = cls.env.ref("base.state_br_ac").id
         mdfe.mdfe30_condutor = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "mdfe30_xNome": "Teste",
                     "mdfe30_CPF": "99999999999",
                 },
             ),
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "mdfe30_xNome": "Teste2",
                     "mdfe30_CPF": "99999999999",
@@ -138,9 +131,7 @@ class TestMDFeSerialize(TransactionCase):
 
         # veicReboque
         mdfe.mdfe30_veicReboque = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "mdfe30_cInt": "2",
                     "mdfe30_placa": "AAA4321",
@@ -154,7 +145,8 @@ class TestMDFeSerialize(TransactionCase):
             )
         ]
 
-    def prepare_modal_aereo_data(self, mdfe):
+    @classmethod
+    def prepare_modal_aereo_data(cls, mdfe):
         mdfe.mdfe30_nac = "TEST"
         mdfe.mdfe30_matr = "TEST"
         mdfe.mdfe30_nVoo = "123456789"
@@ -162,7 +154,8 @@ class TestMDFeSerialize(TransactionCase):
         mdfe.mdfe30_cAerDes = "OACI"
         mdfe.mdfe30_dVoo = datetime.strptime("2020-01-01", "%Y-%m-%d")
 
-    def prepare_modal_aquaviario_data(self, mdfe):
+    @classmethod
+    def prepare_modal_aquaviario_data(cls, mdfe):
         mdfe.mdfe30_irin = "1234567899"
         mdfe.mdfe30_tpEmb = "01"
         mdfe.mdfe30_cEmbar = "123456"
@@ -179,7 +172,8 @@ class TestMDFeSerialize(TransactionCase):
             Command.create({"unloading_harbor": "BRBZC"}),
         ]
 
-    def prepare_modal_ferroviario_data(self, mdfe):
+    @classmethod
+    def prepare_modal_ferroviario_data(cls, mdfe):
         mdfe.mdfe30_dhTrem = datetime.strptime(
             "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
         )
