@@ -8,7 +8,8 @@ _logger = logging.getLogger(__name__)
 
 
 class TestMDFeExportSN(TestMDFeSerialize):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         mdfe_list = [
             {
                 "record_ref": "l10n_br_mdfe.demo_mdfe_sn_modal_aereo",
@@ -19,8 +20,7 @@ class TestMDFeExportSN(TestMDFeSerialize):
                 "xml_file": "MDFe35231005472475000102580200000602161434590525.xml",
             },
         ]
-
-        super().setUp(mdfe_list)
+        super().setUpClass(mdfe_list)
 
     def test_serialize_xml(self):
         for mdfe_data in self.mdfe_list:

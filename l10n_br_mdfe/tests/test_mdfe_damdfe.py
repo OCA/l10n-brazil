@@ -6,14 +6,10 @@ from odoo.tests.common import TransactionCase
 
 
 class TestDamdfeGeneration(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
     def test_generate_damdfe_brazil_fiscal_report(self):
         mdfe = self.env.ref("l10n_br_mdfe.demo_mdfe_lc_modal_rodoviario")
         mdfe.action_document_confirm()
         mdfe.view_pdf()
-
         self.assertTrue(mdfe.file_report_id)
 
     def test_generate_damdfe_document_type_error(self):
@@ -35,5 +31,4 @@ class TestDamdfeGeneration(TransactionCase):
         mdfe.action_document_confirm()
         mdfe.issuer = "partner"
         mdfe.view_pdf()
-
         self.assertTrue(mdfe.file_report_id)
