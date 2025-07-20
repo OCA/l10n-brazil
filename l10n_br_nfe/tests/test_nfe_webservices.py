@@ -23,14 +23,15 @@ _logger = logging.getLogger(__name__)
 
 
 class TestNFeWebServices(TestNFeExport):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         nfe_list = [
             {
                 "record_ref": "l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11",
                 "xml_file": "NFe35200159594315000157550010000000022062777169.xml",
             },
         ]
-        super().setUp(nfe_list)
+        super().setUpClass(nfe_list)
 
     @nfe_mock(
         {
