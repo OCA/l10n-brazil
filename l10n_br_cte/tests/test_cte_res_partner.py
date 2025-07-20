@@ -8,10 +8,10 @@ from odoo.tests import TransactionCase
 
 
 class TestCTeResPartner(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
-        self.partner_id = self.env.ref("l10n_br_base.res_partner_kmee")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
 
     def test_compute_fields(self):
         self.partner_id.country_id = self.env.ref("base.us")
