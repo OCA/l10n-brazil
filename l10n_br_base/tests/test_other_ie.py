@@ -19,7 +19,7 @@ class OtherIETest(TransactionCase):
             {
                 "name": "Akretion Sao Paulo",
                 "legal_name": "Akretion Sao Paulo",
-                "cnpj_cpf": "26.905.703/0001-52",
+                "vat": "26.905.703/0001-52",
                 "l10n_br_ie_code": "932.446.119.086",
                 "street": "Rua Paulo Dias",
                 "street_number": "586",
