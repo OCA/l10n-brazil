@@ -8,24 +8,25 @@ from odoo.tests.common import TransactionCase
 class SalePickingTest(TransactionCase):
     """Tests the creation of picking from the sales order."""
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
         # Create a product Kit and components.
-        self.product_kit = self.env["product.product"].create(
+        cls.product_kit = cls.env["product.product"].create(
             {"name": "Kit", "type": "product"}
         )
-        self.product_kit_component1 = self.env["product.product"].create(
+        cls.product_kit_component1 = cls.env["product.product"].create(
             {"name": "Kit Component 1", "type": "product"}
         )
-        self.product_kit_component2 = self.env["product.product"].create(
+        cls.product_kit_component2 = cls.env["product.product"].create(
             {"name": "Kit Component 2", "type": "product"}
         )
         # Create a BOM for the product Kit.
-        self.bom = self.env["mrp.bom"].create(
+        cls.bom = cls.env["mrp.bom"].create(
             {
-                "product_id": self.product_kit.id,
-                "product_tmpl_id": self.product_kit.product_tmpl_id.id,
+                "product_id": cls.product_kit.id,
+                "product_tmpl_id": cls.product_kit.product_tmpl_id.id,
                 "product_qty": 1,
                 "type": "phantom",  # Kit
                 "bom_line_ids": [
@@ -33,7 +34,7 @@ class SalePickingTest(TransactionCase):
                         0,
                         0,
                         {
-                            "product_id": self.product_kit_component1.id,
+                            "product_id": cls.product_kit_component1.id,
                             "product_qty": 1,
                         },
                     ),
@@ -41,24 +42,24 @@ class SalePickingTest(TransactionCase):
                         0,
                         0,
                         {
-                            "product_id": self.product_kit_component2.id,
+                            "product_id": cls.product_kit_component2.id,
                             "product_qty": 1,
                         },
                     ),
                 ],
             }
         )
-        self.partner = self.env["res.partner"].create({"name": "Test client"})
-        self.so = self.env["sale.order"].create(
+        cls.partner = cls.env["res.partner"].create({"name": "Test client"})
+        cls.so = cls.env["sale.order"].create(
             {
-                "partner_id": self.partner.id,
+                "partner_id": cls.partner.id,
                 "client_order_ref": "SO1",
                 "order_line": [
                     (
                         0,
                         0,
                         {
-                            "product_id": self.product_kit.id,
+                            "product_id": cls.product_kit.id,
                             "product_uom_qty": 1,
                             "price_unit": 1,
                         },
