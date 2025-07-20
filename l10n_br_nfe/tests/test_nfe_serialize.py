@@ -17,15 +17,17 @@ _logger = logging.getLogger(__name__)
 
 
 class TestNFeExport(TransactionCase):
-    def setUp(self, nfe_list):
-        super().setUp()
-        self.nfe_list = nfe_list
-        for nfe_data in self.nfe_list:
-            nfe = self.env.ref(nfe_data["record_ref"])
+    @classmethod
+    def setUpClass(cls, nfe_list):
+        super().setUpClass()
+        cls.nfe_list = nfe_list
+        for nfe_data in cls.nfe_list:
+            nfe = cls.env.ref(nfe_data["record_ref"])
             nfe_data["nfe"] = nfe
-            self.prepare_test_nfe(nfe)
+            cls.prepare_test_nfe(nfe)
 
-    def prepare_test_nfe(self, nfe):
+    @classmethod
+    def prepare_test_nfe(cls, nfe):
         """
         Performs actions necessary to prepare an NFe of the demo data to
         perform the tests

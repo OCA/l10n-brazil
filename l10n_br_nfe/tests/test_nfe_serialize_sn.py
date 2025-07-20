@@ -8,14 +8,15 @@ _logger = logging.getLogger(__name__)
 
 
 class TestNFeExportSN(TestNFeExport):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         nfe_list = [
             {
                 "record_ref": "l10n_br_nfe.demo_nfe_national_sale_for_same_state",
                 "xml_file": "NFe35200159594315000157550010000000012062777161.xml",
             },
         ]
-        super().setUp(nfe_list)
+        super().setUpClass(nfe_list)
 
     def test_serialize_xml(self):
         for nfe_data in self.nfe_list:
