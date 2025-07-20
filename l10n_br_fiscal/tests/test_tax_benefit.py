@@ -6,15 +6,16 @@ from odoo.tests import TransactionCase
 
 
 class TestTaxBenefit(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.nfe_tax_benefit = self.env.ref("l10n_br_fiscal.demo_nfe_tax_benefit")
-        self.tax_benefit = self.env["l10n_br_fiscal.tax.definition"].create(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.nfe_tax_benefit = cls.env.ref("l10n_br_fiscal.demo_nfe_tax_benefit")
+        cls.tax_benefit = cls.env["l10n_br_fiscal.tax.definition"].create(
             {
-                "icms_regulation_id": self.env.ref(
+                "icms_regulation_id": cls.env.ref(
                     "l10n_br_fiscal.tax_icms_regulation"
                 ).id,
-                "tax_group_id": self.env.ref("l10n_br_fiscal.tax_group_icms").id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_icms").id,
                 "code": "SP810001",
                 "name": "TAX BENEFIT DEMO",
                 "description": "TAX BENEFIT DEMO",
@@ -23,13 +24,13 @@ class TestTaxBenefit(TransactionCase):
                 "is_taxed": True,
                 "is_debit_credit": True,
                 "custom_tax": True,
-                "tax_id": self.env.ref("l10n_br_fiscal.tax_icms_12_red_26_57").id,
-                "cst_id": self.env.ref("l10n_br_fiscal.cst_icms_20").id,
-                "state_from_id": self.env.ref("base.state_br_sp").id,
-                "state_to_ids": [Command.set(self.env.ref("base.state_br_mg").ids)],
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_icms_12_red_26_57").id,
+                "cst_id": cls.env.ref("l10n_br_fiscal.cst_icms_20").id,
+                "state_from_id": cls.env.ref("base.state_br_sp").id,
+                "state_to_ids": [Command.set(cls.env.ref("base.state_br_mg").ids)],
                 "ncms": "73269090",
                 "ncm_ids": [
-                    Command.set(self.env.ref("l10n_br_fiscal.ncm_73269090").ids)
+                    Command.set(cls.env.ref("l10n_br_fiscal.ncm_73269090").ids)
                 ],
                 "state": "approved",
             }
