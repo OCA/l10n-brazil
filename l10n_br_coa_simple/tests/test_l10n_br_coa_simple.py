@@ -5,13 +5,13 @@ from odoo.tests.common import TransactionCase
 
 
 class L10nBrSimpleCOA(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
-        self.l10n_br_coa_simple = self.env.ref(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.l10n_br_coa_simple = cls.env.ref(
             "l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
         )
-        self.l10n_br_company = self.env["res.company"].create(
+        cls.l10n_br_company = cls.env["res.company"].create(
             {"name": "Empresa Teste do Plano de Contas Simplificado"}
         )
 
