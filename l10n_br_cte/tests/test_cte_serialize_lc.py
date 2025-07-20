@@ -8,7 +8,8 @@ _logger = logging.getLogger(__name__)
 
 
 class TestCTeExportLC(TestCTeSerialize):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         cte_list = [
             {
                 "record_ref": "l10n_br_cte.demo_cte_lc_modal_rodoviario",
@@ -32,7 +33,7 @@ class TestCTeExportLC(TestCTeSerialize):
             },
         ]
 
-        super().setUp(cte_list)
+        super().setUpClass(cte_list)
 
     def test_serialize_xml(self):
         for cte_data in self.cte_list:

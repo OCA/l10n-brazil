@@ -5,18 +5,19 @@ from odoo.tests.common import TransactionCase
 
 
 class TestResPartner(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         # Basic setup for the test
-        self.partner_model = self.env["res.partner"]
-        self.partner = self.partner_model.create(
+        cls.partner_model = cls.env["res.partner"]
+        cls.partner = cls.partner_model.create(
             {
                 "name": "Test Partner",
                 "cnpj_cpf": "87697453000105",
                 "zip": "12345000",
                 "phone": "(11) 91234-5678",
                 "email": "test@company.com",
-                "country_id": self.env.ref("base.br").id,
+                "country_id": cls.env.ref("base.br").id,
                 "is_company": True,
             }
         )

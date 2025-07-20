@@ -7,6 +7,7 @@ from datetime import datetime
 
 from xmldiff import main
 
+from odoo import Command
 from odoo.tests.common import TransactionCase
 from odoo.tools import config
 
@@ -16,14 +17,16 @@ _logger = logging.getLogger(__name__)
 
 
 class TestCTeSerialize(TransactionCase):
-    def setUp(self, cte_list):
-        super().setUp()
-        self.cte_list = cte_list
-        for cte_data in self.cte_list:
-            cte = self.env.ref(cte_data["record_ref"])
+    @classmethod
+    def setUpClass(cls, cte_list):
+        super().setUpClass()
+        cls.cte_list = cte_list
+        for cte_data in cls.cte_list:
+            cte = cls.env.ref(cte_data["record_ref"])
             cte_data["cte"] = cte
-            self.prepare_test_cte(cte)
+            cls.prepare_test_cte(cte)
 
+    @classmethod
     def prepare_test_cte(self, cte):
         """
         Performs actions necessary to prepare an CTe of the demo data to
@@ -56,21 +59,18 @@ class TestCTeSerialize(TransactionCase):
 
         cte._document_export()
 
-    def prepare_modal_rodoviario_data(self, cte):
+    @classmethod
+    def prepare_modal_rodoviario_data(cls, cte):
         cte.cte40_RNTRC = "12345678"
         cte.cte40_occ = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "cte40_serie": "01",
                     "cte40_nOcc": "01",
                     "cte40_cInt": "XYZ",
                 },
             ),
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "cte40_serie": "02",
                     "cte40_nOcc": "02",
@@ -79,7 +79,8 @@ class TestCTeSerialize(TransactionCase):
             ),
         ]
 
-    def prepare_modal_aereo_data(self, cte):
+    @classmethod
+    def prepare_modal_aereo_data(cls, cte):
         # Dados gerais do modal aéreo
         cte.cte40_nMinu = "TEST123"  # Número do Minuta
         cte.cte40_nOCA = "OCA56789"  # Número do OCA
@@ -93,9 +94,7 @@ class TestCTeSerialize(TransactionCase):
 
         # Lista de produtos perigosos
         cte.cte40_peri = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "cte40_nONU": "1234",  # Número ONU do produto perigoso
                     "cte40_qTotEmb": "15",  # Quantidade total de volumes embarcados
@@ -103,9 +102,7 @@ class TestCTeSerialize(TransactionCase):
                     "cte40_uniAP": "1",  # Unidade de Medida do Produto
                 },
             ),
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "cte40_nONU": "5678",
                     "cte40_qTotEmb": "20",
@@ -115,7 +112,8 @@ class TestCTeSerialize(TransactionCase):
             ),
         ]
 
-    def prepare_modal_aquaviario_data(self, cte):
+    @classmethod
+    def prepare_modal_aquaviario_data(cls, cte):
         # Dados gerais do modal aquaviário
         cte.cte40_vAFRMM = (
             1200.00  # Valor do Adicional de Frete para Renovação da Marinha Mercante
@@ -129,29 +127,27 @@ class TestCTeSerialize(TransactionCase):
 
         # Informações das balsas transportadas
         cte.cte40_balsa = [
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "cte40_xBalsa": "Balsa A",  # Identificador da primeira balsa
                 },
             ),
-            (
-                0,
-                0,
+            Command.create(
                 {
                     "cte40_xBalsa": "Balsa B",  # Identificador da segunda balsa
                 },
             ),
         ]
 
-    def prepare_modal_dutoviario_data(self, cte):
+    @classmethod
+    def prepare_modal_dutoviario_data(cls, cte):
         # Dados gerais do modal dutoviário
         cte.cte40_dIni = "2024-01-01"  # Data de início da operação dutoviária
         cte.cte40_dFim = "2024-12-31"  # Data de término da operação dutoviária
         cte.cte40_vTar = 1500.00  # Valor da tarifa aplicada no transporte
 
-    def prepare_modal_ferroviario_data(self, cte):
+    @classmethod
+    def prepare_modal_ferroviario_data(cls, cte):
         # Dados gerais do modal ferroviário
         cte.cte40_tpTraf = "1"  # Tipo de Tráfego: 1 = Nacional, 2 = Internacional
         cte.cte40_fluxo = "Fluxo Norte-Sul"  # Fluxo de transporte
