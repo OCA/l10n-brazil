@@ -9,9 +9,6 @@ from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicin
 
 
 class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
-    def setUp(self):
-        super().setUp()
-
     def test_grouping_pickings(self):
         """
         Test the invoice generation grouped by partner/product with 2
