@@ -6,14 +6,10 @@ from odoo.tests.common import TransactionCase
 
 
 class TestDacteGeneration(TransactionCase):
-    def setUp(self):
-        super().setUp()
-
     def test_generate_dacte_brazil_fiscal_report(self):
         cte = self.env.ref("l10n_br_cte.demo_cte_lc_modal_rodoviario")
         cte.action_document_confirm()
         cte.view_pdf()
-
         self.assertTrue(cte.file_report_id)
 
     def test_generate_dacte_document_type_error(self):
@@ -35,5 +31,4 @@ class TestDacteGeneration(TransactionCase):
         cte.action_document_confirm()
         cte.issuer = "partner"
         cte.view_pdf()
-
         self.assertTrue(cte.file_report_id)
