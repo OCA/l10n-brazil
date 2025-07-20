@@ -7,6 +7,7 @@
         Integração com os Webservices da ReceitaWS e SerPro""",
     "version": "16.0.2.0.0",
     "license": "AGPL-3",
+    "development_status": "Production/Stable",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [

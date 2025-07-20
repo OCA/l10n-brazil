@@ -16,13 +16,13 @@ _logger = logging.getLogger(__name__)
 
 @tagged("post_install", "-at_install")
 class TestTestSerPro(TestCnpjCommon):
-    def setUp(self):
-        super().setUp()
-
-        self.set_param("cnpj_provider", "serpro")
-        self.set_param("serpro_token", "06aef429-a981-3ec5-a1f8-71d38d86481e")
-        self.set_param("serpro_trial", True)
-        self.set_param("serpro_schema", "basica")
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.set_param("cnpj_provider", "serpro")
+        cls.set_param("serpro_token", "06aef429-a981-3ec5-a1f8-71d38d86481e")
+        cls.set_param("serpro_trial", True)
+        cls.set_param("serpro_schema", "basica")
 
     def test_serpro_basica(self):
         with mock.patch(
