@@ -8,6 +8,7 @@ class TestNFeWithIPI(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref)
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.configure_normal_company_taxes()
         cls.env.user.groups_id |= cls.env.ref("l10n_br_nfe.group_manager")
