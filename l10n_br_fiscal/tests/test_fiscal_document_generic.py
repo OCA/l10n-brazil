@@ -12,6 +12,8 @@ class TestFiscalDocumentGeneric(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
         # Contribuinte
         cls.nfe_same_state = cls.env.ref("l10n_br_fiscal.demo_nfe_same_state")
         cls.nfe_other_state = cls.env.ref("l10n_br_fiscal.demo_nfe_other_state")
