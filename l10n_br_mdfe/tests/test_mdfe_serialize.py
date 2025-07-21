@@ -21,6 +21,7 @@ class TestMDFeSerialize(TransactionCase):
     @classmethod
     def setUpClass(cls, mdfe_list):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.mdfe_list = mdfe_list
         for mdfe_data in cls.mdfe_list:
             mdfe = cls.env.ref(mdfe_data["record_ref"])
