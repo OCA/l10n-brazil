@@ -18,6 +18,7 @@ class L10nBrPurchaseBaseTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.po_products = cls.env.ref("l10n_br_purchase.lp_po_only_products")
         # cls.po_services = cls.env.ref(
