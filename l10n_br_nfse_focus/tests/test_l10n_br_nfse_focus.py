@@ -145,6 +145,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
     def setUpClass(cls):
         """Sets up test environment."""
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.tpAmb = "2"  # Environment type: 1 for production, 2 for test
         cls.token = "123456789"  # Example token for authentication
         cls.company = cls.env.ref("base.main_company")  # Reference to main company
