@@ -8,6 +8,7 @@ class TestDanfe(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
     def test_generate_danfe_brazil_fiscal_report(self):
         nfe = self.env.ref("l10n_br_account_nfe.demo_nfe_dados_de_cobranca")
