@@ -98,6 +98,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_uCom
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_uTrib
+msgid ""
+"Abbreviated unit code used in electronic fiscal documents (e.g. NF-e, "
+"NFC-e). Must have a maximum of 6 characters by regulation. e.g. 'UN', 'KG', "
+"'LITRO', 'CX12UN"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__key
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_form
 msgid "Access Key"
