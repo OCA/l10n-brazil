@@ -10,6 +10,7 @@ class L10nBrSaleDiscount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.env.ref("base.main_company")
         cls.group_total_discount_id = cls.env.ref(
             "l10n_br_sale.group_total_discount"
