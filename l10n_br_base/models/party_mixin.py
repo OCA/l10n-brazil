@@ -40,11 +40,6 @@ class PartyMixin(models.AbstractModel):
         related="l10n_br_ie_code", string="State Tax Number alias", readonly=False
     )
 
-    rg = fields.Char(
-        string="RG",
-        unaccent=False,
-    )
-
     state_tax_number_ids = fields.One2many(
         string="Others State Tax Number",
         comodel_name="state.tax.numbers",

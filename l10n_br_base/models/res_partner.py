@@ -48,6 +48,8 @@ class Partner(models.Model):
 
     union_entity_code = fields.Char(string="Union Entity code", unaccent=False)
 
+    l10n_br_rg_code = fields.Char(string="RG", unaccent=False)
+
     pix_key_ids = fields.One2many(
         string="Pix Keys",
         comodel_name="res.partner.pix",
