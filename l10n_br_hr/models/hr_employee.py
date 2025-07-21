@@ -54,18 +54,15 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user",
     )
 
-    rg = fields.Char(
-        string="RG",
-        store=True,
-        related="address_home_id.l10n_br_ie_code",
+    l10n_br_rg_code = fields.Char(
+        related="address_home_id.l10n_br_rg_code",
         help="National ID number",
         groups="hr.group_hr_user",
     )
 
     cpf = fields.Char(
         string="CPF",
-        store=True,
-        related="address_home_id.cnpj_cpf",
+        related="address_home_id.vat",
         readonly=False,
         groups="hr.group_hr_user",
     )
