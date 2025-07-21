@@ -9,6 +9,7 @@ class TestL10nBrContract(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # Create contract with 3 lines, two resale products and one service
         contract_form = Form(cls.env["contract.contract"])
