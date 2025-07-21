@@ -20,6 +20,7 @@ class TestCTeSerialize(TransactionCase):
     @classmethod
     def setUpClass(cls, cte_list):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.cte_list = cte_list
         for cte_data in cls.cte_list:
             cte = cls.env.ref(cte_data["record_ref"])
