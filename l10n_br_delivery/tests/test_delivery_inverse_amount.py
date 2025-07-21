@@ -10,6 +10,7 @@ class TestDeliveryInverseAmount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.sale_demo = cls.env.ref("l10n_br_delivery.main_so_delivery_1")
 
