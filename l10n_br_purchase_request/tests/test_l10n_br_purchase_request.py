@@ -9,6 +9,7 @@ class L10nBrPurchaseRequestBaseTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
 
         cls.purchase_request_obj = cls.env["purchase.request"]
