@@ -20,6 +20,7 @@ class TestNFeExport(TransactionCase):
     @classmethod
     def setUpClass(cls, nfe_list):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.nfe_list = nfe_list
         for nfe_data in cls.nfe_list:
             nfe = cls.env.ref(nfe_data["record_ref"])
