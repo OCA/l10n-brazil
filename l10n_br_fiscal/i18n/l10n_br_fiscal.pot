@@ -473,6 +473,14 @@ msgid "AMPOLA"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__code
+msgid ""
+"Abbreviated unit code used in electronic fiscal documents (e.g. NF-e, "
+"NFC-e). Must have a maximum of 6 characters by regulation. e.g. 'UN', 'KG', "
+"'LITRO', 'CX12UN"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__account_move
 msgid "Account Move?"
 msgstr ""
@@ -1159,8 +1167,13 @@ msgid "CFOP already exists with this code !"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:uom.uom,name:l10n_br_fiscal.UOM_CONJUNTO
+msgid "CJ"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CM2
-msgid "CM2"
+msgid "CM²"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1366,11 +1379,6 @@ msgid "COFINS WH Base Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.UOM_CONJUNTO
-msgid "CONJUNTO"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_related__cpfcnpj_type__cpf
 msgid "CPF"
 msgstr ""
@@ -1548,48 +1556,48 @@ msgid "CX"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.UOM_CX10
-msgid "CX10"
+#: model:uom.uom,name:l10n_br_fiscal.UOM_CX100
+msgid "CX 100UN"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.UOM_CX100
-msgid "CX100"
+#: model:uom.uom,name:l10n_br_fiscal.UOM_CX10
+msgid "CX 10UN"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CX15
-msgid "CX15"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.UOM_CX2
-msgid "CX2"
+msgid "CX 15UN"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CX20
-msgid "CX20"
+msgid "CX 20UN"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CX25
-msgid "CX25"
+msgid "CX 25UN"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:uom.uom,name:l10n_br_fiscal.UOM_CX2
+msgid "CX 2UN"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CX3
-msgid "CX3"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.UOM_CX5
-msgid "CX5"
+msgid "CX 3UN"
 msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CX50
-msgid "CX50"
+msgid "CX 50UN"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:uom.uom,name:l10n_br_fiscal.UOM_CX5
+msgid "CX 5UN"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1730,6 +1738,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_base__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_credit__code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__code
 msgid "Code"
 msgstr ""
 
@@ -2348,6 +2357,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__description
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__description
 msgid "Description"
 msgstr ""
 
@@ -3237,8 +3247,13 @@ msgid "Fuel?"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__description
+msgid "Full unit description. e.g. 'Unit', 'Kilogram', 'Box of 12 Units'."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_GARRAFA
-msgid "GARRAFA"
+msgid "GF"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5396,16 +5411,6 @@ msgid "Lâmpadas, reatores e “starter”"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.UOM_M2
-msgid "M2"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.UOM_M3
-msgid "M3"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_mdfe
 msgid "MDF-e"
 msgstr ""
@@ -5417,7 +5422,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_MILILITRO
-msgid "MILILITRO"
+msgid "ML"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5633,6 +5638,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__my_activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__my_activity_date_deadline
 msgid "My Activity Deadline"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:uom.uom,name:l10n_br_fiscal.UOM_M2
+msgid "M²"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:uom.uom,name:l10n_br_fiscal.UOM_M3
+msgid "M³"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6286,11 +6301,6 @@ msgid "PARES"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:uom.uom,name:l10n_br_fiscal.UOM_PC
-msgid "PEÇA"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__icmsst_value
 msgid "PFC Value"
 msgstr ""
@@ -6777,6 +6787,11 @@ msgid "Product Information"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_uom_uom
+msgid "Product Unit of Measure"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_product_product
 msgid "Product Variant"
 msgstr ""
@@ -6941,6 +6956,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cfop__type_move__purchase_service
 msgid "Purchase Service"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:uom.uom,name:l10n_br_fiscal.UOM_PC
+msgid "PÇ"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8368,6 +8388,11 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/document.py:0
 #, python-format
 msgid "Unidentified Consumer"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.constraint,message:l10n_br_fiscal.constraint_uom_uom_unique_code
+msgid "Unit of Measure code must be unique!"
 msgstr ""
 
 #. module: l10n_br_fiscal
