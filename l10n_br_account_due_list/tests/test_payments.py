@@ -9,6 +9,7 @@ class TestPayments(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.account_receivable = cls.env["account.account"].create(
             {
                 "name": "Test receivable account",
