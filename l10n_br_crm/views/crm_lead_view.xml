@@ -21,7 +21,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
-                    name="rg"
+                    name="l10n_br_rg_code"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>
@@ -98,7 +98,7 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
                 <field
-                    name="rg"
+                    name="l10n_br_rg_code"
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>

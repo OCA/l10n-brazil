@@ -15,7 +15,11 @@ class Lead(models.Model):
     _name = "crm.lead"
     _inherit = [_name, "l10n_br_base.party.mixin"]
 
-    cnpj = fields.Char(string="CNPJ")
+    cnpj = fields.Char(string="CNPJ", unaccent=False)
+
+    cpf = fields.Char(string="CPF", unaccent=False)
+
+    l10n_br_rg_code = fields.Char(string="RG", unaccent=False)
 
     street_name = fields.Char()
 
@@ -24,8 +28,6 @@ class Lead(models.Model):
     name_surname = fields.Char(
         string="Name and Surname", help="Name used in fiscal documents"
     )
-
-    cpf = fields.Char(string="CPF")
 
     show_l10n_br = fields.Boolean(
         compute="_compute_show_l10n_br",
@@ -149,7 +151,7 @@ class Lead(models.Model):
                 )
                 result["website"] = self.partner_id.parent_id.website or False
                 result["cpf"] = self.partner_id.cnpj_cpf
-                result["rg"] = self.partner_id.rg
+                result["l10n_br_rg_code"] = self.partner_id.l10n_br_rg_code
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
         return result
@@ -184,8 +186,8 @@ class Lead(models.Model):
             values.update(
                 {
                     "cnpj_cpf": self.cpf,
-                    "l10n_br_ie_code": self.rg,
-                    "rg": self.rg,
+                    "l10n_br_ie_code": self.l10n_br_rg_code,
+                    "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
             )
         return values
