@@ -42,8 +42,8 @@ class Lead(models.Model):
             values.update(
                 {
                     "cnpj_cpf": self.cpf,
-                    "l10n_br_ie_code": self.rg,
-                    "rg": self.rg,
+                    "l10n_br_ie_code": self.l10n_br_rg_code,
+                    "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
             )
         return values
