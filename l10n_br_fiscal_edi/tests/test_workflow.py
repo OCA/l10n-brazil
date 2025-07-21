@@ -16,6 +16,7 @@ class TestWorkflow(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.fiscal_document = cls.env["l10n_br_fiscal.document"].create(
             {
                 "document_type_id": cls.env.ref(
