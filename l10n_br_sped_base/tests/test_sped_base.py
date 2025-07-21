@@ -22,6 +22,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
 
