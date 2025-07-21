@@ -6,7 +6,7 @@
     "summary": """
         Brazilian Localization Sale Invoice Plan""",
     "category": "Localisation",
-    "version": "16.0.1.0.3",
+    "version": "16.0.1.0.4",
     "license": "AGPL-3",
     "author": "Escodoo,Odoo Community Association (OCA)",
     "maintainers": ["marcelsavegnago"],
