@@ -378,3 +378,36 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(move.fiscal_line_ids[0].fiscal_price, 112)
         self.assertEqual(move.fiscal_line_ids[0].quantity, 10)
         self.assertEqual(move.fiscal_line_ids[0].fiscal_quantity, 5)
+
+    def test_product_fiscal_factor(self):
+        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        nfe_user_group = self.env.ref(
+            "l10n_br_nfe.group_user", raise_if_not_found=False
+        )
+        if nfe_user_group:
+            self.user.groups_id += nfe_user_group
+
+        move_form = Form(
+            self.env["account.move"].with_context(
+                default_move_type="out_invoice",
+            )
+        )
+        move_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        move_form.document_serie_id = self.env.ref(
+            "l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        )
+        move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        product_id = self.env.ref("product.product_product_6")
+        product_id.uot_factor = 2
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = product_id
+            line_form.price_unit = 100
+            line_form.quantity = 10
+
+        doc = move_form.save()
+        self.assertEqual(doc.fiscal_line_ids[0].price_unit, 100)
+        self.assertEqual(doc.fiscal_line_ids[0].fiscal_price, 50)
+        self.assertEqual(doc.fiscal_line_ids[0].quantity, 10)
+        self.assertEqual(doc.fiscal_line_ids[0].fiscal_quantity, 20)
