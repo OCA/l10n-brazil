@@ -91,9 +91,9 @@ class Document(models.Model):
     )
 
     fiscal_operation_id = fields.Many2one(
-        domain="[('state', '=', 'approved'), "
-        "'|', ('fiscal_operation_type', '=', fiscal_operation_type),"
-        " ('fiscal_operation_type', '=', 'all')]",
+        "l10n_br_fiscal.operation",
+        string="Fiscal Operation",
+        domain="[('state', '=', 'approved')]",
     )
 
     fiscal_operation_type = fields.Selection(
@@ -485,6 +485,19 @@ class Document(models.Model):
                         number=record.document_number,
                     )
                 )
+
+    @api.onchange("fiscal_operation_type")
+    def _onchange_fiscal_operation_type(self):
+        domain = [("state", "=", "approved")]
+        if self.fiscal_operation_type:
+            domain.append(("fiscal_operation_type", "=", self.fiscal_operation_type))
+        if (
+            self.fiscal_operation_id
+            and self.fiscal_operation_id.fiscal_operation_type
+            != self.fiscal_operation_type
+        ):
+            self.fiscal_operation_id = False
+        return {"domain": {"fiscal_operation_id": domain}}
 
     @api.depends("company_id")
     def _compute_currency_id(self):
