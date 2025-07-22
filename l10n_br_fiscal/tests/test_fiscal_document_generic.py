@@ -2,8 +2,10 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from unittest import mock
 
 from odoo.tests import TransactionCase
+from odoo.tests.common import Form
 
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 
@@ -37,6 +39,79 @@ class TestFiscalDocumentGeneric(TransactionCase):
         cls.nfe_purchase_same_state = cls.env.ref(
             "l10n_br_fiscal.demo_nfe_purchase_same_state"
         )
+
+    def test_basic_doc_edition(self):
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        doc_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        doc_form.ind_final = "1"
+        product_id = self.env.ref("product.product_product_6")
+        with doc_form.fiscal_line_ids.new() as line_form:
+            original_method = type(
+                self.env["l10n_br_fiscal.operation.line"]
+            ).map_fiscal_taxes
+
+            def wrapped_method(self, *args, **kwargs):
+                return original_method(self, *args, **kwargs)
+
+            with mock.patch.object(
+                type(self.env["l10n_br_fiscal.operation.line"]),
+                "map_fiscal_taxes",
+                side_effect=wrapped_method,
+                autospec=True,
+            ) as mocked:
+                line_form.product_id = product_id
+
+            # ensure the tax engine is called with the proper
+            # parameters, especially ind_final
+            # as it is related=document_id.ind_final
+            # which is converted to move_id.ind_final to work live
+            mocked.assert_called_with(
+                self.env.ref("l10n_br_fiscal.fo_venda_revenda"),
+                company=doc_form.company_id,
+                partner=doc_form.partner_id,
+                product=product_id,
+                ncm=product_id.ncm_id,
+                nbm=self.env["l10n_br_fiscal.nbm"],
+                nbs=self.env["l10n_br_fiscal.nbs"],
+                cest=self.env["l10n_br_fiscal.cest"],
+                city_taxation_code=self.env["l10n_br_fiscal.city.taxation.code"],
+                service_type=self.env["l10n_br_fiscal.service.type"],
+                ind_final="1",
+            )
+
+            line_form.price_unit = 100
+            line_form.quantity = 1
+
+        doc_form.save()
+
+    def test_product_fiscal_factor(self):
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        doc_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        doc_form.ind_final = "1"
+        product_id = self.env.ref("product.product_product_6")
+        product_id.uot_factor = 2
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = product_id
+            line_form.price_unit = 100
+            line_form.quantity = 10
+
+        doc = doc_form.save()
+        self.assertEqual(doc.fiscal_line_ids[0].price_unit, 100)
+        self.assertEqual(doc.fiscal_line_ids[0].fiscal_price, 50)
+        self.assertEqual(doc.fiscal_line_ids[0].quantity, 10)
+        self.assertEqual(doc.fiscal_line_ids[0].fiscal_quantity, 20)
 
     def test_nfe_same_state(self):
         """Test NFe same state."""
@@ -578,8 +653,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.pis_tax_id.name,
                 "PIS 0,65%",
-                "Error to mapping PIS 0,65%"
-                " for Venda de Contribuinte p/ o Exterior.",
+                "Error to mapping PIS 0,65% for Venda de Contribuinte p/ o Exterior.",
             )
             self.assertEqual(
                 line.pis_cst_id.code,
@@ -593,8 +667,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.cofins_tax_id.name,
                 "COFINS 3%",
-                "Error to mapping COFINS 3%"
-                " for Venda de Contribuinte p/ o Exterior.",
+                "Error to mapping COFINS 3% for Venda de Contribuinte p/ o Exterior.",
             )
             self.assertEqual(
                 line.cofins_cst_id.code,
@@ -876,8 +949,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.ipi_tax_id.name,
                 "IPI 5%",
-                "Erro ao mapear IPI 5%"
-                " para Venda de Simples Nacional Fora do Estado.",
+                "Erro ao mapear IPI 5% para Venda de Simples Nacional Fora do Estado.",
             )
             self.assertEqual(
                 line.ipi_cst_id.code,
@@ -1054,19 +1126,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.assertEqual(
             self.nfe_same_state.amount_freight_value,
             20.0,
-            "Unexpected value for the field" " Amount Freight in Fiscal Document line",
+            "Unexpected value for the field Amount Freight in Fiscal Document line",
         )
         self.assertEqual(
             self.nfe_same_state.amount_insurance_value,
             20.0,
-            "Unexpected value for the field"
-            " Amount Insurance in Fiscal Document line",
+            "Unexpected value for the field Amount Insurance in Fiscal Document line",
         )
         self.assertEqual(
             self.nfe_same_state.amount_other_value,
             20.0,
-            "Unexpected value for the field"
-            " Amount Other Value in Fiscal Document line",
+            "Unexpected value for the field Amount Other Value in Fiscal Document line",
         )
 
         # Teste definindo os valores Por Total
@@ -1082,18 +1152,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.freight_value,
                 5.0,
-                "Unexpected value for the field" " Freight in Fiscal Document line",
+                "Unexpected value for the field Freight in Fiscal Document line",
             )
             self.assertEqual(
                 line.insurance_value,
                 5.0,
-                "Unexpected value for the field" " Insurance in Fiscal Document line",
+                "Unexpected value for the field Insurance in Fiscal Document line",
             )
             self.assertEqual(
                 line.other_value,
                 5.0,
-                "Unexpected value for the field"
-                " Other Values in Fiscal Document line",
+                "Unexpected value for the field Other Values in Fiscal Document line",
             )
 
         # Caso que os Campos na Linha não tem valor
@@ -1110,16 +1179,15 @@ class TestFiscalDocumentGeneric(TransactionCase):
             self.assertEqual(
                 line.freight_value,
                 10.0,
-                "Unexpected value for the field" " Freight in Fiscal Document line",
+                "Unexpected value for the field Freight in Fiscal Document line",
             )
             self.assertEqual(
                 line.insurance_value,
                 10.0,
-                "Unexpected value for the field" " Insurance in Fiscal Document line",
+                "Unexpected value for the field Insurance in Fiscal Document line",
             )
             self.assertEqual(
                 line.other_value,
                 10.0,
-                "Unexpected value for the field"
-                " Other Values in Fiscal Document line",
+                "Unexpected value for the field Other Values in Fiscal Document line",
             )
