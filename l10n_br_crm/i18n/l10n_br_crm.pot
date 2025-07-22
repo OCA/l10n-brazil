@@ -74,6 +74,11 @@ msgid "Indicates if Brazilian localization fields should be displayed."
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_isuf_code
+msgid "L10N Br Isuf Code"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
 msgid "Lead/Opportunity"
 msgstr ""
@@ -131,11 +136,6 @@ msgstr ""
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_number
 msgid "Street Number"
-msgstr ""
-
-#. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_isuf_code
-msgid "Suframa"
 msgstr ""
 
 #. module: l10n_br_crm
