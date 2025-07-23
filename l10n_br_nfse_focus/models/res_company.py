@@ -56,6 +56,10 @@ class ResCompany(models.Model):
         default=False,
     )
 
+    focusnfe_tax_rate_format = fields.Selection(
+        [("decimal", "Decimal"), ("percentage", "Percentage")], default="decimal"
+    )
+
     def get_focusnfe_token(self):
         """
         Retrieve the appropriate FocusNFe API token based on the current NFSe
