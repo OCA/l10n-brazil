@@ -94,8 +94,9 @@ class CNPJWebservice(models.AbstractModel):
     @api.model
     def get_data(self, data, name, title=False, lower=False):
         value = False
-        if data.get(name) != "":
-            value = data[name]
+        name_str = data.get(name)
+        if name_str:
+            value = name_str
             if lower:
                 value = value.lower()
             elif title:
