@@ -78,7 +78,7 @@ PAYLOAD.append(
             "valor_iss_retido": 4.0,
             "outras_retencoes": 0.0,
             "base_calculo": 100.0,
-            "aliquota": 0.04,
+            "aliquota": 4.0,
             "valor_liquido_nfse": 89.85,
             "item_lista_servico": "1712",
             "codigo_tributacao_municipio": "171202211",
