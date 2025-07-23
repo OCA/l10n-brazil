@@ -188,7 +188,7 @@ class FocusnfeNfse(models.AbstractModel):
             dict: The service section of the payload.
         """
         return {
-            "aliquota": service.get("aliquota"),
+            "aliquota": round(service.get("aliquota") * 100, 1),
             "base_calculo": round(service.get("base_calculo", 0), 2),
             "discriminacao": service.get("discriminacao"),
             "iss_retido": service.get("iss_retido"),
