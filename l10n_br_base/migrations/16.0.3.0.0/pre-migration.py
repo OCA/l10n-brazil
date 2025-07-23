@@ -7,26 +7,14 @@ from openupgradelib import openupgrade
 @openupgrade.migrate()
 def migrate(env, version):
     if not openupgrade.column_exists(env.cr, "res_partner", "l10n_br_isuf_code"):
-        openupgrade.rename_fields(
-            env,
-            [
-                (
-                    "res.partner",
-                    "res_partner",
-                    "suframa",
-                    "l10n_br_isuf_code",
-                ),
-            ],
-        )
-
-        openupgrade.rename_fields(
-            env,
-            [
-                (
-                    "res.company",
-                    "res_company",
-                    "suframa",
-                    "l10n_br_isuf_code",
-                ),
-            ],
+        openupgrade.rename_columns(
+            env.cr,
+            {
+                "res_partner": [
+                    (
+                        "suframa",
+                        "l10n_br_isuf_code",
+                    )
+                ]
+            },
         )
