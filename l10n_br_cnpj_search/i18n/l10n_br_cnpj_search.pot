@@ -194,17 +194,17 @@ msgid "Identification"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__l10n_br_ie_code
-msgid "Inscr Est"
-msgstr ""
-
-#. module: l10n_br_cnpj_search
 #. odoo-python
 #: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
 #, python-format
 msgid ""
 "It is necessary to activate the option to validate de CNPJ to use this "
 "functionality."
+msgstr ""
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__l10n_br_ie_code
+msgid "L10N Br Ie Code"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
