@@ -17,7 +17,6 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     description = line.name
                     price_unit = line.price_unit
                     line._onchange_product_id_fiscal()
-                    line._onchange_fiscal_tax_ids()
                     line.name = description
                     for item in self.item_ids:
                         if item.keep_estimated_cost:
