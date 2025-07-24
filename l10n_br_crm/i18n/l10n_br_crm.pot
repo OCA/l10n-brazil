@@ -129,6 +129,11 @@ msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
+msgid "State Tax Number alias"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_name
 msgid "Street Name"
 msgstr ""
