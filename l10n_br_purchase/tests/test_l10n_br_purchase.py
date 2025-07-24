@@ -160,7 +160,7 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         purchase_line._onchange_product_id_fiscal()
         purchase_line._onchange_fiscal_operation_id()
         purchase_line._onchange_fiscal_taxes()
-        purchase_line._onchange_fiscal_tax_ids()
+        # purchase_line._onchange_fiscal_tax_ids()
 
     def _invoice_purchase_order(self, order):
         order.with_context(tracking_disable=True).button_confirm()
