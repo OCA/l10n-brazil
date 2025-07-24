@@ -190,15 +190,13 @@ class Tax(models.Model):
     cst_in_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST In",
-        domain="[('cst_type', 'in', ('in', 'all')), "
-        "('tax_domain', '=', tax_domain)]",
+        domain="[('cst_type', 'in', ('in', 'all')), ('tax_domain', '=', tax_domain)]",
     )
 
     cst_out_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST Out",
-        domain="[('cst_type', 'in', ('out', 'all')), "
-        "('tax_domain', '=', tax_domain)]",
+        domain="[('cst_type', 'in', ('out', 'all')), ('tax_domain', '=', tax_domain)]",
     )
 
     # ICMS Fields
@@ -243,7 +241,9 @@ class Tax(models.Model):
     @api.model
     def _compute_tax_base(self, tax, tax_dict, **kwargs):
         company = kwargs.get("company", tax.env.company)
-        currency = kwargs.get("currency", company.currency_id)
+        currency = kwargs.get("currency", company.currency_id) or self.env.ref(
+            "base.BRL"
+        )
         fiscal_price = kwargs.get("fiscal_price", 0.00)
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
         compute_reduction = kwargs.get("compute_reduction", True)
@@ -317,7 +317,9 @@ class Tax(models.Model):
         """Generic calculation of Brazilian taxes"""
 
         company = kwargs.get("company", tax.env.company)
-        currency = kwargs.get("currency", company.currency_id)
+        currency = kwargs.get("currency", company.currency_id) or self.env.ref(
+            "base.BRL"
+        )
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
 
@@ -365,7 +367,9 @@ class Tax(models.Model):
         product = kwargs.get("product")
         fiscal_price = kwargs.get("fiscal_price")
         fiscal_quantity = kwargs.get("fiscal_quantity")
-        currency = kwargs.get("currency", company.currency_id)
+        currency = kwargs.get("currency", company.currency_id) or self.env.ref(
+            "base.BRL"
+        )
         ncm = kwargs.get("ncm") or product.ncm_id
         nbs = kwargs.get("nbs") or product.nbs_id
         icms_origin = kwargs.get("icms_origin") or product.icms_origin
@@ -399,7 +403,9 @@ class Tax(models.Model):
         partner = kwargs.get("partner")
         company = kwargs.get("company")
         product = kwargs.get("product")
-        currency = kwargs.get("currency", company.currency_id)
+        currency = kwargs.get("currency", company.currency_id) or self.env.ref(
+            "base.BRL"
+        )
         ncm = kwargs.get("ncm")
         nbm = kwargs.get("nbm")
         cest = kwargs.get("cest")
@@ -625,7 +631,9 @@ class Tax(models.Model):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
         company = kwargs.get("company")
-        currency = kwargs.get("currency", company.currency_id)
+        currency = kwargs.get("currency", company.currency_id) or self.env.ref(
+            "base.BRL"
+        )
         cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
         icmssn_range = kwargs.get("icmssn_range")
 
