@@ -387,9 +387,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
-    @api.onchange(
-        "fiscal_operation_id", "ncm_id", "nbs_id", "cest_id", "service_type_id"
-    )
+    @api.onchange("fiscal_operation_id", "product_id", "company_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
             if not self.price_unit:
@@ -400,9 +398,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 partner=self._get_fiscal_partner(),
                 product=self.product_id,
             )
-            self._onchange_fiscal_operation_line_id()
 
-    @api.onchange("fiscal_operation_line_id")
+    @api.onchange(
+        "fiscal_operation_line_id",
+        "ncm_id",
+        "nbs_id",
+        "cest_id",
+        "service_type_id",
+        "ind_final",
+    )
     def _onchange_fiscal_operation_line_id(self):
         # Reset Taxes
         self._remove_all_fiscal_tax_ids()
