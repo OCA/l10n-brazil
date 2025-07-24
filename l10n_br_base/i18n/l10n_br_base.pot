@@ -23334,6 +23334,14 @@ msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
+msgid "State Tax Number alias"
+msgstr ""
+
+#. module: l10n_br_base
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
