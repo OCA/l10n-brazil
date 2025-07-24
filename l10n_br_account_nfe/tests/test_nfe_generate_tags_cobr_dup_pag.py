@@ -115,7 +115,6 @@ class TestGeneratePaymentInfo(TransactionCase):
             line.with_context(
                 check_move_validity=False
             )._onchange_fiscal_operation_line_id()
-            line.with_context(check_move_validity=False)._onchange_fiscal_tax_ids()
 
     def test_nfe_generate_tag_pag(self):
         """Test NFe generate TAG PAG."""

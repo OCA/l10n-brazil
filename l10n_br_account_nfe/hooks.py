@@ -41,14 +41,12 @@ def load_simples_nacional_demo(env, registry):
         invoice_tag_cobranca = env.ref("l10n_br_account_nfe.demo_nfe_dados_de_cobranca")
         for line in invoice_tag_cobranca.invoice_line_ids:
             line._onchange_fiscal_operation_line_id()
-            line._onchange_fiscal_tax_ids()
 
         invoice_sem_tag_cobranca = env.ref(
             "l10n_br_account_nfe.demo_nfe_sem_dados_de_cobranca"
         )
         for line in invoice_sem_tag_cobranca.invoice_line_ids:
             line._onchange_fiscal_operation_line_id()
-            line._onchange_fiscal_tax_ids()
 
     # back to the main company as the next modules to be installed
     # expect this to be the default company.
