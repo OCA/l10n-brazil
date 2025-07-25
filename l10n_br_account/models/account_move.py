@@ -121,7 +121,7 @@ class AccountMove(models.Model):
         for move in self:
             for doc in move.fiscal_document_ids:
                 doc.company_id = move.company_id
-        return super()._inverse_partner_id()
+        return super()._inverse_company_id()
 
     @api.onchange("currency_id")
     def _inverse_currency_id(self):
