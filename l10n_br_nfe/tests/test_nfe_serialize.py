@@ -41,7 +41,6 @@ class TestNFeExport(TransactionCase):
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_operation_line_id()
 
-        nfe._compute_fiscal_amount()
         nfe._register_hook()  # required in v16 for next statement
         nfe.nfe40_detPag = [
             Command.clear(),
