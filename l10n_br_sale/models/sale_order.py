@@ -66,29 +66,9 @@ class SaleOrder(models.Model):
         store=True,
     )
 
-    amount_freight_value = fields.Monetary(
-        inverse="_inverse_amount_freight",
-    )
-
-    amount_insurance_value = fields.Monetary(
-        inverse="_inverse_amount_insurance",
-    )
-
-    amount_other_value = fields.Monetary(
-        inverse="_inverse_amount_other",
-    )
-
-    def _get_amount_lines(self):
-        """Get object lines instaces used to compute fields"""
-        return self.mapped("order_line")
-
-    @api.depends(
-        "order_line.price_subtotal", "order_line.price_tax", "order_line.price_total"
-    )
-    def _compute_amounts(self):
-        """Compute the total amounts of the SO."""
-        for order in self:
-            order._compute_fiscal_amount()
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "order_line"
 
     @api.model
     def _get_view(self, view_id=None, view_type="form", **options):
