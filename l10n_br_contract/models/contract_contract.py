@@ -78,13 +78,9 @@ class ContractContract(models.Model):
         copy=False,
     )
 
-    def _get_amount_lines(self):
-        """Get object lines instaces used to compute fields"""
-        return self.mapped("contract_line_ids")
-
-    @api.depends("contract_line_ids")
-    def _compute_amount(self):
-        return super()._compute_amount()
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "contract_line_ids"
 
     def _prepare_invoice(self, date_invoice, journal=None):
         self.ensure_one()
