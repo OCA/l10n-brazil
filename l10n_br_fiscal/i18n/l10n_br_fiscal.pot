@@ -1218,9 +1218,7 @@ msgid "CNPJ"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__vat
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__vat
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__vat
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__cnpj_cpf
 msgid "CNPJ/CPF"
 msgstr ""
 
@@ -7990,6 +7988,12 @@ msgid "Tax ICMS ST"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__vat
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__vat
+msgid "Tax ID"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ii_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ii_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__tax_ii_id
@@ -8225,6 +8229,17 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "The Delivery Costs should be informed by Line or by Total ?"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__company_cnpj_cpf
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_cnpj_cpf
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__vat
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__vat
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
 msgstr ""
 
 #. module: l10n_br_fiscal
