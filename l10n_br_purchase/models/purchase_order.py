@@ -70,17 +70,9 @@ class PurchaseOrder(models.Model):
     def _onchange_fiscal_operation_id(self):
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
 
-    def _get_amount_lines(self):
-        """Get object lines instaces used to compute fields"""
-        return self.mapped("order_line")
-
-    @api.depends("order_line")
-    def _compute_fiscal_amount(self):
-        return super()._compute_fiscal_amount()
-
-    @api.depends("order_line.price_total")
-    def _amount_all(self):
-        self._compute_fiscal_amount()
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "order_line"
 
     def _prepare_invoice(self):
         self.ensure_one()
