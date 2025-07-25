@@ -546,22 +546,9 @@ class Document(models.Model):
         for r in self:
             r.name = r._compute_document_name()
 
-    @api.depends(
-        "fiscal_line_ids.estimate_tax",
-        "fiscal_line_ids.price_gross",
-        "fiscal_line_ids.amount_untaxed",
-        "fiscal_line_ids.amount_tax",
-        "fiscal_line_ids.amount_taxed",
-        "fiscal_line_ids.amount_total",
-        "fiscal_line_ids.financial_total",
-        "fiscal_line_ids.financial_total_gross",
-        "fiscal_line_ids.financial_discount_value",
-        "fiscal_line_ids.amount_tax_included",
-        "fiscal_line_ids.amount_tax_not_included",
-        "fiscal_line_ids.amount_tax_withholding",
-    )
-    def _compute_fiscal_amount(self):
-        return super()._compute_fiscal_amount()
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "fiscal_line_ids"
 
     def unlink(self):
         forbidden_states_unlink = [

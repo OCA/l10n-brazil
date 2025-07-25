@@ -66,20 +66,10 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 self.document_type_id = self.company_id.document_type_id
 
     def _get_amount_lines(self):
-        """
-        Hook method to retrieve the document lines used for amount calculations.
-
-        This method should be overridden by models that inherit this mixin
-        if their fiscal document lines are stored in a field other than
-        `fiscal_line_ids`. The returned recordset should contain line objects
-        that have the fiscal amount fields to be summed.
-
-        :return: A recordset of fiscal document line objects.
-        """
-        return self.mapped("fiscal_line_ids")
+        """Get object lines instances used to compute fiscal fields"""
+        return self.mapped(self._get_fiscal_lines_field_name())
 
     def _get_product_amount_lines(self):
-        """Get object lines instaces used to compute fields"""
         fiscal_line_ids = self._get_amount_lines()
         return fiscal_line_ids.filtered(lambda line: line.product_id.type != "service")
 
@@ -108,6 +98,30 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             elif doc.document_serie_id is None:
                 doc.document_serie_id = False
 
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "fiscal_line_ids"
+
+    def _get_fiscal_amount_field_dependencies(self):
+        """
+        Dynamically get the list of field dependencies.
+        """
+        if self._abstract:
+            return []
+        o2m_field_name = self._get_fiscal_lines_field_name()
+        target_fields = []
+        for field in self._get_amount_fields():
+            if (
+                field.replace("amount_", "")
+                in getattr(self, o2m_field_name)._fields.keys()
+            ):
+                target_fields.append(field.replace("amount_", ""))
+
+        return [o2m_field_name] + [
+            f"{o2m_field_name}.{target_field}" for target_field in target_fields
+        ]
+
+    @api.depends(lambda self: self._get_fiscal_amount_field_dependencies())
     def _compute_fiscal_amount(self):
         """
         Compute and sum various fiscal amounts from the document lines.
@@ -121,7 +135,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         """
 
         fields = self._get_amount_fields()
-        for doc in self:
+        for doc in self.filtered(lambda m: m.fiscal_operation_id):
             values = {key: 0.0 for key in fields}
             for line in doc._get_amount_lines():
                 for field in fields:
@@ -130,9 +144,9 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                     if field.replace("amount_", "") in line._fields.keys():
                         # FIXME this field creates an error in invoice form
                         if field == "amount_financial_discount_value":
-                            values[
-                                "amount_financial_discount_value"
-                            ] += 0  # line.financial_discount_value
+                            values["amount_financial_discount_value"] += (
+                                0  # line.financial_discount_value
+                            )
                         else:
                             values[field] += line[field.replace("amount_", "")]
 
