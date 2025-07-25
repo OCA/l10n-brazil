@@ -3891,11 +3891,6 @@ msgid "CEI Code"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
-msgid "CNPJ..."
-msgstr ""
-
-#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf
