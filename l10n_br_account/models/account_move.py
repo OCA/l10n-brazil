@@ -200,9 +200,9 @@ class AccountMove(models.Model):
             else:
                 inv.fiscal_operation_type = MOVE_TO_OPERATION[inv.move_type]
 
-    def _get_amount_lines(self):
-        """Get object lines instances used to compute fields"""
-        return self.mapped("invoice_line_ids")
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "invoice_line_ids"
 
     def ensure_one_doc(self):
         self.ensure_one()
@@ -268,7 +268,7 @@ class AccountMove(models.Model):
     )
     def _compute_amount(self):
         for move in self.filtered(lambda m: m.fiscal_operation_id):
-            move._compute_fiscal_amount()
+            move._compute_fiscal_amount()  # breaks test_composite_move if removed
             for line in move.line_ids:
                 if (
                     move.is_invoice(include_receipts=True)

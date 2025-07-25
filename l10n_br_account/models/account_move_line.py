@@ -377,8 +377,6 @@ class AccountMoveLine(models.Model):
                 + line.freight_value
                 - line.icms_relief_value
             )
-            # TODO MIGRATE v16 (that is make icms_relief_value really work),
-            # for icms_relief_value see https://github.com/OCA/l10n-brazil/pull/3037
         return result
 
     @api.depends(
