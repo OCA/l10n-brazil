@@ -37,7 +37,6 @@ class TestMDFeSerialize(TransactionCase):
         if mdfe.state != "em_digitacao":  # 2nd test run
             mdfe.action_document_back2draft()
 
-        mdfe._compute_fiscal_amount()
         mdfe.action_document_confirm()
         mdfe.document_date = datetime.strptime(
             "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
