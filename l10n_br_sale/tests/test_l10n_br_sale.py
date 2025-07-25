@@ -173,7 +173,7 @@ class L10nBrSaleBaseTest(TransactionCase):
         for invoice in sale_order.invoice_ids:
             self.assertTrue(
                 invoice.fiscal_operation_id,
-                "Error to included Operation on invoice " "dictionary from Sale Order.",
+                "Error to included Operation on invoice dictionary from Sale Order.",
             )
 
             self.assertTrue(
@@ -186,18 +186,17 @@ class L10nBrSaleBaseTest(TransactionCase):
             self.assertEqual(
                 sale_order.amount_total,
                 invoice.amount_total,
-                "Error field Amount Total in Invoice" " are different from Sale Order.",
+                "Error field Amount Total in Invoice are different from Sale Order.",
             )
             self.assertEqual(
                 sale_order.amount_tax,
                 invoice.amount_tax,
-                "Error field Amount Tax in Invoice" " are different from Sale Order.",
+                "Error field Amount Tax in Invoice are different from Sale Order.",
             )
             self.assertEqual(
                 sale_order.amount_untaxed,
                 invoice.amount_untaxed,
-                "Error field Amount Untaxed in Invoice"
-                " are different from Sale Order.",
+                "Error field Amount Untaxed in Invoice are different from Sale Order.",
             )
             self.assertEqual(
                 sale_order.amount_price_gross,
@@ -220,8 +219,7 @@ class L10nBrSaleBaseTest(TransactionCase):
             self.assertEqual(
                 sale_order.amount_freight_value,
                 invoice.amount_freight_value,
-                "Error field Amount Freight in Invoice"
-                " are different from Sale Order.",
+                "Error field Amount Freight in Invoice are different from Sale Order.",
             )
             self.assertEqual(
                 sale_order.amount_insurance_value,
@@ -536,8 +534,6 @@ class L10nBrSaleBaseTest(TransactionCase):
             line.insurance_value = 10.0
             line.other_value = 10.0
 
-        self.so_products.action_confirm()
-
         self.assertEqual(
             self.so_products.amount_freight_value,
             20.0,
@@ -592,8 +588,6 @@ class L10nBrSaleBaseTest(TransactionCase):
         self.so_products.amount_freight_value = 20.0
         self.so_products.amount_insurance_value = 20.0
         self.so_products.amount_other_value = 20.0
-
-        self.so_products.action_confirm()
 
         for line in self.so_products.order_line:
             if line.price_total == 234.29:
