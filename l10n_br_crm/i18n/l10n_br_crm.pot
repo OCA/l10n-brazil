@@ -114,7 +114,7 @@ msgid "Others State Tax Number"
 msgstr ""
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__rg
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_rg_code
 msgid "RG"
 msgstr ""
 
