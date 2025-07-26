@@ -433,7 +433,7 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__rg
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__l10n_br_rg_code
 msgid "National ID number"
 msgstr ""
 
@@ -469,7 +469,7 @@ msgid "Parents names"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__l10n_br_rg_code
 msgid "RG"
 msgstr ""
 
@@ -512,6 +512,14 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_hr.hr_employee_terceirizado_action
 #: model:ir.ui.menu,name:l10n_br_hr.hr_menu_employee_terceirizado
 msgid "Terceirizados"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
 msgstr ""
 
 #. module: l10n_br_hr
