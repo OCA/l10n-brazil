@@ -956,10 +956,7 @@ class NFe(spec_models.StackedModel):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
-            processador = record._edoc_processor()
-            xml_file = processador.render_edoc_xsdata(edoc, pretty_print=pretty_print)[
-                0
-            ]
+            xml_file = edoc.to_xml()
             # Delete previous authorization events in draft
             if (
                 record.authorization_event_id
@@ -977,8 +974,13 @@ class NFe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
-            self._validate_xml(xml_assinado)
+            signed_xml = edoc.sign_xml(
+                xml_file,
+                self.company_id.certificate.file,
+                self.company_id.certificate.password,
+                edoc.infNFe.Id,
+            )
+            self._validate_xml(signed_xml)
         return result
 
     def _nfe_update_status_and_save_data(self, process):
