@@ -977,8 +977,14 @@ class MDFe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
-            xml_assinado = processador.assina_raiz(edoc, edoc.infMDFe.Id)
-            self._validate_xml(xml_assinado)
+            signed_xml = edoc.sign_xml(
+                xml_file,
+                self.company_id.certificate.file,
+                self.company_id.certificate.password,
+                edoc.infMDFe.Id,
+            )
+            self._validate_xml(signed_xml)
+
         return result
 
     def _validate_xml(self, xml_file):
