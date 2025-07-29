@@ -34,6 +34,7 @@ class ResCurrencyRateProviderBCB(models.Model):
                 "NOK",
                 "SEK",
                 "USD",
+                "BRL",
             ]
 
         return super()._get_supported_currencies()
@@ -42,11 +43,11 @@ class ResCurrencyRateProviderBCB(models.Model):
     def _obtain_rates(self, base_currency, currencies, date_from, date_to):
         self.ensure_one()
         if self.service == "BCB":
-            if base_currency != "BRL":
+            if base_currency != "BRL" and "BRL" not in currencies:
                 raise UserError(
                     _(
-                        "Brazilian Central Bank is suitable only for companies"
-                        " with BRL as base currency!"
+                        "Brazilian Central Bank can only provide rates for"
+                        " conversions involving BRL!"
                     )
                 )
 
@@ -67,6 +68,9 @@ class ResCurrencyRateProviderBCB(models.Model):
 
             data = {}
             for cur in currencies:
+                if cur == base_currency:
+                    continue
+
                 params["@moeda"] = "'" + cur + "'"
                 response = requests.get(url, params=params, timeout=10)
                 if response.ok:
@@ -77,11 +81,27 @@ class ResCurrencyRateProviderBCB(models.Model):
                             rate.get("dataHoraCotacao")
                         ).strftime(DEFAULT_SERVER_DATE_FORMAT)
 
-                        if data.get(rate_date):
-                            data[rate_date][cur] = 1 / rate.get("cotacaoVenda")
+                        cotacao_venda = rate.get("cotacaoVenda")
+                        if not cotacao_venda:
+                            raise UserError(
+                                _(
+                                    "No exchange rate found for %(currency)s "
+                                    "on %(date)s. Please check the BCB service."
+                                )
+                                % {"currency": cur, "date": rate_date}
+                            )
+
+                        if base_currency == "BRL":
+                            rate_value = 1 / cotacao_venda
+                            target_currency = cur
                         else:
-                            rate_dict = {cur: 1 / rate.get("cotacaoVenda")}
-                            data[rate_date] = rate_dict
+                            rate_value = cotacao_venda
+                            target_currency = "BRL"
+
+                        if rate_date in data:
+                            data[rate_date][target_currency] = rate_value
+                        else:
+                            data[rate_date] = {target_currency: rate_value}
 
             return data
 
