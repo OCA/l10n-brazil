@@ -232,33 +232,12 @@ class AccountMove(models.Model):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR" or view_type != "form":
             return arch, view
+        arch = self.env["account.move.line"].inject_fiscal_fields(arch)
 
         for tax_totals_node in arch.xpath(
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
         ):
             tax_totals_node.set("attrs", "{'invisible': True}")
-
-        if view_id == self.env.ref("l10n_br_account.fiscal_invoice_form").id:
-            invoice_line_form_id = self.env.ref(
-                "l10n_br_account.fiscal_invoice_line_form"
-            ).id
-            sub_form_node, _sub_view = self.env["account.move.line"]._get_view(
-                view_id=invoice_line_form_id, view_type="form"
-            )
-            self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
-
-            for original_sub_form_node in arch.xpath(
-                "//field[@name='invoice_line_ids']/form"
-            ):
-                parent = original_sub_form_node.parent
-                parent.remove(original_sub_form_node)
-                parent.append(sub_form_node)
-
-        else:
-            for sub_form_node in arch.xpath("//field[@name='invoice_line_ids']/form"):
-                self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
-            for sub_form_node in arch.xpath("//field[@name='line_ids']/tree"):
-                self.env["account.move.line"].inject_fiscal_fields(sub_form_node)
 
         if view_type == "form" and (
             self.user_has_groups("l10n_br_account.group_line_fiscal_detail")
