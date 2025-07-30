@@ -56,7 +56,8 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib>=2.6.0",
+            "nfelib[soap]>=3.2.0",
+            "brazil_fiscal_client",
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
