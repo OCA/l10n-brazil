@@ -41,10 +41,6 @@
         <value eval="[ref('main_sl_delivery_1_2')]" />
     </function>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_delivery_1_2')]" />
-    </function>
-
     <record id="main_sl_delivery_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_delivery_1" />
         <field name="name">Office Lamp</field>
@@ -65,10 +61,6 @@
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_delivery_2_2')]" />
-    </function>
-
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_delivery_2_2')]" />
     </function>
 
