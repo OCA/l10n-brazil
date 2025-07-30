@@ -291,7 +291,30 @@ class AccountMoveLine(models.Model):
         self.env.add_to_compute(self._fields["credit"], container["records"])
 
     @api.depends(
-        "quantity", "discount", "price_unit", "tax_ids", "currency_id", "discount"
+        "quantity",
+        "discount",
+        "price_unit",
+        "tax_ids",
+        "currency_id",
+        "discount",
+        "fiscal_tax_ids",
+        "fiscal_operation_line_id",
+        "cfop_id",
+        "ncm_id",
+        "nbs_id",
+        "nbm_id",
+        "cest_id",
+        "discount_value",
+        "insurance_value",
+        "other_value",
+        "ii_customhouse_charges",
+        "freight_value",
+        "fiscal_price",
+        "fiscal_quantity",
+        "uot_id",
+        "icmssn_range_id",
+        "icms_origin",
+        "ind_final",
     )
     def _compute_totals(self):
         """
@@ -367,6 +390,24 @@ class AccountMoveLine(models.Model):
         "partner_id",
         "move_id.partner_id",
         "price_unit",
+        "fiscal_tax_ids",
+        "fiscal_operation_line_id",
+        "cfop_id",
+        "ncm_id",
+        "nbm_id",
+        "nbs_id",
+        "cest_id",
+        "discount_value",
+        "insurance_value",
+        "other_value",
+        "ii_customhouse_charges",
+        "freight_value",
+        "fiscal_price",
+        "fiscal_quantity",
+        "uot_id",
+        "icmssn_range_id",
+        "icms_origin",
+        "ind_final",
     )
     def _compute_all_tax(self):
         """
