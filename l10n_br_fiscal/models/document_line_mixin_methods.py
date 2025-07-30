@@ -208,6 +208,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 record.financial_discount_value = 0.0
 
     @api.depends(
+        "fiscal_tax_ids",
         "company_id",
         "partner_id",
         "product_id",
@@ -219,7 +220,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "uot_id",
         "discount_value",
         "insurance_value",
-        "fiscal_tax_ids",
         "ii_customhouse_charges",
         "ii_iof_value",
         "other_value",
@@ -425,42 +425,52 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 partner=self._get_fiscal_partner(),
                 product=self.product_id,
             )
-            self._onchange_fiscal_operation_line_id()
 
-    @api.onchange("fiscal_operation_line_id")
-    def _onchange_fiscal_operation_line_id(self):
-        # Reset Taxes
-        self._remove_all_fiscal_tax_ids()
-        if self.fiscal_operation_line_id:
-            mapping_result = self.fiscal_operation_line_id.map_fiscal_taxes(
-                company=self.company_id,
-                partner=self._get_fiscal_partner(),
-                product=self.product_id,
-                ncm=self.ncm_id,
-                nbm=self.nbm_id,
-                nbs=self.nbs_id,
-                cest=self.cest_id,
-                city_taxation_code=self.city_taxation_code_id,
-                service_type=self.service_type_id,
-                ind_final=self.ind_final,
-            )
+    @api.depends(
+        "fiscal_operation_line_id",
+        "company_id",
+        "partner_id",
+        "product_id",
+        "ncm_id",
+        "nbs_id",
+        "nbm_id",
+        "cest_id",
+        "city_taxation_code_id",
+        "service_type_id",
+        "ind_final",
+    )
+    def _compute_fiscal_tax_ids(self):
+        for line in self:
+            # Reset Taxes
+            line._remove_all_fiscal_tax_ids()
+            if line.fiscal_operation_line_id:
+                mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
+                    company=line.company_id,
+                    partner=line._get_fiscal_partner(),
+                    product=line.product_id,
+                    ncm=line.ncm_id,
+                    nbm=line.nbm_id,
+                    nbs=line.nbs_id,
+                    cest=line.cest_id,
+                    city_taxation_code=line.city_taxation_code_id,
+                    service_type=line.service_type_id,
+                    ind_final=line.ind_final,
+                )
 
-            self.cfop_id = mapping_result["cfop"]
-            if self._is_imported():
-                return
-            self._process_fiscal_mapping(mapping_result)
+                line.cfop_id = mapping_result["cfop"]
+                if self._is_imported():
+                    return
+                # line._process_fiscal_mapping(mapping_result)
+                line.ipi_guideline_id = mapping_result["ipi_guideline"]
+                line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
+                taxes = line.env["l10n_br_fiscal.tax"]
+                for tax in mapping_result["taxes"].values():
+                    taxes |= tax
+                line.fiscal_tax_ids = taxes
+                line.comment_ids = line.fiscal_operation_line_id.comment_ids
 
-        if not self.fiscal_operation_line_id:
-            self.cfop_id = False
-
-    def _process_fiscal_mapping(self, mapping_result):
-        self.ipi_guideline_id = mapping_result["ipi_guideline"]
-        self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
-        taxes = self.env["l10n_br_fiscal.tax"]
-        for tax in mapping_result["taxes"].values():
-            taxes |= tax
-        self.fiscal_tax_ids = taxes
-        self.comment_ids = self.fiscal_operation_line_id.comment_ids
+            else:
+                line.cfop_id = False
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):

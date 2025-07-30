@@ -239,6 +239,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
         string="Fiscal Taxes",
+        compute="_compute_fiscal_tax_ids",
     )
 
     amount_fiscal = fields.Monetary(
