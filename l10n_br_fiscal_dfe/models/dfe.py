@@ -4,15 +4,15 @@
 import logging
 import re
 
-from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
+#from erpbrasil.transmissao import TransmissaoSOAP
+#from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
+from nfelib.nfe.client.v4_0.dfe import DfeClient
+from nfelib.nfe_dist_dfe.bindings.v1_0 import DistDfeInt, RetDistDfeInt
 from requests import Session
 
 from odoo import _, api, fields, models
 
 from ..tools import utils
-
-_logger = logging.getLogger(__name__)
 
 
 class DFe(models.Model):
@@ -53,6 +53,16 @@ class DFe(models.Model):
 
     @api.model
     def _get_processor(self):
+        if True:  # TODO company flag
+            return DfeClient(
+                ambiente=self.environment,
+                uf=self.company_id.state_id.ibge_code,
+                pkcs12_data=self.company_id.certificate.file,
+                fake_certificate=self.company_id.certificate.file,
+                pkcs12_password=self.company_id.certificate.password,
+                wrap_response=True,
+            )
+
         certificado = self.env.company._get_br_ecertificate()
         session = Session()
         session.verify = False
