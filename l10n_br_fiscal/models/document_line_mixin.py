@@ -240,6 +240,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.tax",
         string="Fiscal Taxes",
         compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
     )
 
     amount_fiscal = fields.Monetary(

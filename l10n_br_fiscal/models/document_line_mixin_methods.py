@@ -166,7 +166,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "fiscal_operation_line_id",
     )
     def _compute_fiscal_amounts(self):
-        for record in self:
+        for record in self:  # .filtered(lambda l: l.fiscal_tax_ids):
             round_curr = record.currency_id or self.env.ref("base.BRL")
 
             # Total value of products or services
@@ -238,7 +238,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     )
     def _compute_tax_fields(self):
         for line in self:
-            if hasattr(line, "document_id") and line.document_id.imported_document:
+            if (
+                hasattr(line, "document_id") and line.document_id.imported_document
+            ):  # or not line.fiscal_tax_ids:
                 continue
             compute_result = line.fiscal_tax_ids.compute_taxes(
                 company=line.company_id,
@@ -414,7 +416,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return self.partner_id
 
     @api.onchange(
-        "fiscal_operation_id", "ncm_id", "nbs_id", "cest_id", "service_type_id"
+        "fiscal_operation_id",
+        "ncm_id",
+        "nbs_id",
+        "cest_id",
+        "service_type_id",  # TODO product_id?
     )
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
@@ -442,11 +448,25 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _compute_fiscal_tax_ids(self):
         for line in self:
             # Reset Taxes
-            line._remove_all_fiscal_tax_ids()
+            line._remove_all_fiscal_tax_ids()  # TODO move to compute_tax_fields?
             if line.fiscal_operation_line_id:
+                partner_id = line._get_fiscal_partner()
+                if (
+                    not partner_id
+                    and hasattr(line, "account_line_ids")
+                    and line.account_line_ids
+                ):
+                    partner_id = line.account_line_ids[0].partner_id
+                company_id = line.company_id
+                if (
+                    not company_id
+                    and hasattr(line, "account_line_ids")
+                    and line.account_line_ids
+                ):
+                    company_id = line.account_line_ids[0].company_id
                 mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=line.company_id,
-                    partner=line._get_fiscal_partner(),
+                    company=company_id,
+                    partner=partner_id,
                     product=line.product_id,
                     ncm=line.ncm_id,
                     nbm=line.nbm_id,
@@ -456,11 +476,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     service_type=line.service_type_id,
                     ind_final=line.ind_final,
                 )
-
                 line.cfop_id = mapping_result["cfop"]
                 if self._is_imported():
                     return
-                # line._process_fiscal_mapping(mapping_result)
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
                 taxes = line.env["l10n_br_fiscal.tax"]
@@ -468,7 +486,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
                 line.comment_ids = line.fiscal_operation_line_id.comment_ids
-
             else:
                 line.cfop_id = False
 
