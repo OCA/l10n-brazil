@@ -285,6 +285,7 @@ class AccountMove(models.Model):
         "line_ids.full_reconcile_id",
         "state",
         "ind_final",
+        "line_ids.cfop_id",
     )
     def _compute_amount(self):
         for move in self.filtered(lambda m: m.fiscal_operation_id):
@@ -321,6 +322,8 @@ class AccountMove(models.Model):
         "currency_id",
         "amount_total_in_currency_signed",
         "invoice_date_due",
+        "invoice_line_ids.cfop_id",
+        "amount_financial_total",
     )
     def _compute_needed_terms(self):
         """
