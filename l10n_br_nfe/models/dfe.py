@@ -3,7 +3,7 @@
 
 from datetime import datetime
 
-from lxml import objectify
+from lxml import etree, objectify
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
 from odoo import api, fields, models
@@ -21,21 +21,29 @@ class DFe(models.Model):
     )
 
     def _process_distribution(self, result):
-        for doc in result.resposta.loteDistDFeInt.docZip:
-            xml = utils.parse_gzip_xml(doc.valueOf_).read()
+        # The new client wraps the raw SOAP response. We need to parse it with etree.
+        response_xml = etree.fromstring(result.retorno.content)
+        ns = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
+        docZips = response_xml.xpath("//nfe:docZip", namespaces=ns)
+
+        for doc in docZips:
+            xml = utils.parse_gzip_xml(doc.text).read()
             root = objectify.fromstring(xml)
+
+            nsu = utils.format_nsu(doc.attrib["NSU"])
+            schema = doc.attrib["schema"]
 
             mde_id = self.env["l10n_br_nfe.mde"].search(
                 [
-                    ("nsu", "=", utils.format_nsu(doc.NSU)),
+                    ("nsu", "=", nsu),
                     ("company_id", "=", self.company_id.id),
                 ],
                 limit=1,
             )
             if not mde_id:
-                mde_id = self._create_mde_from_schema(doc.schema, root)
+                mde_id = self._create_mde_from_schema(schema, root)
                 if mde_id:
-                    mde_id.nsu = doc.NSU
+                    mde_id.nsu = nsu
                     mde_id.create_xml_attachment(xml)
 
     @api.model
