@@ -5,7 +5,7 @@
     "name": "Brazilian Localization CRM CNPJ Search",
     "summary": """
         CNPJ search in CRM Lead""",
-    "version": "16.0.4.0.0",
+    "version": "16.0.5.0.0",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
