@@ -740,6 +740,10 @@ class MDFe(spec_models.StackedModel):
             nfe_ids = self.mdfe30_infMunDescarga.mapped("nfe_ids")
             mdfe_ids = self.mdfe30_infMunDescarga.mapped("mdfe_ids")
 
+            total_dfe = len(cte_ids) + len(nfe_ids) + len(mdfe_ids)
+            if total_dfe != 1:
+                self.mdfe30_prodPred.mdfe30_NCM = False
+
             cep_carrega, cep_descarrega = None, None
 
             if len(cte_ids) == 1 or len(nfe_ids) == 1 or len(mdfe_ids) == 1:
