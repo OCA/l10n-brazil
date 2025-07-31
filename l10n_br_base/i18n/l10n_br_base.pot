@@ -15906,6 +15906,14 @@ msgid "Municipal Tax Number"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_mun
+msgid "Municipal Tax Number alias"
+msgstr ""
+
+#. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "Municipal Tax Number..."
 msgstr ""
