@@ -99,6 +99,11 @@ msgid "Municipal Tax Number"
 msgstr ""
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_mun
+msgid "Municipal Tax Number alias"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__name_surname
 msgid "Name and Surname"
 msgstr ""
