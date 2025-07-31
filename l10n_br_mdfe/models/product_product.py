@@ -17,7 +17,7 @@ class ProductProduct(spec_models.SpecModel):
 
     mdfe30_cEAN = fields.Char(related="barcode")
 
-    mdfe30_NCM = fields.Char(string="ncm_id.code")
+    mdfe30_NCM = fields.Char(related="ncm_id.code_unmasked")
 
     mdfe30_tpCarga = fields.Selection(default="05")
 
