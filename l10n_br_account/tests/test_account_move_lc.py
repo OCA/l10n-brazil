@@ -732,8 +732,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "tax_ids": [],
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
-            "amount_currency": 1013.77,
-            "debit": 1013.77,
+            "amount_currency": 996.27,
+            "debit": 996.27,
             "credit": 0.0,
             "date_maturity": fields.Date.from_string("2019-01-01"),
         }
@@ -746,25 +746,23 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "fiscal_position_id": False,
             "payment_reference": "",
             "invoice_payment_term_id": self.pay_terms_a.id,
-            "amount_untaxed": 1000.0,
-            "amount_tax": 50.0,
-            "amount_total": 1013.77,
+            "amount_untaxed": 963.77,
+            "amount_tax": 32.5,
+            "amount_total": 996.27,
         }
 
-        # TODO MIGRATE to v16: strangely this test works
-        # on my PC and not in the CI. We may fix it after merging...
-        # self.assertInvoiceValues(
-        #     self.move_out_venda_with_icms_reduction,
-        #     [
-        #         product_line_vals_1,
-        #         tax_line_vals_cofins,
-        #         tax_line_vals_icms,
-        #         tax_line_vals_ipi,
-        #         tax_line_vals_pis,
-        #         term_line_vals_1,
-        #     ],
-        #     move_vals,
-        # )
+        self.assertInvoiceValues(
+            self.move_out_venda_with_icms_reduction,
+            [
+                product_line_vals_1,
+                tax_line_vals_cofins,
+                tax_line_vals_icms,
+                tax_line_vals_ipi,
+                tax_line_vals_pis,
+                term_line_vals_1,
+            ],
+            move_vals,
+        )
 
     def test_simples_remessa(self):
         product_line_vals_1 = {
