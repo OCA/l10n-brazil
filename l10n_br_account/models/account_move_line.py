@@ -333,21 +333,14 @@ class AccountMoveLine(models.Model):
 
             # Compute 'price_total'.
             if line.tax_ids:
-                # force_sign = (
-                #     -1
-                #     if line.move_type in ("out_invoice", "in_refund", "out_receipt")
-                #     else 1
-                # )
-                taxes_res = line.tax_ids._origin.with_context(
-                    #                    force_sign=force_sign
-                ).compute_all(
+                taxes_res = line.tax_ids._origin.with_context().compute_all(
                     line_discount_price_unit,
                     currency=line.currency_id,
                     quantity=line.quantity,
                     product=line.product_id,
                     partner=line.partner_id,
                     is_refund=line.move_type in ("out_refund", "in_refund"),
-                    handle_price_include=True,  # FIXME
+                    handle_price_include=True,  # sure?
                     fiscal_taxes=line.fiscal_tax_ids,
                     operation_line=line.fiscal_operation_line_id,
                     cfop=line.cfop_id or None,
@@ -412,8 +405,6 @@ class AccountMoveLine(models.Model):
         Overriden to pass all the extra Brazilian parameters we need
         to the account.tax#compute_all method.
         """
-        # TODO seems we should use sign in account_tax#compute_all
-        # so base and amount are negative if move is in.
         if not self.move_id.fiscal_operation_id:
             return super()._compute_all_tax()
 
