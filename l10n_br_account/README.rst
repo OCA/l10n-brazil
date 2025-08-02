@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===========================================
 Invoicing and accounting entries for Brazil
 ===========================================
@@ -17,7 +13,7 @@ Invoicing and accounting entries for Brazil
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -45,21 +41,21 @@ Installation
 
 To install this module, you need to:
 
-- do this ...
+-  do this ...
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-- go to ...
+-  go to ...
 
 Usage
 =====
 
 To use this module, you need to:
 
-- go to ...
+-  go to ...
 
 Known issues / Roadmap
 ======================
@@ -92,23 +88,23 @@ Authors
 Contributors
 ------------
 
-- `Akretion <https://akretion.com/pt-BR>`__:
+-  `Akretion <https://akretion.com/pt-BR>`__:
 
-  - Renato Lima <renato.lima@akretion.com.br>
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Antônio S. Pereira Neto <neto@engenere.one>
-  - Felipe Motter Pereira <felipe@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Maintainers
 -----------
