@@ -294,7 +294,7 @@
                 </group>
               </group>
               <group name="company_info" string="Company">
-		<field name="company_id" invisible="1" />
+		            <field name="company_id" invisible="1" />
                 <field
                                     name="company_id"
                                     required="1"
@@ -489,6 +489,14 @@
             </page>
           </notebook>
         </sheet>
+          <!-- Attachment preview -->
+          <div class="o_attachment_preview" />
+          <!-- Chatter -->
+          <div class="oe_chatter">
+              <field name="message_follower_ids" groups="base.group_user" />
+              <field name="activity_ids" />
+              <field name="message_ids" />
+          </div>
       </form>
     </field>
   </record>
