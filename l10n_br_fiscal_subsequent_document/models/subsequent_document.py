@@ -117,7 +117,6 @@ class SubsequentDocument(models.Model):
 
         for item in new_doc.fiscal_line_ids:
             item._onchange_fiscal_operation_id()
-            item._onchange_fiscal_operation_line_id()
             item._onchange_fiscal_taxes()
 
         document = new_doc
