@@ -31,16 +31,10 @@
         "views/account_move_view.xml",
         "views/document_line_view.xml",
         "views/document_view.xml",
-        "views/fiscal_invoice_view.xml",
-        "views/fiscal_invoice_line_view.xml",
         # Wizards
         "wizards/account_move_reversal_view.xml",
         "wizards/wizard_document_status.xml",
         "wizards/document_import_wizard_mixin.xml",
-        # Actions
-        "views/l10n_br_account_action.xml",
-        # Menus
-        "views/l10n_br_account_menu.xml",
         # Report
         #        "report/account_invoice_report_view.xml",
         "views/res_partner_view.xml",
