@@ -5,8 +5,8 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-    <record id="nfe_document_form_inherit" model="ir.ui.view">
-        <field name="name">l10n_br_nfe.document.form.inherit</field>
+    <record id="account_document_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_account.document.form.inherit</field>
         <field name="model">l10n_br_fiscal.document</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
