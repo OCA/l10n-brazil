@@ -20,7 +20,6 @@ class TestFiscalDocumentNFSe(TransactionCase):
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
             self.assertEqual(
