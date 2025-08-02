@@ -56,7 +56,6 @@ class StockRuleTest(TransactionCase):
             self.assertEqual(line.invoice_state, "2binvoiced")
             # Valida presença dos campos principais para o mapeamento Fiscal
             line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_operation_line_id()
             self.assertTrue(
                 line.fiscal_operation_id, "Missing Fiscal Operation in Stock Move."
             )
