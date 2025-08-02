@@ -39,7 +39,6 @@ class TestNFeExport(TransactionCase):
         for line in nfe.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_operation_line_id()
 
         nfe._register_hook()  # required in v16 for next statement
         nfe.nfe40_detPag = [
