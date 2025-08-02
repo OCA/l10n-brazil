@@ -596,7 +596,6 @@ class Document(models.Model):
                     )
                 line.fiscal_operation_id = fsc_op_line
                 line._onchange_fiscal_operation_id()
-                line._onchange_fiscal_operation_line_id()
 
             return_docs |= new_doc
         return return_docs
