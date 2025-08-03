@@ -217,6 +217,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Tax UoM",
         compute="_compute_uot_id",
         store=True,
+        readonly=False,
     )
 
     fiscal_quantity = fields.Float(
