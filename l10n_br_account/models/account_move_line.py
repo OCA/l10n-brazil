@@ -219,6 +219,28 @@ class AccountMoveLine(models.Model):
 
         return sorted_result
 
+    def _compute_amount_tax_from_tax_values(self, included=True):
+        included_taxes = (
+            self.env["l10n_br_fiscal.tax.group"]
+            .search([("tax_include", "=", included)])
+            .mapped("tax_domain")
+        )
+        for line in self:
+            for tax in included_taxes:
+                if not hasattr(line, "%s_value" % (tax,)):
+                    continue
+                if included:
+                    line.amount_tax_included_from_tax_values += getattr(
+                        line, "%s_value" % (tax,)
+                    )
+                else:
+                    line.amount_tax_excluded_from_tax_values += getattr(
+                        line, "%s_value" % (tax,)
+                    )
+
+    def _compute_amount_tax_excluded_from_tax_values(self):
+        self._compute_amount_tax_from_tax_values(included=False)
+
     def write(self, values):
         if values.get("product_uom_id"):
             values["uom_id"] = values["product_uom_id"]
