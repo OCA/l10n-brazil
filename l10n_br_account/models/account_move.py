@@ -295,6 +295,10 @@ class AccountMove(models.Model):
 
         return result
 
+    def _compute_imported_terms(self):
+        self.ensure_one()
+        pass  # meant to be overriden
+
     @api.depends(
         "invoice_payment_term_id",
         "invoice_date",
@@ -321,7 +325,9 @@ class AccountMove(models.Model):
             invoice.needed_terms_dirty = True
             sign = 1 if invoice.is_inbound(include_receipts=True) else -1
             if invoice.is_invoice(True) and invoice.invoice_line_ids:
-                if invoice.invoice_payment_term_id:
+                if invoice.imported_document:
+                    invoice._compute_imported_terms()
+                elif invoice.invoice_payment_term_id:
                     if is_draft:
                         tax_amount_currency = 0.0
                         untaxed_amount_currency = 0.0
@@ -379,7 +385,7 @@ class AccountMove(models.Model):
                             invoice.needed_terms[key]["amount_currency"] += values[
                                 "amount_currency"
                             ]
-                else:
+                if not invoice.needed_terms:
                     invoice.needed_terms[
                         frozendict(
                             {
@@ -691,6 +697,7 @@ class AccountMove(models.Model):
             )
         )
         if not move_id or not move.fiscal_document_id:
+            move_form.partner_id = fiscal_document.partner_id
             move_form.invoice_date = fiscal_document.document_date
             move_form.date = fiscal_document.document_date
             move_form.document_type_id = fiscal_document.document_type_id
