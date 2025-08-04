@@ -16,4 +16,7 @@ class Uom(models.Model):
             match = self.search(domain, limit=1)
             if match:
                 return match.id
+            match = self.name_search(rec_dict.get("code"), limit=1)
+            if match:
+                return match[0][0]
         return False

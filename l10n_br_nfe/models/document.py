@@ -768,16 +768,23 @@ class NFe(spec_models.StackedModel):
                 value.enderEmit, path=path
             )
             new_value.update(enderEmit_value)
-            company_cnpj = self.env.company.cnpj_cpf.translate(
+            company_vat = self.env.company.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
-            emit_cnpj = new_value.get("nfe40_CNPJ").translate(
-                str.maketrans("", "", string.punctuation)
-            )
-            if company_cnpj != emit_cnpj:
+            emit_vat = False
+            if new_value.get("nfe40_CNPJ"):
+                emit_vat = new_value.get("nfe40_CNPJ").translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+                new_value["is_company"] = True
+            elif new_value.get("nfe40_CPF"):
+                emit_vat = new_value.get("nfe40_CPF").translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+                new_value["is_company"] = False
+            if company_vat != emit_vat:
                 vals["issuer"] = "partner"
-            new_value["is_company"] = True
-            new_value["cnpj_cpf"] = emit_cnpj
+            new_value["vat"] = emit_vat
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
@@ -786,16 +793,21 @@ class NFe(spec_models.StackedModel):
                 value.enderDest, path=path
             )
             new_value.update(enderDest_value)
-            company_cnpj = self.env.company.cnpj_cpf.translate(
+            company_vat = self.env.company.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
-            dest_cnpj = new_value.get("nfe40_CNPJ").translate(
-                str.maketrans("", "", string.punctuation)
-            )
-            if company_cnpj != dest_cnpj:
+            if new_value.get("nfe40_CNPJ"):
+                dest_vat = new_value.get("nfe40_CNPJ").translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+            elif new_value.get("nfe40_CPF"):
+                dest_vat = new_value.get("nfe40_CPF").translate(
+                    str.maketrans("", "", string.punctuation)
+                )
+            if company_vat != dest_vat:
                 vals["issuer"] = "partner"
             new_value["is_company"] = True
-            new_value["cnpj_cpf"] = dest_cnpj
+            new_value["vat"] = dest_vat
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
