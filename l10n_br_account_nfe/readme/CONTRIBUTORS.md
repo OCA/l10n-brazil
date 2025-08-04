@@ -3,3 +3,4 @@
   - Antônio S. Pereira Neto \<<neto@engenere.one>\>
 - [Akretion](https://akretion.com/pt-BR):
   - Magno Barcelo da Costa \<<magno.costa@akretion.com.br>\>
+  - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>

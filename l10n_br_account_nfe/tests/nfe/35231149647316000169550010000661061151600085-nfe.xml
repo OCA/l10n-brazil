@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+  <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+    <infNFe versao="4.00" Id="NFe35231149647316000169550010000661061151600085">
+      <ide>
+        <cUF>35</cUF>
+        <cNF>15160008</cNF>
+        <natOp>VENDAS DE PRODUCAO DO ESTABELECIMENTO</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>66106</nNF>
+        <dhEmi>2023-11-09T13:47:12-03:00</dhEmi>
+        <dhSaiEnt>2023-11-09T13:47:12-03:00</dhSaiEnt>
+        <tpNF>1</tpNF>
+        <idDest>2</idDest>
+        <cMunFG>3513801</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>5</cDV>
+        <tpAmb>1</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>0</indPres>
+        <procEmi>0</procEmi>
+        <verProc>0</verProc>
+      </ide>
+      <emit>
+        <CNPJ>04712500000107</CNPJ>
+        <xNome>FORNECEDOR NFE DEMO LTDA</xNome>
+        <xFant>FORNECEDER NFE DEMO LTDA</xFant>
+        <enderEmit>
+            <xLgr>Rua do Bosque</xLgr>
+            <nro>238</nro>
+            <xBairro>Barra Funda</xBairro>
+            <cMun>3550308</cMun>
+            <xMun>SAO PAULO</xMun>
+            <UF>SP</UF>
+            <CEP>01136000</CEP>
+            <cPais>1058</cPais>
+            <xPais>Brasil</xPais>
+            <fone>1150676600</fone>
+        </enderEmit>
+        <IE>078016350838</IE>
+        <CRT>3</CRT>
+      </emit>
+      <dest>
+        <CNPJ>81583054000129</CNPJ>
+        <xNome>Empresa Lucro Presumido Ltda</xNome>
+        <enderDest>
+          <xLgr>Avenida Paulista</xLgr>
+          <nro>1</nro>
+          <xBairro>Bela Vista</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>São Paulo</xMun>
+          <UF>SP</UF>
+          <CEP>01311000</CEP>
+          <cPais>1058</cPais>
+          <xPais>Brasil</xPais>
+          <fone>551199999999</fone>
+        </enderDest>
+      </dest>
+      <det nItem="1">
+        <prod>
+          <cProd>1070147</cProd>
+          <cEAN>SEM GTIN</cEAN>
+          <xProd>PAPEL CELOFANE (CELULOSE) 35GSM 19x24CM</xProd>
+          <NCM>48111090</NCM>
+          <CEST>0000000</CEST>
+          <CFOP>6101</CFOP>
+          <uCom>KG</uCom>
+          <qCom>70.1000</qCom>
+          <vUnCom>58.0000000000</vUnCom>
+          <vProd>4065.80</vProd>
+          <cEANTrib>SEM GTIN</cEANTrib>
+          <uTrib>KG</uTrib>
+          <qTrib>70.1000</qTrib>
+          <vUnTrib>58.0000000000</vUnTrib>
+          <indTot>1</indTot>
+          <xPed>OC00589</xPed>
+          <nFCI>AC83B762-8595-4BD8-9DD2-C19DDA4A72FE</nFCI>
+        </prod>
+        <imposto>
+          <ICMS>
+            <ICMS00>
+              <orig>5</orig>
+              <CST>00</CST>
+              <modBC>3</modBC>
+              <vBC>4065.80</vBC>
+              <pICMS>12.0000</pICMS>
+              <vICMS>487.90</vICMS>
+            </ICMS00>
+          </ICMS>
+          <IPI>
+            <cEnq>999</cEnq>
+            <IPITrib>
+              <CST>50</CST>
+              <vBC>4065.80</vBC>
+              <pIPI>3.2500</pIPI>
+              <vIPI>132.14</vIPI>
+            </IPITrib>
+          </IPI>
+          <PIS>
+            <PISAliq>
+              <CST>01</CST>
+              <vBC>3577.90</vBC>
+              <pPIS>0.6500</pPIS>
+              <vPIS>23.26</vPIS>
+            </PISAliq>
+          </PIS>
+          <COFINS>
+            <COFINSAliq>
+              <CST>01</CST>
+              <vBC>3577.90</vBC>
+              <pCOFINS>3.0000</pCOFINS>
+              <vCOFINS>107.34</vCOFINS>
+            </COFINSAliq>
+          </COFINS>
+        </imposto>
+        <infAdProd
+                >Resolucao do Senado Federal no 13/12, Numero da FCI AC83B762-8595-4BD8-9DD2-C19DDA4A72FE , Conteudo de Importacao 37,80%</infAdProd>
+      </det>
+      <det nItem="2">
+        <prod>
+          <cProd>B100618007170</cProd>
+          <cEAN>SEM GTIN</cEAN>
+          <xProd>PAVIO P/VELA VOTIVA 50 X 150MM (C102018007170)</xProd>
+          <NCM>34060000</NCM>
+          <CEST>0000000</CEST>
+          <CFOP>6101</CFOP>
+          <uCom>MIL</uCom>
+          <qCom>60.0000</qCom>
+          <vUnCom>57.3200000000</vUnCom>
+          <vProd>3439.20</vProd>
+          <cEANTrib>SEM GTIN</cEANTrib>
+          <uTrib>MIL</uTrib>
+          <qTrib>60.0000</qTrib>
+          <vUnTrib>57.3200000000</vUnTrib>
+          <indTot>1</indTot>
+          <xPed>OC00589</xPed>
+        </prod>
+        <imposto>
+          <ICMS>
+            <ICMS00>
+              <orig>0</orig>
+              <CST>00</CST>
+              <modBC>3</modBC>
+              <vBC>3439.20</vBC>
+              <pICMS>12.0000</pICMS>
+              <vICMS>412.70</vICMS>
+            </ICMS00>
+          </ICMS>
+          <IPI>
+            <cEnq>999</cEnq>
+            <IPITrib>
+              <CST>50</CST>
+              <vBC>3439.20</vBC>
+              <pIPI>0.0000</pIPI>
+              <vIPI>0.00</vIPI>
+            </IPITrib>
+          </IPI>
+          <PIS>
+            <PISAliq>
+              <CST>01</CST>
+              <vBC>3026.50</vBC>
+              <pPIS>0.6500</pPIS>
+              <vPIS>19.67</vPIS>
+            </PISAliq>
+          </PIS>
+          <COFINS>
+            <COFINSAliq>
+              <CST>01</CST>
+              <vBC>3026.50</vBC>
+              <pCOFINS>3.0000</pCOFINS>
+              <vCOFINS>90.79</vCOFINS>
+            </COFINSAliq>
+          </COFINS>
+        </imposto>
+      </det>
+      <det nItem="3">
+        <prod>
+          <cProd>B101518007170</cProd>
+          <cEAN>SEM GTIN</cEAN>
+          <xProd>PAVIO P/VELA VOTIVA 57 X 150MM</xProd>
+          <NCM>34060000</NCM>
+          <CEST>0000000</CEST>
+          <CFOP>6101</CFOP>
+          <uCom>MIL</uCom>
+          <qCom>48.0000</qCom>
+          <vUnCom>57.3200000000</vUnCom>
+          <vProd>2751.36</vProd>
+          <cEANTrib>SEM GTIN</cEANTrib>
+          <uTrib>MIL</uTrib>
+          <qTrib>48.0000</qTrib>
+          <vUnTrib>57.3200000000</vUnTrib>
+          <indTot>1</indTot>
+          <xPed>OC00589</xPed>
+        </prod>
+        <imposto>
+          <ICMS>
+            <ICMS00>
+              <orig>0</orig>
+              <CST>00</CST>
+              <modBC>3</modBC>
+              <vBC>2751.36</vBC>
+              <pICMS>12.0000</pICMS>
+              <vICMS>330.16</vICMS>
+            </ICMS00>
+          </ICMS>
+          <IPI>
+            <cEnq>999</cEnq>
+            <IPITrib>
+              <CST>50</CST>
+              <vBC>2751.36</vBC>
+              <pIPI>0.0000</pIPI>
+              <vIPI>0.00</vIPI>
+            </IPITrib>
+          </IPI>
+          <PIS>
+            <PISAliq>
+              <CST>01</CST>
+              <vBC>2421.20</vBC>
+              <pPIS>0.6500</pPIS>
+              <vPIS>15.74</vPIS>
+            </PISAliq>
+          </PIS>
+          <COFINS>
+            <COFINSAliq>
+              <CST>01</CST>
+              <vBC>2421.20</vBC>
+              <pCOFINS>3.0000</pCOFINS>
+              <vCOFINS>72.64</vCOFINS>
+            </COFINSAliq>
+          </COFINS>
+        </imposto>
+      </det>
+      <det nItem="4">
+        <prod>
+          <cProd>B100618007160</cProd>
+          <cEAN>SEM GTIN</cEAN>
+          <xProd>PAVIO P/VELA VOTIVA 50 X 140MM (C102018007160)</xProd>
+          <NCM>34060000</NCM>
+          <CEST>0000000</CEST>
+          <CFOP>6101</CFOP>
+          <uCom>MIL</uCom>
+          <qCom>30.0000</qCom>
+          <vUnCom>57.3200000000</vUnCom>
+          <vProd>1719.60</vProd>
+          <cEANTrib>SEM GTIN</cEANTrib>
+          <uTrib>MIL</uTrib>
+          <qTrib>30.0000</qTrib>
+          <vUnTrib>57.3200000000</vUnTrib>
+          <indTot>1</indTot>
+          <xPed>OC00589</xPed>
+        </prod>
+        <imposto>
+          <ICMS>
+            <ICMS00>
+              <orig>0</orig>
+              <CST>00</CST>
+              <modBC>3</modBC>
+              <vBC>1719.60</vBC>
+              <pICMS>12.0000</pICMS>
+              <vICMS>206.35</vICMS>
+            </ICMS00>
+          </ICMS>
+          <IPI>
+            <cEnq>999</cEnq>
+            <IPITrib>
+              <CST>50</CST>
+              <vBC>1719.60</vBC>
+              <pIPI>0.0000</pIPI>
+              <vIPI>0.00</vIPI>
+            </IPITrib>
+          </IPI>
+          <PIS>
+            <PISAliq>
+              <CST>01</CST>
+              <vBC>1513.25</vBC>
+              <pPIS>0.6500</pPIS>
+              <vPIS>9.84</vPIS>
+            </PISAliq>
+          </PIS>
+          <COFINS>
+            <COFINSAliq>
+              <CST>01</CST>
+              <vBC>1513.25</vBC>
+              <pCOFINS>3.0000</pCOFINS>
+              <vCOFINS>45.40</vCOFINS>
+            </COFINSAliq>
+          </COFINS>
+        </imposto>
+      </det>
+      <total>
+        <ICMSTot>
+          <vBC>11975.96</vBC>
+          <vICMS>1437.11</vICMS>
+          <vICMSDeson>0.00</vICMSDeson>
+          <vFCP>0.00</vFCP>
+          <vBCST>0.00</vBCST>
+          <vST>0.00</vST>
+          <vFCPST>0.00</vFCPST>
+          <vFCPSTRet>0.00</vFCPSTRet>
+          <vProd>11975.96</vProd>
+          <vFrete>0.00</vFrete>
+          <vSeg>0.00</vSeg>
+          <vDesc>0.00</vDesc>
+          <vII>0.00</vII>
+          <vIPI>132.14</vIPI>
+          <vIPIDevol>0.00</vIPIDevol>
+          <vPIS>68.51</vPIS>
+          <vCOFINS>316.17</vCOFINS>
+          <vOutro>0.00</vOutro>
+          <vNF>12108.10</vNF>
+        </ICMSTot>
+      </total>
+      <transp>
+        <modFrete>1</modFrete>
+        <transporta>
+          <CNPJ>83083428000334</CNPJ>
+          <xNome>REUNIDAS TRANSPORTADORA RODOVIARIA DE CARGAS SA</xNome>
+          <IE>112328043117</IE>
+          <xEnder>RUA NELSON FRANCISCO, 66</xEnder>
+          <xMun>SAO PAULO</xMun>
+          <UF>SP</UF>
+        </transporta>
+        <vol>
+          <qVol>15</qVol>
+          <esp>caixas/pacotes</esp>
+          <nVol>0</nVol>
+          <pesoL>175.700</pesoL>
+          <pesoB>194.000</pesoB>
+        </vol>
+      </transp>
+      <cobr>
+        <fat>
+          <nFat>66106</nFat>
+          <vOrig>12108.10</vOrig>
+          <vDesc>0.00</vDesc>
+          <vLiq>12108.10</vLiq>
+        </fat>
+        <dup>
+          <nDup>001</nDup>
+          <dVenc>2023-12-09</dVenc>
+          <vDup>4035.63</vDup>
+        </dup>
+        <dup>
+          <nDup>002</nDup>
+          <dVenc>2023-12-24</dVenc>
+          <vDup>4035.63</vDup>
+        </dup>
+        <dup>
+          <nDup>003</nDup>
+          <dVenc>2024-01-08</dVenc>
+          <vDup>4036.84</vDup>
+        </dup>
+      </cobr>
+      <pag>
+        <detPag>
+          <tPag>01</tPag>
+          <vPag>12108.10</vPag>
+        </detPag>
+      </pag>
+      <infAdic>
+        <infCpl
+                >Prazo para reclamacoes ou devolucoes de produtos em ate 10 dias da entrega da mercadoria.Somente aceitaremos a troca, mediante a NF de devolucao, com a embalagem em boas condicoes, com o produto nao avariado e em acordo com o pedido.REDUCAO DA ALIQUOTA DO IPI CONFORME DECRETO No 11.158, DE 29 DE JULHO DE 2022.PEDIDO DE COMPRA OC00589</infCpl>
+      </infAdic>
+    </infNFe>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+      <SignedInfo>
+        <CanonicalizationMethod
+                    Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
+                />
+        <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+        <Reference URI="#NFe35231149647316000169550010000661061151600085">
+          <Transforms>
+            <Transform
+                            Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"
+                        />
+            <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+          </Transforms>
+          <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+          <DigestValue>VZsGaqFMX5OP0X855xlNRvL9rcc=</DigestValue>
+        </Reference>
+      </SignedInfo>
+      <SignatureValue
+            >K9xSJnRKX8AX3EIExDc7OZLmveF74hljsaKyoQEhM40YZ3q1ip46fcAuofYpUKtqQKPuBhoGRBlnlv+zurxO5sMwsHdd5H+7Mk4cAXKTu53MN04rlR2jJvwDW+ed7V2GBjEtP9J7IBuKNvMRpXlUuoP1IisLYlNshRRE++jFVlGIR/WqESJPRaudCOKEV5jmMTqMzGLmyiAOQbjn0M5/iuOWhsXckNc0roMDKciQ5484WU5cwV0fBz22NAZ7XeONMMA30h6Oe5OexMlzM0c4JgMCzew/8dCuLb0YeXx0S7UvD5nF0oD559Wzunk1lPdd3vWr+LcjPz7WVfEkxNPgSA==</SignatureValue>
+      <KeyInfo>
+        <X509Data>
+          <X509Certificate
+                    >MIIH9DCCBdygAwIBAgIINEIePkyvOCwwDQYJKoZIhvcNAQELBQAwdTELMAkGA1UEBhMCQlIxEzARBgNVBAoMCklDUC1CcmFzaWwxNjA0BgNVBAsMLVNlY3JldGFyaWEgZGEgUmVjZWl0YSBGZWRlcmFsIGRvIEJyYXNpbCAtIFJGQjEZMBcGA1UEAwwQQUMgU0VSQVNBIFJGQiB2NTAeFw0yMzA1MDgxOTA2MDBaFw0yNDA1MDcxOTA1NTlaMIIBFDELMAkGA1UEBhMCQlIxCzAJBgNVBAgMAlNQMRIwEAYDVQQHDAlTYW8gUGF1bG8xEzARBgNVBAoMCklDUC1CcmFzaWwxNjA0BgNVBAsMLVNlY3JldGFyaWEgZGEgUmVjZWl0YSBGZWRlcmFsIGRvIEJyYXNpbCAtIFJGQjEWMBQGA1UECwwNUkZCIGUtQ05QSiBBMTEWMBQGA1UECwwNQUMgU0VSQVNBIFJGQjEXMBUGA1UECwwONjIxNzM2MjAwMDAxODAxGTAXBgNVBAsMEFZJREVPQ09ORkVSRU5DSUExMzAxBgNVBAMMKlBBU1NBTUFOQVJJQSBTQU8gVklUT1IgTFREQTo0OTY0NzMxNjAwMDE2OTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANgdgJcancLt9TzX1w8QcOcA/45OIXSuzvf0Ob768HhnOzUCIe7R9WKy7EpW7bvf2Nxjg579Cw5B9fMWgwk+SgRJswtCsQAcZzuyia1BfYQJRFxO1bwYfp51ErESe8eJBClfDNHsVAcVABKqMrWD3THTqddIiWsfXpp500EcewDEJXe3eOShX0rso4gPzz2NSAlesJh0zAVQR1W9xSdyl6DTxLJPsh8HfmhvOifX4eedsbHJ6Kri0HRz9LPgpou+wf0gDY6YJbdo4B0Oj1cvYhFbSeabVc/SCZBh3trSVFF0oVkIJ2VmcpIAYHAtkscaX09C8VMTZ4Y1spq05zqIKJUCAwEAAaOCAuUwggLhMAkGA1UdEwQCMAAwHwYDVR0jBBgwFoAU7PFBUVeo5jrpXrOgIvkIirU6h48wgZkGCCsGAQUFBwEBBIGMMIGJMEgGCCsGAQUFBzAChjxodHRwOi8vd3d3LmNlcnRpZmljYWRvZGlnaXRhbC5jb20uYnIvY2FkZWlhcy9zZXJhc2FyZmJ2NS5wN2IwPQYIKwYBBQUHMAGGMWh0dHA6Ly9vY3NwLmNlcnRpZmljYWRvZGlnaXRhbC5jb20uYnIvc2VyYXNhcmZidjUwgbUGA1UdEQSBrTCBqoEVREVOSVNAU0FPVklUT1IuQ09NLkJSoB0GBWBMAQMCoBQTEkRFTklTIEFDSENBUiBQT0xBS6AZBgVgTAEDA6AQEw40OTY0NzMxNjAwMDE2OaA+BgVgTAEDBKA1EzMwNzEwMTk3NzI3ODAwNzUyODc5MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDCgFwYFYEwBAwegDhMMMDAwMDAwMDAwMDAwMHEGA1UdIARqMGgwZgYGYEwBAgENMFwwWgYIKwYBBQUHAgEWTmh0dHA6Ly9wdWJsaWNhY2FvLmNlcnRpZmljYWRvZGlnaXRhbC5jb20uYnIvcmVwb3NpdG9yaW8vZHBjL2RlY2xhcmFjYW8tcmZiLnBkZjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgZ0GA1UdHwSBlTCBkjBKoEigRoZEaHR0cDovL3d3dy5jZXJ0aWZpY2Fkb2RpZ2l0YWwuY29tLmJyL3JlcG9zaXRvcmlvL2xjci9zZXJhc2FyZmJ2NS5jcmwwRKBCoECGPmh0dHA6Ly9sY3IuY2VydGlmaWNhZG9zLmNvbS5ici9yZXBvc2l0b3Jpby9sY3Ivc2VyYXNhcmZidjUuY3JsMB0GA1UdDgQWBBQ7Q/RY2cCplgK/3kb7an/qji/vkzAOBgNVHQ8BAf8EBAMCBeAwDQYJKoZIhvcNAQELBQADggIBAAhp0LLyMR+2zjX7qw3Iu/BAJ/6gljNVTjU3aWkgTk/gtNailW3Mr2MoLoFFZVOetRTVJV0E5z900ghH3u2gyiF4MLrXlcTHG5ADIIyvYLcfsDcOtfypAta/vhZ8gFR96LIEfXaNXDXrO3dAu9SqYDbHvN13xHU9jPT0Tt6b5aeVVulgAnO385n/f8tJgQOBm4EynvscqAvESuTzmMZTQfNt8NO3XuPF32OQV0XFai8U0lEAFEuhLcGHMl/Pd9EF2pQjq3We8Cb3riIg6H/OqYgXWqChddRPPdio/KPZsAq2+1tfgWqsOrzqW5e+z8buEpDN6bNR156yxMCIYJqkih4TDrbm9OfxjRDb24eNpBy6qCES/eddU7KwRsFqU+3WpJscSd3L/J6yGsHJfK8olFlKjmINtYTvkSkNEbqoZp30wx7qcOrVK2gMHw6U9KTnnoi/1CV3QZ4aI1Fo7jdgO1uHFdyhSO7A/vApK7KJZsWlGJHZUUYzFFgV7/YdctbWpshoC0ZZQbJBL9c8fi9J/WmUH2q0Eo9Pj2G3vsoUxyG3lqzdW2S4HjRYgy+8xao8wKwc0fybcfHr9WQing//+wobojDwmmoagRfCfWzgsHSUVXB3zf/WgYsdLthZDWrfY0K0+E41He00vpbi+y/YH9msXDwH81xH3PbucqkpfuaI</X509Certificate>
+        </X509Data>
+      </KeyInfo>
+    </Signature>
+  </NFe>
+  <protNFe versao="4.00">
+    <infProt>
+      <tpAmb>1</tpAmb>
+      <verAplic>SP_NFE_PL009_V4</verAplic>
+      <chNFe>35231149647316000169550010000661061151600085</chNFe>
+      <dhRecbto>2023-11-09T13:49:16-03:00</dhRecbto>
+      <nProt>135231928909679</nProt>
+      <digVal>VZsGaqFMX5OP0X855xlNRvL9rcc=</digVal>
+      <cStat>100</cStat>
+      <xMotivo>Autorizado o uso da NF-e</xMotivo>
+    </infProt>
+  </protNFe>
+</nfeProc>
