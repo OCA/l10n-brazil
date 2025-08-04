@@ -3,7 +3,6 @@ import os
 import re
 from unittest.mock import MagicMock, patch
 
-from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
@@ -60,14 +59,17 @@ class NFeImportWizardTest(TransactionCase):
 
     def test_import_nfe_xml(self):
         xml = "dummy"
-        with self.assertRaises(UserError):
+        with self.assertRaises(ValueError):
             self._prepare_wizard(xml.encode("utf-8"))
 
         mock_document = MagicMock(spec=["modelo_documento"])
         mock_document.modelo_documento = "65"
-        with patch.object(
-            NfeImport, "_document_key_from_binding", return_value=mock_document
-        ), self.assertRaises(UserError):
+        with (
+            patch.object(
+                NfeImport, "_document_key_from_binding", return_value=mock_document
+            ),
+            self.assertRaises(TypeError),
+        ):
             self.wizard._check_xml_data(self.wizard._parse_file())
 
         self._prepare_wizard(self.xml_1)
