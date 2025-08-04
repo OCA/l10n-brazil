@@ -87,10 +87,7 @@ class NfeImport(models.TransientModel):
 
         if document.modelo_documento != nfe_model_code:
             raise UserError(
-                _(
-                    f"Incorrect fiscal document model! "
-                    f"Accepted one is {nfe_model_code}"
-                )
+                _(f"Incorrect fiscal document model! Accepted one is {nfe_model_code}")
             )
 
     def _create_imported_products_by_xml(self):
@@ -123,6 +120,15 @@ class NfeImport(models.TransientModel):
                 ],
                 limit=1,
             )
+            if not uom_id:  # search for alias
+                uom_id = self.env["uom.uom"].search(
+                    [
+                        "|",
+                        ("name", "=", product.prod.uCom),
+                        ("name", "=", product.prod.uTrib),
+                    ],
+                    limit=1,
+                )
 
         return {
             "product_name": product.prod.xProd,
@@ -212,9 +218,11 @@ class NfeImport(models.TransientModel):
             binding,
             edoc_type=self.fiscal_operation_type,
         )
+        edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
         edoc.fiscal_operation_id = self.fiscal_operation_id
         for line in edoc.fiscal_line_ids:
             line.fiscal_operation_id = self.fiscal_operation_id
+            line.uom_id = line.uot_id
 
         if not self.partner_id:
             self.partner_id = edoc.partner_id
