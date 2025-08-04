@@ -504,9 +504,6 @@ class AccountMoveLine(models.Model):
         """
         self.ensure_one()
 
-        if self._is_imported() and self.fiscal_tax_ids and self.tax_ids:
-            return self.tax_ids
-
         # If no fiscal operation is defined, fallback to the default implementation.
         if not self.fiscal_operation_id:
             return super()._get_computed_taxes()

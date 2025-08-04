@@ -14,7 +14,7 @@
             <button name="action_import_and_open_document" position="after">
                  <button
                     name="action_import_and_open_move"
-                    string="Import Move"
+                    string="Import Account Move"
                     class="btn-primary"
                     type="object"
                 />
