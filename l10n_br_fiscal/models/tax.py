@@ -603,7 +603,12 @@ class Tax(models.Model):
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
 
-        # Se for entrada de importação o II entra na base de calculo do IPI
+        kwargs_ipi = kwargs.copy()
+
+        kwargs_ipi["freight_value"] = 0.00
+        kwargs_ipi["insurance_value"] = 0.00
+        kwargs_ipi["other_value"] = 0.00
+
         if (
             cfop
             and cfop.destination == CFOP_DESTINATION_EXPORT
@@ -612,7 +617,7 @@ class Tax(models.Model):
             tax_dict_ii = taxes_dict.get("ii", {})
             tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
 
-        return self._compute_tax(tax, taxes_dict, **kwargs)
+        return self._compute_tax(tax, taxes_dict, **kwargs_ipi)
 
     @api.model
     def _compute_tax_sequence(self, taxes_dict, **kwargs):
