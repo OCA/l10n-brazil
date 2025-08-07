@@ -1950,6 +1950,9 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_operation
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_operation_id
 msgid "Fiscal Operation"
 msgstr ""
 
@@ -4092,10 +4095,7 @@ msgid "Open Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_operation_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_operation_id
 msgid "Operation"
 msgstr ""
 
