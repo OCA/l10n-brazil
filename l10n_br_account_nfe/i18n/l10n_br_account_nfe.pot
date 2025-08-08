@@ -147,6 +147,11 @@ msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__fiscal_payment_mode
 msgid "Meio de Pagamento da NF"
 msgstr ""
