@@ -169,7 +169,10 @@ class SpedDeclaration(models.AbstractModel):
 
         for register_model in top_registers:  # Iterate over models, not instances
             try:
-                register_model._pull_records_from_odoo(kind, level=2, log_msg=log_msg)
+                with self.env.cr.savepoint():
+                    register_model._pull_records_from_odoo(
+                        kind, level=2, log_msg=log_msg
+                    )
             except Exception as e:
                 _logger.error(
                     f"Error pulling records for {register_model._name}: {e}",
