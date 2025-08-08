@@ -64,12 +64,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document_import_wizard_mixin__fiscal_operation_type__all
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_nfe_import_xml__fiscal_operation_type__all
-msgid "All"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_form
 msgid "Authorization"
 msgstr ""
@@ -115,7 +109,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_cancel_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.document_correction_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.invalidate_number_wizard
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.l10n_br_fiscal_document_import_wizard_mixin_form
 msgid "Cancel"
 msgstr ""
 
@@ -176,13 +169,11 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__document_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__document_type
 msgid "Code"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__company_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__company_id
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document__issuer__company
 msgid "Company"
@@ -247,7 +238,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__create_uid
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__create_uid
 msgid "Created by"
@@ -256,7 +246,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__create_date
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__create_date
 msgid "Created on"
 msgstr ""
@@ -274,7 +263,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__display_name
 msgid "Display Name"
 msgstr ""
@@ -290,16 +278,8 @@ msgid "Document Event"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/wizards/document_import_wizard_mixin.py:0
-#, python-format
-msgid "Document Imported"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_key
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_key
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__document_key
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__document_key
 msgid "Document Key"
 msgstr ""
@@ -307,7 +287,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_number
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__document_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__document_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__document_number
 msgid "Document Number"
@@ -321,7 +300,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_serie
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_serie
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__document_serie
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__document_serie_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__document_serie
 msgid "Document Serie"
@@ -336,7 +314,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_type_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__document_type_id
 msgid "Document Type"
 msgstr ""
@@ -404,11 +381,6 @@ msgid "File Path"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__file
-msgid "File to Import"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_base_wizard_mixin
 msgid "Fiscal Base Wizard Mixin"
 msgstr ""
@@ -418,7 +390,6 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__document_id
 #, python-format
@@ -469,16 +440,6 @@ msgid "Fiscal Event"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__fiscal_operation_id
-msgid "Fiscal Operation"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__fiscal_operation_type
-msgid "Fiscal Operation Type"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.wizard_document_status_form
 msgid "Get Status"
 msgstr ""
@@ -491,33 +452,9 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__id
 msgid "ID"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.l10n_br_fiscal_document_import_wizard_mixin_form
-msgid "Import Document"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.l10n_br_fiscal_document_import_wizard_mixin_form
-msgid "Import Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/wizards/document_import_wizard_mixin.py:0
-#, python-format
-msgid "Importation not implemented for %s!"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document_import_wizard_mixin__fiscal_operation_type__in
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_nfe_import_xml__fiscal_operation_type__in
-msgid "In"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -541,13 +478,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_fiscal_edi.invalidate_number_wizard_action
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.invalidate_number_wizard
 msgid "Inutilização de documento fiscal"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/wizards/document_import_wizard_mixin.py:0
-#, python-format
-msgid "Invalid file!"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -599,7 +529,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__justification
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__justification
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__justification
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__justification
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__justification
 msgid "Justification"
@@ -615,7 +544,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard____last_update
 msgid "Last Modified on"
@@ -624,7 +552,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__write_uid
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__write_uid
 msgid "Last Updated by"
@@ -633,7 +560,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__write_date
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__write_date
 msgid "Last Updated on"
 msgstr ""
@@ -722,24 +648,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document_import_wizard_mixin__fiscal_operation_type__out
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_nfe_import_xml__fiscal_operation_type__out
-msgid "Out"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__partner_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__partner_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__partner_id
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_document__issuer__partner
 msgid "Partner"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.l10n_br_fiscal_document_import_wizard_mixin_form
-msgid "Preview Data"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -783,7 +697,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__rps_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__rps_number
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__rps_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__rps_number
 msgid "Rps Number"
 msgstr ""
@@ -820,7 +733,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__state
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__state
 msgid "State"
 msgstr ""
@@ -828,7 +740,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_status
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_status
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_import_wizard_mixin__document_status
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__document_status
 msgid "Status"
@@ -871,11 +782,6 @@ msgid "Waiting Response"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_document_import_wizard_mixin
-msgid "Wizard Import Document Mixin"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__write_date
 msgid "Write Date"
 msgstr ""
@@ -915,11 +821,4 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__display_name
 msgid "name"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/wizards/document_import_wizard_mixin.py:0
-#, python-format
-msgid "xsdata Python lib not installed!"
 msgstr ""
