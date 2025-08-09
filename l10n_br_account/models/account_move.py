@@ -468,10 +468,8 @@ class AccountMove(models.Model):
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
-        result = super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
             self.journal_id = self.fiscal_operation_id.journal_id
-        return result
 
     def open_fiscal_document(self):
         """
