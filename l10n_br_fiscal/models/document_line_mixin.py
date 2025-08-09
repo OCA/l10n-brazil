@@ -191,6 +191,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Operation Line",
         domain="[('fiscal_operation_id', '=', fiscal_operation_id), "
         "('state', '=', 'approved')]",
+        compute="_compute_fiscal_operation_line_id",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cfop_id = fields.Many2one(

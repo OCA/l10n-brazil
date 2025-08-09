@@ -166,7 +166,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "fiscal_operation_line_id",
     )
     def _compute_fiscal_amounts(self):
-        for record in self:
+        for record in self:  # .filtered(lambda l: l.fiscal_tax_ids):
             round_curr = record.currency_id or self.env.ref("base.BRL")
 
             # Total value of products or services
@@ -356,6 +356,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                         tax_values.update(prepared_fields)
         return tax_values
 
+    @api.depends(
+        "product_id",
+        "fiscal_operation_id",
+        "product_id.list_price",
+        "product_id.standard_price",
+    )
     def _compute_price_unit_fiscal(self):
         for line in self:
             line.price_unit = {
@@ -368,7 +374,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return {
             "user": self.env.user,
             "ctx": self._context,
-            "doc": self.document_id,
+            "doc": self.document_id if hasattr(self, "document_id") else None,
             "item": self,
         }
 
@@ -398,19 +404,36 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.company_id
 
-    @api.onchange(
-        "fiscal_operation_id", "ncm_id", "nbs_id", "cest_id", "service_type_id"
-    )
     def _onchange_fiscal_operation_id(self):
-        if self.fiscal_operation_id:
-            if not self.price_unit:
-                self._compute_price_unit_fiscal()
-            self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
-                company=self.company_id,
-                partner=self._get_fiscal_partner(),
-                product=self.product_id,
-            )
-            self._compute_fiscal_tax_ids()  # sadly seems required for composite move
+        # replaced by _compute_fiscal_operation_line_id
+        # but kept empty for backward compat
+        pass
+
+    def _get_fiscal_operation_line_id_dependencies(self):
+        """
+        Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
+        """
+        return [
+            "company_id",
+            "partner_id",
+            "fiscal_operation_id",
+            "product_id",
+        ]
+
+    @api.depends(lambda self: self._get_fiscal_operation_line_id_dependencies())
+    def _compute_fiscal_operation_line_id(self):
+        for line in self:
+            if line.fiscal_operation_id:
+                if not line.fiscal_operation_line_id:
+                    line.fiscal_operation_line_id = (
+                        line.fiscal_operation_id.line_definition(
+                            company=line._get_fiscal_company(),
+                            partner=line._get_fiscal_partner(),
+                            product=line.product_id,
+                        )
+                    )
+            else:
+                line.fiscal_operation_line_id = False
 
     def _onchange_fiscal_operation_line_id(self):
         pass  # for backward compat, TODO remove later
