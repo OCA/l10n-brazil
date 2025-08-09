@@ -390,6 +390,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                         tax_values.update(prepared_fields)
         return tax_values
 
+    @api.depends(
+        "product_id",
+        "fiscal_operation_id",
+        "product_id.list_price",
+        "product_id.standard_price",
+    )
     def _compute_price_unit_fiscal(self):
         for line in self.filtered(lambda line: line.fiscal_operation_id):
             line.price_unit = {
@@ -423,22 +429,43 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
-    @api.onchange(
-        "fiscal_operation_id",
-        "ncm_id",
-        "nbs_id",
-        "cest_id",
-        "service_type_id",  # TODO product_id?
-    )
     def _onchange_fiscal_operation_id(self):
-        if self.fiscal_operation_id:
-            if not self.price_unit:
-                self._compute_price_unit_fiscal()
-            self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
-                company=self.company_id,
-                partner=self._get_fiscal_partner(),
-                product=self.product_id,
-            )
+        # replaced by _compute_fiscal_operation_line_id
+        # but kept empty for backward compat
+        pass
+
+    @api.depends(
+        "fiscal_operation_id",
+        "product_id",
+        "partner_id",
+        "company_id",
+    )
+    def _compute_fiscal_operation_line_id(self):
+        for line in self:
+            if line.fiscal_operation_id:
+                partner = line._get_fiscal_partner()
+                if (
+                    not partner
+                    and hasattr(line, "move_line_ids")
+                    and line.move_line_ids
+                ):
+                    partner = line.move_line_ids[0].partner_id
+                company = line.company_id
+                if (
+                    not company
+                    and hasattr(line, "move_line_ids")
+                    and line.move_line_ids
+                ):
+                    company = line.move_line_ids[0].company_id
+                line.fiscal_operation_line_id = (
+                    line.fiscal_operation_id.line_definition(
+                        company=company,
+                        partner=partner,
+                        product=line.product_id,
+                    )
+                )
+            else:
+                line.fiscal_operation_line_id = False
 
     def _get_fiscal_tax_ids_dependencies(self):
         """

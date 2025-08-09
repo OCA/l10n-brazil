@@ -59,6 +59,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
     @api.depends("fiscal_operation_id")
     def _compute_document_type_id(self):
+        # TODO replace by _compute_document_type_id
         for doc in self.filtered(lambda doc: doc.fiscal_operation_id):
             if doc.issuer == DOCUMENT_ISSUER_COMPANY and not doc.document_type_id:
                 doc.document_type_id = doc.company_id.document_type_id
