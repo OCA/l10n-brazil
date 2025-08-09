@@ -38,14 +38,6 @@ class PurchaseOrderLine(models.Model):
         "('state', '=', 'approved')]",
     )
 
-    fiscal_tax_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.tax",
-        relation="fiscal_purchase_line_tax_rel",
-        column1="document_id",
-        column2="fiscal_tax_id",
-        string="Fiscal Taxes",
-    )
-
     # overriden to disable precompute as it depends on price_unit which is not
     # precompute in the purchase module. We don't need precompute in purchase.
     fiscal_price = fields.Float(
@@ -86,6 +78,21 @@ class PurchaseOrderLine(models.Model):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs",
     )
+
+    def _get_fiscal_tax_ids_dependencies(self):
+        return [
+            # "company_id",  # not precompute in purchase
+            # "partner_id",  # not precompute in purchase
+            "fiscal_operation_line_id",
+            "product_id",
+            "ncm_id",
+            "nbs_id",
+            "nbm_id",
+            "cest_id",
+            "city_taxation_code_id",
+            "service_type_id",
+            "ind_final",
+        ]
 
     @api.depends(
         "product_uom_qty",
