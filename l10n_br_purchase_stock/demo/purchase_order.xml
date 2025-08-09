@@ -43,10 +43,6 @@
         <field name="ind_final">0</field>
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_po_only_products_1')]" />
-    </function>
-
     <record id="main_pl_only_products_1_1" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products_1" />
         <field name="name">Office Chair Black</field>
@@ -155,10 +151,6 @@
         >TESTE - FISCAL ADDITIONAL DATA</field>
         <field name="ind_final">0</field>
     </record>
-
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_po_only_products_2')]" />
-    </function>
 
     <record id="main_pl_only_products_2_1" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products_2" />
@@ -270,10 +262,6 @@
         <field name="ind_final">0</field>
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('lucro_presumido_po_only_products_1')]" />
-    </function>
-
     <record id="lucro_presumido_pol_only_products_1_1" model="purchase.order.line">
         <field name="order_id" ref="lucro_presumido_po_only_products_1" />
         <field name="name">Office Chair Black</field>
@@ -343,10 +331,6 @@
         <field name="ind_final">0</field>
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_po_only_service_stock')]" />
-    </function>
-
     <record id="main_pl_only_service_stock_1_1" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_service_stock" />
         <field name="name">Desenvolvimento Odoo</field>
@@ -379,10 +363,6 @@
         <field name="company_id" ref="base.main_company" />
         <field name="ind_final">0</field>
     </record>
-
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_po_service_product_stock')]" />
-    </function>
 
     <record id="main_pl_service_product_stock_1_1" model="purchase.order.line">
         <field name="order_id" ref="main_po_service_product_stock" />
