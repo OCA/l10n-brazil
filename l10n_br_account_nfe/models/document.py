@@ -40,6 +40,12 @@ class DocumentNfe(models.Model):
 
     @api.depends("move_ids", "move_ids.due_line_ids")
     def _compute_nfe40_dup(self):
+        # FIXME key is too long
+        if not hasattr(
+            self.env.registry,
+            "_odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00_loaded",
+        ):
+            self._register_hook()
         for rec in self.filtered(lambda x: x._need_compute_nfe40_dup()):
             dups_vals = []
             for count, mov in enumerate(rec.move_ids.due_line_ids, 1):
@@ -78,6 +84,12 @@ class DocumentNfe(models.Model):
         "nfe40_tpNF",
     )
     def _compute_nfe40_detpag(self):
+        # FIXME key is too long
+        if not hasattr(
+            self.env.registry,
+            "_odoo.addons.l10n_br_nfe_spec.models.v4_0.leiaute_nfe_v4_00_loaded",
+        ):
+            self._register_hook()
         for rec in self.filtered(lambda x: x._need_compute_nfe_tags()):
             if rec._is_without_payment():
                 det_pag_vals = {
