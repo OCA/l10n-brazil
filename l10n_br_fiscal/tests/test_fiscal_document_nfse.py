@@ -14,8 +14,6 @@ class TestFiscalDocumentNFSe(TransactionCase):
     def test_nfse_same_state(self):
         """Test NFSe same state."""
 
-        self.nfse_same_state._onchange_fiscal_operation_id()
-
         for line in self.nfse_same_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_fiscal_operation_id()

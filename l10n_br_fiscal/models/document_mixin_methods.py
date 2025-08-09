@@ -57,13 +57,11 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 self.company_id, self.fiscal_operation_id
             )
 
-    @api.onchange("fiscal_operation_id")
-    def _onchange_fiscal_operation_id(self):
-        if self.fiscal_operation_id:
-            self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
-
-            if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
-                self.document_type_id = self.company_id.document_type_id
+    @api.depends("fiscal_operation_id")
+    def _compute_document_type_id(self):
+        for doc in self.filtered(lambda doc: doc.fiscal_operation_id):
+            if doc.issuer == DOCUMENT_ISSUER_COMPANY and not doc.document_type_id:
+                doc.document_type_id = doc.company_id.document_type_id
 
     def _get_amount_lines(self):
         """Get object lines instances used to compute fiscal fields"""
