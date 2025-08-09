@@ -207,35 +207,41 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 record.financial_total_gross = record.financial_total = 0.0
                 record.financial_discount_value = 0.0
 
-    @api.depends(
-        "fiscal_tax_ids",
-        "company_id",
-        "partner_id",
-        "product_id",
-        "price_unit",
-        "quantity",
-        "uom_id",
-        "fiscal_price",
-        "fiscal_quantity",
-        "uot_id",
-        "discount_value",
-        "insurance_value",
-        "ii_customhouse_charges",
-        "ii_iof_value",
-        "other_value",
-        "freight_value",
-        "ncm_id",
-        "nbs_id",
-        "nbm_id",
-        "cest_id",
-        "fiscal_operation_line_id",
-        "cfop_id",
-        "icmssn_range_id",
-        "icms_origin",
-        "icms_cst_id",
-        "ind_final",
-        "icms_relief_id",
-    )
+    def _get_tax_fields_dependencies(self):
+        """
+        Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
+        """
+        return [
+            "fiscal_tax_ids",
+            "company_id",
+            "partner_id",
+            "product_id",
+            "price_unit",
+            "quantity",
+            "uom_id",
+            "fiscal_price",
+            "fiscal_quantity",
+            "uot_id",
+            "discount_value",
+            "insurance_value",
+            "ii_customhouse_charges",
+            "ii_iof_value",
+            "other_value",
+            "freight_value",
+            "ncm_id",
+            "nbs_id",
+            "nbm_id",
+            "cest_id",
+            "fiscal_operation_line_id",
+            "cfop_id",
+            "icmssn_range_id",
+            "icms_origin",
+            "icms_cst_id",
+            "ind_final",
+            "icms_relief_id",
+        ]
+
+    @api.depends(lambda self: self._get_tax_fields_dependencies())
     def _compute_tax_fields(self):
         for line in self:
             if (
@@ -434,19 +440,25 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 product=self.product_id,
             )
 
-    @api.depends(
-        "fiscal_operation_line_id",
-        "company_id",
-        "partner_id",
-        "product_id",
-        "ncm_id",
-        "nbs_id",
-        "nbm_id",
-        "cest_id",
-        "city_taxation_code_id",
-        "service_type_id",
-        "ind_final",
-    )
+    def _get_fiscal_tax_ids_dependencies(self):
+        """
+        Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
+        """
+        return [
+            "fiscal_operation_line_id",
+            "company_id",
+            "partner_id",
+            "product_id",
+            "ncm_id",
+            "nbs_id",
+            "nbm_id",
+            "cest_id",
+            "city_taxation_code_id",
+            "service_type_id",
+            "ind_final",
+        ]
+
+    @api.depends(lambda self: self._get_fiscal_tax_ids_dependencies())
     def _compute_fiscal_tax_ids(self):
         for line in self:
             # Reset Taxes
