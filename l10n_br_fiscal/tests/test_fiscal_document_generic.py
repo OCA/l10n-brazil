@@ -575,7 +575,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_sn_same_state(self):
         """Test NFe Simples Nacional same state."""
         for line in self.nfe_sn_same_state.fiscal_line_ids:
-            line._onchange_product_id_fiscal()
+            line._compute_price_unit_fiscal()  # FIXME why is it still required??
 
             # set fake estimate tax
             line.ncm_id.tax_estimate_ids.create(
