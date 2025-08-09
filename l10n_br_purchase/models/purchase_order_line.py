@@ -38,14 +38,7 @@ class PurchaseOrderLine(models.Model):
         "('state', '=', 'approved')]",
     )
 
-    fiscal_tax_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.tax",
-        relation="fiscal_purchase_line_tax_rel",
-        column1="document_id",
-        column2="fiscal_tax_id",
-        string="Fiscal Taxes",
-    )
-
+    #
     # overriden to disable precompute as it depends on price_unit which is not
     # precompute in the purchase module. We don't need precompute in purchase.
     fiscal_price = fields.Float(
@@ -86,6 +79,52 @@ class PurchaseOrderLine(models.Model):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs",
     )
+
+    def _get_fiscal_tax_ids_dependencies(self):
+        return [
+            "fiscal_operation_line_id",
+            # "company_id",  # not precompute in purchase
+            # "partner_id",  # not precompute in purchase
+            "product_id",
+            "ncm_id",
+            "nbs_id",
+            "nbm_id",
+            "cest_id",
+            "city_taxation_code_id",
+            "service_type_id",
+            "ind_final",
+        ]
+
+    def _get_tax_fields_dependencies(self):
+        return [
+            "fiscal_tax_ids",
+            # "company_id",  # not precompute in purchase
+            # "partner_id",  # not precompute in purchase
+            "product_id",
+            # "price_unit",  # not precompute in purchase
+            "quantity",
+            "uom_id",
+            # "fiscal_price",  # not precompute in purchase
+            "fiscal_quantity",
+            "uot_id",
+            "discount_value",
+            "insurance_value",
+            "ii_customhouse_charges",
+            "ii_iof_value",
+            "other_value",
+            "freight_value",
+            "ncm_id",
+            "nbs_id",
+            "nbm_id",
+            "cest_id",
+            "fiscal_operation_line_id",
+            "cfop_id",
+            "icmssn_range_id",
+            "icms_origin",
+            "icms_cst_id",
+            "ind_final",
+            "icms_relief_id",
+        ]
 
     @api.depends(
         "product_uom_qty",
