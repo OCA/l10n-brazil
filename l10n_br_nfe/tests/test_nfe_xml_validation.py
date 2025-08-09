@@ -27,7 +27,6 @@ class TestXMLValidation(TransactionCase):
                 "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
             }
         )
-        document._onchange_fiscal_operation_id()
         line = document_line_model.create(
             {
                 "document_id": document.id,
@@ -66,7 +65,6 @@ class TestXMLValidation(TransactionCase):
                 "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
             }
         )
-        document._onchange_fiscal_operation_id()
 
         # Line 1
         line = document_line_model.create(
