@@ -12,10 +12,6 @@
         <field name="company_id" ref="base.main_company" />
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_po_only_products')]" />
-    </function>
-
     <record id="main_pl_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products" />
         <field name="name">Office Chair Black</field>
@@ -70,10 +66,6 @@
         <field name="company_id" ref="base.main_company" />
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-purchase_2')]" />
-    </function>
-
     <record id="main_company-purchase_line_2_1" model="purchase.order.line">
         <field name="order_id" ref="main_company-purchase_2" />
         <field name="name">Office Chair Black</field>
@@ -127,10 +119,6 @@
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
     </record>
-
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-purchase_3')]" />
-    </function>
 
     <record id="main_company-purchase_line_3_1" model="purchase.order.line">
         <field name="order_id" ref="main_company-purchase_3" />
@@ -188,10 +176,6 @@
         <field name="company_id" ref="base.main_company" />
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-purchase_4')]" />
-    </function>
-
     <record id="main_company-purchase_line_4_1" model="purchase.order.line">
         <field name="order_id" ref="main_company-purchase_4" />
         <field name="name">Office Chair Black</field>
@@ -244,10 +228,6 @@
         <field name="company_id" ref="base.main_company" />
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_company-purchase_5')]" />
-    </function>
-
     <record id="main_company-purchase_line_5_1" model="purchase.order.line">
         <field name="order_id" ref="main_company-purchase_5" />
         <field name="name">Office Chair Black</field>
@@ -298,10 +278,6 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('lp_po_only_products')]" />
-    </function>
-
     <record id="lp_pl_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="lp_po_only_products" />
         <field name="name">Office Chair Black</field>
@@ -350,10 +326,6 @@
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
     </record>
-
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('sn_po_only_products')]" />
-    </function>
 
     <record id="sn_pl_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="sn_po_only_products" />
@@ -404,10 +376,6 @@
         <field name="company_id" ref="base.main_company" />
     </record>
 
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_po_only_service')]" />
-    </function>
-
     <record id="main_pl_only_service_1_1" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_service" />
         <field name="name">Desenvolvimento Odoo</field>
@@ -439,10 +407,6 @@
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
     </record>
-
-    <function model="purchase.order" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_po_service_product')]" />
-    </function>
 
     <record id="main_pl_service_product_1_1" model="purchase.order.line">
         <field name="order_id" ref="main_po_service_product" />
