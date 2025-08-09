@@ -596,7 +596,6 @@ class Document(models.Model):
 
             new_doc = record.copy()
             new_doc.fiscal_operation_id = fsc_op
-            new_doc._onchange_fiscal_operation_id()
 
             for line in new_doc.fiscal_line_ids:
                 fsc_op_line = line.fiscal_operation_id.return_fiscal_operation_id
@@ -658,14 +657,3 @@ class Document(models.Model):
     def _compute_edoc_purpose(self):
         for record in self:
             record.edoc_purpose = record.fiscal_operation_id.edoc_purpose
-
-    @api.onchange("fiscal_operation_id")
-    def _onchange_fiscal_operation_id(self):
-        result = super()._onchange_fiscal_operation_id()
-        if self.fiscal_operation_id:
-            self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
-
-        if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
-            self.document_type_id = self.company_id.document_type_id
-
-        return result
