@@ -453,17 +453,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 partner_id = line._get_fiscal_partner()
                 if (
                     not partner_id
-                    and hasattr(line, "account_line_ids")
-                    and line.account_line_ids
+                    and hasattr(line, "move_line_ids")
+                    and line.movet_line_ids
                 ):
-                    partner_id = line.account_line_ids[0].partner_id
+                    partner_id = line.move_line_ids[0].partner_id
                 company_id = line.company_id
                 if (
                     not company_id
-                    and hasattr(line, "account_line_ids")
-                    and line.account_line_ids
+                    and hasattr(line, "move_line_ids")
+                    and line.move_line_ids
                 ):
-                    company_id = line.account_line_ids[0].company_id
+                    company_id = line.move_line_ids[0].company_id
                 mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
                     company=company_id,
                     partner=partner_id,
