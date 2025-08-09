@@ -218,6 +218,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_uot_id",
         store=True,
         readonly=False,
+        precompute=True,
     )
 
     fiscal_quantity = fields.Float(
@@ -323,6 +324,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_ISSQN)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_fg_city_id = fields.Many2one(
@@ -357,19 +360,35 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     issqn_base = fields.Monetary(
-        string="ISSQN Base", compute="_compute_tax_fields", store=True
+        string="ISSQN Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_percent = fields.Float(
-        string="ISSQN %", compute="_compute_tax_fields", store=True
+        string="ISSQN %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_reduction = fields.Float(
-        string="ISSQN % Reduction", compute="_compute_tax_fields", store=True
+        string="ISSQN % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_value = fields.Monetary(
-        string="ISSQN Value", compute="_compute_tax_fields", store=True
+        string="ISSQN Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_wh_tax_id = fields.Many2one(
@@ -378,22 +397,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_ISSQN_WH)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_wh_base = fields.Monetary(
-        string="ISSQN RET Base", compute="_compute_tax_fields", store=True
+        string="ISSQN RET Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_wh_percent = fields.Float(
-        string="ISSQN RET %", compute="_compute_tax_fields", store=True
+        string="ISSQN RET %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_wh_reduction = fields.Float(
-        string="ISSQN RET % Reduction", compute="_compute_tax_fields", store=True
+        string="ISSQN RET % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     issqn_wh_value = fields.Monetary(
-        string="ISSQN RET Value", compute="_compute_tax_fields", store=True
+        string="ISSQN RET Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # ICMS Fields
@@ -403,6 +440,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_ICMS)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     icms_cst_id = fields.Many2one(
@@ -412,6 +451,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "'3': 'icms'}.get(tax_framework))]",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     icms_cst_code = fields.Char(
@@ -437,6 +478,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=ICMS_BASE_TYPE_DEFAULT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     icms_origin = fields.Selection(
@@ -445,22 +488,38 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     # vBC - Valor da base de cálculo do ICMS
     icms_base = fields.Monetary(
-        string="ICMS Base", compute="_compute_tax_fields", store=True
+        string="ICMS Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pICMS - Alíquota do IMCS
     icms_percent = fields.Float(
-        string="ICMS %", compute="_compute_tax_fields", store=True
+        string="ICMS %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pRedBC - Percentual de redução do ICMS
     icms_reduction = fields.Float(
-        string="ICMS % Reduction", compute="_compute_tax_fields", store=True
+        string="ICMS % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vICMS - Valor do ICMS
     icms_value = fields.Monetary(
-        string="ICMS Value", compute="_compute_tax_fields", store=True
+        string="ICMS Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vICMSSubstituto - Valor do ICMS cobrado em operação anterior
@@ -476,7 +535,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     # vICMSDeson - Valor do ICMS desonerado
     icms_relief_value = fields.Monetary(
-        string="ICMS Relief Value", compute="_compute_tax_fields", store=True
+        string="ICMS Relief Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # ICMS ST Fields
@@ -486,6 +549,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_ICMS_ST)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # modBCST - Modalidade de determinação da BC do ICMS ST
@@ -495,31 +560,53 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=ICMS_ST_BASE_TYPE_DEFAULT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pMVAST - Percentual da margem de valor Adicionado do ICMS ST
     icmsst_mva_percent = fields.Float(
-        string="ICMS ST MVA %", compute="_compute_tax_fields", store=True
+        string="ICMS ST MVA %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pRedBCST - Percentual da Redução de BC do ICMS ST
     icmsst_reduction = fields.Float(
-        string="ICMS ST % Reduction", compute="_compute_tax_fields", store=True
+        string="ICMS ST % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vBCST - Valor da BC do ICMS ST
     icmsst_base = fields.Monetary(
-        string="ICMS ST Base", compute="_compute_tax_fields", store=True
+        string="ICMS ST Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pICMSST - Alíquota do imposto do ICMS ST
     icmsst_percent = fields.Float(
-        string="ICMS ST %", compute="_compute_tax_fields", store=True
+        string="ICMS ST %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vICMSST - Valor do ICMS ST
     icmsst_value = fields.Monetary(
-        string="ICMS ST Value", compute="_compute_tax_fields", store=True
+        string="ICMS ST Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vBCSTRet - Valor da base de cálculo do ICMS ST retido
@@ -538,6 +625,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_ICMS_FCP)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vBCFCPUFDest
@@ -545,18 +634,28 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="ICMS FCP Base",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pFCPUFDest - Percentual do ICMS relativo ao Fundo de
     # Combate à Pobreza (FCP) na UF de destino
     icmsfcp_percent = fields.Float(
-        string="ICMS FCP %", compute="_compute_tax_fields", store=True
+        string="ICMS FCP %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vFCPUFDest - Valor do ICMS relativo ao Fundo
     # de Combate à Pobreza (FCP) da UF de destino
     icmsfcp_value = fields.Monetary(
-        string="ICMS FCP Value", compute="_compute_tax_fields", store=True
+        string="ICMS FCP Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # ICMS FCP ST Fields
@@ -566,6 +665,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_ICMS_FCP_ST)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vBCFCPST
@@ -573,48 +674,82 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="ICMS FCP ST Base",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pFCPST - Percentual do FCP ST
     icmsfcpst_percent = fields.Float(
-        string="ICMS FCP ST %", compute="_compute_tax_fields", store=True
+        string="ICMS FCP ST %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vFCPST - Valor do ICMS relativo ao
     # Fundo de Combate à Pobreza (FCP) por Substituição Tributária
     icmsfcpst_value = fields.Monetary(
-        string="ICMS FCP ST Value", compute="_compute_tax_fields", store=True
+        string="ICMS FCP ST Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # ICMS DIFAL Fields
     # vBCUFDest - Valor da BC do ICMS na UF de destino
     icms_destination_base = fields.Monetary(
-        string="ICMS Destination Base", compute="_compute_tax_fields", store=True
+        string="ICMS Destination Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pICMSUFDest - Alíquota interna da UF de destino
     icms_origin_percent = fields.Float(
-        string="ICMS Internal %", compute="_compute_tax_fields", store=True
+        string="ICMS Internal %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pICMSInter - Alíquota interestadual das UF envolvidas
     icms_destination_percent = fields.Float(
-        string="ICMS External %", compute="_compute_tax_fields", store=True
+        string="ICMS External %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pICMSInterPart - Percentual provisório de partilha do ICMS Interestadual
     icms_sharing_percent = fields.Float(
-        string="ICMS Sharing %", compute="_compute_tax_fields", store=True
+        string="ICMS Sharing %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vICMSUFRemet - Valor do ICMS Interestadual para a UF do remetente
     icms_origin_value = fields.Monetary(
-        string="ICMS Origin Value", compute="_compute_tax_fields", store=True
+        string="ICMS Origin Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vICMSUFDest - Valor do ICMS Interestadual para a UF de destino
     icms_destination_value = fields.Monetary(
-        string="ICMS Dest. Value", compute="_compute_tax_fields", store=True
+        string="ICMS Dest. Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # ICMS Simples Nacional Fields
@@ -630,24 +765,42 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_ICMS_SN)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     icmssn_base = fields.Monetary(
-        string="ICMS SN Base", compute="_compute_tax_fields", store=True
+        string="ICMS SN Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     icmssn_reduction = fields.Monetary(
-        string="ICMS SN Reduction", compute="_compute_tax_fields", store=True
+        string="ICMS SN Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # pCredICMSSN - Alíquota aplicável de cálculo do crédito (Simples Nacional)
     icmssn_percent = fields.Float(
-        string="ICMS SN %", compute="_compute_tax_fields", store=True
+        string="ICMS SN %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # vCredICMSSN - Valor do crédito do ICMS que pode ser aproveitado
     icmssn_credit_value = fields.Monetary(
-        string="ICMS SN Credit", compute="_compute_tax_fields", store=True
+        string="ICMS SN Credit",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # ICMS COBRADO ANTERIORMENTE POR ST
@@ -679,6 +832,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_IPI)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ipi_cst_id = fields.Many2one(
@@ -687,6 +842,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'ipi')]",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ipi_cst_code = fields.Char(
@@ -699,22 +856,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ipi_base = fields.Monetary(
-        string="IPI Base", compute="_compute_tax_fields", store=True
+        string="IPI Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ipi_percent = fields.Float(
-        string="IPI %", compute="_compute_tax_fields", store=True
+        string="IPI %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ipi_reduction = fields.Float(
-        string="IPI % Reduction", compute="_compute_tax_fields", store=True
+        string="IPI % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ipi_value = fields.Monetary(
-        string="IPI Value", compute="_compute_tax_fields", store=True
+        string="IPI Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ipi_guideline_id = fields.Many2one(
@@ -735,16 +910,32 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_II)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ii_base = fields.Monetary(
-        string="II Base", compute="_compute_tax_fields", store=True
+        string="II Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
-    ii_percent = fields.Float(string="II %", compute="_compute_tax_fields", store=True)
+    ii_percent = fields.Float(
+        string="II %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
     ii_value = fields.Monetary(
-        string="II Value", compute="_compute_tax_fields", store=True
+        string="II Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     ii_iof_value = fields.Monetary(string="IOF Value")
@@ -759,6 +950,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_COFINS)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_cst_id = fields.Many2one(
@@ -769,6 +962,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "('tax_domain', '=', 'cofins')]",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_cst_code = fields.Char(
@@ -781,22 +976,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_base = fields.Monetary(
-        string="COFINS Base", compute="_compute_tax_fields", store=True
+        string="COFINS Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_percent = fields.Float(
-        string="COFINS %", compute="_compute_tax_fields", store=True
+        string="COFINS %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_reduction = fields.Float(
-        string="COFINS % Reduction", compute="_compute_tax_fields", store=True
+        string="COFINS % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_value = fields.Monetary(
-        string="COFINS Value", compute="_compute_tax_fields", store=True
+        string="COFINS Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_base_id = fields.Many2one(
@@ -814,6 +1027,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_COFINS_ST)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofinsst_cst_id = fields.Many2one(
@@ -824,6 +1039,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "('tax_domain', '=', 'cofinsst')]",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofinsst_cst_code = fields.Char(
@@ -836,22 +1053,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofinsst_base = fields.Monetary(
-        string="COFINS ST Base", compute="_compute_tax_fields", store=True
+        string="COFINS ST Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofinsst_percent = fields.Float(
-        string="COFINS ST %", compute="_compute_tax_fields", store=True
+        string="COFINS ST %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofinsst_reduction = fields.Float(
-        string="COFINS ST % Reduction", compute="_compute_tax_fields", store=True
+        string="COFINS ST % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofinsst_value = fields.Monetary(
-        string="COFINS ST Value", compute="_compute_tax_fields", store=True
+        string="COFINS ST Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_wh_tax_id = fields.Many2one(
@@ -860,6 +1095,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_COFINS_WH)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_wh_base_type = fields.Selection(
@@ -868,22 +1105,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_wh_base = fields.Monetary(
-        string="COFINS RET Base", compute="_compute_tax_fields", store=True
+        string="COFINS RET Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_wh_percent = fields.Float(
-        string="COFINS RET %", compute="_compute_tax_fields", store=True
+        string="COFINS RET %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_wh_reduction = fields.Float(
-        string="COFINS RET % Reduction", compute="_compute_tax_fields", store=True
+        string="COFINS RET % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cofins_wh_value = fields.Monetary(
-        string="COFINS RET Value", compute="_compute_tax_fields", store=True
+        string="COFINS RET Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # PIS
@@ -893,6 +1148,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_PIS)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_cst_id = fields.Many2one(
@@ -903,6 +1160,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "('tax_domain', '=', 'pis')]",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_cst_code = fields.Char(
@@ -915,22 +1174,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_base = fields.Monetary(
-        string="PIS Base", compute="_compute_tax_fields", store=True
+        string="PIS Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_percent = fields.Float(
-        string="PIS %", compute="_compute_tax_fields", store=True
+        string="PIS %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_reduction = fields.Float(
-        string="PIS % Reduction", compute="_compute_tax_fields", store=True
+        string="PIS % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_value = fields.Monetary(
-        string="PIS Value", compute="_compute_tax_fields", store=True
+        string="PIS Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_base_id = fields.Many2one(
@@ -948,6 +1225,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_PIS_ST)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pisst_cst_id = fields.Many2one(
@@ -958,6 +1237,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "('tax_domain', '=', 'pisst')]",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pisst_cst_code = fields.Char(
@@ -970,22 +1251,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pisst_base = fields.Monetary(
-        string="PIS ST Base", compute="_compute_tax_fields", store=True
+        string="PIS ST Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pisst_percent = fields.Float(
-        string="PIS ST %", compute="_compute_tax_fields", store=True
+        string="PIS ST %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pisst_reduction = fields.Float(
-        string="PIS ST % Reduction", compute="_compute_tax_fields", store=True
+        string="PIS ST % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pisst_value = fields.Monetary(
-        string="PIS ST Value", compute="_compute_tax_fields", store=True
+        string="PIS ST Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_wh_tax_id = fields.Many2one(
@@ -994,6 +1293,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_PIS_WH)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_wh_base_type = fields.Selection(
@@ -1002,22 +1303,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_wh_base = fields.Monetary(
-        string="PIS RET Base", compute="_compute_tax_fields", store=True
+        string="PIS RET Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_wh_percent = fields.Float(
-        string="PIS RET %", compute="_compute_tax_fields", store=True
+        string="PIS RET %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_wh_reduction = fields.Float(
-        string="PIS RET % Reduction", compute="_compute_tax_fields", store=True
+        string="PIS RET % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     pis_wh_value = fields.Monetary(
-        string="PIS RET Value", compute="_compute_tax_fields", store=True
+        string="PIS RET Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # CSLL Fields
@@ -1027,22 +1346,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_CSLL)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_base = fields.Monetary(
-        string="CSLL Base", compute="_compute_tax_fields", store=True
+        string="CSLL Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_percent = fields.Float(
-        string="CSLL %", compute="_compute_tax_fields", store=True
+        string="CSLL %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_reduction = fields.Float(
-        string="CSLL % Reduction", compute="_compute_tax_fields", store=True
+        string="CSLL % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_value = fields.Monetary(
-        string="CSLL Value", compute="_compute_tax_fields", store=True
+        string="CSLL Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_wh_tax_id = fields.Many2one(
@@ -1051,22 +1388,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_CSLL_WH)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_wh_base = fields.Monetary(
-        string="CSLL RET Base", compute="_compute_tax_fields", store=True
+        string="CSLL RET Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_wh_percent = fields.Float(
-        string="CSLL RET %", compute="_compute_tax_fields", store=True
+        string="CSLL RET %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_wh_reduction = fields.Float(
-        string="CSLL RET % Reduction", compute="_compute_tax_fields", store=True
+        string="CSLL RET % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     csll_wh_value = fields.Monetary(
-        string="CSLL RET Value", compute="_compute_tax_fields", store=True
+        string="CSLL RET Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_tax_id = fields.Many2one(
@@ -1075,22 +1430,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_IRPJ)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_base = fields.Monetary(
-        string="IRPJ Base", compute="_compute_tax_fields", store=True
+        string="IRPJ Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_percent = fields.Float(
-        string="IRPJ %", compute="_compute_tax_fields", store=True
+        string="IRPJ %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_reduction = fields.Float(
-        string="IRPJ % Reduction", compute="_compute_tax_fields", store=True
+        string="IRPJ % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_value = fields.Monetary(
-        string="IRPJ Value", compute="_compute_tax_fields", store=True
+        string="IRPJ Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_wh_tax_id = fields.Many2one(
@@ -1099,22 +1472,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_IRPJ_WH)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_wh_base = fields.Monetary(
-        string="IRPJ RET Base", compute="_compute_tax_fields", store=True
+        string="IRPJ RET Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_wh_percent = fields.Float(
-        string="IRPJ RET %", compute="_compute_tax_fields", store=True
+        string="IRPJ RET %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_wh_reduction = fields.Float(
-        string="IRPJ RET % Reduction", compute="_compute_tax_fields", store=True
+        string="IRPJ RET % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     irpj_wh_value = fields.Monetary(
-        string="IRPJ RET Value", compute="_compute_tax_fields", store=True
+        string="IRPJ RET Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_tax_id = fields.Many2one(
@@ -1123,22 +1514,40 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_INSS)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_base = fields.Monetary(
-        string="INSS Base", compute="_compute_tax_fields", store=True
+        string="INSS Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_percent = fields.Float(
-        string="INSS %", compute="_compute_tax_fields", store=True
+        string="INSS %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_reduction = fields.Float(
-        string="INSS % Reduction", compute="_compute_tax_fields", store=True
+        string="INSS % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_value = fields.Monetary(
-        string="INSS Value", compute="_compute_tax_fields", store=True
+        string="INSS Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_wh_tax_id = fields.Many2one(
@@ -1147,32 +1556,56 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_INSS_WH)],
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_wh_base = fields.Monetary(
-        string="INSS RET Base", compute="_compute_tax_fields", store=True
+        string="INSS RET Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_wh_percent = fields.Float(
-        string="INSS RET %", compute="_compute_tax_fields", store=True
+        string="INSS RET %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_wh_reduction = fields.Float(
-        string="INSS RET % Reduction", compute="_compute_tax_fields", store=True
+        string="INSS RET % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     inss_wh_value = fields.Monetary(
-        string="INSS RET Value", compute="_compute_tax_fields", store=True
+        string="INSS RET Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     simple_value = fields.Monetary(
-        string="National Simple Taxes", compute="_compute_tax_fields", store=True
+        string="National Simple Taxes",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     simple_without_icms_value = fields.Monetary(
         string="National Simple Taxes without ICMS",
         compute="_compute_tax_fields",
         store=True,
+        precompute=True,
+        readonly=False,
     )
 
     comment_ids = fields.Many2many(
