@@ -33,7 +33,6 @@ class FiscalDocumentMixin(models.AbstractModel):
     - Inverse methods for distributing header-level costs (freight, insurance)
       to lines.
     - Hooks for customizing data retrieval (e.g., lines, fiscal partner).
-    - Onchange helpers for common fiscal fields.
 
     Models using this mixin are often expected to also include fields defined
     in `l10n_br_fiscal.document.mixin` for methods like
@@ -90,7 +89,6 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     fiscal_operation_type = fields.Selection(
         related="fiscal_operation_id.fiscal_operation_type",
-        readonly=True,
     )
 
     ind_pres = fields.Selection(
@@ -481,6 +479,10 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
+        compute="_compute_document_type_id",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     document_serie_id = fields.Many2one(
