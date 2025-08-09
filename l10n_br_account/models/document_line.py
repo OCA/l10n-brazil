@@ -16,10 +16,11 @@ class FiscalDocumentLine(models.Model):
     )
 
     uom_id = fields.Many2one(
-        comodel_name="uom.uom",
-        related="account_line_ids.product_uom_id",
+        compute="_compute_product_uom_id",
         store=True,
-        string="UOM",
+        readonly=False,
+        precompute=True,
+        ondelete="restrict",
     )
 
     # -------------------------------------------------------------------------
@@ -70,6 +71,15 @@ class FiscalDocumentLine(models.Model):
                     != 0
                 ):
                     aml.price_unit = line.price_unit
+
+    @api.depends("product_id")
+    def _compute_product_uom_id(self):
+        for line in self:
+            # vendor bills should have the product purchase UOM
+            if line.fiscal_operation_type == "in":
+                line.uom_id = line.product_id.uom_po_id
+            else:
+                line.uom_id = line.product_id.uom_id
 
     @api.model_create_multi
     def create(self, vals_list):
