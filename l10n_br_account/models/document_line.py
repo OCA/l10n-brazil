@@ -9,7 +9,7 @@ from odoo.tools import float_compare
 class FiscalDocumentLine(models.Model):
     _inherit = "l10n_br_fiscal.document.line"
 
-    account_line_ids = fields.One2many(
+    move_line_ids = fields.One2many(
         comodel_name="account.move.line",
         inverse_name="fiscal_document_line_id",
         string="Invoice Lines",
@@ -17,7 +17,7 @@ class FiscalDocumentLine(models.Model):
 
     uom_id = fields.Many2one(
         comodel_name="uom.uom",
-        related="account_line_ids.product_uom_id",
+        related="move_line_ids.product_uom_id",
         store=True,
         string="UOM",
     )
@@ -34,21 +34,21 @@ class FiscalDocumentLine(models.Model):
     @api.onchange("product_id")
     def _inverse_product_id(self):
         for line in self:
-            for aml in line.account_line_ids:
+            for aml in line.move_line_ids:
                 if aml.product_id != line.product_id:
                     aml.product_id = line.product_id.id
 
     @api.onchange("name")
     def _inverse_name(self):
         for line in self:
-            for aml in line.account_line_ids:
+            for aml in line.move_line_ids:
                 if aml.name != line.name:
                     aml.name = line.name
 
     @api.onchange("quantity")
     def _inverse_quantity(self):
         for line in self:
-            for aml in line.account_line_ids:
+            for aml in line.move_line_ids:
                 if (
                     float_compare(
                         aml.quantity,
@@ -64,7 +64,7 @@ class FiscalDocumentLine(models.Model):
     @api.onchange("price_unit")
     def _inverse_price_unit(self):
         for line in self:
-            for aml in line.account_line_ids:
+            for aml in line.move_line_ids:
                 if (
                     aml.currency_id.compare_amounts(aml.price_unit, line.price_unit)
                     != 0
