@@ -152,16 +152,6 @@ class L10nBrSaleBaseTest(TransactionCase):
     def _run_sale_order_onchanges(self, sale_order):
         sale_order._onchange_fiscal_operation_id()
 
-    def _run_sale_line_onchanges(self, sale_line):
-        # Skip when it is a display line.
-        if sale_line.display_type:
-            return
-        sale_line._onchange_product_id_fiscal()
-        sale_line._onchange_fiscal_operation_id()
-        sale_line._onchange_fiscal_taxes()
-
-    #        sale_line._onchange_fiscal_tax_ids()
-
     def _invoice_sale_order(self, sale_order):
         sale_order.action_confirm()
 
@@ -263,8 +253,6 @@ class L10nBrSaleBaseTest(TransactionCase):
         )
 
         for line in self.so_products.order_line:
-            self._run_sale_line_onchanges(line)
-
             self.assertTrue(
                 line.fiscal_operation_id,
                 "Error to mapping Fiscal Operation on Sale Order Line.",
@@ -407,8 +395,6 @@ class L10nBrSaleBaseTest(TransactionCase):
         )
 
         for line in self.so_services.order_line:
-            self._run_sale_line_onchanges(line)
-
             self.assertTrue(
                 line.fiscal_operation_id,
                 "Error to mapping Fiscal Operation on Sale Order Line.",
@@ -510,9 +496,6 @@ class L10nBrSaleBaseTest(TransactionCase):
         """Test brazilian Sale Order with Product and Service."""
         self._change_user_company(self.company)
         self._run_sale_order_onchanges(self.so_product_service)
-        for line in self.so_product_service.order_line:
-            self._run_sale_line_onchanges(line)
-
         self.so_product_service.action_confirm()
         # Create and check invoice
         self.so_product_service._create_invoices(final=True)
@@ -615,7 +598,6 @@ class L10nBrSaleBaseTest(TransactionCase):
         self._run_sale_order_onchanges(so_international)
         for line in so_international.order_line:
             line.product_id.invoice_policy = "order"
-            self._run_sale_line_onchanges(line)
         # TODO: Em algum momento nos dados de demonstração está carregando
         #  a Operação Fiscal, o problema não aparece quando os testes são
         #  feitos da forma como ocorre no github, porém ao instalar o modulo
@@ -639,8 +621,6 @@ class L10nBrSaleBaseTest(TransactionCase):
         """Test brazilian Sale Order with Partner to Invoice."""
         sale = self.env.ref("l10n_br_sale.main_company-sale_2")
         self._run_sale_order_onchanges(sale)
-        for line in sale.order_line:
-            self._run_sale_line_onchanges(line)
 
         self._invoice_sale_order(sale)
         for invoice in sale.invoice_ids:
@@ -665,8 +645,6 @@ class L10nBrSaleBaseTest(TransactionCase):
         """Test brazilian Sale Order with Partner to Shipping."""
         sale = self.env.ref("l10n_br_sale.main_company-sale_3")
         self._run_sale_order_onchanges(sale)
-        for line in sale.order_line:
-            self._run_sale_line_onchanges(line)
 
         self._invoice_sale_order(sale)
         for invoice in sale.invoice_ids:
