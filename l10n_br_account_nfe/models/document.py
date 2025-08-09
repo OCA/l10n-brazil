@@ -40,6 +40,8 @@ class DocumentNfe(models.Model):
 
     @api.depends("move_ids", "move_ids.due_line_ids")
     def _compute_nfe40_dup(self):
+        # 1st ensure nfe.40.dup model is already loaded as a concrete model:
+        self.with_context(schema_name="nfe")._register_remaining_schema_models_hook()
         for rec in self.filtered(lambda x: x._need_compute_nfe40_dup()):
             dups_vals = []
             for count, mov in enumerate(rec.move_ids.due_line_ids, 1):
@@ -77,6 +79,8 @@ class DocumentNfe(models.Model):
         "nfe40_tpNF",
     )
     def _compute_nfe40_detpag(self):
+        # 1st ensure nfe.40.pag model is already loaded as a concrete model:
+        self.with_context(schema_name="nfe")._register_remaining_schema_models_hook()
         for rec in self.filtered(lambda x: x._need_compute_nfe_tags()):
             if rec._is_without_payment():
                 det_pag_vals = {
