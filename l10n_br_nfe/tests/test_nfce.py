@@ -121,8 +121,6 @@ class TestNFCe(TestNFeExport):
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_INUTILIZADA)
 
     def test_atualiza_status_nfce(self):
-        self.document_id._onchange_fiscal_operation_id()
-
         self.document_id._compute_nfe40_dhSaiEnt()
         self.assertFalse(self.document_id.nfe40_dhSaiEnt)
 
