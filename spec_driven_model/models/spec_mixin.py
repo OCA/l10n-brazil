@@ -83,25 +83,24 @@ class SpecMixin(models.AbstractModel):
         return self._get_spec_property("stacking_points", {})
 
     def _register_hook(self):
+        res = super()._register_hook()
+        self._register_remaining_schema_models_hook()
+        return res
+
+    def _register_remaining_schema_models_hook(self):
         """
         Called once all modules are loaded.
         Here we take all spec models that were not injected into existing concrete
         Odoo models and we make them concrete automatically with
         their _auto_init method that will create their SQL DDL structure.
         """
-        res = super()._register_hook()
         spec_schema, spec_version = self._spec_prefix(split=True)
         if not spec_schema:
-            return res
+            return
 
-        spec_module = self._get_spec_property("odoo_module")
-        if "_spec." in spec_module:
-            odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
-        else:  # for tests:
-            odoo_module = "spec_driven_model"
-        load_key = f"_{spec_module}_loaded"
-        if hasattr(self.env.registry, load_key):  # hook already done for registry
-            return res
+        load_key = f"_{spec_schema}_register_hook_loaded"
+        if hasattr(self.env.registry, load_key):  # hook already called for registry
+            return
         setattr(self.env.registry, load_key, True)
 
         access_data = []
@@ -120,6 +119,11 @@ class SpecMixin(models.AbstractModel):
             if self.env.registry.get(i[0])
             and not SPEC_MIXIN_MAPPINGS[self.env.cr.dbname].get(i[0])
         }
+        spec_module = self._get_spec_property("odoo_module")
+        if "_spec." in spec_module:
+            odoo_module = spec_module.split("_spec.")[0].split(".")[-1]
+        else:  # for tests:
+            odoo_module = "spec_driven_model"
         for name in remaining_models:
             spec_class = StackedModel._odoo_name_to_class(name, spec_module)
             if spec_class is None:
@@ -191,8 +195,6 @@ class SpecMixin(models.AbstractModel):
         )
         with mute_logger("odoo.models"):
             imd_recs.unlink()
-
-        return res
 
     @classmethod
     def _auto_fill_access_data(cls, env, module_name: str, access_data: list):
