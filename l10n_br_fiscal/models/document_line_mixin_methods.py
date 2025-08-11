@@ -288,7 +288,41 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
-    # TODO: depends and removal of meth calls will come next
+    def _get_tax_fields_dependencies(self):
+        """
+        Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
+        """
+        return [
+            "company_id",
+            "partner_id",
+            "ind_final",
+            "fiscal_tax_ids",
+            "product_id",
+            "price_unit",
+            "quantity",
+            "uom_id",
+            "fiscal_price",
+            "fiscal_quantity",
+            "uot_id",
+            "discount_value",
+            "insurance_value",
+            "ii_customhouse_charges",
+            "ii_iof_value",
+            "other_value",
+            "freight_value",
+            "ncm_id",
+            "nbs_id",
+            "nbm_id",
+            "cest_id",
+            "fiscal_operation_line_id",
+            "cfop_id",
+            "icmssn_range_id",
+            "icms_origin",
+            "icms_cst_id",
+            "icms_relief_id",
+        ]
+
+    @api.depends(lambda self: self._get_tax_fields_dependencies())
     def _compute_tax_fields(self):
         """
         Compute base, percent, value... tax fields for ICMS, IPI, PIS, COFINS... taxes.
