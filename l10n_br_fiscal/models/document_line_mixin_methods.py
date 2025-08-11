@@ -207,37 +207,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 record.financial_total_gross = record.financial_total = 0.0
                 record.financial_discount_value = 0.0
 
-    def _compute_taxes(self, taxes, cst=None):
-        self.ensure_one()
-        return taxes.compute_taxes(
-            company=self._get_fiscal_company(),
-            partner=self._get_fiscal_partner(),
-            product=self.product_id,
-            price_unit=self.price_unit,
-            quantity=self.quantity,
-            uom_id=self.uom_id,
-            fiscal_price=self.fiscal_price,
-            fiscal_quantity=self.fiscal_quantity,
-            uot_id=self.uot_id,
-            discount_value=self.discount_value,
-            insurance_value=self.insurance_value,
-            ii_customhouse_charges=self.ii_customhouse_charges,
-            ii_iof_value=self.ii_iof_value,
-            other_value=self.other_value,
-            freight_value=self.freight_value,
-            ncm=self.ncm_id,
-            nbs=self.nbs_id,
-            nbm=self.nbm_id,
-            cest=self.cest_id,
-            operation_line=self.fiscal_operation_line_id,
-            cfop=self.cfop_id,
-            icmssn_range=self.icmssn_range_id,
-            icms_origin=self.icms_origin,
-            icms_cst_id=self.icms_cst_id,
-            ind_final=self._get_ind_final(),
-            icms_relief_id=self.icms_relief_id,
-        )
-
     @api.depends("tax_icms_or_issqn", "partner_is_public_entity")
     def _compute_allow_csll_irpj(self):
         """Calculates the possibility of 'CSLL' and 'IRPJ' tax charges."""
@@ -319,9 +288,42 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
-    def _update_fiscal_taxes(self):
+    # TODO: depends and removal of meth calls will come next
+    def _compute_tax_fields(self):
+        """
+        Compute base, percent, value... tax fields for ICMS, IPI, PIS, COFINS... taxes.
+        """
         for line in self:
-            compute_result = line._compute_taxes(line.fiscal_tax_ids)
+            if line._is_imported() or not line.fiscal_tax_ids:
+                continue
+            compute_result = line.fiscal_tax_ids.compute_taxes(
+                company=line._get_fiscal_company(),
+                partner=line._get_fiscal_partner(),
+                product=line.product_id,
+                price_unit=line.price_unit,
+                quantity=line.quantity,
+                uom_id=line.uom_id,
+                fiscal_price=line.fiscal_price,
+                fiscal_quantity=line.fiscal_quantity,
+                uot_id=line.uot_id,
+                discount_value=line.discount_value,
+                insurance_value=line.insurance_value,
+                ii_customhouse_charges=line.ii_customhouse_charges,
+                ii_iof_value=line.ii_iof_value,
+                other_value=line.other_value,
+                freight_value=line.freight_value,
+                ncm=line.ncm_id,
+                nbs=line.nbs_id,
+                nbm=line.nbm_id,
+                cest=line.cest_id,
+                operation_line=line.fiscal_operation_line_id,
+                cfop=line.cfop_id,
+                icmssn_range=line.icmssn_range_id,
+                icms_origin=line.icms_origin,
+                icms_cst_id=line.icms_cst_id,
+                ind_final=line._get_ind_final(),
+                icms_relief_id=line.icms_relief_id,
+            )
             to_update = {
                 "amount_tax_included": compute_result.get("amount_included", 0.0),
                 "amount_tax_not_included": compute_result.get(
@@ -331,12 +333,16 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 "estimate_tax": compute_result.get("estimate_tax", 0.0),
             }
             to_update.update(line._prepare_tax_fields(compute_result))
-
+            # line.update(to_update)
             in_draft_mode = line != line._origin
             if in_draft_mode:
                 line.update(to_update)
             else:
                 line.write(to_update)
+
+    def _update_fiscal_taxes(self):
+        pass  # replaced by _compute_tax_fields, kept for backward compat; TODO remove
+        # self._compute_tax_fields()  # TODO remove
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
@@ -471,7 +477,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
-                line._update_fiscal_taxes()
+                line._compute_tax_fields()
                 line.comment_ids = line.fiscal_operation_line_id.comment_ids
             else:
                 line.cfop_id = False
@@ -793,7 +799,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     )
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
-        self._update_fiscal_taxes()
+        self._compute_tax_fields()
 
     @api.depends("uom_id")
     def _compute_uot_id(self):
@@ -840,11 +846,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.onchange("ii_customhouse_charges")
     def _onchange_ii_customhouse_charges(self):
         if self.ii_customhouse_charges:
-            self._update_fiscal_taxes()
+            self._compute_tax_fields()
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
-        self._update_fiscal_taxes()
+        self._compute_tax_fields()
 
     @api.onchange("city_taxation_code_id")
     def _onchange_city_taxation_code_id(self):
