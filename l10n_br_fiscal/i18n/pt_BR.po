@@ -9228,12 +9228,6 @@ msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr "A operação fiscal {} não tem retorno Operação Fiscal definida"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:0
-#, python-format
-msgid "The fiscal operation line {} has no return Fiscal Operation defined"
-msgstr "A linha de operação fiscal {} não possui Operação Fiscal de Retorno definida"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__compute_sequence
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__compute_sequence
 msgid ""

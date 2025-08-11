@@ -1027,17 +1027,103 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_return(self):
-        """Test Fiscal Document Return"""
+        """Test Fiscal Document Return with enhanced validations"""
+        # Create return document
         action = self.nfe_same_state.action_create_return()
         return_id = self.nfe_same_state.browse(
             [i[2][0] for i in action["domain"] if i[0] == "id"]
         )
 
+        # Basic validation - fiscal operation
         self.assertEqual(
             return_id.fiscal_operation_id.id,
             self.nfe_same_state.fiscal_operation_id.return_fiscal_operation_id.id,
-            "Error on creation return",
+            "Error on creation return - fiscal operation mismatch",
         )
+
+        # Validate document relationship creation
+        self.assertTrue(
+            return_id.document_related_ids,
+            "Document relationship should be created"
+            " between original and return documents",
+        )
+
+        # Validate specific relationship with original document
+        original_relationship = return_id.document_related_ids.filtered(
+            lambda rel: rel.document_related_id.id == self.nfe_same_state.id
+        )
+        self.assertTrue(
+            original_relationship,
+            "Document relationship should link return document to original document",
+        )
+
+        # Validate relationship fields
+        relationship = original_relationship[0]
+        self.assertEqual(
+            relationship.document_related_id,
+            self.nfe_same_state,
+            "Relationship should point to original document",
+        )
+        self.assertEqual(
+            relationship.document_id,
+            return_id,
+            "Relationship should point from return document",
+        )
+        self.assertEqual(
+            relationship.document_type_id,
+            self.nfe_same_state.document_type_id,
+            "Relationship should maintain document type",
+        )
+        self.assertEqual(
+            relationship.document_serie,
+            self.nfe_same_state.document_serie,
+            "Relationship should maintain document serie",
+        )
+        self.assertEqual(
+            relationship.document_number,
+            self.nfe_same_state.document_number,
+            "Relationship should maintain document number",
+        )
+
+        # Validate fiscal lines synchronization
+        self.assertTrue(
+            return_id.fiscal_line_ids, "Return document should have fiscal lines"
+        )
+
+        # Validate that all original products are present in return document
+        original_products = self.nfe_same_state.fiscal_line_ids.mapped("product_id")
+        return_products = return_id.fiscal_line_ids.mapped("product_id")
+
+        self.assertEqual(
+            len(original_products),
+            len(return_products),
+            "Return document should have same number of products as original",
+        )
+
+        # Validate each product from original exists in return
+        for product in original_products:
+            self.assertIn(
+                product,
+                return_products,
+                f"Product {product.name} from original document"
+                " should exist in return document",
+            )
+
+        # Validate fiscal lines have correct document_id
+        for line in return_id.fiscal_line_ids:
+            self.assertEqual(
+                line.document_id,
+                return_id,
+                "Fiscal line should reference return document",
+            )
+
+        # Validate fiscal lines have correct fiscal operation
+        for line in return_id.fiscal_line_ids:
+            self.assertEqual(
+                line.fiscal_operation_id,
+                return_id.fiscal_operation_id,
+                "Fiscal line should have return fiscal operation",
+            )
 
     def test_nfe_comments(self):
         self.nfe_not_taxpayer._document_comment()

@@ -660,7 +660,8 @@ class Document(models.Model):
                     or fiscal_line.product_id.id
                     not in new_doc.fiscal_line_ids.mapped("product_id").ids
                 ):
-                    fiscal_line.copy({"document_id": new_doc.id})
+                    fiscal_line.copy()
+                    fiscal_line.document_id = new_doc.id
 
             # Update all existing fiscal lines
             new_doc._update_fiscal_lines(fsc_op.id)
