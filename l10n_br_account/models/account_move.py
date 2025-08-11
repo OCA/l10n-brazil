@@ -466,10 +466,15 @@ class AccountMove(models.Model):
         self.clear_caches()
         return result
 
-    @api.onchange("fiscal_operation_id")
-    def _onchange_fiscal_operation_id(self):
-        if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
-            self.journal_id = self.fiscal_operation_id.journal_id
+    @api.depends("move_type", "fiscal_operation_id")
+    def _compute_journal_id(self):
+        fisc_operation_driven = self.filtered(
+            lambda move: move.fiscal_operation_id
+            and move.fiscal_operation_id.journal_id
+        )
+        for move in fisc_operation_driven:
+            move.journal_id = self.fiscal_operation_id.journal_id
+        return super(AccountMove, self - fisc_operation_driven)._compute_journal_id()
 
     def open_fiscal_document(self):
         """
@@ -593,7 +598,6 @@ class AccountMove(models.Model):
                 force_fiscal_operation_id
                 or record.fiscal_operation_id.return_fiscal_operation_id
             )
-            record._onchange_fiscal_operation_id()
 
             for line in record.invoice_line_ids:
                 if (
