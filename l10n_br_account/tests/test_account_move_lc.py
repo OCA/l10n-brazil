@@ -2084,6 +2084,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             }
         )
         fiscal_doc_line_to_import._onchange_product_id_fiscal()
+        fiscal_doc_line_to_import._compute_tax_fields()
 
         # let's import it:
         self.move_in_compra_para_revenda.fiscal_document_id = fiscal_doc_to_import
