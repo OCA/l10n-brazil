@@ -36,6 +36,7 @@ class DocumentLine(models.Model):
         comodel_name="res.company",
         related="document_id.company_id",
         store=True,
+        precompute=True,
         string="Company",
     )
 
@@ -46,6 +47,7 @@ class DocumentLine(models.Model):
     partner_id = fields.Many2one(
         related="document_id.partner_id",
         store=True,
+        precompute=True,
     )
 
     quantity = fields.Float(default=1.0)

@@ -210,7 +210,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _compute_taxes(self, taxes, cst=None):
         self.ensure_one()
         return taxes.compute_taxes(
-            company=self.company_id,
+            company=self._get_fiscal_company(),
             partner=self._get_fiscal_partner(),
             product=self.product_id,
             price_unit=self.price_unit,
@@ -234,7 +234,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icmssn_range=self.icmssn_range_id,
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
-            ind_final=self.ind_final,
+            ind_final=self._get_ind_final(),
             icms_relief_id=self.icms_relief_id,
         )
 
@@ -321,7 +321,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _update_fiscal_taxes(self):
         for line in self:
-            compute_result = self._compute_taxes(line.fiscal_tax_ids)
+            compute_result = line._compute_taxes(line.fiscal_tax_ids)
             to_update = {
                 "amount_tax_included": compute_result.get("amount_included", 0.0),
                 "amount_tax_not_included": compute_result.get(
@@ -332,7 +332,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             }
             to_update.update(line._prepare_tax_fields(compute_result))
 
-            in_draft_mode = self != self._origin
+            in_draft_mode = line != line._origin
             if in_draft_mode:
                 line.update(to_update)
             else:
@@ -389,6 +389,24 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
+    def _get_fiscal_company(self):
+        """
+        Meant to be overriden in account.move.line.
+        Indeed when using this mixin in a NewID fiscal document line behind an aml,
+        self.company_id is None but it can be retrived from the aml.
+        """
+        self.ensure_one()
+        return self.company_id
+
+    def _get_ind_final(self):
+        """
+        Meant to be overriden in account.move.line.
+        Indeed when using this mixin in a NewID fiscal document line behind an aml,
+        self.ind_final is None but it can be retrived from the aml.
+        """
+        self.ensure_one()
+        return self.ind_final
+
     @api.onchange(
         "fiscal_operation_id", "ncm_id", "nbs_id", "cest_id", "service_type_id"
     )
@@ -401,43 +419,62 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 partner=self._get_fiscal_partner(),
                 product=self.product_id,
             )
-            self._onchange_fiscal_operation_line_id()
+            self._compute_fiscal_tax_ids()  # sadly seems required for composite move
 
-    @api.onchange("fiscal_operation_line_id")
-    def _onchange_fiscal_operation_line_id(self):
-        # Reset Taxes
-        self._remove_all_fiscal_tax_ids()
-        if self.fiscal_operation_line_id:
-            mapping_result = self.fiscal_operation_line_id.map_fiscal_taxes(
-                company=self.company_id,
-                partner=self._get_fiscal_partner(),
-                product=self.product_id,
-                ncm=self.ncm_id,
-                nbm=self.nbm_id,
-                nbs=self.nbs_id,
-                cest=self.cest_id,
-                city_taxation_code=self.city_taxation_code_id,
-                service_type=self.service_type_id,
-                ind_final=self.ind_final,
-            )
+    def _get_fiscal_tax_ids_dependencies(self):
+        """
+        Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
+        """
+        return [
+            "company_id",
+            "partner_id",
+            "fiscal_operation_line_id",
+            "product_id",
+            "ncm_id",
+            "nbs_id",
+            "nbm_id",
+            "cest_id",
+            "city_taxation_code_id",
+            "service_type_id",
+            "ind_final",
+        ]
 
-            self.cfop_id = mapping_result["cfop"]
-            if self._is_imported():
-                return
-            self._process_fiscal_mapping(mapping_result)
-
-        if not self.fiscal_operation_line_id:
-            self.cfop_id = False
-
-    def _process_fiscal_mapping(self, mapping_result):
-        self.ipi_guideline_id = mapping_result["ipi_guideline"]
-        self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
-        taxes = self.env["l10n_br_fiscal.tax"]
-        for tax in mapping_result["taxes"].values():
-            taxes |= tax
-        self.fiscal_tax_ids = taxes
-        self._update_fiscal_taxes()
-        self.comment_ids = self.fiscal_operation_line_id.comment_ids
+    @api.depends(lambda self: self._get_fiscal_tax_ids_dependencies())
+    def _compute_fiscal_tax_ids(self):
+        """
+        Among the dependencies, company_id, partner_id and ind_final are related
+        to the fiscal document/line container. When called from account.move.line
+        via _inherits on newID records, we read these values from the related aml
+        to work around and _inherits/precompute limitation.
+        """
+        for line in self:
+            line._remove_all_fiscal_tax_ids()
+            if line.fiscal_operation_line_id:
+                mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
+                    company=line._get_fiscal_company(),
+                    partner=line._get_fiscal_partner(),
+                    product=line.product_id,
+                    ncm=line.ncm_id,
+                    nbm=line.nbm_id,
+                    nbs=line.nbs_id,
+                    cest=line.cest_id,
+                    city_taxation_code=line.city_taxation_code_id,
+                    service_type=line.service_type_id,
+                    ind_final=line._get_ind_final(),
+                )
+                line.cfop_id = mapping_result["cfop"]
+                if line._is_imported():
+                    return
+                line.ipi_guideline_id = mapping_result["ipi_guideline"]
+                line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
+                taxes = line.env["l10n_br_fiscal.tax"]
+                for tax in mapping_result["taxes"].values():
+                    taxes |= tax
+                line.fiscal_tax_ids = taxes
+                line._update_fiscal_taxes()
+                line.comment_ids = line.fiscal_operation_line_id.comment_ids
+            else:
+                line.cfop_id = False
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
