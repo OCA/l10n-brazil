@@ -80,19 +80,16 @@ class PurchaseOrderLine(models.Model):
     )
 
     def _get_fiscal_tax_ids_dependencies(self):
-        return [
-            # "company_id",  # not precompute in purchase
-            # "partner_id",  # not precompute in purchase
-            "fiscal_operation_line_id",
-            "product_id",
-            "ncm_id",
-            "nbs_id",
-            "nbm_id",
-            "cest_id",
-            "city_taxation_code_id",
-            "service_type_id",
-            "ind_final",
-        ]
+        fields = super()._get_fiscal_tax_ids_dependencies()
+        fields.remove("company_id")
+        fields.remove("partner_id")
+        return fields
+
+    def _get_tax_fields_dependencies(self):
+        fields = super()._get_tax_fields_dependencies()
+        fields.remove("price_unit")
+        fields.remove("fiscal_price")
+        return fields
 
     @api.depends(
         "product_uom_qty",
