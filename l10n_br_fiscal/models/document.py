@@ -606,6 +606,29 @@ class Document(models.Model):
         if self.company_id:
             self.currency_id = self.company_id.currency_id
 
+    def _create_related_documents(self, return_document_id):
+        """Create relationship between original and return document"""
+        env_document_related = self.env["l10n_br_fiscal.document.related"]
+        for record in self:
+            env_document_related.create(
+                {
+                    "document_id": return_document_id,
+                    "document_related_id": record.id,
+                    "document_type_id": record.document_type_id.id,
+                    "document_serie": record.document_serie,
+                    "document_number": record.document_number,
+                    "document_date": record.document_date,
+                    "document_key": record.document_key,
+                }
+            )
+
+    def _update_fiscal_lines(self, fsc_op_id):
+        for record in self:
+            for line in record.fiscal_line_ids:
+                line.fiscal_operation_id = fsc_op_id
+                line._onchange_fiscal_operation_id()
+                line._onchange_fiscal_operation_line_id()
+
     def _create_return(self):
         return_docs = self.env[self._name]
         for record in self:
@@ -615,25 +638,32 @@ class Document(models.Model):
                     _(
                         "The fiscal operation {} has no return Fiscal "
                         "Operation defined"
-                    ).format(record.fiscal_operation_id)
+                    ).format(record.fiscal_operation_id.name)
                 )
 
             new_doc = record.copy()
             new_doc.fiscal_operation_id = fsc_op
             new_doc._onchange_fiscal_operation_id()
 
-            for line in new_doc.fiscal_line_ids:
-                fsc_op_line = line.fiscal_operation_id.return_fiscal_operation_id
-                if not fsc_op_line:
-                    raise ValidationError(
-                        _(
-                            "The fiscal operation {} has no return Fiscal "
-                            "Operation defined"
-                        ).format(line.fiscal_operation_id)
-                    )
-                line.fiscal_operation_id = fsc_op_line
-                line._onchange_fiscal_operation_id()
-                line._onchange_fiscal_operation_line_id()
+            # Create document relationships
+            if (
+                not new_doc.document_related_ids
+                or record.id
+                not in new_doc.document_related_ids.mapped("document_related_id").ids
+            ):
+                record._create_related_documents(new_doc.id)
+
+            # Create fiscal lines for return document if they don't exist
+            for fiscal_line in record.fiscal_line_ids:
+                if (
+                    not new_doc.fiscal_line_ids
+                    or fiscal_line.product_id.id
+                    not in new_doc.fiscal_line_ids.mapped("product_id").ids
+                ):
+                    fiscal_line.copy({"document_id": new_doc.id})
+
+            # Update all existing fiscal lines
+            new_doc._update_fiscal_lines(fsc_op.id)
 
             return_docs |= new_doc
         return return_docs
