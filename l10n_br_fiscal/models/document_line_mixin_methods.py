@@ -389,6 +389,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
+    def _get_fiscal_company(self):
+        """
+        Meant to be overriden in account.move.line.
+        Indeed when using this mixin in a NewID fiscal document line behind an aml,
+        self.company_id is None but it can be retrived from the aml.
+        """
+        self.ensure_one()
+        return self.company_id
+
     @api.onchange(
         "fiscal_operation_id", "ncm_id", "nbs_id", "cest_id", "service_type_id"
     )
