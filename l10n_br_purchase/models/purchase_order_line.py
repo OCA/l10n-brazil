@@ -79,11 +79,22 @@ class PurchaseOrderLine(models.Model):
         related="company_id.delivery_costs",
     )
 
+    def _get_fiscal_operation_line_id_dependencies(self):
+        """
+        Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
+        """
+        return [
+            "fiscal_operation_id",
+            "product_id",
+            # "partner_id",  # not precompute in purchase
+            # "company_id",  # not precompute in purchase
+        ]
+
     def _get_fiscal_tax_ids_dependencies(self):
         return [
             # "company_id",  # not precompute in purchase
             # "partner_id",  # not precompute in purchase
-            "fiscal_operation_line_id",
+            # "fiscal_operation_line_id",  # not precompute yet
             "product_id",
             "ncm_id",
             "nbs_id",
