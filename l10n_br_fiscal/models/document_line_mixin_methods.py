@@ -342,7 +342,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _update_fiscal_taxes(self):
         pass  # replaced by _compute_tax_fields, kept for backward compat; TODO remove
-        # self._compute_tax_fields()  # TODO remove
+        self._compute_tax_fields()  # TODO remove
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
