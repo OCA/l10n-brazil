@@ -81,6 +81,32 @@ class FiscalDocumentLine(models.Model):
             else:
                 line.uom_id = line.product_id.uom_id
 
+    def _get_fiscal_partner(self):
+        """
+        Get the partner from the aml to avoid an _inherits/ORM limitation.
+        partner_id can be None on a NewID fiscal document line behind an aml.
+        In this case we can retrieve it using the related amls.
+        """
+        self.ensure_one()
+        if self.partner_id:
+            return self.partner_id
+        elif self.account_line_ids:
+            return self.account_line_ids[0].partner_id
+        return self.partner_id
+
+    def _get_fiscal_company(self):
+        """
+        Get the company from the aml to avoid an _inherits/ORM limitation.
+        company_id can be None on a NewID fiscal document line behind an aml.
+        In this case we can retrieve it using the related amls.
+        """
+        self.ensure_one()
+        if self.company_id:
+            return self.company_id
+        elif self.account_line_ids:
+            return self.account_line_ids[0].company_id
+        return self.company_id
+
     @api.model_create_multi
     def create(self, vals_list):
         """
