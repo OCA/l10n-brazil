@@ -274,7 +274,7 @@ class AccountMove(models.Model):
                     move.is_invoice(include_receipts=True)
                     and line.display_type == "product"
                 ):
-                    line._update_fiscal_taxes()
+                    line._compute_tax_fields()
 
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.fiscal_operation_id):
