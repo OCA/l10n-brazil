@@ -38,7 +38,6 @@ class StockRuleTest(TransactionCase):
         )
         self.assertTrue(po_line.fiscal_operation_id, "Missing Fiscal Operation.")
         po_line._onchange_fiscal_operation_id()
-        po_line._onchange_fiscal_operation_line_id()
         self.assertTrue(
             po_line.fiscal_operation_line_id,
             "Missing Fiscal Operation Line in Purchase Order.",
