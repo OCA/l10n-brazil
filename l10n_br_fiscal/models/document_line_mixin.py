@@ -197,6 +197,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP",
         domain="[('type_in_out', '=', fiscal_operation_type)]",
+        compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cfop_destination = fields.Selection(
@@ -402,6 +406,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             ("is_benefit", "=", True),
             ("tax_domain", "=", TAX_DOMAIN_ICMS),
         ],
+        compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     icms_tax_benefit_code = fields.Char(
@@ -618,6 +626,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.tax.ipi.guideline",
         string="IPI Guideline",
         domain="['|', ('cst_in_id', '=', ipi_cst_id),('cst_out_id', '=', ipi_cst_id)]",
+        compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     # IPI Devolvido Fields
@@ -924,6 +936,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.comment",
         string="Comments",
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
+        compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     additional_data = fields.Text()
