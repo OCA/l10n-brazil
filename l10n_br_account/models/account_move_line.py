@@ -9,6 +9,28 @@ from odoo.tools import frozendict
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_TAX_ID_FIELDS
 
+FISCAL_TAX_PREFIXES = [
+    "icms",
+    "icmsst",
+    "issqn",
+    "issqn_wh",
+    "icmsst_wh",
+    "ipi",
+    "ii",
+    "cofins",
+    "cofinsst",
+    "cofins_wh",
+    "pis",
+    "pisst",
+    "pis_wh",
+    "csll",
+    "csll_wh",
+    "irpj",
+    "irpj_wh",
+    "inss",
+    "inss_wh",
+]
+
 
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
@@ -300,6 +322,22 @@ class AccountMoveLine(models.Model):
         self.env.add_to_compute(self._fields["debit"], container["records"])
         self.env.add_to_compute(self._fields["credit"], container["records"])
 
+    def _get_manual_tax_values_from_context(self):
+        tax_values = {}
+        suffixes = ["_base_manual", "_value_manual"]
+
+        for tax_prefix in FISCAL_TAX_PREFIXES:
+            for suffix in suffixes:
+                attr_name = tax_prefix + suffix
+                # tenta pegar do contexto
+                value = self.env.context.get(attr_name)
+                # se não veio do contexto, tenta pegar do próprio objeto
+                if value is None:
+                    value = getattr(self, attr_name, None)
+                tax_values[attr_name] = value
+
+        return tax_values
+
     @api.depends(
         "quantity",
         "discount",
@@ -326,6 +364,44 @@ class AccountMoveLine(models.Model):
         "icms_origin",
         "ind_final",
         "icms_relief_value",
+        "icms_base_manual",
+        "icms_value_manual",
+        "icmsst_base_manual",
+        "icmsst_value_manual",
+        "issqn_base_manual",
+        "issqn_value_manual",
+        "issqn_wh_base_manual",
+        "issqn_wh_value_manual",
+        "icmsst_wh_base_manual",
+        "icmsst_wh_value_manual",
+        "ipi_base_manual",
+        "ipi_value_manual",
+        "ii_base_manual",
+        "ii_value_manual",
+        "cofins_base_manual",
+        "cofins_value_manual",
+        "cofinsst_base_manual",
+        "cofinsst_value_manual",
+        "cofins_wh_base_manual",
+        "cofins_wh_value_manual",
+        "pis_base_manual",
+        "pis_value_manual",
+        "pisst_base_manual",
+        "pisst_value_manual",
+        "pis_wh_base_manual",
+        "pis_wh_value_manual",
+        "csll_base_manual",
+        "csll_value_manual",
+        "csll_wh_base_manual",
+        "csll_wh_value_manual",
+        "irpj_base_manual",
+        "irpj_value_manual",
+        "irpj_wh_base_manual",
+        "irpj_wh_value_manual",
+        "inss_base_manual",
+        "inss_value_manual",
+        "inss_wh_base_manual",
+        "inss_wh_value_manual",
     )
     def _compute_totals(self):
         """
@@ -344,6 +420,7 @@ class AccountMoveLine(models.Model):
 
             # Compute 'price_total'.
             if line.tax_ids:
+                manual_tax_values = line._get_manual_tax_values_from_context()
                 taxes_res = line.tax_ids._origin.with_context().compute_all(
                     line_discount_price_unit,
                     currency=line.currency_id,
@@ -370,6 +447,7 @@ class AccountMoveLine(models.Model):
                     icmssn_range=line.icmssn_range_id,
                     icms_origin=line.icms_origin,
                     ind_final=line.ind_final,
+                    **manual_tax_values,
                 )
 
                 line.price_subtotal = taxes_res["total_excluded"]
@@ -424,6 +502,7 @@ class AccountMoveLine(models.Model):
 
         for line in self:
             sign = line.move_id.direction_sign
+            manual_tax_values = line._prepare_br_manual_tax_dict()
             if line.display_type == "tax":
                 line.compute_all_tax = {}
                 line.compute_all_tax_dirty = False
@@ -464,6 +543,7 @@ class AccountMoveLine(models.Model):
                 icmssn_range=line.icmssn_range_id,
                 icms_origin=line.icms_origin,
                 ind_final=line.ind_final,
+                **manual_tax_values,
             )
             rate = (
                 line.amount_currency / line.balance
@@ -521,7 +601,47 @@ class AccountMoveLine(models.Model):
         if self.fiscal_document_line_id:
             self.fiscal_document_line_id._onchange_icms_fields()
 
-    @api.onchange(*FISCAL_TAX_ID_FIELDS)
+    @api.onchange(
+        *FISCAL_TAX_ID_FIELDS,
+        "icms_base_manual",
+        "icms_value_manual",
+        "icmsst_base_manual",
+        "icmsst_value_manual",
+        "issqn_base_manual",
+        "issqn_value_manual",
+        "issqn_wh_base_manual",
+        "issqn_wh_value_manual",
+        "icmsst_wh_base_manual",
+        "icmsst_wh_value_manual",
+        "ipi_base_manual",
+        "ipi_value_manual",
+        "ii_base_manual",
+        "ii_value_manual",
+        "cofins_base_manual",
+        "cofins_value_manual",
+        "cofinsst_base_manual",
+        "cofinsst_value_manual",
+        "cofins_wh_base_manual",
+        "cofins_wh_value_manual",
+        "pis_base_manual",
+        "pis_value_manual",
+        "pisst_base_manual",
+        "pisst_value_manual",
+        "pis_wh_base_manual",
+        "pis_wh_value_manual",
+        "csll_base_manual",
+        "csll_value_manual",
+        "csll_wh_base_manual",
+        "csll_wh_value_manual",
+        "irpj_base_manual",
+        "irpj_value_manual",
+        "irpj_wh_base_manual",
+        "irpj_wh_value_manual",
+        "inss_base_manual",
+        "inss_value_manual",
+        "inss_wh_base_manual",
+        "inss_wh_value_manual",
+    )
     def _onchange_fiscal_taxes(self):
         taxes = self.env["l10n_br_fiscal.tax"]
         for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
@@ -578,3 +698,14 @@ class AccountMoveLine(models.Model):
     @api.model
     def _get_total_for_tax_totals(self):
         return self.move_id.amount_total
+
+    def _prepare_br_manual_tax_dict(self):
+        manual_tax_dict = {}
+        suffixes = ["_base_manual", "_value_manual"]
+
+        for tax_prefix in FISCAL_TAX_PREFIXES:
+            for suffix in suffixes:
+                attr_name = tax_prefix + suffix
+                manual_tax_dict[attr_name] = getattr(self, attr_name)
+
+        return manual_tax_dict
