@@ -111,11 +111,6 @@ class TestGeneratePaymentInfo(TransactionCase):
             "l10n_br_account_nfe.demo_nfe_dados_de_cobranca"
         )
         cls.env.user.company_id = cls.invoice_demo_data.company_id
-        for line in cls.invoice_demo_data.invoice_line_ids:
-            line.with_context(
-                check_move_validity=False
-            )._onchange_fiscal_operation_line_id()
-            line.with_context(check_move_validity=False)._onchange_fiscal_tax_ids()
 
     def test_nfe_generate_tag_pag(self):
         """Test NFe generate TAG PAG."""
