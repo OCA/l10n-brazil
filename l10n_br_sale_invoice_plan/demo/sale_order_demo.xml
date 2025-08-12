@@ -37,10 +37,6 @@
         <value eval="[ref('lc_sl_invoice_plan_service_br_1_1')]" />
     </function>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('lc_sl_invoice_plan_service_br_1_1')]" />
-    </function>
-
     <function
         model="sale.order.line"
         name="_onchange_fiscal_tax_ids"
