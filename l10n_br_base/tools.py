@@ -40,7 +40,7 @@ def check_ie(env, l10n_br_ie_code, state, country):
 
         # Se IE for de MG, força 13 dígitos para validação:
         if state.code.lower() == "mg":
-            l10n_br_ie_code = l10n_br_ie_code.ljust(13, "0")
+            l10n_br_ie_code = l10n_br_ie_code.rjust(13, "0")
 
         if not ie.validar(state.code.lower(), l10n_br_ie_code):
             raise ValidationError(
