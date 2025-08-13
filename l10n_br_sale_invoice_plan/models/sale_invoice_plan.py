@@ -13,5 +13,4 @@ class SaleInvoicePlan(models.Model):
         if invoice_move:
             for line in invoice_move.invoice_line_ids:
                 line.write({"fiscal_quantity": line.quantity})
-                line._onchange_fiscal_tax_ids()
         return result
