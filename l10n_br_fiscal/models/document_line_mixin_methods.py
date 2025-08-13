@@ -9,7 +9,7 @@ from odoo import api, models
 
 from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN
 from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
-from .tax import TAX_DICT_VALUES
+from .tax import TAX_KEYS
 
 FISCAL_TAX_ID_FIELDS = [
     "cofins_tax_id",
@@ -274,7 +274,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 self._prepare_fields_inss_wh,
             ]
             for method in tax_methods:
-                prepared_fields = method(TAX_DICT_VALUES)
+                prepared_fields = method({key: False for key in TAX_KEYS})
                 if prepared_fields:
                     to_update.update(prepared_fields)
             # Update all fields at once
@@ -293,11 +293,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
         """
         return [
-            "company_id",
-            "partner_id",
-            "ind_final",
-            "fiscal_tax_ids",
-            "product_id",
+            # "company_id",
+            # "partner_id",
+            # "ind_final",
+            # "fiscal_tax_ids",
+            # "product_id",
             "price_unit",
             "quantity",
             "uom_id",
@@ -310,16 +310,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "ii_iof_value",
             "other_value",
             "freight_value",
-            "ncm_id",
-            "nbs_id",
-            "nbm_id",
-            "cest_id",
-            "fiscal_operation_line_id",
+            # "ncm_id",
+            # "nbs_id",
+            # "nbm_id",
+            # "cest_id",
+            # "fiscal_operation_line_id",
             "cfop_id",
             "icmssn_range_id",
             "icms_origin",
             "icms_cst_id",
             "icms_relief_id",
+            # "fiscal_tax_ids"  TODO: is it OK for performance?
         ]
 
     @api.depends(lambda self: self._get_tax_fields_dependencies())
@@ -358,14 +359,49 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 ind_final=line._get_ind_final(),
                 icms_relief_id=line.icms_relief_id,
             )
-            to_update = {
-                "amount_tax_included": compute_result.get("amount_included", 0.0),
-                "amount_tax_not_included": compute_result.get(
-                    "amount_not_included", 0.0
-                ),
-                "amount_tax_withholding": compute_result.get("amount_withholding", 0.0),
-                "estimate_tax": compute_result.get("estimate_tax", 0.0),
-            }
+            to_update = {}
+            for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
+                to_update[fiscal_tax_field] = False
+            tax_methods = [
+                line._prepare_fields_issqn,
+                line._prepare_fields_csll,
+                line._prepare_fields_irpj,
+                line._prepare_fields_inss,
+                line._prepare_fields_icms,
+                line._prepare_fields_icmsfcp,
+                line._prepare_fields_icmsfcpst,
+                line._prepare_fields_icmsst,
+                line._prepare_fields_icmssn,
+                line._prepare_fields_ipi,
+                line._prepare_fields_ii,
+                line._prepare_fields_pis,
+                line._prepare_fields_pisst,
+                line._prepare_fields_cofins,
+                line._prepare_fields_cofinsst,
+                line._prepare_fields_issqn_wh,
+                line._prepare_fields_pis_wh,
+                line._prepare_fields_cofins_wh,
+                line._prepare_fields_csll_wh,
+                line._prepare_fields_irpj_wh,
+                line._prepare_fields_inss_wh,
+            ]
+            for method in tax_methods:
+                prepared_fields = method({key: False for key in TAX_KEYS})
+                if prepared_fields:
+                    to_update.update(prepared_fields)
+
+            to_update.update(
+                {
+                    "amount_tax_included": compute_result.get("amount_included", 0.0),
+                    "amount_tax_not_included": compute_result.get(
+                        "amount_not_included", 0.0
+                    ),
+                    "amount_tax_withholding": compute_result.get(
+                        "amount_withholding", 0.0
+                    ),
+                    "estimate_tax": compute_result.get("estimate_tax", 0.0),
+                }
+            )
             to_update.update(line._prepare_tax_fields(compute_result))
             # line.update(to_update)
             in_draft_mode = line != line._origin
@@ -375,8 +411,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 line.write(to_update)
 
     def _update_fiscal_taxes(self):
-        pass  # replaced by _compute_tax_fields, kept for backward compat; TODO remove
-        # self._compute_tax_fields()  # TODO remove
+        self._compute_tax_fields()  # TODO remove ?
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
@@ -459,7 +494,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 partner=self._get_fiscal_partner(),
                 product=self.product_id,
             )
-            self._compute_fiscal_tax_ids()  # sadly seems required for composite move
+            # self._compute_fiscal_tax_ids()  # sadly seems required for composite move
 
     def _get_fiscal_tax_ids_dependencies(self):
         """
@@ -488,7 +523,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         to work around and _inherits/precompute limitation.
         """
         for line in self:
-            line._remove_all_fiscal_tax_ids()
+            # line._remove_all_fiscal_tax_ids()
             if line.fiscal_operation_line_id:
                 mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
                     company=line._get_fiscal_company(),
@@ -514,6 +549,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 line._compute_tax_fields()
                 line.comment_ids = line.fiscal_operation_line_id.comment_ids
             else:
+                # TODO
+                # if line._origin.fiscal_operation_line_id
+                #                              != line.fiscal_operation_line_id:
+                #    line._remove_all_fiscal_tax_ids()
                 line.cfop_id = False
 
     @api.onchange("product_id")
@@ -800,37 +839,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "cofinsst_value": tax_dict.get("tax_value", 0.00),
         }
 
-    @api.onchange(
-        "csll_tax_id",
-        "csll_wh_tax_id",
-        "irpj_tax_id",
-        "irpj_wh_tax_id",
-        "inss_tax_id",
-        "inss_wh_tax_id",
-        "issqn_tax_id",
-        "issqn_wh_tax_id",
-        "icms_tax_id",
-        "icmssn_tax_id",
-        "icmsst_tax_id",
-        "icmsfcp_tax_id",
-        "icmsfcpst_tax_id",
-        "icms_relief_id",
-        "icms_relief_value",
-        "ipi_tax_id",
-        "ii_tax_id",
-        "pis_tax_id",
-        "pis_wh_tax_id",
-        "pisst_tax_id",
-        "cofins_tax_id",
-        "cofins_wh_tax_id",
-        "cofinsst_tax_id",
-        "fiscal_price",
-        "fiscal_quantity",
-        "discount_value",
-        "insurance_value",
-        "other_value",
-        "freight_value",
-    )
+    @api.onchange(*FISCAL_TAX_ID_FIELDS)
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
         self._compute_tax_fields()
@@ -876,15 +885,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     )
                 else:
                     line.fiscal_quantity = line.quantity
-
-    @api.onchange("ii_customhouse_charges")
-    def _onchange_ii_customhouse_charges(self):
-        if self.ii_customhouse_charges:
-            self._compute_tax_fields()
-
-    @api.onchange("fiscal_tax_ids")
-    def _onchange_fiscal_tax_ids(self):
-        self._compute_tax_fields()
 
     @api.onchange("city_taxation_code_id")
     def _onchange_city_taxation_code_id(self):

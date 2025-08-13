@@ -32,30 +32,30 @@ from ..constants.icms import (
     ICSM_CST_CSOSN_ST_BASE,
 )
 
-TAX_DICT_VALUES = {
-    "name": False,
-    "fiscal_tax_id": False,
-    "tax_include": False,
-    "tax_withholding": False,
-    "tax_domain": False,
-    "cst_id": False,
-    "cst_code": False,
-    "base_type": "percent",
-    "base": 0.00,
-    "base_reduction": 0.00,
-    "percent_amount": 0.00,
-    "percent_reduction": 0.00,
-    "value_amount": 0.00,
-    "uot_id": False,
-    "tax_value": 0.00,
-    "add_to_base": 0.00,
-    "remove_from_base": 0.00,
-    "compute_reduction": True,
-    "compute_with_tax_value": False,
-    "icms_dest_base": 0.00,
-    "icms_origin_value": 0.00,
-    "icms_dest_value": 0.00,
-}
+TAX_KEYS = [
+    "name",
+    "fiscal_tax_id",
+    "tax_include",
+    "tax_withholding",
+    "tax_domain",
+    "cst_id",
+    "cst_code",
+    "base_type",
+    "base",
+    "base_reduction",
+    "percent_amount",
+    "percent_reduction",
+    "value_amount",
+    "uot_id",
+    "tax_value",
+    "add_to_base",
+    "remove_from_base",
+    "compute_reduction",
+    "compute_with_tax_value",
+    "icms_dest_base",
+    "icms_origin_value",
+    "icms_dest_value",
+]
 
 ICMS_ST_BASE_TYPE_REL = {
     "0": TAX_BASE_TYPE_VALUE,
@@ -90,7 +90,7 @@ class Tax(models.Model):
         recordset of `l10n_br_fiscal.tax` objects (representing all taxes
         potentially applicable to a transaction line), it iterates through
         them in a defined sequence. For each tax, it:
-        a.  Initializes a standard dictionary (`TAX_DICT_VALUES`) to hold
+        a.  Initializes a standard dictionary (using `TAX_KEYS`) to hold
             results.
         b.  Invokes a specialized internal method (e.g., `_compute_icms`,
             `_compute_ipi`, or the generic `_compute_tax`) to perform
@@ -185,6 +185,7 @@ class Tax(models.Model):
         string="Tax Domain",
         readonly=True,
         store=True,
+        index=True,
     )
 
     cst_in_id = fields.Many2one(
@@ -363,8 +364,8 @@ class Tax(models.Model):
     def _compute_estimate_taxes(self, **kwargs):
         company = kwargs.get("company")
         product = kwargs.get("product")
-        fiscal_price = kwargs.get("fiscal_price")
-        fiscal_quantity = kwargs.get("fiscal_quantity")
+        fiscal_price = kwargs.get("fiscal_price", 0)
+        fiscal_quantity = kwargs.get("fiscal_quantity", 0)
         currency = kwargs.get("currency", company.currency_id)
         ncm = kwargs.get("ncm") or product.ncm_id
         nbs = kwargs.get("nbs") or product.nbs_id
@@ -778,7 +779,7 @@ class Tax(models.Model):
         sequence = self._compute_tax_sequence(taxes, **kwargs)
 
         for tax in self.sorted(key=lambda t: sequence.get(t.tax_domain)):
-            taxes[tax.tax_domain] = dict(TAX_DICT_VALUES)
+            taxes[tax.tax_domain] = {key: False for key in TAX_KEYS}
             # Define CST FROM TAX
             operation_line = kwargs.get("operation_line")
             fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
