@@ -292,12 +292,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         """
         Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
         """
+        # IMPORTANT NOTE: as _compute_fiscal_tax_ids triggers _compute_tax_fields,
+        # we don't put fields that trigger _compute_fiscal_tax_ids as dependencies here.
         return [
-            # "company_id",
-            # "partner_id",
-            # "ind_final",
-            # "fiscal_tax_ids",
-            # "product_id",
             "price_unit",
             "quantity",
             "uom_id",
@@ -310,17 +307,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "ii_iof_value",
             "other_value",
             "freight_value",
-            # "ncm_id",
-            # "nbs_id",
-            # "nbm_id",
-            # "cest_id",
-            # "fiscal_operation_line_id",
             "cfop_id",
             "icmssn_range_id",
             "icms_origin",
             "icms_cst_id",
             "icms_relief_id",
-            # "fiscal_tax_ids"  TODO: is it OK for performance?
+            "fiscal_tax_ids"
         ]
 
     @api.depends(lambda self: self._get_tax_fields_dependencies())
@@ -480,7 +472,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return self.ind_final
 
     @api.onchange(
-        "fiscal_operation_id", "ncm_id", "nbs_id", "cest_id", "service_type_id"
+        "fiscal_operation_id", "partner_id", "company_id"
     )
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
@@ -491,7 +483,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 partner=self._get_fiscal_partner(),
                 product=self.product_id,
             )
-            # self._compute_fiscal_tax_ids()  # sadly seems required for composite move
 
     def _get_fiscal_tax_ids_dependencies(self):
         """
@@ -514,6 +505,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.depends(lambda self: self._get_fiscal_tax_ids_dependencies())
     def _compute_fiscal_tax_ids(self):
         """
+        Use fiscal_operation_line_id to map and compute the applicable Brazilian taxes.
+
         Among the dependencies, company_id, partner_id and ind_final are related
         to the fiscal document/line container. When called from account.move.line
         via _inherits on newID records, we read these values from the related aml
