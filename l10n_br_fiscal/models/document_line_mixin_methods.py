@@ -477,6 +477,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             else:
                 line.fiscal_operation_line_id = False
 
+    def _onchange_fiscal_operation_id(self):
+        pass  # for backward compat, TODO remove later
+
     def _get_fiscal_tax_ids_dependencies(self):
         """
         Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
@@ -576,7 +579,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.uot_id = False
 
         self._compute_price_unit_fiscal()
-        self._onchange_fiscal_operation_id()
 
     def _prepare_fields_issqn(self, tax_dict):
         self.ensure_one()
