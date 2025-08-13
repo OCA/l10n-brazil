@@ -410,9 +410,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             else:
                 line.write(to_update)
 
-    def _update_fiscal_taxes(self):
-        self._compute_tax_fields()  # TODO remove ?
-
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
         tax_values = {}
