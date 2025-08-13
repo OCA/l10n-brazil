@@ -107,11 +107,7 @@ class PurchaseOrderLine(models.Model):
         result = super()._compute_amount()
         for line in self:
             if line.fiscal_operation_id:
-                # Update taxes fields
-                line._update_fiscal_taxes()
-                # Call mixin compute method
-                line._compute_fiscal_amounts()
-                # Update record
+                line._compute_tax_fields()  # TODO is it required?
                 line.update(
                     {
                         "price_subtotal": line.amount_untaxed,
@@ -137,15 +133,11 @@ class PurchaseOrderLine(models.Model):
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         if self.fiscal_operation_line_id:
-            res = super()._onchange_fiscal_tax_ids()
             self.taxes_id = self.fiscal_tax_ids.account_taxes(
                 user_type="purchase",
                 fiscal_operation=self.fiscal_operation_id,
                 company=self.company_id,
             )
-        else:
-            res = None
-        return res
 
     def _prepare_account_move_line(self, move=False):
         values = super()._prepare_account_move_line(move)
