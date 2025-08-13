@@ -37,14 +37,6 @@
         <value eval="[ref('lc_sl_invoice_plan_service_br_1_1')]" />
     </function>
 
-    <function
-        model="sale.order.line"
-        name="_onchange_fiscal_tax_ids"
-        context="{'default_company_id': ref('l10n_br_base.empresa_lucro_presumido')}"
-    >
-        <value eval="[ref('lc_sl_invoice_plan_service_br_1_1')]" />
-    </function>
-
     <function model="sale.order" name="create_invoice_plan">
         <value eval="[ref('lc_so_invoice_plan_service_br')]" />
         <value eval="3" />
