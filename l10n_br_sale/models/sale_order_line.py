@@ -183,11 +183,7 @@ class SaleOrderLine(models.Model):
         """Compute the amounts of the SO line."""
         result = super()._compute_amount()
         for line in self:
-            # Update taxes fields
-            line._update_fiscal_taxes()
-            # Call mixin compute method
-            line._compute_fiscal_amounts()
-            # Update record
+            line._compute_tax_fields()  # TODO is it required?
             line.update(
                 {
                     "price_tax": line.amount_tax,
@@ -262,15 +258,11 @@ class SaleOrderLine(models.Model):
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         if self.product_id and self.fiscal_operation_line_id:
-            res = super()._onchange_fiscal_tax_ids()
             self.tax_id = self.fiscal_tax_ids.account_taxes(
                 user_type="sale",
                 fiscal_operation=self.fiscal_operation_id,
                 company=self.company_id,
             )
-        else:
-            res = None
-        return res
 
     def _compute_price_unit_fiscal(self):
         for line in self:
