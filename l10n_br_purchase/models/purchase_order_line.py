@@ -107,11 +107,7 @@ class PurchaseOrderLine(models.Model):
         result = super()._compute_amount()
         for line in self:
             if line.fiscal_operation_id:
-                # Update taxes fields
-                line._update_fiscal_taxes()
-                # Call mixin compute method
-                line._compute_fiscal_amounts()
-                # Update record
+                line._compute_tax_fields()  # TODO is it required?
                 line.update(
                     {
                         "price_subtotal": line.amount_untaxed,
