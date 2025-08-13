@@ -314,7 +314,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             "icms_origin",
             "icms_cst_id",
             "icms_relief_id",
-            "fiscal_tax_ids"
+            "fiscal_tax_ids",
         ]
 
     @api.depends(lambda self: self._get_tax_fields_dependencies())
@@ -445,9 +445,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.ind_final
 
-    @api.onchange(
-        "fiscal_operation_id", "partner_id", "company_id"
-    )
+    @api.onchange("fiscal_operation_id", "partner_id", "company_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
             if not self.price_unit:
@@ -509,17 +507,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
-                line._compute_tax_fields()
                 line.comment_ids = line.fiscal_operation_line_id.comment_ids
             else:
                 line.cfop_id = False
-                if line.fiscal_tax_ids:  # efficiently clear fiscal fields:
-                    null_mask = line._build_null_mask_dict({"fiscal_tax_ids": False})
-                    in_draft_mode = line != line._origin
-                    if in_draft_mode:
-                        line.update(null_mask)
-                    else:
-                        line.write(null_mask)
+                line.fiscal_tax_ids = []
+                line.ipi_guideline_id = False
+                line.icms_tax_benefit_id = False
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
