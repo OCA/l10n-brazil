@@ -243,42 +243,44 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
         return taxes
 
-    def _remove_all_fiscal_tax_ids(self):
-        if self._is_imported():
-            return
-        for line in self:
-            to_update = {"fiscal_tax_ids": False}
-            for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
-                to_update[fiscal_tax_field] = False
-            tax_methods = [
-                self._prepare_fields_issqn,
-                self._prepare_fields_csll,
-                self._prepare_fields_irpj,
-                self._prepare_fields_inss,
-                self._prepare_fields_icms,
-                self._prepare_fields_icmsfcp,
-                self._prepare_fields_icmsfcpst,
-                self._prepare_fields_icmsst,
-                self._prepare_fields_icmssn,
-                self._prepare_fields_ipi,
-                self._prepare_fields_ii,
-                self._prepare_fields_pis,
-                self._prepare_fields_pisst,
-                self._prepare_fields_cofins,
-                self._prepare_fields_cofinsst,
-                self._prepare_fields_issqn_wh,
-                self._prepare_fields_pis_wh,
-                self._prepare_fields_cofins_wh,
-                self._prepare_fields_csll_wh,
-                self._prepare_fields_irpj_wh,
-                self._prepare_fields_inss_wh,
-            ]
-            for method in tax_methods:
-                prepared_fields = method({key: False for key in TAX_KEYS})
-                if prepared_fields:
-                    to_update.update(prepared_fields)
-            # Update all fields at once
-            line.update(to_update)
+    def _build_null_mask_dict(self, mask_dict):
+        """
+        Build a null values mask dict to reset all fiscal fields.
+        """
+        if len(self) > 0:
+            line = self[0]
+        else:
+            line = Self
+        for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
+            mask_dict[fiscal_tax_field] = False
+        tax_methods = [
+            line._prepare_fields_issqn,
+            line._prepare_fields_csll,
+            line._prepare_fields_irpj,
+            line._prepare_fields_inss,
+            line._prepare_fields_icms,
+            line._prepare_fields_icmsfcp,
+            line._prepare_fields_icmsfcpst,
+            line._prepare_fields_icmsst,
+            line._prepare_fields_icmssn,
+            line._prepare_fields_ipi,
+            line._prepare_fields_ii,
+            line._prepare_fields_pis,
+            line._prepare_fields_pisst,
+            line._prepare_fields_cofins,
+            line._prepare_fields_cofinsst,
+            line._prepare_fields_issqn_wh,
+            line._prepare_fields_pis_wh,
+            line._prepare_fields_cofins_wh,
+            line._prepare_fields_csll_wh,
+            line._prepare_fields_irpj_wh,
+            line._prepare_fields_inss_wh,
+        ]
+        for method in tax_methods:
+            prepared_fields = method({key: False for key in TAX_KEYS})
+            if prepared_fields:
+                mask_dict.update(prepared_fields)
+        return mask_dict
 
     def _update_fiscal_tax_ids(self, taxes):
         for line in self:
@@ -320,9 +322,13 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         """
         Compute base, percent, value... tax fields for ICMS, IPI, PIS, COFINS... taxes.
         """
+        null_mask = None
         for line in self:
             if line._is_imported() or not line.fiscal_tax_ids:
                 continue
+            if null_mask is None:
+                null_mask = line._build_null_mask_dict({})
+            to_update = null_mask.copy()
             compute_result = line.fiscal_tax_ids.compute_taxes(
                 company=line._get_fiscal_company(),
                 partner=line._get_fiscal_partner(),
@@ -351,37 +357,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 ind_final=line._get_ind_final(),
                 icms_relief_id=line.icms_relief_id,
             )
-            to_update = {}
-            for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
-                to_update[fiscal_tax_field] = False
-            tax_methods = [
-                line._prepare_fields_issqn,
-                line._prepare_fields_csll,
-                line._prepare_fields_irpj,
-                line._prepare_fields_inss,
-                line._prepare_fields_icms,
-                line._prepare_fields_icmsfcp,
-                line._prepare_fields_icmsfcpst,
-                line._prepare_fields_icmsst,
-                line._prepare_fields_icmssn,
-                line._prepare_fields_ipi,
-                line._prepare_fields_ii,
-                line._prepare_fields_pis,
-                line._prepare_fields_pisst,
-                line._prepare_fields_cofins,
-                line._prepare_fields_cofinsst,
-                line._prepare_fields_issqn_wh,
-                line._prepare_fields_pis_wh,
-                line._prepare_fields_cofins_wh,
-                line._prepare_fields_csll_wh,
-                line._prepare_fields_irpj_wh,
-                line._prepare_fields_inss_wh,
-            ]
-            for method in tax_methods:
-                prepared_fields = method({key: False for key in TAX_KEYS})
-                if prepared_fields:
-                    to_update.update(prepared_fields)
-
             to_update.update(
                 {
                     "amount_tax_included": compute_result.get("amount_included", 0.0),
@@ -395,7 +370,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 }
             )
             to_update.update(line._prepare_tax_fields(compute_result))
-            # line.update(to_update)
             in_draft_mode = line != line._origin
             if in_draft_mode:
                 line.update(to_update)
@@ -513,7 +487,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         to work around and _inherits/precompute limitation.
         """
         for line in self:
-            # line._remove_all_fiscal_tax_ids()
             if line.fiscal_operation_line_id:
                 mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
                     company=line._get_fiscal_company(),
@@ -539,11 +512,14 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 line._compute_tax_fields()
                 line.comment_ids = line.fiscal_operation_line_id.comment_ids
             else:
-                # TODO
-                # if line._origin.fiscal_operation_line_id
-                #                              != line.fiscal_operation_line_id:
-                #    line._remove_all_fiscal_tax_ids()
                 line.cfop_id = False
+                if line.fiscal_tax_ids:  # efficiently clear fiscal fields:
+                    null_mask = line._build_null_mask_dict({"fiscal_tax_ids": False})
+                    in_draft_mode = line != line._origin
+                    if in_draft_mode:
+                        line.update(null_mask)
+                    else:
+                        line.write(null_mask)
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
