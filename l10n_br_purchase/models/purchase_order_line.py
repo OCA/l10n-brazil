@@ -135,13 +135,9 @@ class PurchaseOrderLine(models.Model):
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         if self.fiscal_operation_line_id:
-            res = super()._onchange_fiscal_tax_ids()
             self.taxes_id = self.fiscal_tax_ids.account_taxes(
                 user_type="purchase", fiscal_operation=self.fiscal_operation_id
             )
-        else:
-            res = None
-        return res
 
     def _prepare_account_move_line(self, move=False):
         values = super()._prepare_account_move_line(move)
