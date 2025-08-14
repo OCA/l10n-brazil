@@ -224,6 +224,13 @@ class TestMoveEdition(TransactionCase):
                 line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5")
             )
 
+            # ensure manually setting a xx_tax_id is properly saved (not recomputed):
+            line_form.icms_tax_id = self.env.ref("l10n_br_fiscal.tax_icms_18")
+            self.assertEqual(line_form.icms_value, 79.38)
+            self.assertEqual(
+                line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5")
+            )
+
         move = move_form.save()
 
         self.assertEqual(move.state, "draft")
@@ -253,6 +260,13 @@ class TestMoveEdition(TransactionCase):
             aml.fiscal_operation_line_id,
             self.env.ref("l10n_br_fiscal.fo_venda_venda"),
         )
+
+        self.assertEqual(
+            aml.icms_tax_id.id,
+            self.ref("l10n_br_fiscal.tax_icms_18"),
+        )
+        self.assertEqual(aml.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5"))
+        self.assertEqual(aml.icms_value, 79.38)
 
         move.action_post()
         self.assertEqual(move.state, "posted")
