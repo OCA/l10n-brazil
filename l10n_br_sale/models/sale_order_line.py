@@ -264,7 +264,9 @@ class SaleOrderLine(models.Model):
         if self.product_id and self.fiscal_operation_line_id:
             res = super()._onchange_fiscal_tax_ids()
             self.tax_id = self.fiscal_tax_ids.account_taxes(
-                user_type="sale", fiscal_operation=self.fiscal_operation_id
+                user_type="sale",
+                fiscal_operation=self.fiscal_operation_id,
+                company=self.company_id,
             )
         else:
             res = None
@@ -316,7 +318,9 @@ class SaleOrderLine(models.Model):
 
         for line in lines_with_fiscal_operation:
             line.tax_id = line.fiscal_tax_ids.account_taxes(
-                user_type="sale", fiscal_operation=line.fiscal_operation_id
+                user_type="sale",
+                fiscal_operation=line.fiscal_operation_id,
+                company=line.company_id,
             )
 
         if lines_without_fiscal_operation:
