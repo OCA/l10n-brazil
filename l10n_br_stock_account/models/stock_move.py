@@ -111,6 +111,7 @@ class StockMove(models.Model):
                     ).account_taxes(
                         user_type=user_type[0],
                         fiscal_operation=record.fiscal_operation_id,
+                        company=record.company_id,
                     )
 
                     if tax_ids:
