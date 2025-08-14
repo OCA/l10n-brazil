@@ -172,6 +172,7 @@
                 <field name="document_type_id" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
                 <field name="tax_icms_or_issqn" invisible="1" />
+                <field name="account_id" optional="hide" />
 
                 <field
                     name="tax_ids"
