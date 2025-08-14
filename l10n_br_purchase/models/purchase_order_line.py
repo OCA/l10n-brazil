@@ -129,7 +129,9 @@ class PurchaseOrderLine(models.Model):
             if line.fiscal_operation_line_id:
                 res = super()._compute_tax_id()
                 line.taxes_id = line.fiscal_tax_ids.account_taxes(
-                    user_type="purchase", fiscal_operation=line.fiscal_operation_id
+                    user_type="purchase",
+                    fiscal_operation=line.fiscal_operation_id,
+                    company=line.company_id,
                 )
             else:
                 res = None
@@ -140,7 +142,9 @@ class PurchaseOrderLine(models.Model):
         if self.fiscal_operation_line_id:
             res = super()._onchange_fiscal_tax_ids()
             self.taxes_id = self.fiscal_tax_ids.account_taxes(
-                user_type="purchase", fiscal_operation=self.fiscal_operation_id
+                user_type="purchase",
+                fiscal_operation=self.fiscal_operation_id,
+                company=self.company_id,
             )
         else:
             res = None
