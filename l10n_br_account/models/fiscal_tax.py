@@ -7,10 +7,10 @@ from odoo import Command, api, fields, models
 class FiscalTax(models.Model):
     _inherit = "l10n_br_fiscal.tax"
 
-    def account_taxes(self, user_type="sale", fiscal_operation=False):
+    def account_taxes(self, user_type="sale", fiscal_operation=False, company=False):
         account_taxes = self.env["account.tax"]
         for fiscal_tax in self:
-            taxes = fiscal_tax._account_taxes()
+            taxes = fiscal_tax._account_taxes(company)
             # Atualiza os impostos contábeis relacionados aos impostos fiscais
             account_taxes |= taxes.filtered(
                 lambda t: t.type_tax_use == user_type and t.active and not t.deductible
@@ -25,17 +25,18 @@ class FiscalTax(models.Model):
 
         return account_taxes
 
-    def _account_taxes(self):
+    def _account_taxes(self, company=False):
         self.ensure_one()
         account_tax_group = self.tax_group_id.account_tax_group()
-        company = self.env.company
-        if self.env.context.get("default_company_id") or self.env.context.get(
-            "allowed_company_ids"
-        ):
-            company = self.env["res.company"].browse(
-                self.env.context.get("default_company_id")
-                or self.env.context.get("allowed_company_ids")[0]
-            )
+        if not company:
+            company = self.env.company
+            if self.env.context.get("default_company_id") or self.env.context.get(
+                "allowed_company_ids"
+            ):
+                company = self.env["res.company"].browse(
+                    self.env.context.get("default_company_id")
+                    or self.env.context.get("allowed_company_ids")[0]
+                )
         return self.env["account.tax"].search(
             [
                 ("tax_group_id", "=", account_tax_group.id),
