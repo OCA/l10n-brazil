@@ -8,14 +8,11 @@ from odoo import api, models
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    @api.onchange("fiscal_operation_line_id")
-    def _onchange_fiscal_operation_line_id(self):
-        """
-        Caso a Linha da Operação Fiscal Não Gera Financeiro
-        não deve existir Comissão
-        """
-        res = super()._onchange_fiscal_operation_line_id()
-        for record in self:
-            if record.cfop_id and not record.cfop_id.finance_move:
+    @api.depends("order_id.partner_id", "cfop_id")
+    def _compute_agent_ids(self):
+        res = super()._compute_agent_ids()
+        for record in self.filtered(lambda ln: ln.cfop_id):
+            if not record.cfop_id.finance_move:
                 record.agent_ids = False
+
         return res
