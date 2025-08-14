@@ -268,15 +268,10 @@ class Tax(models.Model):
             tax_dict["value_amount"] = tax.value_amount
 
         if tax_dict["base_type"] == "percent":
-            # Compute initial Tax Base for base_type Percent
             base = currency.round(fiscal_price * fiscal_quantity)
-
-        if tax_dict["base_type"] == "quantity":
-            # Compute initial Tax Base for base_type Quantity
+        elif tax_dict["base_type"] == "quantity":
             base = fiscal_quantity
-
-        if tax_dict["base_type"] == "fixed":
-            # Compute initial Tax Base
+        elif tax_dict["base_type"] == "fixed":
             base = currency.round(tax_dict["value_amount"] * fiscal_quantity)
 
         # Update Base Value
@@ -779,7 +774,15 @@ class Tax(models.Model):
         sequence = self._compute_tax_sequence(taxes, **kwargs)
 
         for tax in self.sorted(key=lambda t: sequence.get(t.tax_domain)):
-            taxes[tax.tax_domain] = {key: False for key in TAX_KEYS}
+            tax_mask = {key: False for key in TAX_KEYS}
+            tax_mask.update(
+                {
+                    "base_type": "percent",
+                    "compute_reduction": True,
+                }
+            )
+            taxes[tax.tax_domain] = tax_mask
+
             # Define CST FROM TAX
             operation_line = kwargs.get("operation_line")
             fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
