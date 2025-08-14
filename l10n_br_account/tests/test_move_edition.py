@@ -201,7 +201,28 @@ class TestMoveEdition(TransactionCase):
             )
 
             line_form.price_unit = 42
-            line_form.quantity = 42
+            line_form.quantity = 5
+            self.assertEqual(len(line_form.fiscal_tax_ids), 4)
+            self.assertEqual(
+                line_form.icms_tax_id, self.env.ref("l10n_br_fiscal.tax_icms_7")
+            )
+            self.assertEqual(
+                line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_nt")
+            )
+            self.assertTrue(abs(line_form.icms_value - 14.7) < 0.01)
+            line_form.quantity = 10
+            self.assertTrue(abs(line_form.icms_value - 29.40) < 0.01)
+
+            line_form.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            self.assertEqual(len(line_form.fiscal_tax_ids), 4)
+            self.assertEqual(
+                line_form.icms_tax_id, self.env.ref("l10n_br_fiscal.tax_icms_7")
+            )
+            self.assertEqual(
+                line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5")
+            )
 
         move = move_form.save()
 
@@ -224,13 +245,13 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(aml.product_id, fisc_line.product_id)
         self.assertEqual(aml.name, fisc_line.name)
         self.assertEqual(aml.price_unit, 42)
-        self.assertEqual(aml.quantity, 42)
+        self.assertEqual(aml.quantity, 10)
         self.assertEqual(aml.quantity, fisc_line.quantity)
         self.assertEqual(aml.price_unit, fisc_line.price_unit)
 
         self.assertEqual(
             aml.fiscal_operation_line_id,
-            self.env.ref("l10n_br_fiscal.fo_venda_revenda"),
+            self.env.ref("l10n_br_fiscal.fo_venda_venda"),
         )
 
         move.action_post()
