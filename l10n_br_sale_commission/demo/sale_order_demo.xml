@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
 
+    <record id="l10n_br_base.res_partner_akretion" model="res.partner">
+        <field
+            name="agent_ids"
+            eval="[Command.link(ref('commission.res_partner_tiny_sale_agent'))]"
+        />
+    </record>
+
     <!-- Sale Order with only products test -->
     <record id="so_commission_br" model="sale.order">
         <field name="name">l10n_br_sale_commission - Produtos</field>
@@ -30,12 +37,12 @@
         <field
             name="agent_ids"
             eval="[
-            (0, 0, {'agent_id': ref('commission.res_partner_tiny_sale_agent'), 'commission_id': ref('commission.demo_commission')})
+            Command.create({'agent_id': ref('commission.res_partner_tiny_sale_agent'), 'commission_id': ref('commission.demo_commission')})
         ]"
         />
     </record>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
         <value eval="[ref('so_commission_br_1_1')]" />
     </function>
 
@@ -55,12 +62,12 @@
         <field
             name="agent_ids"
             eval="[
-            (0, 0, {'agent_id': ref('commission.res_partner_tiny_sale_agent'), 'commission_id': ref('commission.demo_commission')})
+            Command.create({'agent_id': ref('commission.res_partner_tiny_sale_agent'), 'commission_id': ref('commission.demo_commission')})
         ]"
         />
     </record>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
         <value eval="[ref('so_commission_br_1_2')]" />
     </function>
 
