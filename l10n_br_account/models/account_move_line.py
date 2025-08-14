@@ -516,7 +516,9 @@ class AccountMoveLine(models.Model):
             user_type = "purchase"
 
         return self.fiscal_tax_ids.account_taxes(
-            user_type=user_type, fiscal_operation=self.fiscal_operation_id
+            user_type=user_type,
+            fiscal_operation=self.fiscal_operation_id,
+            company=self.company_id,
         )
 
     @api.constrains("product_uom_id")
