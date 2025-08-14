@@ -66,6 +66,7 @@ class ContractLine(models.Model):
         tax_ids = self.fiscal_tax_ids.account_taxes(
             user_type=contract.contract_type,
             fiscal_operation=contract.fiscal_operation_id,
+            company=contract.company_id,
         )
 
         if invoice_line_vals:
