@@ -85,10 +85,11 @@ class ResCurrencyRateProviderBCB(models.Model):
                         if not cotacao_venda:
                             raise UserError(
                                 _(
-                                    "No exchange rate found for %(currency)s "
-                                    "on %(date)s. Please check the BCB service."
+                                    "No exchange rate found for %(currency)s on %(date)s. "
+                                    "Please check the BCB service.",
+                                    currency=cur,
+                                    date=rate_date,
                                 )
-                                % {"currency": cur, "date": rate_date}
                             )
 
                         if base_currency == "BRL":
