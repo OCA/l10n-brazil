@@ -273,32 +273,23 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self._context.get("skip_compute_fiscal_tax_ids"):
             return
         for line in self:
-            if hasattr(line, "account_line_ids") and line.account_line_ids:
-                # it seems Odoo 16 ORM has a limitation when line is an
-                # l10n_br_fiscal.document.line that is edited via an account.move.line
-                # form and when both are a newID, then line relational field might be
-                # empty here. But in this case, we detect it and we wrap it back in the
-                wrapped_line = line.account_line_ids[0]
-            else:
-                wrapped_line = line
-
-            if wrapped_line.fiscal_operation_line_id:
-                mapping_result = wrapped_line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=wrapped_line.company_id,
-                    partner=wrapped_line._get_fiscal_partner(),
-                    product=wrapped_line.product_id,
-                    ncm=wrapped_line.ncm_id,
-                    nbm=wrapped_line.nbm_id,
-                    nbs=wrapped_line.nbs_id,
-                    cest=wrapped_line.cest_id,
-                    city_taxation_code=wrapped_line.city_taxation_code_id,
-                    service_type=wrapped_line.service_type_id,
-                    ind_final=wrapped_line.ind_final,
+            if line.fiscal_operation_line_id:
+                mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
+                    company=line.company_id,
+                    partner=line._get_fiscal_partner(),
+                    product=line.product_id,
+                    ncm=line.ncm_id,
+                    nbm=line.nbm_id,
+                    nbs=line.nbs_id,
+                    cest=line.cest_id,
+                    city_taxation_code=line.city_taxation_code_id,
+                    service_type=line.service_type_id,
+                    ind_final=line.ind_final,
                 )
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
-                if wrapped_line._is_imported():
+                if line._is_imported():
                     return
 
                 taxes = line.env["l10n_br_fiscal.tax"]
@@ -363,48 +354,39 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
         null_mask = None
         for line in self.filtered(lambda line: not line._is_imported()):
-            if hasattr(line, "account_line_ids") and line.account_line_ids:
-                # it seems Odoo 16 ORM has a limitation when line is an
-                # l10n_br_fiscal.document.line that is edited via an account.move.line
-                # form and when both are a newID, then line relational field might be
-                # empty here. But in this case, we detect it and we wrap it back in the
-                wrapped_line = line.account_line_ids[0]
-            else:
-                wrapped_line = line
-
             if null_mask is None:
                 null_mask = self._build_null_mask_dict()
             to_update = null_mask.copy()
-            if wrapped_line.fiscal_operation_line_id:
-                compute_result = wrapped_line.fiscal_tax_ids.compute_taxes(
-                    company=wrapped_line.company_id,
-                    partner=wrapped_line._get_fiscal_partner(),
-                    product=wrapped_line.product_id,
-                    price_unit=wrapped_line.price_unit,
-                    quantity=wrapped_line.quantity,
-                    uom_id=wrapped_line.uom_id,
-                    fiscal_price=wrapped_line.fiscal_price,
-                    fiscal_quantity=wrapped_line.fiscal_quantity,
-                    uot_id=wrapped_line.uot_id,
-                    discount_value=wrapped_line.discount_value,
-                    insurance_value=wrapped_line.insurance_value,
-                    ii_customhouse_charges=wrapped_line.ii_customhouse_charges,
-                    ii_iof_value=wrapped_line.ii_iof_value,
-                    other_value=wrapped_line.other_value,
-                    freight_value=wrapped_line.freight_value,
-                    ncm=wrapped_line.ncm_id,
-                    nbs=wrapped_line.nbs_id,
-                    nbm=wrapped_line.nbm_id,
-                    cest=wrapped_line.cest_id,
-                    operation_line=wrapped_line.fiscal_operation_line_id,
-                    cfop=wrapped_line.cfop_id,
-                    icmssn_range=wrapped_line.icmssn_range_id,
-                    icms_origin=wrapped_line.icms_origin,
-                    icms_cst_id=wrapped_line.icms_cst_id,
-                    ind_final=wrapped_line.ind_final,
-                    icms_relief_id=wrapped_line.icms_relief_id,
+            if line.fiscal_operation_line_id:
+                compute_result = line.fiscal_tax_ids.compute_taxes(
+                    company=line.company_id,
+                    partner=line._get_fiscal_partner(),
+                    product=line.product_id,
+                    price_unit=line.price_unit,
+                    quantity=line.quantity,
+                    uom_id=line.uom_id,
+                    fiscal_price=line.fiscal_price,
+                    fiscal_quantity=line.fiscal_quantity,
+                    uot_id=line.uot_id,
+                    discount_value=line.discount_value,
+                    insurance_value=line.insurance_value,
+                    ii_customhouse_charges=line.ii_customhouse_charges,
+                    ii_iof_value=line.ii_iof_value,
+                    other_value=line.other_value,
+                    freight_value=line.freight_value,
+                    ncm=line.ncm_id,
+                    nbs=line.nbs_id,
+                    nbm=line.nbm_id,
+                    cest=line.cest_id,
+                    operation_line=line.fiscal_operation_line_id,
+                    cfop=line.cfop_id,
+                    icmssn_range=line.icmssn_range_id,
+                    icms_origin=line.icms_origin,
+                    icms_cst_id=line.icms_cst_id,
+                    ind_final=line.ind_final,
+                    icms_relief_id=line.icms_relief_id,
                 )
-                to_update.update(wrapped_line._prepare_tax_fields(compute_result))
+                to_update.update(line._prepare_tax_fields(compute_result))
             else:
                 compute_result = {}
             to_update.update(
@@ -419,11 +401,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     "estimate_tax": compute_result.get("estimate_tax", 0.0),
                 }
             )
-            in_draft_mode = wrapped_line != wrapped_line._origin
+            in_draft_mode = line != line._origin
             if in_draft_mode:
-                wrapped_line.update(to_update)
+                line.update(to_update)
             else:
-                wrapped_line.write(to_update)
+                line.write(to_update)
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()

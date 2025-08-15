@@ -418,7 +418,45 @@
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
                 />
               </xpath>
-
+                <page name="aml_tab" position="after">
+                    <page
+                    name="fiscal_tab"
+                    string="Fiscal Documents"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                >
+                        <field name="fiscal_document_ids">
+                            <tree editable="bottom" create="0" delete="0">
+                                <field name="company_id" invisible="1" />
+                                <field name="partner_id" invisible="1" />
+                                <field name="document_type_id" />
+                                <field name="document_number" />
+                                <field name="document_serie" />
+                                <field name="document_key" />
+                                <field name="edoc_purpose" />
+                                <field name="document_date" />
+                                <field name="amount_total" />
+                                <field name="state" />
+                                <field name="fiscal_line_ids" invisible="1">
+                                    <tree editable="bottom" create="0" delete="0">
+                                        <field name="fiscal_operation_type" />
+                                        <field name="fiscal_operation_id" />
+                                        <field name="fiscal_operation_line_id" />
+                                        <field name="product_id" />
+                                        <field name="cfop_id" />
+                                        <field name="ncm_id" />
+                                        <field name="cest_id" />
+                                        <field name="city_taxation_code_id" />
+                                        <field name="service_type_id" />
+                                        <field name="cnae_id" />
+                                        <field name="nbs_id" />
+                                        <field name="fiscal_genre_id" />
+                                        <field name="nbm_id" />
+                                    </tree>
+                                </field>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/field[@name='name']"
                 position="after"

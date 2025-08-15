@@ -1,7 +1,7 @@
 # Copyright 2024 Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests.common import tagged
 
 from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
@@ -12,6 +12,13 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
+        # Ensure the NFe user group is enabled so fiscal fields are available
+        # on invoices when the l10n_br_nfe module is installed.
+        nfe_user_group = cls.env.ref("l10n_br_nfe.group_user", raise_if_not_found=False)
+        if nfe_user_group:
+            cls.env.user.write({"groups_id": [Command.link(nfe_user_group.id)]})
+
         cls.pis_tax_definition_empresa_lc = cls.env[
             "l10n_br_fiscal.tax.definition"
         ].create(

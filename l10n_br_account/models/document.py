@@ -16,6 +16,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_EM_DIGITACAO,
 )
 
+from .constants import MOVE_TO_OPERATION
+
 
 class FiscalDocument(models.Model):
     _inherit = "l10n_br_fiscal.document"
@@ -36,11 +38,58 @@ class FiscalDocument(models.Model):
     # SHADOWED FIELDS SYNC
     # -------------------------------------------------------------------------
 
-    company_id = fields.Many2one(inverse="_inverse_company_id")
-    currency_id = fields.Many2one(inverse="_inverse_currency_id")
-    partner_id = fields.Many2one(inverse="_inverse_partner_id")
-    user_id = fields.Many2one(inverse="_inverse_user_id")
-    partner_shipping_id = fields.Many2one(inverse="_inverse_partner_shipping_id")
+    company_id = fields.Many2one(
+        compute="_compute_shadowed_fields",
+        inverse="_inverse_company_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+    currency_id = fields.Many2one(
+        compute="_compute_shadowed_fields",
+        inverse="_inverse_currency_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+    partner_id = fields.Many2one(
+        compute="_compute_shadowed_fields",
+        inverse="_inverse_partner_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+    user_id = fields.Many2one(
+        compute="_compute_shadowed_fields",
+        inverse="_inverse_user_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+    partner_shipping_id = fields.Many2one(
+        compute="_compute_shadowed_fields",
+        inverse="_inverse_partner_shipping_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    @api.depends(
+        "move_ids",
+        "move_ids.company_id",
+        "move_ids.currency_id",
+        "move_ids.partner_id",
+        "move_ids.user_id",
+        "move_ids.partner_shipping_id",
+    )
+    def _compute_shadowed_fields(self):
+        for doc in self:
+            if doc.move_ids:
+                doc.partner_id = doc.move_ids.partner_id
+                doc.company_id = doc.move_ids.company_id
+                doc.currency_id = doc.move_ids.currency_id
+                doc.user_id = doc.move_ids.user_id
+                doc.partner_shipping_id = doc.move_ids.partner_shipping_id
 
     @api.onchange("company_id")
     def _inverse_company_id(self):
@@ -148,6 +197,17 @@ class FiscalDocument(models.Model):
     def _compute_move_count(self):
         for record in self:
             record.move_count = len(record.move_ids)
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        move_type = self._context.get("default_move_type", "out_invoice")
+        if move_type == "entry":
+            return res
+        op = MOVE_TO_OPERATION.get(move_type, "out")
+        res["fiscal_operation_type"] = op
+        res["issuer"] = "company" if op == "out" else "partner"
+        return res
 
     def unlink(self):
         non_draft_documents = self.filtered(
