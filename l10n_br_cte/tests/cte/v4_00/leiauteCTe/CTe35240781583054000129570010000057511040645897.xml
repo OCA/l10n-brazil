@@ -134,11 +134,11 @@
       <email>cliente3@cliente3.com.br</email>
     </dest>
     <vPrest>
-      <vTPrest>47.00</vTPrest>
-      <vRec>47.00</vRec>
+      <vTPrest>100.00</vTPrest>
+      <vRec>100.00</vRec>
       <Comp>
         <xNome>Frete</xNome>
-        <vComp>47.00</vComp>
+        <vComp>100.00</vComp>
       </Comp>
     </vPrest>
     <imp>
@@ -180,7 +180,7 @@
       </infDoc>
       <infModal versaoModal="4.00">
         <aquav>
-          <vPrest>47.00</vPrest>
+          <vPrest>100.00</vPrest>
           <vAFRMM>1200.00</vAFRMM>
           <xNavio>Navio Mercante 123</xNavio>
           <balsa>
