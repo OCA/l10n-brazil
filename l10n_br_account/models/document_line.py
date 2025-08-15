@@ -15,6 +15,26 @@ class FiscalDocumentLine(models.Model):
         string="Invoice Lines",
     )
 
+    move_id = fields.Many2one(
+        comodel_name="account.move",
+        related="account_line_ids.move_id",
+        store=True,
+        precompute=True,
+        string="Invoice",
+    )
+
+    document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Fiscal Document",
+        compute="_compute_document_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+        index=True,
+        check_company=True,
+        ondelete="cascade",
+    )
+
     uom_id = fields.Many2one(
         compute="_compute_product_uom_id",
         store=True,
@@ -31,6 +51,22 @@ class FiscalDocumentLine(models.Model):
     name = fields.Char(inverse="_inverse_name")
     quantity = fields.Float(inverse="_inverse_quantity")
     price_unit = fields.Float(inverse="_inverse_price_unit")
+
+    @api.depends("move_id.fiscal_document_id")
+    def _compute_document_id(self):
+        """
+        Ensures that the `document_id` field is updated even when the document line is
+        a new record (NewId) and has not yet been saved.
+        """
+        for line in self:
+            is_draft = line.id != line._origin.id
+            if (
+                is_draft
+                and line.move_id
+                and line.move_id.fiscal_document_id
+                and not line.document_id
+            ):
+                line.document_id = line.move_id.fiscal_document_id
 
     @api.onchange("product_id")
     def _inverse_product_id(self):
