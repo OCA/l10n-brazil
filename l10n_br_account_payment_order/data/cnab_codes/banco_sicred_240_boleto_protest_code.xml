@@ -11,7 +11,10 @@
         <field name="name">Protestar dias corridos</field>
         <field name="code">1</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_748')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_748'))]"
+        />
         <field
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
@@ -22,7 +25,10 @@
         <field name="name">Não protestar</field>
         <field name="code">3</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_748')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_748'))]"
+        />
         <field
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
@@ -33,7 +39,10 @@
         <field name="name">Cancelamento protesto automático</field>
         <field name="code">9</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_748')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_748'))]"
+        />
         <field
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"

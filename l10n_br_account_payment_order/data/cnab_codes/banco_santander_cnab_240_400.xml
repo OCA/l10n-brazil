@@ -15,7 +15,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_02" model="l10n_br_cnab.code">
@@ -26,7 +29,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_04" model="l10n_br_cnab.code">
@@ -37,7 +43,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_05" model="l10n_br_cnab.code">
@@ -48,7 +57,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_06" model="l10n_br_cnab.code">
@@ -59,7 +71,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_07" model="l10n_br_cnab.code">
@@ -72,7 +87,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_08" model="l10n_br_cnab.code">
@@ -83,7 +101,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_09" model="l10n_br_cnab.code">
@@ -94,7 +115,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_10" model="l10n_br_cnab.code">
@@ -105,7 +129,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_11" model="l10n_br_cnab.code">
@@ -116,7 +143,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_12" model="l10n_br_cnab.code">
@@ -127,7 +157,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_15" model="l10n_br_cnab.code">
@@ -140,7 +173,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >**O código movimento de remessa “15” é utilizado exclusivamente para transferência de boletos da carteira Simples para a carteira de Cessão, mediante a contratação do produto SX Integra que possibilita a cessão eletrônica de recebíveis.
@@ -155,7 +191,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >*** Os códigos de movimento de remessa “16” e “17” só podem ser utilizadas para boletos já registrados na carteira de Cessão, mediante regras pré-determinadas na contratação do produto SX Integra.
@@ -170,7 +209,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >*** Os códigos de movimento de remessa “16” e “17” só podem ser utilizadas para boletos já registrados na carteira de Cessão, mediante regras pré-determinadas na contratação do produto SX Integra.
@@ -185,7 +227,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_31" model="l10n_br_cnab.code">
@@ -196,7 +241,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >*O código movimento de remessa “31” – É utilizado para tratamento de Alterações de outros dados “Protesto”. Exemplo:  “31” – Alteração de outros dados, atende apenas alteração dos campos: - Segmento “P” (016 – 017) – Alteração de outros dados - Segmento “P” (221 – 221) – Tipo de prazo para protesto (ex.: De Dias Uteis para Dias Corridos) - Segmento “P” (222 – 223) – Número de dias para protesto (ex.: de 10 dias para 05 dias)
@@ -211,7 +259,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_48" model="l10n_br_cnab.code">
@@ -222,7 +273,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_49" model="l10n_br_cnab.code">
@@ -233,7 +287,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_instruction_98" model="l10n_br_cnab.code">
@@ -244,7 +301,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <!-- Codigos de Retorno do Movimento -->
@@ -257,7 +317,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_03" model="l10n_br_cnab.code">
@@ -268,7 +331,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_04" model="l10n_br_cnab.code">
@@ -279,7 +345,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_05" model="l10n_br_cnab.code">
@@ -292,7 +361,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_06" model="l10n_br_cnab.code">
@@ -303,7 +375,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_08" model="l10n_br_cnab.code">
@@ -316,7 +391,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_09" model="l10n_br_cnab.code">
@@ -327,7 +405,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_11" model="l10n_br_cnab.code">
@@ -338,7 +419,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_12" model="l10n_br_cnab.code">
@@ -349,7 +433,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_13" model="l10n_br_cnab.code">
@@ -362,7 +449,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_14" model="l10n_br_cnab.code">
@@ -375,7 +465,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_17" model="l10n_br_cnab.code">
@@ -388,7 +481,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_19" model="l10n_br_cnab.code">
@@ -399,7 +495,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_20" model="l10n_br_cnab.code">
@@ -412,7 +511,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_23" model="l10n_br_cnab.code">
@@ -423,7 +525,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_24" model="l10n_br_cnab.code">
@@ -434,7 +539,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_25" model="l10n_br_cnab.code">
@@ -445,7 +553,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_26" model="l10n_br_cnab.code">
@@ -456,7 +567,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_27" model="l10n_br_cnab.code">
@@ -467,7 +581,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_28" model="l10n_br_cnab.code">
@@ -478,7 +595,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_29" model="l10n_br_cnab.code">
@@ -489,7 +609,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_30" model="l10n_br_cnab.code">
@@ -500,7 +623,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_32" model="l10n_br_cnab.code">
@@ -511,7 +637,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_51" model="l10n_br_cnab.code">
@@ -522,7 +651,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_52" model="l10n_br_cnab.code">
@@ -533,7 +665,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_53" model="l10n_br_cnab.code">
@@ -544,7 +679,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_61" model="l10n_br_cnab.code">
@@ -555,7 +693,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_91" model="l10n_br_cnab.code">
@@ -568,7 +709,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_92" model="l10n_br_cnab.code">
@@ -581,7 +725,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_93" model="l10n_br_cnab.code">
@@ -592,7 +739,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_94" model="l10n_br_cnab.code">
@@ -603,7 +753,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_240_return_a4" model="l10n_br_cnab.code">
@@ -614,7 +767,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <!-- CNAB 400 -->
@@ -631,7 +787,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_02" model="l10n_br_cnab.code">
@@ -642,7 +801,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_04" model="l10n_br_cnab.code">
@@ -653,7 +815,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_05" model="l10n_br_cnab.code">
@@ -664,7 +829,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_06" model="l10n_br_cnab.code">
@@ -675,7 +843,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_07" model="l10n_br_cnab.code">
@@ -686,7 +857,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_08" model="l10n_br_cnab.code">
@@ -697,7 +871,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_09" model="l10n_br_cnab.code">
@@ -708,7 +885,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_15" model="l10n_br_cnab.code">
@@ -719,7 +899,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >*O código movimento de remessa “15” é utilizado exclusivamente para transferência de boletos da carteira Simples para a carteira de Cessão, mediante a contratação do produto SX Integra que possibilita a cessão eletrônica de recebíveis.
@@ -734,7 +917,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >**Os códigos de movimento de remessa “16” e “17” só podem ser utilizadas para boletos já registrados na carteira de Cessão, mediante regras pré-determinadas na contratação do produto SX Integra.
@@ -749,7 +935,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >**Os códigos de movimento de remessa “16” e “17” só podem ser utilizadas para boletos já registrados na carteira de Cessão, mediante regras pré-determinadas na contratação do produto SX Integra.
@@ -764,7 +953,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_47" model="l10n_br_cnab.code">
@@ -775,7 +967,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_48" model="l10n_br_cnab.code">
@@ -786,7 +981,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_instruction_49" model="l10n_br_cnab.code">
@@ -797,7 +995,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <!-- Codigos de Retorno do Movimento -->
@@ -810,7 +1011,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_02" model="l10n_br_cnab.code">
@@ -821,7 +1025,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_03" model="l10n_br_cnab.code">
@@ -832,7 +1039,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_04" model="l10n_br_cnab.code">
@@ -843,7 +1053,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_05" model="l10n_br_cnab.code">
@@ -854,7 +1067,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_06" model="l10n_br_cnab.code">
@@ -865,7 +1081,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_07" model="l10n_br_cnab.code">
@@ -876,7 +1095,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_08" model="l10n_br_cnab.code">
@@ -887,7 +1109,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_09" model="l10n_br_cnab.code">
@@ -898,7 +1123,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_10" model="l10n_br_cnab.code">
@@ -909,7 +1137,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_11" model="l10n_br_cnab.code">
@@ -920,7 +1151,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_12" model="l10n_br_cnab.code">
@@ -931,7 +1165,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_13" model="l10n_br_cnab.code">
@@ -942,7 +1179,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_14" model="l10n_br_cnab.code">
@@ -953,7 +1193,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_15" model="l10n_br_cnab.code">
@@ -964,7 +1207,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >O código 15 – Confirmação de Protesto, corresponde ao momento em que o tabelionato recebe o boleto para tratativa (intimação ao Pagador). O boleto ainda não está protestado neste cenário. Quando protestado, o código encaminhado é o 25 - Boleto Protestado.
@@ -979,7 +1225,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_17" model="l10n_br_cnab.code">
@@ -990,7 +1239,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_21" model="l10n_br_cnab.code">
@@ -1001,7 +1253,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_22" model="l10n_br_cnab.code">
@@ -1012,7 +1267,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_24" model="l10n_br_cnab.code">
@@ -1023,7 +1281,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_25" model="l10n_br_cnab.code">
@@ -1034,7 +1295,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_26" model="l10n_br_cnab.code">
@@ -1045,7 +1309,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="comment"
         >O código 26 – Sustar Protesto, corresponde ao momento em que o boleto já está confirmado no tabelionato (código 15) e está em processo de intimação, mas não há desejo em prosseguir com o protesto. Diferente do código 38 - Não Protestar, utilizado para o cenário onde o boleto não iniciou o processo de cartório.
@@ -1060,7 +1327,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_35" model="l10n_br_cnab.code">
@@ -1071,7 +1341,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_36" model="l10n_br_cnab.code">
@@ -1082,7 +1355,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_37" model="l10n_br_cnab.code">
@@ -1093,7 +1369,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_38" model="l10n_br_cnab.code">
@@ -1104,7 +1383,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_39" model="l10n_br_cnab.code">
@@ -1115,7 +1397,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_61" model="l10n_br_cnab.code">
@@ -1126,7 +1411,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_62" model="l10n_br_cnab.code">
@@ -1139,7 +1427,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_63" model="l10n_br_cnab.code">
@@ -1152,7 +1443,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_93" model="l10n_br_cnab.code">
@@ -1163,7 +1457,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
     <record id="santander_400_return_94" model="l10n_br_cnab.code">
@@ -1174,7 +1471,10 @@
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
     </record>
 
 </odoo>
