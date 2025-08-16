@@ -17,4 +17,22 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
         <field name="bank_name">Banco do Brasil</field>
     </record>
+
+     <!-- Bank Account for partner Intel do Brasil -->
+    <record id="intel_bank_account" model="res.partner.bank">
+        <field name="acc_number">03409784</field>
+        <field name="acc_number_dig">3</field>
+        <field name="bra_number">0662</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_033" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field name="bank_name">Santander</field>
+    </record>
+
+    <record id="res_partner_intel_pix_phone" model="res.partner.pix">
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field name="key_type">phone</field>
+        <field name="key">34995102399</field>
+    </record>
 </odoo>
