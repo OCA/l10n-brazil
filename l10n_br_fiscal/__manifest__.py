@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "16.0.11.5.0",
+    "version": "17.0.1.0.0",
     "depends": [
         "product",
         "uom_alias",
@@ -57,6 +57,8 @@
         "data/l10n_br_fiscal.nbs.csv",
         "data/l10n_br_fiscal.cest.csv",
         "data/l10n_br_fiscal_icms_tax_definition_data.xml",
+    ],
+    "todo": [
         # Views
         "views/legal_nature_view.xml",
         "views/cnae_view.xml",
