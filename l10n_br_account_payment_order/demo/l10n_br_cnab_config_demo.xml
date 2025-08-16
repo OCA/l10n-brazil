@@ -295,6 +295,7 @@
         <field name="sending_code_id" ref="ailos_instruction_01" />
         <field name="write_off_code_id" ref="ailos_instruction_02" />
         <field name="change_maturity_date_code_id" ref="ailos_instruction_06" />
+        <field name="change_discount_date_code_id" ref="ailos_instruction_16" />
         <field name="protest_title_code_id" ref="ailos_instruction_09" />
         <field name="suspend_protest_keep_wallet_code_id" ref="ailos_instruction_11" />
         <field name="suspend_protest_write_off_code_id" ref="ailos_instruction_10" />

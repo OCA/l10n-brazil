@@ -32,6 +32,9 @@ class L10nBrCNABChangeMethods(models.Model):
             if change_type == "change_date_maturity":
                 cnab_code = record._get_cnab_date_maturity(new_date)
                 record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            elif change_type == "change_discount_date":
+                cnab_code = record._get_cnab_discount_date(new_date)
+                record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
             elif change_type == "change_payment_mode":
                 record._change_payment_mode(reason, **kwargs)
             elif change_type == "baixa":
@@ -202,13 +205,13 @@ class L10nBrCNABChangeMethods(models.Model):
         :return: deveria retornar algo ? Uma mensagem de confirmação talvez ?
         """
 
-        if new_date == self.date_maturity:
+        if new_date == self.date:
             raise UserError(
                 _(
                     "New Date Maturity %(new_date)s is equal to actual Date "
                     "Maturity %(date_maturity)s",
                     new_date=new_date,
-                    date_maturity=self.date_maturity,
+                    date_maturity=self.date,
                 )
             )
 
@@ -217,9 +220,34 @@ class L10nBrCNABChangeMethods(models.Model):
         if not cnab_config.change_maturity_date_code_id:
             self._msg_error_cnab_missing(self.payment_mode_id, "Date Maturity Code")
 
-        self.date_maturity = new_date
+        self.date = new_date
 
         return cnab_config.change_maturity_date_code_id
+
+    def _get_cnab_discount_date(self, new_date):
+        """
+        CNAB - Instrução de Alteração da Data de Desconto.
+        :param new_date: nova data de desconto
+        :return: código CNAB de alteração da data de desconto
+        """
+
+        if new_date == self.date:
+            raise UserError(
+                _(
+                    "New Discount Date %(new_date)s is equal to current Discount "
+                    "Date %(date_discount)s",
+                    new_date=new_date,
+                    date_discount=self.date,
+                )
+            )
+
+        cnab_config = self.payment_mode_id.cnab_config_id
+        if not cnab_config.change_discount_date_code_id:
+            self._msg_error_cnab_missing(self.payment_mode_id, "Discount Date Code")
+
+        self.date = new_date
+
+        return cnab_config.change_discount_date_code_id
 
     def _create_cnab_not_payment(self, payorder, new_payorder, reason):
         """
