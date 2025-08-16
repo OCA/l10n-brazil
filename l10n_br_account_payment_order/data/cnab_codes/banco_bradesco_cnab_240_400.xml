@@ -11,7 +11,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -22,7 +22,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -33,7 +33,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -44,7 +44,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -55,7 +55,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -66,7 +66,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -77,7 +77,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -88,7 +88,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -99,7 +99,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -110,7 +110,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -121,7 +121,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -132,7 +132,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -143,7 +143,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -154,7 +154,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -165,7 +165,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -176,7 +176,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -187,7 +187,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -198,7 +198,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -209,7 +209,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -220,7 +220,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -231,7 +231,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -242,7 +242,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -253,7 +253,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -264,7 +264,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -275,7 +275,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -286,7 +286,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -297,7 +297,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -308,7 +308,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -319,7 +319,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -330,7 +330,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -341,7 +341,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -352,7 +352,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -363,7 +363,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -374,7 +374,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -385,7 +385,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -398,7 +398,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -411,7 +411,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -422,7 +422,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -433,7 +433,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -444,7 +444,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -455,7 +455,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -466,7 +466,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -479,7 +479,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -490,7 +490,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -501,7 +501,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -512,7 +512,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -525,7 +525,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -538,7 +538,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -549,7 +549,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -562,7 +562,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -573,7 +573,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -586,7 +586,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -597,7 +597,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -608,7 +608,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -619,7 +619,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -630,7 +630,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -641,7 +641,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -652,7 +652,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -663,7 +663,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -674,7 +674,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -687,7 +687,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -700,7 +700,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -711,7 +711,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -722,7 +722,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -733,7 +733,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -746,7 +746,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -759,7 +759,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -772,7 +772,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -785,7 +785,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -796,7 +796,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -809,7 +809,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -820,7 +820,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -831,7 +831,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -842,7 +842,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -855,7 +855,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -868,7 +868,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -879,7 +879,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -890,7 +890,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -901,7 +901,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -912,7 +912,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -923,7 +923,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -936,7 +936,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -947,7 +947,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -958,7 +958,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -971,7 +971,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -984,7 +984,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -997,7 +997,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1008,7 +1008,7 @@
         <field name="code_type">return_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1023,7 +1023,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1034,7 +1034,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1045,7 +1045,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1056,7 +1056,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1067,7 +1067,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1078,7 +1078,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1089,7 +1089,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1100,7 +1100,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1111,7 +1111,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1122,7 +1122,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1133,7 +1133,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1144,7 +1144,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1155,7 +1155,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1166,7 +1166,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1177,7 +1177,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1188,7 +1188,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1199,7 +1199,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1210,7 +1210,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1221,7 +1221,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1232,7 +1232,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1243,7 +1243,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1254,7 +1254,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1265,7 +1265,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1276,7 +1276,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1287,7 +1287,7 @@
         <field name="code_type">instruction_move_code</field>
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
     </record>
@@ -1300,7 +1300,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1311,7 +1311,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1322,7 +1322,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1333,7 +1333,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1344,7 +1344,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1355,7 +1355,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1366,7 +1366,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1377,7 +1377,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1388,7 +1388,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1399,7 +1399,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1410,7 +1410,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1421,7 +1421,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1432,7 +1432,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1443,7 +1443,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1454,7 +1454,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1465,7 +1465,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1478,7 +1478,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1489,7 +1489,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1500,7 +1500,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1511,7 +1511,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1522,7 +1522,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1533,7 +1533,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1544,7 +1544,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1555,7 +1555,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1566,7 +1566,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1577,7 +1577,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1588,7 +1588,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1599,7 +1599,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1610,7 +1610,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1621,7 +1621,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1632,7 +1632,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1643,7 +1643,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1654,7 +1654,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1665,7 +1665,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1676,7 +1676,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1687,7 +1687,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1698,7 +1698,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1709,7 +1709,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1720,7 +1720,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1731,7 +1731,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -1744,7 +1744,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
