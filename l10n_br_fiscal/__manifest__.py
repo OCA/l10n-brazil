@@ -57,8 +57,6 @@
         "data/l10n_br_fiscal.nbs.csv",
         "data/l10n_br_fiscal.cest.csv",
         "data/l10n_br_fiscal_icms_tax_definition_data.xml",
-    ],
-    "todo": [
         # Views
         "views/legal_nature_view.xml",
         "views/cnae_view.xml",
@@ -112,7 +110,7 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "l10n_br_fiscal/static/src/js/list_renderer_with_button.esm.js",
+            #    "l10n_br_fiscal/static/src/js/list_renderer_with_button.esm.js",
         ],
     },
     "demo": [

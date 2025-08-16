@@ -71,7 +71,7 @@
                             icon="fa-bars"
                             name="%(product.product_template_action_all)d"
                             context="{'search_default_nbm_id': active_id}"
-                            attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}"
+                            invisible="product_tmpl_qty == 0"
                         >
                             <field
                                 string="Products"

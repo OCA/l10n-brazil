@@ -32,13 +32,17 @@
                                         <div class="o_primary">
                                             <a type="object" name="open_action"><field
                                                     name="name"
+                                                    readonly="state != 'draft'"
                                                 /></a>
                                         </div>
                                         <div
                                             class="o_secondary"
                                             t-att-title="dashboard.title"
                                         >
-                                            <field name="fiscal_type" />
+                                            <field
+                                                name="fiscal_type"
+                                                readonly="state != 'draft'"
+                                            />
                                         </div>
                                     </div>
                                     <div class="o_kanban_manage_button_section">

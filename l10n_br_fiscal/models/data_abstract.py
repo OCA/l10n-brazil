@@ -89,15 +89,13 @@ class DataAbstract(models.AbstractModel):
         return model_view
 
     @api.model
-    def _name_search(
-        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
-    ):
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
         if operator == "ilike" and not (name or "").strip():
             domain = []
         elif operator in ("ilike", "like", "=", "=like", "=ilike"):
             domain = expression.AND(
                 [
-                    args or [],
+                    domain or [],
                     [
                         "|",
                         "|",
@@ -108,13 +106,12 @@ class DataAbstract(models.AbstractModel):
                 ]
             )
             return self._search(
-                expression.AND([domain, args]),
+                domain,
                 limit=limit,
-                access_rights_uid=name_get_uid,
             )
 
         return super()._name_search(
-            name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
+            name, domain=domain, operator=operator, limit=limit, order=order
         )
 
     def name_get(self):

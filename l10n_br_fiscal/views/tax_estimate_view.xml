@@ -6,8 +6,8 @@
         <field name="model">l10n_br_fiscal.tax.estimate</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="ncm_id" invisible="1" />
-                <field name="nbs_id" invisible="1" />
+                <field name="ncm_id" column_invisible="True" />
+                <field name="nbs_id" column_invisible="True" />
                 <field name="state_id" />
                 <field name="federal_taxes_national" />
                 <field name="federal_taxes_import" />

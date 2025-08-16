@@ -7,7 +7,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, tools
-from odoo.osv.expression import AND
+from odoo.osv import expression
 
 from ..constants.fiscal import (
     COMMENT_TYPE,
@@ -62,28 +62,28 @@ class Comment(models.Model):
     )
 
     @api.model
-    def _name_search(
-        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
-    ):
-        args = args or []
+    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
         if name:
-            domain = [
-                "|",
-                ("comment", "ilike", "%" + name + "%"),
-                ("name", operator, name),
-            ]
-            return super()._name_search(
-                args=AND([args, domain]),
-                operator=operator,
+            domain = expression.AND(
+                [
+                    domain or [],
+                    [
+                        "|",
+                        ("comment", "ilike", "%" + name + "%"),
+                        ("name", operator, name),
+                    ],
+                ]
+            )
+            return super()._search(
+                domain,
                 limit=limit,
-                name_get_uid=name_get_uid,
             )
         return super()._name_search(
             name=name,
-            args=args,
+            domain=domain,
             operator=operator,
             limit=limit,
-            name_get_uid=name_get_uid,
+            order=order,
         )
 
     def name_get(self):

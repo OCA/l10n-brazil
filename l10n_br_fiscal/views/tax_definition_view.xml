@@ -6,10 +6,10 @@
     <field name="model">l10n_br_fiscal.tax.definition</field>
     <field name="arch" type="xml">
       <tree>
-        <field name="state" invisible="1" />
-        <field name="tax_group_id" />
-        <field name="is_taxed" />
-        <field name="tax_id" />
+        <field name="state" column_invisible="True" />
+        <field name="tax_group_id" readonly="state != 'draft'" />
+        <field name="is_taxed" readonly="state != 'draft'" />
+        <field name="tax_id" readonly="state != 'draft'" />
         <field name="cst_code" />
       </tree>
     </field>
@@ -23,11 +23,15 @@
                 decoration-info="state in ('draft', 'review')"
                 decoration-muted="state == 'expired'"
             >
-        <field name="state" invisible="1" />
-        <field name="tax_group_id" invisible="1" />
+        <field name="state" column_invisible="True" />
+        <field
+                    name="tax_group_id"
+                    column_invisible="True"
+                    readonly="state != 'draft'"
+                />
         <field name="state_from_id" />
         <field name="state_to_ids" />
-        <field name="tax_id" />
+        <field name="tax_id" readonly="state != 'draft'" />
         <field name="cst_code" />
       </tree>
     </field>
@@ -38,14 +42,14 @@
     <field name="model">l10n_br_fiscal.tax.definition</field>
     <field name="arch" type="xml">
       <form string="Tax Definition">
-        <field name="company_id" invisible="1" />
+        <field name="company_id" invisible="1" readonly="state != 'draft'" />
         <field name="icms_regulation_id" invisible="1" />
-        <field name="tax_domain" invisible="1" />
+        <field name="tax_domain" invisible="1" readonly="state != 'draft'" />
         <header>
           <button
                         name="action_review"
                         type="object"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Review"
                         class="oe_highlight"
                         groups="l10n_br_fiscal.group_manager"
@@ -53,7 +57,7 @@
           <button
                         name="action_approve"
                         type="object"
-                        states="review,expired"
+                        invisible="state not in ('review', 'expired')"
                         string="Approve"
                         class="oe_highlight"
                         groups="l10n_br_fiscal.group_manager"
@@ -61,7 +65,7 @@
           <button
                         name="action_draft"
                         type="object"
-                        states="review,approved"
+                        invisible="state not in ('review', 'approved')"
                         string="Reset To Draft"
                         class="oe_highlight"
                         groups="l10n_br_fiscal.group_manager"
@@ -73,57 +77,52 @@
             <field
                             name="tax_group_id"
                             force_save="1"
-                            attrs="{'readonly': [('icms_regulation_id', '!=', False)]}"
+                            readonly="icms_regulation_id"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
-            <field name="type_in_out" invisible="1" />
-            <field name="is_taxed" />
+            <field name="type_in_out" invisible="1" readonly="state != 'draft'" />
+            <field name="is_taxed" readonly="state != 'draft'" />
             <field
                             name="is_debit_credit"
-                            attrs="{'invisible': [('is_taxed', '=', False)]}"
+                            invisible="not is_taxed"
+                            readonly="state != 'draft'"
                         />
-            <field name="custom_tax" />
+            <field name="custom_tax" readonly="state != 'draft'" />
             <field
                             name="tax_id"
-                            attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"
+                            invisible="not custom_tax"
+                            readonly="state != 'draft'"
+                            required="custom_tax"
                         />
             <field
                             name="cst_id"
                             force_save="1"
-                            attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"
+                            invisible="not custom_tax or tax_domain not in ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst')"
+                            required="custom_tax and tax_domain in ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst')"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
             <field
                             name="ipi_guideline_id"
-                            attrs="{'invisible': [('tax_domain', '!=', 'ipi')]}"
+                            invisible="tax_domain != 'ipi'"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
             <field
                             name="is_benefit"
-                            attrs="{'invisible': [('tax_domain', '!=', 'icms')]}"
+                            invisible="tax_domain != 'icms'"
+                            readonly="state != 'draft'"
                         />
           </group>
-          <group
-                        name="tax_benefit"
-                        string="Tax Benefit"
-                        attrs="{'invisible': [('is_benefit', '=', False)]}"
-                    >
-            <field name="code" attrs="{'required': [('is_benefit', '!=', False)]}" />
-            <field
-                            name="description"
-                            attrs="{'required': [('is_benefit', '!=', False)]}"
-                        />
-            <field
-                            name="benefit_type"
-                            attrs="{'required': [('is_benefit', '!=', False)]}"
-                        />
+          <group name="tax_benefit" string="Tax Benefit" invisible="not is_benefit">
+            <field name="code" required="is_benefit" />
+            <field name="description" required="is_benefit" />
+            <field name="benefit_type" required="is_benefit" />
 
           </group>
           <group name="state" string="State">
             <field
                             name="state_from_id"
                             options="{'no_create': True, 'no_create_edit': True}"
-                            attrs="{'required': [('is_benefit', '=', True)]}"
+                            required="is_benefit"
                         />
             <field name="state_to_ids" options="{'no_create': True}" />
           </group>
@@ -132,7 +131,12 @@
               <group name="ncms" string="NCMs">
                 <label for="ncms" />
                 <div class="o_row">
-                  <field name="ncms" force_save="1" class="oe_inline" />
+                  <field
+                                        name="ncms"
+                                        force_save="1"
+                                        class="oe_inline"
+                                        readonly="state != 'draft'"
+                                    />
                   <button
                                         name="action_search_ncms"
                                         type="object"
@@ -148,15 +152,20 @@
                                     nolabel="1"
                                     colspan="2"
                                 />
-                <field name="ncm_exception" />
-                <field name="not_in_ncms" />
+                <field name="ncm_exception" readonly="state != 'draft'" />
+                <field name="not_in_ncms" readonly="state != 'draft'" />
               </group>
             </page>
             <page name="nbm_page" string="NBM">
               <group name="nbms" string="NBMs">
                 <label for="nbms" />
                 <div class="o_row">
-                  <field name="nbms" force_save="1" class="oe_inline" />
+                  <field
+                                        name="nbms"
+                                        force_save="1"
+                                        class="oe_inline"
+                                        readonly="state != 'draft'"
+                                    />
                   <button
                                         name="action_search_nbms"
                                         type="object"
@@ -172,14 +181,19 @@
                                     nolabel="1"
                                     colspan="2"
                                 />
-                <field name="not_in_nbms" />
+                <field name="not_in_nbms" readonly="state != 'draft'" />
               </group>
             </page>
             <page name="cests_page" string="CEST">
               <group name="cests" string="CESTs">
                 <label for="cests" />
                 <div class="o_row">
-                  <field name="cests" force_save="1" class="oe_inline" />
+                  <field
+                                        name="cests"
+                                        force_save="1"
+                                        class="oe_inline"
+                                        readonly="state != 'draft'"
+                                    />
                   <button
                                         name="action_search_cests"
                                         type="object"

@@ -37,15 +37,15 @@
                 <field name="force_compute_delivery_costs_by_total" invisible="1" />
                 <field
                                     name="insurance_value"
-                                    attrs="{'readonly': ['|', ('delivery_costs', '=', 'total'), ('force_compute_delivery_costs_by_total', '=', True)]}"
+                                    readonly="delivery_costs == 'total' or force_compute_delivery_costs_by_total"
                                 />
                 <field
                                     name="other_value"
-                                    attrs="{'readonly': ['|', ('delivery_costs', '=', 'total'), ('force_compute_delivery_costs_by_total', '=', True)]}"
+                                    readonly="delivery_costs == 'total' or force_compute_delivery_costs_by_total"
                                 />
                 <field
                                     name="freight_value"
-                                    attrs="{'readonly': ['|', ('delivery_costs', '=', 'total'), ('force_compute_delivery_costs_by_total', '=', True)]}"
+                                    readonly="delivery_costs == 'total' or force_compute_delivery_costs_by_total"
                                 />
               </group>
               <group name="fiscal_info" string="Fiscal">
@@ -62,25 +62,22 @@
                 <field name="nbs_id" />
                 <field
                                     name="service_type_id"
-                                    attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"
+                                    invisible="fiscal_genre_code != '00' and cfop_id"
                                 />
                 <field
                                     name="city_taxation_code_id"
-                                    attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"
+                                    invisible="fiscal_genre_code != '00' and cfop_id"
                                 />
                 <field
                                     name="cnae_id"
-                                    attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"
+                                    invisible="fiscal_genre_code != '00' and cfop_id"
                                 />
               </group>
               <group name="l10n_br_fiscal" string="Operation">
                 <field name="fiscal_operation_type" invisible="1" readonly="1" />
                 <field name="fiscal_operation_id" required="1" />
                 <field name="fiscal_operation_line_id" required="1" />
-                <field
-                                    name="cfop_id"
-                                    attrs="{'invisible': [('fiscal_type', '=', '00'), ('cfop_id', '=', False)]}"
-                                />
+                <field name="cfop_id" invisible="fiscal_type == '00' and not cfop_id" />
               </group>
             </group>
           </page>

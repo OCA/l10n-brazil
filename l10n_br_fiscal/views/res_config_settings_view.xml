@@ -31,7 +31,7 @@
                                 <div class="text-muted">
                                     Use IBPT API to Update Estimate Taxes for products and services
                                 </div>
-                                <div attrs="{'invisible': [('ibpt_api', '=', False)]}">
+                                <div invisible="not ibpt_api">
                                     <div class="content-group mt16">
                                         <label
                                             for="ibpt_update_days"
@@ -39,15 +39,12 @@
                                         />
                                         <field
                                             name="ibpt_update_days"
-                                            attrs="{'required': [('ibpt_api', '=', True)]}"
+                                            required="ibpt_api"
                                         /> dias
                                     </div>
                                     <div class="content-group mt16">
                                         <label for="ibpt_token" class="o_light_label" />
-                                        <field
-                                            name="ibpt_token"
-                                            attrs="{'required': [('ibpt_api', '=', True)]}"
-                                        />
+                                        <field name="ibpt_token" required="ibpt_api" />
                                     </div>
                                     <div>
                                         <a
