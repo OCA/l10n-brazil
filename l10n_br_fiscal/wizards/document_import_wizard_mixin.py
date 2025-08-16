@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 try:
     from xsdata.formats.dataclass.parsers import XmlParser
 except ImportError:
-    _logger.error(_("xsdata Python lib not installed!"))
+    _logger.warning("xsdata Python lib not installed!")
 
 
 class DocumentImportWizardMixin(models.TransientModel):

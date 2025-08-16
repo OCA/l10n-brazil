@@ -17,11 +17,11 @@
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
       <tree>
-          <field name="company_id" />
-          <field name="document_type_id" />
-          <field name="document_serie_id" />
-          <field name="number_start" />
-          <field name="number_end" />
+          <field name="company_id" readonly="state != 'draft'" />
+          <field name="document_type_id" readonly="state != 'draft'" />
+          <field name="document_serie_id" readonly="state != 'draft'" />
+          <field name="number_start" readonly="state != 'draft'" />
+          <field name="number_end" readonly="state != 'draft'" />
           <field name="state" />
       </tree>
     </field>
@@ -38,19 +38,19 @@
                         name="action_invalidate"
                         type="object"
                         string="Confirmar"
-                        states="draft"
+                        invisible="state != 'draft'"
                         class="oe_highlight"
                     />
           </header>
           <group name="serie">
-              <field name="company_id" />
-              <field name="document_type_id" />
-              <field name="document_serie_id" />
+              <field name="company_id" readonly="state != 'draft'" />
+              <field name="document_type_id" readonly="state != 'draft'" />
+              <field name="document_serie_id" readonly="state != 'draft'" />
           </group>
           <group name="invalidation">
-              <field name="number_start" />
-              <field name="number_end" />
-              <field name="justification" />
+              <field name="number_start" readonly="state != 'draft'" />
+              <field name="number_end" readonly="state != 'draft'" />
+              <field name="justification" readonly="state != 'draft'" />
           </group>
       </form>
     </field>
