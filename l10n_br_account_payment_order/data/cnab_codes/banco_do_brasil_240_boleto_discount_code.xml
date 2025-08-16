@@ -18,7 +18,10 @@
         <field name="name">Valor Fixo Até a Data Informada</field>
         <field name="code">1</field>
         <field name="code_type">discount_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_001')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_001'))]"
+        />
         <field
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
@@ -33,7 +36,10 @@
         <field name="name">Percentual Até a Data Informada</field>
         <field name="code">2</field>
         <field name="code_type">discount_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_001')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_001'))]"
+        />
         <field
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
@@ -48,7 +54,10 @@
         <field name="name">Valor por Antecipação Dia Corrido</field>
         <field name="code">3</field>
         <field name="code_type">discount_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_001')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_001'))]"
+        />
         <field
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
