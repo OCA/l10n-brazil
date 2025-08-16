@@ -50,7 +50,7 @@
                         style="width: 50%"
                         class="o_address_city"
                         options='{"no_open": True, "no_create": True}'
-                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                        invisible="country_id != %(base.br)d"
                     />
                     <field
                         name="city"
@@ -58,7 +58,7 @@
                         style="width: 50%"
                         class="o_address_city"
                         force_save="True"
-                        attrs="{'invisible': [('country_id', '=', %(base.br)d)]}"
+                        invisible="country_id == %(base.br)d"
                     />
                     <field
                         name="country_id"

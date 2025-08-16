@@ -12,29 +12,29 @@
                 <field
                     name="legal_name"
                     placeholder="Legal Name..."
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
                 <field
                     name="l10n_br_ie_code"
                     placeholder="State Tax Number..."
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
                 <field
                     name="l10n_br_im_code"
                     placeholder="Municipal Tax Number..."
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
                 <field
                     name="l10n_br_isuf_code"
                     placeholder="Suframa"
-                    attrs="{'invisible': [('state_id', '!=', %(base.state_br_am)d)]}"
+                    invisible="state_id != %(base.state_br_am)d"
                 />
                 <field
                     name="state_tax_number_ids"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 >
                     <tree editable="bottom">
-                        <field name="company_id" invisible="1" />
+                        <field name="company_id" column_invisible="1" />
                         <field name="l10n_br_ie_code" />
                         <field
                             name="state_id"
@@ -66,10 +66,9 @@
         <field name="name">l10n_br_base.res.company.tree</field>
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_tree" />
-        <field name="field_parent">child_ids</field>
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="vat" />
+                <field name="cnpj_cpf" />
             </field>
         </field>
     </record>

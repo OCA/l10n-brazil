@@ -116,7 +116,7 @@ class PartyMixin(models.AbstractModel):
                         [domain, [("cnpj_cpf_stripped", "ilike", term[2])]]
                     )
                     break
-        return super().search(domain, offset, limit, order, count)
+        return super().search(domain, offset, limit, order)
 
     @api.onchange("cnpj_cpf")
     def _onchange_cnpj_cpf(self):  # TODO, see comment bellow
