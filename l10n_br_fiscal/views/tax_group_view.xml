@@ -49,7 +49,7 @@
                         <field name="tax_scope" />
                         <field
                             name="base_without_icms"
-                            attrs="{'invisible': [('tax_domain', 'not in', ('pis', 'cofins', 'pisst', 'cofinsst', 'pis_wh', 'cofins_wh'))]}"
+                            invisible="tax_domain not in ('pis', 'cofins', 'pisst', 'cofinsst', 'pis_wh', 'cofins_wh')"
                         />
                         <field name="base_with_additional_values" />
                     </group>
@@ -64,14 +64,14 @@
                         <page
                             name="csts"
                             string="CSTs"
-                            attrs="{'invisible': [('tax_domain', 'not in', ('icms', 'ipi', 'pis', 'cofins'))]}"
+                            invisible="tax_domain not in ('icms', 'ipi', 'pis', 'cofins')"
                         >
                             <field name="cst_ids" nolabel="1" />
                         </page>
                         <page
                             name="withholding_info"
                             string="Withholding"
-                            attrs="{'invisible': [('tax_withholding', '=', False)]}"
+                            invisible="not tax_withholding"
                         >
                             <group>
                                 <group>

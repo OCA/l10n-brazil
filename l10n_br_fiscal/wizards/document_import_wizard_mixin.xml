@@ -10,8 +10,8 @@
                 <group>
                     <field name="file" required="1" />
                 </group>
-                <separator string="Preview Data" attrs="{'invisible': [('file', '=', False)]}" />
-                <group id="document_info" attrs="{'invisible': [('file', '=', False)]}">
+                <separator string="Preview Data" invisible="not file" />
+                <group id="document_info" invisible="not file">
                     <group>
                         <field name="fiscal_operation_id" required="1" />
                         <field name="fiscal_operation_type" invisible="1" />

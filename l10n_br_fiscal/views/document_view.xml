@@ -67,7 +67,7 @@
         <field name="amount_untaxed" />
         <field name="amount_tax" />
         <field name="amount_total" />
-        <field name="state" invisible="1" />
+        <field name="state" column_invisible="True" />
         <field
                     name="state_edoc"
                     widget="badge"
@@ -94,14 +94,13 @@
         <field name="fiscal_operation_type" invisible="1" />
         <field name="document_type" invisible="1" />
         <header>
-            <!-- Please use state_edoc and attrs to maintain compatibility with invoice -->
             <button
                         name="action_document_confirm"
                         type="object"
                         string="Confirmar"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-primary"
-                        attrs="{'invisible': [('state_edoc', '!=', 'em_digitacao')]}"
+                        invisible="state_edoc != 'em_digitacao'"
                     />
             <button
                         name="action_document_send"
@@ -109,7 +108,7 @@
                         string="Enviar"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-primary"
-                        attrs="{'invisible': [('state_edoc','!=','a_enviar')]}"
+                        invisible="state_edoc != 'a_enviar'"
                     />
             <button
                         name="action_document_send"
@@ -117,7 +116,7 @@
                         string="Consultar Recibo"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-primary"
-                        attrs="{'invisible': [('state_edoc','!=','enviada')]}"
+                        invisible="state_edoc != 'enviada'"
                     />
             <button
                         name="action_document_back2draft"
@@ -125,7 +124,7 @@
                         string="Voltar p/ Em Digitação"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-secondary"
-                        attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'rejeitada', 'enviada')), ('document_electronic', '=', False)]}"
+                        invisible="state_edoc not in ('a_enviar', 'rejeitada', 'enviada') or not document_electronic"
                     />
             <button
                         name="view_pdf"
@@ -133,7 +132,7 @@
                         string="Visualizar PDF"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-primary"
-                        attrs="{'invisible': [('state_edoc', '=', 'em_digitacao')]}"
+                        invisible="state_edoc == 'em_digitacao'"
                     />
             <button
                         name="view_xml"
@@ -141,35 +140,35 @@
                         string="Visualizar XML"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-primary"
-                        attrs="{'invisible': ['|', ('document_electronic', '=', False), ('state_edoc', '=', 'em_digitacao')]}"
+                        invisible="not document_electronic or state_edoc == 'em_digitacao'"
                     />
             <button
                         name="action_document_cancel"
                         type="object"
                         string="Cancelar"
                         groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False)]}"
+                        invisible="state_edoc != 'autorizada' or not document_electronic"
                     />
             <button
                         name="action_document_invalidate"
                         type="object"
                         string="Invalidar Numeração"
                         groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'autorizada', 'cancelada', 'denegada'))]}"
+                        invisible="state_edoc in ('em_digitacao', 'autorizada', 'cancelada', 'denegada')"
                     />
             <button
                         name="action_document_correction"
                         type="object"
                         string="Carta de correção"
                         groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
+                        invisible="state_edoc != 'autorizada'"
                     />
             <button
                         name="action_create_return"
                         type="object"
                         string="Devolver"
                         groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
+                        invisible="state_edoc != 'autorizada'"
                     />
             <field
                         name="state_edoc"
@@ -177,18 +176,14 @@
                         statusbar_visible="em_digitacao,autorizada"
                     />
         </header>
-        <div
-                    class="alert alert-danger"
-                    role="alert"
-                    attrs="{'invisible': [('xml_error_message','=',False)]}"
-                >
+        <div class="alert alert-danger" role="alert" invisible="not xml_error_message">
             <strong>XML validation errors:</strong>
             <field name="xml_error_message" readonly="1" />
         </div>
         <div
                     class="alert alert-danger"
                     role="alert"
-                    attrs="{'invisible': [('state_edoc','not in',('rejeitada', 'denegada'))]}"
+                    invisible="state_edoc not in ('rejeitada', 'denegada')"
                 >
             Fiscal Document: <field name="document_type_id" readonly="1" /> is <strong
                     ><field name="state_edoc" readonly="1" /></strong>
@@ -196,7 +191,7 @@
         <div
                     class="alert alert-success"
                     role="alert"
-                    attrs="{'invisible': [('state_edoc','!=','autorizada')]}"
+                    invisible="state_edoc != 'autorizada'"
                 >
             Fiscal Document: <field name="document_type_id" readonly="1" /> is <strong
                     >Authorized</strong>
@@ -204,7 +199,7 @@
         <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('state_edoc','!=','cancelada')]}"
+                    invisible="state_edoc != 'cancelada'"
                 >
             Fiscal Document: <field name="document_type_id" readonly="1" /> is <strong
                     >Cancelled</strong>
@@ -216,7 +211,8 @@
                 <field name="document_type_id" readonly="1" />:
                 <field
                                 name="document_number"
-                                attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"
+                                readonly="issuer == 'company'"
+                                required="issuer == 'partner'"
                             />
             </h1>
           </div>
@@ -243,30 +239,27 @@
             <group name="document_numbers">
               <field name="issuer" />
               <field name="document_type_id" required="1" />
-              <label
-                                for="document_key"
-                                attrs="{'invisible': [('document_electronic', '=', False)]}"
-                            />
-              <div
-                                class="o_row"
-                                attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"
-                            >
+              <label for="document_key" invisible="not document_electronic" />
+              <div class="o_row" invisible="not document_electronic" readonly="issuer == 'company'" required="issuer == 'partner' and document_electronic">
               <field name="document_key" force_save="1" class="oe_inline" />
               </div>
 
               <field
                                 name="document_serie_id"
-                                attrs="{'invisible': [('issuer', '!=', 'company')], 'required': [('issuer', '=', 'company')]}"
+                                invisible="issuer != 'company'"
+                                required="issuer == 'company'"
                                 context="{'default_document_type_id': document_type_id}"
                             />
               <field
                                 name="document_serie"
-                                attrs="{'invisible': [('issuer', '!=', 'partner')], 'required': [('issuer', '=', 'partner')]}"
+                                invisible="issuer != 'partner'"
+                                required="issuer == 'partner'"
                             />
               <field
                                 name="document_number"
                                 force_save="1"
-                                attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"
+                                readonly="issuer == 'company'"
+                                required="issuer == 'partner'"
                             />
             </group>
             <group name="document_extra">
@@ -385,15 +378,15 @@
                     <field name="delivery_costs" invisible="1" />
                     <field
                                             name="amount_insurance_value"
-                                            attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                                            readonly="delivery_costs == 'line' and not force_compute_delivery_costs_by_total"
                                         />
                     <field
                                             name="amount_other_value"
-                                            attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                                            readonly="delivery_costs == 'line' and not force_compute_delivery_costs_by_total"
                                         />
                     <field
                                             name="amount_freight_value"
-                                            attrs="{'readonly': [('delivery_costs', '=', 'line'),('force_compute_delivery_costs_by_total', '=', False)]}"
+                                            readonly="delivery_costs == 'line' and not force_compute_delivery_costs_by_total"
                                         />
                     <field name="amount_estimate_tax" />
                     <field name="amount_tax" />
