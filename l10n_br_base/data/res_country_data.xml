@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="True">
-
     <record id="base.ad" model="res.country">
         <field name="bc_code">0370</field>
         <field name="siscomex_code">037</field>
@@ -35,7 +34,7 @@
         <field name="bc_code">0647</field>
         <field name="siscomex_code">064</field>
     </record>
-<!--
+    <!--
     <record id="base.an" model="res.country">
         <field name="bc_code">0477</field>
         <field name="siscomex_code">047</field>
@@ -823,7 +822,7 @@
         <field name="bc_code">5088</field>
         <field name="siscomex_code">508</field>
     </record>
-<!--
+    <!--
     <record id="base.nt" model="res.country">
         <field name="bc_code"></field>
         <field name="siscomex_code"></field>
@@ -1078,7 +1077,7 @@
         <field name="bc_code">8109</field>
         <field name="siscomex_code">810</field>
     </record>
-<!--
+    <!--
     <record id="base.tp" model="res.country">
         <field name="bc_code">7951</field>
         <field name="siscomex_code">795</field>
@@ -1198,7 +1197,7 @@
         <field name="bc_code">4885</field>
         <field name="siscomex_code">488</field>
     </record>
-<!--
+    <!--
     <record id="base.yu" model="res.country">
         <field name="bc_code">4499</field>
         <field name="siscomex_code">449</field>
@@ -1213,7 +1212,7 @@
         <field name="bc_code">8907</field>
         <field name="siscomex_code">890</field>
     </record>
-<!--
+    <!--
     <record id="base.zr" model="res.country">
         <field name="bc_code">8885</field>
         <field name="siscomex_code">888</field>
@@ -1223,5 +1222,4 @@
         <field name="bc_code">6653</field>
         <field name="siscomex_code">665</field>
     </record>
-
 </odoo>
