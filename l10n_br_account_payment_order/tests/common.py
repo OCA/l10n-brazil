@@ -687,9 +687,9 @@ class CNABTestCommon(AccountTestInvoicingCommon):
 
                 if warning_error and test_dates_are_equals:
                     # Testa caso Sem Codigo
-                    new_date = aml_to_change.date_maturity
+                    new_date = aml_to_change.date
                 # Testa caso com Codigo e Data de Vencimento igual
-                f.date_maturity = new_date
+                f.date = new_date
             if code_to_send == "grant_rebate":
                 f.rebate_value = 10.00
             if code_to_send == "grant_discount":
@@ -732,7 +732,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             if code_to_send == "change_date_maturity":
                 new_date = date.today() + relativedelta(years=1)
                 self.assertEqual(
-                    aml_to_change.date_maturity,
+                    aml_to_change.date,
                     new_date,
                     "Data não alterada",
                 )
