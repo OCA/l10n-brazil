@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <!--
     Resource: res.partner
     -->
@@ -31,5 +30,4 @@
     <record id="base.res_partner_18" model="res.partner">
         <field name="legal_name">Lumber Inc</field>
     </record>
-
 </odoo>
