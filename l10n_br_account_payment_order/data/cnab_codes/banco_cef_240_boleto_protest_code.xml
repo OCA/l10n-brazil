@@ -14,7 +14,7 @@
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_104')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -31,7 +31,7 @@ cobrança), o título será registrado com instrução de devolução, sendo o P
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_104')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -44,7 +44,7 @@ cobrança), o título será registrado com instrução de devolução, sendo o P
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_104')])]" />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
