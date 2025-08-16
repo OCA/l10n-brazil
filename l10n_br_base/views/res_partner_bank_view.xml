@@ -29,7 +29,7 @@
                 <group
                     name="pix"
                     string="Brazilian Instant Payment Keys (PIX)"
-                    attrs="{'invisible': [('company_country_id', '!=', %(base.br)d)]}"
+                    invisible="company_country_id != %(base.br)d"
                 >
                     <field name="company_country_id" invisible="1" />
                     <field name="transactional_acc_type" />
@@ -38,7 +38,7 @@
                         context="{'default_partner_id': partner_id}"
                     >
                         <tree editable="bottom">
-                            <field name="partner_id" invisible="1" />
+                            <field name="partner_id" column_invisible="True" />
                             <field name="key_type" />
                             <field name="key" />
                         </tree>
