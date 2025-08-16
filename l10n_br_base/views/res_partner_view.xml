@@ -39,6 +39,7 @@
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
             <field name="vat" position="attributes">
+                <attribute name="force_save">1</attribute>
                 <attribute name="attrs">
                     {
                         'readonly':
