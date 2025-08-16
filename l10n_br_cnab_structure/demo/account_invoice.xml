@@ -77,4 +77,73 @@
             ]).id"
         />
     </function>
+
+    <!-- Vendor Bill - Banco do Brasil - TED -->
+    <record id="demo_bill_bb_ted" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="intel_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_ted_bb" />
+        <field name="payment_reference">test ted - BB</field>
+        <field
+            name="invoice_line_ids"
+            eval="[(0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 147.50, 'quantity': 10})]"
+        />
+    </record>
+
+     <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_bb_ted')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_bb_ted')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_ted_bb')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Banco do Brasil - PIX Transfer -->
+    <record id="demo_bill_bb_pix" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="intel_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_pix_trasfer_bb" />
+        <field name="payment_reference">test pix - BB</field>
+        <field
+            name="invoice_line_ids"
+            eval="[(0, 0, {'product_id': ref('product.product_product_5'), 'price_unit': 235.0, 'quantity': 5})]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_bb_pix')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_bb_pix')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_pix_trasfer_bb')),
+            ]).id"
+        />
+    </function>
 </odoo>
