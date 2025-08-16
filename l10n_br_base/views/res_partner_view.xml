@@ -40,70 +40,47 @@
         <field name="arch" type="xml">
             <field name="vat" position="attributes">
                 <attribute name="force_save">1</attribute>
-                <attribute name="attrs">
-                    {
-                        'readonly':
-                            [
-                                '|', ('vat', 'not in', [False, ""]),
-                                     ('parent_id', '!=', False),
-
-                            ]
-                    }
-                </attribute>
+                <attribute
+                    name="readonly"
+                >vat not in [False, ''] or parent_id</attribute>
             </field>
             <xpath expr="//h1" position="after">
                 <field name="city_id" invisible="1" />
                 <!-- Allow inject city_id on context above -->
                 <div>
-                    <label
-                        for="legal_name"
-                        string="Full Name"
-                        attrs="{'invisible': [('is_company','=', True)]}"
-                    />
+                    <label for="legal_name" string="Full Name" invisible="is_company" />
                     <label
                         for="legal_name"
                         string="Legal Name"
-                        attrs="{'invisible': [('is_company','!=', True)]}"
+                        invisible="not is_company"
                     />
                 </div>
                 <field name="legal_name" nolabel="1" />
                 <div>
-                    <label
-                        for="vat"
-                        string="CPF"
-                        attrs="{'invisible': [('is_company','=', True)]}"
-                    />
+                    <label for="vat" string="CPF" invisible="is_company" />
                     <label
                         for="vat"
                         string="CNPJ/Vat Number"
-                        attrs="{'invisible': [('is_company','!=', True)]}"
+                        invisible="not is_company"
                     />
                 </div>
                 <field name="vat" nolabel="1" />
                 <div>
-                    <label
-                        for="l10n_br_rg_code"
-                        string="RG"
-                        attrs="{'invisible': [('is_company','=', True)]}"
-                    />
+                    <label for="l10n_br_rg_code" string="RG" invisible="is_company" />
                 </div>
-                <field
-                    name="l10n_br_rg_code"
-                    nolabel="1"
-                    attrs="{'invisible': [('is_company','=', True)]}"
-                />
+                <field name="l10n_br_rg_code" nolabel="1" invisible="is_company" />
                 <div name="l10n_br_ie_code">
                          <label
                         for="l10n_br_ie_code"
                         string="IE"
-                        attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
+                        invisible="not is_company and parent_id"
                     />
                 </div>
                      <field
                     colspan="4"
                     name="l10n_br_ie_code"
                     nolabel="1"
-                    attrs="{'invisible': [('is_company','=', False), ('parent_id', '!=', False)]}"
+                    invisible="not is_company and parent_id"
                 />
             </xpath>
             <page position="after" name="sales_purchases">
@@ -111,20 +88,17 @@
                     <group name="fiscal">
                         <group string="Fiscal Infos" name="fiscal_numbers">
                             <field name="cei_code" />
-                            <field
-                                name="l10n_br_im_code"
-                                attrs="{'invisible': [('is_company','!=', True)]}"
-                            />
+                            <field name="l10n_br_im_code" invisible="not is_company" />
                             <field
                                 name="l10n_br_isuf_code"
-                                attrs="{'invisible': [('is_company','!=', True)]}"
+                                invisible="not is_company"
                             />
                             <field
                                 name="state_tax_number_ids"
-                                attrs="{'invisible': [('is_company','!=', True)]}"
+                                invisible="not is_company"
                             >
                                 <tree editable="bottom">
-                                    <field name="partner_id" invisible="1" />
+                                    <field name="partner_id" column_invisible="True" />
                                     <field name="l10n_br_ie_code" />
                                     <field
                                         name="state_id"
@@ -138,13 +112,10 @@
                         <group string="Other Infos" name="other_infos">
                             <field name="union_entity_code" />
                             <field name="is_accountant" />
-                            <field
-                                name="crc_code"
-                                attrs="{'invisible': [('is_accountant','!=', True)]}"
-                            />
+                            <field name="crc_code" invisible="not is_accountant" />
                             <field
                                 name="crc_state_id"
-                                attrs="{'invisible': [('is_accountant','!=', True)]}"
+                                invisible="not is_accountant"
                                 domain="[('country_id', '=', %(base.br)d)]"
                             />
                             <field name="rntrc_code" />
