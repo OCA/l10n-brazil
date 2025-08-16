@@ -252,6 +252,14 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         tracking=True,
     )
 
+    # Código para Alteração da Data de Desconto
+    change_discount_date_code_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.code",
+        string="Change Discount Date Movement Instruction Code",
+        help="CNAB Movement Instruction Code for Change Discount Date.",
+        tracking=True,
+    )
+
     # Codigo para Protestar Título
     protest_title_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",

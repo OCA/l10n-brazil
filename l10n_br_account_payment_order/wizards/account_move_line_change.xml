@@ -13,8 +13,8 @@
                 <group>
                     <field name="change_type" widget="radio" />
                     <field
-                        name="date_maturity"
-                        attrs="{'invisible': [('change_type', '!=', 'change_date_maturity')], 'required': [('change_type', '=', 'change_date_maturity')]}"
+                        name="date"
+                        attrs="{'invisible': [('change_type', 'not in', ['change_date_maturity', 'change_discount_date'])]}"
                     />
                     <field
                         name="payment_mode_id"

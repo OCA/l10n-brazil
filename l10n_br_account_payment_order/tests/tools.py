@@ -58,7 +58,7 @@ def create_with_form_account_journal(env, values, line_values=False):
     return journal.save()
 
 
-def create_with_form_l10n_br_cnab_config(env, values):
+def create_with_form_l10n_br_cnab_config(env, values):  # noqa: C901
     with Form(
         env["l10n_br_cnab.config"],
         "l10n_br_account_payment_order.l10n_br_cnab_config_form_view",
@@ -124,6 +124,10 @@ def create_with_form_l10n_br_cnab_config(env, values):
         if values.get("change_maturity_date_code_id"):
             cnab_config.change_maturity_date_code_id = values.get(
                 "change_maturity_date_code_id"
+            )
+        if values.get("change_discount_date_code_id"):
+            cnab_config.change_discount_date_code_id = values.get(
+                "change_discount_date_code_id"
             )
         if values.get("protest_title_code_id"):
             cnab_config.protest_title_code_id = values.get("protest_title_code_id")
