@@ -43,7 +43,7 @@ class SpecModel(models.Model):
     and not through _inherit.
     """
 
-    _inherit = "spec.mixin"
+    _inherit = ["spec.mixin"]
     _auto = True  # automatically create database backend
     _register = False  # not visible in ORM registry
     _abstract = False
@@ -254,7 +254,7 @@ class StackedModel(SpecModel):
             env, node, stacking_settings
         ):
             if kind == "stacked" and klass not in cls.__bases__:
-                cls.__bases__ = (klass,) + cls.__bases__
+                cls._inherit.append(klass._name)
         return super()._build_model(pool, cr)
 
     @api.model
