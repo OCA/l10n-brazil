@@ -48,8 +48,9 @@ class DFe(models.Model):
     )
 
     @api.depends("company_id.name", "last_nsu")
-    def name_get(self):
-        return self.mapped(lambda d: (d.id, f"{d.company_id.name} - NSU: {d.last_nsu}"))
+    def _compute_display_name(self):
+        for dfe in self:
+            dfe.display_name = f"{dfe.company_id.name} - NSU: {dfe.last_nsu}"
 
     @api.model
     def _get_processor(self):
