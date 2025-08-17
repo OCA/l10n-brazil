@@ -2,3 +2,4 @@ odoo_test_helper
 nfelib
 xsdata
 signxml==3.2.2
+xmldiff
