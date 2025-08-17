@@ -1,5 +1,6 @@
 # file generated using:
 # xsdata generate spec_driven_model/tests/PurchaseOrderSchema.xsd
+# ruff: noqa: UP007
 
 from dataclasses import dataclass, field
 from decimal import Decimal
