@@ -9,8 +9,8 @@
             ref="l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form"
         />
         <field name="arch" type="xml">
-            <xpath expr="//div[@id='l10n_br_fiscal']" position="inside">
-                <div id="nfe" groups="l10n_br_nfe.group_manager">
+            <xpath expr="//app[@id='l10n_br_fiscal']" position="inside">
+                <block title="NF-e" name="nfe" groups="l10n_br_nfe.group_manager">
                     <h2>NF-e</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-12 col-lg-6 o_setting_box">
@@ -151,7 +151,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </block>
             </xpath>
         </field>
     </record>

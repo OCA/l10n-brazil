@@ -15,37 +15,37 @@
                         name="action_ciencia_emissao"
                         string="Ciência da Emissão"
                         type="object"
-                        attrs="{'invisible':[['state','not in',['pendente']]]}"
+                        invisible="state != 'pendente'"
                     />
                     <button
                         name="action_confirmar_operacacao"
                         string="Confirmar Operação"
                         type="object"
-                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                        invisible="state != 'ciente'"
                     />
                     <button
                         name="action_operacao_desconhecida"
                         string="Desconhecer Operação"
                         type="object"
-                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                        invisible="state != 'ciente'"
                     />
                     <button
                         name="action_negar_operacao"
                         string="Operação não Realizada"
                         type="object"
-                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                        invisible="state != 'ciente'"
                     />
                     <button
                         name="action_download_xml"
                         string="Download XML"
                         type="object"
-                        attrs="{'invisible':[['state','not in',['ciente','confirmado','desconhecido','nao_realizado']]]}"
+                        invisible="state not in ['ciente', 'confirmado', 'desconhecido', 'nao_realizado']"
                     />
                     <button
                         name="import_document"
                         string="Importar Documento"
                         type="object"
-                        attrs="{'invisible':[['state','not in',['ciente','pendente']]]}"
+                        invisible="state not in ['ciente', 'pendente']"
                     />
                     <field
                         name="state"
@@ -139,9 +139,9 @@
                     name="import_document"
                     string="Importar Documento"
                     type="object"
-                    attrs="{'invisible':[['state','not in',['ciente','pendente']]]}"
+                    invisible="state not in ['ciente', 'pendente']"
                 />
-                <field name="document_id" invisible="1" />
+                <field name="document_id" column_invisible="True" />
             </tree>
         </field>
     </record>

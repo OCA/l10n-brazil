@@ -19,23 +19,16 @@
                 <field name="xml_partner_name" readonly="1" />
             </xpath>
             <xpath expr="//group[@id='document_info']" position="after">
-                <group
-                    id="existing_document"
-                    attrs="{'invisible': [('document_id', '=', False)]}"
-                >
+                <group id="existing_document" invisible="not document_id">
                     <field name="document_id" readonly="1" string="Existing Document" />
                 </group>
                 <group
                     id='xml_product_lines'
                     col="4"
-                    attrs="{ 'invisible': [ '|', ('file', '=', False), ('document_id', '!=', False), ] }"
+                    invisible="not file or document_id"
                 >
                     <separator string="NFe XML Products" colspan="4" />
-                    <group
-                        colspan="4"
-                        id="imported_products"
-                        attrs="{'invisible': [('file', '=', False)]}"
-                    >
+                    <group colspan="4" id="imported_products" invisible="not file">
                         <field name="imported_products_ids" nolabel="1" />
                     </group>
                 </group>
