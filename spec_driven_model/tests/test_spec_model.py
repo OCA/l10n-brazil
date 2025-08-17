@@ -1,10 +1,15 @@
 # Copyright 2021 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
+# pylint: disable=reimported
+
+import logging
 
 from odoo_test_helper import FakeModelLoader
 
 from odoo.models import NewId
 from odoo.tests import TransactionCase
+
+_logger = logging.getLogger(__name__)
 
 
 class TestSpecModel(TransactionCase, FakeModelLoader):
@@ -21,21 +26,27 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
 
         # import a simpilified equivalent of purchase module
         from .fake_mixin import PoXsdMixin
-        from .spec_poxsd import (
-            Items,
-            Item,
-            Usaddress,
-            Comment,
-            PurchaseOrderType,
-        )
         from .fake_odoo_purchase import (
             PurchaseOrder as FakePurchaseOrder,
+        )
+        from .fake_odoo_purchase import (
             PurchaseOrderLine as FakePurchaseOrderLine,
+        )
+        from .spec_poxsd import (
+            Comment,
+            Item,
+            Items,
+            PurchaseOrderType,
+            Usaddress,
+        )
+        from .spec_purchase import (
+            PurchaseOrder as SpecPurchaseOrder,
+        )
+        from .spec_purchase import (
+            PurchaseOrderLine as SpecPurchaseOrderLine,
         )
         from .spec_purchase import (
             ResPartner,
-            PurchaseOrder as SpecPurchaseOrder,
-            PurchaseOrderLine as SpecPurchaseOrderLine,
         )
 
         cls.loader.update_registry(
@@ -65,6 +76,8 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         # inject the mixins into existing Odoo models
         from .spec_purchase import (
             PurchaseOrder as PurchaseOrder2,
+        )
+        from .spec_purchase import (
             PurchaseOrderLine,
             ResPartner,
         )
@@ -76,7 +89,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
     @classmethod
     def tearDownClass(cls):
         cls.loader.restore_registry()
-        super(TestSpecModel, cls).tearDownClass()
+        super().tearDownClass()
 
     def test_spec_models(self):
         self.assertTrue(
@@ -94,11 +107,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
     def test_stacked_model(self):
         po_fields_or_stacking = set(self.env["fake.purchase.order"]._fields.keys())
         po_fields_or_stacking.update(
-            set(
-                self.env["fake.purchase.order"]
-                ._poxsd10_stacking_points
-                .keys()
-            )
+            set(self.env["fake.purchase.order"]._poxsd10_stacking_points.keys())
         )
         self.assertTrue(
             po_fields_or_stacking.issuperset(
@@ -106,11 +115,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             )
         )
         self.assertEqual(
-            list(
-                self.env["fake.purchase.order"]
-                ._poxsd10_stacking_points
-                .keys()
-            ),
+            list(self.env["fake.purchase.order"]._poxsd10_stacking_points.keys()),
             ["poxsd10_items"],
         )
 
@@ -130,7 +135,6 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         )
 
     def test_create_export_import(self):
-
         # 1st we create an Odoo PO:
         po = self.env["fake.purchase.order"].create(
             {
@@ -196,7 +200,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             self.assertEqual(xml, expected_xml)
 
         except ImportError:
-            _logger.error(_("xsdata Python lib not installed, skipping XML test!"))
+            _logger.error("xsdata Python lib not installed, skipping XML test!")
 
         # 4th we import an Odoo PO from this binding object
         # first we will do a dry run import:
