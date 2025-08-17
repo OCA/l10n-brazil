@@ -5,16 +5,14 @@ import logging
 
 from erpbrasil.assinatura import misc
 
-from odoo import SUPERUSER_ID, _, api
+from odoo import _
 
 from .constants import CERTIFICATE_TYPE_ECNPJ, CERTIFICATE_TYPE_NFE
 
 _logger = logging.getLogger(__name__)
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
-
+def post_init_hook(env):
     def prepare_fake_certificate_vals(
         valid=True,
         passwd="123456",
