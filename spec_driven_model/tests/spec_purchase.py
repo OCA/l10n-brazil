@@ -27,8 +27,12 @@ class PurchaseOrderLine(spec_models.SpecModel):
     _inherit = ["fake.purchase.order.line", "poxsd.10.item"]
 
     poxsd10_productName = fields.Char(related="name", string="POXSD Product Name")
-    poxsd10_quantity = fields.Integer(related="product_qty", string="POXSD Product Quantity")
-    poxsd10_USPrice = fields.Monetary(related="price_unit", string="POXSD Product Price")
+    poxsd10_quantity = fields.Integer(
+        related="product_qty", string="POXSD Product Quantity"
+    )
+    poxsd10_USPrice = fields.Monetary(
+        related="price_unit", string="POXSD Product Price"
+    )
 
 
 class PurchaseOrder(spec_models.StackedModel):
@@ -46,7 +50,9 @@ class PurchaseOrder(spec_models.StackedModel):
     _poxsd10_stacking_mixin = "poxsd.10.purchaseordertype"
 
     poxsd10_orderDate = fields.Date(compute="_compute_date")
-    poxsd10_confirmDate = fields.Date(related="date_approve", string="POXSD Approval Date")
+    poxsd10_confirmDate = fields.Date(
+        related="date_approve", string="POXSD Approval Date"
+    )
     poxsd10_shipTo = fields.Many2one(related="dest_address_id", readonly=False)
     poxsd10_billTo = fields.Many2one(related="partner_id", readonly=False)
     poxsd10_item = fields.One2many(related="order_line")

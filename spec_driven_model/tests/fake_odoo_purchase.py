@@ -20,18 +20,18 @@ class PurchaseOrder(models.Model):
 
     name = fields.Char("Order Reference", required=True, default="New")
     date_order = fields.Datetime(
-        "Order Date", required=True, states=READONLY_STATES, default=fields.Datetime.now
+        "Order Date", required=True, default=fields.Datetime.now
     )
-    date_approve = fields.Date("Approval Date", readonly=1)
+    date_approve = fields.Date("Approval Date", readonly=True)
     partner_id = fields.Many2one(
         "res.partner",
         string="Vendor",
         required=True,
-        states=READONLY_STATES,
         change_default=True,
     )
     dest_address_id = fields.Many2one(
-        "res.partner", string="Drop Ship Address", states=READONLY_STATES
+        "res.partner",
+        string="Drop Ship Address",
     )
     currency_id = fields.Many2one(
         "res.currency",
@@ -65,7 +65,7 @@ class PurchaseOrderLine(models.Model):
     _description = "Purchase Order Line"
 
     name = fields.Char(string="Description", required=True)
-    sequence = fields.Integer(string="Sequence", default=10)
+    sequence = fields.Integer(default=10)
     product_qty = fields.Integer(string="Quantity", required=True)
     price_unit = fields.Monetary(string="Unit Price", required=True)
     currency_id = fields.Many2one(
