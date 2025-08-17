@@ -13181,14 +13181,6 @@ msgid "Keys for Brazilian instant payment (pix)"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_isuf_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_isuf_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_isuf_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_isuf_code
-msgid "L10N Br Isuf Code"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4209201
 msgid "Lacerdópolis"
 msgstr ""
@@ -23407,6 +23399,10 @@ msgid "Sud Mennucci"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_isuf_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_isuf_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_isuf_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_isuf_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "Suframa"
 msgstr ""

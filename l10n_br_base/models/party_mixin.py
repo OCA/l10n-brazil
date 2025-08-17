@@ -58,6 +58,7 @@ class PartyMixin(models.AbstractModel):
     )
 
     l10n_br_isuf_code = fields.Char(
+        string="Suframa",
         size=18,
         unaccent=False,
     )

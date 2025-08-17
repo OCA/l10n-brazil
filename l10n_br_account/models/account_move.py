@@ -274,14 +274,11 @@ class AccountMove(models.Model):
                     move.is_invoice(include_receipts=True)
                     and line.display_type == "product"
                 ):
-                    line._update_fiscal_taxes()
+                    line._compute_tax_fields()
 
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.fiscal_operation_id):
-            if move.move_type == "entry" or move.is_outbound():
-                sign = -1
-            else:
-                sign = 1
+            sign = move.direction_sign
             inv_line_ids = move.line_ids.filtered(
                 lambda line: line.display_type == "product"
                 and (not line.cfop_id or line.cfop_id.finance_move)

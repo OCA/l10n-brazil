@@ -123,7 +123,6 @@ class AccountMoveLine(models.Model):
             if not fiscal_doc_id:
                 continue
             values["document_id"] = fiscal_doc_id  # pass through the _inherits system
-
         # This reordering bellow is crucial to ensure accurate linkage between
         # account.move.line (aml) and the fiscal document line. In the fiscal create a
         # fiscal document line, leaving only those that should be created. Proper
@@ -311,7 +310,12 @@ class AccountMoveLine(models.Model):
         Overriden to pass all the Brazilian parameters we need
         to the account.tax#compute_all method.
         """
-        result = super()._compute_totals()
+        result = super(
+            AccountMoveLine,
+            self.with_context(
+                skip_compute_fiscal_tax_ids=True, skip_compute_tax_fields=True
+            ),
+        )._compute_totals()
         if not self.move_id.fiscal_operation_id:
             return result
 
@@ -331,7 +335,9 @@ class AccountMoveLine(models.Model):
                     partner=line.partner_id,
                     is_refund=line.move_type in ("out_refund", "in_refund"),
                     handle_price_include=True,  # sure?
-                    fiscal_taxes=line.fiscal_tax_ids,
+                    fiscal_taxes=line.with_context(
+                        skip_compute_fiscal_tax_ids=True
+                    ).fiscal_tax_ids,
                     operation_line=line.fiscal_operation_line_id,
                     cfop=line.cfop_id or None,
                     ncm=line.ncm_id,
@@ -516,7 +522,9 @@ class AccountMoveLine(models.Model):
             user_type = "purchase"
 
         return self.fiscal_tax_ids.account_taxes(
-            user_type=user_type, fiscal_operation=self.fiscal_operation_id
+            user_type=user_type,
+            fiscal_operation=self.fiscal_operation_id,
+            company=self.company_id,
         )
 
     @api.constrains("product_uom_id")
