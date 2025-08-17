@@ -261,6 +261,10 @@ class SpecMixinImport(models.AbstractModel):
             keys = getattr(model, search_keys) + default_key
         else:
             keys = [model._rec_name or "name"]
+        if "code" in model._fields.keys():
+            keys.append("code")
+            if "code" not in rec_dict:
+                rec_dict["code"] = rec_dict.get(model._rec_name)
         keys = self._get_aditional_keys(model, rec_dict, keys)
         for key in keys:
             if rec_dict.get(key):
