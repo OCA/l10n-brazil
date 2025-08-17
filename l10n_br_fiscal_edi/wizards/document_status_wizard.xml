@@ -23,15 +23,15 @@
                         <field name="document_number" readonly="1" />
                         <field
                             name="rps_number"
-                            attrs="{'invisible': [('document_type', '!=', 'SE')]}"
                             readonly="1"
+                            invisible="document_type != 'SE'"
                         />
                     </group>
                 </group>
                 <group name="document_key_group">
                     <field name="document_key" readonly="1" />
                 </group>
-                <group states="done" name="document_status">
+                <group invisible="state != 'done'" name="document_status">
                     <field name="document_status" />
                 </group>
                 <footer>

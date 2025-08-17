@@ -13,7 +13,6 @@ class InvalidateNumber(models.Model):
         inverse_name="invalidate_number_id",
         string="Events",
         readonly=True,
-        states={"done": [("readonly", True)]},
     )
 
     # Authorization Event Related Fields
