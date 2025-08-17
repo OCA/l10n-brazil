@@ -10,7 +10,7 @@
                 <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('nfe_environment','!=','2')]}"
+                    invisible="nfe_environment != '2'"
                 >Nf-e Environment:
                 <strong>
                     <field name="nfe_environment" />
@@ -19,21 +19,18 @@
             <page name="delivery" position="inside">
                 <group
                     name="nfe_transport"
-                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                    invisible="document_type not in ['55', '65']"
                 >
                     <field name="nfe40_modFrete" />
                     <field name="nfe40_transporta" />
                 </group>
-                <group attrs="{'invisible': [('nfe40_idDest', '!=', '3')]}">
+                <group invisible="nfe40_idDest != '3'">
                     <field name="nfe40_idDest" invisible="1" />
                     <field name="nfe40_UFSaidaPais" />
                     <field name="nfe40_xLocExporta" />
                     <field name="nfe40_xLocDespacho" />
                 </group>
-                <group
-                    name="nfe_vol"
-                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
-                >
+                <group name="nfe_vol" invisible="document_type not in ['55', '65']">
                     <field name="nfe40_vol" />
                 </group>
             </page>
@@ -41,7 +38,7 @@
                 <field name="brl_currency_id" invisible="1" />
                 <group
                     name="nfe_finance"
-                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                    invisible="document_type not in ['55', '65']"
                     col="1"
                 >
                     <group
@@ -57,7 +54,10 @@
                         <group name="nfe40_dup_group" string="Parcelas">
                             <field name="nfe40_dup">
                                 <tree>
-                                    <field name="brl_currency_id" invisible="1" />
+                                    <field
+                                        name="brl_currency_id"
+                                        column_invisible="True"
+                                    />
                                     <field name="nfe40_nDup" string="Número" />
                                     <field name="nfe40_dVenc" string="Vencimento" />
                                     <field name="nfe40_vDup" string="Valor" />
@@ -71,7 +71,7 @@
                     >
                         <field name="nfe40_detPag">
                             <tree>
-                                <field name="brl_currency_id" invisible="1" />
+                                <field name="brl_currency_id" column_invisible="True" />
                                 <field
                                     name="nfe40_indPag"
                                     string="Forma de Pagamento"
@@ -93,8 +93,8 @@
                 position="attributes"
             >
                 <attribute
-                    name="attrs"
-                >{'invisible': ['|', ('state_edoc', '!=', 'em_digitacao'), ('imported_document', '=', True)]}</attribute>
+                    name="invisible"
+                >state_edoc != 'em_digitacao' or imported_document</attribute>
             </xpath>
             <!-- Hide buttons for imported documents -->
             <xpath
@@ -102,24 +102,24 @@
                 position="attributes"
             >
                 <attribute
-                    name="attrs"
-                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
+                    name="invisible"
+                >state_edoc != 'autorizada' or imported_document</attribute>
             </xpath>
             <xpath
                 expr="//header/button[@name='action_create_return']"
                 position="attributes"
             >
                 <attribute
-                    name="attrs"
-                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
+                    name="invisible"
+                >state_edoc != 'autorizada' or imported_document</attribute>
             </xpath>
             <xpath
                 expr="//header/button[@name='action_document_cancel']"
                 position="attributes"
             >
                 <attribute
-                    name="attrs"
-                >{'invisible': ['|', '|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False), ('imported_document', '=', True)]}</attribute>
+                    name="invisible"
+                >state_edoc != 'autorizada' or not document_electronic or imported_document</attribute>
             </xpath>
         </field>
     </record>
@@ -131,10 +131,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
         <field name="arch" type="xml">
             <page name="others" position="inside">
-                <group
-                    name="nfe_autxml"
-                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
-                >
+                <group name="nfe_autxml" invisible="document_type not in ['55', '65']">
                     <field name="nfe40_autXML" widget="many2many" />
                 </group>
             </page>

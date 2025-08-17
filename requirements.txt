@@ -1,5 +1,6 @@
 # generated from manifests external_dependencies
 brazilcep
+brazilfiscalreport
 email-validator
 erpbrasil.assinatura
 erpbrasil.base

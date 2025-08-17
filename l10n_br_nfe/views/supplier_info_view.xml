@@ -21,10 +21,7 @@
                 <separator string="Import" />
                 <group id="import">
                     <field name="partner_uom_id" />
-                    <field
-                        name="partner_uom_factor"
-                        attrs="{'required': [('partner_uom_id', '!=', False)]}"
-                    />
+                    <field name="partner_uom_factor" required="partner_uom_id" />
                 </group>
             </xpath>
         </field>
