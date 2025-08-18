@@ -25,10 +25,10 @@ class PartnerPix(models.Model):
     ]
 
     KEY_TYPES = [
-        ("cnpj_cpf", _("CPF or CNPJ")),
-        ("phone", _("Phone Number")),
-        ("email", _("E-mail")),
-        ("evp", _("Random Key")),
+        ("cnpj_cpf", "CPF or CNPJ"),
+        ("phone", "Phone Number"),
+        ("email", "E-mail"),
+        ("evp", "Random Key"),
     ]
 
     partner_id = fields.Many2one(
