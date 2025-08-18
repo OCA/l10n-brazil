@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- pylint:disable=xml-duplicate-record-id -->
 <odoo noupdate="1">
-
     <record id="document_55_serie_1" model="l10n_br_fiscal.document.serie">
         <field name="code">1</field>
         <field name="name">Série 1</field>
@@ -534,273 +533,290 @@
 
     <!-- DEFINIÇÃO DAS TRIBUTAÇÕES -->
     <!-- ICMS - Remessa de Industrialização -->
-  <record
+    <record
         id="tax_icms_definition_remessa_industrializacao"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_remessa_industrializacao_remessa_industrializacao"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- IPI - Remessa de Industrialização -->
-  <record
+    <!-- IPI - Remessa de Industrialização -->
+    <record
         id="tax_ipi_definition_remessa_industrializacao"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_remessa_industrializacao_remessa_industrializacao"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- PIS - Remessa de Industrialização -->
-  <record
+    <!-- PIS - Remessa de Industrialização -->
+    <record
         id="tax_pis_definition_remessa_industrializacao"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_remessa_industrializacao_remessa_industrializacao"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- COFINS - Remessa de Industrialização -->
-  <record
+    <!-- COFINS - Remessa de Industrialização -->
+    <record
         id="tax_cofins_definition_remessa_industrializacao"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_remessa_industrializacao_remessa_industrializacao"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- ICMS - Entrada de Industrialização -->
-  <record
+    <!-- ICMS - Entrada de Industrialização -->
+    <record
         id="tax_icms_definition_entrada_industrializacao"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- IPI - Entrada de Industrialização -->
-  <record
+    <!-- IPI - Entrada de Industrialização -->
+    <record
         id="tax_ipi_definition_entrada_industrializacao"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- PIS - Entrada de Industrialização -->
-  <record
+    <!-- PIS - Entrada de Industrialização -->
+    <record
         id="tax_pis_definition_entrada_industrializacao"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- COFINS - Entrada de Industrialização -->
-  <record
+    <!-- COFINS - Entrada de Industrialização -->
+    <record
         id="tax_cofins_definition_entrada_industrializacao"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- ICMS - Retorno do Reparo -->
-  <record id="tax_icms_definition_retorno_reparo" model="l10n_br_fiscal.tax.definition">
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
-    <field
+    <!-- ICMS - Retorno do Reparo -->
+    <record
+        id="tax_icms_definition_retorno_reparo"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_retorno_reparo_retorno_reparo"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- IPI - Retorno do Reparo -->
-  <record id="tax_ipi_definition_retorno_reparo" model="l10n_br_fiscal.tax.definition">
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
-    <field
+    <!-- IPI - Retorno do Reparo -->
+    <record
+        id="tax_ipi_definition_retorno_reparo"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_retorno_reparo_retorno_reparo"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- PIS - Retorno do Reparo -->
-  <record id="tax_pis_definition_retorno_reparo" model="l10n_br_fiscal.tax.definition">
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
-    <field
+    <!-- PIS - Retorno do Reparo -->
+    <record
+        id="tax_pis_definition_retorno_reparo"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_retorno_reparo_retorno_reparo"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- COFINS - Retorno do Reparo -->
-  <record
+    <!-- COFINS - Retorno do Reparo -->
+    <record
         id="tax_cofins_definition_retorno_reparo"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_retorno_reparo_retorno_reparo"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- ICMS - Entrada para Reparo -->
-  <record id="tax_icms_definition_entrada_reparo" model="l10n_br_fiscal.tax.definition">
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
-    <field
+    <!-- ICMS - Entrada para Reparo -->
+    <record
+        id="tax_icms_definition_entrada_reparo"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_reparo_entrada_reparo"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- IPI - Entrada para Reparo -->
-  <record id="tax_ipi_definition_entrada_reparo" model="l10n_br_fiscal.tax.definition">
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
-      <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_00" />
-    <field
+    <!-- IPI - Entrada para Reparo -->
+    <record
+        id="tax_ipi_definition_entrada_reparo"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_00" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_reparo_entrada_reparo"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
     <!-- PIS - Entrada para Reparo -->
-  <record id="tax_pis_definition_entrada_reparo" model="l10n_br_fiscal.tax.definition">
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_pis_99" />
-    <field
+    <record
+        id="tax_pis_definition_entrada_reparo"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_99" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_reparo_entrada_reparo"
         />
-    <field name="state">approved</field>
-  </record>
+        <field name="state">approved</field>
+    </record>
 
-  <!-- COFINS - Entrada para Reparo -->
-  <record
+    <!-- COFINS - Entrada para Reparo -->
+    <record
         id="tax_cofins_definition_entrada_reparo"
         model="l10n_br_fiscal.tax.definition"
     >
-    <field name="is_taxed" eval="False" />
-    <field name="is_debit_credit" eval="True" />
-    <field name="custom_tax" eval="True" />
-    <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_0" />
-    <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
-    <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_99" />
-    <field
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_0" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_99" />
+        <field
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_entrada_reparo_entrada_reparo"
         />
-    <field name="state">approved</field>
-  </record>
-
+        <field name="state">approved</field>
+    </record>
 </odoo>

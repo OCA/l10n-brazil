@@ -28,13 +28,13 @@
                                 <div invisible="not ibpt_api">
                                     <div class="content-group mt16">
                                     <label
-                                            for="ibpt_update_days"
-                                            class="o_light_label"
-                                        />
+                                        for="ibpt_update_days"
+                                        class="o_light_label"
+                                    />
                                     <field
-                                            name="ibpt_update_days"
-                                            required="ibpt_api"
-                                        />dias</div>
+                                        name="ibpt_update_days"
+                                        required="ibpt_api"
+                                    />dias</div>
                                     <div class="content-group mt16">
                                         <label for="ibpt_token" class="o_light_label" />
                                         <field name="ibpt_token" required="ibpt_api" />
@@ -46,8 +46,8 @@
                                             target="_blank"
                                         >
                                         <i
-                                                class="fa fa-arrow-right"
-                                            />Generate an Access Key</a>
+                                            class="fa fa-arrow-right"
+                                        />Generate an Access Key</a>
                                     </div>
                                 </div>
                             </div>

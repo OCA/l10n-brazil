@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="0">
-
     <record id="fo_venda" model="l10n_br_fiscal.operation">
         <field
             name="comment_ids"
@@ -14,5 +13,4 @@
             eval="[(6,0,[ref('l10n_br_fiscal.fiscal_line_comment_dummy')])]"
         />
     </record>
-
 </odoo>

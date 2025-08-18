@@ -55,8 +55,8 @@
                                 <div t-if="record.product_tmpl_qty.value &gt;= 1">
                                     <strong>
                                     <t
-                                            t-esc="record.product_tmpl_qty.value"
-                                        />Product(s)</strong>
+                                        t-esc="record.product_tmpl_qty.value"
+                                    />Product(s)</strong>
                                 </div>
                             </div>
                         </div>
