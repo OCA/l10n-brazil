@@ -6,9 +6,9 @@
         <field name="priority">999</field>
         <field name="inherit_id" ref="base.view_partner_bank_form" />
         <field name="arch" type="xml">
-            <field name="acc_type" position="after">
+            <!--field name="acc_type" position="after">
                 <field name="bank_account_type" />
-            </field>
+            </field-->
             <field name="acc_number" position="replace">
                 <newline />
                 <field name="acc_number" />
@@ -36,11 +36,11 @@
                         name="partner_pix_ids"
                         context="{'default_partner_id': partner_id}"
                     >
-                        <tree editable="bottom">
+                        <!--tree editable="bottom">
                             <field name="partner_id" column_invisible="True" />
                             <field name="key_type" />
                             <field name="key" />
-                        </tree>
+                        </tree-->
                     </field>
                 </group>
             </xpath>

@@ -38,17 +38,17 @@ class Partner(models.Model):
 
     is_accountant = fields.Boolean(string="Is accountant?")
 
-    crc_code = fields.Char(string="CRC Code", size=18, unaccent=False)
+    crc_code = fields.Char(string="CRC Code", size=18)
 
     crc_state_id = fields.Many2one(comodel_name="res.country.state", string="CRC State")
 
-    rntrc_code = fields.Char(string="RNTRC Code", size=12, unaccent=False)
+    rntrc_code = fields.Char(string="RNTRC Code", size=12)
 
-    cei_code = fields.Char(string="CEI Code", size=12, unaccent=False)
+    cei_code = fields.Char(string="CEI Code", size=12)
 
-    union_entity_code = fields.Char(string="Union Entity code", unaccent=False)
+    union_entity_code = fields.Char(string="Union Entity code")
 
-    l10n_br_rg_code = fields.Char(string="RG", unaccent=False)
+    l10n_br_rg_code = fields.Char(string="RG")
 
     pix_key_ids = fields.One2many(
         string="Pix Keys",
@@ -92,12 +92,12 @@ class Partner(models.Model):
             self.write(sync_vals)
             self._commercial_sync_to_children()
 
-    def _commercial_sync_to_children(self):
+    def _commercial_sync_to_children(self, fields_to_sync=None):
         """
         Overriden to avoid copying the CNPJ (vat field) to parent partners
         """
         if not self.is_br_partner:
-            return super()._commercial_sync_to_children()
+            return super()._commercial_sync_to_children(fields_to_sync)
 
         commercial_partner = self.commercial_partner_id
         sync_vals = commercial_partner._update_fields_values(
@@ -105,7 +105,7 @@ class Partner(models.Model):
         )
         sync_children = self.child_ids.filtered(lambda c: not c.is_company)
         for child in sync_children:
-            child._commercial_sync_to_children()
+            child._commercial_sync_to_children(fields_to_sync)
         res = sync_children.write(sync_vals)
         sync_children._compute_commercial_partner()
         return res
