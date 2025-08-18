@@ -22,10 +22,10 @@
         <field name="name">l10n_br_fiscal.tax.group.tree</field>
         <field name="model">l10n_br_fiscal.tax.group</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="tax_domain" />
-            </tree>
+            </list>
         </field>
     </record>
 

@@ -23,7 +23,7 @@
         <field name="name">l10n_br_fiscal.operation.tree</field>
         <field name="model">l10n_br_fiscal.operation</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" readonly="state != 'draft'" />
                 <field name="name" readonly="state != 'draft'" />
                 <field
@@ -34,7 +34,7 @@
                 <field name="fiscal_operation_type" readonly="state != 'draft'" />
                 <field name="fiscal_type" readonly="state != 'draft'" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -128,10 +128,10 @@
                                 readonly="state != 'draft'"
                                 context="{'default_fiscal_operation_id': id}"
                             >
-                                <tree>
+                                <list>
                                     <field name="document_type_id" />
                                     <field name="document_serie_id" />
-                                </tree>
+                                </list>
                                 <form>
                                     <group>
                                         <field name="company_id" invisible="1" />

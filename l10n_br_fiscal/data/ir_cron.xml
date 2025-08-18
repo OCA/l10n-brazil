@@ -6,7 +6,6 @@
         <field name="user_id" ref="base.user_root" />
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
         <field name="model_id" ref="model_l10n_br_fiscal_ncm" />
         <field name="code">model._scheduled_update()</field>
         <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 04:00:00')" />
@@ -18,7 +17,6 @@
         <field name="user_id" ref="base.user_root" />
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
         <field name="model_id" ref="model_l10n_br_fiscal_nbs" />
         <field name="code">model._scheduled_update()</field>
     </record>

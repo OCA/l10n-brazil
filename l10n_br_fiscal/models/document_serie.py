@@ -16,9 +16,9 @@ class DocumentSerie(models.Model):
     _description = "Fiscal Document Serie"
     _inherit = "l10n_br_fiscal.data.abstract"
 
-    code = fields.Char(size=3, unaccent=False)
+    code = fields.Char(size=3)
 
-    name = fields.Char(required=True, unaccent=False)
+    name = fields.Char(required=True)
 
     active = fields.Boolean(default=True)
 

@@ -22,14 +22,14 @@
         <field name="name">l10n_br_fiscal.comment.tree</field>
         <field name="model">l10n_br_fiscal.comment</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="sequence" />
                 <field name="name" />
                 <field name="comment_type" />
                 <field name="object" />
                 <field name="date_begin" />
                 <field name="date_end" />
-            </tree>
+            </list>
         </field>
     </record>
 

@@ -34,14 +34,14 @@
         <field name="name">product.product.tree</field>
         <field name="model">product.product</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="default_code" />
                 <field name="name" />
                 <field name="ncm_id" />
                 <field name="standard_price" />
                 <field name="type" />
                 <field name="active" column_invisible="True" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -75,13 +75,13 @@
                                 invisible="fiscal_type != '09'"
                                 context="{'default_service_type_id': service_type_id}"
                             >
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="code" />
                                     <field name="name" />
                                     <field name="service_type_id" />
                                     <field name="state_id" />
                                     <field name="city_id" />
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group>

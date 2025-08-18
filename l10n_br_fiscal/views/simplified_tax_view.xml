@@ -16,10 +16,10 @@
                         </page>
                         <page string="CNAEs" name="cnae">
                             <field name="cnae_ids" nolabel="1" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="code" />
                                     <field name="name" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -32,9 +32,9 @@
         <field name="name">l10n_br_fiscal.simplified.tax.tree</field>
         <field name="model">l10n_br_fiscal.simplified.tax</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>

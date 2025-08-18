@@ -501,14 +501,12 @@ class FiscalDocumentMixin(models.AbstractModel):
     document_number = fields.Char(
         copy=False,
         index=True,
-        unaccent=False,
     )
 
     document_key = fields.Char(
         string="Key",
         copy=False,
         index=True,
-        unaccent=False,
     )
 
     key_random_code = fields.Char(string="Document Key Random Code")

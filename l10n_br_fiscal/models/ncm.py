@@ -16,9 +16,9 @@ class Ncm(models.Model):
     ]
     _description = "NCM"
 
-    code = fields.Char(size=10, unaccent=False)
+    code = fields.Char(size=10)
 
-    code_unmasked = fields.Char(size=8, unaccent=False)
+    code_unmasked = fields.Char(size=8)
 
     exception = fields.Char(size=2)
 

@@ -4,13 +4,13 @@
         <field name="name">l10n_br_fiscal.tax.definition.tree</field>
         <field name="model">l10n_br_fiscal.tax.definition</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="state" column_invisible="True" />
                 <field name="tax_group_id" readonly="state != 'draft'" />
                 <field name="is_taxed" readonly="state != 'draft'" />
                 <field name="tax_id" readonly="state != 'draft'" />
                 <field name="cst_code" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -18,7 +18,7 @@
         <field name="name">l10n_br_fiscal.tax.definition.icms.tree</field>
         <field name="model">l10n_br_fiscal.tax.definition</field>
         <field name="arch" type="xml">
-            <tree
+            <list
                 decoration-info="state in ('draft', 'review')"
                 decoration-muted="state == 'expired'"
             >
@@ -32,7 +32,7 @@
                 <field name="state_to_ids" />
                 <field name="tax_id" readonly="state != 'draft'" />
                 <field name="cst_code" />
-            </tree>
+            </list>
         </field>
     </record>
 

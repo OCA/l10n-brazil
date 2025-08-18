@@ -15,10 +15,10 @@
         <field name="name">l10n_br_fiscal.tax.pis.cofins.base.tree</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins.base</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
 

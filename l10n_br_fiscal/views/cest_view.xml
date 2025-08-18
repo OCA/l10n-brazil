@@ -25,12 +25,12 @@
         <field name="name">l10n_br_fiscal.cest.tree</field>
         <field name="model">l10n_br_fiscal.cest</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="item" />
                 <field name="name" />
                 <field name="segment" />
-            </tree>
+            </list>
         </field>
     </record>
 

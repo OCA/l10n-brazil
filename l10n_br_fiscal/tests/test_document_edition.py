@@ -3,15 +3,38 @@
 
 from unittest import mock
 
-from odoo.tests import TransactionCase
-from odoo.tests.common import Form
+from odoo import Command
+from odoo.tests import Form, TransactionCase
 
 
 class TestDocumentEdition(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.user = cls.env["res.users"].create(
+            {
+                "name": "Fiscal User",
+                "login": "fiscaluser",
+                "password": "fiscaluser",
+                "groups_id": [
+                    Command.set(cls.env.user.groups_id.ids),
+                    Command.link(cls.env.ref("l10n_br_fiscal.group_user").id),
+                    Command.link(cls.env.ref("base.group_multi_company").id),
+                ],
+            }
+        )
+        cls.user.partner_id.email = "accountman@test.com"
+        companies = cls.env["res.company"].search([])
+        cls.user.write(
+            {
+                "company_ids": [Command.set(companies.ids)],
+                "company_id": cls.env.ref("l10n_br_base.empresa_lucro_presumido"),
+            }
+        )
+
+        cls.env = cls.env(
+            user=cls.user, context=dict(cls.env.context, tracking_disable=True)
+        )
 
     def test_basic_doc_edition(self):
         doc_form = Form(
@@ -96,7 +119,6 @@ class TestDocumentEdition(TransactionCase):
                 default_fiscal_operation_type="out",
             )
         )
-        doc_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         doc_form.ind_final = "1"
@@ -119,7 +141,6 @@ class TestDocumentEdition(TransactionCase):
                 default_fiscal_operation_type="out",
             )
         )
-        doc_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         doc_form.ind_final = "1"

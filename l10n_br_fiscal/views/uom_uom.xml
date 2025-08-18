@@ -36,13 +36,13 @@
         <field name="inherit_id" ref="uom.product_uom_categ_form_view" />
         <field name="arch" type="xml">
             <xpath
-                expr="//field[@name='uom_ids']/tree/field[@name='name']"
+                expr="//field[@name='uom_ids']/list/field[@name='name']"
                 position="before"
             >
                 <field name="code" />
             </xpath>
             <xpath
-                expr="//field[@name='uom_ids']/tree/field[@name='name']"
+                expr="//field[@name='uom_ids']/list/field[@name='name']"
                 position="after"
             >
                 <field name="description" />

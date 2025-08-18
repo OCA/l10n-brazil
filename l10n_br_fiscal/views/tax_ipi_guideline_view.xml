@@ -25,12 +25,12 @@
         <field name="name">l10n_br_fiscal.tax.ipi.guideline.tree</field>
         <field name="model">l10n_br_fiscal.tax.ipi.guideline</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
                 <field name="cst_in_id" />
                 <field name="cst_out_id" />
-            </tree>
+            </list>
         </field>
     </record>
 

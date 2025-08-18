@@ -15,14 +15,14 @@
         <field name="name">l10n_br_fiscal.invalidate.number.tree</field>
         <field name="model">l10n_br_fiscal.invalidate.number</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="company_id" readonly="state != 'draft'" />
                 <field name="document_type_id" readonly="state != 'draft'" />
                 <field name="document_serie_id" readonly="state != 'draft'" />
                 <field name="number_start" readonly="state != 'draft'" />
                 <field name="number_end" readonly="state != 'draft'" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
