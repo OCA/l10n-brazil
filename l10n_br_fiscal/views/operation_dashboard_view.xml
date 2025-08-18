@@ -35,8 +35,7 @@
                             </div>
                         </div>
                     </t>
-                    <!-- kanban-box normal -->
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div
                             t-attf-class="#{kanban_color(record.color.raw_value)}"
                             name="operation_dashboard"

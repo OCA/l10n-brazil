@@ -46,7 +46,7 @@
         <field name="name">l10n_br_fiscal.cfop.tree</field>
         <field name="model">l10n_br_fiscal.cfop</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
                 <field name="type_in_out" />
@@ -61,7 +61,7 @@
                 <field name="ind_anula" optional="hide" />
                 <field name="ind_remes" optional="hide" />
                 <field name="ind_comb" optional="hide" />
-            </tree>
+            </list>
         </field>
     </record>
 

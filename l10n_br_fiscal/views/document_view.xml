@@ -63,7 +63,7 @@
         <field name="name">l10n_br_fiscal.document.tree</field>
         <field name="model">l10n_br_fiscal.document</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="document_type" />
                 <field name="document_serie" />
@@ -85,7 +85,7 @@
                     optional="show"
                 />
                 <field name="state_fiscal" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -219,10 +219,10 @@
                         <h1>
                         <field name="document_type_id" readonly="1" />:
                         <field
-                                name="document_number"
-                                readonly="issuer == 'company'"
-                                required="issuer == 'partner'"
-                            /></h1>
+                            name="document_number"
+                            readonly="issuer == 'company'"
+                            required="issuer == 'partner'"
+                        /></h1>
                     </div>
                     <group>
                         <group name="partner_info">
@@ -306,7 +306,7 @@
                                 name="fiscal_line_ids"
                                 context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}"
                             >
-                                <tree>
+                                <list>
                                     <field name="product_id" />
                                     <field name="uom_id" />
                                     <field name="price_unit" />
@@ -316,7 +316,7 @@
                                         widget="many2many_tags"
                                     />
                                     <field name="amount_total" sum="Total" />
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page name="document_related" string="Document Related">
@@ -434,12 +434,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="o_attachment_preview" />
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" groups="base.group_user" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>

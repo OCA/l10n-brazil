@@ -4,12 +4,12 @@
         <field name="name">l10n_br_fiscal.document.related.tree</field>
         <field name="model">l10n_br_fiscal.document.related</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="document_type_id" />
                 <field name="document_key" />
                 <field name="document_serie" />
                 <field name="document_number" />
-            </tree>
+            </list>
         </field>
     </record>
 

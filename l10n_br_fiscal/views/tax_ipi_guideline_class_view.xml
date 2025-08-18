@@ -15,10 +15,10 @@
         <field name="name">l10n_br_fiscal.tax.ipi.guideline.class.tree</field>
         <field name="model">l10n_br_fiscal.tax.ipi.guideline.class</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
 

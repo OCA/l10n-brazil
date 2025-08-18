@@ -4,14 +4,14 @@
         <field name="name">l10n_br_fiscal.operation.line.tree</field>
         <field name="model">l10n_br_fiscal.operation.line</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="cfop_internal_id" context="{'show_code_only': 1}" />
                 <field name="cfop_external_id" context="{'show_code_only': 1}" />
                 <field name="cfop_export_id" context="{'show_code_only': 1}" />
                 <field name="tax_definition_ids" widget="many2many_tags" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 

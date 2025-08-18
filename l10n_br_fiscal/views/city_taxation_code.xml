@@ -21,14 +21,14 @@
         <field name="name">city.taxation.code.tree (in l10n_br_fiscal)</field>
         <field name="model">l10n_br_fiscal.city.taxation.code</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
                 <field name="service_type_id" />
                 <field name="state_id" />
                 <field name="city_id" />
                 <field name="cnae_id" />
-            </tree>
+            </list>
         </field>
     </record>
 

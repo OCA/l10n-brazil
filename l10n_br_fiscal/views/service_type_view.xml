@@ -23,11 +23,11 @@
         <field name="name">l10n_br_fiscal.service.type.tree</field>
         <field name="model">l10n_br_fiscal.service.type</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
                 <field name="parent_id" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -41,7 +41,7 @@
                 <field name="name" />
                 <field name="product_tmpl_qty" />
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div class="oe_kanban_global_click">
                             <div class="oe_kanban_details">
                                 <strong class="o_kanban_record_title">

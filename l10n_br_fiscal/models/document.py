@@ -105,7 +105,6 @@ class Document(models.Model):
         string="RPS Number",
         copy=False,
         index=True,
-        unaccent=False,
     )
 
     document_date = fields.Datetime(

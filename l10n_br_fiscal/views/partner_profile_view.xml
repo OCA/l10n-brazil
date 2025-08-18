@@ -23,7 +23,7 @@
         <field name="name">l10n_br_fiscal.partner.profile.tree</field>
         <field name="model">l10n_br_fiscal.partner.profile</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="code" />
                 <field name="name" />
                 <field name="is_company" />
@@ -31,7 +31,7 @@
                 <field name="default" />
                 <field name="ind_ie_dest" />
                 <field name="tax_framework" />
-            </tree>
+            </list>
         </field>
     </record>
 
