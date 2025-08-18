@@ -11,21 +11,12 @@
                 <field name="edoc_error_message" />
             </field>
             <group name="document_numbers" position="before">
-                <group
-                    name="nfse_operation"
-                    attrs="{'invisible': [('document_type', '!=', 'SE')]}"
-                >
+                <group name="nfse_operation" invisible="document_type != 'SE'">
                     <field name="operation_nature" />
                     <field name="taxation_special_regime" />
                 </group>
-                <group
-                    name="nfse_info"
-                    attrs="{'invisible': [('document_type', '!=', 'SE')]}"
-                >
-                    <field
-                        name="verify_code"
-                        attrs="{'invisible': [('document_type', '!=', 'SE')]}"
-                    />
+                <group name="nfse_info" invisible="document_type != 'SE'">
+                    <field name="verify_code" invisible="document_type != 'SE'" />
                     <field name="rps_number" force_save="1" readonly="1" />
                     <field name="rps_type" />
                     <field name="nfse_environment" readonly="1" />
