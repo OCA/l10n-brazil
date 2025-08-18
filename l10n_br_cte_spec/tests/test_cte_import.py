@@ -4,9 +4,9 @@
 
 import re
 from datetime import datetime
+from importlib import resources
 
 import nfelib
-import pkg_resources
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 from odoo_test_helper import FakeModelLoader
 
@@ -150,15 +150,17 @@ class NFeImportTest(TransactionCase):
         super().tearDownClass()
 
     def test_import_cte(self):
-        res_items = (
-            "cte",
-            "samples",
-            "v4_0",
-            "43120178408960000182570010000000041000000047-cte.xml",
+        file = (
+            resources.files(nfelib)
+            .joinpath("cte")
+            .joinpath("samples")
+            .joinpath("v4_0")
+            .joinpath("43120178408960000182570010000000041000000047-cte.xml")
         )
-        resource_path = "/".join(res_items)
-        cte_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = Tcte.from_xml(cte_stream.read().decode())
+        with file.open("rb") as f:
+            cte_stream = f.read()
+
+        binding = Tcte.from_xml(cte_stream.decode())
         cte = (
             self.env["cte.40.tcte_infcte"]
             .with_context(tracking_disable=True, edoc_type="in")
