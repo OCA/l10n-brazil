@@ -40,7 +40,7 @@ def build_attrs_fake(self, node, create_m2o=False):
             continue
         key = f"nfe40_{fspec.metadata.get('name', fname)}"
         if (
-            fspec.type == str or not any(["." in str(i) for i in fspec.type.__args__])
+            fspec.type is str or not any(["." in str(i) for i in fspec.type.__args__])
         ) and not str(fspec.type).startswith("typing.List"):
             # SimpleType
             if fields[key]["type"] == "datetime":
@@ -152,7 +152,7 @@ class NFeImportTest(TransactionCase, FakeModelLoader):
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
         nfe = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_fake(binding.NFe.infNFe, create=False)
         )
         self.assertEqual(nfe.nfe40_emit.nfe40_CNPJ, "75335849000115")
@@ -172,7 +172,7 @@ class NFeImportTest(TransactionCase, FakeModelLoader):
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
         nfe = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_fake(binding.NFe.infNFe, create=False)
         )
         self.assertEqual(nfe.nfe40_emit.nfe40_CNPJ, "34128745000152")
