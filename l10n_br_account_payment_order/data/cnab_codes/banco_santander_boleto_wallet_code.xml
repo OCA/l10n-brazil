@@ -7,10 +7,13 @@
         <field name="name">Cobrança Simples (Eletrônica com Registro)</field>
         <field name="code">1</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -18,10 +21,13 @@
         <field name="name">Cobrança Caucionada (Eletrônica com Registro)</field>
         <field name="code">3</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -29,10 +35,13 @@
         <field name="name">Cobrança Simples (Rápida com Registro)</field>
         <field name="code">5</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -40,10 +49,13 @@
         <field name="name">Cobrança Caucionada (Rápida com Registro)</field>
         <field name="code">6</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -51,10 +63,13 @@
         <field name="name">Cobrança Descontada (Eletrônica com Registro)</field>
         <field name="code">7</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
     </record>
 
@@ -62,10 +77,13 @@
         <field name="name">Cobrança Cessão (Eletrônica com Registro)*</field>
         <field name="code">8</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab400')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
         />
         <field
             name="comment"
@@ -80,10 +98,13 @@
         >Cobrança Simples (Sem Registro e Eletrônica com Registro)</field>
         <field name="code">1</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -93,10 +114,13 @@
         >Cobrança Caucionada (Eletrônica com Registro e Convencional com Registro)</field>
         <field name="code">3</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -104,10 +128,13 @@
         <field name="name">Cobrança Descontada (Eletrônica com Registro)</field>
         <field name="code">4</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -115,10 +142,13 @@
         <field name="name">Cobrança Simples (Rápida com Registro)*</field>
         <field name="code">5</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -129,10 +159,13 @@
         <field name="name">Cobrança Caucionada (Rápida com Registro)</field>
         <field name="code">6</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -142,10 +175,13 @@
         >Transferência de Titularidade - Sem Devolução (Cobrança Simples - Eletrônica com Registro e Rápida com Registro)**</field>
         <field name="code">7</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -156,10 +192,13 @@
         <field name="name">Cobrança Cessão (Eletrônica com Registro)****</field>
         <field name="code">8</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -173,10 +212,13 @@
         >Transferência de Titularidade - Com Devolução (Cobrança Simples - Eletrônica com Registro e Rápida com Registro)</field>
         <field name="code">9</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -186,10 +228,13 @@
         >Cobrança Simples (Sem Registro sem pré-impresso e com pré-impresso)***</field>
         <field name="code">B</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_033')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"

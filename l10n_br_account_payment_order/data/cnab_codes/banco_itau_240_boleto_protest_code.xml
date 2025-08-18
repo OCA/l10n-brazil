@@ -11,10 +11,13 @@
         <field name="name">Sem instrução</field>
         <field name="code">0</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_341'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -22,10 +25,13 @@
         <field name="name">Protestar (Dias Corridos)</field>
         <field name="code">1</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_341'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -39,10 +45,13 @@ dias (corridos) após o vencimento, de acordo com a ocorrência.
         <field name="name">Protestar (Dias Úteis)</field>
         <field name="code">2</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_341'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -56,10 +65,13 @@ dias (corridos) após o vencimento, de acordo com a ocorrência.
         <field name="name">Não protestar</field>
         <field name="code">3</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_341'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -67,10 +79,13 @@ dias (corridos) após o vencimento, de acordo com a ocorrência.
         <field name="name">Negativar (Dias Corridos)</field>
         <field name="code">7</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_341'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -84,10 +99,13 @@ dias (corridos) após o vencimento, de acordo com a ocorrência.
         <field name="name">Não Negativar</field>
         <field name="code">8</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_341'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 

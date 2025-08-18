@@ -9,10 +9,13 @@
         <field name="name">Cobrança Simples</field>
         <field name="code">1</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -20,10 +23,13 @@
         <field name="name">Cobrança Vinculada</field>
         <field name="code">2</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -31,10 +37,13 @@
         <field name="name">Cobrança Caucionada</field>
         <field name="code">3</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -42,10 +51,13 @@
         <field name="name">Cobrança Descontada</field>
         <field name="code">4</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
@@ -53,10 +65,13 @@
         <field name="name">Cobrança Vendor</field>
         <field name="code">5</field>
         <field name="code_type">wallet_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 

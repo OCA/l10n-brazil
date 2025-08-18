@@ -12,10 +12,13 @@
         <field name="name">Valor fixo até a data informada</field>
         <field name="code">1</field>
         <field name="code_type">discount_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_748')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_748'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -27,10 +30,13 @@
         <field name="name">Percentual até a data informada</field>
         <field name="code">2</field>
         <field name="code_type">discount_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_748')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_748'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -42,10 +48,13 @@
         <field name="name">Valor por antecipação dia corrido</field>
         <field name="code">3</field>
         <field name="code_type">discount_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_748')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_748'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -59,10 +68,13 @@
         <field name="name">Cancelamento de desconto</field>
         <field name="code">7</field>
         <field name="code_type">discount_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_748')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_748'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"

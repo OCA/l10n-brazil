@@ -13,10 +13,13 @@
         >Protestar Dias Corridos (No Sistema Ailos o prazo para protesto é de 05 a 15).</field>
         <field name="code">1</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_085'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -29,10 +32,13 @@
         >Negativação de boletos via Serasa (No Sistema Ailos o prazo para protesto é de 05 a 15).</field>
         <field name="code">2</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_085'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
         <field
             name="comment"
@@ -43,10 +49,13 @@
         <field name="name">Não Protestar / Não Negativar</field>
         <field name="code">3</field>
         <field name="code_type">protest_code</field>
-        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_085'))]"
+        />
         <field
             name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
 
