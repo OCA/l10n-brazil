@@ -42,7 +42,7 @@ def build_attrs_fake(self, node, create_m2o=False):
             continue
         key = f"{self._field_prefix}{fname}"
         if (
-            fspec.type == str or not any(["." in str(i) for i in fspec.type.__args__])
+            fspec.type is str or not any(["." in str(i) for i in fspec.type.__args__])
         ) and not str(fspec.type).startswith("typing.List"):
             # SimpleType
             if fields[key]["type"] == "datetime":
@@ -161,7 +161,7 @@ class NFeImportTest(TransactionCase):
         binding = Tcte.from_xml(cte_stream.read().decode())
         cte = (
             self.env["cte.40.tcte_infcte"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_fake(binding.infCte, create=False)
         )
         self.assertEqual(cte.cte40_emit.cte40_xNome, "KERBER E CIA. LTDA.")
