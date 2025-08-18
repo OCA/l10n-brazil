@@ -4,9 +4,9 @@
 
 import re
 from datetime import datetime
+from importlib import resources
 
 import nfelib
-import pkg_resources
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from odoo_test_helper import FakeModelLoader
 
@@ -140,16 +140,17 @@ class NFeImportTest(TransactionCase, FakeModelLoader):
         super().tearDownClass()
 
     def test_import_nfe1(self):
-        res_items = (
-            "nfe",
-            "samples",
-            "v4_0",
-            "leiauteNFe",
-            "26180875335849000115550010000016871192213331-nfe.xml",
+        file = (
+            resources.files(nfelib)
+            .joinpath("nfe")
+            .joinpath("samples")
+            .joinpath("v4_0")
+            .joinpath("leiauteNFe")
+            .joinpath("26180875335849000115550010000016871192213331-nfe.xml")
         )
-        resource_path = "/".join(res_items)
-        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = TnfeProc.from_xml(nfe_stream.read().decode())
+        with file.open("rb") as f:
+            nfe_stream = f.read()
+        binding = TnfeProc.from_xml(nfe_stream.decode())
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in")
@@ -160,16 +161,18 @@ class NFeImportTest(TransactionCase, FakeModelLoader):
         self.assertEqual(nfe.nfe40_det[0].nfe40_prod.nfe40_cProd, "880945")
 
     def test_import_nfe2(self):
-        res_items = (
-            "nfe",
-            "samples",
-            "v4_0",
-            "leiauteNFe",
-            "35180834128745000152550010000476491552806942-nfe.xml",
+        file = (
+            resources.files(nfelib)
+            .joinpath("nfe")
+            .joinpath("samples")
+            .joinpath("v4_0")
+            .joinpath("leiauteNFe")
+            .joinpath("35180834128745000152550010000476491552806942-nfe.xml")
         )
-        resource_path = "/".join(res_items)
-        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = TnfeProc.from_xml(nfe_stream.read().decode())
+        with file.open("rb") as f:
+            nfe_stream = f.read()
+
+        binding = TnfeProc.from_xml(nfe_stream.decode())
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in")
