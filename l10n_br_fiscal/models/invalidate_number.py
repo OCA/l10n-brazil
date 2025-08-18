@@ -99,12 +99,7 @@ class InvalidateNumber(models.Model):
     @api.depends("document_type_id", "document_serie_id", "number_start", "number_end")
     def _compute_name(self):
         for record in self:
-            record.name = "{type}/({serie}): {start} - {end}".format(
-                type=record.document_type_id.type,
-                serie=record.document_serie_id.name,
-                start=record.number_start,
-                end=record.number_end,
-            )
+            record.name = f"{record.document_type_id.type}/({record.document_serie_id.name}): {record.number_start} - {record.number_end}"
 
     def unlink(self):
         if self.filtered(lambda n: not n.state == "draft"):

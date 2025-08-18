@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="True">
-
     <record id="res_partner_anonimo" model="res.partner">
         <field name="name">Consumidor Anônimo</field>
         <field name="legal_name">Consumidor Anônimo</field>
@@ -28,5 +27,4 @@
         <field name="legal_name">Prefeitura Municipal</field>
         <field name="is_company">True</field>
     </record>
-
 </odoo>

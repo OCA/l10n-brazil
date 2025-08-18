@@ -86,8 +86,8 @@
                                                     >
                                                         <span title="A enviar">
                                                         <t
-                                                                t-esc="dashboard.number_2confirm"
-                                                            />A enviar</span>
+                                                            t-esc="dashboard.number_2confirm"
+                                                        />A enviar</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -100,8 +100,8 @@
                                                         id="fiscal_dashboard_sale_pay_link"
                                                     >
                                                     <t
-                                                            t-esc="dashboard.number_authorized"
-                                                        />Autorizados</a>
+                                                        t-esc="dashboard.number_authorized"
+                                                    />Autorizados</a>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -113,8 +113,8 @@
                                                     >
                                                         <span title="Cancelados">
                                                         <t
-                                                                t-esc="dashboard.number_cancelled"
-                                                            />Cancelados</span>
+                                                            t-esc="dashboard.number_cancelled"
+                                                        />Cancelados</span>
                                                     </a>
                                                 </div>
                                             </div>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Sua Empresa -->
     <record id="base.main_partner" model="res.partner">
         <field
@@ -299,6 +298,4 @@
         <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_99" />
         <field name="state">draft</field>
     </record>
-
-
 </odoo>
