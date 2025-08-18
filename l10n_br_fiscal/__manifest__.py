@@ -132,4 +132,5 @@
             "erpbrasil.base>=2.3.0",
         ]
     },
+    "post_init_hook": "post_init_hook",
 }
