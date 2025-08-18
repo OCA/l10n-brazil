@@ -32,7 +32,6 @@ class PartyMixin(models.AbstractModel):
     l10n_br_ie_code = fields.Char(
         string="State Tax Number",
         size=17,
-        unaccent=False,
     )
 
     # compat with legacy code:
@@ -49,7 +48,6 @@ class PartyMixin(models.AbstractModel):
     l10n_br_im_code = fields.Char(
         string="Municipal Tax Number",
         size=18,
-        unaccent=False,
     )
 
     # backward compat with v14:
@@ -60,7 +58,6 @@ class PartyMixin(models.AbstractModel):
     l10n_br_isuf_code = fields.Char(
         string="Suframa",
         size=18,
-        unaccent=False,
     )
 
     legal_name = fields.Char(

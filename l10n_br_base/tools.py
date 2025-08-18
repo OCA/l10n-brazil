@@ -7,7 +7,6 @@
 
 from erpbrasil.base.fiscal import cnpj_cpf, ie
 
-from odoo import _
 from odoo.exceptions import ValidationError
 
 
@@ -40,7 +39,7 @@ def check_ie(env, l10n_br_ie_code, state, country):
 
         if not ie.validar(state.code.lower(), l10n_br_ie_code):
             raise ValidationError(
-                _(
+                env._(
                     "Estadual Inscription %(inscr)s Invalid for State %(state)s!",
                     inscr=l10n_br_ie_code,
                     state=state.name,
@@ -77,7 +76,7 @@ def check_cnpj_cpf(env, cnpj_cpf_value, country):
                         document = "CNPJ"
 
                     raise ValidationError(
-                        _(
+                        env._(
                             "%(d_type)s %(d_id)s is invalid!",
                             d_type=document,
                             d_id=cnpj_cpf_value,

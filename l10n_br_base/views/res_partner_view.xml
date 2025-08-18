@@ -19,7 +19,7 @@
         </field>
     </record>
 
-    <record id="l10n_br_base_res_partner_tree" model="ir.ui.view">
+    <!--record id="l10n_br_base_res_partner_tree" model="ir.ui.view">
         <field name="name">l10n_br_base.res.partner.tree</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_tree" />
@@ -30,7 +30,7 @@
                 <field name="l10n_br_ie_code" />
             </field>
         </field>
-    </record>
+    </record-->
 
     <record id="l10n_br_base_partner_form" model="ir.ui.view">
         <field name="name">l10n_br_base.res.partner.form</field>
@@ -94,8 +94,8 @@
                                 name="state_tax_number_ids"
                                 invisible="not is_company"
                             >
-                                <tree editable="bottom">
-                                    <field name="partner_id" column_invisible="True" />
+                                <list editable="bottom">
+                                    <!-- field name="partner_id" column_invisible="True" /-->
                                     <field name="l10n_br_ie_code" />
                                     <field
                                         name="state_id"
@@ -103,7 +103,7 @@
                                         create="False"
                                         edit="False"
                                     />
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group string="Other Infos" name="other_infos">

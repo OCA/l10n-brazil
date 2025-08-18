@@ -34,8 +34,8 @@
                     name="state_tax_number_ids"
                     invisible="country_id != %(base.br)d"
                 >
-                    <tree editable="bottom">
-                        <field name="company_id" column_invisible="1" />
+                    <list editable="bottom">
+                        <!-- field name="company_id" column_invisible="1" /-->
                         <field name="l10n_br_ie_code" />
                         <field
                             name="state_id"
@@ -43,7 +43,7 @@
                             create="False"
                             edit="False"
                         />
-                    </tree>
+                    </list>
                 </field>
             </field>
             <!-- TODO: Na v12 era desnecessario incluir o codigo abaixo para
