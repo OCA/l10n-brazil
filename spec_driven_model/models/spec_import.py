@@ -82,7 +82,7 @@ class SpecMixinImport(models.AbstractModel):
         # typing.Union[nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00.TinfRespTec, NoneType]
         # or typing.Union[ForwardRef('Tnfe.InfNfe.Det.Imposto'), NoneType]
         # that's why we test if the 1st Union type is a dataclass or a ForwardRef
-        if attr[1].type == str or (
+        if attr[1].type is str or (
             not isinstance(attr[1].type.__args__[0], ForwardRef)
             and not dataclasses.is_dataclass(attr[1].type.__args__[0])
         ):
@@ -256,7 +256,7 @@ class SpecMixinImport(models.AbstractModel):
         if model is None:
             model = self
         default_key = [model._rec_name or "name"]
-        search_keys = "_%s_search_keys" % (self._context["spec_schema"])
+        search_keys = f"_{self._context['spec_schema']}_search_keys"
         if hasattr(model, search_keys):
             keys = getattr(model, search_keys) + default_key
         else:
