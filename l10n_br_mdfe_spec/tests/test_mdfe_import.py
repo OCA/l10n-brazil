@@ -42,7 +42,7 @@ def build_attrs_fake(self, node, create_m2o=False):
             continue
         key = f"mdfe30_{fspec.metadata.get('name', fname)}"
         if (
-            fspec.type == str or not any(["." in str(i) for i in fspec.type.__args__])
+            fspec.type is str or not any(["." in str(i) for i in fspec.type.__args__])
         ) and not str(fspec.type).startswith("typing.List"):
             # SimpleType
             if fields[key]["type"] == "datetime":
@@ -153,7 +153,7 @@ class NFeImportTest(TransactionCase):
         binding = Tmdfe.from_xml(mdfe_stream.read().decode())
         mdfe = (
             self.env["mdfe.30.tmdfe_infmdfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_fake(binding.infMDFe, create=False)
         )
         self.assertEqual(mdfe.mdfe30_emit.mdfe30_CNPJ, "76676436000167")
@@ -170,7 +170,7 @@ class NFeImportTest(TransactionCase):
         binding = Tmdfe.from_xml(mdfe_stream.read().decode())
         mdfe = (
             self.env["mdfe.30.tmdfe_infmdfe"]
-            .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
+            .with_context(tracking_disable=True, edoc_type="in")
             .build_fake(binding.infMDFe, create=False)
         )
         self.assertEqual(mdfe.mdfe30_emit.mdfe30_xNome, "TESTE")
