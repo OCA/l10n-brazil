@@ -194,10 +194,10 @@ class Event(models.Model):
 
     state = fields.Selection(
         selection=[
-            ("draft", _("Draft")),
-            ("send", _("Sending")),
-            ("wait", _("Waiting Response")),
-            ("done", _("Response received")),
+            ("draft", "Draft"),
+            ("send", "Sending"),
+            ("wait", "Waiting Response"),
+            ("done", "Response received"),
         ],
         string="Status",
         readonly=True,
