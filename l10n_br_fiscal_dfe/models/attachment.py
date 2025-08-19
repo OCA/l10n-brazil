@@ -72,7 +72,7 @@ class Attachment(models.TransientModel):
             try:
                 tFile.add(tail)
             except Exception:
-                _logger.error("No such file was found : %s" % tail)
+                _logger.error(f"No such file was found : {tail}")
 
             tFile.close()
 

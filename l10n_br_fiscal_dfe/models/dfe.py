@@ -125,7 +125,7 @@ class DFe(models.Model):
     @api.model
     def _parse_xml_document(self, document):
         schema_type = document.schema.split("_")[0]
-        method = "parse_%s" % schema_type
+        method = f"parse_{schema_type}"
         if not hasattr(self, method):
             return
 
