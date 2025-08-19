@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="certificate_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.certificate.search</field>
         <field name="model">l10n_br_fiscal.certificate</field>
@@ -34,19 +33,17 @@
                         </h1>
                     </div>
                     <div class="oe_button_box" name="button_box">
-
-            <field name="active" invisible="1" />
-            <widget
+                        <field name="active" invisible="1" />
+                        <widget
                             name="web_ribbon"
                             title="Archived"
                             bg_color="bg-danger"
                             invisible="active"
                         />
-
                     </div>
                     <group>
-                      <field name="type" />
-                      <field name="subtype" />
+                        <field name="type" />
+                        <field name="subtype" />
                     </group>
                     <group>
                         <group string="File">
@@ -88,7 +85,8 @@
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
               Add a new Certificate
-            </p><p>
+            </p>
+            <p>
               All Certificate by
               Brazilian Fiscal modulo for Odoo.
             </p>
@@ -102,5 +100,4 @@
         parent="l10n_br_fiscal.others_config_menu"
         sequence="40"
     />
-
 </odoo>
