@@ -15,16 +15,24 @@ class TestDocumentEdition(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         load_fiscal_fixture_files(cls.env)
+        groups = [
+            Command.set(cls.env.user.groups_id.ids),
+            Command.link(cls.env.ref("l10n_br_fiscal.group_user").id),
+            Command.link(cls.env.ref("base.group_multi_company").id),
+        ]
+        if cls.env.ref("l10n_br_nfe.group_user", raise_if_not_found=False):
+            groups.append(Command.link(cls.env.ref("l10n_br_nfe.group_user").id))
+        if cls.env.ref("l10n_br_cte.group_user", raise_if_not_found=False):
+            groups.append(Command.link(cls.env.ref("l10n_br_cte.group_user").id))
+        if cls.env.ref("l10n_br_mdfe.group_user", raise_if_not_found=False):
+            groups.append(Command.link(cls.env.ref("l10n_br_mdfe.group_user").id))
+
         cls.user = cls.env["res.users"].create(
             {
                 "name": "Fiscal User",
                 "login": "fiscaluser",
                 "password": "fiscaluser",
-                "groups_id": [
-                    Command.set(cls.env.user.groups_id.ids),
-                    Command.link(cls.env.ref("l10n_br_fiscal.group_user").id),
-                    Command.link(cls.env.ref("base.group_multi_company").id),
-                ],
+                "groups_id": groups,
             }
         )
         cls.user.partner_id.email = "accountman@test.com"
