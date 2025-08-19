@@ -41,7 +41,7 @@ class DFe(models.Model):
     @api.model
     def _create_mde_from_schema(self, schema, root):
         schema_type = schema.split("_")[0]
-        method = "_create_mde_from_%s" % schema_type
+        method = f"_create_mde_from_{schema_type}"
         if not hasattr(self, method):
             return
 
