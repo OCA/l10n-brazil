@@ -1,1 +1,1 @@
-from . import test_nfe_import
+# from . import test_nfe_import

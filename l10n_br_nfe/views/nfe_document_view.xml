@@ -53,7 +53,7 @@
                         </group>
                         <group name="nfe40_dup_group" string="Parcelas">
                             <field name="nfe40_dup">
-                                <tree>
+                                <list>
                                     <field
                                         name="brl_currency_id"
                                         column_invisible="True"
@@ -61,7 +61,7 @@
                                     <field name="nfe40_nDup" string="Número" />
                                     <field name="nfe40_dVenc" string="Vencimento" />
                                     <field name="nfe40_vDup" string="Valor" />
-                                </tree>
+                                </list>
                             </field>
                         </group>
                     </group>
@@ -70,7 +70,7 @@
                         string="Grupo YA. Informações de Pagamento"
                     >
                         <field name="nfe40_detPag">
-                            <tree>
+                            <list>
                                 <field name="brl_currency_id" column_invisible="True" />
                                 <field
                                     name="nfe40_indPag"
@@ -78,7 +78,7 @@
                                 />
                                 <field name="nfe40_tPag" string="Meio de Pagamento" />
                                 <field name="nfe40_vPag" string="Valor do Pagamento" />
-                            </tree>
+                            </list>
                         </field>
                         <field name="nfe40_vTroco" string="Valor do Troco" />
                     </group>

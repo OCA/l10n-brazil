@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
-  <infNFe versao="4.00" Id="NFe35200159594315000157550010000000022062777169">
-    <ide>
-      <cUF>35</cUF>
-      <cNF>06277716</cNF>
-      <natOp>Venda</natOp>
-      <mod>55</mod>
-      <serie>1</serie>
-      <nNF>2</nNF>
-      <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
-      <dhSaiEnt>2020-01-01T12:00:00+01:00</dhSaiEnt>
-      <tpNF>1</tpNF>
-      <idDest>1</idDest>
-      <cMunFG>3550308</cMunFG>
-      <tpImp>1</tpImp>
-      <tpEmis>1</tpEmis>
-      <cDV>9</cDV>
-      <tpAmb>2</tpAmb>
-      <finNFe>1</finNFe>
-      <indFinal>0</indFinal>
-      <indPres>0</indPres>
-      <procEmi>0</procEmi>
-      <verProc>Odoo Brasil OCA v14</verProc>
-    </ide>
-    <emit>
+    <infNFe versao="4.00" Id="NFe35200159594315000157550010000000022062777169">
+        <ide>
+            <cUF>35</cUF>
+            <cNF>06277716</cNF>
+            <natOp>Venda</natOp>
+            <mod>55</mod>
+            <serie>1</serie>
+            <nNF>2</nNF>
+            <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+            <dhSaiEnt>2020-01-01T12:00:00+01:00</dhSaiEnt>
+            <tpNF>1</tpNF>
+            <idDest>1</idDest>
+            <cMunFG>3550308</cMunFG>
+            <tpImp>1</tpImp>
+            <tpEmis>1</tpEmis>
+            <cDV>9</cDV>
+            <tpAmb>2</tpAmb>
+            <finNFe>1</finNFe>
+            <indFinal>0</indFinal>
+            <indPres>0</indPres>
+            <procEmi>0</procEmi>
+            <verProc>Odoo Brasil OCA v14</verProc>
+        </ide>
+        <emit>
             <CNPJ>81583054000129</CNPJ>
             <xNome>Empresa Lucro Presumido Ltda</xNome>
             <xFant>Empresa Lucro Presumido</xFant>
@@ -42,7 +42,7 @@
             <IE>078016350838</IE>
             <CRT>3</CRT>
         </emit>
-    <dest>
+        <dest>
             <CPF>76586507812</CPF>
             <xNome>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
             <enderDest>
@@ -60,24 +60,24 @@
             <indIEDest>1</indIEDest>
             <email>cliente11@cliente11.com.br</email>
         </dest>
-    <det nItem="1">
-      <prod>
-        <cProd>FURN_9001</cProd>
-        <cEAN>SEM GTIN</cEAN>
-        <xProd>Flipover</xProd>
-        <NCM>96100000</NCM>
-        <CFOP>5102</CFOP>
-        <uCom>KG</uCom>
-        <qCom>1.0000</qCom>
-        <vUnCom>1950.0000000000</vUnCom>
-        <vProd>1950.00</vProd>
-        <cEANTrib>SEM GTIN</cEANTrib>
-        <uTrib>KG</uTrib>
-        <qTrib>1.0000</qTrib>
-        <vUnTrib>1950.0000000000</vUnTrib>
-        <indTot>1</indTot>
-      </prod>
-      <imposto>
+        <det nItem="1">
+            <prod>
+                <cProd>FURN_9001</cProd>
+                <cEAN>SEM GTIN</cEAN>
+                <xProd>Flipover</xProd>
+                <NCM>96100000</NCM>
+                <CFOP>5102</CFOP>
+                <uCom>KG</uCom>
+                <qCom>1.0000</qCom>
+                <vUnCom>1950.0000000000</vUnCom>
+                <vProd>1950.00</vProd>
+                <cEANTrib>SEM GTIN</cEANTrib>
+                <uTrib>KG</uTrib>
+                <qTrib>1.0000</qTrib>
+                <vUnTrib>1950.0000000000</vUnTrib>
+                <indTot>1</indTot>
+            </prod>
+            <imposto>
                 <ICMS>
                     <ICMS20>
                         <orig>0</orig>
@@ -112,8 +112,8 @@
                     </COFINSAliq>
                 </COFINS>
             </imposto>
-    </det>
-    <total>
+        </det>
+        <total>
             <ICMSTot>
                 <vBC>953.36</vBC>
                 <vICMS>171.60</vICMS>
@@ -136,18 +136,18 @@
                 <vNF>1950.00</vNF>
             </ICMSTot>
         </total>
-    <transp>
+        <transp>
             <modFrete>9</modFrete>
         </transp>
-    <pag>
+        <pag>
             <detPag>
                 <indPag>0</indPag>
                 <tPag>01</tPag>
                 <vPag>1950.00</vPag>
             </detPag>
         </pag>
-    <infAdic>
+        <infAdic>
             <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
         </infAdic>
-  </infNFe>
+    </infNFe>
 </NFe>

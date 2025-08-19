@@ -4,3 +4,4 @@ odoo_test_helper
 nfelib
 Setuptools<81
 signxml==3.2.2
+xmldiff
