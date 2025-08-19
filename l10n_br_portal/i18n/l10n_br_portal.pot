@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,7 +24,13 @@ msgid "<option value=\"\">select...</option>"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__br_currency_id
+msgid "BR Company Currency"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "CNPJ/CPF"
 msgstr ""
 
@@ -36,16 +42,6 @@ msgstr ""
 #. module: l10n_br_portal
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
 msgid "CNPJ/CPF without special characters"
-msgstr ""
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "CNPJ/VAT"
-msgstr ""
-
-#. module: l10n_br_portal
-#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -62,7 +58,7 @@ msgstr ""
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__city_id
-msgid "City of Address"
+msgid "City ID"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -87,11 +83,6 @@ msgid "Country"
 msgstr ""
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__district
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "District"
@@ -103,19 +94,24 @@ msgid "Email"
 msgstr ""
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner____last_update
-msgid "Last Modified on"
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__equity_capital
+msgid "Equity Capital"
 msgstr ""
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_name
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_nature_id
+msgid "Legal Nature"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnae_main_id
+msgid "Main CNAE"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -127,6 +123,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_im_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Municipal Tax Number"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_mun
+msgid "Municipal Tax Number alias"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -145,11 +146,6 @@ msgid "Phone"
 msgstr ""
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_rg_code
-msgid "RG"
-msgstr ""
-
-#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "State / Province"
 msgstr ""
@@ -158,6 +154,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_ie_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "State Tax Number"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__inscr_est
+msgid "State Tax Number alias"
 msgstr ""
 
 #. module: l10n_br_portal
@@ -171,8 +172,21 @@ msgid "Street2"
 msgstr ""
 
 #. module: l10n_br_portal
-#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__suframa
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_isuf_code
 msgid "Suframa"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__vat
+msgid "Tax ID"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__vat
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
 msgstr ""
 
 #. module: l10n_br_portal
