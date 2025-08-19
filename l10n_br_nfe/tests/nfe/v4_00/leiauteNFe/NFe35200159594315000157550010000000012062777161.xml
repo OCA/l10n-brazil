@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
-  <infNFe versao="4.00" Id="NFe35200159594315000157550010000000012062777161">
-    <ide>
-      <cUF>35</cUF>
-      <cNF>06277716</cNF>
-      <natOp>Venda</natOp>
-      <mod>55</mod>
-      <serie>1</serie>
-      <nNF>1</nNF>
-      <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
-      <dhSaiEnt>2020-01-01T12:00:00+01:00</dhSaiEnt>
-      <tpNF>1</tpNF>
-      <idDest>1</idDest>
-      <cMunFG>3501152</cMunFG>
-      <tpImp>1</tpImp>
-      <tpEmis>1</tpEmis>
-      <cDV>1</cDV>
-      <tpAmb>2</tpAmb>
-      <finNFe>1</finNFe>
-      <indFinal>0</indFinal>
-      <indPres>0</indPres>
-      <procEmi>0</procEmi>
-      <verProc>Odoo Brasil OCA v14</verProc>
-    </ide>
-    <emit>
+    <infNFe versao="4.00" Id="NFe35200159594315000157550010000000012062777161">
+        <ide>
+            <cUF>35</cUF>
+            <cNF>06277716</cNF>
+            <natOp>Venda</natOp>
+            <mod>55</mod>
+            <serie>1</serie>
+            <nNF>1</nNF>
+            <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+            <dhSaiEnt>2020-01-01T12:00:00+01:00</dhSaiEnt>
+            <tpNF>1</tpNF>
+            <idDest>1</idDest>
+            <cMunFG>3501152</cMunFG>
+            <tpImp>1</tpImp>
+            <tpEmis>1</tpEmis>
+            <cDV>1</cDV>
+            <tpAmb>2</tpAmb>
+            <finNFe>1</finNFe>
+            <indFinal>0</indFinal>
+            <indPres>0</indPres>
+            <procEmi>0</procEmi>
+            <verProc>Odoo Brasil OCA v14</verProc>
+        </ide>
+        <emit>
             <CNPJ>59594315000157</CNPJ>
             <xNome>Empresa Simples Nacional</xNome>
             <xFant>Empresa Simples Nacional</xFant>
@@ -42,7 +42,7 @@
             <IE>755338250133</IE>
             <CRT>1</CRT>
         </emit>
-    <dest>
+        <dest>
             <CNPJ>81493979000189</CNPJ>
             <xNome>NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL</xNome>
             <enderDest>
@@ -62,7 +62,7 @@
             <IE>460429771334</IE>
             <email>cliente1@cliente1.com.br</email>
         </dest>
-    <det nItem="1">
+        <det nItem="1">
             <prod>
                 <cProd>E-COM11</cProd>
                 <cEAN>SEM GTIN</cEAN>
@@ -112,7 +112,7 @@
                 </COFINS>
             </imposto>
         </det>
-    <total>
+        <total>
             <ICMSTot>
                 <vBC>0.00</vBC>
                 <vICMS>0.00</vICMS>
@@ -135,18 +135,18 @@
                 <vNF>140.00</vNF>
             </ICMSTot>
         </total>
-    <transp>
+        <transp>
             <modFrete>9</modFrete>
         </transp>
-    <pag>
+        <pag>
             <detPag>
                 <indPag>0</indPag>
                 <tPag>01</tPag>
                 <vPag>140.00</vPag>
             </detPag>
         </pag>
-    <infAdic>
+        <infAdic>
             <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
         </infAdic>
-  </infNFe>
+    </infNFe>
 </NFe>

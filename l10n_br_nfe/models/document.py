@@ -1106,9 +1106,7 @@ class NFe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(lang="pt_BR").filtered(
-            filter_processador_edoc_nfe
-        ):
+        for record in self.filtered(filter_processador_edoc_nfe):
             record.flush_model()
             self.env.invalidate_all()
             inf_nfe = record._build_binding("nfe", "40")
