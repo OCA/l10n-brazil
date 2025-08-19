@@ -213,7 +213,7 @@ class MDe(models.Model):
         )
 
     def create_xml_attachment(self, xml):
-        file_name = "NFe%s.xml" % self.dfe_id.last_nsu
+        file_name = f"NFe{self.dfe_id.last_nsu}.xml"
         self.attachment_id = self.env["ir.attachment"].create(
             {
                 "name": file_name,

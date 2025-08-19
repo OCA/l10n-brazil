@@ -691,39 +691,39 @@ class NFeLine(spec_models.StackedModel):
             "orig": self.nfe40_orig,
             "CST": self.icms_cst_id.code,
             "modBC": self.icms_base_type,
-            "vBC": str("%.02f" % self.icms_base),
-            "pRedBC": str("%.04f" % self.icms_reduction),
-            "pICMS": str("%.04f" % self.icms_percent),
-            "vICMS": str("%.02f" % self.icms_value),
-            "vICMSSubstituto": str("%.02f" % self.icms_substitute),
+            "vBC": f"{self.icms_base:.2f}",
+            "pRedBC": f"{self.icms_reduction:.4f}",
+            "pICMS": f"{self.icms_percent:.4f}",
+            "vICMS": f"{self.icms_value:.2f}",
+            "vICMSSubstituto": f"{self.icms_substitute:.2f}",
             # ICMS SUBSTITUIÇÃO TRIBUTÁRIA
             "modBCST": self.icmsst_base_type,
-            "pMVAST": str("%.04f" % self.icmsst_mva_percent),
-            "pRedBCST": str("%.04f" % self.icmsst_reduction),
-            "vBCST": str("%.02f" % self.icmsst_base),
-            "pICMSST": str("%.04f" % self.icmsst_percent),
-            "vICMSST": str("%.02f" % self.icmsst_value),
+            "pMVAST": f"{self.icmsst_mva_percent:.4f}",
+            "pRedBCST": f"{self.icmsst_reduction:.4f}",
+            "vBCST": f"{self.icmsst_base:.2f}",
+            "pICMSST": f"{self.icmsst_percent:.4f}",
+            "vICMSST": f"{self.icmsst_value:.2f}",
             "UFST": self.partner_id.state_id.code,
             # ICMS COBRADO ANTERIORMENTE POR SUBSTITUIÇÃO TRIBUTÁRIA
-            "vBCSTRet": str("%.02f" % self.icmsst_wh_base),
-            "pST": str("%.04f" % (self.icmsst_wh_percent + self.icmsfcp_wh_percent)),
-            "vICMSSTRet": str("%.02f" % self.icmsst_wh_value),
-            "pRedBCEfet": str("%.04f" % self.icms_effective_reduction),
-            "vBCEfet": str("%.02f" % self.icms_effective_base),
-            "pICMSEfet": str("%.04f" % self.icms_effective_percent),
-            "vICMSEfet": str("%.02f" % self.icms_effective_value),
+            "vBCSTRet": f"{self.icmsst_wh_base:.2f}",
+            "pST": f"{(self.icmsst_wh_percent + self.icmsfcp_wh_percent):.4f}",
+            "vICMSSTRet": f"{self.icmsst_wh_value:.2f}",
+            "pRedBCEfet": f"{self.icms_effective_reduction:.4f}",
+            "vBCEfet": f"{self.icms_effective_base:.2f}",
+            "pICMSEfet": f"{self.icms_effective_percent:.4f}",
+            "vICMSEfet": f"{self.icms_effective_value:.2f}",
             # ICMS SIMPLES NACIONAL
             "CSOSN": self.icms_cst_id.code,
-            "pCredSN": str("%.04f" % self.icmssn_percent),
-            "vCredICMSSN": str("%.02f" % self.icmssn_credit_value),
+            "pCredSN": f"{self.icmssn_percent:.4f}",
+            "vCredICMSSN": f"{self.icmssn_credit_value:.2f}",
         }
         if self.icmsfcp_wh_percent:
             icms.update(
                 {
                     # FUNDO DE COMBATE À POBREZA RETIDO
-                    "vBCFCPSTRet": str("%.02f" % self.icmsfcp_base_wh),
-                    "pFCPSTRet": str("%.04f" % self.icmsfcp_wh_percent),
-                    "vFCPSTRet": str("%.02f" % self.icmsfcp_value_wh),
+                    "vBCFCPSTRet": f"{self.icmsfcp_base_wh:.2f}",
+                    "pFCPSTRet": f"{self.icmsfcp_wh_percent:.4f}",
+                    "vFCPSTRet": f"{self.icmsfcp_value_wh:.2f}",
                 }
             )
         if (
@@ -734,25 +734,25 @@ class NFeLine(spec_models.StackedModel):
             icms.update(
                 {
                     # FUNDO DE COMBATE À POBREZA
-                    "vBCFCP": str("%.02f" % self.icmsfcp_base),
-                    "pFCP": str("%.04f" % self.icmsfcp_percent),
-                    "vFCP": str("%.02f" % self.icmsfcp_value),
+                    "vBCFCP": f"{self.icmsfcp_base:.2f}",
+                    "pFCP": f"{self.icmsfcp_percent:.4f}",
+                    "vFCP": f"{self.icmsfcp_value:.2f}",
                 }
             )
         if self.icmsfcpst_percent:
             icms.update(
                 {
                     # FUNDO DE COMBATE À POBREZA - COM ST
-                    "vBCFCPST": str("%.02f" % self.icmsfcpst_base),
-                    "pFCPST": str("%.04f" % self.icmsfcpst_percent),
-                    "vFCPST": str("%.02f" % self.icmsfcpst_value),
+                    "vBCFCPST": f"{self.icmsfcpst_base:.2f}",
+                    "pFCPST": f"{self.icmsfcpst_percent:.4f}",
+                    "vFCPST": f"{self.icmsfcpst_value:.2f}",
                 }
             )
         if self.icms_relief_id:
             icms.update(
                 {
                     # DESONERAÇÃO DO IMCS
-                    "vICMSDeson": str("%.02f" % self.icms_relief_value),
+                    "vICMSDeson": f"{self.icms_relief_value:.2f}",
                     "motDesICMS": self.icms_relief_id.code,
                 }
             )
@@ -823,7 +823,7 @@ class NFeLine(spec_models.StackedModel):
     def _compute_nfe40_ICMSUFDest(self):
         for record in self:
             if record.icms_origin_percent:
-                record.nfe40_pICMSInter = str("%.02f" % record.icms_origin_percent)
+                record.nfe40_pICMSInter = f"{record.icms_origin_percent:.2f}"
             else:
                 record.nfe40_pICMSInter = False
 
@@ -1333,7 +1333,7 @@ class NFeLine(spec_models.StackedModel):
         return values
 
     def _build_attr(self, node, fields, vals, path, attr):
-        key = "nfe40_%s" % (attr[0])
+        key = f"nfe40_{attr[0]}"
         value = getattr(node, attr[0])
         if key in ["nfe40_CST", "nfe40_modBC", "nfe40_CSOSN"]:
             return  # (dealt with in _build_many2one)
