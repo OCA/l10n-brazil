@@ -121,9 +121,9 @@
     <record model="ir.ui.view" id="view_l10n_br_nfe_mde_tree">
         <field name="name">l10n_br_nfe_mde.tree</field>
         <field name="model">l10n_br_nfe.mde</field>
-        <field name="type">tree</field>
+        <field name="type">list</field>
         <field name="arch" type="xml">
-            <tree create="false" limit="5">
+            <list create="false" limit="5">
                 <field name="nsu" />
                 <field name="cnpj_cpf" />
                 <field name="company_id" required="1" />
@@ -142,13 +142,13 @@
                     invisible="state not in ['ciente', 'pendente']"
                 />
                 <field name="document_id" column_invisible="True" />
-            </tree>
+            </list>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="l10n_br_nfe_mde_action">
         <field name="name">Manifestation</field>
         <field name="res_model">l10n_br_nfe.mde</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 </odoo>
