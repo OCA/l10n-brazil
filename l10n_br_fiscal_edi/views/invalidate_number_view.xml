@@ -8,7 +8,7 @@
             <xpath expr="//group[@name='invalidation']" position="after">
                 <notebook>
                     <page string="Events">
-                        <field name="event_ids" />
+                        <field name="event_ids" readonly="state != 'draft'" />
                     </page>
                 </notebook>
             </xpath>
