@@ -2,7 +2,6 @@
 <!-- Copyright 2019 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="document_cancel_wizard_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.document.cancel.wizard</field>
         <field name="model">l10n_br_fiscal.document.cancel.wizard</field>
@@ -26,5 +25,4 @@
         <field name="context">{}</field>
         <field name="target">new</field>
     </record>
-
 </odoo>
