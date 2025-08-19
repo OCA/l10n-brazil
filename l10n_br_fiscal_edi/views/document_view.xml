@@ -43,7 +43,7 @@
                             invisible="not correction_event_ids"
                         >
                             <field name="correction_event_ids" nolabel="1" colspan="2">
-                                <tree>
+                                <list>
                                     <field name="id" />
                                     <field name="justification" />
                                     <field name="create_date" />
@@ -54,18 +54,18 @@
                                         icon="fa-print"
                                         type="object"
                                     />
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group name="events" string="Events and Services" colspan="4">
                             <field name="event_ids" nolabel="1" colspan="2">
-                                <tree>
+                                <list>
                                     <field name="id" />
                                     <field name="type" />
                                     <field name="origin" />
                                     <field name="create_date" />
                                     <field name="state" />
-                                </tree>
+                                </list>
                             </field>
                         </group>
                     </group>
