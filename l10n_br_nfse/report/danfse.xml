@@ -1,26 +1,25 @@
 <?xml version="1.0" ?>
 <odoo>
+    <record id="paperformat_br_nfse_danfse" model="report.paperformat">
+        <field name="name">Danfe NFS-e</field>
+        <field name="default" eval="True" />
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">3</field>
+        <field name="margin_bottom">3</field>
+        <field name="margin_left">3</field>
+        <field name="margin_right">3</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">3</field>
+    </record>
 
-      <record id="paperformat_br_nfse_danfse" model="report.paperformat">
-          <field name="name">Danfe NFS-e</field>
-          <field name="default" eval="True" />
-          <field name="orientation">Portrait</field>
-          <field name="margin_top">3</field>
-          <field name="margin_bottom">3</field>
-          <field name="margin_left">3</field>
-          <field name="margin_right">3</field>
-          <field name="header_line" eval="False" />
-          <field name="header_spacing">3</field>
-      </record>
-
-<!--    <report-->
-<!--        id="report_br_nfse_danfe"-->
-<!--        string="Nota de Serviço"-->
-<!--        model="l10n_br_fiscal.document"-->
-<!--        report_type="qweb-pdf"-->
-<!--        file="l10n_br_nfse.main_template_br_nfse_danfe"-->
-<!--        name="l10n_br_nfse.main_template_br_nfse_danfe"-->
-<!--    />-->
+    <!--    <report-->
+    <!--        id="report_br_nfse_danfe"-->
+    <!--        string="Nota de Serviço"-->
+    <!--        model="l10n_br_fiscal.document"-->
+    <!--        report_type="qweb-pdf"-->
+    <!--        file="l10n_br_nfse.main_template_br_nfse_danfe"-->
+    <!--        name="l10n_br_nfse.main_template_br_nfse_danfe"-->
+    <!--    />-->
 
     <record id="report_br_nfse_danfe" model="ir.actions.report">
         <field name="name">Nota de Serviço</field>
@@ -101,7 +100,7 @@ row {
 }
             </style>
 
-             <div class="row bt bb br bl">
+            <div class="row bt bb br bl">
                 <div class="col-2">
                     <img
                         t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.nfse_city_logo)"
@@ -117,20 +116,21 @@ row {
                 </div>
                 <div class="col-3">
                     <div style="padding: 3px; text-align: center;">
-                        <span>Número da NFS-e</span><br />
+                        <span>Número da NFS-e</span>
+                        <br />
                         <strong t-field="doc.document_number" />
                     </div>
                 </div>
             </div>
 
             <div class="row bb br bl">
-                 <div class="col-2 rotulo br">
+                <div class="col-2 rotulo br">
                     Data e Hora da Emissão
                 </div>
                 <div class="col-2 linha centro br">
                     <span t-field="doc.document_date" />
                 </div>
-                 <div class="col-2 rotulo br">
+                <div class="col-2 rotulo br">
                     Competência
                 </div>
                 <div class="col-2 linha centro br">
@@ -139,7 +139,7 @@ row {
                         t-options='{"format": "MM/yyyy"}'
                     />
                 </div>
-                 <div class="col-2 rotulo br">
+                <div class="col-2 rotulo br">
                     Código de Verificação
                 </div>
                 <div class="col-2 linha centro">
@@ -148,47 +148,47 @@ row {
             </div>
 
             <div class="row bb br bl">
-                 <div class="col-2 rotulo br">
+                <div class="col-2 rotulo br">
                     Número do RPS
                 </div>
                 <div class="col-2 linha centro br">
                     <span t-field="doc.rps_number" />
                 </div>
-                 <div class="col-2 rotulo br">
+                <div class="col-2 rotulo br">
                     No. da NFS-e substituída
                 </div>
-                <div class="col-2 linha centro br">
-                </div>
-                 <div class="col-2 rotulo br">
+                <div class="col-2 linha centro br" />
+                <div class="col-2 rotulo br">
                     Local da Prestação
                 </div>
                 <div class="col-2 linha centro">
                     <t t-if="doc.fiscal_line_ids[0].issqn_fg_city_id">
                         <span
-                            t-field="doc.fiscal_line_ids[0].issqn_fg_city_id"
-                        /> - <span
-                            t-field="doc.fiscal_line_ids[0].issqn_fg_city_id.state_id.code"
-                        />
+                        t-field="doc.fiscal_line_ids[0].issqn_fg_city_id"
+                    /> - <span
+                        t-field="doc.fiscal_line_ids[0].issqn_fg_city_id.state_id.code"
+                    />
                     </t>
                     <t t-else="">
                         <span t-field="doc.company_id.city_id" /> - <span
-                            t-field="doc.company_id.state_id.code"
-                        />
+                        t-field="doc.company_id.state_id.code"
+                    />
                     </t>
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
                     <h4 style="margin: 0px;">Dados do Prestador de Serviços</h4>
                 </div>
             </div>
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-2">
                     <img
                         style="max-height: 150px; padding-left: 25px; padding-top: 25px; max-width: 125px;"
                         t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)"
-                    /><br />
+                    />
+                    <br />
                 </div>
                 <div class="col-10">
                     <div class="row">
@@ -225,8 +225,8 @@ row {
                         </div>
                         <div class="col-3 linha centro bl bb">
                             <span t-field="doc.company_id.city_id" /> - <span
-                                t-field="doc.company_id.state_id.code"
-                            />
+                            t-field="doc.company_id.state_id.code"
+                        />
                         </div>
                     </div>
                     <div class="row">
@@ -265,12 +265,12 @@ row {
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
                     <h4 style="margin:0px;">Dados do Tomador de Serviços</h4>
                 </div>
             </div>
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-2 rotulo br">
                     Razão Social/Nome
                 </div>
@@ -278,7 +278,7 @@ row {
                     <span t-raw="doc.partner_id.legal_name or doc.partner_id.name" />
                 </div>
             </div>
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-2 rotulo br">
                     CNPJ/CPF
                 </div>
@@ -296,11 +296,11 @@ row {
                 </div>
                 <div class="col-3 linha esquerda">
                     <span t-field="doc.partner_id.city_id" /> - <span
-                        t-field="doc.partner_id.state_id.code"
-                    />
+                    t-field="doc.partner_id.state_id.code"
+                />
                 </div>
             </div>
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-2 rotulo br">
                     Endereço
                 </div>
@@ -310,7 +310,7 @@ row {
                     - CEP: <span t-field="doc.partner_id.zip" />
                 </div>
             </div>
-             <div class="row br bl">
+            <div class="row br bl">
                 <div class="col-2 rotulo bb br">
                     Complemento:
                 </div>
@@ -330,67 +330,67 @@ row {
                     <span t-field="doc.partner_id.email" />
                 </div>
             </div>
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
                     <h4 style="margin: 0px;">Discriminação dos serviços</h4>
                 </div>
             </div>
-             <div class="row bb br bl" style="padding: 7.5px 10px; min-height: 150px;">
+            <div class="row bb br bl" style="padding: 7.5px 10px; min-height: 150px;">
                 <div class="col-12">
                     <span t-field="doc.fiscal_line_ids[0].name" />
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
                     <h4 style="margin:0px;">Código do Serviço / Atividade</h4>
                 </div>
             </div>
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-12 centro" style="padding: 5px 0;">
                     <span t-field="doc.fiscal_line_ids[0].service_type_id.code" /> /
                     <span
-                        t-field="doc.fiscal_line_ids[0].city_taxation_code_id.code"
-                    /> -
+                    t-field="doc.fiscal_line_ids[0].city_taxation_code_id.code"
+                /> -
                     <span t-field="doc.fiscal_line_ids[0].service_type_id.name" />
                 </div>
             </div>
 
-<!--             <div class="row bb br bl">-->
-<!--                <div class="col-12 rotulo-header">-->
-<!--                    <h4 style="margin:0px;">Detalhamento Específico da Construção Civil</h4>-->
-<!--                </div>-->
-<!--             </div>-->
-<!--             <div class="row bb br bl">-->
-<!--                <div class="col-3 rotulo br">-->
-<!--                    Código da Obra-->
-<!--                </div>-->
-<!--                <div class="col-3 br">-->
+            <!--             <div class="row bb br bl">-->
+            <!--                <div class="col-12 rotulo-header">-->
+            <!--                    <h4 style="margin:0px;">Detalhamento Específico da Construção Civil</h4>-->
+            <!--                </div>-->
+            <!--             </div>-->
+            <!--             <div class="row bb br bl">-->
+            <!--                <div class="col-3 rotulo br">-->
+            <!--                    Código da Obra-->
+            <!--                </div>-->
+            <!--                <div class="col-3 br">-->
 
-<!--                </div>-->
-<!--                <div class="col-3 rotulo br">-->
-<!--                    Código ART-->
-<!--                </div>-->
-<!--                <div class="col-3">-->
-<!--                </div>-->
-<!--             </div>-->
+            <!--                </div>-->
+            <!--                <div class="col-3 rotulo br">-->
+            <!--                    Código ART-->
+            <!--                </div>-->
+            <!--                <div class="col-3">-->
+            <!--                </div>-->
+            <!--             </div>-->
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
                     <h4 style="margin:0px;">Tributos Federais (Lei 12.741/2012)</h4>
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-2 rotulo br ">
                     PIS
                 </div>
                 <div class="col-1 linha centro br">
                     <t t-if="doc.amount_pis_value">
-                       <span t-field="doc.amount_pis_value" />
+                        <span t-field="doc.amount_pis_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_pis_wh_value" />
+                        <span t-field="doc.amount_pis_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
@@ -398,10 +398,10 @@ row {
                 </div>
                 <div class="col-1 linha centro br">
                     <t t-if="doc.amount_cofins_value">
-                       <span t-field="doc.amount_cofins_value" />
+                        <span t-field="doc.amount_cofins_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_cofins_wh_value" />
+                        <span t-field="doc.amount_cofins_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
@@ -409,10 +409,10 @@ row {
                 </div>
                 <div class="col-1 linha centro br">
                     <t t-if="doc.amount_csll_value">
-                       <span t-field="doc.amount_csll_value" />
+                        <span t-field="doc.amount_csll_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_csll_wh_value" />
+                        <span t-field="doc.amount_csll_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
@@ -420,10 +420,10 @@ row {
                 </div>
                 <div class="col-1 linha centro br">
                     <t t-if="doc.amount_irpj_value">
-                       <span t-field="doc.amount_irpj_value" />
+                        <span t-field="doc.amount_irpj_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_irpj_wh_value" />
+                        <span t-field="doc.amount_irpj_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
@@ -431,15 +431,15 @@ row {
                 </div>
                 <div class="col-2 linha centro">
                     <t t-if="doc.amount_inss_value">
-                       <span t-field="doc.amount_inss_value" />
+                        <span t-field="doc.amount_inss_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_inss_wh_value" />
+                        <span t-field="doc.amount_inss_wh_value" />
                     </t>
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-3 rotulo br">
                     Valor dos Serviços R$
                 </div>
@@ -457,7 +457,7 @@ row {
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-3 rotulo br">
                     (-) Desconto Incondicionado
                 </div>
@@ -475,26 +475,22 @@ row {
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-3 rotulo br">
                     (-) Desconto Condicionado
                 </div>
 
-                 <div class="col-2 linha centro br">
-
-                </div>
+                <div class="col-2 linha centro br" />
                 <div class="col-2 rotulo br">
                     Regime esp. Tributação
                 </div>
                 <div class="col-3 linha rotulo br">
                     (-) Desconto Incondicionado
                 </div>
-                <div class="col-2 linha centro">
-
-                </div>
+                <div class="col-2 linha centro" />
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-3 rotulo br">
                     (-) Retenções Federais
                 </div>
@@ -516,7 +512,7 @@ row {
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-3 rotulo br">
                     Outras Retenções
                 </div>
@@ -531,15 +527,15 @@ row {
                 </div>
                 <div class="col-2 linha centro">
                     <t t-if="doc.fiscal_line_ids[0].issqn_percent">
-                       <span t-field="doc.fiscal_line_ids[0].issqn_percent" />
+                        <span t-field="doc.fiscal_line_ids[0].issqn_percent" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.fiscal_line_ids[0].issqn_wh_percent" />
+                        <span t-field="doc.fiscal_line_ids[0].issqn_wh_percent" />
                     </t>
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-3 rotulo br">
                     (-) ISS Retido
                 </div>
@@ -567,7 +563,7 @@ row {
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-3 rotulo br">
                     (=) Valor Líquido R$
                 </div>
@@ -591,10 +587,10 @@ row {
                 </div>
                 <div class="col-11">
                     1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br
-                    />
+                />
                     2- A autenticidade desta Nota Fiscal poderá ser verificada no site, <span
-                        t-field="doc.company_id.nfse_website"
-                    /> com a utilização do Código de Verificação.<br />
+                    t-field="doc.company_id.nfse_website"
+                /> com a utilização do Código de Verificação.<br />
                     <t t-if="doc.company_id.tax_framework != '3'">
                         3 - Documento emitido por ME ou EPP optante pelo Simples Nacional.Não gera direito a crédito fiscal de ISS e IPI.
                     </t>
@@ -606,7 +602,8 @@ row {
                 </div>
                 <div class="col-11">
                     <t t-if="doc.customer_additional_data">
-                        <span t-field="doc.customer_additional_data" /><br />
+                        <span t-field="doc.customer_additional_data" />
+                        <br />
                     </t>
                     <t t-if="doc.fiscal_additional_data">
                         <span t-field="doc.fiscal_additional_data" />
@@ -628,6 +625,4 @@ row {
             </div>
         </t>
     </template>
-
-
 </odoo>

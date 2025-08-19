@@ -27,5 +27,4 @@
             <value eval="[ref('l10n_br_fiscal.demo_nfse_line_same_state_1-1')]" />
         </function>
     </data>
-
 </odoo>
