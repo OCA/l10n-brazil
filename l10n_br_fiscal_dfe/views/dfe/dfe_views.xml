@@ -4,7 +4,6 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-
     <record model="ir.ui.view" id="dfe_form">
         <field name="name">l10n_br_fiscal.dfe.form</field>
         <field name="model">l10n_br_fiscal.dfe</field>
@@ -98,5 +97,4 @@
             </search>
         </field>
     </record>
-
 </odoo>
