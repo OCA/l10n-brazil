@@ -226,7 +226,11 @@ class Tax(models.Model):
     )
 
     _sql_constraints = [
-        ("fiscal_tax_code_uniq", "unique (name)", "Tax already exists with this name !")
+        (
+            "fiscal_tax_code_uniq",
+            "unique (name)",
+            "Tax already exists with this name!",
+        )
     ]
 
     @api.model

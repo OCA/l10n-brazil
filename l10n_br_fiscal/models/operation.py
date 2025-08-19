@@ -98,7 +98,7 @@ class Operation(models.Model):
     )
 
     default_price_unit = fields.Selection(
-        selection=[("sale_price", _("Sale Price")), ("cost_price", _("Cost Price"))],
+        selection=[("sale_price", "Sale Price"), ("cost_price", "Cost Price")],
         string="Default Price Unit?",
         default="sale_price",
         readonly=True,
@@ -173,7 +173,7 @@ class Operation(models.Model):
         (
             "fiscal_operation_code_uniq",
             "unique (code)",
-            _("Fiscal Operation already exists with this code !"),
+            "Fiscal Operation already exists with this code!",
         )
     ]
 

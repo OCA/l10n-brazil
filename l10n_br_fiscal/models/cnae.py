@@ -2,7 +2,7 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class Cnae(models.Model):
@@ -34,6 +34,6 @@ class Cnae(models.Model):
         (
             "fiscal_cnae_code_uniq",
             "unique (code)",
-            _("CNAE already exists with this code !"),
+            "CNAE already exists with this code!",
         )
     ]

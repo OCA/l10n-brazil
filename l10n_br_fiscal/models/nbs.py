@@ -1,7 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 from .ibpt import get_ibpt_service
 
@@ -27,7 +27,7 @@ class Nbs(models.Model):
         (
             "fiscal_nbs_code_uniq",
             "unique (code)",
-            _("NBS already exists with this code !"),
+            "NBS already exists with this code!",
         )
     ]
 

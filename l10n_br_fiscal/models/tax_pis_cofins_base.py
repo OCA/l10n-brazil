@@ -1,7 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class TaxPisCofinsBase(models.Model):
@@ -15,6 +15,6 @@ class TaxPisCofinsBase(models.Model):
         (
             "l10n_br_fiscal_tax_pis_cofins_base_uniq",
             "unique (code)",
-            _("Already exists with this code !"),
+            "Already exists with this code!",
         )
     ]
