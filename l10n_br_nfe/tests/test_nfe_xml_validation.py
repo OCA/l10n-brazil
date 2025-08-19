@@ -40,7 +40,7 @@ class TestXMLValidation(TransactionCase):
         document.action_document_confirm()
         document.action_document_send()
         _logger.info(
-            "(Test Result) XML Validation Message: %s" % (document.xml_error_message)
+            f"(Test Result) XML Validation Message: {document.xml_error_message}"
         )
         self.assertTrue("CEP" in document.xml_error_message)
         self.assertEqual(document.state_edoc, SITUACAO_EDOC_A_ENVIAR)
