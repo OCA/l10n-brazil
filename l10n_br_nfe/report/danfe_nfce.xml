@@ -6,23 +6,23 @@
                 <div style="text-align: center; margin: 0 auto">
                     <h2
                         style="text-transform: uppercase; font-size: 18px; font-weight: bold;"
-                    ><t t-esc="company_legal_name" /></h2>
+                    >
+                        <t t-esc="company_legal_name" />
+                    </h2>
                     <div style="max-width: 20.5em; text-align: center; margin: 0 auto;">
                         <p style="margin-bottom: 0;"><t t-esc="company_street" />, <t
-                                t-esc="company_district"
-                            />, <t t-esc="company_city" /> - <t
-                                t-esc="company_state"
-                            /></p>
+                            t-esc="company_district"
+                        />, <t t-esc="company_city" /> - <t t-esc="company_state" /></p>
                     </div>
                     <div
                         style="display: flex; justify-content: space-between; max-width: 20em; margin: 0 auto;"
                     >
                         <p style="margin-bottom: 0; padding: 0;">CNPJ: <t
-                                t-esc="company_cnpj"
-                            /></p>
+                            t-esc="company_cnpj"
+                        /></p>
                         <p style="margin-bottom: 0; padding: 0;">IE: <t
-                                t-esc="company_ie"
-                            /></p>
+                            t-esc="company_ie"
+                        /></p>
                     </div>
                     <div>
                         <p
@@ -52,12 +52,12 @@
                     ># | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL</p>
                     <t t-foreach="lines" t-as="line" t-key="line.id">
                         <p style="margin-bottom: 0;"><t
-                                t-esc="line['product_index']"
-                            /> <t t-esc="line['product_name']" /> <t
-                                t-esc="line['product_quantity']"
-                            /><t t-esc="line['product_uom']" /> X <t
-                                t-esc="line['product_unit_value']"
-                            /> <t t-esc="line['product_unit_total']" /> </p>
+                            t-esc="line['product_index']"
+                        /> <t t-esc="line['product_name']" /> <t
+                            t-esc="line['product_quantity']"
+                        /><t t-esc="line['product_uom']" /> X <t
+                            t-esc="line['product_unit_value']"
+                        /> <t t-esc="line['product_unit_total']" /> </p>
                     </t>
                 </div>
                 <hr />
@@ -66,18 +66,18 @@
                         style="display: flex; justify-content: space-between; align-items: center;"
                     >
                         <p style="margin-bottom: 0;">Qtd total itens</p>
-                        <p style="margin-bottom: 0;"><t
-                                t-esc="total_product_quantity"
-                            /></p>
+                        <p style="margin-bottom: 0;">
+                            <t t-esc="total_product_quantity" />
+                        </p>
                     </div>
                     <t t-if="unformatted_amount_discount_value">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center;"
                         >
                             <p style="margin-bottom: 0;">Desconto</p>
-                            <p style="margin-bottom: 0;"><t
-                                    t-esc="unformatted_amount_discount_value"
-                                /></p>
+                            <p style="margin-bottom: 0;">
+                                <t t-esc="unformatted_amount_discount_value" />
+                            </p>
                         </div>
                     </t>
                     <div
@@ -86,15 +86,21 @@
                         <p
                             style="text-transform: uppercase; font-weight: bold; margin-bottom: 0"
                         >Valor total</p>
-                        <p style="margin-bottom: 0;"><t t-esc="amount_total" /></p>
+                        <p style="margin-bottom: 0;">
+                            <t t-esc="amount_total" />
+                        </p>
                     </div>
                 </div>
                 <div
                     style="display: flex; justify-content: space-between; align-items: center;"
                 >
                     <t t-foreach="payments" t-as="payment">
-                        <p style="margin-bottom: 0;"><t t-esc="payment['method']" /></p>
-                        <p style="margin-bottom: 0;"><t t-esc="payment['value']" /></p>
+                        <p style="margin-bottom: 0;">
+                            <t t-esc="payment['method']" />
+                        </p>
+                        <p style="margin-bottom: 0;">
+                            <t t-esc="payment['value']" />
+                        </p>
                     </t>
                 </div>
                 <t t-if="amount_change">
@@ -102,16 +108,20 @@
                         style="display: flex; justify-content: space-between; align-items: center;"
                     >
                         <p style="margin-bottom: 0;">TROCO</p>
-                        <p style="margin-bottom: 0;"><t t-esc="amount_change" /></p>
+                        <p style="margin-bottom: 0;">
+                            <t t-esc="amount_change" />
+                        </p>
                     </div>
                 </t>
                 <hr />
                 <div style="text-align: center;">
                     <p style="margin-bottom: 0;">Consulte pela chave de acesso em:</p>
-                    <p style="margin-bottom: 0;"><t t-esc="nfce_url" /></p>
-                    <p style="font-size: 13px; margin-bottom: 0;"><t
-                            t-esc="document_key"
-                        /></p>
+                    <p style="margin-bottom: 0;">
+                        <t t-esc="nfce_url" />
+                    </p>
+                    <p style="font-size: 13px; margin-bottom: 0;">
+                        <t t-esc="document_key" />
+                    </p>
                 </div>
                 <div
                     style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; margin: 10px 0;"
@@ -126,14 +136,14 @@
 
                         <div>
                             <p style="margin-bottom: 0;">Numero: <t
-                                    t-esc="document_number"
-                                /></p>
+                                t-esc="document_number"
+                            /></p>
                             <p style="margin-bottom: 0;">Serie: <t
-                                    t-esc="document_serie"
-                                /></p>
+                                t-esc="document_serie"
+                            /></p>
                             <p style="margin-bottom: 0;">Emissao: <t
-                                    t-esc="document_date"
-                                /></p>
+                                t-esc="document_date"
+                            /></p>
                         </div>
 
                         <div>
@@ -143,11 +153,11 @@
                             </t>
                             <t t-else="">
                                 <p style="margin-bottom: 0;">Protocolo: <t
-                                        t-esc="authorization_protocol"
-                                    /></p>
+                                    t-esc="authorization_protocol"
+                                /></p>
                                 <p style="margin-bottom: 0;">Autorizacao: <t
-                                        t-esc="document_date"
-                                    /></p>
+                                    t-esc="document_date"
+                                /></p>
                             </t>
                         </div>
                     </div>
