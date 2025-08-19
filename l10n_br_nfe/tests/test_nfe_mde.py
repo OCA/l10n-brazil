@@ -148,18 +148,24 @@ class TestMDe(TransactionCase):
             self.assertEqual(self.mde_id.state, "nao_realizado")
 
     def test_event_error(self):
-        with mock.patch.object(
-            DocumentoElectronicoAdapter,
-            "_post",
-            side_effect=mocked_post_confirmacao_status_code_error,
-        ), self.assertRaises(ValidationError):
+        with (
+            mock.patch.object(
+                DocumentoElectronicoAdapter,
+                "_post",
+                side_effect=mocked_post_confirmacao_status_code_error,
+            ),
+            self.assertRaises(ValidationError),
+        ):
             self.mde_id.action_confirmar_operacacao()
 
-        with mock.patch.object(
-            DocumentoElectronicoAdapter,
-            "_post",
-            side_effect=mocked_post_confirmacao_invalid_status_error,
-        ), self.assertRaises(ValidationError):
+        with (
+            mock.patch.object(
+                DocumentoElectronicoAdapter,
+                "_post",
+                side_effect=mocked_post_confirmacao_invalid_status_error,
+            ),
+            self.assertRaises(ValidationError),
+        ):
             self.mde_id.action_confirmar_operacacao()
 
     @mock.patch.object(
