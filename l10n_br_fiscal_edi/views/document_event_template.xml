@@ -36,8 +36,6 @@ row {
 }
             </style>
 
-            <div class="oe_structure" />
-
             <div id="header" class="row bt bb bl br">
                 <div class="col-12" style="text-align: center; font-size: 36px;">
                     <span t-field="o.type" />

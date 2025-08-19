@@ -14,7 +14,7 @@
         <field name="name">l10n_br_fiscal.event.tree</field>
         <field name="model">l10n_br_fiscal.event</field>
         <field name="arch" type="xml">
-            <tree edit="false" create="false">
+            <list edit="false" create="false">
                 <field name="type" />
                 <field name="company_id" />
                 <field name="response" />
@@ -24,7 +24,7 @@
                 <field name="status_code" />
                 <field name="message" />
                 <field name="state" />
-            </tree>
+            </list>
         </field>
     </record>
 
