@@ -68,8 +68,8 @@ class InvalidateNumber(models.Model):
 
     state = fields.Selection(
         selection=[
-            ("draft", _("Draft")),
-            ("done", _("Done")),
+            ("draft", "Draft"),
+            ("done", "Done"),
         ],
         string="Status",
         readonly=True,

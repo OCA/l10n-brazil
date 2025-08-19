@@ -63,7 +63,7 @@ class PartnerProfile(models.Model):
         (
             "fiscal_partner_profile_code_uniq",
             "unique (code)",
-            "Fiscal Partner Profile already exists with this code !",
+            "Fiscal Partner Profile already exists with this code!",
         )
     ]
 

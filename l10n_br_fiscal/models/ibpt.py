@@ -45,7 +45,7 @@ def _request(ws_url, params, ibpt_request_timeout=30):
         elif response.status_code == requests.codes.service_unavailable:
             raise UserError(_("IBPT Service Unavailable - {!r}").format(ws_url))
     except Exception as e:
-        raise UserError(_("Error in the request: {}").format(e)) from e
+        raise UserError("Error in the request: {}".format(e)) from e
 
 
 def get_ibpt_product(

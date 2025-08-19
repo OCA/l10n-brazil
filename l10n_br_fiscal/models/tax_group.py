@@ -1,7 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 from ..constants.fiscal import TAX_DOMAIN
 
@@ -29,10 +29,10 @@ class TaxGroup(models.Model):
 
     tax_scope = fields.Selection(
         selection=[
-            ("city", _("City")),
-            ("state", _("State")),
-            ("federal", _("Federal")),
-            ("other", _("Other")),
+            ("city", "City"),
+            ("state", "State"),
+            ("federal", "Federal"),
+            ("other", "Other"),
         ],
         required=True,
     )
@@ -75,6 +75,6 @@ class TaxGroup(models.Model):
         (
             "fiscal_tax_group_code_uniq",
             "unique (name)",
-            _("Tax Group already exists with this name !"),
+            "Tax Group already exists with this name!",
         )
     ]

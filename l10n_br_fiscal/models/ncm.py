@@ -1,7 +1,7 @@
 # Copyright (C) 2012  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 from ..constants.fiscal import TAX_DOMAIN_II, TAX_DOMAIN_IPI
 from .ibpt import get_ibpt_product
@@ -70,7 +70,7 @@ class Ncm(models.Model):
         (
             "fiscal_ncm_code_exception_uniq",
             "unique (code, exception)",
-            _("NCM already exists with this code !"),
+            "NCM already exists with this code!",
         )
     ]
 

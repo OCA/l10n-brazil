@@ -1,7 +1,7 @@
 # Copyright (C) 2018  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 from ..constants.fiscal import FISCAL_IN_OUT_ALL
 
@@ -34,6 +34,6 @@ class CST(models.Model):
         (
             "l10n_br_fiscal_cst_code_tax_group_id_uniq",
             "unique (code, tax_group_id)",
-            _("CST already exists with this code !"),
+            "CST already exists with this code!",
         )
     ]

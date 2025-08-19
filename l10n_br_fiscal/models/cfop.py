@@ -195,6 +195,6 @@ class Cfop(models.Model):
         (
             "fiscal_cfop_code_uniq",
             "unique (code)",
-            "CFOP already exists with this code !",
+            "CFOP already exists with this code!",
         )
     ]

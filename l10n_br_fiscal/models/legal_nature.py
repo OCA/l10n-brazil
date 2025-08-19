@@ -15,6 +15,6 @@ class LegalNature(models.Model):
         (
             "fiscal_legal_nature_code_uniq",
             "unique (code)",
-            "Legal Nature already exists with this code !",
+            "Legal Nature already exists with this code!",
         )
     ]

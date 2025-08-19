@@ -139,7 +139,7 @@ class OperationLine(models.Model):
         (
             "fiscal_operation_name_uniq",
             "unique (name, fiscal_operation_id)",
-            _("Fiscal Operation Line already exists with this name !"),
+            "Fiscal Operation Line already exists with this name!",
         )
     ]
 

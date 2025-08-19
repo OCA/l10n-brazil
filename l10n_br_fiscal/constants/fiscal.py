@@ -2,7 +2,6 @@
 # Copyright (C) 2019  Luis Felipe Mileo - KMEE <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _
 
 OPERATION_STATE = [
     ("draft", "Draft"),
@@ -64,9 +63,9 @@ NCM_FOR_SERVICE_REF = "l10n_br_fiscal.ncm_00000000"
 
 
 TAX_BASE_TYPE = [
-    ("percent", _("Percent")),
-    ("quantity", _("Quantity")),
-    ("fixed", _("Fixed")),
+    ("percent", "Percent"),
+    ("quantity", "Quantity"),
+    ("fixed", "Fixed"),
 ]
 
 
@@ -200,7 +199,7 @@ CERTIFICATE_SUBTYPE = [("a1", "A1"), ("a3", "A3")]
 CERTIFICATE_SUBTYPE_DEFAULT = "a1"
 
 
-FISCAL_IN_OUT = [("in", _("In")), ("out", _("Out"))]
+FISCAL_IN_OUT = [("in", "In"), ("out", "Out")]
 
 FISCAL_IN_OUT_DICT = dict(FISCAL_IN_OUT)
 
@@ -220,7 +219,7 @@ FISCAL_IN_OUT_DEFAULT = "in"
 DOCUMENT_TYPE = [("icms", "ICMS"), ("service", "Serviço Municipal")]
 
 
-DOCUMENT_ISSUER = [("company", _("Company")), ("partner", _("Partner"))]
+DOCUMENT_ISSUER = [("company", "Company"), ("partner", "Partner")]
 
 DOCUMENT_ISSUER_DICT = dict(DOCUMENT_ISSUER)
 

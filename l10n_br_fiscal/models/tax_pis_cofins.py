@@ -1,7 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 from .. import tools
 from ..constants.fiscal import (
@@ -22,9 +22,9 @@ class TaxPisCofins(models.Model):
 
     piscofins_type = fields.Selection(
         selection=[
-            ("ncm", _("NCM")),
-            ("product", _("Product")),
-            ("company", _("Company")),
+            ("ncm", "NCM"),
+            ("product", "Product"),
+            ("company", "Company"),
         ],
         default="ncm",
         string="Type",
