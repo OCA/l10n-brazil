@@ -8,7 +8,6 @@ from lxml import etree
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError
-from odoo.osv import expression
 
 
 class DataAbstract(models.AbstractModel):
@@ -23,7 +22,7 @@ class DataAbstract(models.AbstractModel):
     - Enhanced search: Modifies search views and `_name_search`
       to allow searching by `code`, `code_unmasked`, and `name`
       simultaneously.
-    - Standardized display name format in `name_get`
+    - Standardized display name format in `display_name`
       (`<code> - <name>`).
     - Permission control for archiving/unarchanging, restricted
       to users in 'l10n_br_fiscal.group_manager' group.
@@ -89,30 +88,18 @@ class DataAbstract(models.AbstractModel):
         return model_view
 
     @api.model
-    def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
+    def _search_display_name(self, operator, value):
+        name = value or ""
         if operator == "ilike" and not (name or "").strip():
-            domain = []
+            return []
         elif operator in ("ilike", "like", "=", "=like", "=ilike"):
-            domain = expression.AND(
-                [
-                    domain or [],
-                    [
-                        "|",
-                        "|",
-                        ("name", operator, name),
-                        ("code", operator, name),
-                        ("code_unmasked", "ilike", name + "%"),
-                    ],
-                ]
-            )
-            return self._search(
-                domain,
-                limit=limit,
-            )
-
-        return super()._name_search(
-            name, domain=domain, operator=operator, limit=limit, order=order
-        )
+            return [
+                "|",
+                "|",
+                ("name", operator, name),
+                ("code", operator, name),
+                ("code_unmasked", "ilike", name + "%"),
+            ]
 
     @api.depends("name", "code")
     def _compute_display_name(self):
