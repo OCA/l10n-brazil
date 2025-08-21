@@ -13,7 +13,7 @@ class TaxPisCofinsCredit(models.Model):
 
     _sql_constraints = [
         (
-            "l10n_br_fiscal_tax_pis_cofins_code_uniq",
+            "code_unique",
             "unique (code)",
             "Already exists with this code!",
         )
