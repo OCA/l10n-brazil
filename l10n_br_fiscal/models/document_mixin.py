@@ -49,10 +49,6 @@ class FiscalDocumentMixin(models.AbstractModel):
         return fields.Datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
     @api.model
-    def _default_operation(self):
-        return False
-
-    @api.model
     def _operation_domain(self):
         domain = (
             "[('state', '=', 'approved'),"
@@ -66,7 +62,6 @@ class FiscalDocumentMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.operation",
         string="Operation",
         domain=lambda self: self._operation_domain(),
-        default=_default_operation,
     )
 
     operation_name = fields.Char(
