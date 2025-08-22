@@ -75,7 +75,7 @@ class CNABBatch(models.Model):
             RecordType.HEADER_BATCH,
             seq_batch=seq_batch,
             payment_way_code=payment_way_id.code,
-            patment_type_code=type_code,
+            payment_type_code=type_code,
         )
 
         # DETAIL RECORDS
