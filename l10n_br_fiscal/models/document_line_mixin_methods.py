@@ -446,8 +446,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.depends(
         "product_id",
         "fiscal_operation_id",
-        "product_id.list_price",
-        "product_id.standard_price",
     )
     def _compute_price_unit_fiscal(self):  # OK when edited from aml?? c-> check
         for line in self:
