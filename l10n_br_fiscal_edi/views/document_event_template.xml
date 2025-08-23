@@ -50,7 +50,7 @@ row {
               </div>
               <div id="company_cnpj_cpf" class="col-6 bl">
                   <strong style="font-size:18px;">CNPJ:</strong>
-                  <p t-field="o.document_id.company_cnpj_cpf" />
+                  <p t-field="o.document_id.company_id.vat" />
               </div>
         </div>
         <div class="row bb bl br">
