@@ -384,7 +384,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_CRT = fields.Selection(
-        related="company_tax_framework",
+        related="company_id.tax_framework",
         string="Código de Regime Tributário (NFe)",
     )
 
@@ -422,7 +422,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_indIEDest = fields.Selection(
-        related="partner_ind_ie_dest",
+        related="partner_id.ind_ie_dest",
         string="Contribuinte do ICMS (NFe)",
     )
 
@@ -1102,9 +1102,9 @@ class NFe(spec_models.StackedModel):
 
         for record in self.filtered(filter_processador_edoc_nfe):
             required_fields_gen_edoc = []
-            if not record.company_cnpj_cpf:
+            if not record.company_id.vat:
                 required_fields_gen_edoc.append("CNPJ/CPF")
-            elif not record.company_state_id:
+            elif not record.company_id.state_id:
                 required_fields_gen_edoc.append("State Company")
             elif not record.document_type_id:
                 required_fields_gen_edoc.append("Document Type")
@@ -1121,9 +1121,11 @@ class NFe(spec_models.StackedModel):
             date = fields.Datetime.context_timestamp(record, record.document_date)
             chave_edoc = ChaveEdoc(
                 ano_mes=date.strftime("%y%m").zfill(4),
-                cnpj_cpf_emitente=record.company_cnpj_cpf,
+                cnpj_cpf_emitente=record.company_id.vat,
                 codigo_uf=(
-                    record.company_state_id and record.company_state_id.ibge_code or ""
+                    record.company_id.state_id
+                    and record.company_id.state_id.ibge_code
+                    or ""
                 ),
                 forma_emissao=int(self.nfe_transmission),
                 modelo_documento=record.document_type_id.code or "",
