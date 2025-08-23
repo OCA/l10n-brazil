@@ -192,7 +192,7 @@ class FiscalClosing(models.Model):
         if document.issuer == DOCUMENT_ISSUER_COMPANY:
             document_path = "/".join(
                 [
-                    misc.punctuation_rm(document.company_cnpj_cpf),
+                    misc.punctuation_rm(document.company_id.vat),
                     document.document_date.strftime("%m-%Y"),
                     document.issuer,
                     PATH_MODELO[document.document_type_id.code],
@@ -210,7 +210,7 @@ class FiscalClosing(models.Model):
         else:
             document_path = "/".join(
                 [
-                    misc.punctuation_rm(document.company_cnpj_cpf),
+                    misc.punctuation_rm(document.company_id.vat),
                     document.document_date.strftime("%m-%Y"),
                     document.issuer,
                     misc.punctuation_rm(document.partner_cnpj_cpf),
