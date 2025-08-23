@@ -75,6 +75,7 @@
                         <group>
                             <field name="name" />
                             <field name="bank_id" />
+                            <field name="unique_seq_per_segment" />
                         </group>
                         <group>
                             <field name="payment_method_id" />
