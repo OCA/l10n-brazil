@@ -81,7 +81,6 @@ class PurchaseOrderLine(models.Model):
 
     def _get_fiscal_tax_ids_dependencies(self):
         fields = super()._get_fiscal_tax_ids_dependencies()
-        fields.remove("company_id")
         fields.remove("partner_id")
         return fields
 
