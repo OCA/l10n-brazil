@@ -178,7 +178,7 @@ class AccountMove(models.Model):
                     )
                 )
 
-    @api.depends("line_ids", "invoice_line_ids", "fiscal_document_id")
+    @api.depends("line_ids", "fiscal_document_id")
     def _compute_fiscal_document_ids(self):
         for move in self:
             docs = move.fiscal_document_id

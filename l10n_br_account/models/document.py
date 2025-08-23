@@ -106,7 +106,7 @@ class FiscalDocument(models.Model):
     def _inverse_document_type_id(self):
         pass  # (meant to be overriden in account.move)
 
-    @api.depends("move_ids", "move_ids.invoice_date")
+    @api.depends("issuer", "move_ids.invoice_date")
     def _compute_document_date(self):
         for record in self:
             if record.move_ids and record.issuer == DOCUMENT_ISSUER_PARTNER:
@@ -125,7 +125,7 @@ class FiscalDocument(models.Model):
                 if record.document_date:
                     move_id.invoice_date = record.document_date.date()
 
-    @api.depends("move_ids", "move_ids.date")
+    @api.depends("issuer", "move_ids.date")
     def _compute_date_in_out(self):
         for record in self:
             if record.move_ids and record.issuer == DOCUMENT_ISSUER_PARTNER:
