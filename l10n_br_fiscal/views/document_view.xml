@@ -294,68 +294,17 @@
                 </group>
               </group>
               <group name="company_info" string="Company">
-		<field name="company_id" invisible="1" />
+		            <field name="company_id" invisible="1" />
                 <field
                                     name="company_id"
                                     required="1"
                                     groups="base.group_multi_company"
                                 />
               </group>
-              <group>
-                <group name="company_left">
-                  <field name="company_legal_name" readonly="1" />
-                  <field name="company_name" readonly="1" />
-                  <field name="company_cnpj_cpf" readonly="1" />
-                  <field name="company_l10n_br_ie_code" readonly="1" />
-                  <field name="company_l10n_br_ie_code_st" readonly="1" />
-                  <field name="company_street" readonly="1" />
-                  <field name="company_number" readonly="1" />
-                  <field name="company_street2" readonly="1" />
-                  <field name="company_district" readonly="1" />
-                </group>
-                <group name="company_right">
-                  <field name="company_l10n_br_im_code" readonly="1" />
-                  <field name="company_l10n_br_isuf_code" readonly="1" />
-                  <field name="company_cnae_main_id" readonly="1" />
-                  <field name="company_tax_framework" readonly="1" />
-                  <field name="company_country_id" readonly="1" />
-                  <field name="company_state_id" readonly="1" />
-                  <field name="company_city_id" readonly="1" />
-                  <field name="company_zip" readonly="1" />
-                  <field name="company_phone" readonly="1" />
-                </group>
-              </group>
             </page>
             <page name="partners" string="Partners">
               <group name="partner">
                 <field name="partner_id" />
-              </group>
-              <group>
-                <group name="partner_left">
-                  <field name="partner_legal_name" readonly="1" />
-                  <field name="partner_name" readonly="1" />
-                  <field name="partner_cnpj_cpf" readonly="1" />
-                  <field name="partner_l10n_br_ie_code" readonly="1" />
-                  <field name="partner_ind_ie_dest" readonly="1" />
-                  <field name="partner_street" readonly="1" />
-                  <field name="partner_number" readonly="1" />
-                  <field name="partner_street2" readonly="1" />
-                  <field name="partner_district" readonly="1" />
-                </group>
-                <group name="partner_right">
-                  <field name="partner_l10n_br_im_code" readonly="1" />
-                  <field name="partner_l10n_br_isuf_code" readonly="1" />
-                  <field name="partner_cnae_main_id" readonly="1" />
-                  <field name="partner_tax_framework" readonly="1" />
-                  <field name="partner_is_company" readonly="1" />
-                  <field name="partner_country_id" readonly="1" />
-                  <field name="partner_state_id" readonly="1" />
-                  <field name="partner_city_id" readonly="1" />
-                  <field name="partner_zip" readonly="1" />
-                  <field name="partner_phone" readonly="1" />
-                </group>
-              </group>
-              <group>
                 <field name="partner_shipping_id" />
               </group>
             </page>
