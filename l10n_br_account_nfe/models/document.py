@@ -71,9 +71,7 @@ class DocumentNfe(models.Model):
 
     @api.depends(
         "issuer",
-        "move_ids",
         "move_ids.payment_mode_id",
-        "move_ids.payment_mode_id.fiscal_payment_mode",
         "amount_financial_total",
         "nfe40_tpNF",
     )
