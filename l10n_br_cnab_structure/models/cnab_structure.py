@@ -1,7 +1,9 @@
 # Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+# Copyright (C) 2025 Escodoo (https://www.escodoo.com.br)
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 # @author Felipe Motter Pereira <felipe@engenere.one>
-# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+# @author Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import yaml
 
@@ -204,6 +206,19 @@ class CNABStructure(models.Model):
     cnab_occurrence_ids = fields.One2many(
         comodel_name="cnab.occurrence",
         inverse_name="cnab_structure_id",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
+    unique_seq_per_segment = fields.Boolean(
+        string="Unique Sequence per Segment",
+        help=(
+            "Defines seq_record_detail behavior. If True, each physical "
+            "segment gets a  unique number (1,2,3...). If False, "
+            "segments within the same bank line share the same number. "
+            "Note: This differs from seq_batch (starts at 0001 per file)."
+        ),
+        default=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
