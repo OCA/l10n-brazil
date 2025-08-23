@@ -158,7 +158,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "uot_id",
         "product_id",
         "partner_id",
-        "company_id",
         "price_unit",
         "quantity",
         "icms_relief_id",
@@ -247,7 +246,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
         """
         return [
-            "company_id",
             "partner_id",
             "fiscal_operation_line_id",
             "product_id",
