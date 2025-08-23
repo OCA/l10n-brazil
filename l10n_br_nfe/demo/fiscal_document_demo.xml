@@ -10,7 +10,6 @@
             ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="company_number">3</field>
         <field name="document_serie">1</field>
         <field name="nfe_environment">2</field>
         <field name="processador_edoc">oca</field>
@@ -174,7 +173,6 @@
             ref="l10n_br_fiscal.empresa_lc_document_65_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="company_number">3</field>
         <field name="document_serie">1</field>
         <field name="document_key">33230807984267003800650040000000321935136447</field>
         <field name="document_date">2023-08-01 11:00:00</field>
