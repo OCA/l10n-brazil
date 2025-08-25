@@ -669,6 +669,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__unique_seq_per_segment
+msgid ""
+"Defines seq_record_detail behavior. If True, each physical segment gets a  "
+"unique number (1,2,3...). If False, segments within the same bank line share"
+" the same number. Note: This differs from seq_batch (starts at 0001 per "
+"file)."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__description
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_payment_way__description
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__description
@@ -1297,6 +1306,11 @@ msgid "PIX Key Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_pix_trasfer_bb
+msgid "PIX Transferência - SISPAG Banco do Brasil"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_pix_trasfer
 msgid "PIX Transferência - SISPAG Itaú"
 msgstr ""
@@ -1653,6 +1667,11 @@ msgid "Structure"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_ted_bb
+msgid "TED - SISPAG Banco do Brasil "
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_ted
 msgid "TED - SISPAG Itaú "
 msgstr ""
@@ -1698,6 +1717,11 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
 msgid "Types Identification"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__unique_seq_per_segment
+msgid "Unique Sequence per Segment"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
