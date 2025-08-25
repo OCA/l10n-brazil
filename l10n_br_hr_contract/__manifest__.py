@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "16.0.1.0.0",
+    "version": "14.0.1.0.0",
     "depends": ["hr_contract", "l10n_br_hr"],
     "data": [
         # Data
@@ -26,7 +26,11 @@
         # Menu
         "views/l10n_br_hr_contract_menu.xml",
     ],
-    "external_dependencies": {"python": ["erpbrasil.base>=2.3.0"]},
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base",
+        ]
+    },
     "installable": True,
     "auto_install": False,
 }

@@ -20,7 +20,7 @@
                     required="1"
                 />
             </xpath>
-            <xpath expr="//group[@name='contract_details']" position="after">
+            <xpath expr="//group[@name='duration_group']" position="after">
                 <group name="union" string="Union">
                     <field name="partner_union" />
                     <field name="union_name" invisible="1" />
@@ -42,7 +42,7 @@
                     />
                 </div>
             </xpath>
-            <xpath expr="//group[@name='contract_details']" position="inside">
+            <xpath expr="//group[@name='duration_group']" position="inside">
                 <field name="monthly_hours" />
                 <field name="weekly_hours" />
             </xpath>
