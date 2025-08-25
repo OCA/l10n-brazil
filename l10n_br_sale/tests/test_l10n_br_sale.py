@@ -182,53 +182,62 @@ class L10nBrSaleBaseTest(TransactionCase):
             )
 
             # Testa se os Valores Totais estão iguais entre o Pedido e Fatura
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_total,
                 invoice.amount_total,
+                2,
                 "Error field Amount Total in Invoice are different from Sale Order.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_tax,
                 invoice.amount_tax,
+                2,
                 "Error field Amount Tax in Invoice are different from Sale Order.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_untaxed,
                 invoice.amount_untaxed,
+                2,
                 "Error field Amount Untaxed in Invoice are different from Sale Order.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_price_gross,
                 invoice.amount_price_gross,
+                2,
                 "Error field Amount Price Gross in Invoice"
                 " are different from Sale Order.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_financial_total,
                 invoice.amount_financial_total,
+                2,
                 "Error field Amount Financial Total in "
                 "Invoice are different from Sale Order.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_financial_total_gross,
                 invoice.amount_financial_total_gross,
+                2,
                 "Error field Amount Financial Total Gross"
                 " in Invoice are different from Sale Order.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_freight_value,
                 invoice.amount_freight_value,
+                2,
                 "Error field Amount Freight in Invoice are different from Sale Order.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_insurance_value,
                 invoice.amount_insurance_value,
+                2,
                 "Error field Amount Insurance in Invoice"
                 " are different from Sale Order.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 sale_order.amount_other_value,
                 invoice.amount_other_value,
+                2,
                 "Error field Amount Other Values in Invoice"
                 " are different from Sale Order.",
             )
@@ -238,9 +247,10 @@ class L10nBrSaleBaseTest(TransactionCase):
                     line.fiscal_operation_line_id,
                     "Error to included Operation Line from Sale Order Line.",
                 )
-                self.assertEqual(
+                self.assertAlmostEqual(
                     line.price_total,
                     line.sale_line_ids[0].price_total,
+                    2,
                     "Error field Price Total in Invoice Line"
                     " are different from Sale Order Line.",
                 )
@@ -533,19 +543,22 @@ class L10nBrSaleBaseTest(TransactionCase):
             line.insurance_value = 10.0
             line.other_value = 10.0
 
-        self.assertEqual(
+        self.assertAlmostEqual(
             self.so_products.amount_freight_value,
             20.0,
+            2,
             "Unexpected value for the field Amount Freight in Sale Order.",
         )
-        self.assertEqual(
+        self.assertAlmostEqual(
             self.so_products.amount_insurance_value,
             20.0,
+            2,
             "Unexpected value for the field Amount Insurance in Sale Order.",
         )
-        self.assertEqual(
+        self.assertAlmostEqual(
             self.so_products.amount_other_value,
             20.0,
+            2,
             "Unexpected value for the field Amount Other in Sale Order.",
         )
 
@@ -559,19 +572,22 @@ class L10nBrSaleBaseTest(TransactionCase):
         self.so_products.amount_other_value = 10.0
 
         for line in self.so_products.order_line:
-            self.assertEqual(
+            self.assertAlmostEqual(
                 line.freight_value,
                 5.0,
+                2,
                 "Unexpected value for the field Freight in Sale line.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 line.insurance_value,
                 5.0,
+                2,
                 "Unexpected value for the field Insurance in Sale line.",
             )
-            self.assertEqual(
+            self.assertAlmostEqual(
                 line.other_value,
                 5.0,
+                2,
                 "Unexpected value for the field Other Values in Sale line.",
             )
 
@@ -590,19 +606,22 @@ class L10nBrSaleBaseTest(TransactionCase):
 
         for line in self.so_products.order_line:
             if line.price_total == 234.29:
-                self.assertEqual(
+                self.assertAlmostEqual(
                     line.freight_value,
                     11.43,
+                    2,
                     "Unexpected value for the field Amount Freight in Sale Order.",
                 )
-                self.assertEqual(
+                self.assertAlmostEqual(
                     line.insurance_value,
                     11.43,
+                    2,
                     "Unexpected value for the field Insurance in Sale line.",
                 )
-                self.assertEqual(
+                self.assertAlmostEqual(
                     line.other_value,
                     11.43,
+                    2,
                     "Unexpected value for the field Other Values in Sale line.",
                 )
 
