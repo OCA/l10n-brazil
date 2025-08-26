@@ -220,45 +220,40 @@
                             />
             </h1>
           </div>
-          <group name="l10n_br_fiscal" colspan="4">
-            <field
-                            name="fiscal_operation_id"
-                            options="{'no_create': True, 'no_create_edit': True}"
-                        /> <!-- USE MIXIN VIEW -->
-            <field name="edoc_purpose" />
-            <field name="ind_final" />
-            <field name="ind_pres" />
-          </group>
           <group>
-            <field name="issuer" />
-            <field name="document_type_id" required="1" />
-            <label
-                            for="document_key"
-                            attrs="{'invisible': [('document_electronic', '=', False)]}"
-                        />
-            <div
-                            class="o_row"
-                            attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"
-                        >
-              <field name="document_key" force_save="1" class="oe_inline" />
-              <!--button
-                                name="action_search_key"
-                                type="object"
-                                class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only"
-                                aria-label="Pesquisar Chave"
-                                title="Pesquisar Chave"
+            <group name="partner_info">
+              <field
+                                name="partner_id"
+                                widget="res_partner_many2one"
+                                context="{
+                            'show_address': 1, 'default_is_company': True, 'show_vat': True}"
+                                options='{"always_reload": True, "no_quick_create": True}'
                             />
-              <button
-                                name="action_import_xml"
-                                type="object"
-                                class="oe_inline btn-sm btn-link mb4 fa fa-upload oe_edit_only"
-                                aria-label="Upload"
-                                title="Upload"
-                            /-->
-            </div>
-          </group>
-          <group>
-            <group name="document_header_right">
+              <field name="partner_shipping_id" />
+            </group>
+            <group name="l10n_br_fiscal">
+              <field
+                                name="fiscal_operation_id"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
+              <field name="edoc_purpose" />
+              <field name="ind_final" />
+              <field name="ind_pres" />
+            </group>
+            <group name="document_numbers">
+              <field name="issuer" />
+              <field name="document_type_id" required="1" />
+              <label
+                                for="document_key"
+                                attrs="{'invisible': [('document_electronic', '=', False)]}"
+                            />
+              <div
+                                class="o_row"
+                                attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"
+                            >
+              <field name="document_key" force_save="1" class="oe_inline" />
+              </div>
+
               <field
                                 name="document_serie_id"
                                 attrs="{'invisible': [('issuer', '!=', 'company')], 'required': [('issuer', '=', 'company')]}"
@@ -268,46 +263,29 @@
                                 name="document_serie"
                                 attrs="{'invisible': [('issuer', '!=', 'partner')], 'required': [('issuer', '=', 'partner')]}"
                             />
-            </group>
-            <group name="document_header_left">
               <field
                                 name="document_number"
                                 force_save="1"
                                 attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"
                             />
+            </group>
+            <group name="document_extra">
               <field name="state_fiscal" />
+              <field name="document_date" />
+              <field name="date_in_out" />
+              <field name='user_id' />
+              <field name="company_id" required="1" groups="base.group_multi_company" />
+              <field name='company_id' invisible="1" />
+            </group>
+            <group
+                            name="CT-e Info"
+                            invisible="[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]"
+                        >
+              <field name="transport_modal" />
+              <field name="service_provider" />
             </group>
           </group>
-          <group name="CT-e Info">
-            <field name="transport_modal" />
-            <field name="service_provider" />
-          </group>
           <notebook>
-            <page name="document" string="Document Info">
-              <group name="Document">
-                <group>
-                  <field name="document_date" />
-                  <field name="date_in_out" />
-                </group>
-                <group>
-                  <field name='user_id' />
-                </group>
-              </group>
-              <group name="company_info" string="Company">
-		            <field name="company_id" invisible="1" />
-                <field
-                                    name="company_id"
-                                    required="1"
-                                    groups="base.group_multi_company"
-                                />
-              </group>
-            </page>
-            <page name="partners" string="Partners">
-              <group name="partner">
-                <field name="partner_id" />
-                <field name="partner_shipping_id" />
-              </group>
-            </page>
             <page name="products" string="Products and Services">
               <field
                                 name="fiscal_line_ids"
@@ -318,7 +296,8 @@
                   <field name="uom_id" />
                   <field name="price_unit" />
                   <field name="quantity" />
-                  <field name="amount_total" />
+                  <field name="fiscal_tax_ids" widget="many2many_tags" />
+                  <field name="amount_total" sum="Total" />
                 </tree>
               </field>
             </page>
