@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="l10n_br_cnab_code_tree_view" model="ir.ui.view">
         <field name="name">l10n_br_cnab.code.tree</field>
         <field name="model">l10n_br_cnab.code</field>
@@ -84,7 +83,6 @@
             name="context"
         >{'group_by':['bank_ids', 'payment_method_ids', 'code_type']}</field>
     </record>
-
     <menuitem
         id="menu_l10n_br_cnab_code"
         parent="account.account_management_menu"
@@ -92,5 +90,4 @@
         sequence="999"
         action="l10n_br_cnab_code_action"
     />
-
 </odoo>

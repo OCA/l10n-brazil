@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="cnab_account_payment_line_tree" model="ir.ui.view">
         <field name="name">cnab.account.payment.line.tree</field>
         <field name="model">account.payment.line</field>
@@ -9,7 +8,6 @@
             ref="account_payment_order.account_payment_line_tree"
         />
         <field name="arch" type="xml">
-
             <field name="partner_id" position="before">
                 <field name="document_number" optional="show" />
             </field>
@@ -119,5 +117,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
