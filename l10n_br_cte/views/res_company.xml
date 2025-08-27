@@ -2,7 +2,6 @@
 <!-- Copyright 2023 KMEE
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="cte_res_company_form">
         <field name="name">cte.res.company.form</field>
         <field name="model">res.company</field>
@@ -32,5 +31,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
