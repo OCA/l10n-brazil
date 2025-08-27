@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="l10n_br_zip_res_company_form" model="ir.ui.view">
-       <field name="name">l10n_br_base.res.company.form</field>
+        <field name="name">l10n_br_base.res.company.form</field>
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
-
             <field name="zip" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
-
             <field name="street" position="before">
                 <field name="zip" placeholder="ZIP" class="o_address_zip oe_inline" />
                 <button
@@ -21,9 +18,7 @@
                     aria-label="Pesquisar CEP"
                     title="Pesquisar CEP"
                 />
-           </field>
-
+            </field>
         </field>
     </record>
-
 </odoo>

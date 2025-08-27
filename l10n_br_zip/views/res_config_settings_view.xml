@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="l10n_br_base_res_config_settings_form" model="ir.ui.view">
         <field name="name">res.config.settings.form</field>
         <field name="model">res.config.settings</field>
@@ -16,15 +15,13 @@
                         />
                     </div>
                     <div class="content-group mt16">
-                        <label for="cep_update_days" class="o_light_label" />
-                        <field
+                    <label for="cep_update_days" class="o_light_label" />
+                    <field
                             name="cep_update_days"
                             attrs="{'required': [('module_l10n_br_zip', '=', True)]}"
-                        /> days
-                    </div>
+                        />days</div>
                 </div>
             </xpath>
         </field>
     </record>
-
 </odoo>
