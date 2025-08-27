@@ -3,9 +3,8 @@
      Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="cte_document_form_view">
-        <field name="name">>cte.document.form.view (in l10n_br_cte)</field>
+        <field name="name">&gt;cte.document.form.view (in l10n_br_cte)</field>
         <field name="model">l10n_br_fiscal.document</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="priority">5</field>
@@ -42,21 +41,25 @@
                     attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
                 />
             </field>
-            <field name="partner_shipping_id" position="before"> <!--cte40_dest-->
+            <field name="partner_shipping_id" position="before">
+                <!--cte40_dest-->
                 <field
                     name="partner_sendering_id"
                     attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                /> <!--cte40_rem-->
+                />
+                <!--cte40_rem-->
                 <field
                     name="partner_shippering_id"
                     attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                /> <!--cte40_exped-->
+                />
+                <!--cte40_exped-->
             </field>
             <field name="partner_shipping_id" position="after">
                 <field
                     name="partner_receivering_id"
                     attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                /> <!--cte40_receb-->
+                />
+                <!--cte40_receb-->
             </field>
             <page name="delivery" position="inside">
                 <separator
@@ -130,66 +133,63 @@
                     name="modais"
                     attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
                 >
-                     <group>
+                    <group>
                         <field name="transport_modal" widget="radio" />
                     </group>
                     <separator name="modais_sep" string="Campos do Modal" />
                     <group attrs="{'invisible': [('transport_modal', '!=', '01')]}">
-                            <group>
-                                <field name="cte40_RNTRC" />
-                                <field name="cte40_occ" />
-                            </group>
+                        <group>
+                            <field name="cte40_RNTRC" />
+                            <field name="cte40_occ" />
+                        </group>
                     </group>
                     <group attrs="{'invisible': [('transport_modal', '!=', '02')]}">
-                            <group>
-                                <field name="cte40_nMinu" />
-                                <field name="cte40_nOCA" />
-                                <field name="cte40_dPrevAereo" />
-                                <field name="cte40_xDime" />
-                                <field name="cte40_CL" />
-                                <field name="cte40_cTar" />
-                                <field name="cte40_aereo_vTar" />
-                                <field name="cte40_peri" />
-                            </group>
+                        <group>
+                            <field name="cte40_nMinu" />
+                            <field name="cte40_nOCA" />
+                            <field name="cte40_dPrevAereo" />
+                            <field name="cte40_xDime" />
+                            <field name="cte40_CL" />
+                            <field name="cte40_cTar" />
+                            <field name="cte40_aereo_vTar" />
+                            <field name="cte40_peri" />
+                        </group>
                     </group>
                     <group attrs="{'invisible': [('transport_modal', '!=', '03')]}">
-                            <group>
-                                <field name="cte40_vTPrest" />
-                                <field name="cte40_vAFRMM" />
-                                <field name="cte40_xNavio" />
-                                <field name="cte40_nViag" />
-                                <field name="cte40_direc" />
-                                <field name="cte40_irin" />
-                                <field name="cte40_tpNav" />
-                                <field name="cte40_balsa" />
-                            </group>
+                        <group>
+                            <field name="cte40_vTPrest" />
+                            <field name="cte40_vAFRMM" />
+                            <field name="cte40_xNavio" />
+                            <field name="cte40_nViag" />
+                            <field name="cte40_direc" />
+                            <field name="cte40_irin" />
+                            <field name="cte40_tpNav" />
+                            <field name="cte40_balsa" />
+                        </group>
                     </group>
                     <group attrs="{'invisible': [('transport_modal', '!=', '04')]}">
-                            <group>
-                                <field name="cte40_tpTraf" />
-                                <field name="cte40_fluxo" />
-                                <field name="cte40_vFrete" />
-                                <field name="cte40_chCTeFerroOrigem" />
-                                <field name="cte40_respFat" />
-                                <field name="cte40_ferrEmi" />
-                                <field
+                        <group>
+                            <field name="cte40_tpTraf" />
+                            <field name="cte40_fluxo" />
+                            <field name="cte40_vFrete" />
+                            <field name="cte40_chCTeFerroOrigem" />
+                            <field name="cte40_respFat" />
+                            <field name="cte40_ferrEmi" />
+                            <field
                                 name="cte40_ferroEnv"
-                                context="{
-                                    'form_view_ref': 'l10n_br_cte.modal_ferroviario_ferroenv_form_view'
-                                }"
+                                context="{ 'form_view_ref': 'l10n_br_cte.modal_ferroviario_ferroenv_form_view' }"
                             />
-                            </group>
+                        </group>
                     </group>
                     <group attrs="{'invisible': [('transport_modal', '!=', '05')]}">
-                            <group>
-                                <field name="cte40_dIni" />
-                                <field name="cte40_dFim" />
-                                <field name="cte40_vTar" />
-                            </group>
+                        <group>
+                            <field name="cte40_dIni" />
+                            <field name="cte40_dFim" />
+                            <field name="cte40_vTar" />
+                        </group>
                     </group>
                 </page>
             </page>
         </field>
     </record>
-
 </odoo>
