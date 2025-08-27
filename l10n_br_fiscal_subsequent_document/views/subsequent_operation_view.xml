@@ -2,7 +2,6 @@
 <!-- Copyright 2020 KMEE INFORMATICA LTDA
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="subsequent_operation_tree">
         <field name="name">l10n_br_fiscal.subsequent.operation.tree</field>
         <field name="model">l10n_br_fiscal.subsequent.operation</field>
@@ -17,5 +16,4 @@
             </tree>
         </field>
     </record>
-
 </odoo>
