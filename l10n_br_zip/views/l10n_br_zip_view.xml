@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="l10n_br_zip_tree" model="ir.ui.view">
         <field name="name">l10n_br.zip.tree</field>
         <field name="model">l10n_br.zip</field>
@@ -47,5 +46,4 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="l10n_br_zip_tree" />
     </record>
-
 </odoo>
