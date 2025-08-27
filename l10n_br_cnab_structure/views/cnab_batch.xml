@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo>
-
     <record model="ir.ui.view" id="cnab_batch_tree_view">
         <field name="model">l10n_br_cnab.batch</field>
         <field name="arch" type="xml">
@@ -17,8 +16,6 @@
             </tree>
         </field>
     </record>
-
-
 
     <record model="ir.ui.view" id="cnab_batch_form_view">
         <field name="model">l10n_br_cnab.batch</field>
@@ -34,7 +31,6 @@
                         </group>
                         <group>
                             <field name="cnab_structure_id" />
-
                         </group>
                     </group>
                     <notebook>
