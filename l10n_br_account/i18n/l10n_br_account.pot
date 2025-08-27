@@ -5309,6 +5309,11 @@ msgid "Tomador do Serviço"
 msgstr ""
 
 #. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
+msgid "Total"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__total_weight
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__total_weight
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__total_weight
