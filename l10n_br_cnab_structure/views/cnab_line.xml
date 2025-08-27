@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo>
-
     <record id="line_cnab_preview_action" model="ir.actions.act_window">
         <field name="name">CNAB Preview</field>
         <field name="res_model">cnab.preview.wizard</field>
@@ -59,7 +58,6 @@
                 </div>
                 <group>
                     <group>
-
                         <field name="type" />
                         <field
                             name="segment_code"
@@ -82,7 +80,6 @@
                     <field name="resource_ref" invisible="True" />
                     <field name="cnab_format" invisible="True" />
                 </group>
-
                 <notebook>
                     <page name="fields_info" string="Fields">
                         <button
@@ -106,7 +103,6 @@
                             class="oe_highlight mx-1"
                             attrs="{'invisible': ['|',('current_view', '=', 'return'),('communication_flow', '=', 'sending')]}"
                         />
-
                         <separator
                             name="general_infos"
                             string="Structure"
@@ -206,12 +202,11 @@
                         string="Optional Rules"
                         attrs="{'invisible': [('requerid', '==', True)]}"
                     >
-                        <span class="o_form_label" modifiers="{}">
-                            Payment Ways
-                        </span>
-                        <div class="text-muted" modifiers="{}">
-                            Choose the payment ways that are required to inform this line.
-                        </div>
+                        <span class="o_form_label" modifiers="{}">Payment Ways</span>
+                        <div
+                            class="text-muted"
+                            modifiers="{}"
+                        >Choose the payment ways that are required to inform this line.</div>
                         <field
                             name="cnab_payment_way_ids"
                             widget="many2many"
@@ -243,5 +238,4 @@
         <field name="res_model">l10n_br_cnab.line</field>
         <field name="view_mode">tree,form</field>
     </record>
-
 </odoo>
