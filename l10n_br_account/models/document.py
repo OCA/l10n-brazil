@@ -198,9 +198,11 @@ class FiscalDocument(models.Model):
         messages in a fiscal document chatter are visible in the
         related account moves.
         """
+        res = super().message_post(**kwargs)
         for doc in self:
             for move in doc.move_ids:
                 move.message_post(**kwargs)
+        return res
 
     def cancel_move_ids(self):
         for record in self:
