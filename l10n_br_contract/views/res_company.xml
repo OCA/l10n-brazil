@@ -2,7 +2,6 @@
 <!-- Copyright 2020 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="l10n_br_contract_res_company_form" model="ir.ui.view">
         <field name="name">res.company.form (in l10n_br_contract)</field>
         <field name="model">res.company</field>
@@ -21,5 +20,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
