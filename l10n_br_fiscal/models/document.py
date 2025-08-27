@@ -61,6 +61,7 @@ class Document(models.Model):
     _inherit = [
         "l10n_br_fiscal.document.mixin",
         "mail.thread",
+        "mail.activity.mixin",
     ]
     _description = "Fiscal Document"
     _check_company_auto = True
