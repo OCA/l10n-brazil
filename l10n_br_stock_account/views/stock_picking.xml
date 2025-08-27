@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="stock_picking_form" model="ir.ui.view">
         <field name="name">l10n_br_stock_account.picking.form</field>
         <field name="model">stock.picking</field>
@@ -27,17 +26,9 @@
                 <attribute name="force_save">1</attribute>
             </field>
             <field name="move_ids_without_package" position="attributes">
-                <attribute name="context">
-                    {'default_invoice_state': invoice_state,
-                    'address_in_id': partner_id,
-                    'default_picking_type_id': picking_type_id,
-                    'default_picking_id': id,
-                    'default_location_id': location_id,
-                    'default_location_dest_id': location_dest_id,
-                    'default_fiscal_operation_id': fiscal_operation_id,
-                    'default_company_id': company_id,
-                    'default_partner_id': partner_id,
-                    'picking_type_code': picking_type_code}</attribute>
+                <attribute
+                    name="context"
+                >{'default_invoice_state': invoice_state, 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'picking_type_code': picking_type_code}</attribute>
             </field>
             <xpath
                 expr="//field[@name='move_ids_without_package']//tree/field[@name='product_id']"
@@ -58,16 +49,10 @@
                     name="fiscal_operation_line_id"
                     attrs="{'column_invisible': ['|', ('parent.invoice_state', '=', 'none'), ('parent.fiscal_operation_id', '=', False)], 'readonly': [('invoice_state', '=', 'invoiced')]}"
                 />
-                <control
-                    name="fiscal_fields"
-                    invisible="1"
-                /><!-- this is a dynamic fiscal fields placeholder-->
-                <control
-                    name="fiscal_taxes_fields"
-                    string="Taxes"
-                    invisible="1"
-                /><!-- this is a dynamic fiscal fields placeholder-->
-
+                <control name="fiscal_fields" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
                 <!-- the fields below would be injected by the placeholders
                     above, but we need to repeat them here to please the
                     Form test framework or because they are used in some
@@ -224,8 +209,6 @@
                 >
                     <field name="invoice_line_ids" readonly="1" nolabel="1" />
                 </group>
-
-
             </xpath>
             <xpath expr="//page[@name='extra']/group" position="inside">
                 <group name="delivery_costs" string="Delivery Costs">
@@ -248,7 +231,6 @@
                         options="{'currency_field': 'currency_id'}"
                         attrs="{'readonly': [('delivery_costs', '=', 'line')]}"
                     />
-
                 </group>
             </xpath>
             <xpath expr="//group[div[field[@name='scheduled_date']]]" position="after">
@@ -289,5 +271,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
