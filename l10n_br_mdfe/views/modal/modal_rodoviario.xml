@@ -16,17 +16,11 @@
                             <field name="mdfe30_tpCar" />
                             <field
                                 name="mdfe30_prop"
-                                context="{
-                                    'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view'
-                                }"
-                                domain="[
-                                    ('vat', '!=', False),
-                                    ('mdfe30_RNTRC', '!=', False),
-                                ]"
+                                context="{ 'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view' }"
+                                domain="[ ('vat', '!=', False), ('mdfe30_RNTRC', '!=', False), ]"
                             />
                             <field name="mdfe30_UF" />
                         </group>
-
                         <group>
                             <field name="mdfe30_tara" />
                             <field name="mdfe30_capKG" />
@@ -61,29 +55,20 @@
                             <field name="is_company" />
                             <field
                                 name="mdfe30_CNPJ"
-                                attrs="{
-                                'invisible': [('is_company', '=', False)],
-                                'required': [('is_company', '=', True)],
-                            }"
+                                attrs="{ 'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)], }"
                             />
                             <field
                                 name="mdfe30_CPF"
-                                attrs="{
-                                'invisible': [('is_company', '=', True)],
-                                'required': [('is_company', '=', False)],
-                            }"
+                                attrs="{ 'invisible': [('is_company', '=', True)], 'required': [('is_company', '=', False)], }"
                             />
                             <field name="legal_name" />
                             <field
                                 name="l10n_br_ie_code"
-                                attrs="{
-                                'invisible': [('is_company', '=', False)],
-                            }"
+                                attrs="{ 'invisible': [('is_company', '=', False)], }"
                             />
                             <field name="country_id" />
                             <field name="state_id" />
                         </group>
-
                         <group>
                             <field name="mdfe30_RNTRC" required="1" />
                             <field name="mdfe30_tpProp" />
@@ -104,17 +89,11 @@
                         <field name="is_company" />
                         <field
                             name="mdfe30_CNPJ"
-                            attrs="{
-                                'invisible': [('is_company', '=', False)],
-                                'required': [('is_company', '=', True)],
-                            }"
+                            attrs="{ 'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)], }"
                         />
                         <field
                             name="mdfe30_CPF"
-                            attrs="{
-                                'invisible': [('is_company', '=', True)],
-                                'required': [('is_company', '=', False)],
-                            }"
+                            attrs="{ 'invisible': [('is_company', '=', True)], 'required': [('is_company', '=', False)], }"
                         />
                         <field name="mdfe30_CIOT" />
                     </group>
@@ -237,12 +216,10 @@
                             />
                         </group>
                     </group>
-
                     <notebook>
                         <page string="Informações do Prazo">
                             <field name="mdfe30_infPrazo" nolabel="1" />
                         </page>
-
                         <page string="Frete">
                             <field name="mdfe30_comp" nolabel="1" />
                         </page>
@@ -384,7 +361,6 @@
         </field>
     </record>
 
-
     <record id="modal_rodoviario_contratante_form_view" model="ir.ui.view">
         <field
             name="name"
@@ -403,6 +379,4 @@
             </form>
         </field>
     </record>
-
-
 </odoo>
