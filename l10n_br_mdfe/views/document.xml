@@ -24,7 +24,7 @@
                 >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
 
-            <xpath expr="//page[@name='partners']" position="attributes">
+            <xpath expr="//group[@name='partner_info']" position="attributes">
                 <attribute
                     name="attrs"
                 >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
