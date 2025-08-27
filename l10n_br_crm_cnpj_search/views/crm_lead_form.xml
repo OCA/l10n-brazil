@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record model="ir.ui.view" id="crm_lead_cnpj_search_form_view">
         <field name="model">crm.lead</field>
@@ -13,10 +13,7 @@
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
-                        attrs="{'invisible':
-                                [
-                                    ('country_id', '!=', %(base.br)d)
-                                ]}"
+                        attrs="{'invisible': [ ('country_id', '!=', %(base.br)d) ]}"
                         class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
                         aria-label="Pesquisar CNPJ"
                         title="Pesquisar CNPJ"
@@ -33,10 +30,7 @@
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
-                        attrs="{'invisible':
-                                [
-                                    ('country_id', '!=', %(base.br)d)
-                                ]}"
+                        attrs="{'invisible': [ ('country_id', '!=', %(base.br)d) ]}"
                         class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
                         aria-label="Pesquisar CNPJ"
                         title="Pesquisar CNPJ"
@@ -45,6 +39,7 @@
             </xpath>
         </field>
     </record>
+
     <record model="ir.ui.view" id="crm_lead_fiscal_page_view_form">
         <field name="name">Add fiscal page</field>
         <field name="model">crm.lead</field>
