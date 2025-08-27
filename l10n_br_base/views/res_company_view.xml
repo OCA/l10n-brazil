@@ -68,7 +68,7 @@
         <field name="inherit_id" ref="base.view_company_tree" />
         <field name="arch" type="xml">
             <field name="name" position="after">
-                <field name="cnpj_cpf" />
+                <field name="vat" />
             </field>
         </field>
     </record>

@@ -39,10 +39,7 @@
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="arch" type="xml">
             <field name="vat" position="attributes">
-                <attribute name="force_save">1</attribute>
-                <attribute
-                    name="readonly"
-                >vat not in [False, ''] or parent_id</attribute>
+                <attribute name="invisible">1</attribute>
             </field>
             <xpath expr="//h1" position="after">
                 <field name="city_id" invisible="1" />
