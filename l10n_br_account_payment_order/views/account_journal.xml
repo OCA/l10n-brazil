@@ -2,7 +2,6 @@
 <!-- Copyright 2020 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="account_journal_form_view" model="ir.ui.view">
         <field
             name="name"
@@ -16,5 +15,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
