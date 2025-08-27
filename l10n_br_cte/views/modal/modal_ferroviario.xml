@@ -15,12 +15,8 @@
                         <field name="cte40_IE" />
                         <field
                             name="cte40_enderFerro"
-                            context="{
-                                'form_view_ref': 'l10n_br_cte.res_partner_tenderfer_form_view'
-                            }"
-                            domain="[
-                                ('vat', '!=', False),
-                            ]"
+                            context="{ 'form_view_ref': 'l10n_br_cte.res_partner_tenderfer_form_view' }"
+                            domain="[ ('vat', '!=', False), ]"
                         />
                     </group>
                 </sheet>
