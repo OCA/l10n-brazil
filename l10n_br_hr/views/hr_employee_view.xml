@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
 <odoo>
-
     <record id="view_l10n_br_hr_employee_form" model="ir.ui.view">
         <field name="name">l10n_br_hr_employee.form</field>
         <field name="model">hr.employee</field>
@@ -203,7 +202,6 @@
         <field name="res_model">hr.ethnicity</field>
         <field name="view_mode">tree,form</field>
     </record>
-
     <menuitem
         id="menu_hr_employee_register"
         parent="hr.menu_human_resources_configuration"
@@ -211,35 +209,30 @@
         sequence="20"
         groups="hr.group_hr_manager"
     />
-
     <menuitem
         action="action_hr_deficiency"
         id="menu_hr_deficiency"
         parent="menu_hr_employee_register"
         sequence="1"
     />
-
     <menuitem
         action="action_hr_identity_type"
         id="menu_hr_identity_type"
         parent="menu_hr_employee_register"
         sequence="2"
     />
-
     <menuitem
         action="action_hr_civil_certificate_type"
         id="menu_hr_civil_certificate_type"
         parent="menu_hr_employee_register"
         sequence="3"
     />
-
     <menuitem
         action="action_hr_ethnicity"
         id="menu_hr_ethnicity"
         parent="menu_hr_employee_register"
         sequence="6"
     />
-
     <!-- Menu item de colaboradores -->
     <menuitem
         id="menu_hr_colaboradores"
@@ -247,16 +240,15 @@
         sequence="1"
         parent="hr.menu_hr_main"
     />
-
     <!-- Funcionários -->
     <!--Action de Funcionários -->
+
     <record id="hr.open_view_employee_list_my" model="ir.actions.act_window">
         <field
             name="context"
         >{'default_employee_relationship_type': 'funcionario'}</field>
         <field name="domain">[('employee_relationship_type','=', 'funcionario')]</field>
     </record>
-
     <!-- Sub Menu de Funcionarios -->
     <menuitem
         action="hr.open_view_employee_list_my"
@@ -264,9 +256,9 @@
         sequence="1"
         parent="menu_hr_colaboradores"
     />
-
     <!-- Funcionários Autonomos -->
     <!--Action de autonomos-->
+
     <record id="hr_employee_autonomo_action" model="ir.actions.act_window">
         <field name="name">Autônomos</field>
         <field name="res_model">hr.employee</field>
@@ -274,7 +266,6 @@
         <field name="context">{'default_employee_relationship_type': 'autonomo'}</field>
         <field name="domain">[('employee_relationship_type','=', 'autonomo')]</field>
     </record>
-
     <menuitem
         id="hr_menu_employee_autonomo"
         action="hr_employee_autonomo_action"
@@ -283,22 +274,19 @@
         sequence="2"
         groups="hr.group_hr_manager"
     />
-
     <!--<record model="ir.actions.act_window.view" id="hr_employee_autonomo_action_tree">-->
-        <!--<field eval="1" name="sequence"/>-->
-        <!--<field name="view_mode">tree</field>-->
-        <!--<field name="act_window_id" ref="hr_employee_autonomo_action"/>-->
+    <!--<field eval="1" name="sequence"/>-->
+    <!--<field name="view_mode">tree</field>-->
+    <!--<field name="act_window_id" ref="hr_employee_autonomo_action"/>-->
     <!--</record>-->
-
     <!--<record model="ir.actions.act_window.view" id="hr_employee_autonomo_action_form">-->
-        <!--<field eval="2" name="sequence"/>-->
-        <!--<field name="view_mode">form</field>-->
-        <!--<field name="act_window_id" ref="hr_employee_autonomo_action"/>-->
+    <!--<field eval="2" name="sequence"/>-->
+    <!--<field name="view_mode">form</field>-->
+    <!--<field name="act_window_id" ref="hr_employee_autonomo_action"/>-->
     <!--</record>-->
-
-
     <!-- Funcionarios Tercerizados -->
     <!--Action de terceirizados-->
+
     <record id="hr_employee_terceirizado_action" model="ir.actions.act_window">
         <field name="name">Terceirizados</field>
         <field name="res_model">hr.employee</field>
@@ -310,7 +298,6 @@
             name="domain"
         >[('employee_relationship_type','=', 'terceirizado')]</field>
     </record>
-
     <menuitem
         id="hr_menu_employee_terceirizado"
         action="hr_employee_terceirizado_action"
@@ -337,5 +324,4 @@
         <field name="view_mode">form</field>
         <field name="act_window_id" ref="hr_employee_terceirizado_action" />
     </record>
-
 </odoo>
