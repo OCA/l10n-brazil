@@ -3,3 +3,7 @@
 "l10n_br_cnab_structure.cnab_line_field_group_2","Conta Corrente - Outros Bancos","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a"
 "l10n_br_cnab_structure.cnab_line_field_group_3","Conta Pagamento - Outros Bancos","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a"
 "l10n_br_cnab_structure.cnab_line_field_group_4","Conta Corrente - Chave PIX","l10n_br_cnab_structure.cnab_itau_240_pagamentos_segmento_a"
+"l10n_br_cnab_structure.cnab_line_field_group_1_bb","Conta Corrente - Mesmo Banco","l10n_br_cnab_structure.cnab_bb_240_pagamentos_segmento_a"
+"l10n_br_cnab_structure.cnab_line_field_group_2_bb","Conta Corrente - Outros Bancos","l10n_br_cnab_structure.cnab_bb_240_pagamentos_segmento_a"
+"l10n_br_cnab_structure.cnab_line_field_group_3_bb","Conta Pagamento - Outros Bancos","l10n_br_cnab_structure.cnab_bb_240_pagamentos_segmento_a"
+"l10n_br_cnab_structure.cnab_line_field_group_4_bb","Conta Corrente - Chave PIX","l10n_br_cnab_structure.cnab_bb_240_pagamentos_segmento_a"

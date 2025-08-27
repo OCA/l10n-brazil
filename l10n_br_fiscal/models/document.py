@@ -215,204 +215,24 @@ class Document(models.Model):
         ],
         string="Tomador do Serviço",
     )
-
-    # ----- Now some handy related fields:
-
     partner_legal_name = fields.Char(
         string="Legal Name",
         related="partner_id.legal_name",
     )
-
-    partner_name = fields.Char(
-        string="Partner Name",
-        related="partner_id.name",
-    )
-
     partner_cnpj_cpf = fields.Char(
         string="CNPJ",
         related="partner_id.vat",
     )
-
     partner_l10n_br_ie_code = fields.Char(
         string="State Tax Number",
         related="partner_id.l10n_br_ie_code",
     )
 
-    partner_ind_ie_dest = fields.Selection(
-        string="Contribuinte do ICMS",
-        related="partner_id.ind_ie_dest",
-    )
-
-    partner_l10n_br_im_code = fields.Char(
-        string="Municipal Tax Number",
-        related="partner_id.l10n_br_im_code",
-    )
-
-    partner_l10n_br_isuf_code = fields.Char(
-        string="Suframa",
-        related="partner_id.l10n_br_isuf_code",
-    )
-
-    partner_cnae_main_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cnae",
-        string="Main CNAE",
-        related="partner_id.cnae_main_id",
-    )
-
-    partner_tax_framework = fields.Selection(
-        string="Tax Framework",
-        related="partner_id.tax_framework",
-    )
-
-    partner_street = fields.Char(
-        string="Partner Street",
-        related="partner_id.street",
-    )
-
-    partner_number = fields.Char(
-        string="Partner Number",
-        related="partner_id.street_number",
-    )
-
-    partner_street2 = fields.Char(
-        string="Partner Street2",
-        related="partner_id.street2",
-    )
-
-    partner_district = fields.Char(
-        string="Partner District",
-        related="partner_id.district",
-    )
-
-    partner_country_id = fields.Many2one(
-        comodel_name="res.country",
-        string="Partner Country",
-        related="partner_id.country_id",
-    )
-
-    partner_state_id = fields.Many2one(
-        comodel_name="res.country.state",
-        string="Partner State",
-        related="partner_id.state_id",
-    )
-
-    partner_city_id = fields.Many2one(
-        comodel_name="res.city",
-        string="Partner City",
-        related="partner_id.city_id",
-    )
-
-    partner_zip = fields.Char(
-        string="Partner Zip",
-        related="partner_id.zip",
-    )
-
-    partner_phone = fields.Char(
-        string="Partner Phone",
-        related="partner_id.phone",
-    )
-
-    partner_is_company = fields.Boolean(
-        string="Partner Is Company?",
-        related="partner_id.is_company",
-    )
-
     processador_edoc = fields.Selection(
         related="company_id.processador_edoc",
     )
-
-    company_legal_name = fields.Char(
-        string="Company Legal Name",
-        related="company_id.legal_name",
-    )
-
-    company_name = fields.Char(
-        string="Company Name",
-        size=128,
-        related="company_id.name",
-    )
-
-    company_cnpj_cpf = fields.Char(
-        string="Company CNPJ",
-        related="company_id.vat",
-    )
-
-    company_l10n_br_ie_code = fields.Char(
-        string="Company State Tax Number",
-        related="company_id.l10n_br_ie_code",
-    )
-
     company_l10n_br_ie_code_st = fields.Char(
         string="Company ST State Tax Number",
-    )
-
-    company_l10n_br_im_code = fields.Char(
-        string="Company Municipal Tax Number",
-        related="company_id.l10n_br_im_code",
-    )
-
-    company_l10n_br_isuf_code = fields.Char(
-        string="Company Suframa",
-        related="company_id.l10n_br_isuf_code",
-    )
-
-    company_cnae_main_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cnae",
-        string="Company Main CNAE",
-        related="company_id.cnae_main_id",
-    )
-
-    company_tax_framework = fields.Selection(
-        string="Company Tax Framework",
-        related="company_id.tax_framework",
-    )
-
-    company_street = fields.Char(
-        string="Company Street",
-        related="company_id.street",
-    )
-
-    company_number = fields.Char(
-        string="Company Number",
-        related="company_id.street_number",
-    )
-
-    company_street2 = fields.Char(
-        string="Company Street2",
-        related="company_id.street2",
-    )
-
-    company_district = fields.Char(
-        string="Company District",
-        related="company_id.district",
-    )
-
-    company_country_id = fields.Many2one(
-        comodel_name="res.country",
-        string="Company Country",
-        related="company_id.country_id",
-    )
-
-    company_state_id = fields.Many2one(
-        comodel_name="res.country.state",
-        string="Company State",
-        related="company_id.state_id",
-    )
-
-    company_city_id = fields.Many2one(
-        comodel_name="res.city",
-        string="Company City",
-        related="company_id.city_id",
-    )
-
-    company_zip = fields.Char(
-        string="Company ZIP",
-        related="company_id.zip",
-    )
-
-    company_phone = fields.Char(
-        string="Company Phone",
-        related="company_id.phone",
     )
 
     @api.constrains("document_key")
@@ -523,19 +343,19 @@ class Document(models.Model):
             name += "/" + type_serie_number
             if self.document_date:
                 name += " - " + self.document_date.strftime("%d/%m/%Y")
-            if not self.partner_cnpj_cpf:
+            if not self.partner_id.vat:
                 name += " - " + _("Unidentified Consumer")
-            elif self.partner_legal_name:
-                name += " - " + self.partner_legal_name
-                name += " - " + self.partner_cnpj_cpf
+            elif self.partner_id.legal_name:
+                name += " - " + self.partner_id.legal_name
+                name += " - " + self.partner_id.vat
             else:
-                name += " - " + self.partner_name
-                name += " - " + self.partner_cnpj_cpf
+                name += " - " + self.partner_id.name
+                name += " - " + self.partner_id.vat
         elif self._context.get("fiscal_document_no_company"):
             name += type_serie_number
         else:
             name += "{name}/{type_serie_number}".format(
-                name=self.company_name or "",
+                name=self.company_id.name or "",
                 type_serie_number=type_serie_number,
             )
         return name

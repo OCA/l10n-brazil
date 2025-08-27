@@ -516,7 +516,7 @@ class CTe(spec_models.StackedModel):
     )
 
     cte40_CRT = fields.Selection(
-        related="company_tax_framework",
+        related="company_id.tax_framework",
         string="Código de Regime Tributário (CTe)",
     )
 

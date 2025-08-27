@@ -1,0 +1,228 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-05-20 22:42+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "<option value=\"\">Country...</option>"
+msgstr "<option value=\"\">País...</option>"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "<option value=\"\">select...</option>"
+msgstr "<option value=\"\">selecione...</option>"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
+msgid "CNPJ/CPF Stripped"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
+msgid "CNPJ/CPF without special characters"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "CNPJ/VAT"
+msgstr "CNPJ/VAT"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "CPF"
+msgstr "CPF"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid ""
+"Changing company name is not allowed once document(s) have been issued for "
+"your account. Please contact us directly for this operation."
+msgstr ""
+"A alteração do nome da empresa não é permitida depois que os documentos "
+"foram emitidos para sua conta. Entre em contato conosco diretamente para "
+"esta operação."
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "City"
+msgstr "Cidade"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__city_id
+msgid "City of Address"
+msgstr "Endereço da Cidade"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Company Name"
+msgstr "Nome da Empresa"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Confirm<span class=\"fa fa-long-arrow-right\"/>"
+msgstr "Confirmar<span class=\"fa fa-long-arrow-right\"/>"
+
+#. module: l10n_br_portal
+#: model:ir.model,name:l10n_br_portal.model_res_partner
+msgid "Contact"
+msgstr "Contato"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__country_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Country"
+msgstr "País"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__district
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "District"
+msgstr "Bairro"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Email"
+msgstr "E-mail"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_name
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Mobile"
+msgstr "Celular"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_im_code
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Municipal Tax Number"
+msgstr "Número da Inscrição Municipal"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Nº"
+msgstr "Nº"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__state_tax_number_ids
+msgid "Others State Tax Number"
+msgstr "Número de Outras Inscrição Estaduais"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Phone"
+msgstr "Telefone"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_rg_code
+msgid "RG"
+msgstr "RG"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "State / Province"
+msgstr "Estado / Província"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_ie_code
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "State Tax Number"
+msgstr "Número da Inscrição Estadual"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Street"
+msgstr "Endereço"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Street2"
+msgstr "Complemento"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__suframa
+msgid "Suframa"
+msgstr "Suframa"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__legal_name
+msgid "Used in fiscal documents"
+msgstr "Usado em documentos fiscais"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Your Name"
+msgstr "Seu Nome"
+
+#. module: l10n_br_portal
+#: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
+msgid "Zip / Postal Code"
+msgstr "CEP"
+
+#~ msgid "Bairro"
+#~ msgstr "Bairro"
+
+#~ msgid "Cidade"
+#~ msgstr "Cidade"
+
+#~ msgid "Complemento"
+#~ msgstr "Complemento"
+
+#~ msgid "IE/RG"
+#~ msgstr "IE/RG"
+
+#~ msgid "Inscrição Municipal"
+#~ msgstr "Inscrição Municipal"
+
+#~ msgid "Razão Social / Nome Completo"
+#~ msgstr "Razão Social / Nome Completo"
+
+#~ msgid "Brazil"
+#~ msgstr "Brasil"
+
+#~ msgid "Itajubá"
+#~ msgstr "Itajubá"
+
+#~ msgid "Country..."
+#~ msgstr "País…"
+
+#~ msgid "select..."
+#~ msgstr "selecione..."
