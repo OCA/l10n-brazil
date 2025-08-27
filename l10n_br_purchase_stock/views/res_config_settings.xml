@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="l10n_br_purchase_res_config_settings_form" model="ir.ui.view">
         <field name="name">l10n_br_purchase.res.config.settings.form</field>
         <field name="model">res.config.settings</field>
@@ -27,9 +26,9 @@
                             groups="base.group_multi_company"
                             role="img"
                         />
-                        <div class="text-muted">
-                            Select invoiced based on order or picking
-                        </div>
+                        <div
+                            class="text-muted"
+                        >Select invoiced based on order or picking</div>
                         <div class="content-group">
                             <div class="mt16">
                                 <field
@@ -44,5 +43,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
