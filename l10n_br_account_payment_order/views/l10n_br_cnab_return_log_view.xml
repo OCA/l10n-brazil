@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="l10n_br_cnab_return_log_tree_view" model="ir.ui.view">
         <field name="name">l10n_br_cnab.return.log.tree</field>
         <field name="model">l10n_br_cnab.return.log</field>
@@ -24,9 +23,9 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                <h1>
-                    <field name="name" readonly="1" />
-                </h1>
+                    <h1>
+                        <field name="name" readonly="1" />
+                    </h1>
                     <group>
                         <group>
                             <field name="filename" readonly="1" />
@@ -40,7 +39,6 @@
                                 readonly="1"
                             />
                         </group>
-
                     </group>
                     <group>
                         <group>
@@ -48,7 +46,6 @@
                             <field name="number_events" readonly="1" />
                         </group>
                     </group>
-
                     <notebook>
                         <page name="log_tab" string="Event Lines">
                             <field name="event_ids" readonly="1" />
@@ -90,7 +87,7 @@
                                 <div
                                     class="oe_subtotal_footer_separator oe_inline o_td_label"
                                 >
-                                <label for="amount_total_received" />
+                                    <label for="amount_total_received" />
                                 </div>
                                 <field
                                     name="amount_total_received"
@@ -195,7 +192,6 @@
         </field>
     </record>
 
-
     <record id="l10n_br_cnab_return_lot_form_view" model="ir.ui.view">
         <field name="name">l10n_br_cnab.return.lot.form.view</field>
         <field name="model">l10n_br_cnab.return.lot</field>
@@ -223,7 +219,7 @@
                         name="cnab_total_lot"
                     >
                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                        <label for="total_value" />
+                            <label for="total_value" />
                         </div>
                         <field
                             name="total_value"
@@ -255,7 +251,6 @@
                         context="{'group_by': 'bank_account_id'}"
                     />
                 </group>
-
             </search>
         </field>
     </record>
@@ -265,7 +260,6 @@
         <field name="res_model">l10n_br_cnab.return.log</field>
         <field name="view_mode">tree,form</field>
     </record>
-
     <!-- Menu Principal para o CNAB -->
     <menuitem
         id="cnab"
@@ -273,7 +267,6 @@
         parent="account.menu_finance_entries"
         sequence="45"
     />
-
     <menuitem
         id="menu_l10n_br_cnab_return_log"
         parent="cnab"
@@ -281,5 +274,4 @@
         sequence="999"
         action="l10n_br_account_payment_order.l10n_br_cnab_return_log_action"
     />
-
 </odoo>
