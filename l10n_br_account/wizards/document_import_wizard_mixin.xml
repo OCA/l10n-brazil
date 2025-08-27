@@ -2,7 +2,6 @@
 <!-- Copyright 2023 Akretion
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="document_import_wizard_mixin_form" model="ir.ui.view">
         <field name="name">l10n_br_account.document.import.wizard.mixin.form</field>
         <field name="model">l10n_br_fiscal.document.import.wizard.mixin</field>
@@ -12,14 +11,13 @@
         />
         <field name="arch" type="xml">
             <button name="action_import_and_open_document" position="after">
-                 <button
+                <button
                     name="action_import_and_open_move"
                     string="Import Account Move"
                     class="btn-primary"
                     type="object"
                 />
-                </button>
+            </button>
         </field>
     </record>
-
 </odoo>
