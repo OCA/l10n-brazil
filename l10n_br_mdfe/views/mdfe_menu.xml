@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <menuitem
         id="mdfe_document_menu"
         action="mdfe_document_action"
@@ -9,5 +8,4 @@
         parent="l10n_br_fiscal.document_menu"
         sequence="50"
     />
-
 </odoo>
