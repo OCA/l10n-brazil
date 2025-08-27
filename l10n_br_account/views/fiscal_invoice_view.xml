@@ -95,16 +95,10 @@
                   <field name="product_uom_id" />
                   <field name="price_unit" />
                   <field name="quantity" />
-                  <field name="amount_total" />
+                  <field name="fiscal_tax_ids" widget="many2many_tags" />
+                  <field name="amount_total" sum="Total" />
                 </tree>
             </field>
-        </xpath>
-        <xpath expr="//sheet" position="after">
-            <div class="oe_chatter">
-                <field name="message_follower_ids" widget="mail_followers" />
-                <field name="activity_ids" widget="mail_activity" />
-                <field name="message_ids" widget="mail_thread" />
-            </div>
         </xpath>
       </field>
     </record>
