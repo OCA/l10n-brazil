@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="l10n_br_p7_model_inventory_report_wizard_view" model="ir.ui.view">
         <field name="name">Brazilian P7 Model Inventory Report</field>
         <field name="model">l10n_br.p7.model.inventory.report.wizard</field>
@@ -44,12 +43,10 @@
         <field name="target">new</field>
         <field name="context">{'default_compute_at_date': '0'}</field>
     </record>
-
     <menuitem
         action="l10n_br_p7_model_inventory_report_wizard_action"
         id="l10n_p7_model_inventory_report_wizard_menu"
         parent="stock.menu_warehouse_report"
         sequence="100"
     />
-
 </odoo>
