@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="l10n_br_sale_quotation_tree" model="ir.ui.view">
         <field name="name">l10n_br_sale.quotation.form</field>
         <field name="model">sale.order</field>
@@ -36,7 +35,6 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="priority">99</field>
         <field name="arch" type="xml">
-
             <!-- order top form view extensions: -->
             <field name="tax_totals" position="before">
                 <field
@@ -110,7 +108,6 @@
                     attrs="{'invisible': [('fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
                 />
             </field>
-
             <!-- order lines tree view extensions: -->
             <xpath expr="//field[@name='order_line']" position="attributes">
                 <attribute
@@ -118,16 +115,10 @@
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree" position="inside">
-                <control
-                    name="fiscal_fields"
-                    invisible="1"
-                /><!-- this is a dynamic fiscal fields placeholder-->
-                <control
-                    name="fiscal_taxes_fields"
-                    string="Taxes"
-                    invisible="1"
-                /><!-- this is a dynamic fiscal fields placeholder-->
-
+                <control name="fiscal_fields" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
                 <!-- the fields below would be injected by the placeholders
                     above, but we need to repeat them here to please the
                     Form test framework or because they are used in some
@@ -208,22 +199,17 @@
                     attrs="{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}"
                 />
             </xpath>
-
             <!-- order lines form view extensions:  -->
             <xpath expr="//field[@name='order_line']/form" position="inside">
                 <field name="product_template_id" />
-                <group
-                    name="fiscal_fields"
-                    invisible="1"
-                ><!-- this is a dynamic fiscal fields placeholder-->
+                <group name="fiscal_fields" invisible="1">
+                    <!-- this is a dynamic fiscal fields placeholder-->
                     <!-- required because of cfop_id default domain: -->
-
                     <field name="fiscal_operation_type" invisible="1" readonly="1" />
                     <!-- required because used in domain of some next SO view fields: -->
                     <field name="tax_icms_or_issqn" invisible="1" />
                 </group>
             </xpath>
-
             <!-- discount management in line form: -->
             <xpath
                 expr="//field[@name='order_line']/form//label[@for='discount']"
@@ -258,7 +244,6 @@
                     />
                 </div>
             </xpath>
-
             <xpath
                 expr="//field[@name='order_line']/form//label[@for='customer_lead']"
                 position="before"
@@ -350,10 +335,8 @@
                 <notebook
                     attrs="{'invisible': ['|', ('display_type', '!=', False), ('parent.fiscal_operation_id', '=', False)]}"
                 >
-                    <page
-                        name="fiscal_taxes"
-                        string="Taxes"
-                    /><!-- this is a dynamic fiscal fields placeholder-->
+                    <page name="fiscal_taxes" string="Taxes" />
+                    <!-- this is a dynamic fiscal fields placeholder-->
                     <page
                         string="Invoice Lines"
                         groups="base.group_no_one"
@@ -415,7 +398,6 @@
                     </page>
                 </notebook>
             </xpath>
-
             <!-- order bottom form view extensions: -->
             <field name="note" position="attributes">
                 <attribute
@@ -444,12 +426,9 @@
                 <group style="width: 65%%" groups="l10n_br_sale.group_total_discount">
                     <label for="discount_rate" />
                     <div>
-                        <field name="discount_rate" class="oe_inline" />
-                        %%
-                    </div>
+                    <field name="discount_rate" class="oe_inline" />%%</div>
                 </group>
             </xpath>
         </field>
     </record>
-
 </odoo>
