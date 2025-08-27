@@ -2,7 +2,6 @@
 <!-- Copyright 2019 KMEE INFORMATICA LTDA
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="nfse_document_form_inherit" model="ir.ui.view">
         <field name="name">l10n_br_nfse.document.form.inherit</field>
         <field name="model">l10n_br_fiscal.document</field>
@@ -36,5 +35,4 @@
             </group>
         </field>
     </record>
-
 </odoo>
