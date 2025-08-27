@@ -11,7 +11,7 @@
             <field name="status_description" position="after">
                 <field name="edoc_error_message" />
             </field>
-            <group name="document_header_right" position="before">
+            <group name="document_numbers" position="before">
                 <group
                     name="nfse_operation"
                     attrs="{'invisible': [('document_type', '!=', 'SE')]}"
