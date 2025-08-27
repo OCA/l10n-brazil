@@ -2,7 +2,6 @@
 <!-- Copyright 2023 KMEE
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="mdfe_res_partner_form_view" model="ir.ui.view">
         <field name="name">mdfe.res.partner.form (in l10n_br_mdfe)</field>
         <field name="model">res.partner</field>
@@ -13,7 +12,6 @@
                     <group string="Seguro" colspan="4">
                         <field name="mdfe30_respSeg" />
                     </group>
-
                     <group string="Veículo" colspan="4">
                         <field name="mdfe30_tpProp" />
                         <field name="mdfe30_RNTRC" />
@@ -22,5 +20,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
