@@ -341,7 +341,6 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__company_id
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__company_id
 msgid "Company"
 msgstr ""
 
