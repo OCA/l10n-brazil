@@ -3,18 +3,15 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form" />
         <field name="arch" type="xml">
-
             <xpath expr="//group[@name='carrier_data']" position="inside">
                 <field
                     name="number_of_volumes"
                     attrs="{'invisible': [('invoice_ids', '=', [])]}"
                 />
             </xpath>
-
             <xpath expr="//notebook" position="before">
                 <field name="has_vol" invisible="1" />
             </xpath>
-
             <xpath expr="//button[@name='action_toggle_is_locked']" position="before">
                 <button
                     name="%(action_generate_volume_ids)d"
@@ -25,14 +22,12 @@
                     groups="base.group_user"
                 />
             </xpath>
-
             <xpath expr="//notebook" position="inside">
                 <page
                     name="volumes"
                     string="Volumes"
                     attrs="{'invisible': [('has_vol', '=', False)]}"
                 >
-
                     <group string="Volumes">
                         <group>
                             <field name="number_of_volumes" />
@@ -48,10 +43,8 @@
                             </tree>
                         </field>
                     </group>
-
                 </page>
             </xpath>
-
         </field>
     </record>
 </odoo>

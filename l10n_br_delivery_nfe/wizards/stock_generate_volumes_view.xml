@@ -18,20 +18,19 @@
                     </field>
                 </group>
                 <footer>
-                    <button
+                <button
                         name="action_generate"
                         string="Create"
                         type="object"
                         class="oe_highlight"
                         default_focus="1"
                         tabindex="0"
-                    />
-                    or
-                    <button string="Cancel" class="oe_link" special="cancel" />
-                </footer>
+                    />or
+                <button string="Cancel" class="oe_link" special="cancel" /></footer>
             </form>
         </field>
     </record>
+
     <record id="action_generate_volume_ids" model="ir.actions.act_window">
         <field name="name">Generate Draft Volumes</field>
         <field name="type">ir.actions.act_window</field>
