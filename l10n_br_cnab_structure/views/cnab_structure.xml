@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo>
-
     <record id="cnab_preview_action" model="ir.actions.act_window">
         <field name="name">CNAB Preview</field>
         <field name="res_model">cnab.preview.wizard</field>
@@ -59,7 +58,6 @@
                     />
                     <field name="state" widget="statusbar" />
                 </header>
-
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
@@ -85,7 +83,6 @@
                             <field name="content_source_model_id" invisible="True" />
                         </group>
                     </group>
-
                     <notebook>
                         <page name="lines" string="Lines">
                             <field
@@ -260,9 +257,7 @@
                             string="PIX"
                             attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
                         >
-                            <span class="o_form_label" modifiers="{}">
-                                Key Types
-                            </span>
+                            <span class="o_form_label" modifiers="{}">Key Types</span>
                             <field
                                 name="cnab_pix_key_type_ids"
                                 mode='tree'
@@ -275,9 +270,10 @@
                                     <field name="key_type" />
                                 </tree>
                             </field>
-                            <span class="o_form_label" modifiers="{}">
-                                Transfer Types
-                            </span>
+                            <span
+                                class="o_form_label"
+                                modifiers="{}"
+                            >Transfer Types</span>
                             <field
                                 name="cnab_pix_transfer_type_ids"
                                 mode='tree'
@@ -305,7 +301,6 @@
                                 </tree>
                             </field>
                         </page>
-
                     </notebook>
                 </sheet>
             </form>

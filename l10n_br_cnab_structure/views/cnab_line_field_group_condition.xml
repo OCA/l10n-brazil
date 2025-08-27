@@ -19,6 +19,7 @@
             </tree>
         </field>
     </record>
+
     <record model="ir.ui.view" id="cnab_line_field_group_condition_form_view">
         <field name="model">cnab.line.group.field.condition</field>
         <field name="arch" type="xml">
@@ -34,11 +35,12 @@
                         <field name="json_value" />
                         <field name="cnab_group_id" />
                         <field name="cnab_line_id" />
-                </group>
+                    </group>
                 </sheet>
             </form>
         </field>
     </record>
+
     <record model="ir.actions.act_window" id="action_cnab_line_fields_group_condition">
         <field name="name">CNAB Fields Group Condition</field>
         <field name="res_model">cnab.line.group.field.condition</field>

@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo>
-
     <record id="l10n_br_cnab_return_log_tree_view_structure" model="ir.ui.view">
         <field name="name">l10n_br_cnab.return.log.tree</field>
         <field name="model">l10n_br_cnab.return.log</field>
@@ -42,9 +41,9 @@
                     <field name="state" widget="statusbar" readonly="1" />
                 </header>
                 <sheet>
-                <h1>
-                    <field name="name" readonly="1" />
-                </h1>
+                    <h1>
+                        <field name="name" readonly="1" />
+                    </h1>
                     <group>
                         <group>
                             <field name="return_file" filename="filename" />
@@ -103,7 +102,6 @@
                                     <field name="occurrences" optional="show" />
                                 </tree>
                             </field>
-
                             <group
                                 class="oe_subtotal_footer oe_left"
                                 colspan="2"
@@ -150,7 +148,7 @@
                                 <div
                                     class="oe_subtotal_footer_separator oe_inline o_td_label"
                                 >
-                                <label for="amount_total_received" />
+                                    <label for="amount_total_received" />
                                 </div>
                                 <field
                                     name="amount_total_received"
