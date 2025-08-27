@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="stock_rule_form" model="ir.ui.view">
         <field name="name">l10n_br_stock_account.stock.rule.form</field>
         <field name="model">stock.rule</field>
@@ -17,5 +16,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
