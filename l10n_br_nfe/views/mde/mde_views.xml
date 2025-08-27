@@ -56,10 +56,8 @@
                         nolabel="1"
                     />
                 </header>
-
                 <separator string="Access Key" />
                 <field name="key" select="1" required="1" />
-
                 <separator string="Document Info" />
                 <group>
                     <group>
@@ -153,5 +151,4 @@
         <field name="res_model">l10n_br_nfe.mde</field>
         <field name="view_mode">tree,form</field>
     </record>
-
 </odoo>

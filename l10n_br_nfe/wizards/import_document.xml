@@ -2,7 +2,6 @@
 <!-- Copyright 2023 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="l10n_br_nfe_import_xml_form" model="ir.ui.view">
         <field name="name">l10n_br_nfe.import_xml.form</field>
         <field name="model">l10n_br_nfe.import_xml</field>
@@ -15,12 +14,10 @@
             <xpath expr="//field[@name='document_serie']" position="after">
                 <field name="nat_op" readonly="1" />
             </xpath>
-
             <xpath expr="//field[@name='partner_id']" position="before">
                 <field name="xml_partner_cpf_cnpj" readonly="1" />
                 <field name="xml_partner_name" readonly="1" />
             </xpath>
-
             <xpath expr="//group[@id='document_info']" position="after">
                 <group
                     id="existing_document"
@@ -28,17 +25,10 @@
                 >
                     <field name="document_id" readonly="1" string="Existing Document" />
                 </group>
-
                 <group
                     id='xml_product_lines'
                     col="4"
-                    attrs="{
-                    'invisible': [
-                        '|',
-                        ('file', '=', False),
-                        ('document_id', '!=', False),
-                    ]
-                }"
+                    attrs="{ 'invisible': [ '|', ('file', '=', False), ('document_id', '!=', False), ] }"
                 >
                     <separator string="NFe XML Products" colspan="4" />
                     <group
@@ -90,5 +80,4 @@
         <field name="context">{}</field>
         <field name="target">new</field>
     </record>
-
 </odoo>
