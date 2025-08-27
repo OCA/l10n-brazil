@@ -4,7 +4,6 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-
     <menuitem
         action="dfe_action"
         id="dfe_consult_menu"
@@ -13,5 +12,4 @@
         parent="l10n_br_fiscal.document_menu"
         sequence="15"
     />
-
 </odoo>

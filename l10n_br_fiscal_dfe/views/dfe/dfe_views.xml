@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
     Copyright 2023 KMEE INFORMATICA LTDA
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
-
     <record model="ir.ui.view" id="dfe_form">
         <field name="name">l10n_br_fiscal.dfe.form</field>
         <field name="model">l10n_br_fiscal.dfe</field>
@@ -19,7 +18,6 @@
                         class="btn-primary"
                     />
                 </header>
-
                 <sheet>
                     <group>
                         <group>
@@ -35,7 +33,6 @@
                             <field name="use_cron" />
                         </group>
                     </group>
-
                     <notebook>
                         <page id="documents" string="Documents">
                             <field
@@ -46,7 +43,6 @@
                         </page>
                     </notebook>
                 </sheet>
-
                 <div class="oe_chatter">
                     <field name="activity_ids" />
                     <field name="message_ids" />
@@ -98,5 +94,4 @@
             </search>
         </field>
     </record>
-
 </odoo>
