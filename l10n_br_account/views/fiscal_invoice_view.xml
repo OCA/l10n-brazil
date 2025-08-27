@@ -5,19 +5,18 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="fiscal_invoice_search" model="ir.ui.view">
         <field name="name">l10n_br_account.fiscal.invoice.search</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_search" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-          <xpath expr="//field[@name='document_number']" position="after">
-              <field name="name" string="Account Number" invisible="1" />
-              <field name="partner_legal_name" string="Legal Name" />
-              <field name="partner_cnpj_cpf" string="CNPJ/CPF" />
-              <field name="partner_l10n_br_ie_code" string="State Tax Number" />
-          </xpath>
+            <xpath expr="//field[@name='document_number']" position="after">
+                <field name="name" string="Account Number" invisible="1" />
+                <field name="partner_legal_name" string="Legal Name" />
+                <field name="partner_cnpj_cpf" string="CNPJ/CPF" />
+                <field name="partner_l10n_br_ie_code" string="State Tax Number" />
+            </xpath>
         </field>
     </record>
 
@@ -41,19 +40,19 @@
     </record>
 
     <record id="fiscal_invoice_form" model="ir.ui.view">
-      <field name="name">l10n_br_account.fiscal.invoice.form</field>
-      <field name="model">account.move</field>
-      <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
-      <field name="mode">primary</field>
-      <field name="priority">100</field>
-      <field name="arch" type="xml">
-        <xpath expr="//header" position="inside">
-            <field name="state" invisible="1" />
-            <field name="suitable_journal_ids" invisible="1" />
-            <field name="fiscal_document_id" required="0" invisible="1" />
-        </xpath>
-        <xpath expr="//button[@name='action_document_confirm']" position="replace">
-            <button
+        <field name="name">l10n_br_account.fiscal.invoice.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="mode">primary</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="state" invisible="1" />
+                <field name="suitable_journal_ids" invisible="1" />
+                <field name="fiscal_document_id" required="0" invisible="1" />
+            </xpath>
+            <xpath expr="//button[@name='action_document_confirm']" position="replace">
+                <button
                     name="action_post"
                     type="object"
                     states="draft"
@@ -61,9 +60,12 @@
                     class="oe_highlight o_invoice_validate"
                     groups="account.group_account_invoice"
                 />
-        </xpath>
-        <xpath expr="//button[@name='action_document_back2draft']" position="replace">
-          <button
+            </xpath>
+            <xpath
+                expr="//button[@name='action_document_back2draft']"
+                position="replace"
+            >
+                <button
                     name="action_document_back2draft"
                     type="object"
                     string="Voltar para Digitação"
@@ -71,36 +73,35 @@
                     attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'enviada', 'rejeitada')), ('document_electronic', '=', False)]}"
                     class="btn-secondary"
                 />
-        </xpath>
-        <xpath expr="//button[@name='action_create_return']" position="replace">
-          <button
+            </xpath>
+            <xpath expr="//button[@name='action_create_return']" position="replace">
+                <button
                     name="%(account.action_move_out_refund_type)d"
                     type='action'
                     string='Devolver'
                     groups="account.group_account_invoice"
                     attrs="{'invisible': ['|',('move_type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"
                 />
-        </xpath>
-        <page name="finance" position="inside">
-            <field name="name" invisible="1" />
-            <field name="move_type" invisible="1" />
-        </page>
-        <xpath expr="//field[@name='fiscal_line_ids']" position="replace">
-            <field
+            </xpath>
+            <page name="finance" position="inside">
+                <field name="name" invisible="1" />
+                <field name="move_type" invisible="1" />
+            </page>
+            <xpath expr="//field[@name='fiscal_line_ids']" position="replace">
+                <field
                     name="invoice_line_ids"
                     context="{'form_view_ref': 'l10n_br_account.fiscal_invoice_line_form', 'default_document_id': fiscal_document_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}"
                 >
-                <tree>
-                  <field name="product_id" />
-                  <field name="product_uom_id" />
-                  <field name="price_unit" />
-                  <field name="quantity" />
-                  <field name="fiscal_tax_ids" widget="many2many_tags" />
-                  <field name="amount_total" sum="Total" />
-                </tree>
-            </field>
-        </xpath>
-      </field>
+                    <tree>
+                        <field name="product_id" />
+                        <field name="product_uom_id" />
+                        <field name="price_unit" />
+                        <field name="quantity" />
+                        <field name="fiscal_tax_ids" widget="many2many_tags" />
+                        <field name="amount_total" sum="Total" />
+                    </tree>
+                </field>
+            </xpath>
+        </field>
     </record>
-
 </odoo>
