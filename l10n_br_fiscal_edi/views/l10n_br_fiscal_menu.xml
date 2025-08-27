@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <!-- Invalidate Number -->
     <menuitem
         id="invalidate_number_menu"
@@ -9,7 +8,6 @@
         parent="l10n_br_fiscal.document_sub_menu"
         sequence="40"
     />
-
     <!-- Fiscal Events -->
     <menuitem
         id="event_menu"
@@ -19,5 +17,4 @@
         parent="l10n_br_fiscal.document_sub_menu"
         sequence="50"
     />
-
 </odoo>
