@@ -6,7 +6,6 @@
     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 -->
 <odoo>
-
     <record id="cnab_structure_payment_mode_form" model="ir.ui.view">
         <field name="name">cnab_structure_payment_mode_form</field>
         <field name="model">account.payment.mode</field>
@@ -19,7 +18,7 @@
             <group name="main" position="after">
                 <group name="cnab_structure">
                     <field name="cnab_structure_ok" />
-                      <field
+                    <field
                         name="cnab_structure_id"
                         attrs="{'invisible': ['|',('cnab_structure_ok','!=',True),('bank_account_link','=','variable')]}"
                     />
