@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="stock_move_tree" model="ir.ui.view">
         <field name="name">l10n_br_stock_account.move.tree</field>
         <field name="model">stock.move</field>
@@ -90,5 +89,4 @@
             </group>
         </field>
     </record>
-
 </odoo>
