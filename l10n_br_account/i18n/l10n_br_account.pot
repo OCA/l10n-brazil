@@ -4121,8 +4121,7 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfse_action
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_out_action
 msgid ""
-"Odoo helps you easily track all activities\n"
-"            related to a fiscal operation."
+"Odoo helps you easily track all activities related to a fiscal operation."
 msgstr ""
 
 #. module: l10n_br_account
