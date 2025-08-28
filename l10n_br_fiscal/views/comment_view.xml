@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="comment_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.comment.search</field>
         <field name="model">l10n_br_fiscal.comment</field>
         <field name="arch" type="xml">
             <search string="Comment">
                 <field name="name" />
-                <group expand='0' string='Group By...'>
+                <group expand="0" string="Group By...">
                     <filter
-                        string='Comment Type'
+                        string="Comment Type"
                         name="comment_type"
                         domain="[]"
                         context="{'group_by' : 'comment_type'}"
@@ -75,5 +74,4 @@
             </form>
         </field>
     </record>
-
 </odoo>
