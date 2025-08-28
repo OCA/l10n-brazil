@@ -4,7 +4,7 @@
 {
     "name": "Fechamento fiscal do período",
     "summary": "Period fiscal closing",
-    "version": "16.0.2.4.0",
+    "version": "16.0.2.5.0",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
