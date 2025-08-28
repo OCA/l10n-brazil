@@ -63,8 +63,8 @@ msgstr ""
 #. module: l10n_br_fiscal_notification
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_notification.document_email_action
 msgid ""
-"All Document Email Definitions supported by the Brazilian\n"
-"              Fiscal module for Odoo."
+"All Document Email Definitions supported by the Brazilian Fiscal module for "
+"Odoo."
 msgstr ""
 
 #. module: l10n_br_fiscal_notification
