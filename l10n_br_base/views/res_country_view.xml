@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <!--
     Views: res.country
     -->
+
     <record id="view_l10n_br_country_form" model="ir.ui.view">
         <field name="name">res.country</field>
         <field name="model">res.country</field>
@@ -17,10 +17,10 @@
             </field>
         </field>
     </record>
-
     <!--
     Views: res.country.state
     -->
+
     <record id="view_l10n_br_country_state_form" model="ir.ui.view">
         <field name="name">res.country.state</field>
         <field name="model">res.country.state</field>
@@ -31,5 +31,4 @@
             </field>
         </field>
     </record>
-
 </odoo>
