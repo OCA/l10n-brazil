@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="operation_dashboard_kanban" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.operation.dashboard.kanban</field>
         <field name="model">l10n_br_fiscal.operation</field>
@@ -13,15 +12,13 @@
                 <field name="kanban_dashboard" />
                 <field name="color" />
                 <templates>
-
                     <!-- Novo: kanban-menu separado -->
                     <t t-name="kanban-menu">
                         <div class="o_kanban_card_manage_section">
                             <div role="menuitem" class="o_kanban_manage_reports">
                                 <div class="o_kanban_card_manage_title ps-4 pb-1">
-                                    <span
-                                        class="fw-bolder"
-                                    >Ações</span> <!-- Você pode mudar para 'View' se preferir -->
+                                    <span class="fw-bolder">Ações</span>
+                                    <!-- Você pode mudar para 'View' se preferir -->
                                 </div>
                                 <a
                                     role="menuitem"
@@ -38,7 +35,6 @@
                             </div>
                         </div>
                     </t>
-
                     <!-- kanban-box normal -->
                     <t t-name="kanban-box">
                         <div
@@ -53,7 +49,6 @@
                                 t-value="record.fiscal_type.raw_value"
                                 t-set="fiscal_type"
                             />
-
                             <div>
                                 <div class="o_kanban_card_header">
                                     <div class="o_kanban_card_header_title">
@@ -70,7 +65,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="container o_kanban_card_content">
                                     <div class="row">
                                         <div class="col-6 o_kanban_primary_left">
@@ -82,7 +76,6 @@
                                                 <span>Novo Documento</span>
                                             </button>
                                         </div>
-
                                         <div class="col-6 o_kanban_primary_right">
                                             <div class="row">
                                                 <div class="col-10">
@@ -92,14 +85,12 @@
                                                         context="{'search_default_2confirm': '1'}"
                                                     >
                                                         <span title="A enviar">
-                                                            <t
+                                                        <t
                                                                 t-esc="dashboard.number_2confirm"
-                                                            /> A enviar
-                                                        </span>
+                                                            />A enviar</span>
                                                     </a>
                                                 </div>
                                             </div>
-
                                             <div class="row">
                                                 <div class="col-10">
                                                     <a
@@ -108,13 +99,11 @@
                                                         context="{'search_default_authorized': 1}"
                                                         id="fiscal_dashboard_sale_pay_link"
                                                     >
-                                                        <t
+                                                    <t
                                                             t-esc="dashboard.number_authorized"
-                                                        /> Autorizados
-                                                    </a>
+                                                        />Autorizados</a>
                                                 </div>
                                             </div>
-
                                             <div class="row">
                                                 <div class="col-10">
                                                     <a
@@ -123,25 +112,20 @@
                                                         context="{'search_default_cancelled': '1'}"
                                                     >
                                                         <span title="Cancelados">
-                                                            <t
+                                                        <t
                                                                 t-esc="dashboard.number_cancelled"
-                                                            /> Cancelados
-                                                        </span>
+                                                            />Cancelados</span>
                                                     </a>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </t>
-
                 </templates>
             </kanban>
         </field>
     </record>
-
 </odoo>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="cest_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cest.search</field>
         <field name="model">l10n_br_fiscal.cest</field>
@@ -10,9 +9,9 @@
                 <field name="name" />
                 <field name="item" />
                 <field name="segment" />
-                <group expand='0' string='Group By...'>
+                <group expand="0" string="Group By...">
                     <filter
-                        string='Segment'
+                        string="Segment"
                         name="segment"
                         domain="[]"
                         context="{'group_by' : 'segment'}"
@@ -79,5 +78,4 @@
             </form>
         </field>
     </record>
-
 </odoo>

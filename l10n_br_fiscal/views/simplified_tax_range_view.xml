@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="simplified_tax_range_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.simplified.tax.range.tree</field>
         <field name="model">l10n_br_fiscal.simplified.tax.range</field>
@@ -22,5 +21,4 @@
             </tree>
         </field>
     </record>
-
 </odoo>

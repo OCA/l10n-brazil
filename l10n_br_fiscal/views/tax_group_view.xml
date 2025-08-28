@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="tax_group_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.group.search</field>
         <field name="model">l10n_br_fiscal.tax.group</field>
@@ -75,11 +74,10 @@
                         >
                             <group>
                                 <group>
-                                    <field name='partner_id' />
-                                    <field name='wh_due_day' />
+                                    <field name="partner_id" />
+                                    <field name="wh_due_day" />
                                 </group>
-                                <group>
-                                </group>
+                                <group />
                             </group>
                         </page>
                     </notebook>
@@ -87,5 +85,4 @@
             </form>
         </field>
     </record>
-
 </odoo>
