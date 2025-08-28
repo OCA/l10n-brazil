@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
 <odoo>
-
     <record id="l10n_br_fiscal_res_config_settings_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.res.config.settings.view.form</field>
         <field name="model">res.config.settings</field>
@@ -23,20 +22,19 @@
                                     class="fa fa-lg fa-building-o"
                                     title="Values set here are company-specific."
                                 />
-                                <div class="text-muted">
-                                    Use IBPT API to Update Estimate Taxes for products and services
-                                </div>
+                                <div
+                                    class="text-muted"
+                                >Use IBPT API to Update Estimate Taxes for products and services</div>
                                 <div invisible="not ibpt_api">
                                     <div class="content-group mt16">
-                                        <label
+                                    <label
                                             for="ibpt_update_days"
                                             class="o_light_label"
                                         />
-                                        <field
+                                    <field
                                             name="ibpt_update_days"
                                             required="ibpt_api"
-                                        /> dias
-                                    </div>
+                                        />dias</div>
                                     <div class="content-group mt16">
                                         <label for="ibpt_token" class="o_light_label" />
                                         <field name="ibpt_token" required="ibpt_api" />
@@ -47,13 +45,12 @@
                                             class="oe_link"
                                             target="_blank"
                                         >
-                                            <i
+                                        <i
                                                 class="fa fa-arrow-right"
-                                            /> Generate an Access Key
-                                        </a>
+                                            />Generate an Access Key</a>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         </setting>
                         <setting
                             id="settings_delivery_costs"
@@ -87,5 +84,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>

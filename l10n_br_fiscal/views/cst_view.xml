@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="cst_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cst.search</field>
         <field name="model">l10n_br_fiscal.cst</field>
@@ -10,9 +9,9 @@
                 <field name="name" />
                 <field name="tax_group_id" />
                 <field name="tax_domain" />
-                <group expand='0' string='Group By...'>
+                <group expand="0" string="Group By...">
                     <filter
-                        string='Tax Group'
+                        string="Tax Group"
                         name="tax_group_id"
                         domain="[]"
                         context="{'group_by' : 'tax_group_id'}"
@@ -42,14 +41,13 @@
             <form string="CST">
                 <sheet>
                     <group>
-                      <field name="code" />
-                      <field name="name" />
-                      <field name="cst_type" />
-                      <field name="tax_group_id" />
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="cst_type" />
+                        <field name="tax_group_id" />
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
-
 </odoo>
