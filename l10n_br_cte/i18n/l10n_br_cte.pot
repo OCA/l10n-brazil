@@ -4274,10 +4274,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.document_correction_wizard_form
 msgid ""
-"Por favor, para carta de correção de CT-e, no campo Justificativa informe por linha (Grupo Alterado;Campo Alterado;Valor Alterado).<br/>\n"
-"                        <strong>Exemplo:</strong><br/>\n"
-"                        compl;xObs;Nova Observação<br/>\n"
-"                        ide;cfop;6353"
+"Por favor, para carta de correção de CT-e, no campo Justificativa informe por linha (Grupo Alterado;Campo Alterado;Valor Alterado).\n"
+"                    <br/>\n"
+"                    <strong>Exemplo:</strong>\n"
+"                    <br/>compl;xObs;Nova Observação\n"
+"                    <br/>ide;cfop;6353"
 msgstr ""
 
 #. module: l10n_br_cte
