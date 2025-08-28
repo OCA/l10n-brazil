@@ -68,7 +68,9 @@ msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Confirm<span class=\"fa fa-long-arrow-right\"/>"
+msgid ""
+"Confirm\n"
+"                            <span class=\"fa fa-long-arrow-right\"/>"
 msgstr ""
 
 #. module: l10n_br_portal
