@@ -71,6 +71,12 @@ class Operation(models.Model):
         tracking=True,
     )
 
+    remove_difal = fields.Boolean(
+        string="Remover tag do DIFAL em operações de retorno",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     return_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Return Operation",

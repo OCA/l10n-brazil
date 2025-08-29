@@ -81,6 +81,10 @@
                         <group>
                             <field name="fiscal_operation_type" />
                             <field name="fiscal_type" />
+                            <field
+                                name="remove_difal"
+                                attrs="{'invisible': [('fiscal_type', '!=', 'return_in')]}"
+                            />
                             <field name="code" />
                             <field
                                 name="company_id"
