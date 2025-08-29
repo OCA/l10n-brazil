@@ -6,7 +6,7 @@ from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, fields, models, tools
+from odoo import api, fields, models
 
 from ..constants.fiscal import (
     COMMENT_TYPE,
@@ -148,7 +148,7 @@ class Comment(models.Model):
 
         comments = [manual_comment] if manual_comment else []
         for record in self:
-            template = mako_safe_env.from_string(tools.ustr(record.comment))
+            template = mako_safe_env.from_string(record.comment)
             comments.append(template.render(vals))
         return " - ".join(comments)
 
