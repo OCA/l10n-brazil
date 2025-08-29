@@ -333,6 +333,7 @@ class NFeLine(spec_models.StackedModel):
             or self.partner_id.ind_ie_dest != "9"
             or self.partner_id.state_id == self.company_id.state_id
             or self.partner_id.country_id != self.company_id.country_id
+            or self.fiscal_operation_id.remove_difal
         ):
             xsd_fields.remove("nfe40_ICMSUFDest")
 
