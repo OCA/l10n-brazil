@@ -16,7 +16,7 @@
                     name="action_view_invoice"
                     type="object"
                     help="Show related invoices"
-                    attrs="{'invisible': [('move_count', '=', 0)]}"
+                    invisible="move_count == 0"
                     icon="fa-pencil-square-o"
                 >
                     <field name="move_count" widget="statinfo" string="Invoices" />
