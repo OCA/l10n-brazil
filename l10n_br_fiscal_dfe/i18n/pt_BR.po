@@ -1,0 +1,392 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_fiscal_dfe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__res_company__dfe_version__1_01
+msgid "1.01"
+msgstr "1.01"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_needaction
+msgid "Action Needed"
+msgstr "Ação Necessária"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_ids
+msgid "Activities"
+msgstr "Atividades"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoração de Exceção de Atividade"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_state
+msgid "Activity State"
+msgstr "Estado da Atividade"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ícone do Tipo de Atividade"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__attachment
+msgid "Attachment"
+msgstr "Anexo"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_attachment_count
+msgid "Attachment Count"
+msgstr "Contagem de Anexos"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__attachment_ids
+msgid "Attachments"
+msgstr "Anexos"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe
+msgid "Consult DF-e"
+msgstr "Consultar DF-e"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_consult_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
+msgid "DF-e"
+msgstr "DF-e"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_action
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_document__dfe_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_search
+msgid "DF-e Consult"
+msgstr "Consulta DF-e"
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
+msgid "DF-e Default Settings"
+msgstr "Configurações Padrão da DF-e"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.actions.server,name:l10n_br_fiscal_dfe.ir_cron_search_dfe_documents_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_fiscal_dfe.ir_cron_search_dfe_documents
+msgid "DFe - Search Documents"
+msgstr "DFe - Pesquisa de Documentos"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__environment
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_company__dfe_environment
+msgid "Dfe Environment"
+msgstr "Ambiente Dfe"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__version
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_company__dfe_version
+msgid "Dfe Version"
+msgstr "Versão DF-e"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__use_cron
+msgid "Download new documents automatically"
+msgstr "Baixe novos documentos automaticamente"
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe.py:0
+#, python-format
+msgid ""
+"Error on searching documents.\n"
+"%(error)s"
+msgstr ""
+"Erro ao pesquisar documentos.\n"
+"%(error)s"
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe.py:0
+#, python-format
+msgid ""
+"Error validating document distribution:\n"
+"\n"
+"%(code)s - %(message)s"
+msgstr ""
+"Erro ao validar a distribuição do documento:\n"
+"\n"
+"%(code)s - %(message)s"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__file_name
+msgid "File Name"
+msgstr "Nome do Arquivo"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr "Documento Fiscal"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_attachment
+msgid "Fiscal Document Attachment"
+msgstr "Anexar Documento Fiscal"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Parceiros)"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ícone do font awesome ex. fa-task"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__has_message
+msgid "Has Message"
+msgstr "Tem mensagem"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__res_company__dfe_environment__2
+msgid "Homologação"
+msgstr "Homologação"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_exception_icon
+msgid "Icon"
+msgstr "Ícone"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ícone para indicar uma atividade excepcional."
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__use_cron
+msgid ""
+"If activated, allows new manifestations to be automatically searched with a "
+"Cron"
+msgstr ""
+"Se ativado, permite que novas manifestações sejam automaticamente "
+"pesquisadas pelo Cron"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado, novas mensagens solicitarão sua atenção."
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se marcado, algumas mensagens tem erro de entrega."
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__imported_document_ids
+msgid "Imported Documents"
+msgstr "Documentos importados"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_is_follower
+msgid "Is Follower"
+msgstr "É Seguidor"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__last_nsu
+msgid "Last NSU"
+msgstr "Último NSU"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__last_query
+msgid "Last query"
+msgstr "Última Consulta"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Anexo Principal"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_has_error
+msgid "Message Delivery error"
+msgstr "Erro de Entrega da Mensagem"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Prazo Final das Minhas Atividades"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Próximo Evento do Calendário de Atividades"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Prazo Final da Próxima Atividade"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumo da Próxima Atividade"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo da Próxima Atividade"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Ações"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de erros"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensagens que exigem ação"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensagens com erro de entrega"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__res_company__dfe_environment__1
+msgid "Produção"
+msgstr "Produção"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_user_id
+msgid "Responsible User"
+msgstr "Usuário Responsável"
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
+msgid "Search Documents"
+msgstr "Pesquisa de Documentos"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Status baseado em atividades\n"
+"Atrasado: Data definida já passou\n"
+"Hoje: Data de atividade é hoje\n"
+"Planejado: Atividades futuras."
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo da atividade de exceção no registro."
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__website_message_ids
+msgid "Website Messages"
+msgstr "Mensagens do Website"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__website_message_ids
+msgid "Website communication history"
+msgstr "Histórico de comunicação do website"
+
+#, python-format
+#~ msgid ""
+#~ "Error validating document distribution: \n"
+#~ "\n"
+#~ "%(code)s - %(message)s"
+#~ msgstr ""
+#~ "Erro ao validar a distribuição do documento:\n"
+#~ "\n"
+#~ "%(code)s - %(message)s"

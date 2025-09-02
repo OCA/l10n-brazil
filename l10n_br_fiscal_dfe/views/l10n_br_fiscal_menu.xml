@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2023 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <menuitem
+        action="dfe_action"
+        id="dfe_consult_menu"
+        name="DF-e"
+        groups="l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.document_menu"
+        sequence="15"
+    />
+</odoo>
