@@ -10,7 +10,7 @@
                 <button
                     name="zip_search"
                     type="object"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                     class="btn-sm btn-link mb4 fa fa-search oe_edit_only"
                     aria-label="Pesquisar CEP"
                     title="Pesquisar CEP"
