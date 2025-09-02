@@ -4893,6 +4893,15 @@ msgid "Payment"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document.py:0
+#, python-format
+msgid ""
+"Payment information (infPag) must be provided when the MDF-e contains only "
+"one DF-e (full load)."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario_vagao__mdfe30_pesoBC
 msgid "Peso Base de Cálculo de Frete"
 msgstr ""
