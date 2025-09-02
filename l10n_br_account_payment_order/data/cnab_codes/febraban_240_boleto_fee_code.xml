@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2025-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Multa FEBRABAN
+    https://cmsarquivos.febraban.org.br/Arquivos/documentos/PDF/Layout%20padrao%20CNAB240%20V%2010%2011%20-%2021_08_2023.pdf
+    Apenas casos 240 que tem a mesma Nomenclatura e Quantidade de Códigos com o mesmo objetivo, por enquanto AILOS, Bradesco, Brasil e Santander.
+    -->
+    <record id="febraban_240_boleto_fee_code_1" model="l10n_br_cnab.code">
+        <field name="name">Valor Fixo</field>
+        <field name="code">1</field>
+        <field name="code_type">fee_code</field>
+	<field
+            name="bank_ids"
+            eval="[Command.set([ref('l10n_br_base.res_bank_085'),ref('l10n_br_base.res_bank_237'),ref('l10n_br_base.res_bank_001'),ref('l10n_br_base.res_bank_033')])]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="febrabam_240_boleto_fee_code_2" model="l10n_br_cnab.code">
+        <field name="name">Percentual</field>
+        <field name="code">2</field>
+        <field name="code_type">fee_code</field>
+	<field
+            name="bank_ids"
+            eval="[Command.set([ref('l10n_br_base.res_bank_085'),ref('l10n_br_base.res_bank_237'),ref('l10n_br_base.res_bank_001'),ref('l10n_br_base.res_bank_033')])]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+</odoo>

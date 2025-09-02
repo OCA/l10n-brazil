@@ -4,7 +4,7 @@
 
 {
     "name": "Brazilian Payment Order",
-    "version": "16.0.7.3.0",
+    "version": "16.0.8.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Akretion, Odoo Community Association (OCA)",
     "maintainers": ["mbcosta"],
@@ -58,6 +58,15 @@
         "data/cnab_codes/banco_santander_240_boleto_protest_code.xml",
         "data/cnab_codes/banco_sicred_240_boleto_protest_code.xml",
         "data/cnab_codes/banco_unicred_240_400_boleto_protest_code.xml",
+        # Fee Code
+        "data/cnab_codes/febraban_240_boleto_fee_code.xml",
+        "data/cnab_codes/banco_bradesco_400_boleto_fee_code.xml",
+        "data/cnab_codes/banco_cef_240_boleto_fee_code.xml",
+        "data/cnab_codes/banco_do_brasil_400_boleto_fee_code.xml",
+        "data/cnab_codes/banco_itau_400_240_boleto_fee_code.xml",
+        "data/cnab_codes/banco_santander_400_boleto_fee_code.xml",
+        "data/cnab_codes/banco_sicred_240_boleto_fee_code.xml",
+        "data/cnab_codes/banco_unicred_240_400_boleto_fee_code.xml",
         # Wizards
         "wizards/account_payment_line_create_view.xml",
         "wizards/account_move_line_change.xml",

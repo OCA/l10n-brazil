@@ -228,6 +228,10 @@ class CNABTestCommon(AccountTestInvoicingCommon):
                 "boleto_protest_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.cef_240_boleto_protest_code_1"
                 ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.cef_240_boleto_fee_code_0"
+                ),
+                "boleto_fee_perc": False,
                 "boleto_interest_code": "2",
                 "cnab_sequence_id": cls.cnab_seq_cef,
                 "own_number_sequence_id": cls.own_number_seq_cef,
@@ -313,6 +317,9 @@ class CNABTestCommon(AccountTestInvoicingCommon):
                 ),
                 "write_off_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.itau_400_instruction_02"
+                ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.itau_400_240_boleto_protest_code_2"
                 ),
             },
         )
