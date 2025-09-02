@@ -41,17 +41,14 @@
                 <page name="account" string="Account">
                     <group name="account_main">
                         <group>
-                            <field
-                                name="journal_id"
-                                attrs="{'readonly': [('state', '!=', 'draft')]}"
-                            />
+                            <field name="journal_id" readonly="state != 'draft'" />
                             <field
                                 name="fiscal_position_id"
-                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                readonly="state != 'draft'"
                             />
                             <field
                                 name="deductible_taxes"
-                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                readonly="state != 'draft'"
                             />
                         </group>
                     </group>
