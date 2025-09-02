@@ -143,6 +143,10 @@ def create_with_form_l10n_br_cnab_config(env, values):
         if values.get("boleto_byte_idt"):
             cnab_config.boleto_byte_idt = values.get("boleto_byte_idt")
             cnab_config.boleto_post = values.get("boleto_post")
+        if values.get("boleto_fee_code_id"):
+            cnab_config.boleto_fee_code_id = values.get("boleto_fee_code_id")
+        if values.get("boleto_fee_perc"):
+            cnab_config.boleto_fee_perc = values.get("boleto_fee_perc")
 
     return cnab_config.save()
 
