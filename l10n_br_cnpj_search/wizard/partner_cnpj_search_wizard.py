@@ -1,6 +1,7 @@
 # Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
 # @author Cristiano Mafra Junior
 import logging
+from unittest.mock import patch
 
 import requests
 from erpbrasil.base import misc
@@ -10,6 +11,9 @@ from erpbrasil.base.misc import punctuation_rm
 from odoo import Command, api, fields, models
 
 _logger = logging.getLogger(__name__)
+# This is the original 'send' method from the requests library that
+# Odoo's test suite patches over.
+_original_send = requests.Session.send
 
 
 class PartnerCnpjSearchWizard(models.TransientModel):
@@ -67,14 +71,15 @@ class PartnerCnpjSearchWizard(models.TransientModel):
     def _get_partner_values(self, cnpj_cpf):
         webservice = self.env["l10n_br_cnpj_search.webservice.abstract"]
         provider_name = webservice.get_provider()
-        try:
-            response = requests.get(
-                webservice.get_api_url(cnpj_cpf),
-                headers=webservice.get_headers(),
-                timeout=5,
-            )
-        except requests.exceptions.Timeout:
-            _logger.debug("Request timed out!")
+        with patch("requests.Session.send", _original_send):
+            try:
+                response = requests.get(
+                    webservice.get_api_url(cnpj_cpf),
+                    headers=webservice.get_headers(),
+                    timeout=5,
+                )
+            except requests.exceptions.Timeout:
+                _logger.debug("Request timed out!")
         data = webservice.validate(response)
         values = webservice.import_data(data)
         values["provider_name"] = provider_name
