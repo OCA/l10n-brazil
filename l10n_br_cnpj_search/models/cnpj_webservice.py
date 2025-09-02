@@ -123,7 +123,7 @@ class CNPJWebservice(models.AbstractModel):
         if code:
             legal_nature_id = (
                 self.env["l10n_br_fiscal.legal.nature"]
-                .search([("code_unmasked", "=", code)])
+                .search([("code_unmasked", "=", code)], limit=1)
                 .id
             )
         return legal_nature_id
@@ -263,7 +263,7 @@ class CNPJWebservice(models.AbstractModel):
             if self._get_cnae(formatted) is not False:
                 cnae_secondary.append(self._get_cnae(formatted))
 
-        return cnae_secondary
+        return [Command.set(cnae_secondary)]
 
     #
     # SERPRO
