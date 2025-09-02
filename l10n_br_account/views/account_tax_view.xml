@@ -18,11 +18,7 @@
           <attribute name="readonly">fiscal_tax_ids</attribute>
           <attribute name="force_save">1</attribute>
       </field>
-      <xpath
-                expr="//notebook"
-                position="inside"
-                groups="l10n_br_fiscal.group_user"
-            >
+      <xpath expr="//notebook" position="inside" groups="l10n_br_fiscal.group_user">
                 <page name="brazilian_tax" string="Brazilian Tax">
                     <field name="fiscal_tax_ids" />
                 </page>
