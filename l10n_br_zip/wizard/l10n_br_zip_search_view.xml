@@ -6,7 +6,7 @@
         <field name="model">l10n_br.zip.search</field>
         <field name="arch" type="xml">
             <form string="Pesquisar CEP">
-                <group colspan="8" col="8" states="init">
+                <group colspan="8" col="8" invisible="state != 'init'">
                     <field colspan="8" name="zip" />
                     <field colspan="8" name="street_name" />
                     <field colspan="4" name="district" />
@@ -15,7 +15,7 @@
                     <field colspan="4" name="city_id" required="True" />
                     <field colspan="4" name="state" invisible="1" />
                 </group>
-                <group colspan="8" col="8" states="done">
+                <group colspan="8" col="8" invisible="state != 'done'">
                     <field
                         colspan="8"
                         height="130"
@@ -25,7 +25,7 @@
                         readonly="1"
                     />
                 </group>
-                <footer states="init">
+                <footer invisible="state != 'init'">
                     <button
                         name="zip_search"
                         string="Pesquisar"
@@ -34,7 +34,7 @@
                     />
                     <button special="cancel" string="Cancelar" class="oe_link" />
                 </footer>
-                <footer states="done">
+                <footer invisible="state != 'done'">
                     <button special="cancel" string="Cancelar" class="oe_link" />
                     <button
                         name="zip_new_search"
