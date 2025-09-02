@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -32,18 +32,10 @@ msgstr ""
 #. module: spec_driven_model
 #. odoo-python
 #: code:addons/spec_driven_model/models/spec_models.py:0
-#, python-format
 msgid "Open..."
 msgstr ""
 
 #. module: spec_driven_model
 #: model:ir.model,name:spec_driven_model.model_spec_mixin
 msgid "root abstract model meant for xsd generated fiscal models"
-msgstr ""
-
-#. module: spec_driven_model
-#. odoo-python
-#: code:addons/spec_driven_model/tests/test_spec_model.py:0
-#, python-format
-msgid "xsdata Python lib not installed, skipping XML test!"
 msgstr ""
