@@ -3,6 +3,7 @@
 
 from io import StringIO
 
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
@@ -160,3 +161,9 @@ class MDFeStructure(TransactionCase):
 
     def test_doc_visit_stack(self):
         pass
+
+    def test_check_infPag(self):
+        mdfe = self.env.ref("l10n_br_mdfe.demo_mdfe_sn_modal_aquaviario")
+        mdfe.mdfe30_prodPred = self.env.ref("product.product_product_9")
+        with self.assertRaises(UserError):
+            mdfe.action_document_confirm()
