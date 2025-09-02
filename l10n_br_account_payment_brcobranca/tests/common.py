@@ -330,6 +330,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "boleto_protest_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.unicred_240_400_boleto_protest_code_2"
                 ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.unicred_240_400_boleto_fee_code_2"
+                ),
                 "boleto_interest_code": "2",
                 "cnab_sequence_id": cls.cnab_seq_unicred,
                 "own_number_sequence_id": cls.own_number_seq_unicred,
@@ -405,6 +408,10 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "write_off_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.brasil_400_instruction_02"
                 ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.brasil_400_boleto_fee_code_9"
+                ),
+                "boleto_fee_percent": False,
             },
         )
 
@@ -426,6 +433,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 ),
                 "write_off_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.bradesco_400_instruction_02"
+                ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.bradesco_400_boleto_fee_code_2"
                 ),
             },
         )
@@ -450,6 +460,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 ),
                 "write_off_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.sicredi_240_instruction_02"
+                ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.sicred_240_boleto_fee_code_2"
                 ),
             },
         )
@@ -477,6 +490,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "write_off_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.santander_400_instruction_02"
                 ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.cef_240_boleto_fee_code_0"
+                ),
             },
         )
 
@@ -491,6 +507,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "boleto_variation": "35",
                 "boleto_discount_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.santander_240_boleto_discount_code_4"
+                ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febrabam_240_boleto_fee_code_2"
                 ),
                 "boleto_interest_code": "2",
                 "cnab_sequence_id": cls.cnab_seq_santander_240,
@@ -534,6 +553,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 ),
                 "write_off_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.ailos_instruction_02"
+                ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febrabam_240_boleto_fee_code_2"
                 ),
             },
         )
