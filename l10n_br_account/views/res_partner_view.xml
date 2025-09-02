@@ -21,12 +21,12 @@
                     string="Brazilian Instant Payment Keys (PIX)"
                     name="pix_keys"
                     groups="account.group_account_invoice,account.group_account_readonly"
-                    attrs="{'invisible': [('show_l10n_br', '=', False)]}"
+                    invisible="not show_l10n_br"
                 >
                     <field name="show_l10n_br" invisible="1" />
                     <field name="pix_key_ids" nolabel="1" colspan="2">
                         <tree editable="bottom">
-                            <field name="partner_id" invisible="1" />
+                            <field name="partner_id" column_invisible="True" />
                             <field name="sequence" widget="handle" />
                             <field name="key_type" />
                             <field name="key" />
