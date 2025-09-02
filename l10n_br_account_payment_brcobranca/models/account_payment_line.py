@@ -112,7 +112,9 @@ class AccountPaymentLine(models.Model):
                 cnab_config.write_off_devolution_number_of_days
             )
             # Os dados de multa e desconto também são obrigatórios no segmento R
-            linhas_pagamentos["codigo_multa"] = cnab_config.boleto_fee_code or "0"
+            linhas_pagamentos["codigo_multa"] = (
+                cnab_config.boleto_fee_code_id.code or "0"
+            )
             linhas_pagamentos["percentual_multa"] = cnab_config.boleto_fee_perc or 0.0
             if self.discount_value:
                 linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
@@ -134,9 +136,10 @@ class AccountPaymentLine(models.Model):
 
         # Cada Banco pode possuir seus Codigos de Instrução
         if self.instruction_move_code_id.code == cnab_config.sending_code_id.code:
-            if cnab_config.boleto_fee_perc:
-                linhas_pagamentos["codigo_multa"] = cnab_config.boleto_fee_code
-                linhas_pagamentos["percentual_multa"] = cnab_config.boleto_fee_perc
+            if cnab_config.boleto_fee_code_id:
+                linhas_pagamentos["codigo_multa"] = cnab_config.boleto_fee_code_id.code
+                if cnab_config.boleto_fee_perc:
+                    linhas_pagamentos["percentual_multa"] = cnab_config.boleto_fee_perc
 
             if cnab_config.boleto_interest_perc:
                 linhas_pagamentos["tipo_mora"] = cnab_config.boleto_interest_code
