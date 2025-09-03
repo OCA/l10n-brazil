@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -989,13 +989,11 @@ msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_tpContratacao__1
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_duto__cte40_tpContratacao__1
 msgid "Capacidade de Entrada"
 msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_tpContratacao__2
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_duto__cte40_tpContratacao__2
 msgid "Capacidade de Saida"
 msgstr ""
 
@@ -2780,7 +2778,6 @@ msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_classDuto__1
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_duto__cte40_classDuto__1
 msgid "Gasoduto 2 - Mineroduto 3 - Oleoduto"
 msgstr ""
 
@@ -4010,14 +4007,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__1
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__01
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__01
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__01
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__1
 msgid "KG"
 msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__2
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__2
 msgid "KG G (quilograma bruto)"
 msgstr ""
 
@@ -4025,8 +4019,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__3
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__04
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__04
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__04
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__3
 msgid "LITROS"
 msgstr ""
 
@@ -4075,7 +4067,6 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__00
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__00
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__00
 msgid "M3"
 msgstr ""
 
@@ -4136,7 +4127,6 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__05
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__05
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__05
 msgid "MMBTU"
 msgstr ""
 
@@ -4219,7 +4209,6 @@ msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_classDuto__2
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_duto__cte40_classDuto__2
 msgid "Mineroduto 3 - Oleoduto"
 msgstr ""
 
@@ -5129,7 +5118,6 @@ msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_classDuto__3
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_duto__cte40_classDuto__3
 msgid "Oleoduto"
 msgstr ""
 
@@ -5374,7 +5362,6 @@ msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_tpContratacao__0
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_duto__cte40_tpContratacao__0
 msgid "Ponta a ponto"
 msgstr ""
 
@@ -6113,7 +6100,6 @@ msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__4
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__4
 msgid "TI (índice de transporte para radioativos)"
 msgstr ""
 
@@ -6147,7 +6133,6 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__02
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__02
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__02
 msgid "TON"
 msgstr ""
 
@@ -6875,7 +6860,6 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__03
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__03
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__03
 msgid "UNIDADE"
 msgstr ""
 
@@ -6908,7 +6892,6 @@ msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__5
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__5
 msgid ""
 "Unidades (apenas para artigos perigosos medidos em unidades que não se "
 "enquadram nos itens acima. Exemplo: baterias, celulares, equipamentos, "
