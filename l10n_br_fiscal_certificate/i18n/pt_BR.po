@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_fiscal_certificate
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
+msgid "<span>Days before</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_certificate.selection__l10n_br_fiscal_certificate__subtype__a1
 msgid "A1"
 msgstr "A1"
@@ -62,18 +67,9 @@ msgid "Add a new Certificate"
 msgstr "Adicionar um novo Certificado"
 
 #. module: l10n_br_fiscal_certificate
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
-msgid "Alert certificate expiration."
-msgstr "Alerta de expiração do certificado."
-
-#. module: l10n_br_fiscal_certificate
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_certificate.certificate_action
-msgid ""
-"All Certificate by\n"
-"              Brazilian Fiscal modulo for Odoo."
+msgid "All Certificate by Brazilian Fiscal modulo for Odoo."
 msgstr ""
-"Todos certificados por\n"
-"                       Módulo Fiscal Brasileiro para Odoo."
 
 #. module: l10n_br_fiscal_certificate
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.certificate_form
@@ -137,6 +133,11 @@ msgid "Certificate Type"
 msgstr "Tipo de certificado"
 
 #. module: l10n_br_fiscal_certificate
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
+msgid "Certificate expiration alert"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
 #, python-format
@@ -181,11 +182,6 @@ msgstr "Data de Expiração"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__date_start
 msgid "Date Start"
 msgstr "Data Inicial"
-
-#. module: l10n_br_fiscal_certificate
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
-msgid "Days Before"
-msgstr "Dias Antes"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__display_name
@@ -279,11 +275,6 @@ msgid "Issuer Name"
 msgstr "Nome do Emissor"
 
 #. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__write_uid
 msgid "Last Updated by"
 msgstr "Última Atualização por"
@@ -292,11 +283,6 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__write_date
 msgid "Last Updated on"
 msgstr "Última Atualização em"
-
-#. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Anexo Principal"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_has_error
@@ -436,6 +422,25 @@ msgstr "Histórico de comunicação do website"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__file
 msgid "file"
 msgstr "arquivo"
+
+#~ msgid "Alert certificate expiration."
+#~ msgstr "Alerta de expiração do certificado."
+
+#~ msgid ""
+#~ "All Certificate by\n"
+#~ "              Brazilian Fiscal modulo for Odoo."
+#~ msgstr ""
+#~ "Todos certificados por\n"
+#~ "                       Módulo Fiscal Brasileiro para Odoo."
+
+#~ msgid "Days Before"
+#~ msgstr "Dias Antes"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
 
 #~ msgid "Followers (Channels)"
 #~ msgstr "Seguidores (Canais)"
