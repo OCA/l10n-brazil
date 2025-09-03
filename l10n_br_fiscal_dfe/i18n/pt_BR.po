@@ -109,7 +109,6 @@ msgstr "Configurações Padrão da DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe.ir_cron_search_dfe_documents_ir_actions_server
-#: model:ir.cron,cron_name:l10n_br_fiscal_dfe.ir_cron_search_dfe_documents
 msgid "DFe - Search Documents"
 msgstr "DFe - Pesquisa de Documentos"
 
@@ -251,12 +250,6 @@ msgid "Is Follower"
 msgstr "É Seguidor"
 
 #. module: l10n_br_fiscal_dfe
-#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_attachment____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__last_nsu
 msgid "Last NSU"
 msgstr "Último NSU"
@@ -277,11 +270,6 @@ msgstr "Última Atualização em"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__last_query
 msgid "Last query"
 msgstr "Última Consulta"
-
-#. module: l10n_br_fiscal_dfe
-#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Anexo Principal"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_has_error
@@ -380,6 +368,12 @@ msgstr "Mensagens do Website"
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__website_message_ids
 msgid "Website communication history"
 msgstr "Histórico de comunicação do website"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
 
 #, python-format
 #~ msgid ""
