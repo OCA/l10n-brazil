@@ -2524,13 +2524,6 @@ msgid "Enviar"
 msgstr "Enviar"
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/ibpt.py:0
-#, python-format
-msgid "Error in the request: {}"
-msgstr "Erro na solicitação: {}"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__estimate_tax
 msgid "Estimate Tax"
@@ -8336,6 +8329,10 @@ msgstr "pis_wh"
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#, python-format
+#~ msgid "Error in the request: {}"
+#~ msgstr "Erro na solicitação: {}"
 
 #~ msgid "<i class=\"fa fa-arrow-right\"/> Generate an Access Key"
 #~ msgstr "<i class=\"fa fa-arrow-right\"/> Gerar uma chave de acesso"
