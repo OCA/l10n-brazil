@@ -2503,13 +2503,6 @@ msgid "Enviar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/ibpt.py:0
-#, python-format
-msgid "Error in the request: {}"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__estimate_tax
 msgid "Estimate Tax"
