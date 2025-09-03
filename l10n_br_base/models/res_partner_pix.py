@@ -4,10 +4,11 @@
 
 import phonenumbers
 from email_validator import EmailSyntaxError, validate_email
-from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+from ..tools import check_cnpj_cpf
 
 
 class PartnerPix(models.Model):
@@ -91,18 +92,8 @@ class PartnerPix(models.Model):
         return phone
 
     def _normalize_cnpj_cpf(self, doc_number):
-        doc_number = "".join(char for char in doc_number if char.isdigit())
-        if not 11 <= len(doc_number) <= 14:
-            raise ValidationError(
-                _(
-                    f"Invalid Document Number {doc_number}: "
-                    f"\nThe CPF must have 11 digits and the CNPJ 14 digits."
-                )
-            )
-        is_valid = cnpj_cpf.validar(doc_number)
-        if not is_valid:
-            raise ValidationError(_(f"Invalid Document Number: {doc_number}"))
-        return doc_number
+        check_cnpj_cpf(self.env, doc_number, self.env.ref("base.br"), True)
+        return "".join(char for char in doc_number if char.isdigit())
 
     def _normalize_evp(self, key):
         # EVP: Endereço Virtual de Pagamento (chave aleatória)
