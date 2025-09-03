@@ -157,7 +157,7 @@ class Operation(models.Model):
             }
         )
 
-        [action] = self.env.ref("l10n_br_fiscal.%s" % action_name).read()
+        [action] = self.env.ref("l10n_br_fiscal.{action_name}").read()
         action["context"] = ctx
         action["domain"] = self._context.get("use_domain", [])
         action["domain"] += [
