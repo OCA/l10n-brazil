@@ -1009,6 +1009,12 @@ msgid "CNAB Movement Instruction Code for Cancel Rebate."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_discount_date_code_id
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__change_discount_date_code_id
+msgid "CNAB Movement Instruction Code for Change Discount Date."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_maturity_date_code_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__change_maturity_date_code_id
 msgid "CNAB Movement Instruction Code for Change Maturity Date."
@@ -1251,6 +1257,12 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
 #, python-format
 msgid "Carteira no banco Itaú é obrigatória"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_discount_date_code_id
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__change_discount_date_code_id
+msgid "Change Discount Date Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1762,6 +1774,11 @@ msgid "Data da Ocorrência"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_move_line_cnab_change__change_type__change_discount_date
+msgid "Data de Desconto"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__due_date
 msgid "Data de Vencimento"
 msgstr ""
@@ -1772,8 +1789,8 @@ msgid "Data do Crédito"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__date_maturity
-msgid "Date Maturity"
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change__date
+msgid "Date"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2349,6 +2366,15 @@ msgstr ""
 msgid ""
 "New Date Maturity %(new_date)s is equal to actual Date Maturity "
 "%(date_maturity)s"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
+#, python-format
+msgid ""
+"New Discount Date %(new_date)s is equal to current Discount Date "
+"%(date_discount)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
