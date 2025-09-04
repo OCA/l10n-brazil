@@ -21,6 +21,28 @@ from ..constants.icms import (
     ICMS_ST_BASE_TYPE_DEFAULT,
 )
 
+FISCAL_TAX_PREFIXES = [
+    "icms",
+    "icmsst",
+    "issqn",
+    "issqn_wh",
+    "icmsst_wh",
+    "ipi",
+    "ii",
+    "cofins",
+    "cofinsst",
+    "cofins_wh",
+    "pis",
+    "pisst",
+    "pis_wh",
+    "csll",
+    "csll_wh",
+    "irpj",
+    "irpj_wh",
+    "inss",
+    "inss_wh",
+]
+
 
 class FiscalDocumentLineMixinMethods(models.AbstractModel):
     """
@@ -335,7 +357,47 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
-    @api.onchange(*FISCAL_TAX_ID_FIELDS)
+    @api.onchange(
+        *FISCAL_TAX_ID_FIELDS,
+        "icms_base_manual",
+        "icms_value_manual",
+        "icmsst_base_manual",
+        "icmsst_value_manual",
+        "issqn_base_manual",
+        "issqn_value_manual",
+        "issqn_wh_base_manual",
+        "issqn_wh_value_manual",
+        "icmsst_wh_base_manual",
+        "icmsst_wh_value_manual",
+        "ipi_base_manual",
+        "ipi_value_manual",
+        "ii_base_manual",
+        "ii_value_manual",
+        "cofins_base_manual",
+        "cofins_value_manual",
+        "cofinsst_base_manual",
+        "cofinsst_value_manual",
+        "cofins_wh_base_manual",
+        "cofins_wh_value_manual",
+        "pis_base_manual",
+        "pis_value_manual",
+        "pisst_base_manual",
+        "pisst_value_manual",
+        "pis_wh_base_manual",
+        "pis_wh_value_manual",
+        "csll_base_manual",
+        "csll_value_manual",
+        "csll_wh_base_manual",
+        "csll_wh_value_manual",
+        "irpj_base_manual",
+        "irpj_value_manual",
+        "irpj_wh_base_manual",
+        "irpj_wh_value_manual",
+        "inss_base_manual",
+        "inss_value_manual",
+        "inss_wh_base_manual",
+        "inss_wh_value_manual",
+    )
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids()
 
@@ -391,6 +453,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 }
             )
             if line.fiscal_operation_line_id:
+                manual_tax_values = line._prepare_br_manual_tax_dict()
                 compute_result = line.fiscal_tax_ids.compute_taxes(
                     company=line.company_id,
                     partner=line._get_fiscal_partner(),
@@ -418,6 +481,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     icms_cst_id=line.icms_cst_id,
                     ind_final=line.ind_final,
                     icms_relief_id=line.icms_relief_id,
+                    **manual_tax_values,
                 )
                 to_update.update(line._prepare_tax_fields(compute_result))
             else:
@@ -457,6 +521,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     if prepared_fields:
                         tax_values.update(prepared_fields)
         return tax_values
+
+    def _prepare_br_manual_tax_dict(self):
+        manual_tax_dict = {}
+        suffixes = ["_base_manual", "_value_manual"]
+
+        for tax_prefix in FISCAL_TAX_PREFIXES:
+            for suffix in suffixes:
+                attr_name = tax_prefix + suffix
+                manual_tax_dict[attr_name] = getattr(self, attr_name)
+
+        return manual_tax_dict
 
     @api.depends(
         "product_id",
