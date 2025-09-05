@@ -1,5 +1,7 @@
 # Copyright (C) 2023-Today - Engenere (<https://engenere.one>).
-# @author Felipe Motter Pereira <felipe@engenere.one>
+# author Felipe Motter Pereira <felipe@engenere.one>
+# author Antônio Neto <neto@engenere.one>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from datetime import datetime, time, timedelta
 
@@ -11,18 +13,15 @@ from odoo.tests import TransactionCase
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
 
 
-class TestInvoiceDiscount(TransactionCase):
+class TestInvoiceDatesAndDiscount(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
-
-        # set default user company
         companies = cls.env["res.company"].search([])
         cls.env.user.company_ids = [Command.set(companies.ids)]
         cls.env.user.company_id = cls.company
-
         cls.invoice_account_id = cls.env["account.account"].create(
             {
                 "company_id": cls.company.id,
@@ -32,7 +31,6 @@ class TestInvoiceDiscount(TransactionCase):
                 "reconcile": True,
             }
         )
-
         cls.invoice_journal = cls.env["account.journal"].create(
             {
                 "company_id": cls.company.id,
@@ -41,7 +39,6 @@ class TestInvoiceDiscount(TransactionCase):
                 "type": "sale",
             }
         )
-
         cls.invoice_line_account_id = cls.env["account.account"].create(
             {
                 "company_id": cls.company.id,
@@ -50,26 +47,21 @@ class TestInvoiceDiscount(TransactionCase):
                 "name": "Product revenue account (test)",
             }
         )
-
         cls.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
         cls.fiscal_operation_id.deductible_taxes = True
-
-        product_id = cls.env.ref("product.product_product_7")
-
+        cls.fiscal_operation_line = cls.env.ref("l10n_br_fiscal.fo_venda_revenda")
+        product = cls.env.ref("product.product_product_7")
+        partner = cls.env.ref("base.res_partner_3")
         invoice_line_vals = [
-            (
-                0,
-                0,
+            Command.create(
                 {
-                    "fiscal_operation_line_id": cls.env.ref(
-                        "l10n_br_fiscal.fo_venda_revenda"
-                    ).id,
                     "account_id": cls.invoice_line_account_id.id,
-                    "product_id": product_id.id,
+                    "fiscal_operation_line_id": cls.fiscal_operation_line.id,
+                    "product_id": product.id,
                     "quantity": 1,
                     "price_unit": 1000.0,
                     "discount_value": 100.0,
-                },
+                }
             )
         ]
 
@@ -79,7 +71,7 @@ class TestInvoiceDiscount(TransactionCase):
             .create(
                 {
                     "company_id": cls.company.id,
-                    "partner_id": cls.env.ref("base.res_partner_3").id,
+                    "partner_id": partner.id,
                     "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
                     "document_serie_id": cls.env.ref(
                         "l10n_br_fiscal.empresa_lc_document_55_serie_1"
@@ -98,15 +90,12 @@ class TestInvoiceDiscount(TransactionCase):
         self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
         user_tz = timezone(self.env.user.tz or "UTC")
         original_date = datetime.combine(datetime.now().date(), time.min)
-        # Convert the original_date to the user's timezone and remove the time for
-        # comparison
         original_date_in_user_tz = (
             user_tz.localize(original_date).astimezone(UTC).replace(tzinfo=None)
         )
         original_date_without_time = original_date_in_user_tz.date()
 
         self.move_id.invoice_date = original_date.date()
-        self.move_id.fiscal_document_id._compute_document_date()
 
         self.assertEqual(
             self.move_id.fiscal_document_id.document_date.date(),
@@ -130,14 +119,11 @@ class TestInvoiceDiscount(TransactionCase):
         self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
         user_tz = timezone(self.env.user.tz or "UTC")
         original_date = datetime.combine(datetime.now().date(), time.min)
-        # Convert the original_date to the user's timezone and remove the time for
-        # comparison
         original_date_in_user_tz = (
             user_tz.localize(original_date).astimezone(UTC).replace(tzinfo=None)
         )
         original_date_without_time = original_date_in_user_tz.date()
         self.move_id.date = original_date.date()
-        self.move_id.fiscal_document_id._compute_date_in_out()
 
         self.assertEqual(
             self.move_id.fiscal_document_id.date_in_out.date(),
@@ -149,9 +135,16 @@ class TestInvoiceDiscount(TransactionCase):
         self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
         new_date = datetime.now() - timedelta(days=2)
         self.move_id.fiscal_document_id.date_in_out = new_date
-        self.move_id.fiscal_document_id._inverse_date_in_out()
         self.assertEqual(
             self.move_id.date,
             new_date.date(),
             "Inverse computed account date is incorrect",
         )
+
+    def test_discount(self):
+        line = self.move_id.invoice_line_ids
+        self.assertEqual(line.price_unit, 1000)
+        self.assertEqual(line.quantity, 1)
+        self.assertEqual(line.discount_value, 100)
+        self.assertEqual(line.discount, 10)
+        self.assertEqual(line.price_subtotal, 900)
