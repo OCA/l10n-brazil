@@ -44,8 +44,6 @@ class Partner(models.Model):
 
     rntrc_code = fields.Char(string="RNTRC Code", size=12, unaccent=False)
 
-    cei_code = fields.Char(string="CEI Code", size=12, unaccent=False)
-
     union_entity_code = fields.Char(string="Union Entity code", unaccent=False)
 
     l10n_br_rg_code = fields.Char(string="RG", unaccent=False)
