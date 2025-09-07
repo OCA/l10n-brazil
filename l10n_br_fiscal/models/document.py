@@ -10,6 +10,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
+    COMMENT_TYPE_COMMERCIAL,
+    COMMENT_TYPE_FISCAL,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
@@ -234,6 +236,10 @@ class Document(models.Model):
     company_l10n_br_ie_code_st = fields.Char(
         string="Company ST State Tax Number",
     )
+
+    fiscal_additional_data = fields.Text()
+
+    customer_additional_data = fields.Text()
 
     @api.constrains("document_key")
     def _check_key(self):
@@ -475,3 +481,27 @@ class Document(models.Model):
     def _compute_edoc_purpose(self):
         for record in self:
             record.edoc_purpose = record.fiscal_operation_id.edoc_purpose
+
+    def __document_comment_vals(self):
+        return {
+            "user": self.env.user,
+            "ctx": self._context,
+            "doc": self,
+        }
+
+    def _document_comment(self):
+        for d in self:
+            # Fiscal Comments
+            d.fiscal_additional_data = d.comment_ids.filtered(
+                lambda c: c.comment_type == COMMENT_TYPE_FISCAL
+            ).compute_message(
+                d.__document_comment_vals(), d.manual_fiscal_additional_data
+            )
+
+            # Commercial Comments
+            d.customer_additional_data = d.comment_ids.filtered(
+                lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
+            ).compute_message(
+                d.__document_comment_vals(), d.manual_customer_additional_data
+            )
+            d.fiscal_line_ids._document_comment()

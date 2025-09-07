@@ -454,21 +454,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 "cost_price": line.product_id.standard_price,
             }.get(line.fiscal_operation_id.default_price_unit, 0)
 
-    def __document_comment_vals(self):
-        self.ensure_one()
-        return {
-            "user": self.env.user,
-            "ctx": self._context,
-            "doc": self.document_id if hasattr(self, "document_id") else None,
-            "item": self,
-        }
-
-    def _document_comment(self):
-        for d in self:
-            d.additional_data = d.comment_ids.compute_message(
-                d.__document_comment_vals(), d.manual_additional_data
-            )
-
     def _get_fiscal_partner(self):
         """
         Meant to be overriden when the l10n_br_fiscal.document partner_id should not
