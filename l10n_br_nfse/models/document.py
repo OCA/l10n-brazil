@@ -263,7 +263,7 @@ class Document(models.Model):
             "intermediario_servico": None,
             "codigo_obra": self.civil_construction_code or "",
             "art": self.civil_construction_art or "",
-            "carga_tributaria": self.amount_tax,
+            "carga_tributaria": self.fiscal_amount_tax,
             "total_recebido": self.amount_price_gross,
             "carga_tributaria_estimada": self.amount_estimate_tax,
             "customer_additional_data": self.customer_additional_data,
