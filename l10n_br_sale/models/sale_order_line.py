@@ -183,13 +183,15 @@ class SaleOrderLine(models.Model):
         """Compute the amounts of the SO line."""
         result = super()._compute_amount()
         for line in self:
-            line._compute_tax_fields()  # TODO is it required?
-            line.update(
-                {
-                    "price_tax": line.amount_tax,
-                    "price_total": line.amount_total,
-                }
-            )
+            if line.fiscal_operation_id:
+                line._compute_tax_fields()  # TODO is it required?
+                line.update(
+                    {
+                        "price_subtotal": line.fiscal_amount_untaxed,
+                        "price_tax": line.fiscal_amount_tax,
+                        "price_total": line.fiscal_amount_total,
+                    }
+                )
         return result
 
     def _prepare_invoice_line(self, **optional_values):
