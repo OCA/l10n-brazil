@@ -3,3 +3,5 @@ odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 signxml<3.1.0
 xmldiff
+erpbrasil.assinatura==1.7.0
+erpbrasil.base==2.3.2

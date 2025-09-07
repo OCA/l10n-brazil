@@ -18,6 +18,12 @@
         "data/payment_acquirer_data.xml",
         "views/payment_acquirer.xml",
     ],
+    "assets": {
+        "web.assets_frontend": [
+            "/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js",
+            "/payment_pagseguro/static/src/js/pagseguro_tour.js",
+        ],
+    },
     "demo": [],
     "uninstall_hook": "uninstall_hook",
 }

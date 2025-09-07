@@ -16,8 +16,11 @@
         "l10n_br_delivery",
         "l10n_br_website_sale",
     ],
-    "data": ["views/assets.xml"],
-    "demo": [],
+    "assets": {
+        "web.assets_frontend": [
+            "/l10n_br_website_sale_delivery/static/src/js/l10n_br_website_sale_delivery_tour.js",
+        ],
+    },
     "category": "Localization",
     "installable": True,
 }

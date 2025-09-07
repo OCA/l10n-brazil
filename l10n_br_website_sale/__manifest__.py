@@ -17,8 +17,13 @@
     ],
     "data": [
         "templates/portal_templates.xml",
-        "views/assets.xml",
     ],
+    "assets": {
+        "web.assets_frontend": [
+            "/l10n_br_website_sale/static/src/js/l10n_br_address.js",
+            "/l10n_br_website_sale/static/src/js/l10n_br_website_sale_tour.js",
+        ],
+    },
     "external_dependencies": {
         "python": [
             "erpbrasil.base>=2.3.0",

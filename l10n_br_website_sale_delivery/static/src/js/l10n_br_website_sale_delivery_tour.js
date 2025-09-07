@@ -5,17 +5,16 @@ odoo.define("l10n_br_website_sale_delivery.tour", function (require) {
     var session = require("web.session");
     var tour = require("web_tour.tour");
 
-    var domReady = new Promise(function (resolve) {
-        $(resolve);
-    });
-    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
+    var domReady = new Promise(function (resolve) { $(resolve); });
+    var readyPromises = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
 
-    tour.register(
-        "l10n_br_website_sale_delivery_tour",
-        {
-            test: true,
-            url: "/shop",
-            wait_for: ready,
+    tour.register("l10n_br_website_sale_delivery_tour", {
+        test: true,
+        url: "/shop",
+        ready: function () {
+            return !!document.body;
+        },
+        wait_for: readyPromises,
         },
         [
             {
