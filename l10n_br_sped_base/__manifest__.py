@@ -14,5 +14,6 @@
     "development_status": "Alpha",
     "data": [
         "views/sped_base.xml",
+        "views/res_partner_view.xml",
     ],
 }
