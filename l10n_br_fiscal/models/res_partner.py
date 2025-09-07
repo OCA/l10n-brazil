@@ -107,6 +107,8 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
+    rntrc_code = fields.Char(string="RNTRC Code", size=12, tracking=True)
+
     def _inverse_fiscal_profile(self):
         for p in self:
             p._onchange_fiscal_profile_id()
