@@ -104,7 +104,7 @@ class DocumentRelated(models.Model):
             return False
 
         self.document_type_id = related.document_type_id
-        self.document_total_amount = related.amount_total
+        self.document_total_amount = related.fiscal_amount_total
         self.document_total_weight = related.total_weight
 
         if related.document_type_id.electronic:

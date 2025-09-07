@@ -126,7 +126,7 @@ class FiscalDocumentMixin(models.AbstractModel):
         help="Amount without discount.",
     )
 
-    amount_untaxed = fields.Monetary(
+    fiscal_amount_untaxed = fields.Monetary(
         compute="_compute_fiscal_amount",
         store=True,
     )
@@ -394,12 +394,12 @@ class FiscalDocumentMixin(models.AbstractModel):
         store=True,
     )
 
-    amount_tax = fields.Monetary(
+    fiscal_amount_tax = fields.Monetary(
         compute="_compute_fiscal_amount",
         store=True,
     )
 
-    amount_total = fields.Monetary(
+    fiscal_amount_total = fields.Monetary(
         compute="_compute_fiscal_amount",
         store=True,
     )
