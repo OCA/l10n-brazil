@@ -36,16 +36,6 @@ class Partner(models.Model):
             partner.street = street
         return super(Partner, not_br_partner)._inverse_street_data()
 
-    is_accountant = fields.Boolean(string="Is accountant?")
-
-    crc_code = fields.Char(string="CRC Code", size=18)
-
-    crc_state_id = fields.Many2one(comodel_name="res.country.state", string="CRC State")
-
-    rntrc_code = fields.Char(string="RNTRC Code", size=12)
-
-    union_entity_code = fields.Char(string="Union Entity code")
-
     l10n_br_rg_code = fields.Char(string="RG")
 
     pix_key_ids = fields.One2many(
