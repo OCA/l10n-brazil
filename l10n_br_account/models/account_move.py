@@ -259,13 +259,14 @@ class AccountMove(models.Model):
                 lambda line: line.display_type == "product"
                 and (not line.cfop_id or line.cfop_id.finance_move)
             )
-            move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
-            move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
+            move.amount_untaxed = sum(inv_line_ids.mapped("fiscal_amount_untaxed"))
+            move.amount_tax = sum(inv_line_ids.mapped("fiscal_amount_tax"))
             move.amount_untaxed_signed = sign * sum(
-                inv_line_ids.mapped("amount_untaxed")
+                inv_line_ids.mapped("fiscal_amount_untaxed")
             )
-            move.amount_tax_signed = sign * sum(inv_line_ids.mapped("amount_tax"))
-
+            move.amount_tax_signed = sign * sum(
+                inv_line_ids.mapped("fiscal_amount_tax")
+            )
         return result
 
     def _compute_imported_terms(self):
