@@ -110,9 +110,9 @@ class PurchaseOrderLine(models.Model):
                 line._compute_tax_fields()  # TODO is it required?
                 line.update(
                     {
-                        "price_subtotal": line.amount_untaxed,
-                        "price_tax": line.amount_tax,
-                        "price_total": line.amount_total,
+                        "price_subtotal": line.fiscal_amount_untaxed,
+                        "price_tax": line.fiscal_amount_tax,
+                        "price_total": line.fiscal_amount_total,
                     }
                 )
         return result
