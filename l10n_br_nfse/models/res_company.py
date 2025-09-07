@@ -32,9 +32,6 @@ class ResCompany(models.Model):
         string="NFSe SSL Verify",
         default=False,
     )
-    city_taxation_code_id = fields.Many2many(
-        comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
-    )
 
     def prepare_company_servico(self):
         return {

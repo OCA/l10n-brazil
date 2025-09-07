@@ -28,9 +28,6 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         cls.company.icms_regulation_id = cls.env.ref(
             "l10n_br_fiscal.tax_icms_regulation"
         ).id
-        cls.company.city_taxation_code_id = cls.env.ref(
-            "l10n_br_fiscal.city_taxation_code_itajuba"
-        )
         cls.company.document_type_id = cls.env.ref("l10n_br_fiscal.document_SE")
         cls.nfse_same_state.company_id = cls.company.id
 
