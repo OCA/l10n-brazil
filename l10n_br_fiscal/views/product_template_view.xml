@@ -76,7 +76,7 @@
                                 invisible="fiscal_type != '09'"
                             />
                             <field
-                                name="city_taxation_code_id"
+                                name="city_taxation_code_ids"
                                 invisible="fiscal_type != '09'"
                                 context="{'default_service_type_id': service_type_id}"
                             >
