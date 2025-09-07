@@ -1081,7 +1081,6 @@
                         <group>
                             <field name="comment_ids" widget="many2many_tags" />
                             <field name="manual_additional_data" />
-                            <field name="additional_data" readonly="1" />
                         </group>
                     </page>
                 </notebook>

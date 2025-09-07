@@ -1626,8 +1626,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         readonly=False,
     )
 
-    additional_data = fields.Text()
-
     manual_additional_data = fields.Text(
         help="Additional data manually entered by user"
     )

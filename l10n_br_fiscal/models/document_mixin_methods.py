@@ -4,8 +4,6 @@
 from odoo import api, models
 
 from ..constants.fiscal import (
-    COMMENT_TYPE_COMMERCIAL,
-    COMMENT_TYPE_FISCAL,
     DOCUMENT_ISSUER_COMPANY,
 )
 
@@ -158,30 +156,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 values["amount_other_value"] = doc.amount_other_value
 
             doc.update(values)
-
-    def __document_comment_vals(self):
-        return {
-            "user": self.env.user,
-            "ctx": self._context,
-            "doc": self,
-        }
-
-    def _document_comment(self):
-        for d in self:
-            # Fiscal Comments
-            d.fiscal_additional_data = d.comment_ids.filtered(
-                lambda c: c.comment_type == COMMENT_TYPE_FISCAL
-            ).compute_message(
-                d.__document_comment_vals(), d.manual_fiscal_additional_data
-            )
-
-            # Commercial Comments
-            d.customer_additional_data = d.comment_ids.filtered(
-                lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
-            ).compute_message(
-                d.__document_comment_vals(), d.manual_customer_additional_data
-            )
-            d.fiscal_line_ids._document_comment()
 
     def _get_fiscal_partner(self):
         """
