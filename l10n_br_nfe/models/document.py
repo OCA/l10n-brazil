@@ -547,7 +547,7 @@ class NFe(spec_models.StackedModel):
         related="amount_other_value",
     )
 
-    nfe40_vNF = fields.Monetary(related="amount_total")
+    nfe40_vNF = fields.Monetary(related="fiscal_amount_total")
 
     nfe40_vTotTrib = fields.Monetary(related="amount_estimate_tax")
 
@@ -1578,7 +1578,7 @@ class NFe(spec_models.StackedModel):
             "total_product_quantity": len(
                 self.fiscal_line_ids.filtered(lambda line: line.product_id)
             ),
-            "amount_total": self.amount_total,
+            "amount_total": self.fiscal_amount_total,
             "amount_discount_value": self.amount_discount_value,
             "amount_freight_value": self.amount_freight_value,
             "payments": self._prepare_nfce_danfe_payment_values(),
