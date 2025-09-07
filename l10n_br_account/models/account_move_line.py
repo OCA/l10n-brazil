@@ -232,11 +232,11 @@ class AccountMoveLine(models.Model):
                     else:
                         if line.move_id.fiscal_operation_id.deductible_taxes:
                             unsigned_amount_currency = (
-                                line.amount_total + line.amount_tax_withholding
+                                line.fiscal_amount_total + line.amount_tax_withholding
                             )
                         else:
                             amount_total = (
-                                line.amount_total + line.amount_tax_withholding
+                                line.fiscal_amount_total + line.amount_tax_withholding
                             )
                             unsigned_amount_currency = line.currency_id.round(
                                 amount_total
