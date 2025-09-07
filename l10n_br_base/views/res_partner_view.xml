@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!--
-    views: res.partner
-    -->
-
     <record id="l10n_br_base_res_partner_filter" model="ir.ui.view">
         <field name="name">l10n_br_base.res.partner.filter</field>
         <field name="model">res.partner</field>
@@ -105,17 +101,7 @@
                                 </list>
                             </field>
                         </group>
-                        <group string="Other Infos" name="other_infos">
-                            <field name="union_entity_code" />
-                            <field name="is_accountant" />
-                            <field name="crc_code" invisible="not is_accountant" />
-                            <field
-                                name="crc_state_id"
-                                invisible="not is_accountant"
-                                domain="[('country_id', '=', %(base.br)d)]"
-                            />
-                            <field name="rntrc_code" />
-                        </group>
+                        <group string="Other Infos" name="other_infos" />
                     </group>
                 </page>
             </page>
