@@ -497,9 +497,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
             self.service_type_id = self.product_id.service_type_id
             self.uot_id = self.product_id.uot_id or self.product_id.uom_id
-            if self.product_id.city_taxation_code_id:
+            if self.product_id.city_taxation_code_ids:
                 company_city_id = self.company_id.city_id
-                city_id = self.product_id.city_taxation_code_id.filtered(
+                city_id = self.product_id.city_taxation_code_ids.filtered(
                     lambda r: r.city_id == company_city_id
                 )
                 if city_id:
