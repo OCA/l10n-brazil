@@ -19,11 +19,6 @@ msgid "Accounting"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__additional_data
-msgid "Additional Data"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__manual_additional_data
 msgid "Additional data manually entered by user"
 msgstr ""
@@ -405,11 +400,6 @@ msgid "Customer"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__customer_additional_data
-msgid "Customer Additional Data"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__manual_customer_additional_data
 msgid "Customer Additional data manually entered by user"
 msgstr ""
@@ -533,11 +523,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__financial_total_gross
 msgid "Financial Gross Amount"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_additional_data
-msgid "Fiscal Additional Data"
 msgstr ""
 
 #. module: l10n_br_sale
