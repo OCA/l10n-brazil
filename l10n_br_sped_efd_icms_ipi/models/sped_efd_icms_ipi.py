@@ -26,7 +26,7 @@ class Registro0000(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0000"
-    _inherit = ["l10n_br_sped.efd_icms_ipi.17.0000"]
+    _inherit = ["l10n_br_sped.efd_icms_ipi.19.0000"]
     _odoo_model = "res.company"
 
     COD_FIN = fields.Selection(
@@ -187,7 +187,7 @@ class Registro0002(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0002"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0002"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0002"
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -201,7 +201,7 @@ class Registro0005(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0005"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0005"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0005"
     _odoo_model = "res.company"
 
     @api.model
@@ -228,7 +228,7 @@ class Registro0015(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0015"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0015"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0015"
     _odoo_model = "state.tax.numbers"
 
     def _odoo_domain(self, parent_record, declaration):
@@ -249,7 +249,7 @@ class Registro0100(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0100"
     _odoo_model = "res.partner"
 
     @api.model
@@ -286,7 +286,7 @@ class Registro0150(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0150"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0150"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0150"
     _odoo_model = "res.partner"
 
     @api.model
@@ -324,7 +324,7 @@ class Registro0175(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0175"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0175"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0175"
 
     # TODO: Verificar se vamos precisar criar alguma modificação no res.partner para monitorar os campos alterados.
 
@@ -342,7 +342,7 @@ class Registro0190(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0190"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0190"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0190"
     _odoo_model = "uom.uom"
 
     @api.model
@@ -367,7 +367,7 @@ class Registro0200(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0200"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0200"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0200"
     _odoo_model = "product.product"
 
     @api.model
@@ -403,7 +403,7 @@ class Registro0205(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0205"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0205"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0205"
 
     # TODO: Essa informação do código não é salva atualmente, talvez seja preciso
     # atualizar o modelo product.product para ter um histórico disso.
@@ -423,7 +423,7 @@ class Registro0206(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0206"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0206"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0206"
 
     # TODO: Não temos esse código da ANP no modelo.
 
@@ -446,7 +446,7 @@ class Registro0210(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0210"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0210"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0210"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -462,7 +462,7 @@ class Registro0220(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0220"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0220"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0220"
 
     @api.model
     def _odoo_query(self, parent_record, declaration):
@@ -506,7 +506,7 @@ class Registro0300(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -525,7 +525,7 @@ class Registro0305(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0305"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0305"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0305"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -541,7 +541,7 @@ class Registro0400(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0400"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0400"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0400"
     _odoo_model = "l10n_br_fiscal.operation"
 
     @api.model
@@ -563,7 +563,7 @@ class Registro0450(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0450"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0450"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0450"
     _odoo_model = "l10n_br_fiscal.comment"
 
     @api.model
@@ -585,7 +585,7 @@ class Registro0460(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0460"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0460"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0460"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -600,7 +600,7 @@ class Registro0500(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0500"
 
     # TODO: Usado em H010?
 
@@ -621,7 +621,7 @@ class Registro0600(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0600"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.0600"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0600"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -637,7 +637,7 @@ class RegistroB020(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b020"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b020"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b020"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -670,7 +670,7 @@ class RegistroB025(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b025"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b025"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b025"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -689,7 +689,7 @@ class RegistroB030(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b030"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b030"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b030"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -713,7 +713,7 @@ class RegistroB350(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b350"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b350"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b350"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -736,7 +736,7 @@ class RegistroB420(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b420"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b420"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b420"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -755,7 +755,7 @@ class RegistroB440(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b440"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b440"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b440"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -773,7 +773,7 @@ class RegistroB460(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b460"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b460"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b460"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -793,7 +793,7 @@ class RegistroB470(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b470"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b470"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b470"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -820,7 +820,7 @@ class RegistroB500(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -836,7 +836,7 @@ class RegistroB510(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.b510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.b510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -854,7 +854,7 @@ class RegistroC100(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c100"
     _odoo_model = "l10n_br_fiscal.document"
 
     # @api.model
@@ -938,7 +938,7 @@ class RegistroC101(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c101"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c101"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c101"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -954,7 +954,7 @@ class RegistroC105(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c105"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c105"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c105"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -969,7 +969,7 @@ class RegistroC110(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -984,7 +984,7 @@ class RegistroC111(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c111"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c111"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c111"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -999,7 +999,7 @@ class RegistroC112(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c112"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c112"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c112"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1019,7 +1019,7 @@ class RegistroC113(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c113"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c113"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c113"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1041,7 +1041,7 @@ class RegistroC114(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c114"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c114"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c114"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1059,7 +1059,7 @@ class RegistroC115(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c115"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c115"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c115"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1081,7 +1081,7 @@ class RegistroC116(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c116"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c116"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c116"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1099,7 +1099,7 @@ class RegistroC120(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c120"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c120"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c120"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1117,7 +1117,7 @@ class RegistroC130(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c130"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c130"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c130"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1137,7 +1137,7 @@ class RegistroC140(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c140"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c140"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c140"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1156,7 +1156,7 @@ class RegistroC141(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c141"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c141"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c141"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1171,7 +1171,7 @@ class RegistroC160(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c160"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c160"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c160"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1190,7 +1190,7 @@ class RegistroC165(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c165"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c165"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c165"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1215,7 +1215,7 @@ class RegistroC170(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c170"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c170"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c170"
     _odoo_model = "l10n_br_fiscal.document.line"
 
     @api.model
@@ -1276,7 +1276,7 @@ class RegistroC171(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c171"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c171"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c171"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1291,7 +1291,7 @@ class RegistroC172(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c172"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c172"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c172"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1307,7 +1307,7 @@ class RegistroC173(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c173"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c173"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c173"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1327,7 +1327,7 @@ class RegistroC174(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c174"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c174"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c174"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1343,7 +1343,7 @@ class RegistroC175(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c175"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c175"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c175"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1360,7 +1360,7 @@ class RegistroC176(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c176"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c176"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c176"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1399,7 +1399,7 @@ class RegistroC177(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c177"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c177"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c177"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1414,7 +1414,7 @@ class RegistroC178(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c178"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c178"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c178"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1430,7 +1430,7 @@ class RegistroC179(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c179"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c179"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c179"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1448,7 +1448,7 @@ class RegistroC180(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c180"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c180"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c180"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1471,7 +1471,7 @@ class RegistroC181(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c181"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c181"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c181"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1495,7 +1495,7 @@ class RegistroC185(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c185"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c185"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c185"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1520,7 +1520,7 @@ class RegistroC186(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c186"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c186"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c186"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1548,7 +1548,7 @@ class RegistroC190(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c190"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c190"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c190"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1572,7 +1572,7 @@ class RegistroC191(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c191"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c191"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c191"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1588,7 +1588,7 @@ class RegistroC195(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c195"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c195"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c195"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1603,7 +1603,7 @@ class RegistroC197(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c197"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c197"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c197"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1623,7 +1623,7 @@ class RegistroC300(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1646,7 +1646,7 @@ class RegistroC310(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c310"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c310"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c310"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1660,7 +1660,7 @@ class RegistroC320(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c320"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c320"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c320"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1681,7 +1681,7 @@ class RegistroC321(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c321"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c321"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c321"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1703,7 +1703,7 @@ class RegistroC330(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c330"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c330"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c330"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1724,7 +1724,7 @@ class RegistroC350(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c350"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c350"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c350"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1748,7 +1748,7 @@ class RegistroC370(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c370"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c370"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c370"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1767,7 +1767,7 @@ class RegistroC380(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c380"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c380"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c380"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1788,7 +1788,7 @@ class RegistroC390(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c390"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c390"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c390"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1809,7 +1809,7 @@ class RegistroC400(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c400"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c400"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c400"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1826,7 +1826,7 @@ class RegistroC405(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c405"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c405"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c405"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1845,7 +1845,7 @@ class RegistroC410(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c410"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c410"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c410"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1860,7 +1860,7 @@ class RegistroC420(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c420"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c420"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c420"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1877,7 +1877,7 @@ class RegistroC425(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c425"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c425"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c425"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1896,7 +1896,7 @@ class RegistroC430(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c430"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c430"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c430"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1917,7 +1917,7 @@ class RegistroC460(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c460"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c460"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c460"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1939,7 +1939,7 @@ class RegistroC465(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c465"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c465"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c465"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1954,7 +1954,7 @@ class RegistroC470(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c470"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c470"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c470"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1977,7 +1977,7 @@ class RegistroC480(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c480"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c480"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c480"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1998,7 +1998,7 @@ class RegistroC490(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c490"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c490"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c490"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2018,7 +2018,7 @@ class RegistroC495(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c495"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c495"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c495"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2045,7 +2045,7 @@ class RegistroC500(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2097,7 +2097,7 @@ class RegistroC510(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2130,7 +2130,7 @@ class RegistroC590(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c590"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c590"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c590"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2153,7 +2153,7 @@ class RegistroC591(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c591"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c591"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c591"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2168,7 +2168,7 @@ class RegistroC595(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c595"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c595"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c595"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2183,7 +2183,7 @@ class RegistroC597(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c597"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c597"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c597"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2203,7 +2203,7 @@ class RegistroC600(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c600"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c600"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c600"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2237,7 +2237,7 @@ class RegistroC601(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c601"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c601"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c601"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2251,7 +2251,7 @@ class RegistroC610(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c610"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c610"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c610"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2280,7 +2280,7 @@ class RegistroC690(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c690"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c690"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c690"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2303,7 +2303,7 @@ class RegistroC700(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c700"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c700"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c700"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2324,7 +2324,7 @@ class RegistroC790(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c790"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c790"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c790"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2347,7 +2347,7 @@ class RegistroC791(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c791"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c791"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c791"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2363,7 +2363,7 @@ class RegistroC800(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c800"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c800"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c800"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2392,7 +2392,7 @@ class RegistroC810(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c810"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c810"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c810"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2412,7 +2412,7 @@ class RegistroC815(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c815"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c815"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c815"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2433,7 +2433,7 @@ class RegistroC850(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c850"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c850"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c850"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2453,7 +2453,7 @@ class RegistroC860(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c860"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c860"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c860"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2471,7 +2471,7 @@ class RegistroC870(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c870"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c870"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c870"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2489,7 +2489,7 @@ class RegistroC880(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c880"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c880"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c880"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2510,7 +2510,7 @@ class RegistroC890(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c890"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.c890"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c890"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2530,7 +2530,7 @@ class RegistroD100(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d100"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2567,7 +2567,7 @@ class RegistroD101(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d101"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d101"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d101"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2583,7 +2583,7 @@ class RegistroD110(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2600,7 +2600,7 @@ class RegistroD120(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d120"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d120"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d120"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2617,7 +2617,7 @@ class RegistroD130(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d130"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d130"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d130"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2643,7 +2643,7 @@ class RegistroD140(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d140"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d140"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d140"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2669,7 +2669,7 @@ class RegistroD150(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d150"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d150"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d150"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2692,7 +2692,7 @@ class RegistroD160(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d160"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d160"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d160"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2712,7 +2712,7 @@ class RegistroD161(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d161"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d161"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d161"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2732,7 +2732,7 @@ class RegistroD162(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d162"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d162"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d162"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2754,7 +2754,7 @@ class RegistroD170(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d170"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d170"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d170"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2780,7 +2780,7 @@ class RegistroD180(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d180"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d180"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d180"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2809,7 +2809,7 @@ class RegistroD190(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d190"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d190"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d190"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2830,7 +2830,7 @@ class RegistroD195(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d195"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d195"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d195"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2845,7 +2845,7 @@ class RegistroD197(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d197"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d197"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d197"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2865,7 +2865,7 @@ class RegistroD300(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2897,7 +2897,7 @@ class RegistroD301(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d301"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d301"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d301"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2911,7 +2911,7 @@ class RegistroD310(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d310"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d310"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d310"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2928,7 +2928,7 @@ class RegistroD350(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d350"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d350"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d350"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2945,7 +2945,7 @@ class RegistroD355(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d355"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d355"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d355"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2964,7 +2964,7 @@ class RegistroD360(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d360"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d360"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d360"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2979,7 +2979,7 @@ class RegistroD365(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d365"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d365"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d365"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2996,7 +2996,7 @@ class RegistroD370(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d370"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d370"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d370"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3014,7 +3014,7 @@ class RegistroD390(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d390"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d390"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d390"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3037,7 +3037,7 @@ class RegistroD400(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d400"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d400"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d400"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3065,7 +3065,7 @@ class RegistroD410(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d410"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d410"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d410"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3092,7 +3092,7 @@ class RegistroD411(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d411"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d411"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d411"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3106,7 +3106,7 @@ class RegistroD420(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d420"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d420"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d420"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3122,7 +3122,7 @@ class RegistroD500(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3158,7 +3158,7 @@ class RegistroD510(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3190,7 +3190,7 @@ class RegistroD530(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d530"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d530"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d530"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3209,7 +3209,7 @@ class RegistroD590(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d590"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d590"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d590"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3232,7 +3232,7 @@ class RegistroD600(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d600"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d600"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d600"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3262,7 +3262,7 @@ class RegistroD610(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d610"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d610"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d610"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3292,7 +3292,7 @@ class RegistroD690(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d690"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d690"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d690"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3314,7 +3314,7 @@ class RegistroD695(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d695"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d695"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d695"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3335,7 +3335,7 @@ class RegistroD696(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d696"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d696"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d696"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3358,7 +3358,7 @@ class RegistroD697(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d697"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.d697"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d697"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3374,7 +3374,7 @@ class RegistroE100(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e100"
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3389,7 +3389,7 @@ class RegistroE110(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3416,7 +3416,7 @@ class RegistroE111(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e111"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e111"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e111"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3432,7 +3432,7 @@ class RegistroE112(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e112"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e112"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e112"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3450,7 +3450,7 @@ class RegistroE113(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e113"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e113"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e113"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3471,7 +3471,7 @@ class RegistroE115(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e115"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e115"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e115"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3487,7 +3487,7 @@ class RegistroE116(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e116"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e116"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e116"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3509,7 +3509,7 @@ class RegistroE200(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e200"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e200"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e200"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3525,7 +3525,7 @@ class RegistroE210(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e210"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e210"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e210"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3552,7 +3552,7 @@ class RegistroE220(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e220"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e220"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e220"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3568,7 +3568,7 @@ class RegistroE230(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e230"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e230"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e230"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3586,7 +3586,7 @@ class RegistroE240(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e240"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e240"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e240"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3608,7 +3608,7 @@ class RegistroE250(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e250"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e250"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e250"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3630,7 +3630,7 @@ class RegistroE300(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3646,7 +3646,7 @@ class RegistroE310(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e310"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e310"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e310"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3680,7 +3680,7 @@ class RegistroE311(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e311"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e311"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e311"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3696,7 +3696,7 @@ class RegistroE312(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e312"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e312"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e312"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3714,7 +3714,7 @@ class RegistroE313(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e313"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e313"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e313"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3736,7 +3736,7 @@ class RegistroE316(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e316"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e316"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e316"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3758,7 +3758,7 @@ class RegistroE500(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3774,7 +3774,7 @@ class RegistroE510(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3792,7 +3792,7 @@ class RegistroE520(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e520"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e520"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e520"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3812,7 +3812,7 @@ class RegistroE530(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e530"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e530"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e530"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3831,7 +3831,7 @@ class RegistroE531(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e531"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.e531"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.e531"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3853,7 +3853,7 @@ class RegistroG110(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.g110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.g110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3875,7 +3875,7 @@ class RegistroG125(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g125"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.g125"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.g125"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3897,7 +3897,7 @@ class RegistroG126(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g126"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.g126"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.g126"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3918,7 +3918,7 @@ class RegistroG130(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g130"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.g130"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.g130"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3939,7 +3939,7 @@ class RegistroG140(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g140"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.g140"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.g140"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3960,7 +3960,7 @@ class RegistroH005(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h005"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.h005"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.h005"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3976,7 +3976,7 @@ class RegistroH010(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h010"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.h010"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.h010"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3999,7 +3999,7 @@ class RegistroH020(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h020"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.h020"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.h020"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4015,7 +4015,7 @@ class RegistroH030(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h030"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.h030"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.h030"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4032,7 +4032,7 @@ class RegistroK100(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k100"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4047,7 +4047,7 @@ class RegistroK200(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k200"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k200"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k200"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4065,7 +4065,7 @@ class RegistroK210(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k210"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k210"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k210"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4083,7 +4083,7 @@ class RegistroK215(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k215"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k215"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k215"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4098,7 +4098,7 @@ class RegistroK220(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k220"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k220"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k220"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4116,7 +4116,7 @@ class RegistroK230(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k230"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k230"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k230"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4134,7 +4134,7 @@ class RegistroK235(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k235"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k235"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k235"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4151,7 +4151,7 @@ class RegistroK250(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k250"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k250"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k250"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4167,7 +4167,7 @@ class RegistroK255(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k255"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k255"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k255"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4184,7 +4184,7 @@ class RegistroK260(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k260"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k260"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k260"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4203,7 +4203,7 @@ class RegistroK265(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k265"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k265"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k265"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4219,7 +4219,7 @@ class RegistroK270(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k270"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k270"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k270"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4239,7 +4239,7 @@ class RegistroK275(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k275"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k275"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k275"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4256,7 +4256,7 @@ class RegistroK280(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k280"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k280"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k280"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4275,7 +4275,7 @@ class RegistroK290(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k290"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k290"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k290"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4291,7 +4291,7 @@ class RegistroK291(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k291"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k291"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k291"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4306,7 +4306,7 @@ class RegistroK292(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k292"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k292"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k292"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4321,7 +4321,7 @@ class RegistroK300(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4335,7 +4335,7 @@ class RegistroK301(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k301"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k301"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k301"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4350,7 +4350,7 @@ class RegistroK302(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k302"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.k302"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k302"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4365,7 +4365,7 @@ class Registro1010(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1010"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1010"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1010"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4391,7 +4391,7 @@ class Registro1100(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1100"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4415,7 +4415,7 @@ class Registro1105(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1105"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1105"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1105"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4434,7 +4434,7 @@ class Registro1110(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4456,7 +4456,7 @@ class Registro1200(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1200"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1200"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1200"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4475,7 +4475,7 @@ class Registro1210(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1210"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1210"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1210"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4492,7 +4492,7 @@ class Registro1250(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1250"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1250"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1250"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4510,7 +4510,7 @@ class Registro1255(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1255"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1255"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1255"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4529,7 +4529,7 @@ class Registro1300(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4552,7 +4552,7 @@ class Registro1310(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1310"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1310"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1310"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4574,7 +4574,7 @@ class Registro1320(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1320"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1320"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1320"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4597,7 +4597,7 @@ class Registro1350(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1350"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1350"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1350"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4614,7 +4614,7 @@ class Registro1360(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1360"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1360"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1360"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4629,7 +4629,7 @@ class Registro1370(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1370"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1370"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1370"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4645,7 +4645,7 @@ class Registro1390(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1390"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1390"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1390"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4659,7 +4659,7 @@ class Registro1391(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1391"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1391"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1391"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4691,7 +4691,7 @@ class Registro1400(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1400"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1400"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1400"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4707,7 +4707,7 @@ class Registro1500(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4746,7 +4746,7 @@ class Registro1510(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4779,7 +4779,7 @@ class Registro1600(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1600"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1600"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1600"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4795,7 +4795,7 @@ class Registro1601(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1601"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1601"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1601"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4813,7 +4813,7 @@ class Registro1700(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1700"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1700"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1700"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4833,7 +4833,7 @@ class Registro1710(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1710"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1710"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1710"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4848,7 +4848,7 @@ class Registro1800(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1800"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1800"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1800"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4870,7 +4870,7 @@ class Registro1900(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1900"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1900"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1900"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4885,7 +4885,7 @@ class Registro1910(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1910"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1910"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1910"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4900,7 +4900,7 @@ class Registro1920(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1920"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1920"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1920"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4925,7 +4925,7 @@ class Registro1921(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1921"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1921"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1921"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4941,7 +4941,7 @@ class Registro1922(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1922"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1922"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1922"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4959,7 +4959,7 @@ class Registro1923(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1923"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1923"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1923"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4981,7 +4981,7 @@ class Registro1925(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1925"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1925"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1925"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4997,7 +4997,7 @@ class Registro1926(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1926"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1926"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1926"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5019,7 +5019,7 @@ class Registro1960(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1960"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1960"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1960"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5044,7 +5044,7 @@ class Registro1970(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1970"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1970"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1970"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5068,7 +5068,7 @@ class Registro1975(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1975"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1975"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1975"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5085,7 +5085,7 @@ class Registro1980(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1980"
-    _inherit = "l10n_br_sped.efd_icms_ipi.17.1980"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.1980"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
