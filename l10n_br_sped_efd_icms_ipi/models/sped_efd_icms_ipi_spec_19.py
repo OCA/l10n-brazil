@@ -26,6 +26,7 @@ STRUCTURE SPED EFD_ICMS_IPI
     - 0206 Código de produto conforme Tabela ANP
     ≡ 0210 Consumo Específico Padronizado
     ≡ 0220 Fatores de Conversão de Unidades
+    ≡ 0221 Correlação entre códigos de itens comercializados
 
   - 0300 CADASTRO DE BENS OU COMPONENTES DO ATIVO IMOBILIZADO
     - 0305 Informação sobre a Utilização do Bem
@@ -64,7 +65,7 @@ STRUCTURE SPED EFD_ICMS_IPI
 
   - C100 DOCUMENTO - NOTA FISCAL (CÓDIGO 01)
     - C101 Informação complementar dos documentos fiscais quando das operações interestaduais destinadas
-    - C105 Operações com ICMS ST recolhido para UF diversa do destinatário do docu- mento fiscal
+    - C105 Operações com ICMS ST recolhido para UF diversa do destinatário do documento fiscal
     ≡ C110 Complemento de Documento
       ≡ C111
       ≡ C112
@@ -90,7 +91,7 @@ STRUCTURE SPED EFD_ICMS_IPI
       - C179
       - C180
       ≡ C181
-    ≡ C185 Informações complementares das operações de sa- ída de mercadorias sujeitas
+    ≡ C185 Informações complementares das operações de saída de mercadorias sujeitas à substituição tributária
     ≡ C186 Informações complementares das operações de devolução de entradas de mercadorias sujeitas
     ≡ C190 Registro Analítico do Documento
       - C191
@@ -142,11 +143,15 @@ STRUCTURE SPED EFD_ICMS_IPI
     ≡ C810 Itens do documento do cupom fiscal eletrônico – SAT
       - C815
     ≡ C850 Registro Analítico do CF-e
+    ≡ C855 Observações do lançamento fiscal
+      ≡ C857
 
   - C860 IDENTIFICAÇÃO DO EQUIPAMENTO SAT-CF-E
     ≡ C870 Itens do documento do cupom fiscal eletrônico – SAT
       - C880
     ≡ C890 Resumo diário de CF-e
+    ≡ C895 Observações do lançamento fiscal
+      ≡ C897
 
 <BLOCO D>
 
@@ -195,6 +200,16 @@ STRUCTURE SPED EFD_ICMS_IPI
     ≡ D696 Registro Analítico dos Documentos
       ≡ D697
 
+  - D700 NOTA FISCAL FATURA ELETRÔNICA DE SERVIÇOS DE COMUNICAÇÃO – NFCOM
+    ≡ D730 Registro analítico Nota Fiscal Fatura Eletrônica de Serviços de Comunicação – NFCom
+      - D731
+    ≡ D735 Observações do lançamento fiscal
+      ≡ D737
+
+  - D750 ESCRITURAÇÃO CONSOLIDADA DA NOTA FISCAL FATURA ELETRÔNICA DE SERVIÇOS DE COMUNICAÇÃO – NFCOM
+    ≡ D760 Registro analítico da escrituração consolidada da Nota Fiscal Fatura Eletrônica de Serviços
+      - D761
+
 <BLOCO E>
 
   - E100 PERÍODO DE APURAÇÃO DO ICMS
@@ -228,7 +243,7 @@ STRUCTURE SPED EFD_ICMS_IPI
 <BLOCO G>
 
   - G110 ICMS – ATIVO PERMANENTE – CIAP
-    ≡ G125 Movimentação de bem ou componente
+    ≡ G125 Movimentação de bem ou componente do Ativo Imobilizado
       ≡ G126
       ≡ G130
         ≡ G140
@@ -241,6 +256,8 @@ STRUCTURE SPED EFD_ICMS_IPI
       - H030
 
 <BLOCO K>
+
+  - K010 INFORMAÇÃO SOBRE O TIPO DE LEIAUTE
 
   - K100 PERÍODO DE APURAÇÃO DO ICMS/IPI
     ≡ K200 Estoque Escriturado
@@ -332,7 +349,7 @@ class Registro0000(models.AbstractModel):
     "Abertura do Arquivo Digital e Identificação da entidade"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0000"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0000"
     _inherit = "l10n_br_sped.declaration"
     _sped_level = 0
 
@@ -341,9 +358,7 @@ class Registro0000(models.AbstractModel):
         required=True,
         xsd_type="numeric_code",
         sped_length="3*",
-        help=(
-            "Código da versão do leiaute conforme a tabela indicada no Ato " "COTEPE."
-        ),
+        help="Código da versão do leiaute conforme a tabela indicada no Ato COTEPE.",
     )
 
     COD_FIN = fields.Char(
@@ -352,8 +367,8 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Código da finalidade do arquivo: 0 - Remessa do arquivo original;"
-            " 1 - Remessa do arquivo substituto."
+            "Código da finalidade do arquivo: 0 - Remessa do arquivo original; 1 - "
+            "Remessa do arquivo substituto."
         ),
     )
 
@@ -401,8 +416,8 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="7*",
         help=(
-            "Código do município do domicílio fiscal da entidade, conforme a "
-            "tabela IBGE"
+            "Código do município do domicílio fiscal da entidade, conforme a tabela "
+            "IBGE"
         ),
     )
 
@@ -415,8 +430,8 @@ class Registro0000(models.AbstractModel):
         required=True,
         sped_length="1",
         help=(
-            "Perfil de apresentação do arquivo fiscal; A – Perfil A; B – "
-            "Perfil B.; C – Perfil C."
+            "Perfil de apresentação do arquivo fiscal; A – Perfil A; B – Perfil B.; C –"
+            " Perfil C."
         ),
     )
 
@@ -426,8 +441,8 @@ class Registro0000(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="1",
         help=(
-            "Indicador de tipo de atividade: 0 – Industrial ou equiparado a "
-            "industrial; 1 – Outros."
+            "Indicador de tipo de atividade: 0 – Industrial ou equiparado a industrial;"
+            " 1 – Outros."
         ),
     )
 
@@ -437,7 +452,7 @@ class Registro0002(models.AbstractModel):
     Industrial"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0002"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0002"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -454,7 +469,7 @@ class Registro0005(models.AbstractModel):
     "Dados Complementares da entidade"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0005"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0005"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -494,7 +509,7 @@ class Registro0015(models.AbstractModel):
     "Dados do Contribuinte Substituto ou Responsável pelo ICMS Destino"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0015"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0015"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -503,8 +518,8 @@ class Registro0015(models.AbstractModel):
         required=True,
         sped_length="2*",
         help=(
-            "Sigla da unidade da federação do contribuinte substituído ou "
-            "unidade de federação do consumidor final não contribuinte -"
+            "Sigla da unidade da federação do contribuinte substituído ou unidade de "
+            "federação do consumidor final não contribuinte - ICMS Destino EC 87/15."
         ),
     )
 
@@ -513,9 +528,9 @@ class Registro0015(models.AbstractModel):
         required=True,
         sped_length="14",
         help=(
-            "Inscrição Estadual do contribuinte substituto na unidade da "
-            "federação do contribuinte substituído ou unidade de federação do "
-            "consumidor final não contribuinte - ICMS Destino EC 87/15."
+            "Inscrição Estadual do contribuinte substituto na unidade da federação do "
+            "contribuinte substituído ou unidade de federação do consumidor final não "
+            "contribuinte - ICMS Destino EC 87/15."
         ),
     )
 
@@ -524,7 +539,7 @@ class Registro0100(models.AbstractModel):
     "Dados do Contabilista"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0100"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0100"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -542,8 +557,7 @@ class Registro0100(models.AbstractModel):
         required=True,
         sped_length="15",
         help=(
-            "Número de inscrição do contabilista no Conselho Regional de "
-            "Contabilidade."
+            "Número de inscrição do contabilista no Conselho Regional de Contabilidade."
         ),
     )
 
@@ -551,9 +565,7 @@ class Registro0100(models.AbstractModel):
         string="Número de inscrição do escritório de contabilidade",
         xsd_type="numeric_code",
         sped_length="14*",
-        help=(
-            "Número de inscrição do escritório de contabilidade no CNPJ, se " "houver."
-        ),
+        help=("Número de inscrição do escritório de contabilidade no CNPJ, se houver."),
     )
 
     CEP = fields.Char(
@@ -589,7 +601,7 @@ class Registro0150(models.AbstractModel):
     "Tabela de Cadastro do Participante"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0150"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0150"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -609,8 +621,7 @@ class Registro0150(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="5",
         help=(
-            "Código do país do participante, conforme a tabela indicada no "
-            "item 3.2.1"
+            "Código do país do participante, conforme a tabela indicada no item 3.2.1"
         ),
     )
 
@@ -658,7 +669,7 @@ class Registro0175(models.AbstractModel):
     "Alteração da Tabela de Cadastro de Participante"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0175"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0175"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -689,7 +700,7 @@ class Registro0190(models.AbstractModel):
     "Identificação das unidades de medida"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0190"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0190"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -704,7 +715,7 @@ class Registro0200(models.AbstractModel):
     "Tabela de Identificação do Item (Produtos e Serviços)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0200"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0200"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -714,15 +725,13 @@ class Registro0200(models.AbstractModel):
 
     COD_BARRA = fields.Char(
         string="Representação alfanumérico do código de barra",
-        help=("Representação alfanumérico do código de barra do produto, se " "houver"),
+        help="Representação alfanumérico do código de barra do produto, se houver",
     )
 
     COD_ANT_ITEM = fields.Char(
         string="Código anterior do item com relação",
         sped_length="6",
-        help=(
-            "Código anterior do item com relação à última informação " "apresentada."
-        ),
+        help="Código anterior do item com relação à última informação apresentada.",
     )
 
     UNID_INV = fields.Char(
@@ -738,12 +747,11 @@ class Registro0200(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="2",
         help=(
-            "Tipo do item – Atividades Industriais, Comerciais e Serviços: 00 "
-            "– Mercadoria para Revenda; 01 – Matéria-prima; 02 – Embalagem; 03"
-            " – Produto em Processo; 04 – Produto Acabado; 05 – Subproduto; 06"
-            " – Produto Intermediário; 07 – Material de Uso e Consumo; 08 – "
-            "Ativo Imobilizado; 09 – Serviços; 10 – Outros insumos; 99 – "
-            "Outras"
+            "Tipo do item – Atividades Industriais, Comerciais e Serviços: 00 – "
+            "Mercadoria para Revenda; 01 – Matéria-prima; 02 – Embalagem; 03 – Produto "
+            "em Processo; 04 – Produto Acabado; 05 – Subproduto; 06 – Produto "
+            "Intermediário; 07 – Material de Uso e Consumo; 08 – Ativo Imobilizado; 09 "
+            "– Serviços; 10 – Outros insumos; 99 – Outras"
         ),
     )
 
@@ -764,8 +772,8 @@ class Registro0200(models.AbstractModel):
         string="Código do serviço conforme lista do Anexo I",
         sped_length="5",
         help=(
-            "Código do serviço conforme lista do Anexo I da Lei Complementar "
-            "Federal nº 116/03."
+            "Código do serviço conforme lista do Anexo I da Lei Complementar Federal nº"
+            " 116/03."
         ),
     )
 
@@ -814,12 +822,20 @@ class Registro0200(models.AbstractModel):
         sped_card="1:N",
     )
 
+    reg_0221_ids = fields.One2many(
+        "l10n_br_sped.efd_icms_ipi.0221",
+        "reg_0221_ids_Registro0200_id",
+        string="0221 Correlação entre códigos",
+        sped_card="1:N",
+        help="0221 Correlação entre códigos de itens comercializados",
+    )
+
 
 class Registro0205(models.AbstractModel):
     "Alteração do Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0205"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0205"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -840,9 +856,7 @@ class Registro0205(models.AbstractModel):
     COD_ANT_ITEM = fields.Char(
         string="Código anterior do item com relação",
         sped_length="6",
-        help=(
-            "Código anterior do item com relação à última informação " "apresentada."
-        ),
+        help="Código anterior do item com relação à última informação apresentada.",
     )
 
     reg_0205_ids_Registro0200_id = fields.Many2one(
@@ -858,7 +872,7 @@ class Registro0206(models.AbstractModel):
     "Código de produto conforme Tabela ANP"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0206"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0206"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -881,7 +895,7 @@ class Registro0210(models.AbstractModel):
     "Consumo Específico Padronizado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0210"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0210"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -901,8 +915,8 @@ class Registro0210(models.AbstractModel):
             6,
         ),
         help=(
-            "Quantidade do item componente/insumo para se produzir uma unidade"
-            " do item composto/resultante"
+            "Quantidade do item componente/insumo para se produzir uma unidade do item "
+            "composto/resultante"
         ),
     )
 
@@ -915,8 +929,8 @@ class Registro0210(models.AbstractModel):
             4,
         ),
         help=(
-            "Perda/quebra normal percentual do insumo/componente para se "
-            "produzir uma unidade do item composto/resultante"
+            "Perda/quebra normal percentual do insumo/componente para se produzir uma "
+            "unidade do item composto/resultante"
         ),
     )
 
@@ -933,7 +947,7 @@ class Registro0220(models.AbstractModel):
     "Fatores de Conversão de Unidades"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0220"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0220"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -942,9 +956,8 @@ class Registro0220(models.AbstractModel):
         required=True,
         sped_length="6",
         help=(
-            "Unidade comercial a ser convertida na unidade de estoque, "
-            "referida no registro 0200. Ou unidade do 0200 utilizada na EFD "
-            "anterior."
+            "Unidade comercial a ser convertida na unidade de estoque, referida no "
+            "registro 0200. Ou unidade do 0200 utilizada na EFD anterior."
         ),
     )
 
@@ -957,16 +970,16 @@ class Registro0220(models.AbstractModel):
             6,
         ),
         help=(
-            "Fator de conversão: fator utilizado para converter (multiplicar) "
-            "a unidade a ser convertida na unidade adotada no inventário."
+            "Fator de conversão: fator utilizado para converter (multiplicar) a unidade"
+            " a ser convertida na unidade adotada no inventário."
         ),
     )
 
     COD_BARRA = fields.Char(
         string="Representação alfanumérica do código de barra",
         help=(
-            "Representação alfanumérica do código de barra da unidade "
-            "comercial do produto, se houver"
+            "Representação alfanumérica do código de barra da unidade comercial do "
+            "produto, se houver"
         ),
     )
 
@@ -979,11 +992,49 @@ class Registro0220(models.AbstractModel):
     )
 
 
+class Registro0221(models.AbstractModel):
+    "Correlação entre códigos de itens comercializados"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.19.0221"
+    _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
+    _sped_level = 3
+
+    COD_ITEM_ATOMICO = fields.Char(
+        string="código do item atômico contido no item informado",
+        required=True,
+        sped_length="6",
+        help="código do item atômico contido no item informado no 0200 Pai.",
+    )
+
+    QTD_CONTIDA = fields.Float(
+        string="Informar quantos itens atômicos estão contidos",
+        required=True,
+        xsd_type="TDec_1606",
+        digits=(
+            16,
+            6,
+        ),
+        help=(
+            "Informar quantos itens atômicos estão contidos no item informado no 0200 "
+            "Pai."
+        ),
+    )
+
+    reg_0221_ids_Registro0200_id = fields.Many2one(
+        comodel_name="l10n_br_sped.efd_icms_ipi.0200",
+        string="Tabela de Identificação do Item",
+        required=True,
+        ondelete="cascade",
+        help="Tabela de Identificação do Item (Produtos e Serviços)",
+    )
+
+
 class Registro0300(models.AbstractModel):
     "Cadastro de bens ou componentes do Ativo Imobilizado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0300"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0300"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1001,15 +1052,15 @@ class Registro0300(models.AbstractModel):
         string="Identificação do tipo de mercadoria",
         required=True,
         sped_length="1*",
-        help=("Identificação do tipo de mercadoria: 1 = bem; 2 = componente."),
+        help="Identificação do tipo de mercadoria: 1 = bem; 2 = componente.",
     )
 
     DESCR_ITEM = fields.Char(
         string="Descrição do bem ou componente",
         required=True,
         help=(
-            "Descrição do bem ou componente (modelo, marca e outras "
-            "características necessárias a sua individualização)"
+            "Descrição do bem ou componente (modelo, marca e outras características "
+            "necessárias a sua individualização)"
         ),
     )
 
@@ -1017,8 +1068,8 @@ class Registro0300(models.AbstractModel):
         string="Código de cadastro do bem principal nos casos",
         sped_length="6",
         help=(
-            "Código de cadastro do bem principal nos casos em que o bem ou "
-            "componente ( campo 02) esteja vinculado a um bem principal."
+            "Código de cadastro do bem principal nos casos em que o bem ou componente "
+            "(campo 02) esteja vinculado a um bem principal."
         ),
     )
 
@@ -1027,8 +1078,8 @@ class Registro0300(models.AbstractModel):
         required=True,
         sped_length="6",
         help=(
-            "Código da conta analítica de contabilização do bem ou componente "
-            "(campo 06 do Registro 0500)"
+            "Código da conta analítica de contabilização do bem ou componente (campo 06"
+            " do Registro 0500)"
         ),
     )
 
@@ -1037,8 +1088,8 @@ class Registro0300(models.AbstractModel):
         xsd_type="numeric_code",
         sped_length="3",
         help=(
-            "Número total de parcelas a serem apropriadas, segundo a "
-            "legislação de cada unidade federada"
+            "Número total de parcelas a serem apropriadas, segundo a legislação de cada"
+            " unidade federada"
         ),
     )
 
@@ -1054,7 +1105,7 @@ class Registro0305(models.AbstractModel):
     "Informação sobre a Utilização do Bem"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0305"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0305"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -1063,15 +1114,15 @@ class Registro0305(models.AbstractModel):
         required=True,
         sped_length="6",
         help=(
-            "Código do centro de custo onde o bem está sendo ou será utilizado"
-            " (campo 03 do Registro 0600)"
+            "Código do centro de custo onde o bem está sendo ou será utilizado (campo "
+            "03 do Registro 0600)"
         ),
     )
 
     FUNC = fields.Char(
         string="Descrição sucinta da função do bem na atividade",
         required=True,
-        help=("Descrição sucinta da função do bem na atividade do " "estabelecimento"),
+        help="Descrição sucinta da função do bem na atividade do estabelecimento",
     )
 
     VIDA_UTIL = fields.Char(
@@ -1094,7 +1145,7 @@ class Registro0400(models.AbstractModel):
     "Tabela de Natureza da Operação/ Prestação"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0400"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0400"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1113,7 +1164,7 @@ class Registro0450(models.AbstractModel):
     "Tabela de Informação Complementar do documento fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0450"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0450"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1128,10 +1179,10 @@ class Registro0450(models.AbstractModel):
         string="Texto livre da informação complementar existente",
         required=True,
         help=(
-            "Texto livre da informação complementar existente no documento "
-            "fiscal, inclusive espécie de normas legais, poder normativo, "
-            "número, capitulação, data e demais referências pertinentes com "
-            "indicações referentes ao tributo."
+            "Texto livre da informação complementar existente no documento fiscal, "
+            "inclusive espécie de normas legais, poder normativo, número, capitulação, "
+            "data e demais referências pertinentes com indicações referentes ao "
+            "tributo."
         ),
     )
 
@@ -1140,7 +1191,7 @@ class Registro0460(models.AbstractModel):
     "Tabela de Observações do Lançamento Fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0460"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0460"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1161,7 +1212,7 @@ class Registro0500(models.AbstractModel):
     "Plano de contas contábeis"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0500"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0500"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1174,9 +1225,9 @@ class Registro0500(models.AbstractModel):
         required=True,
         sped_length="2*",
         help=(
-            "Código da natureza da conta/grupo de contas: 01 - Contas de "
-            "ativo; 02 - Contas de passivo; 03 - Patrimônio líquido; 04 - "
-            "Contas de resultado; 05 - Contas de compensação; 09 - Outras."
+            "Código da natureza da conta/grupo de contas: 01 - Contas de ativo; 02 - "
+            "Contas de passivo; 03 - Patrimônio líquido; 04 - Contas de resultado; 05 -"
+            " Contas de compensação; 09 - Outras."
         ),
     )
 
@@ -1185,8 +1236,8 @@ class Registro0500(models.AbstractModel):
         required=True,
         sped_length="1*",
         help=(
-            "Indicador do tipo de conta: S - Sintética (grupo de contas); A - "
-            "Analítica (conta)."
+            "Indicador do tipo de conta: S - Sintética (grupo de contas); A - Analítica"
+            " (conta)."
         ),
     )
 
@@ -1212,7 +1263,7 @@ class Registro0600(models.AbstractModel):
     "Centro de custos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.0600"
+    _name = "l10n_br_sped.efd_icms_ipi.19.0600"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1232,11 +1283,10 @@ class Registro0600(models.AbstractModel):
 class RegistroB020(models.AbstractModel):
     """Nota Fiscal (código 01), Nota Fiscal de Serviços (código 03), Nota
     Fiscal de Serviços Avulsa (código 3B), Nota Fiscal de Produtor (código
-    04), Conhecimento de Transporte Rodoviário de Cargas (código 08), NF-e
-    (código 55) e NFC-e (código 65)"""
+    04), Conhecimento de Transporte Rodoviário de"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b020"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b020"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1252,8 +1302,8 @@ class RegistroB020(models.AbstractModel):
         in_required=True,
         sped_length="1*",
         help=(
-            "Indicador do emitente do documento fiscal: 0 - Emissão própria; 1"
-            " - Terceiros"
+            "Indicador do emitente do documento fiscal: 0 - Emissão própria; 1 - "
+            "Terceiros"
         ),
     )
 
@@ -1262,9 +1312,9 @@ class RegistroB020(models.AbstractModel):
         in_required=True,
         sped_length="6",
         help=(
-            "Código do participante (campo 02 do Registro 0150): - do "
-            "prestador, no caso de declarante na condição de tomador; - do "
-            "tomador, no caso de declarante na condição de prestador"
+            "Código do participante (campo 02 do Registro 0150): - do prestador, no "
+            "caso de declarante na condição de tomador; - do tomador, no caso de "
+            "declarante na condição de prestador"
         ),
     )
 
@@ -1272,7 +1322,7 @@ class RegistroB020(models.AbstractModel):
         string="Código do modelo do documento fiscal",
         in_required=True,
         sped_length="2*",
-        help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.3"),
+        help="Código do modelo do documento fiscal, conforme a Tabela 4.1.3",
     )
 
     COD_SIT = fields.Char(
@@ -1309,8 +1359,7 @@ class RegistroB020(models.AbstractModel):
         in_required=True,
         sped_length="7*",
         help=(
-            "Código do município onde o serviço foi prestado, conforme a "
-            "tabela IBGE."
+            "Código do município onde o serviço foi prestado, conforme a tabela IBGE."
         ),
     )
 
@@ -1327,7 +1376,7 @@ class RegistroB020(models.AbstractModel):
         in_required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("Valor do material fornecido por terceiros na prestação do serviço"),
+        help="Valor do material fornecido por terceiros na prestação do serviço",
     )
 
     VL_SUB = fields.Monetary(
@@ -1383,9 +1432,7 @@ class RegistroB020(models.AbstractModel):
     COD_INF_OBS = fields.Char(
         string="Código da observação do lançamento fiscal",
         sped_length="6",
-        help=(
-            "Código da observação do lançamento fiscal (campo 02 do Registro " "0460)"
-        ),
+        help="Código da observação do lançamento fiscal (campo 02 do Registro 0460)",
     )
 
     reg_B025_ids = fields.One2many(
@@ -1394,8 +1441,8 @@ class RegistroB020(models.AbstractModel):
         string="B025 Detalhamento por combinação de alíquota",
         sped_card="1:N",
         help=(
-            "B025 Detalhamento por combinação de alíquota e item da lista de "
-            "serviços da Lei Complementar nº 116/2003"
+            "B025 Detalhamento por combinação de alíquota e item da lista de serviços "
+            "da Lei Complementar nº 116/2003"
         ),
     )
 
@@ -1405,7 +1452,7 @@ class RegistroB025(models.AbstractModel):
     Lei Complementar nº 116/2003"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b025"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b025"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -1415,8 +1462,8 @@ class RegistroB025(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Parcela correspondente ao “Valor Contábil” referente à combinação"
-            " da alíquota e item da lista"
+            "Parcela correspondente ao “Valor Contábil” referente à combinação da "
+            "alíquota e item da lista"
         ),
     )
 
@@ -1426,8 +1473,8 @@ class RegistroB025(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Parcela correspondente ao “Valor da base de cálculo do ISS” "
-            "referente à combinação da alíquota e item da lista"
+            "Parcela correspondente ao “Valor da base de cálculo do ISS” referente à "
+            "combinação da alíquota e item da lista"
         ),
     )
 
@@ -1447,8 +1494,8 @@ class RegistroB025(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Parcela correspondente ao “Valor do ISS” referente à combinação "
-            "da alíquota e item da lista"
+            "Parcela correspondente ao “Valor do ISS” referente à combinação da "
+            "alíquota e item da lista"
         ),
     )
 
@@ -1458,9 +1505,8 @@ class RegistroB025(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Parcela correspondente ao “Valor das operações isentas ou não- "
-            "tributadas pelo ISS” referente à combinação da alíquota e item da"
-            " lista"
+            "Parcela correspondente ao “Valor das operações isentas ou não- tributadas "
+            "pelo ISS” referente à combinação da alíquota e item da lista"
         ),
     )
 
@@ -1477,10 +1523,9 @@ class RegistroB025(models.AbstractModel):
         required=True,
         ondelete="cascade",
         help=(
-            "Nota Fiscal (código 01), Nota Fiscal de Serviços (código 03), "
-            "Nota Fiscal de Serviços Avulsa (código 3B), Nota Fiscal de "
-            "Produtor (código 04), Conhecimento de Transporte Rodoviário de "
-            "Cargas (código 08), NF-e (código 55) e NFC-e (código 65)"
+            "Nota Fiscal (código 01), Nota Fiscal de Serviços (código 03), Nota Fiscal "
+            "de Serviços Avulsa (código 3B), Nota Fiscal de Produtor (código 04), "
+            "Conhecimento de Transporte Rodoviário de"
         ),
     )
 
@@ -1489,7 +1534,7 @@ class RegistroB030(models.AbstractModel):
     "Nota fiscal de Serviços Simplificada (código 3A)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b030"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b030"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1497,7 +1542,7 @@ class RegistroB030(models.AbstractModel):
         string="Código do modelo do documento fiscal",
         out_required=True,
         sped_length="2*",
-        help=("Código do modelo do documento fiscal, conforme a Tabela 4.1.3"),
+        help="Código do modelo do documento fiscal, conforme a Tabela 4.1.3",
     )
 
     SER = fields.Char(string="Série do documento fiscal", sped_length="3")
@@ -1539,7 +1584,7 @@ class RegistroB030(models.AbstractModel):
         out_required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("Valor acumulado das operações isentas ou não-tributadas pelo ISS"),
+        help="Valor acumulado das operações isentas ou não-tributadas pelo ISS",
     )
 
     VL_BC_ISS = fields.Monetary(
@@ -1559,9 +1604,7 @@ class RegistroB030(models.AbstractModel):
     COD_INF_OBS = fields.Char(
         string="Código da observação do lançamento fiscal",
         sped_length="6",
-        help=(
-            "Código da observação do lançamento fiscal (campo 02 do Registro " "0460)"
-        ),
+        help="Código da observação do lançamento fiscal (campo 02 do Registro 0460)",
     )
 
 
@@ -1569,7 +1612,7 @@ class RegistroB350(models.AbstractModel):
     "Serviços prestados por insituições financeiras"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b350"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b350"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1585,10 +1628,10 @@ class RegistroB350(models.AbstractModel):
         string="Código COSIF a que está subordinada a conta do ISS",
         xsd_type="numeric_code",
         out_required=True,
-        sped_length="8*",
+        sped_length="8 *",
         help=(
-            "Código COSIF a que está subordinada a conta do ISS das "
-            "instituições financeiras"
+            "Código COSIF a que está subordinada a conta do ISS das instituições "
+            "financeiras"
         ),
     )
 
@@ -1600,7 +1643,7 @@ class RegistroB350(models.AbstractModel):
         string="Item da lista de serviços",
         xsd_type="numeric_code",
         out_required=True,
-        sped_length="4*",
+        sped_length="4 *",
         help="Item da lista de serviços, conforme Tabela 4.6.3.",
     )
 
@@ -1638,9 +1681,7 @@ class RegistroB350(models.AbstractModel):
     COD_INF_OBS = fields.Char(
         string="Código da observação do lançamento fiscal",
         sped_length="6",
-        help=(
-            "Código da observação do lançamento fiscal (campo 02 do Registro " "0460)"
-        ),
+        help="Código da observação do lançamento fiscal (campo 02 do Registro 0460)",
     )
 
 
@@ -1649,7 +1690,7 @@ class RegistroB420(models.AbstractModel):
     e item da lista de serviços da Lei Complementar nº 116/2003"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b420"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b420"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1659,8 +1700,8 @@ class RegistroB420(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Totalização do Valor Contábil das prestações do declarante "
-            "referente à combinação da alíquota e item da lista"
+            "Totalização do Valor Contábil das prestações do declarante referente à "
+            "combinação da alíquota e item da lista"
         ),
     )
 
@@ -1691,8 +1732,8 @@ class RegistroB420(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Totalização do valor das operações isentas ou não-tributadas pelo"
-            " ISS referente à combinação da alíquota e item da lista"
+            "Totalização do valor das operações isentas ou não-tributadas pelo ISS "
+            "referente à combinação da alíquota e item da lista"
         ),
     )
 
@@ -1702,8 +1743,7 @@ class RegistroB420(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Totalização, por combinação da alíquota e item da lista, do Valor"
-            " do ISS"
+            "Totalização, por combinação da alíquota e item da lista, do Valor do ISS"
         ),
     )
 
@@ -1718,7 +1758,7 @@ class RegistroB440(models.AbstractModel):
     "Totalização dos valores retidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b440"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b440"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1732,11 +1772,7 @@ class RegistroB440(models.AbstractModel):
     COD_PART = fields.Char(
         string="Código do participante",
         in_required=True,
-        help=(
-            "Código do participante (campo 02 do Registro 0150): - do "
-            "prestador, no caso de aquisição de serviço pelo declarante; - do "
-            "tomador, no caso de prestação de serviço pelo declarante"
-        ),
+        help="Código do participante (campo 02 do Registro 0150):",
     )
 
     VL_CONT_RT = fields.Monetary(
@@ -1745,8 +1781,8 @@ class RegistroB440(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Totalização do Valor Contábil das prestações e/ou aquisições do "
-            "declarante pela combinação de tipo de operação e participante."
+            "Totalização do Valor Contábil das prestações e/ou aquisições do declarante"
+            " pela combinação de tipo de operação e participante."
         ),
     )
 
@@ -1756,9 +1792,9 @@ class RegistroB440(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Totalização do Valor da base de cálculo de retenção do ISS das "
-            "prestações e/ou aquisições do declarante pela combinação de tipo "
-            "de operação e participante."
+            "Totalização do Valor da base de cálculo de retenção do ISS das prestações "
+            "e/ou aquisições do declarante pela combinação de tipo de operação e "
+            "participante."
         ),
     )
 
@@ -1768,9 +1804,9 @@ class RegistroB440(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "Totalização do Valor do ISS retido pelo tomador das prestações "
-            "e/ou aquisições do declarante pela combinação de tipo de operação"
-            " e participante."
+            "Totalização do Valor do ISS retido pelo tomador das prestações e/ou "
+            "aquisições do declarante pela combinação de tipo de operação e "
+            "participante."
         ),
     )
 
@@ -1779,7 +1815,7 @@ class RegistroB460(models.AbstractModel):
     "Deduções do ISS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b460"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b460"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1788,9 +1824,8 @@ class RegistroB460(models.AbstractModel):
         in_required=True,
         sped_length="1*",
         help=(
-            "Indicador do tipo de dedução: 0 - Compensação do ISS calculado a "
-            "maior; 1 - Benefício fiscal por incentivo à cultura; 2 - Decisão "
-            "administrativa ou judicial; 9 - Outros"
+            "Indicador do tipo de dedução: 0 - Compensação do ISS calculado a maior; 1 "
+            "- Benefício fiscal por incentivo à cultura;"
         ),
     )
 
@@ -1803,15 +1838,15 @@ class RegistroB460(models.AbstractModel):
 
     NUM_PROC = fields.Char(
         string="Número do processo ao qual o ajuste está vinculado",
-        help=("Número do processo ao qual o ajuste está vinculado, se houver"),
+        help="Número do processo ao qual o ajuste está vinculado, se houver",
     )
 
     IND_PROC = fields.Char(
         string="Indicador da origem do processo: 0",
         sped_length="1*",
         help=(
-            "Indicador da origem do processo: 0 - Sefin; 1 - Justiça Federal; "
-            "2 - Justiça Estadual; 9 - Outros"
+            "Indicador da origem do processo: 0 - Sefin; 1 - Justiça Federal; 2 - "
+            "Justiça Estadual; 9 - Outros"
         ),
     )
 
@@ -1821,9 +1856,7 @@ class RegistroB460(models.AbstractModel):
         string="Código da observação do lançamento fiscal",
         in_required=True,
         sped_length="6",
-        help=(
-            "Código da observação do lançamento fiscal (campo 02 do Registro " "0460)"
-        ),
+        help="Código da observação do lançamento fiscal (campo 02 do Registro 0460)",
     )
 
     IND_OBR = fields.Char(
@@ -1831,9 +1864,9 @@ class RegistroB460(models.AbstractModel):
         in_required=True,
         sped_length="1*",
         help=(
-            "Indicador da obrigação onde será aplicada a dedução: 0 - ISS "
-            "Próprio; 1 - ISS Substituto (devido pelas aquisições de serviços "
-            "do declarante)."
+            "Indicador da obrigação onde será aplicada a dedução: 0 - ISS Próprio; - "
+            "ISS Substituto (devido pelas aquisições de serviços do declarante). - ISS "
+            "Uniprofissionais."
         ),
     )
 
@@ -1842,7 +1875,7 @@ class RegistroB470(models.AbstractModel):
     "Apuração do ISS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b470"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b470"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1851,7 +1884,7 @@ class RegistroB470(models.AbstractModel):
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("A - Valor total referente às prestações de serviço do período"),
+        help="A - Valor total referente às prestações de serviço do período",
     )
 
     VL_MAT_TERC = fields.Monetary(
@@ -1860,8 +1893,8 @@ class RegistroB470(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "B - Valor total do material fornecido por terceiros na prestação "
-            "do serviço"
+            "B - Valor total do material fornecido por terceiros na prestação do "
+            "serviço"
         ),
     )
 
@@ -1870,7 +1903,7 @@ class RegistroB470(models.AbstractModel):
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("C - Valor do material próprio utilizado na prestação do serviço"),
+        help="C - Valor do material próprio utilizado na prestação do serviço",
     )
 
     VL_SUB = fields.Monetary(
@@ -1885,7 +1918,7 @@ class RegistroB470(models.AbstractModel):
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("E - Valor total das operações isentas ou não-tributadas pelo ISS"),
+        help="E - Valor total das operações isentas ou não-tributadas pelo ISS",
     )
 
     VL_DED_BC = fields.Monetary(
@@ -1893,7 +1926,7 @@ class RegistroB470(models.AbstractModel):
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("F - Valor total das deduções da base de cálculo (B + C + D + E)"),
+        help="F - Valor total das deduções da base de cálculo (B + C + D + E)",
     )
 
     VL_BC_ISS = fields.Monetary(
@@ -1910,8 +1943,8 @@ class RegistroB470(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "H - Valor total da base de cálculo de retenção do ISS referente "
-            "às prestações do declarante."
+            "H - Valor total da base de cálculo de retenção do ISS referente às "
+            "prestações do declarante."
         ),
     )
 
@@ -1928,7 +1961,7 @@ class RegistroB470(models.AbstractModel):
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
         help=(
-            "J - Valor total do ISS retido pelo tomador nas prestações do " "declarante"
+            "J - Valor total do ISS retido pelo tomador nas prestações do declarante"
         ),
     )
 
@@ -1945,7 +1978,7 @@ class RegistroB470(models.AbstractModel):
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("L - Valor total apurado do ISS próprio a recolher (I - J - K)"),
+        help="L - Valor total apurado do ISS próprio a recolher (I - J - K)",
     )
 
     VL_ISS_ST = fields.Monetary(
@@ -1955,7 +1988,7 @@ class RegistroB470(models.AbstractModel):
         currency_field="brl_currency_id",
         help=(
             "M - Valor total do ISS substituto a recolher pelas aquisições do "
-            "declarante"
+            "declarante (tomador)"
         ),
     )
 
@@ -1964,7 +1997,7 @@ class RegistroB470(models.AbstractModel):
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("N - Valor do ISS próprio a recolher pela Sociedade " "Uniprofissional"),
+        help="N - Valor do ISS próprio a recolher pela Sociedade Uniprofissional",
     )
 
 
@@ -1972,7 +2005,7 @@ class RegistroB500(models.AbstractModel):
     "Apuração do ISS sociedade uniprofissional"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b500"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b500"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1981,7 +2014,7 @@ class RegistroB500(models.AbstractModel):
         required=True,
         xsd_type="TDec_1602",
         currency_field="brl_currency_id",
-        help=("Valor mensal das receitas auferidas pela sociedade " "uniprofissional"),
+        help="Valor mensal das receitas auferidas pela sociedade uniprofissional",
     )
 
     QTD_PROF = fields.Integer(
@@ -2007,7 +2040,7 @@ class RegistroB510(models.AbstractModel):
     "Uniprofissional – empregados e sócios"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.17.b510"
+    _name = "l10n_br_sped.efd_icms_ipi.19.b510"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -2016,8 +2049,8 @@ class RegistroB510(models.AbstractModel):
         required=True,
         sped_length="1*",
         help=(
-            "Indicador de habilitação: 0- Profissional habilitado 1- "
-            "Profissional não habilitado"
+            "Indicador de habilitação: 0- Profissional habilitado 1- Profissional não "
+            "habilitado"
         ),
     )
 
@@ -2032,7 +2065,7 @@ class RegistroB510(models.AbstractModel):
         string="Indicador de participação societária",
         required=True,
         sped_length="1*",
-        help=("Indicador de participação societária: 0 - Sócio 1 - Não sócio"),
+        help="Indicador de participação societária: 0 - Sócio 1 - Não sócio",
     )
 
     CPF = fields.Char(
