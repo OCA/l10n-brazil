@@ -22,7 +22,7 @@ from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
 
 
 class Registro0000(models.Model):
-    "Abertura do Arquivo Digital e Identificação da entidade"
+    """Abertura do Arquivo Digital e Identificação da entidade."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0000"
@@ -183,7 +183,7 @@ class Registro0000(models.Model):
 
 
 class Registro0002(models.Model):
-    "Classificação do Estabelecimento Industrial ou Equiparado a Industrial"
+    """Classificação do Estabelecimento Industrial ou Equiparado a Industrial."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0002"
@@ -197,7 +197,7 @@ class Registro0002(models.Model):
 
 
 class Registro0005(models.Model):
-    "Dados Complementares da entidade"
+    """Dados Complementares da entidade."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0005"
@@ -224,7 +224,7 @@ class Registro0005(models.Model):
 
 
 class Registro0015(models.Model):
-    "Dados do Contribuinte Substituto ou Responsável pelo ICMS Destino"
+    """Dados do Contribuinte Substituto ou Responsável pelo ICMS Destino."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0015"
@@ -245,7 +245,7 @@ class Registro0015(models.Model):
 
 
 class Registro0100(models.Model):
-    "Dados do Contabilista"
+    """Dados do Contabilista."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0100"
@@ -282,7 +282,7 @@ class Registro0100(models.Model):
 
 
 class Registro0150(models.Model):
-    "Tabela de Cadastro do Participante"
+    """Tabela de Cadastro do Participante."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0150"
@@ -320,7 +320,7 @@ class Registro0150(models.Model):
 
 
 class Registro0175(models.Model):
-    "Alteração da Tabela de Cadastro de Participante"
+    """Alteração da Tabela de Cadastro de Participante."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0175"
@@ -338,7 +338,7 @@ class Registro0175(models.Model):
 
 
 class Registro0190(models.Model):
-    "Identificação das unidades de medida"
+    """Identificação das unidades de medida."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0190"
@@ -363,7 +363,7 @@ class Registro0190(models.Model):
 
 
 class Registro0200(models.Model):
-    "Tabela de Identificação do Item"
+    """Tabela de Identificação do Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0200"
@@ -399,7 +399,7 @@ class Registro0200(models.Model):
 
 
 class Registro0205(models.Model):
-    "Alteração do Item"
+    """Alteração do Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0205"
@@ -419,7 +419,7 @@ class Registro0205(models.Model):
 
 
 class Registro0206(models.Model):
-    "Código de produto conforme Tabela ANP"
+    """Código de produto conforme Tabela ANP."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0206"
@@ -435,14 +435,7 @@ class Registro0206(models.Model):
 
 
 class Registro0210(models.Model):
-    """Consumo Específico Padronizado
-
-    Até dezembro de 2017, este registro deve ser apresentado,
-    caso exista produção e/ou consumo nos Registros K230/K235 e K250/K255.
-
-    A partir de janeiro de 2018, a obrigatoriedade da apresentação deste
-    registro ficará a critério de cada UF, caso exista
-    produção e consumo nos Registros K230/K235 e K250/K255."""
+    """Consumo Específico Padronizado."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0210"
@@ -458,7 +451,7 @@ class Registro0210(models.Model):
 
 
 class Registro0220(models.Model):
-    "Fatores de Conversão de Unidades"
+    """Fatores de Conversão de Unidades."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0220"
@@ -501,8 +494,23 @@ class Registro0220(models.Model):
         }
 
 
+class Registro0221(models.Model):
+    """Correlação entre códigos de itens comercializados."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.0221"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.0221"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_ITEM_ATOMICO": 0,  # Informar o código do item atômico contido n...
+    #         "QTD_CONTIDA": 0,  # Informar quantos itens atômicos estão contidos n...
+    #     }
+
+
 class Registro0300(models.Model):
-    "Cadastro de bens ou componentes do Ativo Imobilizado"
+    """Cadastro de bens ou componentes do Ativo Imobilizado."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0300"
@@ -521,7 +529,7 @@ class Registro0300(models.Model):
 
 
 class Registro0305(models.Model):
-    "Informação sobre a Utilização do Bem"
+    """Informação sobre a Utilização do Bem."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0305"
@@ -537,7 +545,7 @@ class Registro0305(models.Model):
 
 
 class Registro0400(models.Model):
-    "Tabela de Natureza da Operação/ Prestação"
+    """Tabela de Natureza da Operação/ Prestação."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0400"
@@ -559,7 +567,7 @@ class Registro0400(models.Model):
 
 
 class Registro0450(models.Model):
-    "Tabela de Informação Complementar do documento fiscal"
+    """Tabela de Informação Complementar do documento fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0450"
@@ -581,7 +589,7 @@ class Registro0450(models.Model):
 
 
 class Registro0460(models.Model):
-    "Tabela de Observações do Lançamento Fiscal"
+    """Tabela de Observações do Lançamento Fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0460"
@@ -596,7 +604,7 @@ class Registro0460(models.Model):
 
 
 class Registro0500(models.Model):
-    "Plano de contas contábeis"
+    """Plano de contas contábeis."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0500"
@@ -617,7 +625,7 @@ class Registro0500(models.Model):
 
 
 class Registro0600(models.Model):
-    "Centro de custos"
+    """Centro de custos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0600"
@@ -633,7 +641,7 @@ class Registro0600(models.Model):
 
 
 class RegistroB020(models.Model):
-    "Nota Fiscal (código 01)"
+    """Nota Fiscal (código 01)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b020"
@@ -666,7 +674,8 @@ class RegistroB020(models.Model):
 
 
 class RegistroB025(models.Model):
-    "Detalhamento por combinação de alíquota e item da lista de serviços da Lei Complementar nº 116/2003"
+    """Detalhamento por combinação de alíquota e item da lista de serviços da Lei
+    Complementar nº 116/2003."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b025"
@@ -685,7 +694,7 @@ class RegistroB025(models.Model):
 
 
 class RegistroB030(models.Model):
-    "Nota fiscal de Serviços Simplificada"
+    """Nota fiscal de Serviços Simplificada."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b030"
@@ -709,7 +718,7 @@ class RegistroB030(models.Model):
 
 
 class RegistroB350(models.Model):
-    "Serviços prestados por insituições financeiras"
+    """Serviços prestados por insituições financeiras."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b350"
@@ -732,7 +741,8 @@ class RegistroB350(models.Model):
 
 
 class RegistroB420(models.Model):
-    "Totalização dos valores de serviços prestados por combinação de alíquota e item da lista de serviços"
+    """Totalização dos valores de serviços prestados por combinação de alíquota e item
+    da lista de serviços."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b420"
@@ -751,7 +761,7 @@ class RegistroB420(models.Model):
 
 
 class RegistroB440(models.Model):
-    "Totalização dos valores retidos"
+    """Totalização dos valores retidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b440"
@@ -761,7 +771,7 @@ class RegistroB440(models.Model):
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Aquisição; 1 - P...
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
+    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):
     #         "VL_CONT_RT": 0,  # Totalização do Valor Contábil das prestações e/ou...
     #         "VL_BC_ISS_RT": 0,  # Totalização do Valor da base de cálculo de rete...
     #         "VL_ISS_RT": 0,  # Totalização do Valor do ISS retido pelo tomador da...
@@ -769,7 +779,7 @@ class RegistroB440(models.Model):
 
 
 class RegistroB460(models.Model):
-    "Deduções do ISS"
+    """Deduções do ISS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b460"
@@ -789,7 +799,7 @@ class RegistroB460(models.Model):
 
 
 class RegistroB470(models.Model):
-    "Apuração do ISS"
+    """Apuração do ISS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b470"
@@ -816,7 +826,7 @@ class RegistroB470(models.Model):
 
 
 class RegistroB500(models.Model):
-    "Apuração do ISS sociedade uniprofissional"
+    """Apuração do ISS sociedade uniprofissional."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b500"
@@ -832,7 +842,7 @@ class RegistroB500(models.Model):
 
 
 class RegistroB510(models.Model):
-    "Uniprofissional – empregados e sócios"
+    """Uniprofissional – empregados e sócios."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b510"
@@ -850,7 +860,7 @@ class RegistroB510(models.Model):
 
 
 class RegistroC100(models.Model):
-    "Documento - Nota Fiscal (código 01, 1B, 04, 55, 65)"
+    """Documento - Nota Fiscal (código 01, 1B, 04, 55, 65)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c100"
@@ -934,7 +944,8 @@ class RegistroC100(models.Model):
 
 
 class RegistroC101(models.Model):
-    "Informação complementar dos documentos fiscais quando das operações interestaduais destinadas"
+    """Informação complementar dos documentos fiscais quando das operações
+    interestaduais destinadas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c101"
@@ -944,13 +955,14 @@ class RegistroC101(models.Model):
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "VL_FCP_UF_DEST": 0,  # Valor total relativo ao Fundo de Combate à Po...
-    #         "VL_ICMS_UF_DEST": 0,  # Valor total do ICMS Interestadual para a UF
+    #         "VL_ICMS_UF_DEST": 0,  # Valor total do ICMS Interestadual para a UF ...
     #         "VL_ICMS_UF_REM": 0,  # Valor total do ICMS Interestadual para a UF d...
     #     }
 
 
 class RegistroC105(models.Model):
-    "Operações com ICMS ST recolhido para UF diversa do destinatário do docu- mento fiscal"
+    """Operações com ICMS ST recolhido para UF diversa do destinatário do documento
+    fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c105"
@@ -959,13 +971,13 @@ class RegistroC105(models.Model):
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "OPER": 0,  # Indicador do tipo de operação: 0- Combustíveis e Lubrif...
+    #         "OPER": 0,  # Indicador do tipo de operação: 0 - Combustíveis e Lubri...
     #         "UF": 0,  # Sigla da UF de destino do ICMS_ST
     #     }
 
 
 class RegistroC110(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c110"
@@ -980,7 +992,7 @@ class RegistroC110(models.Model):
 
 
 class RegistroC111(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c111"
@@ -995,7 +1007,7 @@ class RegistroC111(models.Model):
 
 
 class RegistroC112(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c112"
@@ -1004,7 +1016,7 @@ class RegistroC112(models.Model):
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_DA": 0,  # Código do modelo do documento de arrecadação : 0 – Do...
+    #         "COD_DA": 0,  # Código do modelo do documento de arrecadação: 0 – Doc...
     #         "UF": 0,  # Unidade federada beneficiária do recolhimento
     #         "NUM_DA": 0,  # Número do documento de arrecadação
     #         "COD_AUT": 0,  # Código completo da autenticação bancária
@@ -1015,7 +1027,7 @@ class RegistroC112(models.Model):
 
 
 class RegistroC113(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c113"
@@ -1032,12 +1044,12 @@ class RegistroC113(models.Model):
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal.
-    #         "CHV_DOCe": 0,  # Chave do Documento Eletrônico
+    #         "CHV_DOCE": 0,  # Chave do Documento Eletrônico
     #     }
 
 
 class RegistroC114(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c114"
@@ -1055,7 +1067,7 @@ class RegistroC114(models.Model):
 
 
 class RegistroC115(models.Model):
-    "Local de coleta e/ou entrega"
+    """Local de coleta e/ou entrega."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c115"
@@ -1077,7 +1089,7 @@ class RegistroC115(models.Model):
 
 
 class RegistroC116(models.Model):
-    "Cupom Fiscal Eletrônico"
+    """Cupom Fiscal Eletrônico."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c116"
@@ -1095,7 +1107,7 @@ class RegistroC116(models.Model):
 
 
 class RegistroC120(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c120"
@@ -1113,7 +1125,7 @@ class RegistroC120(models.Model):
 
 
 class RegistroC130(models.Model):
-    "Complemento de Documento - ISSQN"
+    """Complemento de Documento - ISSQN."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c130"
@@ -1133,7 +1145,7 @@ class RegistroC130(models.Model):
 
 
 class RegistroC140(models.Model):
-    "Complemento de Documento - Fatura"
+    """Complemento de Documento - Fatura."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c140"
@@ -1152,7 +1164,7 @@ class RegistroC140(models.Model):
 
 
 class RegistroC141(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c141"
@@ -1163,11 +1175,12 @@ class RegistroC141(models.Model):
     #     return {
     #         "NUM_PARC": 0,  # Número da parcela a receber/pagar
     #         "DT_VCTO": 0,  # Data de vencimento da parcela
+    #         "VL_PARC": 0,  # Valor da parcela a receber/pagar
     #     }
 
 
 class RegistroC160(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c160"
@@ -1186,7 +1199,7 @@ class RegistroC160(models.Model):
 
 
 class RegistroC165(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c165"
@@ -1197,7 +1210,7 @@ class RegistroC165(models.Model):
     #     return {
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
     #         "VEIC_ID": 0,  # Placa de identificação do veículo
-    #         "COD_AUT": 0,  # Código da autorização fornecido pela
+    #         "COD_AUT": 0,  # Código da autorização fornecido pela SEFAZ (combustí...
     #         "NR_PASSE": 0,  # Número do Passe Fiscal
     #         "HORA": 0,  # Hora da saída das mercadorias
     #         "TEMPER": 0,  # Temperatura em graus Celsius utilizada para quantific...
@@ -1211,7 +1224,7 @@ class RegistroC165(models.Model):
 
 
 class RegistroC170(models.Model):
-    "Complemento de Documento"
+    """Complemento de Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c170"
@@ -1272,7 +1285,7 @@ class RegistroC170(models.Model):
 
 
 class RegistroC171(models.Model):
-    "Complemento de Item"
+    """Complemento de Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c171"
@@ -1287,7 +1300,7 @@ class RegistroC171(models.Model):
 
 
 class RegistroC172(models.Model):
-    "Complemento de Item"
+    """Complemento de Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c172"
@@ -1303,7 +1316,7 @@ class RegistroC172(models.Model):
 
 
 class RegistroC173(models.Model):
-    "Complemento de Item"
+    """Complemento de Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c173"
@@ -1323,7 +1336,7 @@ class RegistroC173(models.Model):
 
 
 class RegistroC174(models.Model):
-    "Complemento de Item"
+    """Complemento de Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c174"
@@ -1339,7 +1352,7 @@ class RegistroC174(models.Model):
 
 
 class RegistroC175(models.Model):
-    "Complemento de Item"
+    """Complemento de Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c175"
@@ -1356,7 +1369,8 @@ class RegistroC175(models.Model):
 
 
 class RegistroC176(models.Model):
-    "Complemento de Item -Ressarcimento de ICMS em operações com Substitui- ção Tributária"
+    """Complemento de Item -Ressarcimento de ICMS em operações com Substituição
+    Tributária."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c176"
@@ -1372,7 +1386,7 @@ class RegistroC176(models.Model):
     #         "COD_PART_ULT_E": 0,  # Código do participante (do emitente do docume...
     #         "QUANT_ULT_E": 0,  # Quantidade do item relativa a última entrada
     #         "VL_UNIT_ULT_E": 0,  # Valor unitário da mercadoria constante na NF r...
-    #         "VL_UNIT_BC_ST": 0,  # Valor unitário da base de cálculo do
+    #         "VL_UNIT_BC_ST": 0,  # Valor unitário da base de cálculo do imposto p...
     #         "CHAVE_NFE_ULT_E": 0,  # Número completo da chave da NFe relativo à ú...
     #         "NUM_ITEM_ULT_E": 0,  # Número sequencial do item na NF entrada que c...
     #         "VL_UNIT_BC_ICMS_ULT_E": 0,  # Valor unitário da base de cálculo da o...
@@ -1388,14 +1402,14 @@ class RegistroC176(models.Model):
     #         "SER_NFE_RET": 0,  # Série da NF-e em que houve a retenção do ICMS ST
     #         "NUM_NFE_RET": 0,  # Número da NF-e em que houve a retenção do ICMS S...
     #         "ITEM_NFE_RET": 0,  # Número sequencial do item na NF-e em que houve ...
-    #         "COD_DA": 0,  # Código do modelo do documento de
+    #         "COD_DA": 0,  # Código do modelo do documento de arrecadação: 0 – Doc...
     #         "NUM_DA": 0,  # Número do documento de arrecadação estadual, se houve...
     #         "VL_UNIT_RES_FCP_ST": 0,  # Valor unitário do ressarcimento (parcial ...
     #     }
 
 
 class RegistroC177(models.Model):
-    "Complemento de Item – Outras informações"
+    """Complemento de Item – Outras informações."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c177"
@@ -1410,7 +1424,7 @@ class RegistroC177(models.Model):
 
 
 class RegistroC178(models.Model):
-    "Complemento de Item"
+    """Complemento de Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c178"
@@ -1426,7 +1440,7 @@ class RegistroC178(models.Model):
 
 
 class RegistroC179(models.Model):
-    "Complemento de Item"
+    """Complemento de Item."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c179"
@@ -1444,7 +1458,7 @@ class RegistroC179(models.Model):
 
 
 class RegistroC180(models.Model):
-    "Informações complementares das operações de en- trada de mercadorias sujeitas"
+    """Informações complementares das operações de entrada de mercadorias sujeitas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c180"
@@ -1467,7 +1481,8 @@ class RegistroC180(models.Model):
 
 
 class RegistroC181(models.Model):
-    "Informações complementares das operações de devolução de saídas de mercadorias sujeitas"
+    """Informações complementares das operações de devolução de saídas de mercadorias
+    sujeitas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c181"
@@ -1491,7 +1506,8 @@ class RegistroC181(models.Model):
 
 
 class RegistroC185(models.Model):
-    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
+    """Informações complementares das operações de saída de mercadorias sujeitas à
+    substituição tributária."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c185"
@@ -1516,7 +1532,8 @@ class RegistroC185(models.Model):
 
 
 class RegistroC186(models.Model):
-    "Informações complementares das operações de devolução de entradas de mercadorias sujeitas"
+    """Informações complementares das operações de devolução de entradas de
+    mercadorias sujeitas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c186"
@@ -1544,7 +1561,7 @@ class RegistroC186(models.Model):
 
 
 class RegistroC190(models.Model):
-    "Registro Analítico do Documento"
+    """Registro Analítico do Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c190"
@@ -1568,7 +1585,7 @@ class RegistroC190(models.Model):
 
 
 class RegistroC191(models.Model):
-    "Informações do Fundo de Combate à Pobreza – FCP – na NF-e"
+    """Informações do Fundo de Combate à Pobreza – FCP – na NF-e."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c191"
@@ -1584,7 +1601,7 @@ class RegistroC191(models.Model):
 
 
 class RegistroC195(models.Model):
-    "Complemento do Registro Analítico"
+    """Complemento do Registro Analítico."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c195"
@@ -1599,7 +1616,7 @@ class RegistroC195(models.Model):
 
 
 class RegistroC197(models.Model):
-    "Outras Obrigações Tributárias"
+    """Outras Obrigações Tributárias."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c197"
@@ -1608,7 +1625,7 @@ class RegistroC197(models.Model):
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_AJ": 0,  # Código do ajustes/benefício/incentivo, conforme tabel...
+    #         "COD_AJ": 0,  # Código dos ajustes/benefício/incentivo, conforme tabe...
     #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste do documento...
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
     #         "VL_BC_ICMS": 0,  # Base de cálculo do ICMS ou do ICMS ST
@@ -1619,7 +1636,7 @@ class RegistroC197(models.Model):
 
 
 class RegistroC300(models.Model):
-    "Documento"
+    """Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c300"
@@ -1637,12 +1654,12 @@ class RegistroC300(models.Model):
     #         "VL_DOC": 0,  # Valor total dos documentos
     #         "VL_PIS": 0,  # Valor total do PIS
     #         "VL_COFINS": 0,  # Valor total da COFINS
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/ credita...
+    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
     #     }
 
 
 class RegistroC310(models.Model):
-    "Documentos Cancelados de Nota Fiscal de Venda a Consumidor"
+    """Documentos Cancelados de Nota Fiscal de Venda a Consumidor."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c310"
@@ -1656,7 +1673,7 @@ class RegistroC310(models.Model):
 
 
 class RegistroC320(models.Model):
-    "Registro Analítico das Notas Fiscais de Venda a Consumidor"
+    """Registro Analítico das Notas Fiscais de Venda a Consumidor."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c320"
@@ -1677,7 +1694,7 @@ class RegistroC320(models.Model):
 
 
 class RegistroC321(models.Model):
-    "Itens dos Resumos Diários dos Documentos"
+    """Itens dos Resumos Diários dos Documentos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c321"
@@ -1699,7 +1716,8 @@ class RegistroC321(models.Model):
 
 
 class RegistroC330(models.Model):
-    "Informações complementares das operações de sa-"
+    """Informações complementares das operações de saída de mercadorias sujeitas à
+    substituição tributária."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c330"
@@ -1720,7 +1738,7 @@ class RegistroC330(models.Model):
 
 
 class RegistroC350(models.Model):
-    "Nota Fiscal de venda a consumidor"
+    """Nota Fiscal de venda a consumidor."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c350"
@@ -1744,7 +1762,7 @@ class RegistroC350(models.Model):
 
 
 class RegistroC370(models.Model):
-    "Itens do documento (código 02)"
+    """Itens do documento (código 02)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c370"
@@ -1763,7 +1781,8 @@ class RegistroC370(models.Model):
 
 
 class RegistroC380(models.Model):
-    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
+    """Informações complementares das operações de saída de mercadorias sujeitas à
+    substituição tributária."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c380"
@@ -1784,7 +1803,7 @@ class RegistroC380(models.Model):
 
 
 class RegistroC390(models.Model):
-    "Registro Analítico das Notas Fiscais de Venda a Consumidor"
+    """Registro Analítico das Notas Fiscais de Venda a Consumidor."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c390"
@@ -1805,7 +1824,7 @@ class RegistroC390(models.Model):
 
 
 class RegistroC400(models.Model):
-    "Equipamento ECF (código 02, 2D e 60)"
+    """Equipamento ECF (código 02, 2D e 60)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c400"
@@ -1822,7 +1841,7 @@ class RegistroC400(models.Model):
 
 
 class RegistroC405(models.Model):
-    "Redução Z (código 02, 2D e 60)"
+    """Redução Z (código 02, 2D e 60)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c405"
@@ -1841,7 +1860,7 @@ class RegistroC405(models.Model):
 
 
 class RegistroC410(models.Model):
-    "PIS e COFINS Totalizados no Dia"
+    """PIS e COFINS Totalizados no Dia."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c410"
@@ -1856,7 +1875,7 @@ class RegistroC410(models.Model):
 
 
 class RegistroC420(models.Model):
-    "Registro dos Totalizadores Parciais da Redução Z"
+    """Registro dos Totalizadores Parciais da Redução Z."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c420"
@@ -1873,7 +1892,7 @@ class RegistroC420(models.Model):
 
 
 class RegistroC425(models.Model):
-    "Resumo de itens do movimento diário"
+    """Resumo de itens do movimento diário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c425"
@@ -1892,7 +1911,8 @@ class RegistroC425(models.Model):
 
 
 class RegistroC430(models.Model):
-    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
+    """Informações complementares das operações de saída de mercadorias sujeitas à
+    substituição tributária."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c430"
@@ -1913,7 +1933,7 @@ class RegistroC430(models.Model):
 
 
 class RegistroC460(models.Model):
-    "Documento Fiscal Emitido por ECF"
+    """Documento Fiscal Emitido por ECF."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c460"
@@ -1935,7 +1955,7 @@ class RegistroC460(models.Model):
 
 
 class RegistroC465(models.Model):
-    "Complemento do Cupom Fiscal Eletrônico Emitido por ECF"
+    """Complemento do Cupom Fiscal Eletrônico Emitido por ECF."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c465"
@@ -1950,7 +1970,7 @@ class RegistroC465(models.Model):
 
 
 class RegistroC470(models.Model):
-    "Itens do Documento Fiscal Emitido por ECF"
+    """Itens do Documento Fiscal Emitido por ECF."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c470"
@@ -1961,7 +1981,7 @@ class RegistroC470(models.Model):
     #     return {
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
     #         "QTD": 0,  # Quantidade do item
-    #         "QTD_CANC": 0,  # Quantidade cancelada, no caso de cancelamento
+    #         "QTD_CANC": 0,  # Quantidade cancelada, no caso de cancelamento parci...
     #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
     #         "VL_ITEM": 0,  # Valor total do item
     #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
@@ -1973,7 +1993,8 @@ class RegistroC470(models.Model):
 
 
 class RegistroC480(models.Model):
-    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
+    """Informações complementares das operações de saída de mercadorias sujeitas à
+    substituição tributária."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c480"
@@ -1994,7 +2015,7 @@ class RegistroC480(models.Model):
 
 
 class RegistroC490(models.Model):
-    "Registro Analítico do movimento diário"
+    """Registro Analítico do movimento diário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c490"
@@ -2014,7 +2035,7 @@ class RegistroC490(models.Model):
 
 
 class RegistroC495(models.Model):
-    "Resumo Mensal de Itens do ECF por Estabelecimento"
+    """Resumo Mensal de Itens do ECF por Estabelecimento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c495"
@@ -2041,7 +2062,7 @@ class RegistroC495(models.Model):
 
 
 class RegistroC500(models.Model):
-    "Nota Fiscal/Conta de Energia Elétrica"
+    """Nota Fiscal/Conta de Energia Elétrica."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c500"
@@ -2052,7 +2073,7 @@ class RegistroC500(models.Model):
     #     return {
     #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Entrada; 1 - Saí...
     #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):
+    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
     #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
     #         "SER": 0,  # Série do documento fiscal
@@ -2076,9 +2097,9 @@ class RegistroC500(models.Model):
     #         "VL_COFINS": 0,  # Valor da COFINS
     #         "TPLIGACAO": 0,  # Código de tipo de Ligação 1 - Monofásico 2 - Bifás...
     #         "COD_GRUPO_TENSAO": 0,  # Código de grupo de tensão: 01 - A1 - Alta T...
-    #         "CHV_DOCe": 0,  # Chave da Nota Fiscal de Energia Elétrica Eletrônica
-    #         "FIN_DOCe": 0,  # Finalidade da emissão do documento eletrônico: 1 – ...
-    #         "CHV_DOCe_REF": 0,  # Chave da nota referenciada.
+    #         "CHV_DOCE": 0,  # Chave da Nota Fiscal de Energia Elétrica Eletrônica
+    #         "FIN_DOCE": 0,  # Finalidade da emissão do documento eletrônico: 1 – ...
+    #         "CHV_DOCE_REF": 0,  # Chave da nota referenciada.
     #         "IND_DEST": 0,  # Indicador do Destinatário/Acessante: 1 – Contribuin...
     #         "COD_MUN_DEST": 0,  # Código do município do destinatário conforme a ...
     #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
@@ -2093,7 +2114,7 @@ class RegistroC500(models.Model):
 
 
 class RegistroC510(models.Model):
-    "Itens do Documento"
+    """Itens do Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c510"
@@ -2121,12 +2142,12 @@ class RegistroC510(models.Model):
     #         "COD_PART": 0,  # Código do participante receptor da receita, terceir...
     #         "VL_PIS": 0,  # Valor do PIS
     #         "VL_COFINS": 0,  # Valor da COFINS
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/ credita...
+    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
     #     }
 
 
 class RegistroC590(models.Model):
-    "Registro Analítico do Documento"
+    """Registro Analítico do Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c590"
@@ -2149,7 +2170,7 @@ class RegistroC590(models.Model):
 
 
 class RegistroC591(models.Model):
-    "Informações do Fundo de Combate à Pobreza – FCP na NF3e"
+    """Informações do Fundo de Combate à Pobreza – FCP na NF3e."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c591"
@@ -2164,7 +2185,7 @@ class RegistroC591(models.Model):
 
 
 class RegistroC595(models.Model):
-    "Observações do Lançamento Fiscal"
+    """Observações do Lançamento Fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c595"
@@ -2179,7 +2200,7 @@ class RegistroC595(models.Model):
 
 
 class RegistroC597(models.Model):
-    "Outras obrigações tributárias"
+    """Outras obrigações tributárias."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c597"
@@ -2199,7 +2220,7 @@ class RegistroC597(models.Model):
 
 
 class RegistroC600(models.Model):
-    "Consolidação Diária de Notas Fiscais/Contas de Energia Elétrica"
+    """Consolidação Diária de Notas Fiscais/Contas de Energia Elétrica."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c600"
@@ -2233,7 +2254,7 @@ class RegistroC600(models.Model):
 
 
 class RegistroC601(models.Model):
-    "Documentos cancelados"
+    """Documentos cancelados."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c601"
@@ -2247,7 +2268,7 @@ class RegistroC601(models.Model):
 
 
 class RegistroC610(models.Model):
-    "Itens do Documento Consolidado"
+    """Itens do Documento Consolidado."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c610"
@@ -2276,7 +2297,7 @@ class RegistroC610(models.Model):
 
 
 class RegistroC690(models.Model):
-    "Registro Analítico dos Documentos"
+    """Registro Analítico dos Documentos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c690"
@@ -2289,7 +2310,7 @@ class RegistroC690(models.Model):
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
     #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
     #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
     #         "VL_BC_ICMS_ST": 0,  # Valor da base de cálculo do ICMS substituição ...
@@ -2299,7 +2320,7 @@ class RegistroC690(models.Model):
 
 
 class RegistroC700(models.Model):
-    "Consolidação dos Documentos Nota Fiscal/Conta Energia Elétrica"
+    """Consolidação dos Documentos Nota Fiscal/Conta Energia Elétrica."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c700"
@@ -2320,7 +2341,7 @@ class RegistroC700(models.Model):
 
 
 class RegistroC790(models.Model):
-    "Registro Analítico dos Documentos"
+    """Registro Analítico dos Documentos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c790"
@@ -2343,7 +2364,7 @@ class RegistroC790(models.Model):
 
 
 class RegistroC791(models.Model):
-    "Registro de Informações de ICMS ST por UF"
+    """Registro de Informações de ICMS ST por UF."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c791"
@@ -2359,7 +2380,7 @@ class RegistroC791(models.Model):
 
 
 class RegistroC800(models.Model):
-    "Registro Cupom Fiscal Eletrônico"
+    """Registro Cupom Fiscal Eletrônico."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c800"
@@ -2388,7 +2409,7 @@ class RegistroC800(models.Model):
 
 
 class RegistroC810(models.Model):
-    "Itens do documento do cupom fiscal eletrônico – SAT"
+    """Itens do documento do cupom fiscal eletrônico – SAT."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c810"
@@ -2408,7 +2429,8 @@ class RegistroC810(models.Model):
 
 
 class RegistroC815(models.Model):
-    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
+    """Informações complementares das operações de saída de mercadorias sujeitas à
+    substituição tributária."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c815"
@@ -2429,7 +2451,7 @@ class RegistroC815(models.Model):
 
 
 class RegistroC850(models.Model):
-    "Registro Analítico do CF-e"
+    """Registro Analítico do CF-e."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c850"
@@ -2448,8 +2470,43 @@ class RegistroC850(models.Model):
     #     }
 
 
+class RegistroC855(models.Model):
+    """Observações do lançamento fiscal."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.c855"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c855"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
+    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação.
+    #     }
+
+
+class RegistroC857(models.Model):
+    """Outras obrigações tributárias."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.c857"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c857"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_AJ": 0,  # Código do ajustes/benefício/incentivo, conforme tabel...
+    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste do documento...
+    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
+    #         "VL_BC_ICMS": 0,  # Base de cálculo do ICMS ou do ICMS ST
+    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
+    #         "VL_ICMS": 0,  # Valor do ICMS ou do ICMS ST
+    #         "VL_OUTROS": 0,  # Outros valores
+    #     }
+
+
 class RegistroC860(models.Model):
-    "Identificação do equipamento SAT-CF-e"
+    """Identificação do equipamento SAT-CF-e."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c860"
@@ -2467,7 +2524,7 @@ class RegistroC860(models.Model):
 
 
 class RegistroC870(models.Model):
-    "Itens do documento do cupom fiscal eletrônico – SAT"
+    """Itens do documento do cupom fiscal eletrônico – SAT."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c870"
@@ -2485,7 +2542,8 @@ class RegistroC870(models.Model):
 
 
 class RegistroC880(models.Model):
-    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
+    """Informações complementares das operações de saída de mercadorias sujeitas à
+    substituição tributária."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c880"
@@ -2506,7 +2564,7 @@ class RegistroC880(models.Model):
 
 
 class RegistroC890(models.Model):
-    "Resumo diário de CF-e"
+    """Resumo diário de CF-e."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c890"
@@ -2525,8 +2583,43 @@ class RegistroC890(models.Model):
     #     }
 
 
+class RegistroC895(models.Model):
+    """Observações do lançamento fiscal."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.c895"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c895"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
+    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação.
+    #     }
+
+
+class RegistroC897(models.Model):
+    """Outras obrigações tributárias."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.c897"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.c897"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_AJ": 0,  # Código do ajustes/benefício/incentivo, conforme tabel...
+    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste do documento...
+    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
+    #         "VL_BC_ICMS": 0,  # Base de cálculo do ICMS ou do ICMS ST
+    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
+    #         "VL_ICMS": 0,  # Valor do ICMS ou do ICMS ST
+    #         "VL_OUTROS": 0,  # Outros valores
+    #     }
+
+
 class RegistroD100(models.Model):
-    "Nota Fiscal de Serviço de Transporte"
+    """Nota Fiscal de Serviço de Transporte."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d100"
@@ -2546,8 +2639,8 @@ class RegistroD100(models.Model):
     #         "CHV_CTE": 0,  # Chave do Conhecimento de Transporte Eletrônico ou do...
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
     #         "DT_A_P": 0,  # Data da aquisição ou da prestação do serviço
-    #         "TP_CT_e": 0,  # Tipo de Conhecimento de Transporte Eletrônico confor...
-    #         "CHV_CTE_REF": 0,  # Chave do Bilhete de Passagem Eletrônico substitu...
+    #         "TP_CT_E": 0,  # Tipo de Conhecimento de Transporte Eletrônico confor...
+    #         "CHV_CTE_REF": 0,  # Chave do Documento Eletrônico Substituído
     #         "VL_DOC": 0,  # Valor total do documento fiscal
     #         "VL_DESC": 0,  # Valor total do desconto
     #         "IND_FRT": 0,  # Indicador do tipo do frete: 0 - Por conta de terceir...
@@ -2555,7 +2648,7 @@ class RegistroD100(models.Model):
     #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
     #         "VL_ICMS": 0,  # Valor do ICMS
     #         "VL_NT": 0,  # Valor não-tributado
-    #         "COD_INF": 0,  # Código da informação complementar do documento
+    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
     #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
     #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
     #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
@@ -2563,7 +2656,8 @@ class RegistroD100(models.Model):
 
 
 class RegistroD101(models.Model):
-    "Informação complementar dos documentos fiscais quando das prestações interestaduais destinadas"
+    """Informação complementar dos documentos fiscais quando das prestações
+    interestaduais destinadas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d101"
@@ -2579,7 +2673,7 @@ class RegistroD101(models.Model):
 
 
 class RegistroD110(models.Model):
-    "Itens do documento"
+    """Itens do documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d110"
@@ -2596,7 +2690,7 @@ class RegistroD110(models.Model):
 
 
 class RegistroD120(models.Model):
-    "Complemento da Nota Fiscal de Serviços de Transporte"
+    """Complemento da Nota Fiscal de Serviços de Transporte."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d120"
@@ -2613,7 +2707,7 @@ class RegistroD120(models.Model):
 
 
 class RegistroD130(models.Model):
-    "Complemento do Conhecimento Rodoviário de Cargas"
+    """Complemento do Conhecimento Rodoviário de Cargas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d130"
@@ -2639,7 +2733,7 @@ class RegistroD130(models.Model):
 
 
 class RegistroD140(models.Model):
-    "Complemento do Conhecimento Aquaviário de Cargas"
+    """Complemento do Conhecimento Aquaviário de Cargas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d140"
@@ -2649,7 +2743,7 @@ class RegistroD140(models.Model):
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_PART_CONSG": 0,  # Código do participante (campo 02 do Registro ...
-    #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço,
+    #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
     #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
     #         "IND_VEIC": 0,  # Indicador do tipo do veículo transportador: 0- Emba...
     #         "VEIC_ID": 0,  # Identificação da embarcação (IRIM ou Registro CPP)
@@ -2665,7 +2759,7 @@ class RegistroD140(models.Model):
 
 
 class RegistroD150(models.Model):
-    "Complemento do Conhecimento Aéreo de Cargas"
+    """Complemento do Conhecimento Aéreo de Cargas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d150"
@@ -2688,7 +2782,7 @@ class RegistroD150(models.Model):
 
 
 class RegistroD160(models.Model):
-    "Carga Transportada"
+    """Carga Transportada."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d160"
@@ -2708,7 +2802,7 @@ class RegistroD160(models.Model):
 
 
 class RegistroD161(models.Model):
-    "Local de Coleta e Entrega"
+    """Local de Coleta e Entrega."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d161"
@@ -2728,7 +2822,7 @@ class RegistroD161(models.Model):
 
 
 class RegistroD162(models.Model):
-    "Identificação dos documentos fiscais"
+    """Identificação dos documentos fiscais."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d162"
@@ -2750,7 +2844,7 @@ class RegistroD162(models.Model):
 
 
 class RegistroD170(models.Model):
-    "Complemento do Conhecimento Multimodal de Cargas"
+    """Complemento do Conhecimento Multimodal de Cargas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d170"
@@ -2776,7 +2870,7 @@ class RegistroD170(models.Model):
 
 
 class RegistroD180(models.Model):
-    "Modais (código 26)"
+    """Modais (código 26)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d180"
@@ -2787,7 +2881,7 @@ class RegistroD180(models.Model):
     #     return {
     #         "NUM_SEQ": 0,  # Número de ordem sequencial do modal
     #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
-    #         "CNPJ_CPF_EMIT": 0,  # CNPJ ou CPF do participante emitente do modal
+    #         "CNPJ_CPF_EMITCNPJ": 0,  # ou CPF do participante emitente do modal
     #         "UF_EMIT": 0,  # Sigla da unidade da federação do participante emiten...
     #         "IE_EMIT": 0,  # Inscrição Estadual do participante emitente do modal
     #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
@@ -2805,7 +2899,7 @@ class RegistroD180(models.Model):
 
 
 class RegistroD190(models.Model):
-    "Registro Analítico dos Documentos"
+    """Registro Analítico dos Documentos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d190"
@@ -2826,7 +2920,7 @@ class RegistroD190(models.Model):
 
 
 class RegistroD195(models.Model):
-    "Observações do lançamento"
+    """Observações do lançamento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d195"
@@ -2836,12 +2930,11 @@ class RegistroD195(models.Model):
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação.
     #     }
 
 
 class RegistroD197(models.Model):
-    "Outras obrigações tributárias"
+    """Outras obrigações tributárias."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d197"
@@ -2861,7 +2954,7 @@ class RegistroD197(models.Model):
 
 
 class RegistroD300(models.Model):
-    "Registro Analítico dos bilhetes consolidados de Passagem Rodoviário"
+    """Registro Analítico dos bilhetes consolidados de Passagem Rodoviário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d300"
@@ -2893,7 +2986,7 @@ class RegistroD300(models.Model):
 
 
 class RegistroD301(models.Model):
-    "Documentos cancelados dos Bilhetes de Passagem Rodoviário"
+    """Documentos cancelados dos Bilhetes de Passagem Rodoviário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d301"
@@ -2907,7 +3000,7 @@ class RegistroD301(models.Model):
 
 
 class RegistroD310(models.Model):
-    "Complemento dos Bilhetes"
+    """Complemento dos Bilhetes."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d310"
@@ -2924,7 +3017,7 @@ class RegistroD310(models.Model):
 
 
 class RegistroD350(models.Model):
-    "Equipamento ECF"
+    """Equipamento ECF."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d350"
@@ -2941,7 +3034,7 @@ class RegistroD350(models.Model):
 
 
 class RegistroD355(models.Model):
-    "Redução Z"
+    """Redução Z."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d355"
@@ -2960,7 +3053,7 @@ class RegistroD355(models.Model):
 
 
 class RegistroD360(models.Model):
-    "PIS E COFINS totalizados no dia"
+    """PIS E COFINS totalizados no dia."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d360"
@@ -2975,7 +3068,7 @@ class RegistroD360(models.Model):
 
 
 class RegistroD365(models.Model):
-    "Registro dos Totalizadores Parciais da Redução Z"
+    """Registro dos Totalizadores Parciais da Redução Z."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d365"
@@ -2992,7 +3085,7 @@ class RegistroD365(models.Model):
 
 
 class RegistroD370(models.Model):
-    "Complemento dos documentos informados"
+    """Complemento dos documentos informados."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d370"
@@ -3010,7 +3103,7 @@ class RegistroD370(models.Model):
 
 
 class RegistroD390(models.Model):
-    "Registro analítico do movimento diário"
+    """Registro analítico do movimento diário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d390"
@@ -3033,7 +3126,7 @@ class RegistroD390(models.Model):
 
 
 class RegistroD400(models.Model):
-    "Resumo do Movimento Diário"
+    """Resumo do Movimento Diário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d400"
@@ -3061,7 +3154,7 @@ class RegistroD400(models.Model):
 
 
 class RegistroD410(models.Model):
-    "Documentos Informados"
+    """Documentos Informados."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d410"
@@ -3070,11 +3163,11 @@ class RegistroD410(models.Model):
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal , conforme a Ta...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC_INI": 0,  # Número do documento fiscal inicial (mesmo modelo...
-    #         "NUM_DOC_FIN": 0,  # Número do documento fiscal final(mesmo modelo, s...
+    #         "NUM_DOC_FIN": 0,  # Número do documento fiscal final (mesmo modelo, ...
     #         "DT_DOC": 0,  # Data da emissão dos documentos fiscais
     #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
@@ -3088,7 +3181,7 @@ class RegistroD410(models.Model):
 
 
 class RegistroD411(models.Model):
-    "Documentos Cancelados dos Documentos Informados"
+    """Documentos Cancelados dos Documentos Informados."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d411"
@@ -3102,7 +3195,7 @@ class RegistroD411(models.Model):
 
 
 class RegistroD420(models.Model):
-    "Complemento dos Documentos Informados"
+    """Complemento dos Documentos Informados."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d420"
@@ -3114,11 +3207,12 @@ class RegistroD420(models.Model):
     #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
     #         "VL_SERV": 0,  # Valor total da prestação de serviço
     #         "VL_BC_ICMS": 0,  # Valor total da base de cálculo do ICMS
+    #         "VL_ICMS": 0,  # Valor total do ICMS
     #     }
 
 
 class RegistroD500(models.Model):
-    "Nota Fiscal de Serviço de Comunicação"
+    """Nota Fiscal de Serviço de Comunicação."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d500"
@@ -3154,7 +3248,7 @@ class RegistroD500(models.Model):
 
 
 class RegistroD510(models.Model):
-    "Itens do Documento"
+    """Itens do Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d510"
@@ -3181,12 +3275,12 @@ class RegistroD510(models.Model):
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150) ...
     #         "VL_PIS": 0,  # Valor do PIS
     #         "VL_COFINS": 0,  # Valor da COFINS
-    #         "COD_CTA": 0,  # Código da conta analítica contábil
+    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
     #     }
 
 
 class RegistroD530(models.Model):
-    "Terminal Faturado"
+    """Terminal Faturado."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d530"
@@ -3205,7 +3299,7 @@ class RegistroD530(models.Model):
 
 
 class RegistroD590(models.Model):
-    "Registro Analítico do Documento"
+    """Registro Analítico do Documento."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d590"
@@ -3228,7 +3322,7 @@ class RegistroD590(models.Model):
 
 
 class RegistroD600(models.Model):
-    "Consolidação da Prestação de Serviços"
+    """Consolidação da Prestação de Serviços."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d600"
@@ -3258,7 +3352,7 @@ class RegistroD600(models.Model):
 
 
 class RegistroD610(models.Model):
-    "Itens do Documento Consolidado"
+    """Itens do Documento Consolidado."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d610"
@@ -3288,7 +3382,7 @@ class RegistroD610(models.Model):
 
 
 class RegistroD690(models.Model):
-    "Registro Analítico dos Documentos"
+    """Registro Analítico dos Documentos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d690"
@@ -3306,11 +3400,12 @@ class RegistroD690(models.Model):
     #         "VL_BC_ICMS_UF": 0,  # Parcela correspondente ao valor da base de cál...
     #         "VL_ICMS_UF": 0,  # Parcela correspondente ao valor do ICMS de outras...
     #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
+    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
     #     }
 
 
 class RegistroD695(models.Model):
-    "Consolidação da Prestação de Serviços"
+    """Consolidação da Prestação de Serviços."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d695"
@@ -3331,7 +3426,7 @@ class RegistroD695(models.Model):
 
 
 class RegistroD696(models.Model):
-    "Registro Analítico dos Documentos"
+    """Registro Analítico dos Documentos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d696"
@@ -3354,7 +3449,7 @@ class RegistroD696(models.Model):
 
 
 class RegistroD697(models.Model):
-    "Registro de informações de outras UFs"
+    """Registro de informações de outras UFs."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d697"
@@ -3369,8 +3464,189 @@ class RegistroD697(models.Model):
     #     }
 
 
+class RegistroD700(models.Model):
+    """Nota Fiscal Fatura Eletrônica de Serviços de Comunicação – NFCom."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d700"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d700"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "IND_OPER": 0,  # Indicador do tipo de prestação: 0: Entrada 1: Saída
+    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0: Emiss...
+    #         "COD_PART": 0,  # Código do participante (Campo 02 do Registro 0150) ...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
+    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
+    #         "SER": 0,  # Série do documento fiscal.
+    #         "NUM_DOC": 0,  # Número do documento fiscal.
+    #         "DT_DOC": 0,  # Data da emissão do documento fiscal.
+    #         "DT_E_S": 0,  # Data da entrada ou da saída
+    #         "VL_DOC": 0,  # Valor do documento fiscal.
+    #         "VL_DESC": 0,  # Valor do desconto.
+    #         "VL_SERV": 0,  # Valor dos serviços tributados pelo ICMS.
+    #         "VL_SERV_NT": 0,  # Valores cobrados em nome do prestador sem destaqu...
+    #         "VL_TERC": 0,  # Valores cobrados em nome de terceiros.
+    #         "VL_DA": 0,  # Valor de despesas acessórias indicadas no documento fi...
+    #         "VL_BC_ICMS": 0,  # Valor da Base de Cálculo (BC) do ICMS.
+    #         "VL_ICMS": 0,  # Valor do ICMS
+    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
+    #         "VL_PIS": 0,  # Valor do PIS/Pasep.
+    #         "VL_COFINS": 0,  # Valor do Cofins.
+    #         "CHV_DOCE": 0,  # Chave da Nota Fiscal Fatura de Serviço Comunicação ...
+    #         "FIN_DOCE": 0,  # Finalidade da emissão do documento eletrônico: 0 - ...
+    #         "TIP_FAT": 0,  # Tipo de faturamento do documento eletrônico: 0 - Fat...
+    #         "COD_MOD_DOC_REF": 0,  # Código do modelo do documento fiscal referen...
+    #         "CHV_DOCE_REF": 0,  # Chave da nota referenciada.
+    #         "HASH_DOC_REF": 0,  # Código de autenticação digital do registro, cam...
+    #         "SER_DOC_REF": 0,  # Série do documento fiscal referenciado.
+    #         "NUM_DOC_REF": 0,  # Número do documento fiscal referenciado.
+    #         "MES_DOC_REF": 0,  # Mês e ano da emissão do documento fiscal referen...
+    #         "COD_MUN_DEST": 0,  # Código do município do destinatário conforme a ...
+    #         "DED": 0,  # Deduções
+    #     }
+
+
+class RegistroD730(models.Model):
+    """Registro analítico Nota Fiscal Fatura Eletrônica de Serviços de Comunicação –
+    NFCom."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d730"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d730"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
+    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
+    #         "VL_OPR": 0,  # Valor total dos itens relacionados aos serviços própr...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
+    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
+    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
+    #         "COD_OBS": 0,  # Código da observação (campo 02 do Registro 0460)
+    #     }
+
+
+class RegistroD731(models.Model):
+    """Informações do fundo de combate à pobreza – FCP –."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d731"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d731"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "VL_FCP_OP": 0,  # Valor do Fundo de Combate à Pobreza (FCP) vinculad...
+    #     }
+
+
+class RegistroD735(models.Model):
+    """Observações do lançamento fiscal."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d735"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d735"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
+    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação.
+    #     }
+
+
+class RegistroD737(models.Model):
+    """Outras obrigações tributárias."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d737"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d737"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_AJ": 0,  # Código do ajustes/benefício/incentivo, conforme tabel...
+    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste do documento...
+    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
+    #         "VL_BC_ICMS": 0,  # Base de cálculo do ICMS
+    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
+    #         "VL_ICMS": 0,  # Valor do ICMS
+    #         "VL_OUTROS": 0,  # Outros valores
+    #     }
+
+
+class RegistroD750(models.Model):
+    """Escrituração consolidada da Nota Fiscal Fatura Eletrônica de Serviços de
+    Comunicação – NFCom."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d750"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d750"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
+    #         "SER": 0,  # Série do documento fiscal
+    #         "DT_DOC": 0,  # Data da emissão dos documentos
+    #         "QTD_CONS": 0,  # Quantidade de documentos consolidados neste registr...
+    #         "IND_PREPAGO": 0,  # Forma de pagamento: 0 – pré pago 1 – pós pago
+    #         "VL_DOC": 0,  # Valor total dos documentos
+    #         "VL_SERV": 0,  # Valor dos serviços tributados pelo ICMS.
+    #         "VL_SERV_NT": 0,  # Valores cobrados em nome do prestador sem destaqu...
+    #         "VL_TERC": 0,  # Valor total cobrado em nome de terceiros
+    #         "VL_DESC": 0,  # Valor total dos descontos
+    #         "VL_DA": 0,  # Valor total das despesas acessórias
+    #         "VL_BC_ICMS": 0,  # Valor total da base de cálculo do ICMS
+    #         "VL_ICMS": 0,  # Valor total do ICMS
+    #         "VL_PIS": 0,  # Valor total do PIS
+    #         "VL_COFINS": 0,  # Valor total da COFINS
+    #         "DED": 0,  # Deduções
+    #     }
+
+
+class RegistroD760(models.Model):
+    """Registro analítico da escrituração consolidada da Nota Fiscal Fatura Eletrônica
+    de Serviços."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d760"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d760"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
+    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
+    #         "VL_OPR": 0,  # Valor total dos itens relacionados aos serviços própr...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
+    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS", incluindo...
+    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
+    #         "COD_OBS": 0,  # Código da observação (campo 02 do Registro 0460)
+    #     }
+
+
+class RegistroD761(models.Model):
+    """Informações do fundo de combate à pobreza FCP –."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d761"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.d761"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "VL_FCP_OP": 0,  # Valor do Fundo de Combate à Pobreza (FCP) vinculad...
+    #     }
+
+
 class RegistroE100(models.Model):
-    "Período de Apuração do ICMS"
+    """Período de Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e100"
@@ -3385,7 +3661,7 @@ class RegistroE100(models.Model):
 
 
 class RegistroE110(models.Model):
-    "Apuração do ICMS"
+    """Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e110"
@@ -3412,7 +3688,7 @@ class RegistroE110(models.Model):
 
 
 class RegistroE111(models.Model):
-    "Ajuste/Benefício/Incentivo da Apuração do ICMS"
+    """Ajuste/Benefício/Incentivo da Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e111"
@@ -3428,7 +3704,7 @@ class RegistroE111(models.Model):
 
 
 class RegistroE112(models.Model):
-    "Informações Adicionais dos Ajustes da Apuração do ICMS"
+    """Informações Adicionais dos Ajustes da Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e112"
@@ -3446,7 +3722,7 @@ class RegistroE112(models.Model):
 
 
 class RegistroE113(models.Model):
-    "Informações Adicionais dos Ajustes da Apuração do ICMS"
+    """Informações Adicionais dos Ajustes da Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e113"
@@ -3467,7 +3743,7 @@ class RegistroE113(models.Model):
 
 
 class RegistroE115(models.Model):
-    "Informações Adicionais da Apuração do ICMS"
+    """Informações Adicionais da Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e115"
@@ -3483,7 +3759,7 @@ class RegistroE115(models.Model):
 
 
 class RegistroE116(models.Model):
-    "Obrigações do ICMS Recolhido ou a Recolher"
+    """Obrigações do ICMS Recolhido ou a Recolher."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e116"
@@ -3505,7 +3781,7 @@ class RegistroE116(models.Model):
 
 
 class RegistroE200(models.Model):
-    "Período de Apuração do ICMS"
+    """Período de Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e200"
@@ -3521,7 +3797,7 @@ class RegistroE200(models.Model):
 
 
 class RegistroE210(models.Model):
-    "Apuração do ICMS"
+    """Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e210"
@@ -3548,7 +3824,7 @@ class RegistroE210(models.Model):
 
 
 class RegistroE220(models.Model):
-    "Ajuste/Benefício/Incentivo da Apuração do ICMS"
+    """Ajuste/Benefício/Incentivo da Apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e220"
@@ -3564,7 +3840,7 @@ class RegistroE220(models.Model):
 
 
 class RegistroE230(models.Model):
-    "Informações Adicionais dos Ajustes da Apuração do ICMS Substituição Tributá- ria"
+    """Informações Adicionais dos Ajustes da Apuração do ICMS Substituição Tributá- ria."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e230"
@@ -3582,7 +3858,7 @@ class RegistroE230(models.Model):
 
 
 class RegistroE240(models.Model):
-    "Informações Adicionais dos Ajustes da Apuração do ICMS Substituição Tributá- ria"
+    """Informações Adicionais dos Ajustes da Apuração do ICMS Substituição Tributá- ria."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e240"
@@ -3604,7 +3880,7 @@ class RegistroE240(models.Model):
 
 
 class RegistroE250(models.Model):
-    "Obrigações do ICMS a Recolher"
+    """Obrigações do ICMS a Recolher."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e250"
@@ -3626,7 +3902,7 @@ class RegistroE250(models.Model):
 
 
 class RegistroE300(models.Model):
-    "Período de Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15"
+    """Período de Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e300"
@@ -3642,7 +3918,7 @@ class RegistroE300(models.Model):
 
 
 class RegistroE310(models.Model):
-    "Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15"
+    """Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e310"
@@ -3676,7 +3952,7 @@ class RegistroE310(models.Model):
 
 
 class RegistroE311(models.Model):
-    "Ajuste/Benefício/Incentivo da Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15"
+    """Ajuste/Benefício/Incentivo da Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e311"
@@ -3692,7 +3968,7 @@ class RegistroE311(models.Model):
 
 
 class RegistroE312(models.Model):
-    "Informações Adicionais dos Ajustes da Apuração do ICMS Diferencial"
+    """Informações Adicionais dos Ajustes da Apuração do ICMS Diferencial."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e312"
@@ -3710,7 +3986,7 @@ class RegistroE312(models.Model):
 
 
 class RegistroE313(models.Model):
-    "Informações Adicionais da Apuração do ICMS Diferencial"
+    """Informações Adicionais da Apuração do ICMS Diferencial."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e313"
@@ -3732,7 +4008,7 @@ class RegistroE313(models.Model):
 
 
 class RegistroE316(models.Model):
-    "Obrigações do ICMS recolhido ou a recolher – Diferencial de Alíquota – UF Origem/Destino EC 87/15"
+    """Obrigações do ICMS recolhido ou a recolher – Diferencial de Alíquota – UF Origem/Destino EC 87/15."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e316"
@@ -3754,7 +4030,7 @@ class RegistroE316(models.Model):
 
 
 class RegistroE500(models.Model):
-    "Período de Apuração do IPI"
+    """Período de Apuração do IPI."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e500"
@@ -3770,7 +4046,7 @@ class RegistroE500(models.Model):
 
 
 class RegistroE510(models.Model):
-    "Consolidação dos Valores de IPI"
+    """Consolidação dos Valores de IPI."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e510"
@@ -3788,7 +4064,7 @@ class RegistroE510(models.Model):
 
 
 class RegistroE520(models.Model):
-    "Apuração do IPI"
+    """Apuração do IPI."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e520"
@@ -3808,7 +4084,7 @@ class RegistroE520(models.Model):
 
 
 class RegistroE530(models.Model):
-    "Ajustes da Apuração do IPI"
+    """Ajustes da Apuração do IPI."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e530"
@@ -3827,7 +4103,7 @@ class RegistroE530(models.Model):
 
 
 class RegistroE531(models.Model):
-    "Informações adicionais dos ajustes da apuração do IPI – Identificação dos documentos fiscais"
+    """Informações adicionais dos ajustes da apuração do IPI – Identificação dos documentos fiscais."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e531"
@@ -3849,7 +4125,7 @@ class RegistroE531(models.Model):
 
 
 class RegistroG110(models.Model):
-    "ICMS – Ativo Permanente – CIAP"
+    """ICMS – Ativo Permanente – CIAP."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g110"
@@ -3871,7 +4147,7 @@ class RegistroG110(models.Model):
 
 
 class RegistroG125(models.Model):
-    "Movimentação de bem ou componente"
+    """Movimentação de bem ou componente."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g125"
@@ -3893,7 +4169,7 @@ class RegistroG125(models.Model):
 
 
 class RegistroG126(models.Model):
-    "Outros créditos CIAP"
+    """Outros créditos CIAP."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g126"
@@ -3914,7 +4190,7 @@ class RegistroG126(models.Model):
 
 
 class RegistroG130(models.Model):
-    "Identificação do documento fiscal"
+    """Identificação do documento fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g130"
@@ -3935,7 +4211,7 @@ class RegistroG130(models.Model):
 
 
 class RegistroG140(models.Model):
-    "Identificação do item do documento fiscal"
+    """Identificação do item do documento fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g140"
@@ -3956,7 +4232,7 @@ class RegistroG140(models.Model):
 
 
 class RegistroH005(models.Model):
-    "Totais do Inventário"
+    """Totais do Inventário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h005"
@@ -3972,7 +4248,7 @@ class RegistroH005(models.Model):
 
 
 class RegistroH010(models.Model):
-    "Inventário"
+    """Inventário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h010"
@@ -3995,7 +4271,7 @@ class RegistroH010(models.Model):
 
 
 class RegistroH020(models.Model):
-    "Informação complementar do Inventário"
+    """Informação complementar do Inventário."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h020"
@@ -4011,7 +4287,7 @@ class RegistroH020(models.Model):
 
 
 class RegistroH030(models.Model):
-    "Informações complementares do inventário das mercadorias sujeitas ao regime"
+    """Informações complementares do inventário das mercadorias sujeitas ao regime."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h030"
@@ -4027,8 +4303,22 @@ class RegistroH030(models.Model):
     #     }
 
 
+class RegistroK010(models.Model):
+    """Informação sobre o tipo de leiaute."""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.k010"
+    _inherit = "l10n_br_sped.efd_icms_ipi.19.k010"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "IND_TP_LEIAUTE": 0,  # Indicador de tipo de leiaute adotado: 0 – Lei...
+    #     }
+
+
 class RegistroK100(models.Model):
-    "Período de Apuração do ICMS/IPI"
+    """Período de Apuração do ICMS/IPI."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k100"
@@ -4043,7 +4333,7 @@ class RegistroK100(models.Model):
 
 
 class RegistroK200(models.Model):
-    "Estoque Escriturado"
+    """Estoque Escriturado."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k200"
@@ -4061,7 +4351,7 @@ class RegistroK200(models.Model):
 
 
 class RegistroK210(models.Model):
-    "Desmontagem de mercadorias – Item de Origem"
+    """Desmontagem de mercadorias – Item de Origem."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k210"
@@ -4079,7 +4369,7 @@ class RegistroK210(models.Model):
 
 
 class RegistroK215(models.Model):
-    "Desmontagem de mercadorias – Item de Destino"
+    """Desmontagem de mercadorias – Item de Destino."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k215"
@@ -4094,7 +4384,7 @@ class RegistroK215(models.Model):
 
 
 class RegistroK220(models.Model):
-    "Outras Movimentações Internas entre Mercadorias"
+    """Outras Movimentações Internas entre Mercadorias."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k220"
@@ -4112,7 +4402,7 @@ class RegistroK220(models.Model):
 
 
 class RegistroK230(models.Model):
-    "Itens Produzidos"
+    """Itens Produzidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k230"
@@ -4130,7 +4420,7 @@ class RegistroK230(models.Model):
 
 
 class RegistroK235(models.Model):
-    "Insumos Consumidos"
+    """Insumos Consumidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k235"
@@ -4147,7 +4437,7 @@ class RegistroK235(models.Model):
 
 
 class RegistroK250(models.Model):
-    "Industrialização Efetuada por Terceiros – Itens Produzidos"
+    """Industrialização Efetuada por Terceiros – Itens Produzidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k250"
@@ -4163,7 +4453,7 @@ class RegistroK250(models.Model):
 
 
 class RegistroK255(models.Model):
-    "Industrialização em Terceiros – Insumos Consumidos"
+    """Industrialização em Terceiros – Insumos Consumidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k255"
@@ -4180,7 +4470,7 @@ class RegistroK255(models.Model):
 
 
 class RegistroK260(models.Model):
-    "Reprocessamento/Reparo de Produto/Insumo"
+    """Reprocessamento/Reparo de Produto/Insumo."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k260"
@@ -4199,7 +4489,7 @@ class RegistroK260(models.Model):
 
 
 class RegistroK265(models.Model):
-    "Reprocessamento/Reparo – Mercadorias Consumidas e/ou Retornadas"
+    """Reprocessamento/Reparo – Mercadorias Consumidas e/ou Retornadas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k265"
@@ -4215,7 +4505,7 @@ class RegistroK265(models.Model):
 
 
 class RegistroK270(models.Model):
-    "Correção de Apontamento dos Registros K210"
+    """Correção de Apontamento dos Registros K210."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k270"
@@ -4235,7 +4525,7 @@ class RegistroK270(models.Model):
 
 
 class RegistroK275(models.Model):
-    "Correção de Apontamento e Retorno de Insumos dos Registros K215"
+    """Correção de Apontamento e Retorno de Insumos dos Registros K215."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k275"
@@ -4252,7 +4542,7 @@ class RegistroK275(models.Model):
 
 
 class RegistroK280(models.Model):
-    "Correção de Apontamento – Estoque Escriturado"
+    """Correção de Apontamento – Estoque Escriturado."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k280"
@@ -4271,7 +4561,7 @@ class RegistroK280(models.Model):
 
 
 class RegistroK290(models.Model):
-    "Produção Conjunta – Ordem de Produção"
+    """Produção Conjunta – Ordem de Produção."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k290"
@@ -4287,7 +4577,7 @@ class RegistroK290(models.Model):
 
 
 class RegistroK291(models.Model):
-    "Produção Conjunta – Itens Produzidos"
+    """Produção Conjunta – Itens Produzidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k291"
@@ -4302,7 +4592,7 @@ class RegistroK291(models.Model):
 
 
 class RegistroK292(models.Model):
-    "Produção Conjunta – insumos Consumidos"
+    """Produção Conjunta – insumos Consumidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k292"
@@ -4317,7 +4607,7 @@ class RegistroK292(models.Model):
 
 
 class RegistroK300(models.Model):
-    "Produção Conjunta – Industrialização efetuada por terceiros"
+    """Produção Conjunta – Industrialização efetuada por terceiros."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k300"
@@ -4331,7 +4621,7 @@ class RegistroK300(models.Model):
 
 
 class RegistroK301(models.Model):
-    "Produção Conjunta – Industrialização efetuada por terceiros – Itens Produzidos"
+    """Produção Conjunta – Industrialização efetuada por terceiros – Itens Produzidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k301"
@@ -4346,7 +4636,7 @@ class RegistroK301(models.Model):
 
 
 class RegistroK302(models.Model):
-    "Produção Conjunta – Industrialização efetuada por terceiros – Insumos Consumidos"
+    """Produção Conjunta – Industrialização efetuada por terceiros – Insumos Consumidos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k302"
@@ -4361,7 +4651,7 @@ class RegistroK302(models.Model):
 
 
 class Registro1010(models.Model):
-    "Obrigatoriedade de registros do Bloco 1"
+    """Obrigatoriedade de registros do Bloco 1."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1010"
@@ -4387,7 +4677,7 @@ class Registro1010(models.Model):
 
 
 class Registro1100(models.Model):
-    "Registro de Informações sobre Exportação"
+    """Registro de Informações sobre Exportação."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1100"
@@ -4411,7 +4701,7 @@ class Registro1100(models.Model):
 
 
 class Registro1105(models.Model):
-    "Documentos Fiscais de Exportação"
+    """Documentos Fiscais de Exportação."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1105"
@@ -4430,7 +4720,7 @@ class Registro1105(models.Model):
 
 
 class Registro1110(models.Model):
-    "Operações de Exportação Indireta"
+    """Operações de Exportação Indireta."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1110"
@@ -4452,7 +4742,7 @@ class Registro1110(models.Model):
 
 
 class Registro1200(models.Model):
-    "Controle de Créditos Fiscais - ICMS"
+    """Controle de Créditos Fiscais - ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1200"
@@ -4471,7 +4761,7 @@ class Registro1200(models.Model):
 
 
 class Registro1210(models.Model):
-    "Utilização de Créditos Fiscais"
+    """Utilização de Créditos Fiscais."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1210"
@@ -4488,7 +4778,7 @@ class Registro1210(models.Model):
 
 
 class Registro1250(models.Model):
-    "Informações consolidadas de saldos de restituição"
+    """Informações consolidadas de saldos de restituição."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1250"
@@ -4506,7 +4796,7 @@ class Registro1250(models.Model):
 
 
 class Registro1255(models.Model):
-    "Informações consolidadas de saldos de restituição"
+    """Informações consolidadas de saldos de restituição."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1255"
@@ -4525,7 +4815,7 @@ class Registro1255(models.Model):
 
 
 class Registro1300(models.Model):
-    "Movimentação diária de combustíveis"
+    """Movimentação diária de combustíveis."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1300"
@@ -4548,7 +4838,7 @@ class Registro1300(models.Model):
 
 
 class Registro1310(models.Model):
-    "Movimentação diária de combustíveis por tanque"
+    """Movimentação diária de combustíveis por tanque."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1310"
@@ -4570,7 +4860,7 @@ class Registro1310(models.Model):
 
 
 class Registro1320(models.Model):
-    "Volume de vendas"
+    """Volume de vendas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1320"
@@ -4593,7 +4883,7 @@ class Registro1320(models.Model):
 
 
 class Registro1350(models.Model):
-    "Bombas"
+    """Bombas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1350"
@@ -4610,7 +4900,7 @@ class Registro1350(models.Model):
 
 
 class Registro1360(models.Model):
-    "Lacres das bombas"
+    """Lacres das bombas."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1360"
@@ -4625,7 +4915,7 @@ class Registro1360(models.Model):
 
 
 class Registro1370(models.Model):
-    "Bicos da bomba"
+    """Bicos da bomba."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1370"
@@ -4641,7 +4931,7 @@ class Registro1370(models.Model):
 
 
 class Registro1390(models.Model):
-    "Controle de produção de Usina"
+    """Controle de produção de Usina."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1390"
@@ -4655,7 +4945,7 @@ class Registro1390(models.Model):
 
 
 class Registro1391(models.Model):
-    "Produção diária da usina"
+    """Produção diária da usina."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1391"
@@ -4687,7 +4977,7 @@ class Registro1391(models.Model):
 
 
 class Registro1400(models.Model):
-    "Informação sobre Valor Agregado"
+    """Informação sobre Valor Agregado."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1400"
@@ -4703,7 +4993,7 @@ class Registro1400(models.Model):
 
 
 class Registro1500(models.Model):
-    "Nota fiscal/Conta de energia elétrica"
+    """Nota fiscal/Conta de energia elétrica."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1500"
@@ -4742,7 +5032,7 @@ class Registro1500(models.Model):
 
 
 class Registro1510(models.Model):
-    "Itens do documento Nota fiscal/Conta de energia elétrica"
+    """Itens do documento Nota fiscal/Conta de energia elétrica."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1510"
@@ -4775,7 +5065,7 @@ class Registro1510(models.Model):
 
 
 class Registro1600(models.Model):
-    "Total das operações com cartão de crédito e/ou débito"
+    """Total das operações com cartão de crédito e/ou débito."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1600"
@@ -4791,7 +5081,7 @@ class Registro1600(models.Model):
 
 
 class Registro1601(models.Model):
-    "Operações com instrumentos de pagamentos eletrônicos"
+    """Operações com instrumentos de pagamentos eletrônicos."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1601"
@@ -4809,7 +5099,7 @@ class Registro1601(models.Model):
 
 
 class Registro1700(models.Model):
-    "Documentos fiscais utilizados"
+    """Documentos fiscais utilizados."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1700"
@@ -4829,7 +5119,7 @@ class Registro1700(models.Model):
 
 
 class Registro1710(models.Model):
-    "Documentos fiscais cancelados/inutilizados"
+    """Documentos fiscais cancelados/inutilizados."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1710"
@@ -4844,7 +5134,7 @@ class Registro1710(models.Model):
 
 
 class Registro1800(models.Model):
-    "DCTA"
+    """DCTA."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1800"
@@ -4866,7 +5156,7 @@ class Registro1800(models.Model):
 
 
 class Registro1900(models.Model):
-    "Indicador de Sub-apuração do ICMS"
+    """Indicador de Sub-apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1900"
@@ -4881,7 +5171,7 @@ class Registro1900(models.Model):
 
 
 class Registro1910(models.Model):
-    "Período da Sub-apuração do ICMS"
+    """Período da Sub-apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1910"
@@ -4896,7 +5186,7 @@ class Registro1910(models.Model):
 
 
 class Registro1920(models.Model):
-    "Sub-apuração do ICMS"
+    """Sub-apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1920"
@@ -4921,7 +5211,7 @@ class Registro1920(models.Model):
 
 
 class Registro1921(models.Model):
-    "Ajuste/Benefício/Incentivo da Sub- apuração do ICMS"
+    """Ajuste/Benefício/Incentivo da Sub- apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1921"
@@ -4937,7 +5227,7 @@ class Registro1921(models.Model):
 
 
 class Registro1922(models.Model):
-    "Informações Adicionais dos Ajustes da Sub-apuração do ICMS"
+    """Informações Adicionais dos Ajustes da Sub-apuração do ICMS."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1922"
@@ -4955,7 +5245,7 @@ class Registro1922(models.Model):
 
 
 class Registro1923(models.Model):
-    "Informações Adicionais dos Ajustes da Sub-apuração do ICMS – Identificação dos Documentos Fiscais"
+    """Informações Adicionais dos Ajustes da Sub-apuração do ICMS – Identificação dos Documentos Fiscais."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1923"
@@ -4977,7 +5267,7 @@ class Registro1923(models.Model):
 
 
 class Registro1925(models.Model):
-    "Informações Adicionais da Sub- apuração – Valores Declaratórios"
+    """Informações Adicionais da Sub- apuração – Valores Declaratórios."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1925"
@@ -4993,7 +5283,7 @@ class Registro1925(models.Model):
 
 
 class Registro1926(models.Model):
-    "Obrigações do ICMS A Recolher – Operações referentes à Sub-apuração"
+    """Obrigações do ICMS A Recolher – Operações referentes à Sub-apuração."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1926"
@@ -5015,7 +5305,7 @@ class Registro1926(models.Model):
 
 
 class Registro1960(models.Model):
-    "GIAF 1"
+    """GIAF 1."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1960"
@@ -5040,7 +5330,7 @@ class Registro1960(models.Model):
 
 
 class Registro1970(models.Model):
-    "GIAF 3"
+    """GIAF 3."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1970"
@@ -5064,7 +5354,7 @@ class Registro1970(models.Model):
 
 
 class Registro1975(models.Model):
-    "GIAF 3"
+    """GIAF 3."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1975"
@@ -5081,7 +5371,7 @@ class Registro1975(models.Model):
 
 
 class Registro1980(models.Model):
-    "GIAF 4"
+    """GIAF 4."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1980"
