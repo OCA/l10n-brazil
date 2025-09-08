@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__additional_data
-msgid "Additional Data"
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__manual_additional_data
 msgid "Additional data manually entered by user"
 msgstr ""
@@ -373,11 +368,6 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__customer_additional_data
-msgid "Customer Additional Data"
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__manual_customer_additional_data
 msgid "Customer Additional data manually entered by user"
 msgstr ""
@@ -489,11 +479,6 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__financial_total_gross
 msgid "Financial Gross Amount"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_additional_data
-msgid "Fiscal Additional Data"
 msgstr ""
 
 #. module: l10n_br_contract
