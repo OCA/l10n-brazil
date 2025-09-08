@@ -153,6 +153,11 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model,name:l10n_br_hr.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
 msgid "Contact Phone"
 msgstr ""
@@ -530,6 +535,12 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__employee_relationship_type
 msgid "Tipo de Colaborador"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__union_entity_code
+#: model:ir.model.fields,field_description:l10n_br_hr.field_res_users__union_entity_code
+msgid "Union Entity code"
 msgstr ""
 
 #. module: l10n_br_hr
