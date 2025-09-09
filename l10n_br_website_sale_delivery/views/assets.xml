@@ -14,4 +14,18 @@
         </xpath>
     </template>
 
+    <template
+        id="assets_tests"
+        inherit_id="web.assets_tests"
+        name="Test Assets"
+        priority="16"
+    >
+        <xpath expr="//script[last()]" position="after">
+            <script
+                type="text/javascript"
+                src="/l10n_br_website_sale_delivery/static/src/js/l10n_br_website_sale_delivery_tour.js"
+            />
+        </xpath>
+    </template>
+
 </odoo>

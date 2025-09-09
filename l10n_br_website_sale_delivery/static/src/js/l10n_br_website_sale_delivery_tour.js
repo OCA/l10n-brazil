@@ -16,6 +16,9 @@ odoo.define("l10n_br_website_sale_delivery.tour", function (require) {
             test: true,
             url: "/shop",
             wait_for: ready,
+            ready: function () {
+                return true;
+            },
         },
         [
             {

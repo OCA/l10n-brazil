@@ -1,21 +1,13 @@
 odoo.define("l10n_br_website_sale.tour", function (require) {
     "use strict";
 
-    var ajax = require("web.ajax");
-    var session = require("web.session");
     var tour = require("web_tour.tour");
-
-    var domReady = new Promise(function (resolve) {
-        $(resolve);
-    });
-    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
 
     tour.register(
         "l10n_br_website_sale_tour",
         {
             test: true,
             url: "/shop",
-            wait_for: ready,
         },
         [
             {
