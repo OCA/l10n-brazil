@@ -7,10 +7,12 @@ import logging
 from odoo.tests import SavepointCase
 from odoo.tools import mute_logger
 
+from odoo.addons.l10n_br_base.tests.test_cleanup_mixin import TestCleanupMixin
+
 _logger = logging.getLogger(__name__)
 
 
-class OtherIETest(SavepointCase):
+class OtherIETest(SavepointCase, TestCleanupMixin):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

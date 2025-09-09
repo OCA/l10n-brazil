@@ -8,8 +8,10 @@ from odoo.exceptions import ValidationError
 from odoo.tests import SavepointCase
 from odoo.tools import mute_logger
 
+from odoo.addons.l10n_br_base.tests.test_cleanup_mixin import TestCleanupMixin
 
-class ValidCreatePIXTest(SavepointCase):
+
+class ValidCreatePIXTest(SavepointCase, TestCleanupMixin):
     """Test if ValidationError is raised well during create({})"""
 
     @classmethod
@@ -111,6 +113,9 @@ class ValidCreatePIXTest(SavepointCase):
             "key_type": "phone",
             "key": "+50372424737",
         }
+        # Limpar PIX existente antes de criar
+        self.cleanup_partner_pix(self.partner_id.id, "phone", "+50372424737")
+
         self.res_partner_pix_model.with_context(tracking_disable=True).create(pix_vals)
         with mute_logger("odoo.sql_db"):
             with self.assertRaisesRegex(IntegrityError, "partner_pix_key_unique"):
