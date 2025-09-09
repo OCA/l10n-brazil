@@ -18,7 +18,7 @@
     "external_dependencies": {
         "python": [
             "satcomum",
-            "erpbrasil.base>=2.3.0",
+            "erpbrasil.base",
         ],
     },
     "data": [
