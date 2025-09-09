@@ -10,6 +10,7 @@ from odoo.tests import Form
 from odoo.tests.common import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.addons.l10n_br_base.tests.test_cleanup_mixin import TestCleanupMixin
 
 
 # Help function
@@ -18,7 +19,7 @@ def replace_chars(string, index, replacement):
 
 
 @tagged("post_install", "-at_install")
-class TestCNABStructure(AccountTestInvoicingCommon):
+class TestCNABStructure(AccountTestInvoicingCommon, TestCleanupMixin):
     @classmethod
     def setUpClass(
         cls, chart_template_ref="l10n_br_coa_generic.l10n_br_coa_generic_template"
@@ -42,6 +43,15 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         cls.cnab_structure_itau_240 = cls.env.ref(
             "l10n_br_cnab_structure.cnab_itau_240"
         )
+        # Limpar PIX existente antes de criar
+        cls.res_partner_pix_model.search(
+            [
+                ("partner_id", "=", cls.partner_a.id),
+                ("key_type", "=", "phone"),
+                ("key", "=", "+50372424737"),
+            ]
+        ).unlink()
+
         cls.res_partner_pix_model.create(
             {
                 "partner_id": cls.partner_a.id,
