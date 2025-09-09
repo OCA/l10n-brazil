@@ -79,10 +79,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     _description = "Document Fiscal Mixin"
 
     @api.model
-    def _default_operation(self):
-        return False
-
-    @api.model
     def _default_icmssn_range_id(self):
         company = self.env.company
         stax_range_id = self.env["l10n_br_fiscal.simplified.tax.range"]
@@ -173,7 +169,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.operation",
         string="Operation",
         domain=lambda self: self._operation_domain(),
-        default=_default_operation,
     )
 
     fiscal_operation_type = fields.Selection(
@@ -1630,8 +1625,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         precompute=True,
         readonly=False,
     )
-
-    additional_data = fields.Text()
 
     manual_additional_data = fields.Text(
         help="Additional data manually entered by user"
