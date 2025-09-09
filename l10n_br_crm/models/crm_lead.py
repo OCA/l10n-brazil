@@ -15,11 +15,11 @@ class Lead(models.Model):
     _name = "crm.lead"
     _inherit = [_name, "l10n_br_base.party.mixin"]
 
-    cnpj = fields.Char(string="CNPJ", unaccent=False)
+    cnpj = fields.Char(string="CNPJ")
 
-    cpf = fields.Char(string="CPF", unaccent=False)
+    cpf = fields.Char(string="CPF")
 
-    l10n_br_rg_code = fields.Char(string="RG", unaccent=False)
+    l10n_br_rg_code = fields.Char(string="RG")
 
     street_name = fields.Char()
 
