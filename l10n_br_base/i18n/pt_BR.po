@@ -3891,12 +3891,6 @@ msgid "Bálsamo"
 msgstr "Bálsamo"
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cei_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cei_code
-msgid "CEI Code"
-msgstr "Código CEI"
-
-#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf
@@ -3939,18 +3933,6 @@ msgstr "CPF"
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__cnpj_cpf
 msgid "CPF or CNPJ"
 msgstr "CPF ou CNPJ"
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_code
-msgid "CRC Code"
-msgstr "Código CRC"
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_state_id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_state_id
-msgid "CRC State"
-msgstr "Status CRC"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1300839
@@ -11256,12 +11238,6 @@ msgstr "Irupi"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_br_partner
 msgid "Is Br Partner"
 msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__is_accountant
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_accountant
-msgid "Is accountant?"
-msgstr "É contador?"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__is_br_partner
@@ -20149,12 +20125,6 @@ msgid "RG"
 msgstr "RG"
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__rntrc_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__rntrc_code
-msgid "RNTRC Code"
-msgstr "Código do RNTRC"
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2410504
 msgid "Rafael Fernandes"
 msgstr "Rafael Fernandes"
@@ -26444,12 +26414,6 @@ msgid "Uniflor"
 msgstr "Uniflor"
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__union_entity_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__union_entity_code
-msgid "Union Entity code"
-msgstr "Código do Sindicato"
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4322376
 msgid "Unistalda"
 msgstr "Unistalda"
@@ -27577,6 +27541,24 @@ msgstr "Óbidos"
 #: model:res.city,name:l10n_br_base.city_3533809
 msgid "Óleo"
 msgstr "Óleo"
+
+#~ msgid "CEI Code"
+#~ msgstr "Código CEI"
+
+#~ msgid "CRC Code"
+#~ msgstr "Código CRC"
+
+#~ msgid "CRC State"
+#~ msgstr "Status CRC"
+
+#~ msgid "Is accountant?"
+#~ msgstr "É contador?"
+
+#~ msgid "RNTRC Code"
+#~ msgstr "Código do RNTRC"
+
+#~ msgid "Union Entity code"
+#~ msgstr "Código do Sindicato"
 
 #, python-format
 #~ msgid "Bank branch code must be four caracteres."
