@@ -681,7 +681,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__additional_data
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__additional_data
 msgid "Additional Data"
 msgstr ""
 
@@ -749,8 +748,8 @@ msgid "Allow Csll Irpj"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_base_l10n_br_fiscal_tax_pis_cofins_base_uniq
-#: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_credit_l10n_br_fiscal_tax_pis_cofins_code_uniq
+#: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_base_code_unique
+#: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_tax_pis_cofins_credit_code_unique
 msgid "Already exists with this code!"
 msgstr ""
 
@@ -1620,8 +1619,8 @@ msgstr ""
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_city_taxation_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__city_taxation_code_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__city_taxation_code_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__city_taxation_code_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__city_taxation_code_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__city_taxation_code_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__city_taxation_code_ids
 #: model:ir.ui.menu,name:l10n_br_fiscal.city_taxation_code_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "City Taxation Code"
@@ -2013,7 +2012,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__customer_additional_data
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__customer_additional_data
 msgid "Customer Additional Data"
 msgstr ""
 
@@ -2684,7 +2682,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_additional_data
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_additional_data
 msgid "Fiscal Additional Data"
 msgstr ""
 
