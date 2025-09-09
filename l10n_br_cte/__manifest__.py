@@ -46,7 +46,7 @@
     "external_dependencies": {
         "python": [
             "nfelib<=2.0.7",
-            "erpbrasil.assinatura>=1.7.0",
+            "erpbrasil.assinatura",
             "erpbrasil.transmissao>=1.1.0",
             "erpbrasil.edoc>=2.5.2",
         ],
