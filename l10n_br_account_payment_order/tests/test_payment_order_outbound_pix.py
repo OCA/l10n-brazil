@@ -7,10 +7,11 @@ from odoo.exceptions import UserError
 from odoo.tests.common import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.addons.l10n_br_base.tests.test_cleanup_mixin import TestCleanupMixin
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
+class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon, TestCleanupMixin):
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
@@ -23,6 +24,15 @@ class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
         cls.payment_line_model = cls.env["account.payment.line"]
         cls.res_partner_pix_model = cls.env["res.partner.pix"]
         cls.bank_001 = cls.env.ref("l10n_br_base.res_bank_001")
+        # Limpar PIX existente antes de criar
+        cls.res_partner_pix_model.search(
+            [
+                ("partner_id", "=", cls.partner_a.id),
+                ("key_type", "=", "phone"),
+                ("key", "=", "+50372424737"),
+            ]
+        ).unlink()
+
         cls.res_partner_pix_model.create(
             {
                 "partner_id": cls.partner_a.id,
