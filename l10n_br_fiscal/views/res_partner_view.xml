@@ -5,6 +5,9 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form" />
         <field name="arch" type="xml">
+            <group name="other_infos" position="inside">
+                <field name="rntrc_code" />
+            </group>
             <group name="fiscal_numbers" position="after">
                 <group string="Fiscal Profile" name="fiscal_profile">
                     <field name="fiscal_profile_id" invisible="1" force_save="1" />
