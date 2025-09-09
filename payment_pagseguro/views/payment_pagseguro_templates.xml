@@ -17,9 +17,22 @@
     </template>
 
     <template
-        id="assets_common"
-        name="Payment Pagseguro Assets Common"
-        inherit_id="web.assets_common"
+        id="assets_frontend"
+        name="Payment Pagseguro Assets Frontend"
+        inherit_id="web.assets_frontend"
+    >
+        <xpath expr="." position="inside">
+            <script
+                type="text/javascript"
+                src="/payment_pagseguro/static/src/js/pagseguro_tour.js"
+            />
+        </xpath>
+    </template>
+
+    <template
+        id="assets_tests"
+        name="Payment Pagseguro Assets Tests"
+        inherit_id="web.assets_tests"
     >
         <xpath expr="." position="inside">
             <script

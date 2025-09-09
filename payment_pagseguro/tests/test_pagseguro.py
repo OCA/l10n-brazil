@@ -20,7 +20,7 @@ class PagseguroTest(odoo.tests.HttpCase):
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_buy_pagseguro.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        match_on=["method", "host", "port", "path", "query", "body"],
         filter_post_data_parameters=[
             "description",
             "reference_id",
@@ -29,6 +29,7 @@ class PagseguroTest(odoo.tests.HttpCase):
             "amount",
         ],
         ignore_localhost=True,
+        record_mode="overwrite",
     )
     def test_buy_pagseguro(self):
         self.start_tour(
@@ -58,7 +59,8 @@ class PagseguroTest(odoo.tests.HttpCase):
             order.currency_id = currency.id
 
     @vcr.use_cassette(
-        os.path.dirname(__file__) + "/fixtures/test_buy_pagseguro_fail.yaml"
+        os.path.dirname(__file__) + "/fixtures/test_buy_pagseguro_fail.yaml",
+        record_mode="overwrite",
     )
     def test_buy_pagseguro_fail(self):
         pagseguro_acquirer = self.env.ref(
