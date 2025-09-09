@@ -153,14 +153,44 @@ class PosOrder(models.Model):
     def cancel_nfce_from_ui(self, order_id, cancel_reason):
         order = self.env["pos.order"].search([("pos_reference", "=", order_id)])
 
+        if not order:
+            _logger.error("Order not found for pos_reference: %s" % order_id)
+            return False
+
+        if not order.account_move:
+            _logger.error("Account move not found for order: %s" % order_id)
+            return False
+
+        fiscal_document_id = order.account_move.fiscal_document_id
+        if not fiscal_document_id:
+            _logger.warning(
+                "Fiscal document not found for order: %s. Proceeding with refund only."
+                % order_id
+            )
+            # Proceed with refund even without fiscal document
+            order.with_context(
+                mail_create_nolog=True,
+                tracking_disable=True,
+                mail_create_nosubscribe=True,
+                mail_notrack=True,
+            ).refund()
+            refund_order = self.search(
+                [
+                    ("pos_reference", "=", order.pos_reference),
+                    ("amount_total", ">", 0),
+                ]
+            )
+            refund_order.pos_reference = f"{order.pos_reference}-cancelled"
+            return "cancelled"
+
         try:
-            order.account_move.fiscal_document_id._document_cancel(cancel_reason)
+            fiscal_document_id._document_cancel(cancel_reason)
         except Exception as e:
             _logger.error("Error cancelling NFCe document: %s" % e)
         finally:
             order.write(
                 {
-                    "state_edoc": order.account_move.fiscal_document_id.state_edoc,
+                    "state_edoc": fiscal_document_id.state_edoc,
                 }
             )
             order.with_context(
@@ -176,7 +206,7 @@ class PosOrder(models.Model):
                 ]
             )
             refund_order.pos_reference = f"{order.pos_reference}-cancelled"
-        return order.account_move.fiscal_document_id.state_edoc
+        return fiscal_document_id.state_edoc
 
 
 class PosOrderLine(models.Model):
