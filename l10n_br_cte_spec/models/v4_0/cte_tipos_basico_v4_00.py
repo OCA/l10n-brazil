@@ -188,7 +188,15 @@ IDE_TPIMP = [
 
 "Tipo do Serviço"
 IDE_TPSERV = [
-    ("9", "9"),
+    ("0", "Normal"),
+    ("1", "Subcontratação"),
+    ("2", "Redespacho"),
+    ("3", "Redespacho Intermediário"),
+    ("4", "Serviço Vinculado a Multimodal"),
+    ("6", "Transporte de Pessoas"),
+    ("7", "Transporte de Valores"),
+    ("8", "Excesso de Bagagem"),
+    ("9", "GTV"),
 ]
 
 "Indicador de CT-e Alteração de Tomador"
