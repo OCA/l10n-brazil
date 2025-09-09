@@ -13,9 +13,9 @@
     "data": ["views/res_config_settings_view.xml"],
     "external_dependencies": {
         "python": [
-            "erpbrasil.base>=2.3.0",
+            "erpbrasil.base",
             "erpbrasil.transmissao>=1.1.0",
-            "erpbrasil.assinatura>=1.7.0",
+            "erpbrasil.assinatura",
             "erpbrasil.edoc>=2.5.2",
         ]
     },
