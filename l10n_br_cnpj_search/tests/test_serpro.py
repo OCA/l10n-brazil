@@ -28,8 +28,9 @@ class TestTestSerPro(TestCnpjCommon):
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_serpro_basica.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        match_on=["method", "host", "port", "path", "query", "body"],
         ignore_localhost=True,
+        record_mode="overwrite",
     )
     def test_serpro_basica(self):
         dummy_basica = self.model.create(
@@ -63,8 +64,9 @@ class TestTestSerPro(TestCnpjCommon):
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_serpro_not_found.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        match_on=["method", "host", "port", "path", "query", "body"],
         ignore_localhost=True,
+        record_mode="overwrite",
     )
     def test_serpro_not_found(self):
         # In the Trial version there are only a few registered CNPJ records
@@ -119,8 +121,9 @@ class TestTestSerPro(TestCnpjCommon):
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_serpro_empresa.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        match_on=["method", "host", "port", "path", "query", "body"],
         ignore_localhost=True,
+        record_mode="overwrite",
     )
     def test_serpro_empresa(self):
         self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
@@ -152,8 +155,9 @@ class TestTestSerPro(TestCnpjCommon):
 
     @vcr.use_cassette(
         os.path.dirname(__file__) + "/fixtures/test_serpro_qsa.yaml",
-        match_on=["method", "scheme", "host", "port", "path", "query", "body"],
+        match_on=["method", "host", "port", "path", "query", "body"],
         ignore_localhost=True,
+        record_mode="overwrite",
     )
     def test_serpro_qsa(self):
         self.model.search([("cnpj_cpf", "=", "34.238.864/0001-68")]).write(
