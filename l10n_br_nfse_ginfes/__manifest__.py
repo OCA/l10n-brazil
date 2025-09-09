@@ -14,9 +14,9 @@
     "external_dependencies": {
         "python": [
             "erpbrasil.edoc>=2.5.2",
-            "erpbrasil.assinatura>=1.7.0",
+            "erpbrasil.assinatura",
             "erpbrasil.transmissao>=1.1.0",
-            "erpbrasil.base>=2.3.0",
+            "erpbrasil.base",
             "nfselib.ginfes",
         ],
     },
