@@ -4,7 +4,7 @@
         <field name="name">l10n_br.zip.tree</field>
         <field name="model">l10n_br.zip</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <button
                     name="zip_select"
                     string="Selecionar"
@@ -16,7 +16,7 @@
                 <field name="street_type" />
                 <field name="street_name" />
                 <field name="zip_complement" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -43,7 +43,7 @@
         <field name="name">CEPs</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br.zip</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="view_id" ref="l10n_br_zip_tree" />
     </record>
 </odoo>
