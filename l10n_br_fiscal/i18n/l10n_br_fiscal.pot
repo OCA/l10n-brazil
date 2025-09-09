@@ -6509,6 +6509,12 @@ msgid "RIPI"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__rntrc_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__rntrc_code
+msgid "RNTRC Code"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_ROLO
 msgid "ROLO"
 msgstr ""
