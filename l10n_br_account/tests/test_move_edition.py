@@ -24,6 +24,32 @@ class PatchedForm(Form):
         except ValueError as e:
             _logger.debug(f"ignoring error {e}")
 
+    # def _get_modifier(self, field_name, modifier):
+    # TODO was an attempt to fix NewID bugs, but seems useless
+    #     """
+    #     Monkey patch to work around Odoo 17 Form framework issue where
+    #     invisible="not document_type_id" evaluates BEFORE context values
+    #     are applied to new lines. This makes fiscal fields appear
+    #     invisible even when default_document_type_id is in context.
+    #     """
+    #     if modifier == 'invisible' and field_name in (
+    #         'uot_id',
+    #         'fiscal_price',
+    #         'fiscal_quantity',
+    #         'ncm_id',
+    #         'fiscal_operation_line_id',
+    #         'fiscal_genre_id',
+    #         'nbm_id',
+    #         'cest_id',
+    #         'cfop_id',
+    #         'city_taxation_code_id',
+    #         'service_type_id',
+    #         'cnae_id',
+    #         'nbs_id',
+    #     ):
+    #         return False
+    #     return super()._get_modifier(field_name, modifier)
+
 
 @tagged("post_install", "-at_install")
 class TestMoveEdition(TransactionCase):
@@ -37,6 +63,10 @@ class TestMoveEdition(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        cls.env = cls.env(
+            context=dict(cls.env.context, allowed_company_ids=cls.company.ids)
+        )
+        cls.env.user.company_id = cls.company
         cls.out_invoice_account_id = cls.env["account.account"].create(
             {
                 "company_id": cls.company.id,
@@ -155,6 +185,7 @@ class TestMoveEdition(TransactionCase):
             self.env["account.move"].with_context(
                 default_move_type="out_invoice",
                 no_fiscal_recompute_on_create=True,
+                default_company_id=self.company.id,
             )
         )
         move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
@@ -208,7 +239,9 @@ class TestMoveEdition(TransactionCase):
             )
 
             # ensure manually setting a product_uom_id is properly sync'ed:
-            self.assertEqual(line_form.product_uom_id, self.env.ref("uom.product_uom_unit"))
+            self.assertEqual(
+                line_form.product_uom_id, self.env.ref("uom.product_uom_unit")
+            )
             self.assertEqual(line_form.uot_id, self.env.ref("uom.product_uom_unit"))
             line_form.product_uom_id = self.env.ref("l10n_br_fiscal.UOM_PC")
             self.assertEqual(line_form.uot_id, self.env.ref("l10n_br_fiscal.UOM_PC"))

@@ -15,7 +15,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
 
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+        super().setUpClass(chart_template_ref="generic_coa")
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # Remove default Odoo demo taxes if they conflict or are not needed

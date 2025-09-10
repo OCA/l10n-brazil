@@ -145,7 +145,8 @@
                         'default_proxy_company_id': company_id,
                         'default_currency_id': currency_id or company_currency_id,
                         'default_fiscal_operation_id': fiscal_operation_id,
-                        'default_document_type_id': document_type_id
+                        'default_document_type_id': document_type_id,
+                        'default_document_id': fiscal_document_id
 
                     }
                 </attribute>
@@ -193,7 +194,10 @@
                     column_invisible="parent.fiscal_operation_id"
                 />
                 <field name="fiscal_document_line_id" column_invisible="True" />
+                <field name="document_id" column_invisible="True" />
                 <field name="document_type_id" column_invisible="True" />
+                <field name="uot_id" force_save="1" />
+                <field name="fiscal_price" />
                 <field
                     name="fiscal_operation_id"
                     optional="hide"
@@ -228,6 +232,7 @@
                         'default_currency_id': currency_id or company_currency_id,
                         'default_fiscal_operation_id': fiscal_operation_id,
                         'default_document_type_id': document_type_id,
+                        'default_document_id': fiscal_document_id,
                         'default_exclude_from_invoice_tab': 1
                     }
                     </attribute>
@@ -260,6 +265,7 @@
                     placeholders kick in.
                 -->
                 <field name="fiscal_operation_id" column_invisible="True" />
+                <field name="document_id" column_invisible="True" />
                 <field name="document_type_id" column_invisible="True" />
                 <field name="fiscal_operation_type" column_invisible="True" />
                 <field name="tax_icms_or_issqn" column_invisible="True" />
@@ -280,13 +286,15 @@
                 <field name="product_id" optional="hide" />
                 <field
                     name="fiscal_tax_ids"
-                    column_invisible="True"
                     widget="many2many_tags"
                     options="{'no_create': True}"
                 />
-                <field name="fiscal_quantity" column_invisible="True" />
-                <field name="uot_id" column_invisible="True" />
-                <field name="fiscal_price" column_invisible="True" />
+                <field
+                    name="fiscal_quantity"
+                    column_invisible="not parent.document_type_id"
+                />
+                <field name="uot_id" force_save="1" />
+                <field name="fiscal_price" />
                 <field name="discount_value" column_invisible="True" />
                 <!-- TODO adapt these placeholders for tree view for fiscal_form_view -->
                 <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
@@ -314,16 +322,11 @@
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='price_unit']"
                 position="after"
             >
-                <label
-                    for="fiscal_quantity"
-                    string="Fiscal Quantity"
-                    invisible="not document_type_id"
-                />
+                <label for="fiscal_quantity" string="Fiscal Quantity" />
                 <div>
                     <field
                         name="fiscal_quantity"
                         class="oe_inline"
-                        invisible="not document_type_id"
                         context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'uom_qty_change':True, 'company_id': parent.company_id}"
                     />
                     <field
@@ -331,11 +334,10 @@
                         force_save="1"
                         groups="uom.group_uom"
                         class="oe_inline oe_no_button"
-                        invisible="not document_type_id"
                         required="not display_type and document_type_id"
                     />
                 </div>
-                <field name="fiscal_price" invisible="not document_type_id" />
+                <field name="fiscal_price" />
                 <field name="proxy_product_id" invisible="1" />
                 <field name="proxy_company_id" invisible="1" />
                 <field name="proxy_partner_id" invisible="1" />

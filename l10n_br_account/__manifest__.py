@@ -31,7 +31,7 @@
         "wizards/wizard_document_status.xml",
         "wizards/document_import_wizard.xml",
         # Report
-        "report/account_invoice_report_view.xml",
+        # "report/account_invoice_report_view.xml",
         "views/res_partner_view.xml",
     ],
     "demo": [
