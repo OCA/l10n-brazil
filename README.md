@@ -68,6 +68,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal_dfe](l10n_br_fiscal_dfe/) | 14.0.2.4.1 |  | Distribuição de documentos fiscais
 [l10n_br_fiscal_edi](l10n_br_fiscal_edi/) | 14.0.1.4.0 | <a href='https://github.com/renatonlima'><img src='https://github.com/renatonlima.png' width='32' height='32' style='border-radius:50%;' alt='renatonlima'/></a> <a href='https://github.com/rvalyi'><img src='https://github.com/rvalyi.png' width='32' height='32' style='border-radius:50%;' alt='rvalyi'/></a> <a href='https://github.com/mileo'><img src='https://github.com/mileo.png' width='32' height='32' style='border-radius:50%;' alt='mileo'/></a> | Common EDI fiscal features
 [l10n_br_hr](l10n_br_hr/) | 14.0.1.5.3 |  | Brazilian Localization HR
+[l10n_br_hr_contract](l10n_br_hr_contract/) | 14.0.1.0.0 |  | Brazilian Localization HR Contract
 [l10n_br_hr_expense_invoice](l10n_br_hr_expense_invoice/) | 14.0.1.0.1 |  | Customization of HR Expense Invoice module for implementations in Brazil.
 [l10n_br_ie_search](l10n_br_ie_search/) | 14.0.1.3.2 |  | Integração com a API SintegraWS e SEFAZ
 [l10n_br_mdfe](l10n_br_mdfe/) | 14.0.1.6.0 | <a href='https://github.com/mileo'><img src='https://github.com/mileo.png' width='32' height='32' style='border-radius:50%;' alt='mileo'/></a> <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Brazilian Eletronic Invoice MDF-e
