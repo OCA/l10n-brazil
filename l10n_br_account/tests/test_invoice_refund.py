@@ -145,17 +145,21 @@ class TestInvoiceRefund(AccountMoveBRCommon):
         with self.assertRaises(UserError):
             move_reversal.reverse_moves()
 
-        invoice.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        invoice.with_context(
+            check_move_validity=False
+        ).fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
 
         with self.assertRaises(UserError):
             move_reversal.reverse_moves()
 
-        invoice.invoice_line_ids.write(
+        invoice.with_context(
+            check_move_validity=False, force_delete=True
+        ).invoice_line_ids.write(
             {
                 "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
-                "fiscal_operation_line_id": (
-                    self.env.ref("l10n_br_fiscal.fo_venda_venda").id,
-                ),
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_venda_venda"
+                ).id,
             }
         )
 
@@ -174,8 +178,12 @@ class TestInvoiceRefund(AccountMoveBRCommon):
         reverse_vals = self.reverse_vals
         invoice = self.invoice
 
-        invoice.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
-        invoice.invoice_line_ids.write(
+        invoice.with_context(
+            check_move_validity=False
+        ).fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        invoice.with_context(
+            check_move_validity=False, force_delete=True
+        ).invoice_line_ids.write(
             {
                 "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
                 "fiscal_operation_line_id": self.env.ref(
