@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_fiscal_certificate
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
+msgid "<span>Days before</span>"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_certificate.selection__l10n_br_fiscal_certificate__subtype__a1
 msgid "A1"
 msgstr "A1"
@@ -62,11 +67,6 @@ msgid "Add a new Certificate"
 msgstr "Adicionar um novo Certificado"
 
 #. module: l10n_br_fiscal_certificate
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
-msgid "Alert certificate expiration."
-msgstr "Alerta de expiração do certificado."
-
-#. module: l10n_br_fiscal_certificate
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_certificate.certificate_action
 msgid ""
 "All Certificate by\n"
@@ -93,14 +93,12 @@ msgstr "CNPJ/CPF"
 #. module: l10n_br_fiscal_certificate
 #. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
-#, python-format
 msgid "Cannot load Certificate !"
 msgstr "Não é possível carregar o certificado !"
 
 #. module: l10n_br_fiscal_certificate
 #. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
-#, python-format
 msgid ""
 "Cannot load Certificate ! \n"
 "\n"
@@ -137,9 +135,13 @@ msgid "Certificate Type"
 msgstr "Tipo de certificado"
 
 #. module: l10n_br_fiscal_certificate
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
+msgid "Certificate expiration alert"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
-#, python-format
 msgid ""
 "Certificate not found, you need to inform your e-CNPJ or e-NFe certificate "
 "in the Company."
@@ -181,11 +183,6 @@ msgstr "Data de Expiração"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__date_start
 msgid "Date Start"
 msgstr "Data Inicial"
-
-#. module: l10n_br_fiscal_certificate
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
-msgid "Days Before"
-msgstr "Dias Antes"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__display_name
@@ -279,11 +276,6 @@ msgid "Issuer Name"
 msgstr "Nome do Emissor"
 
 #. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__write_uid
 msgid "Last Updated by"
 msgstr "Última Atualização por"
@@ -292,11 +284,6 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__write_date
 msgid "Last Updated on"
 msgstr "Última Atualização em"
-
-#. module: l10n_br_fiscal_certificate
-#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Anexo Principal"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__message_has_error
@@ -371,7 +358,6 @@ msgstr "Número de mensagens com erro de entrega"
 #. module: l10n_br_fiscal_certificate
 #. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
-#, python-format
 msgid "Only e-CNPJ Certicate can be used for this case."
 msgstr "Somente o Certificado e-CNPJ pode ser utilizado para este caso."
 
@@ -389,7 +375,6 @@ msgstr "Senha"
 #. module: l10n_br_fiscal_certificate
 #. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/hooks.py:0
-#, python-format
 msgid ""
 "Python Library erpbrasil.assinatura not installed!You can install it later "
 "with: pip install erpbrasil.assinatura.Demo companies fake A1 certificates "
@@ -436,6 +421,18 @@ msgstr "Histórico de comunicação do website"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__file
 msgid "file"
 msgstr "arquivo"
+
+#~ msgid "Alert certificate expiration."
+#~ msgstr "Alerta de expiração do certificado."
+
+#~ msgid "Days Before"
+#~ msgstr "Dias Antes"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
 
 #~ msgid "Followers (Channels)"
 #~ msgstr "Seguidores (Canais)"
