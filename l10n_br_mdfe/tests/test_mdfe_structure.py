@@ -183,3 +183,9 @@ class MDFeStructure(SavepointCase):
                 (0, 0, {"unloading_harbor": "BRAMM"}),
                 (0, 0, {"unloading_harbor": "BRAMW"}),
             ]
+
+    def test_check_infPag(self):
+        mdfe = self.env.ref("l10n_br_mdfe.demo_mdfe_sn_modal_aquaviario")
+        mdfe.mdfe30_prodPred = self.env.ref("product.product_product_9")
+        with self.assertRaises(UserError):
+            mdfe.action_document_confirm()

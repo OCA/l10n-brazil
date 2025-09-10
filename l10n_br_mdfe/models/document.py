@@ -804,6 +804,15 @@ class MDFe(spec_models.StackedModel):
             if total_dfe != 1:
                 self.mdfe30_prodPred.mdfe30_NCM = False
 
+            elif total_dfe == 1 and not self.mdfe30_infPag:
+                raise UserError(
+                    _(
+                        "Payment information (infPag) "
+                        "must be provided when the MDF-e contains "
+                        "only one DF-e (full load)."
+                    )
+                )
+
             cep_carrega, cep_descarrega = None, None
 
             if len(cte_ids) == 1 or len(nfe_ids) == 1 or len(mdfe_ids) == 1:
