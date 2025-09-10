@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- LABOR BOND TYPE -->
+    <record id="labor_bond_type_10" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador urbano vinculado a empregador pessoa jurídica por contrato de trabalho regido pela CLT, por prazo indeterminado</field>
+        <field name="code">10</field>
+    </record>
+
+    <record id="labor_bond_type_15" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador urbano vinculado a empregador pessoa física por contrato de trabalho regido pela CLT, por prazo indeterminado</field>
+        <field name="code">15</field>
+    </record>
+
+    <record id="labor_bond_type_20" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador rural vinculado a empregador pessoa jurídica por contrato de trabalho regido pela Lei nº 5.889/1973, por prazo indeterminado</field>
+        <field name="code">20</field>
+    </record>
+
+    <record id="labor_bond_type_25" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador rural vinculado a empregador pessoa física por contrato de trabalho regido pela Lei nº 5.889/1973, por prazo indeterminado</field>
+        <field name="code">25</field>
+    </record>
+
+    <record id="labor_bond_type_30" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Servidor regido pelo Regime Jurídico Único (federal, estadual e municipal) e militar, vinculado a Regime Próprio de Previdência</field>
+        <field name="code">30</field>
+    </record>
+
+    <record id="labor_bond_type_31" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Servidor regido pelo Regime Jurídico Único (federal, estadual e municipal) e militar, vinculado ao Regime Geral de Previdência Social</field>
+        <field name="code">31</field>
+    </record>
+
+    <record id="labor_bond_type_35" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Servidor público não efetivo (demissível ad nutum ou admitido por meio de legislação especial, não-regido pela CLT)</field>
+        <field name="code">35</field>
+    </record>
+
+    <record id="labor_bond_type_40" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador avulso (trabalho administrado pelo sindicato da categoria ou pelo órgão gestor de mão-de-obra) para o qual é devido depósito de FGTS (CF/1988), art. 7º, inciso III</field>
+        <field name="code">40</field>
+    </record>
+
+    <record id="labor_bond_type_50" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador temporário, regido pela Lei nº 6.019, de 3 de janeiro de 1974</field>
+        <field name="code">50</field>
+    </record>
+
+    <record id="labor_bond_type_55" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Aprendiz contratado nos termos do art. 428 da CLT, regulamentado pelo Decreto nº 5.598, de 1º de dezembro de 2005</field>
+        <field name="code">55</field>
+    </record>
+
+    <record id="labor_bond_type_60" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador urbano vinculado a empregador pessoa jurídica por contrato de trabalho regido pela CLT, por tempo determinado ou obra certa</field>
+        <field name="code">60</field>
+    </record>
+
+    <record id="labor_bond_type_65" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador urbano vinculado a empregador pessoa física por contrato de trabalho regido pela CLT, por tempo determinado ou obra certa</field>
+        <field name="code">65</field>
+    </record>
+
+    <record id="labor_bond_type_70" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador rural vinculado a empregador pessoa jurídica por contrato de trabalho regido pela Lei nº 5.889/1973, por prazo determinado</field>
+        <field name="code">70</field>
+    </record>
+
+    <record id="labor_bond_type_75" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Trabalhador rural vinculado a empregador pessoa física por contrato de trabalho regido pela Lei nº 5.889/1973, por prazo determinado</field>
+        <field name="code">75</field>
+    </record>
+
+    <record id="labor_bond_type_80" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Diretor sem vínculo empregatício para o qual a empresa/entidade tenha optado por recolhimento ao FGTS ou Dirigente Sindical</field>
+        <field name="code">80</field>
+    </record>
+
+    <record id="labor_bond_type_90" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Contrato de Trabalho por Prazo Determinado, regido pela Lei nº 9.601, de 21 de janeiro de 1998</field>
+        <field name="code">90</field>
+    </record>
+
+    <record id="labor_bond_type_95" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Contrato de Trabalho por Tempo Determinado, regido pela Lei nº 8.745, de 9 de dezembro de 1993, com a redação dada pela Lei nº 9.849, de 26 de outubro de 1999</field>
+        <field name="code">95</field>
+    </record>
+
+    <record id="labor_bond_type_96" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Contrato de Trabalho por Prazo Determinado, regido por Lei Estadual</field>
+        <field name="code">96</field>
+    </record>
+
+    <record id="labor_bond_type_97" model="hr.contract.labor.bond.type">
+        <field
+            name="name"
+        >Contrato de Trabalho por Prazo Determinado, regido por Lei Municipal</field>
+        <field name="code">97</field>
+    </record>
+
+</odoo>

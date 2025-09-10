@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- LABOR REGIME -->
+    <record id="labor_regime_clt" model="hr.contract.labor.regime">
+        <field name="name">Consolidação das Leis de Trabalho</field>
+        <field name="short_name">CLT</field>
+        <field name="code">1</field>
+    </record>
+
+    <record id="labor_regime_est" model="hr.contract.labor.regime">
+        <field name="name">Estatutário</field>
+        <field name="short_name">EST</field>
+        <field name="code">2</field>
+    </record>
+
+    <record id="labor_regime_rju" model="hr.contract.labor.regime">
+        <field name="name">Regime Jurídico Único</field>
+        <field name="short_name">RJU</field>
+        <field name="code">9</field>
+    </record>
+
+    <record id="labor_regime_rjp" model="hr.contract.labor.regime">
+        <field name="name">Regime Jurídico Próprio</field>
+        <field name="short_name">RJP</field>
+        <field name="code">9</field>
+    </record>
+
+</odoo>
