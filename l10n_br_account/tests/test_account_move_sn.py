@@ -17,16 +17,18 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
     def setUpClass(
         cls, chart_template_ref="l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
     ):
-        try:
+        # try:
+        if False:
             super().setUpClass(chart_template_ref=chart_template_ref)
             _logger.info(f"using {chart_template_ref}")
-        except ValueError:
+            # except Exception as e:
+        else:
             _logger.info(
                 f"it seems {chart_template_ref} is not available, "
                 "falling back to l10n_generic_coa.configurable_chart_template."
             )
             super().setUpClass()
-            cls.company_data["company"].chart_template_id.sudo().load_fiscal_taxes(
+            cls.env["account.chart.template"].load_fiscal_taxes(
                 companies=[cls.company_data["company"]]
             )
 
@@ -159,7 +161,7 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "tax_line_id": self.env["account.tax"]
             .search(
                 [
-                    ("name", "=", "ICMS SN Saida"),
+                    ("name", "=", "ICMS SN Saída"),
                     ("company_id", "=", self.company_data["company"].id),
                 ],
                 limit=1,
