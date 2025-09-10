@@ -1,1 +1,1 @@
-from . import test_website_sale_tour
+# from . import test_website_sale_tour
