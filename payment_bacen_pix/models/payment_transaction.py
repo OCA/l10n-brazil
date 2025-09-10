@@ -131,7 +131,7 @@ class PaymentTransaction(models.Model):
         else:
             txid = (partner_id.cnpj_cpf.replace(".", "").replace("-", ""),)
         callback_hash = self._bacenpix_generate_callback_hash(str(txid))
-        webhook = url_join(base_url, "/webhook/{}".format(callback_hash))
+        webhook = url_join(base_url, f"/webhook/{callback_hash}")
         _logger.info(webhook)
         payload = json.dumps(
             {
