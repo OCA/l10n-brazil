@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_res_company_form_l10n_br_hr" model="ir.ui.view">
+        <field name="name">res.company in l10n_br_hr</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_base.l10n_br_base_res_company_form" />
+        <field name="arch" type="xml">
+            <field name="l10n_br_isuf_code" position="after">
+                <field name="cnpj_cei" />
+            </field>
+        </field>
+    </record>
+</odoo>
