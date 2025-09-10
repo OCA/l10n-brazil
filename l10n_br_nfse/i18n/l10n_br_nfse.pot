@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -128,7 +128,9 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "<span>Número da NFS-e</span><br/>"
+msgid ""
+"<span>Número da NFS-e</span>\n"
+"                        <br/>"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -159,11 +161,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
 msgid "City Settings"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__city_taxation_code_id
-msgid "City Taxation Code"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -284,15 +281,18 @@ msgid "Fiscal Deductions"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
-msgid "General Settings"
+#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document_line
-msgid ""
-"Grupo a ser informado nas vendas interestarduais para consumidor final,\n"
-"não contribuinte de ICMS"
+msgid "Fiscal Document Line"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
+msgid "General Settings"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -324,11 +324,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Incentivador Cultural: 2 - Não"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document
-msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_nfse
