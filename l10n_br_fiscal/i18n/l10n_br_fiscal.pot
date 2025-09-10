@@ -5516,6 +5516,18 @@ msgid "National Simplified Tax Range"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_calendar_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__activity_calendar_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__activity_calendar_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__activity_calendar_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__activity_calendar_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__activity_calendar_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__activity_calendar_event_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__activity_date_deadline
