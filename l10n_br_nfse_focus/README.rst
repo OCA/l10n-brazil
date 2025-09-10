@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ================
 NFS-e (FocusNFE)
 ================
@@ -17,17 +13,17 @@ NFS-e (FocusNFE)
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfse_focus
+    :target: https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfse_focus
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_nfse_focus
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_nfse_focus
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -63,15 +59,15 @@ para a empresa desejada:
 
 4. Na subseção NFS-e, configure os seguintes campos:
 
-      - **Ambiente NFS-e:** Selecione a opção a ser usada no ambiente
-        (Produção, Homologação)
-      - **Provedor NFS-e:** Selecione a opção FocusNFE
-      - **FocusNFe Token:** Informe o token de acesso da empresa. Obs.
-        Este token é obtido através da plataforma da FocusNFE
-      - **Valor Tipo de Serviço:** Se necessário configure o campo que
-        deve preencher o valor de tipo de serviço
-      - **Valor Código CNAE:** Se necessário configure o campo que deve
-        preencher o valor do Código CNAE
+      -  **Ambiente NFS-e:** Selecione a opção a ser usada no ambiente
+         (Produção, Homologação)
+      -  **Provedor NFS-e:** Selecione a opção FocusNFE
+      -  **FocusNFe Token:** Informe o token de acesso da empresa. Obs.
+         Este token é obtido através da plataforma da FocusNFE
+      -  **Valor Tipo de Serviço:** Se necessário configure o campo que
+         deve preencher o valor de tipo de serviço
+      -  **Valor Código CNAE:** Se necessário configure o campo que deve
+         preencher o valor do Código CNAE
 
 Usage
 =====
@@ -91,7 +87,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfse_focus%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfse_focus%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -107,14 +103,14 @@ Authors
 Contributors
 ------------
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - André Marcos <andre.marcos@kmee.com.br>
+   -  André Marcos <andre.marcos@kmee.com.br>
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
-  - Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
 
 Maintainers
 -----------
@@ -129,23 +125,17 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-.. |maintainer-AndreMarcos| image:: https://github.com/AndreMarcos.png?size=40px
-    :target: https://github.com/AndreMarcos
-    :alt: AndreMarcos
 .. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
     :target: https://github.com/mileo
     :alt: mileo
-.. |maintainer-ygcarvalh| image:: https://github.com/ygcarvalh.png?size=40px
-    :target: https://github.com/ygcarvalh
-    :alt: ygcarvalh
 .. |maintainer-marcelsavegnago| image:: https://github.com/marcelsavegnago.png?size=40px
     :target: https://github.com/marcelsavegnago
     :alt: marcelsavegnago
 
 Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-AndreMarcos| |maintainer-mileo| |maintainer-ygcarvalh| |maintainer-marcelsavegnago| 
+|maintainer-mileo| |maintainer-marcelsavegnago| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfse_focus>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfse_focus>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
