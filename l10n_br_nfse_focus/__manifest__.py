@@ -5,13 +5,11 @@
     "name": "NFS-e (FocusNFE)",
     "summary": """
         NFS-e (FocusNFE)""",
-    "version": "16.0.1.4.0",
+    "version": "17.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Escodoo, Odoo Community Association (OCA)",
     "maintainers": [
-        "AndreMarcos",
         "mileo",
-        "ygcarvalh",
         "marcelsavegnago",
     ],
     "website": "https://github.com/OCA/l10n-brazil",
