@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -76,12 +76,14 @@ msgid "Discount union contribution in admission"
 msgstr ""
 
 #. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_l10n_br_hr_contract_data_abstract__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -96,12 +98,14 @@ msgid "HR Data Base Abstract"
 msgstr ""
 
 #. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_l10n_br_hr_contract_data_abstract__id
 msgid "ID"
 msgstr ""
 
@@ -131,12 +135,14 @@ msgid "Labor regime"
 msgstr ""
 
 #. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause____last_update
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_l10n_br_hr_contract_data_abstract____last_update
 msgid "Last Modified on"
 msgstr ""
 
