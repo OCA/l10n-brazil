@@ -5,13 +5,13 @@
 from odoo import fields
 from odoo.tests.common import Form, tagged
 
-from odoo.addons.test_mail.tests.common import TestMailCommon
+from odoo.addons.mail.tests.common import MailCommon
 
 from .common import AccountMoveBRCommon
 
 
 @tagged("post_install", "-at_install")
-class TestPaymentStatusBR(AccountMoveBRCommon, TestMailCommon):
+class TestPaymentStatusBR(AccountMoveBRCommon, MailCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
