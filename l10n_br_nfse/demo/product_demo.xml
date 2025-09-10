@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Service products -->
+
+    <record id="l10n_br_fiscal.customized_development_sale" model="product.product">
+        <field name="fiscal_deductions_value">0.0</field>
+    </record>
+
+</odoo>

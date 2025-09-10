@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="nfse_res_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.res.company.form (in l10n_br_nfse)</field>
+        <field name="model">res.company</field>
+        <field name="priority">20</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="nfse" string="NFS-e">
+                    <group name="nfse_settings" string="General Settings">
+                        <group name="global_nfse_settings">
+                            <field name="nfse_environment" />
+                            <field name="cultural_sponsor" />
+                        </group>
+                        <group
+                            name="city_specific_nfse_settings"
+                            string="City Settings"
+                        >
+                            <field name="provedor_nfse" />
+                            <field name="nfse_city_logo" widget="image" />
+                            <field name="nfse_website" />
+                            <field name="nfse_ssl_verify" invisible="1" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
