@@ -34,11 +34,6 @@ class PartyMixin(models.AbstractModel):
         size=17,
     )
 
-    # compat with legacy code:
-    inscr_est = fields.Char(
-        related="l10n_br_ie_code", string="State Tax Number alias", readonly=False
-    )
-
     state_tax_number_ids = fields.One2many(
         string="Others State Tax Number",
         comodel_name="state.tax.numbers",
@@ -48,11 +43,6 @@ class PartyMixin(models.AbstractModel):
     l10n_br_im_code = fields.Char(
         string="Municipal Tax Number",
         size=18,
-    )
-
-    # backward compat with v14:
-    inscr_mun = fields.Char(
-        related="l10n_br_im_code", string="Municipal Tax Number alias", readonly=False
     )
 
     l10n_br_isuf_code = fields.Char(
