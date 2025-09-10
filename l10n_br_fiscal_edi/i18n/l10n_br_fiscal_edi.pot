@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -329,10 +329,7 @@ msgid "Download"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__state__draft
-#, python-format
 msgid "Draft"
 msgstr ""
 
@@ -349,7 +346,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
-#, python-format
 msgid "Erro!"
 msgstr ""
 
@@ -388,11 +384,11 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
+#: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__document_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard__document_id
-#, python-format
 msgid "Fiscal Document"
 msgstr ""
 
@@ -465,11 +461,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_document
-msgid "Informações de exportação"
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__type__3
 msgid "Inutilização"
 msgstr ""
@@ -497,7 +488,6 @@ msgstr ""
 #: model:ir.model,name:l10n_br_fiscal_edi.model_l10n_br_fiscal_invalidate_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event__invalidate_number_id
 #: model:ir.ui.menu,name:l10n_br_fiscal_edi.invalidate_number_menu
-#, python-format
 msgid "Invalidate Number"
 msgstr ""
 
@@ -537,16 +527,7 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
-#, python-format
 msgid "Justification must be at least 15 characters."
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_cancel_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_document_correction_wizard____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_event____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal_edi.field_l10n_br_fiscal_invalidate_number_wizard____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -582,21 +563,18 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
-#, python-format
 msgid "No PDF file generated!"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
-#, python-format
 msgid "No XML file generated!"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
-#, python-format
 msgid ""
 "Não foi possível salvar o arquivo\n"
 "                    em disco, verifique as permissões de escrita\n"
@@ -606,7 +584,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_workflow.py:0
-#, python-format
 msgid ""
 "Não é possível realizar esta operação,\n"
 "esta transição não é permitida:\n"
@@ -619,7 +596,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_workflow.py:0
-#, python-format
 msgid ""
 "Não é possível retornar o documento para em \n"
 "digitação, quando o mesmo esta na situação: \n"
@@ -687,10 +663,7 @@ msgid "Response Message"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__state__done
-#, python-format
 msgid "Response received"
 msgstr ""
 
@@ -708,10 +681,7 @@ msgid "Send Document File XML"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__state__send
-#, python-format
 msgid "Sending"
 msgstr ""
 
@@ -764,7 +734,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
-#, python-format
 msgid "The field 'Issuer' is required for brazilian electronic documents!"
 msgstr ""
 
@@ -774,10 +743,7 @@ msgid "Version"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
-#. odoo-python
-#: code:addons/l10n_br_fiscal_edi/models/document_event.py:0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_edi.selection__l10n_br_fiscal_event__state__wait
-#, python-format
 msgid "Waiting Response"
 msgstr ""
 
@@ -799,7 +765,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_workflow.py:0
-#, python-format
 msgid ""
 "You cannot create a fiscal correction document if this fical document you "
 "are not the document issuer"
@@ -808,7 +773,6 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document_workflow.py:0
-#, python-format
 msgid "You cannot invalidate this document"
 msgstr ""
 
