@@ -26,7 +26,7 @@ class ResPartner(spec_models.SpecModel):
         "nfe.40.transporta",
         "nfe.40.autxml",
     ]
-    _nfe_search_keys = ["nfe40_CNPJ", "nfe40_CPF", "nfe40_xNome"]
+    _nfe_search_keys = ["cnpj_cpf_stripped", "nfe40_xNome"]
 
     @api.model
     def _prepare_import_dict(
@@ -40,17 +40,14 @@ class ResPartner(spec_models.SpecModel):
         return values
 
     # nfe.40.tlocal / nfe.40.enderEmit / 'nfe.40.enderDest
-    # TODO: may be not store=True -> then override match
     nfe40_CNPJ = fields.Char(
         compute="_compute_nfe_data",
         inverse="_inverse_nfe40_CNPJ",
-        store=True,
         compute_sudo=True,
     )
     nfe40_CPF = fields.Char(
         compute="_compute_nfe_data",
         inverse="_inverse_nfe40_CPF",
-        store=True,
         compute_sudo=True,
     )
     nfe40_xLgr = fields.Char(
@@ -202,12 +199,11 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.nfe40_enderDest = rec.id
 
-    @api.depends("company_type", "l10n_br_ie_code", "cnpj_cpf", "country_id")
+    @api.depends("is_company", "l10n_br_ie_code", "vat", "country_id")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
-            cnpj_cpf = punctuation_rm(rec.cnpj_cpf)
-            if cnpj_cpf:
+            if rec.cnpj_cpf_stripped:
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice_dest = "nfe40_idEstrangeiro"
                     rec.nfe40_choice_tlocal = False
@@ -217,7 +213,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice_dest = "nfe40_CNPJ"
                     rec.nfe40_choice_autxml = "nfe40_CNPJ"
                     rec.nfe40_choice_transporta = "nfe40_CNPJ"
-                    rec.nfe40_CNPJ = cnpj_cpf
+                    rec.nfe40_CNPJ = rec.cnpj_cpf_stripped
                     rec.nfe40_CPF = None
                 else:
                     rec.nfe40_choice_tlocal = "nfe40_CPF"
@@ -225,7 +221,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice_dest = "nfe40_CPF"
                     rec.nfe40_choice_autxml = "nfe40_CPF"
                     rec.nfe40_choice_transporta = "nfe40_CPF"
-                    rec.nfe40_CPF = cnpj_cpf
+                    rec.nfe40_CPF = rec.cnpj_cpf_stripped
                     rec.nfe40_CNPJ = None
             else:
                 rec.nfe40_choice_tlocal = False
