@@ -1,22 +1,12 @@
-odoo.define("l10n_br_portal.tour", function (require) {
+odoo.define("l10n_br_portal.tour", ["@web/core/registry"], function (require) {
     "use strict";
 
-    var session = require("web.session");
-    var tour = require("web_tour.tour");
+    var registry = require("@web/core/registry").registry;
 
-    var domReady = new Promise(function (resolve) {
-        $(resolve);
-    });
-    var ready = Promise.all([domReady, session.is_bound]);
-
-    tour.register(
-        "l10n_br_portal_tour",
-        {
-            url: "/my/account",
-            test: true,
-            wait_for: ready,
-        },
-        [
+    registry.category("web_tour.tours").add("l10n_br_portal_tour", {
+        url: "/my/account",
+        test: true,
+        steps: () => [
             {
                 content: "Complete name",
                 trigger: "input[name='name']",
@@ -59,29 +49,29 @@ odoo.define("l10n_br_portal.tour", function (require) {
             },
             {
                 content: "check country is Brasil",
-                trigger: 'select[name=country_id]:contains("Brazil")',
+                trigger: "select[name='country_id']:contains('Brazil')",
                 run: function () {
-                    /* Keep empty ... */
+                    return true;
                 },
             },
             {
                 content: "check state is Minas Gerais",
-                trigger: 'select[name=state_id]:contains("Minas Gerais")',
+                trigger: "select[name='state_id']:contains('Minas Gerais')",
                 run: function () {
-                    /* Keep empty ... */
+                    return true;
                 },
             },
             {
                 content: "check city is Itajubá",
-                trigger: 'select[name=city_id]:contains("Itajubá")',
+                trigger: "select[name='city_id']:contains('Itajubá')",
                 run: function () {
-                    /* Keep empty ... */
+                    return true;
                 },
             },
             {
                 trigger: "button[type='submit']",
                 run: "click",
             },
-        ]
-    );
+        ],
+    });
 });
