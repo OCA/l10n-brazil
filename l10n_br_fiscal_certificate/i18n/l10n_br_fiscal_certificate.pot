@@ -306,6 +306,11 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_l10n_br_fiscal_certificate__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
