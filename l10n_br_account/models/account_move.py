@@ -4,12 +4,15 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
+import logging
 from contextlib import contextmanager
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tests.common import Form
 from odoo.tools import frozendict
+
+_logger = logging.getLogger(__name__)
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -123,6 +126,16 @@ class AccountMove(models.Model):
         if "partner_id" in vals:
             self._onchange_ind_final()
         return res
+
+    @api.onchange("company_id")
+    def _onchange_company_id_br(self):
+        if self.fiscal_document_id:
+            self.fiscal_document_id.company_id = self.company_id
+
+    @api.onchange("partner_id")
+    def _onchange_partner_id_br(self):
+        if self.fiscal_document_id:
+            self.fiscal_document_id.partner_id = self.partner_id
 
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
@@ -559,33 +572,93 @@ class AccountMove(models.Model):
         self.ensure_one_doc()
         return self.fiscal_document_id.action_send_email()
 
+    def write(self, vals):
+        # Ensure delegate exists if writing delegated fields and not already present.
+        # This can happen when an invoice is created without fiscal info and then
+        # repaired, or in some test scenarios.
+        fiscal_fields = self.env["l10n_br_fiscal.document"]._fields
+        if any(f in vals for f in fiscal_fields):
+            for move in self:
+                if not move.fiscal_document_id and move.document_type_id:
+                    move.fiscal_document_id = (
+                        self.env["l10n_br_fiscal.document"]
+                        .sudo()
+                        .create(
+                            {
+                                "company_id": move.company_id.id,
+                                "partner_id": move.partner_id.id,
+                                "move_type": move.move_type,
+                            }
+                        )
+                    )
+        return super().write(vals)
+
+    def copy_data(self, default=None):
+        res = super().copy_data(default=default)
+        for move, values in zip(self, res):
+            if not values.get("fiscal_operation_id"):
+                values["fiscal_operation_id"] = move.fiscal_operation_id.id
+            if not values.get("document_type_id"):
+                values["document_type_id"] = move.document_type_id.id
+            _logger.info("DEBUG copy_data values: %s", values)
+        return res
+
     def _reverse_moves(self, default_values_list=None, cancel=False):
+        _logger.info("DEBUG _reverse_moves starting")
         new_moves = super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
         )
+        _logger.info("DEBUG _reverse_moves new_moves: %s", new_moves.mapped('name'))
         force_fiscal_operation_id = False
         if self.env.context.get("force_fiscal_operation_id"):
             force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
                 self.env.context.get("force_fiscal_operation_id")
             )
-        for record in new_moves.filtered(lambda i: i.document_type_id):
-            if (
-                not force_fiscal_operation_id
-                and not record.fiscal_operation_id.return_fiscal_operation_id
-            ):
+        for record in new_moves:
+            _logger.info("DEBUG processing record %s document_type_id %s", record.name, record.document_type_id)
+            if not record.document_type_id:
+                continue
+
+            source_move = record.reversed_entry_id
+            _logger.info("DEBUG source_move: %s", source_move.name if source_move else 'None')
+            if not source_move:
+                continue
+
+            # Fallback to source move's operation if not copied
+            source_op = source_move.fiscal_operation_id
+            _logger.info("DEBUG source_op: %s", source_op)
+            if not source_op:
+                _logger.info("DEBUG RAISING Document without Fiscal Operation")
+                raise UserError(
+                    _("""Document without Fiscal Operation! \n Force one!""")
+                )
+
+            if not force_fiscal_operation_id and not source_op.return_fiscal_operation_id:
                 raise UserError(
                     _("""Document without Return Fiscal Operation! \n Force one!""")
                 )
 
             record.fiscal_operation_id = (
-                force_fiscal_operation_id
-                or record.fiscal_operation_id.return_fiscal_operation_id
+                force_fiscal_operation_id or source_op.return_fiscal_operation_id
             )
 
-            for line in record.invoice_line_ids:
+            _logger.info("DEBUG record.invoice_line_ids count: %s", len(record.invoice_line_ids))
+            # Match lines between reversed move and source move
+            # In reversal, order is usually preserved.
+            if len(record.invoice_line_ids) == len(source_move.invoice_line_ids):
+                matched_lines = zip(
+                    record.invoice_line_ids, source_move.invoice_line_ids
+                )
+            else:
+                # Fallback to empty source lines if count mismatch (unlikely)
+                matched_lines = [(line, self.env["account.move.line"]) for line in record.invoice_line_ids]
+
+            for line, source_line in matched_lines:
+                line_source_op = source_line.fiscal_operation_id
+
                 if (
                     not force_fiscal_operation_id
-                    and not line.fiscal_operation_id.return_fiscal_operation_id
+                    and not line_source_op.return_fiscal_operation_id
                 ):
                     raise UserError(
                         _(
@@ -597,7 +670,7 @@ class AccountMove(models.Model):
 
                 line.fiscal_operation_id = (
                     force_fiscal_operation_id
-                    or line.fiscal_operation_id.return_fiscal_operation_id
+                    or line_source_op.return_fiscal_operation_id
                 )
 
             # This method is in l10n_br_fiscal_subsequent_document module, the IF
