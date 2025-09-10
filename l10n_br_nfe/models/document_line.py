@@ -128,7 +128,9 @@ class NFeLine(spec_models.StackedModel):
     # Grupo I. Produtos e Serviços da NF-e
     ######################################
 
-    nfe40_det_infNFe_id = fields.Many2one(related="document_id")
+    nfe40_det_infNFe_id = fields.Many2one(
+        related="document_id", string="Fiscal Document"
+    )
 
     ######################################
     # NF-e tag: prod
@@ -145,7 +147,7 @@ class NFeLine(spec_models.StackedModel):
 
     # NVE TODO
 
-    nfe40_CEST = fields.Char(related="cest_id.code_unmasked")
+    nfe40_CEST = fields.Char(related="cest_id.code_unmasked", string="CEST code")
 
     # indEscala TODO
 
@@ -397,7 +399,7 @@ class NFeLine(spec_models.StackedModel):
     nfe40_vICMSST = fields.Monetary(related="icmsst_value")
 
     # ICMS FCP ST
-    nfe40_vFCPST = fields.Monetary(related="icmsfcpst_value")
+    nfe40_vFCPST = fields.Monetary(related="icmsfcpst_value", string="vFCPST")
 
     # COLOCAR NA ORDEM
     nfe40_pICMSST = fields.Float(related="icmsst_percent", string="pICMSST")
@@ -684,7 +686,7 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_vII = fields.Monetary(related="ii_value")
 
-    nfe40_vIOF = fields.Monetary(related="ii_iof_value")
+    nfe40_vIOF = fields.Monetary(related="ii_iof_value", string="vIOF")
 
     ###############
     # NF-e tag: PIS
