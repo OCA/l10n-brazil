@@ -19,6 +19,13 @@ class AccountMoveLine(models.Model):
     ]
     _inherits = {_fiscal_decorator_model: "fiscal_document_line_id"}
 
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        if "document_id" not in defaults and self.env.context.get("default_document_id"):
+            defaults["document_id"] = self.env.context["default_document_id"]
+        return defaults
+
     fiscal_document_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.line",
         string="Fiscal Document Line",
@@ -129,13 +136,36 @@ class AccountMoveLine(models.Model):
 
     def write(self, values):
         self._sync_proxy_fields_vals(values)
+
+        # Ensure delegate exists if writing delegated fields and not already present.
+        # This can happen when an invoice is created without fiscal info and then
+        # repaired, or in some test scenarios.
+        fiscal_fields = self.env["l10n_br_fiscal.document.line"]._fields
+        if any(f in values for f in fiscal_fields):
+            for line in self:
+                if not line.fiscal_document_line_id and line.move_id.document_type_id:
+                    move = line.move_id
+                    fiscal_doc = move.fiscal_document_id
+                    if fiscal_doc:
+                        line.fiscal_document_line_id = (
+                            self.env["l10n_br_fiscal.document.line"]
+                            .sudo()
+                            .create(
+                                {
+                                    "document_id": fiscal_doc.id or fiscal_doc,
+                                    "product_id": (
+                                        values.get("product_id") or line.product_id.id
+                                    ),
+                                    "quantity": values.get("quantity") or line.quantity,
+                                    "price_unit": (
+                                        values.get("price_unit") or line.price_unit
+                                    ),
+                                }
+                            )
+                        )
+
         res = super().write(values)
         return res
-
-    @api.model
-    def _sync_proxy_fields_vals(self, vals):
-        if "proxy_product_id" not in vals and "product_id" in vals:
-            vals["proxy_product_id"] = vals["product_id"]
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -145,10 +175,10 @@ class AccountMoveLine(models.Model):
                 continue
 
             move_id = self.env["account.move"].browse(values["move_id"])
-            fiscal_doc_id = move_id.fiscal_document_id.id
-            if not fiscal_doc_id:
+            fiscal_doc = move_id.fiscal_document_id
+            if not fiscal_doc:
                 continue
-            values["document_id"] = fiscal_doc_id  # pass through the _inherits system
+            values["document_id"] = fiscal_doc.id or fiscal_doc
         # This reordering bellow is crucial to ensure accurate linkage between
         # account.move.line (aml) and the fiscal document line. In the fiscal create a
         # fiscal document line, leaving only those that should be created. Proper
@@ -185,7 +215,21 @@ class AccountMoveLine(models.Model):
         sorted_result = self.env["account.move.line"]
         for idx in inverted_index:
             sorted_result |= result[idx]
+
+        # Force recompute of fiscal taxes to ensure they pick up the correct company_id
+        # which depends on document_id (linked above)
+        sorted_result.mapped("fiscal_document_line_id")._compute_fiscal_tax_ids()
+
         return sorted_result
+
+    def copy_data(self, default=None):
+        res = super().copy_data(default=default)
+        for line, values in zip(self, res):
+            if not values.get("fiscal_operation_id"):
+                values["fiscal_operation_id"] = line.fiscal_operation_id.id
+            if not values.get("fiscal_operation_line_id"):
+                values["fiscal_operation_line_id"] = line.fiscal_operation_line_id.id
+        return res
 
     def unlink(self):
         to_unlink = self.exists().fiscal_document_line_id
