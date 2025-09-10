@@ -55,14 +55,14 @@ class HrEmployee(models.Model):
     )
 
     l10n_br_rg_code = fields.Char(
-        related="address_home_id.l10n_br_rg_code",
+        related="work_contact_id.l10n_br_rg_code",
         help="National ID number",
         groups="hr.group_hr_user",
     )
 
     cpf = fields.Char(
         string="CPF",
-        related="address_home_id.vat",
+        related="work_contact_id.vat",
         readonly=False,
         groups="hr.group_hr_user",
     )
