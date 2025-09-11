@@ -32,10 +32,10 @@ BACENPIX = {
 }
 
 
-class PaymentAcquirer(models.Model):
-    _inherit = "payment.acquirer"
+class PaymentProvider(models.Model):
+    _inherit = "payment.provider"
 
-    provider = fields.Selection(
+    code = fields.Selection(
         selection_add=[(BACENPIX_PROVIDER, "Bacen (pix)")],
         ondelete={BACENPIX_PROVIDER: "set default"},
     )
@@ -50,6 +50,14 @@ class PaymentAcquirer(models.Model):
     bacen_pix_expiration = fields.Integer(
         string="Bacen PIX Expiration", default=3600, groups="base.group_user"
     )
+    bacenpix_certificate = fields.Binary(
+        string="Certificado",
+        groups="base.group_system",
+    )
+    bacenpix_private_key = fields.Binary(
+        string="Chave Privada",
+        groups="base.group_system",
+    )
 
     def bacenpix_compute_fees(self, amount, currency_id, country_id):
         """Compute fees
@@ -57,7 +65,7 @@ class PaymentAcquirer(models.Model):
         :param float amount: the amount to pay
         :param integer country_id: an ID of a res.country, or None. This is
                                    the customer's country, to be compared to
-                                   the acquirer company country.
+                                   the provider company country.
         :return float fees: computed fees
         """
         fees = 0.0
@@ -92,6 +100,7 @@ class PaymentAcquirer(models.Model):
             headers=headers,
             json=payload,
             verify=False,
+            timeout=20,
         )
         if response.status_code != 200 and response.status_code != 201:
             self.bacenpix_api_key = "Error"
@@ -120,6 +129,7 @@ class PaymentAcquirer(models.Model):
             headers=self._bacenpix_header(),
             data=payload,
             verify=False,
+            timeout=20,
         )
         return response
 
@@ -130,6 +140,7 @@ class PaymentAcquirer(models.Model):
             headers=self._bacenpix_header(),
             data={},
             verify=False,
+            timeout=20,
         )
         return response
 
@@ -142,7 +153,7 @@ class PaymentAcquirer(models.Model):
         transaction_id = self.env["payment.transaction"].search(
             [
                 ("callback_hash", "=", tx_reference),
-                ("acquirer_id.provider", "=", BACENPIX_PROVIDER),
+                ("provider_id.provider", "=", BACENPIX_PROVIDER),
             ]
         )
         if not transaction_id:

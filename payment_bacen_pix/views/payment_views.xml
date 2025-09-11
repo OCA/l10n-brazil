@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="acquirer_form_bacenpix" model="ir.ui.view">
-        <field name="name">acquirer.form.bacenpix</field>
-        <field name="model">payment.acquirer</field>
-        <field name="inherit_id" ref="payment.acquirer_form" />
+    <record id="provider_form_bacenpix" model="ir.ui.view">
+        <field name="name">provider.form.bacenpix</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
         <field name="arch" type="xml">
-            <xpath expr='//group[@name="acquirer"]' position='inside'>
-                <group attrs="{'invisible': [('provider', '!=', 'bacenpix')]}">
+            <xpath expr='//page[@name="credentials"]' position='inside'>
+                <group attrs="{'invisible': [('code', '!=', 'bacenpix')]}">
                     <field name="id" />
                     <field
                         name="bacenpix_email_account"
-                        attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        attrs="{'required':[ ('code', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
                     />
                     <field name="bacen_pix_expiration" />
                     <field name="bacen_pix_key" />
                     <field
                         name="bacenpix_client_id"
-                        attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        attrs="{'required':[ ('code', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
                     />
                     <field
                         name="bacenpix_client_secret"
-                        attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        attrs="{'required':[ ('code', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
                     />
                     <field
                         name="bacenpix_dev_app_key"
-                        attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled'),  ('state', '!=', 'enabled')]}"
+                        attrs="{'required':[ ('code', '=', 'bacenpix'), ('state', '!=', 'disabled'),  ('state', '!=', 'enabled')]}"
                     />
                     <field
                         name="bacen_pix_basic"
-                        attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        attrs="{'required':[ ('code', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
                     />
                     <button
                         name="bacen_pix_get_token"
                         string="Get Token"
                         type="object"
                         class="oe_inline fa fa-arrow-right oe_link"
-                        attrs="{'required':[ ('provider', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
+                        attrs="{'required':[ ('code', '=', 'bacenpix'), ('state', '!=', 'disabled')]}"
                     />
                     <field name="bacenpix_api_key" />
                 </group>
@@ -46,11 +46,11 @@
     </record>
 
     <record id="transaction_form_bacenpix" model="ir.ui.view">
-        <field name="name">acquirer.transaction.form.bacenpix</field>
+        <field name="name">provider.transaction.form.bacenpix</field>
         <field name="model">payment.transaction</field>
-        <field name="inherit_id" ref="payment.transaction_form" />
+        <field name="inherit_id" ref="payment.payment_transaction_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='acquirer_reference']" position="after">
+            <xpath expr="//field[@name='provider_reference']" position="after">
                 <button
                     name="action_bacenpix_check_transaction_status"
                     string="Check Status"
