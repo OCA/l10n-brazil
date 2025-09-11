@@ -191,26 +191,29 @@ class Document(models.Model):
             )
 
         result = {
-            "valor_servicos": valor_servicos,
-            "valor_deducoes": valor_deducoes,
-            "valor_pis": valor_pis,
-            "valor_pis_retido": valor_pis_retido,
-            "valor_cofins": valor_cofins,
-            "valor_cofins_retido": valor_cofins_retido,
-            "valor_inss": valor_inss,
-            "valor_inss_retido": valor_inss_retido,
-            "valor_ir": valor_ir,
-            "valor_ir_retido": valor_ir_retido,
-            "valor_csll": valor_csll,
-            "valor_csll_retido": valor_csll_retido,
+            "valor_servicos": "%.2f" % valor_servicos,
+            "valor_deducoes": "%.2f" % valor_deducoes,
+            "valor_pis": "%.2f" % valor_pis,
+            "valor_pis_retido": "%.2f" % valor_pis_retido,
+            "valor_cofins": "%.2f" % valor_cofins,
+            "valor_cofins_retido": "%.2f" % valor_cofins_retido,
+            "valor_inss": "%.2f" % valor_inss,
+            "valor_inss_retido": "%.2f" % valor_inss_retido,
+            "valor_ir": "%.2f" % valor_ir,
+            "valor_ir_retido": "%.2f" % valor_ir_retido,
+            "valor_csll": "%.2f" % valor_csll,
+            "valor_csll_retido": "%.2f" % valor_csll_retido,
             "iss_retido": "1" if self.fiscal_line_ids[0].issqn_wh_percent else "2",
-            "valor_iss": valor_iss,
-            "valor_iss_retido": valor_iss_retido,
-            "outras_retencoes": outras_retencoes,
-            "base_calculo": base_calculo,
-            "aliquota": (self.fiscal_line_ids[0].issqn_percent / 100)
-            or (self.fiscal_line_ids[0].issqn_wh_percent / 100),
-            "valor_liquido_nfse": valor_liquido_nfse,
+            "valor_iss": "%.2f" % valor_iss,
+            "valor_iss_retido": "%.2f" % valor_iss_retido,
+            "outras_retencoes": "%.2f" % outras_retencoes,
+            "base_calculo": "%.2f" % base_calculo,
+            "aliquota": "%.2f"
+            % (
+                (self.fiscal_line_ids[0].issqn_percent / 100)
+                or (self.fiscal_line_ids[0].issqn_wh_percent / 100)
+            ),
+            "valor_liquido_nfse": "%.2f" % valor_liquido_nfse,
             "item_lista_servico": self.fiscal_line_ids[0].service_type_id.code
             and self.fiscal_line_ids[0].service_type_id.code.replace(".", ""),
             "codigo_tributacao_municipio": self.fiscal_line_ids[
@@ -224,7 +227,7 @@ class Document(models.Model):
             "discriminacao": str(self.fiscal_line_ids[0].name[:2000] or ""),
             "codigo_cnae": misc.punctuation_rm(self.fiscal_line_ids[0].cnae_id.code)
             or None,
-            "valor_desconto_incondicionado": valor_desconto_incondicionado,
+            "valor_desconto_incondicionado": "%.2f" % valor_desconto_incondicionado,
         }
 
         result.update(self.company_id.prepare_company_servico())
