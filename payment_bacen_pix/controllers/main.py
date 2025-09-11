@@ -36,7 +36,7 @@ class PaymentController(http.Controller):
         csrf=False,
     )
     def bacenpix_webhook(self, tx_reference):
-        request.env["payment.acquirer"].sudo()._handle_bacenpix_webhook(
+        request.env["payment.provider"].sudo()._handle_bacenpix_webhook(
             tx_reference, request.jsonrequest
         )
         return "OK"

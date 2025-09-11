@@ -18,7 +18,7 @@ class BacenCommon(odoo.tests.HttpCase):
         bacenpix_client_secret = "test_client_secret"
         bacenpix_basic = "test_client_basic"
 
-        self.bacen = self.env["payment.acquirer"].create(
+        self.bacen = self.env["payment.provider"].create(
             {
                 "name": "Bacen (pix)",
                 "provider": "bacenpix",
@@ -56,7 +56,7 @@ class BacenTest(BacenCommon):
 
         tx = self.env["payment.transaction"].create(
             {
-                "acquirer_id": self.bacen.id,
+                "provider_id": self.bacen.id,
                 "partner_id": partner.id,
                 "bacenpix_date_due": datetime.now(),
                 "bacenpix_currency": "BRL",

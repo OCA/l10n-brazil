@@ -41,7 +41,7 @@ class PaymentTransaction(models.Model):
 
     def _get_processing_info(self):
         res = super()._get_processing_info()
-        if self.acquirer_id.provider == "bacenpix":
+        if self.provider_id.provider == "bacenpix":
             if self.state == "draft":
                 vals = {
                     "message_to_display": """
@@ -78,8 +78,8 @@ class PaymentTransaction(models.Model):
         if post:
             _logger.info(post)
 
-        response = self.acquirer_id._bacenpix_status_transaction(
-            self.acquirer_reference
+        response = self.provider_id._bacenpix_status_transaction(
+            self.provider_reference
         )
         response_data = response.json()
 
@@ -118,13 +118,13 @@ class PaymentTransaction(models.Model):
     def bacenpix_create(self, values):
         """Complete the values used to create the payment.transaction"""
         partner_id = self.env["res.partner"].browse(values.get("partner_id", []))
-        acquirer_id = self.env["payment.acquirer"].browse(values.get("acquirer_id", []))
-        currency_id = acquirer_id.create_uid.currency_id
+        provider_id = self.env["payment.provider"].browse(values.get("provider_id", []))
+        currency_id = provider_id.create_uid.currency_id
 
         due = fields.Date.context_today(self)
         due = datetime.combine(due, datetime.max.time())
 
-        base_url = acquirer_id.get_base_url()
+        base_url = provider_id.get_base_url()
 
         if values.get("bacenpix_txid"):
             txid = values.get("bacenpix_txid")
@@ -136,7 +136,7 @@ class PaymentTransaction(models.Model):
         payload = json.dumps(
             {
                 "calendario": {
-                    "expiracao": str(acquirer_id.bacen_pix_expiration),
+                    "expiracao": str(provider_id.bacen_pix_expiration),
                 },
                 "devedor": {
                     "cpf": partner_id.cnpj_cpf.replace(".", "").replace("-", ""),
@@ -145,11 +145,11 @@ class PaymentTransaction(models.Model):
                 "valor": {
                     "original": str(values.get("amount")),
                 },
-                "chave": str(acquirer_id.bacen_pix_key),
+                "chave": str(provider_id.bacen_pix_key),
             }
         )
 
-        response = acquirer_id._bacenpix_new_transaction(txid, payload)
+        response = provider_id._bacenpix_new_transaction(txid, payload)
         response_data = response.json()
         if not response.ok:
             raise ValidationError(
