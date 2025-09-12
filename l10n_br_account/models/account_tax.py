@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import Command, api, fields, models
+from odoo.tools.misc import formatLang
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import FINAL_CUSTOMER_NO
 
@@ -319,3 +320,14 @@ class AccountTax(models.Model):
             tax_values_list = []
 
         return to_update_vals, tax_values_list
+
+    @api.model
+    def _prepare_tax_totals(self, base_lines, currency, tax_lines=None):
+        res = super()._prepare_tax_totals(base_lines, currency, tax_lines)
+        if any(line["record"].fiscal_operation_line_id for line in base_lines):
+            res["formatted_amount_total"] = formatLang(
+                self.env,
+                sum(line["price_subtotal"] for line in base_lines),
+                currency_obj=currency,
+            )
+        return res
