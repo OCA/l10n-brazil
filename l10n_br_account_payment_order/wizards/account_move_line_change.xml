@@ -14,19 +14,22 @@
                     <field name="change_type" widget="radio" />
                     <field
                         name="date"
-                        attrs="{'invisible': [('change_type', 'not in', ['change_date_maturity', 'change_discount_date'])]}"
+                        invisible="change_type not in ['change_date_maturity', 'change_discount_date']"
                     />
                     <field
                         name="payment_mode_id"
-                        attrs="{'invisible': [('change_type', '!=', 'change_payment_mode')], 'required': [('change_type', '=', 'change_payment_mode')]}"
+                        invisible="change_type != 'change_payment_mode'"
+                        required="change_type == 'change_payment_mode'"
                     />
                     <field
                         name="rebate_value"
-                        attrs="{'invisible': [('change_type', '!=', 'grant_rebate')], 'required': [('change_type', '=', 'grant_rebate')]}"
+                        invisible="change_type != 'grant_rebate'"
+                        required="change_type == 'grant_rebate'"
                     />
                     <field
                         name="discount_value"
-                        attrs="{'invisible': [('change_type', '!=', 'grant_discount')], 'required': [('change_type', '=', 'grant_discount')]}"
+                        invisible="change_type != 'grant_discount'"
+                        required="change_type == 'grant_discount'"
                     />
                     <field name="reason" />
                 </group>

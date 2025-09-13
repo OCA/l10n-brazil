@@ -15,15 +15,12 @@
                     type="object"
                     string="Print Boleto"
                     class="btn-primary"
-                    attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('payment_method_code', 'not in', ('240', '400', '500'))]}"
+                    invisible="state != 'posted' or payment_method_code not in ('240', '400', '500')"
                 />
             </button>
             <xpath expr="/form/sheet/notebook" position="inside">
                 <field name="is_cnab" invisible="1" />
-                <page
-                    string="CNAB Informations"
-                    attrs="{'invisible':[('is_cnab','=',False)]}"
-                >
+                <page string="CNAB Informations" invisible="not is_cnab">
                     <group>
                         <field name="cnab_return_log_id" />
                     </group>

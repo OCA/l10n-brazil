@@ -157,7 +157,6 @@ def create_with_form_account_payment_mode(env, values, line_values=False):
         pay_mode.payment_order_ok = values.get("payment_order_ok")
         pay_mode.auto_create_payment_order = values.get("auto_create_payment_order")
         pay_mode.payment_method_id = values.get("payment_method_id")
-        pay_mode.group_lines = values.get("group_lines")
         if values.get("cnab_config_id"):
             pay_mode.cnab_config_id = values.get("cnab_config_id")
     return pay_mode.save()

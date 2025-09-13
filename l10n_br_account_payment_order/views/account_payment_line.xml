@@ -24,41 +24,41 @@
                    a necessidade de ter um arquivo, quais seriam os casos de uso ? -->
             <field name="amount_currency" position="attributes">
                 <attribute
-                    name="attrs"
-                >{'readonly': [('payment_method_code', 'in', ('400', '240', '500'))]}</attribute>
+                    name="readonly"
+                >payment_method_code in ('400', '240', '500')</attribute>
             </field>
             <!-- TODO: Implementação de Títulos com Diferentes Moedas,
                   CNAB 240 parece permitir -->
             <field name="currency_id" position="attributes">
                 <attribute
-                    name="attrs"
-                >{'readonly': [('payment_method_code', 'in', ('400', '240', '500'))]}</attribute>
+                    name="readonly"
+                >payment_method_code in ('400', '240', '500')</attribute>
             </field>
             <!-- TODO: Existe necessidade de alteração desse campo aqui ? Qual caso de uso ? -->
             <field name="move_line_id" position="attributes">
                 <attribute
-                    name="attrs"
-                >{'readonly': [('payment_method_code', 'not in', ('400', '240', '500'))]}</attribute>
+                    name="readonly"
+                >payment_method_code not in ('400', '240', '500')</attribute>
             </field>
             <field name="move_line_id" position="before">
                 <field
                     name="move_id"
-                    attrs="{'readonly': [('payment_method_code', 'not in', ['400', '240', '500'])]}"
+                    readonly="payment_method_code not in ['400', '240', '500']"
                 />
             </field>
             <!-- TODO: Existe a possibilidade de alterar o Partner e ter um diferente
                   do informado na account.move.line ? Qual seria o caso de uso ? -->
             <field name="partner_id" position="attributes">
                 <attribute
-                    name="attrs"
-                >{'readonly': [('payment_method_code', 'not in', ('400', '240', '500'))]}</attribute>
+                    name="readonly"
+                >payment_method_code not in ('400', '240', '500')</attribute>
             </field>
             <field name="partner_id" position="after">
                 <field
                     name="partner_pix_id"
                     context="{'default_partner_id': partner_id}"
                     domain="[('partner_id', '=', partner_id)]"
-                    attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                    invisible="payment_type == 'inbound'"
                 />
                 <field name="pix_transfer_type" readonly="1" />
             </field>
@@ -78,25 +78,25 @@
                     <field name="payment_mode_domain" invisible="1" />
                     <field
                         name="barcode"
-                        attrs="{'required': [('payment_type', '=', 'outbound'),('payment_mode_domain', '=', 'boleto')]}"
+                        required="payment_type == 'outbound' and payment_mode_domain == 'boleto'"
                     />
                     <field name="company_title_identification" readonly="1" />
                     <field
                         name="movement_type"
-                        attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
+                        invisible="payment_method_code != '240'"
                     />
                     <field name="instruction_move_code_id" readonly="1" />
                     <field
                         name="doc_finality_code"
-                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                        invisible="payment_type == 'inbound'"
                     />
                     <field
                         name="ted_finality_code"
-                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                        invisible="payment_type == 'inbound'"
                     />
                     <field
                         name="complementary_finality_code"
-                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                        invisible="payment_type == 'inbound'"
                     />
                     <field name="favored_warning" />
                     <field name="service_type" />

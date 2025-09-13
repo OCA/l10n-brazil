@@ -115,7 +115,7 @@
         <field name="model">l10n_br_cnab.return.event</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="is_cnab_lot" invisible="1" />
+                <field name="is_cnab_lot" column_invisible="True" />
                 <field name="lot_id" optional="show" />
                 <field
                     name="payment_line_ids"

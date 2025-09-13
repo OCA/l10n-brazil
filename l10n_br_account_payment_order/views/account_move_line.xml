@@ -34,19 +34,19 @@
                         string="Update CNAB Information"
                         type="action"
                         name="%(account_move_line_change_act_window)d"
-                        attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                        invisible="payment_method_code not in ('400', '240', '500')"
                     />
                 </header>
             </sheet>
             <field name="date_maturity" position="attributes">
                 <attribute
-                    name="attrs"
-                >{'readonly': [('payment_method_code', 'in', ('400', '240', '500'))]}</attribute>
+                    name="readonly"
+                >payment_method_code in ('400', '240', '500')</attribute>
             </field>
             <group name="payments" position="after">
                 <group
                     string="Informações do CNAB"
-                    attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                    invisible="payment_method_code not in ('400', '240', '500')"
                 >
                     <field name="cnab_state" readonly="1" />
                     <field name="payment_situation" readonly="1" />
@@ -59,7 +59,7 @@
                 </group>
                 <group
                     string="Linhas de Ordem de Pagamentos"
-                    attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                    invisible="payment_method_code not in ('400', '240', '500')"
                     colspan="2"
                 >
                     <field name="payment_line_ids" nolabel="1" colspan="2">
@@ -78,7 +78,7 @@
                 </group>
                 <group
                     string="Linhas de Retorno do CNAB"
-                    attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                    invisible="payment_method_code not in ('400', '240', '500')"
                     colspan="2"
                 >
                     <field name="cnab_return_line_ids" nolabel="1" colspan="2">

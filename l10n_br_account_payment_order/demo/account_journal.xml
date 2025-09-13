@@ -8,7 +8,6 @@
         <field name="code">TPO</field>
         <field name="type">sale</field>
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -29,7 +28,6 @@
         <field name="code">TPO1</field>
         <field name="type">sale</field>
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -50,7 +48,6 @@
         <field name="code">TPO2</field>
         <field name="type">sale</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -72,7 +69,6 @@
         <field name="code">BNC2</field>
         <field name="bank_account_id" ref="main_company_bank_bradesco" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -99,7 +95,6 @@
         <field name="code">BNC3</field>
         <field name="bank_account_id" ref="main_company_bank_unicredi" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -127,7 +122,6 @@
         <field name="code">BNC4</field>
         <field name="bank_account_id" ref="main_company_bank_itau" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -155,7 +149,6 @@
         <field name="code">BNC5</field>
         <field name="bank_account_id" ref="main_company_bank_bb" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record id="bb_journal_payment_method_cnab240" model="account.payment.method.line">
@@ -177,7 +170,6 @@
         <field name="code">BNC6</field>
         <field name="bank_account_id" ref="main_company_bank_cef" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record id="cef_journal_payment_method_cnab240" model="account.payment.method.line">
@@ -199,7 +191,6 @@
         <field name="code">BNC7</field>
         <field name="bank_account_id" ref="main_company_bank_sicredi" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -218,7 +209,6 @@
         <field name="code">BNC8</field>
         <field name="bank_account_id" ref="main_company_bank_ailos" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -237,7 +227,6 @@
         <field name="code">BNC9</field>
         <field name="bank_account_id" ref="main_company_bank_santander" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -265,7 +254,6 @@
         <field name="code">BNC10</field>
         <field name="bank_account_id" ref="main_company_bank_nordeste" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -284,7 +272,6 @@
         <field name="code">BNC11</field>
         <field name="bank_account_id" ref="main_company_bank_sicoob" />
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record
@@ -302,7 +289,6 @@
         <field name="code">DCQ</field>
         <field name="type">sale</field>
         <field name="company_id" ref="base.main_company" />
-        <field name="edi_format_ids" eval="False" />
     </record>
 
     <record id="cheque_journal_payment_method" model="account.payment.method.line">
