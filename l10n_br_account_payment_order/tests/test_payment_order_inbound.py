@@ -35,6 +35,7 @@ class TestPaymentOrderInbound(CNABTestCommon):
         # Change status of Move to draft just to test
         self.invoice_cef_240.button_cancel()
         self.assertEqual(len(payment_order.payment_line_ids), 0)
+        self.invoice_cef_240.button_draft()
         # TODO Na v13 ao cancelar uma invoice as linhas de lançamentos
         #  contabeis são mantidas, é preciso confirmar se em nenhum caso
         #  as linhas são apagadas para assim poder eliminar do Roadmap

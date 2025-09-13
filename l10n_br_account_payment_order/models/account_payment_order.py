@@ -148,13 +148,7 @@ class AccountPaymentOrder(models.Model):
                             requested_date=requested_date,
                         )
                     )
-                # Write requested_date on 'date' field of payment line
-                # norecompute is for avoiding a chained recomputation
-                # payment_line_ids.date
-                # > payment_line_ids.amount_company_currency
-                # > total_company_currency
-                with self.env.norecompute():
-                    payline.date = requested_date
+                payline.date = requested_date
                 # Group options
                 if order.payment_mode_id.group_lines:
                     hashcode = payline.payment_line_hashcode()

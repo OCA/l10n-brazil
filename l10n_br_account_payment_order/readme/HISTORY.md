@@ -1,3 +1,7 @@
+## 17.0.1.0.0 (2026-02-05)
+
+- \[MIG\] Migração para a versão 17.0
+
 ## 16.0.9.0.0 (2025-10-02)
 
 - \[REF\] Alterado o Código de Juros Mora de Char para Objeto/l10n_br_cnab.code

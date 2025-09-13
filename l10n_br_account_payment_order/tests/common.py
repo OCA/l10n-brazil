@@ -29,8 +29,8 @@ from .tools import (
 @tagged("post_install", "-at_install")
 class CNABTestCommon(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpClass(cls, chart_template_ref="generic_coa"):
+        super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         companies = cls.env["res.company"].search([])
@@ -783,7 +783,6 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             )
         )
         line_create.payment_mode = "same"
-        line_create.move_line_filters_change()
         line_create.populate()
         line_create.create_payment_lines()
         line_created_due = (

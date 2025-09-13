@@ -12,7 +12,7 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
+    def setUpClass(cls, chart_template_ref="generic_coa"):
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.company_data["company"]
