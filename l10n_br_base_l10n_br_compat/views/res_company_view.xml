@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="l10n_br.view_company_form" model="ir.ui.view">
+        <field name="active">False</field>
+    </record>
+</odoo>
