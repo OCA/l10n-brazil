@@ -9,7 +9,7 @@ from odoo import models
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    def prepare_partner_tomador(self, country_id):
+    def _prepare_service_provider(self, country_id):
         if self.is_company:
             tomador_cnpj = misc.punctuation_rm(self.cnpj_cpf or "")
             tomador_cpf = None

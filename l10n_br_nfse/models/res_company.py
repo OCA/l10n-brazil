@@ -33,7 +33,7 @@ class ResCompany(models.Model):
         default=False,
     )
 
-    def prepare_company_servico(self):
+    def _prepare_company_service(self):
         return {
             "codigo_municipio": int(self.partner_id.city_id.ibge_code) or None,
         }
