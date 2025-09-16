@@ -7,6 +7,12 @@
         <field name="arch" type="xml">
             <field name="journal_id" position="before">
                 <field name="force_fiscal_operation_id" />
+                <field name="force_fiscal_operation_journal_id" invisible="1" />
+            </field>
+            <field name="journal_id" position="attributes">
+                <attribute name="attrs">
+                    {'readonly': [('force_fiscal_operation_journal_id', '!=', False)]}
+                </attribute>
             </field>
         </field>
     </record>
