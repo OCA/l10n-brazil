@@ -153,20 +153,6 @@ class TestL10nBrSalesCommission(TransactionCase):
 
         # Refund
 
-        # Alteração do 'type' do 'account.journal' necessária para evitar erro:
-        #   addons/account/models/account_move.py", line 1823,
-        #   in _check_journal_move_type
-        #     raise ValidationError(_("Cannot create a sale document in a non
-        #     sale journal"))
-        #     odoo.exceptions.ValidationError: Cannot create a sale document
-        #     in a non sale journal
-        # TODO: Fazer essa alteração nos Dados? Ou criar um novo Diário para
-        #  Devoluções de Venda?
-        devolution_journal = self.env.ref(
-            "l10n_br_coa_simple.general_journal_main_company"
-        )
-        devolution_journal.type = "sale"
-
         refund_invoice_with_commission = invoice_with_commission._reverse_moves(
             default_values_list=[
                 {
