@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class DocumentLine(models.Model):
@@ -30,7 +30,12 @@ class DocumentLine(models.Model):
         ondelete="cascade",
     )
 
-    name = fields.Char()
+    name = fields.Char(
+        compute="_compute_name",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -52,7 +57,11 @@ class DocumentLine(models.Model):
 
     quantity = fields.Float(default=1.0)
 
-    ind_final = fields.Selection(related="document_id.ind_final")
+    ind_final = fields.Selection(
+        related="document_id.ind_final",
+        store=True,
+        precompute=True,
+    )
 
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total
@@ -66,9 +75,19 @@ class DocumentLine(models.Model):
 
     edoc_purpose = fields.Selection(
         related="document_id.edoc_purpose",
+        store=True,
+        precompute=True,
     )
 
     additional_data = fields.Text()
+
+    @api.depends("product_id")
+    def _compute_name(self):
+        for line in self:
+            if line.product_id:
+                line.name = line.product_id.display_name
+            else:
+                line.name = False
 
     def __document_comment_vals(self):
         self.ensure_one()

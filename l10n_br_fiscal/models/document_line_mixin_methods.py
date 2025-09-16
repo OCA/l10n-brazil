@@ -474,7 +474,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if not self.fiscal_operation_id:
             return
         if self.product_id:
-            self.name = self.product_id.display_name
             self.fiscal_type = self.product_id.fiscal_type
             self.uom_id = self.product_id.uom_id
             self.ncm_id = self.product_id.ncm_id
@@ -495,7 +494,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     self.city_taxation_code_id = city_id
                     self.issqn_fg_city_id = company_city_id
         else:
-            self.name = False
             self.fiscal_type = False
             self.uom_id = False
             self.ncm_id = False
