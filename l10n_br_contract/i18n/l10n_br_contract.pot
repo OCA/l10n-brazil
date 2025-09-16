@@ -422,6 +422,11 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_contract_form_view
+msgid "Edit in Form"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__estimate_tax
 msgid "Estimate Tax"
 msgstr ""
@@ -1464,6 +1469,7 @@ msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_contract_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_line_form_view
 msgid "Taxes"
 msgstr ""
