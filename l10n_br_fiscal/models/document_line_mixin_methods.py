@@ -309,10 +309,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
-                line.comment_ids = line.fiscal_operation_line_id.comment_ids
-
             else:
                 line.fiscal_tax_ids = [Command.clear()]
+
+    @api.depends("fiscal_operation_line_id")
+    def _compute_comment_ids(self):
+        for line in self:
+            line.comment_ids = [
+                Command.set(line.fiscal_operation_line_id.comment_ids.ids)
+            ]
 
     @api.model
     def _build_null_mask_dict(self) -> dict:

@@ -1620,7 +1620,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.comment",
         string="Comments",
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
-        compute="_compute_fiscal_tax_ids",
+        compute="_compute_comment_ids",
         store=True,
         precompute=True,
         readonly=False,
