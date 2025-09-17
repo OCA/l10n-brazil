@@ -146,32 +146,36 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return arch, view
 
     @api.depends(
-        "fiscal_price",
+        "price_unit",
+        "quantity",
         "discount_value",
         "insurance_value",
         "other_value",
         "freight_value",
-        "fiscal_quantity",
-        "amount_tax_not_included",
-        "amount_tax_included",
-        "amount_tax_withholding",
-        "uot_id",
-        "product_id",
-        "partner_id",
-        "company_id",
-        "price_unit",
-        "quantity",
-        "icms_relief_id",
-        "fiscal_operation_line_id",
+        "icms_relief_value",
+        # We depend on the final tax values to correctly compute totals.
+        "ipi_value",
+        "icmsst_value",
+        "pis_wh_value",
+        "cofins_wh_value",
+        "csll_wh_value",
+        "irpj_wh_value",
+        "inss_wh_value",
+        "issqn_wh_value",
     )
     def _compute_fiscal_amounts(self):
+        # print("\n---- START _compute_fiscal_amounts (LINE) ----")
         for record in self:
+            # print(f"  Line: {record.id} (Product: {record.product_id.name})")
+            # print(f"  INPUTS -> price_unit: {record.price_unit}, quantity: {record.quantity}")
+            # print(f"  INPUTS -> freight: {record.freight_value}, insurance: {record.insurance_value}, other: {record.other_value}")
+            # print(f"  INPUTS -> ipi_value: {record.ipi_value}, icmsst_value: {record.icmsst_value}")
+
             round_curr = record.currency_id or self.env.ref("base.BRL")
 
-            # Total value of products or services
+            # Step 1: Calculate the gross price and the primary tax base.
             record.price_gross = round_curr.round(record.price_unit * record.quantity)
             record.amount_fiscal = record.price_gross - record.discount_value
-            record.fiscal_amount_tax = record.amount_tax_not_included
 
             add_to_amount = sum(record[a] for a in record._add_fields_to_amount())
             rm_to_amount = sum(record[r] for r in record._rm_fields_to_amount())
@@ -182,20 +186,27 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 - rm_to_amount
             )
 
-            # Valor do documento (NF)
-            record.fiscal_amount_total = (
-                record.fiscal_amount_untaxed + record.fiscal_amount_tax
+            # Step 2: Sum the final, authoritative tax values.
+            taxes_not_included = record.ipi_value + record.icmsst_value
+            withholding_taxes = (
+                record.pis_wh_value
+                + record.cofins_wh_value
+                + record.csll_wh_value
+                + record.irpj_wh_value
+                + record.inss_wh_value
+                + record.issqn_wh_value
             )
 
-            # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
-            record.amount_taxed = (
-                record.fiscal_amount_total - record.amount_tax_withholding
-            )
+            record.fiscal_amount_tax = taxes_not_included
+            record.amount_tax_withholding = withholding_taxes
+            record.amount_tax_not_included = taxes_not_included
 
-            # Valor do documento (NF) - RETENÇÕES
+            # Step 3: Calculate the final totals based on the authoritative values.
+            fiscal_total_gross = record.fiscal_amount_untaxed + record.fiscal_amount_tax
+            record.amount_taxed = fiscal_total_gross - record.amount_tax_withholding
             record.fiscal_amount_total = record.amount_taxed
 
-            # Valor financeiro
+            # Step 4: Calculate financial totals.
             if (
                 record.fiscal_operation_line_id
                 and record.fiscal_operation_line_id.add_to_amount
@@ -210,18 +221,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 record.financial_total_gross = record.financial_total = 0.0
                 record.financial_discount_value = 0.0
 
+            # print(f"  OUTPUT -> fiscal_amount_untaxed: {record.fiscal_amount_untaxed}")
+            # print(f"  OUTPUT -> fiscal_amount_tax: {record.fiscal_amount_tax}")
+            # print(f"  OUTPUT -> fiscal_amount_total: {record.fiscal_amount_total}")
+        # print("---- END _compute_fiscal_amounts (LINE) ----")
+
     @api.depends("tax_icms_or_issqn", "partner_is_public_entity")
     def _compute_allow_csll_irpj(self):
         """Calculates the possibility of 'CSLL' and 'IRPJ' tax charges."""
         for line in self:
-            # Determine if 'CSLL' and 'IRPJ' taxes may apply:
-            # 1. When providing services (tax_icms_or_issqn == "issqn")
-            # 2. When supplying products to public entities (partner_is_public_entity
-            #  is True)
-            if line.tax_icms_or_issqn == "issqn" or line.partner_is_public_entity:
-                line.allow_csll_irpj = True  # Tax charges may apply
-            else:
-                line.allow_csll_irpj = False  # No tax charges expected
+            line.allow_csll_irpj = (
+                line.tax_icms_or_issqn == "issqn" or line.partner_is_public_entity
+            )
 
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
@@ -278,7 +289,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             return
         for line in self:
             if hasattr(line, "account_line_ids") and line.account_line_ids:
-                # it seems Odoo 16 ORM has a limitation when line is an
+                # it seems Odoo 16 ORM has a limitation when line is a
                 # l10n_br_fiscal.document.line that is edited via an account.move.line
                 # form and when both are a newID, then line relational field might be
                 # empty here. But in this case, we detect it and we wrap it back in the
@@ -304,10 +315,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
                 if wrapped_line._is_imported():
                     return
-
-                taxes = line.env["l10n_br_fiscal.tax"]
-                for tax in mapping_result["taxes"].values():
-                    taxes |= tax
+                taxes = line.env["l10n_br_fiscal.tax"].browse(
+                    [tax.id for tax in mapping_result["taxes"].values()]
+                )
                 line.fiscal_tax_ids = taxes
             else:
                 line.fiscal_tax_ids = [Command.clear()]
@@ -373,7 +383,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         null_mask = None
         for line in self.filtered(lambda line: not line._is_imported()):
             if hasattr(line, "account_line_ids") and line.account_line_ids:
-                # it seems Odoo 16 ORM has a limitation when line is an
+                # it seems Odoo 16 ORM has a limitation when line is a
                 # l10n_br_fiscal.document.line that is edited via an account.move.line
                 # form and when both are a newID, then line relational field might be
                 # empty here. But in this case, we detect it and we wrap it back in the
@@ -428,8 +438,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     "estimate_tax": compute_result.get("estimate_tax", 0.0),
                 }
             )
-            in_draft_mode = wrapped_line != wrapped_line._origin
-            if in_draft_mode:
+            if wrapped_line != wrapped_line._origin:
                 wrapped_line.update(to_update)
             else:
                 wrapped_line.write(to_update)
@@ -774,8 +783,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.depends("uom_id")
     def _compute_uot_id(self):
         for line in self:
-            if not line.uot_id:
-                line.uot_id = line.uom_id
+            line.uot_id = line.uot_id or line.uom_id
 
     @api.onchange("price_unit")
     def _onchange_price_unit_fiscal(self):
