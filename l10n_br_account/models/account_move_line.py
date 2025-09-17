@@ -307,61 +307,22 @@ class AccountMoveLine(models.Model):
     )
     def _compute_totals(self):
         """
-        Overriden to pass all the Brazilian parameters we need
-        to the account.tax#compute_all method.
+        Consider Brazilian taxes, landed costs
+        (insurance_value, freight_value, other_value) and icms_relief_value.
         """
-        result = super(
-            AccountMoveLine,
-            self.with_context(
-                skip_compute_fiscal_tax_ids=True, skip_compute_tax_fields=True
-            ),
-        )._compute_totals()
-        if not self.move_id.fiscal_operation_id:
-            return result
+        fiscal_lines = self.filtered(lambda line: line.move_id.fiscal_operation_id)
+        standard_lines = self - fiscal_lines
+        result = super(AccountMoveLine, standard_lines)._compute_totals()
 
-        for line in self:
+        for line in fiscal_lines.with_context(skip_compute_fiscal_tax_ids=True):
             if line.display_type != "product":
-                continue  # handled in super method
-
-            line_discount_price_unit = line.price_unit * (1 - (line.discount / 100.0))
-
-            # Compute 'price_total'.
-            if line.tax_ids:
-                taxes_res = line.tax_ids._origin.with_context().compute_all(
-                    line_discount_price_unit,
-                    currency=line.currency_id,
-                    quantity=line.quantity,
-                    product=line.product_id,
-                    partner=line.partner_id,
-                    is_refund=line.move_type in ("out_refund", "in_refund"),
-                    handle_price_include=True,  # sure?
-                    fiscal_taxes=line.with_context(
-                        skip_compute_fiscal_tax_ids=True
-                    ).fiscal_tax_ids,
-                    operation_line=line.fiscal_operation_line_id,
-                    cfop=line.cfop_id or None,
-                    ncm=line.ncm_id,
-                    nbs=line.nbs_id,
-                    nbm=line.nbm_id,
-                    cest=line.cest_id,
-                    discount_value=line.discount_value,
-                    insurance_value=line.insurance_value,
-                    other_value=line.other_value,
-                    ii_customhouse_charges=line.ii_customhouse_charges,
-                    freight_value=line.freight_value,
-                    fiscal_price=line.fiscal_price,
-                    fiscal_quantity=line.fiscal_quantity,
-                    uot_id=line.uot_id,
-                    icmssn_range=line.icmssn_range_id,
-                    icms_origin=line.icms_origin,
-                    ind_final=line.ind_final,
-                )
-
-                line.price_subtotal = taxes_res["total_excluded"]
-                line.price_total = taxes_res["total_included"]
-
-            line.price_total += (
-                line.insurance_value
+                line.price_subtotal = line.price_total = False
+                continue
+            line.price_subtotal = line.fiscal_amount_untaxed
+            line.price_total = (
+                line.fiscal_amount_untaxed
+                + line.fiscal_amount_tax
+                + line.insurance_value
                 + line.other_value
                 + line.freight_value
                 - line.icms_relief_value
