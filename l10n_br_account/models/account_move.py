@@ -243,14 +243,16 @@ class AccountMove(models.Model):
         "line_ids.cfop_id",
     )
     def _compute_amount(self):
-        for move in self.filtered(lambda m: m.fiscal_operation_id):
-            move._compute_fiscal_amount()  # breaks test_composite_move if removed
-            for line in move.line_ids:
-                if (
-                    move.is_invoice(include_receipts=True)
-                    and line.display_type == "product"
-                ):
-                    line._compute_tax_fields()
+        # TODO find another way to make test_composite_move work
+        # as compute in compute breaks payment_state
+        # for move in self.filtered(lambda m: m.fiscal_operation_id):
+        #     move._compute_fiscal_amount()  # breaks test_composite_move if removed
+        #     for line in move.line_ids:
+        #         if (
+        #             move.is_invoice(include_receipts=True)
+        #             and line.display_type == "product"
+        #         ):
+        #             line._compute_tax_fields()
 
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.fiscal_operation_id):
