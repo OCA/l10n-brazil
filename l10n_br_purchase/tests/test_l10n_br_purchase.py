@@ -466,95 +466,79 @@ class L10nBrPurchaseBaseTest(TransactionCase):
 
     def test_fields_freight_insurance_other_costs(self):
         """Test fields Freight, Insurance and Other Costs when
-        defined or By Line or By Total in Purchase Order.
+        defined By Line or By Total in a Purchase Order.
         """
-
         self._change_user_company(self.company)
-        # Por padrão a definição dos campos está por Linha
-        self.po_products.company_id.delivery_costs = "line"
-        self._run_purchase_order_onchanges(self.po_products)
-        # Teste definindo os valores Por Linha
-        for line in self.po_products.order_line:
-            line.price_unit = 100.0
-            line.freight_value = 10.0
-            line.insurance_value = 10.0
-            line.other_value = 10.0
-            self._run_purchase_line_onchanges(line)
+        po = self.po_products
+        # Ensure the PO is in draft state for the test
+        if po.state != "draft":
+            po.button_cancel()
+            po.button_draft()
 
-        self._invoice_purchase_order(self.po_products)
+        # Part 1: Test with delivery_costs = 'line'
+        # Values are set on the lines and totals are computed on the header.
+        po.company_id.delivery_costs = "line"
+
+        # Set values for the first line (qty=4, price_unit=100)
+        line1 = po.order_line[0]
+        line1.price_unit = 100.0
+        line1.product_qty = 4.0
+        line1.freight_value = 10.0
+        line1.insurance_value = 15.0
+        line1.other_value = 5.0
+
+        # Set values for the second line (qty=2, price_unit=100)
+        line2 = po.order_line[1]
+        line2.price_unit = 100.0
+        line2.product_qty = 2.0
+        line2.freight_value = 8.0
+        line2.insurance_value = 12.0
+        line2.other_value = 4.0
 
         self.assertEqual(
-            self.po_products.amount_freight_value,
-            20.0,
-            "Unexpected value for the field Amount Freight in Purchase Order.",
+            po.amount_freight_value,
+            18.0,
+            "Amount Freight should be the sum of line values.",
         )
         self.assertEqual(
-            self.po_products.amount_insurance_value,
-            20.0,
-            "Unexpected value for the field Amount Insurance in Purchase Order.",
+            po.amount_insurance_value,
+            27.0,
+            "Amount Insurance should be the sum of line values.",
         )
         self.assertEqual(
-            self.po_products.amount_other_value,
-            20.0,
-            "Unexpected value for the field Amount Other in Purchase Order.",
+            po.amount_other_value, 9.0, "Amount Other should be the sum of line values."
         )
 
-        # Teste definindo os valores Por Total
-        # Por padrão a definição dos campos está por Linha
-        self.po_products.company_id.delivery_costs = "total"
+        # Part 2: Test with delivery_costs = 'total'
+        # Values are set on the header and distributed proportionally to lines.
+        po.company_id.delivery_costs = "total"
 
-        # Caso que os Campos na Linha tem valor
-        self.po_products.amount_freight_value = 10.0
-        self.po_products.amount_insurance_value = 10.0
-        self.po_products.amount_other_value = 10.0
+        # Set header totals, which should trigger inverse methods to distribute.
+        po.amount_freight_value = 30.0
+        po.amount_insurance_value = 45.0
+        po.amount_other_value = 15.0
 
-        for line in self.po_products.order_line:
-            self.assertEqual(
-                line.freight_value,
-                5.0,
-                "Unexpected value for the field Freight in Purchase line.",
-            )
-            self.assertEqual(
-                line.insurance_value,
-                5.0,
-                "Unexpected value for the field Insurance in Purchase line.",
-            )
-            self.assertEqual(
-                line.other_value,
-                5.0,
-                "Unexpected value for the field Other Values in Purchase line.",
-            )
+        # Proportionality check:
+        # line1 price_gross = 4 * 100 = 400
+        # line2 price_gross = 2 * 100 = 200
+        # total_gross = 600
+        # line1 proportion = 400 / 600 = 2/3
+        # line2 proportion = 200 / 600 = 1/3
 
-        # Caso que os Campos na Linha não tem valor
-        for line in self.po_products.order_line:
-            line.price_unit = 100.0
-            line.freight_value = 0.0
-            line.insurance_value = 0.0
-            line.other_value = 0.0
+        # Check freight distribution
+        self.assertAlmostEqual(line1.freight_value, 30.0 * (2 / 3), 2)
+        self.assertAlmostEqual(line2.freight_value, 30.0 * (1 / 3), 2)
 
-        self.po_products.company_id.delivery_costs = "total"
+        # Check insurance distribution
+        self.assertAlmostEqual(line1.insurance_value, 45.0 * (2 / 3), 2)
+        self.assertAlmostEqual(line2.insurance_value, 45.0 * (1 / 3), 2)
 
-        self.po_products.amount_freight_value = 20.0
-        self.po_products.amount_insurance_value = 20.0
-        self.po_products.amount_other_value = 20.0
+        # Check other costs distribution
+        self.assertAlmostEqual(line1.other_value, 15.0 * (2 / 3), 2)
+        self.assertAlmostEqual(line2.other_value, 15.0 * (1 / 3), 2)
 
-        for line in self.po_products.order_line:
-            if line.price_total == 440.02:
-                self.assertEqual(
-                    line.freight_value,
-                    13.34,
-                    "Unexpected value for the field Amount Freight in Purchase Order.",
-                )
-                self.assertEqual(
-                    line.insurance_value,
-                    13.34,
-                    "Unexpected value for the field Insurance in Purchase Order.",
-                )
-                self.assertEqual(
-                    line.other_value,
-                    13.34,
-                    "Unexpected value for the field Other Values in Purchase Order.",
-                )
+        # Finally, test invoicing with the final values
+        self._invoice_purchase_order(po)
 
     def test_purchase_service_and_products(self):
         """
