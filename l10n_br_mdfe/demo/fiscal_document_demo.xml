@@ -76,6 +76,7 @@
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_manifesto_manifesto"
         />
+        <field name="fiscal_tax_ids" eval="[Command.clear()]" />
     </record>
 
 
@@ -135,6 +136,7 @@
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_manifesto_manifesto"
         />
+        <field name="fiscal_tax_ids" eval="[Command.clear()]" />
     </record>
 
 
@@ -191,6 +193,7 @@
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_manifesto_manifesto"
         />
+        <field name="fiscal_tax_ids" eval="[Command.clear()]" />
     </record>
 
 
@@ -250,6 +253,7 @@
             name="fiscal_operation_line_id"
             ref="l10n_br_fiscal.fo_manifesto_manifesto"
         />
+        <field name="fiscal_tax_ids" eval="[Command.clear()]" />
     </record>
 
 </odoo>
