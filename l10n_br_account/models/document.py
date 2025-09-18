@@ -89,6 +89,7 @@ class FiscalDocument(models.Model):
     # For some reason, perhaps limitation of _inhertis,
     # the related directly in the account.move does not work correctly.
     incoterm_id = fields.Many2one(
+        comodel_name="account.incoterms",
         string="Fiscal Inconterm",
         compute="_compute_incoterm_id",
         inverse="_inverse_incoterm_id",
