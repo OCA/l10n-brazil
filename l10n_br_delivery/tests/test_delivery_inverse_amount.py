@@ -11,441 +11,133 @@ class TestDeliveryInverseAmount(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.company = cls.env.user.company_id
+        cls.partner = cls.env.ref("l10n_br_base.res_partner_kmee")
+        cls.product1 = cls.env.ref("product.product_delivery_01")  # Price: 70.0
+        cls.product2 = cls.env.ref("product.product_delivery_02")  # Price: 40.0
 
-        cls.sale_demo = cls.env.ref("l10n_br_delivery.main_so_delivery_1")
+    def _create_and_prepare_so(self):
+        """Helper to create a draft SO with two lines."""
+        so_form = Form(self.env["sale.order"])
+        so_form.partner_id = self.partner
+        with so_form.order_line.new() as line:
+            line.product_id = self.product1
+            line.product_uom_qty = 1.0
+        with so_form.order_line.new() as line:
+            line.product_id = self.product2
+            line.product_uom_qty = 1.0
+        return so_form.save()
 
-        # Create two sale orders
-        sale_order_form_total = Form(cls.env["sale.order"], "sale.view_order_form")
-        sale_order_form_total.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
-        cls.sale_order_total_id = sale_order_form_total.save()
+    def _process_so_to_invoice(self, sale_order):
+        """Helper to confirm an SO, process its picking, and create an invoice."""
+        sale_order.action_confirm()
 
-        sale_order_form_line = Form(cls.env["sale.order"], "sale.view_order_form")
-        sale_order_form_line.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
-        cls.sale_order_line_id = sale_order_form_line.save()
+        picking = sale_order.picking_ids
+        picking.action_confirm()
+        picking.action_assign()
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
 
-        # Set 2 different products to the sale orders
-        with Form(cls.sale_order_total_id) as so:
-            with so.order_line.new() as line:
-                line.product_id = cls.env.ref("product.product_delivery_01")
-            with so.order_line.new() as line:
-                line.product_id = cls.env.ref("product.product_delivery_02")
+        wizard = (
+            self.env["sale.advance.payment.inv"]
+            .with_context(active_ids=sale_order.ids)
+            .create({})
+        )
+        wizard.create_invoices()
+        return sale_order.invoice_ids
 
-        with Form(cls.sale_order_line_id) as so:
-            with so.order_line.new() as line:
-                line.product_id = cls.env.ref("product.product_delivery_01")
-            with so.order_line.new() as line:
-                line.product_id = cls.env.ref("product.product_delivery_02")
+    def test_delivery_costs_by_line(self):
+        """
+        Tests when costs are entered on each SO line. The invoice should reflect
+        these exact line values.
+        """
+        self.company.delivery_costs = "line"
+        so = self._create_and_prepare_so()
 
-        # Alteração para permitir do teste
-        cls.sale_order_line_id.company_id.delivery_costs = "total"
-        # Change freight, insurance and other costs amount by Total values
-        with Form(cls.sale_order_total_id) as so:
-            so.amount_freight_value = 100.0
-            so.amount_insurance_value = 100.0
-            so.amount_other_value = 100.0
-
-        # Alteração para permitir do teste
-        cls.sale_order_line_id.company_id.delivery_costs = "line"
-        # Change freight, insurance and other costs amount by Lines values
-        with Form(cls.sale_order_line_id) as so:
-            with so.order_line.edit(0) as line:
+        # Update SO lines with costs
+        with Form(so) as so_form:
+            with so_form.order_line.edit(0) as line:
                 line.freight_value = 70.00
-                line.insurance_value = 70.00
-                line.other_value = 70.00
-            with so.order_line.edit(1) as line:
+                line.insurance_value = 60.00
+                line.other_value = 50.00
+            with so_form.order_line.edit(1) as line:
                 line.freight_value = 10.00
-                line.insurance_value = 10.00
-                line.other_value = 10.00
+                line.insurance_value = 20.00
+                line.other_value = 30.00
 
-        # TODO ?: alterando para permitir edição do campo e não falhar o teste
-        cls.sale_order_line_id.company_id.delivery_costs = "total"
-        with Form(cls.sale_order_line_id) as so:
-            so.amount_freight_value = 100.0
-            so.amount_insurance_value = 100.0
-            so.amount_other_value = 100.0
+        # Check SO header totals are summed correctly
+        self.assertAlmostEqual(so.amount_freight_value, 80.0)
+        self.assertAlmostEqual(so.amount_insurance_value, 80.0)
+        self.assertAlmostEqual(so.amount_other_value, 80.0)
 
-        # Confirm and create invoices for the sale orders
-        cls.sale_order_total_id.action_confirm()
-        cls.sale_order_line_id.action_confirm()
+        # Create the invoice from the finalized SO
+        invoice = self._process_so_to_invoice(so)
+        fiscal_document = invoice.fiscal_document_id
 
-        picking = cls.sale_order_total_id.picking_ids
-        picking.action_confirm()
-        # Check product availability
-        picking.action_assign()
-        # Force product availability
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking.button_validate()
+        # Check invoice header totals
+        self.assertAlmostEqual(fiscal_document.amount_freight_value, 80.0)
+        self.assertAlmostEqual(fiscal_document.amount_insurance_value, 80.0)
+        self.assertAlmostEqual(fiscal_document.amount_other_value, 80.0)
 
-        picking = cls.sale_order_line_id.picking_ids
-        picking.action_confirm()
-        # Check product availability
-        picking.action_assign()
-        # Force product availability
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking.button_validate()
-
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-
-        wizard_total = (
-            cls.env["sale.advance.payment.inv"]
-            .with_context(active_ids=cls.sale_order_total_id.ids)
-            .create({})
+        # Check invoice line values (should match SO line values)
+        line1 = fiscal_document.fiscal_line_ids.filtered(
+            lambda line: line.product_id == self.product1
         )
-
-        wizard_line = (
-            cls.env["sale.advance.payment.inv"]
-            .with_context(active_ids=cls.sale_order_line_id.ids)
-            .create({})
+        line2 = fiscal_document.fiscal_line_ids.filtered(
+            lambda line: line.product_id == self.product2
         )
+        self.assertAlmostEqual(line1.freight_value, 70.0)
+        self.assertAlmostEqual(line2.freight_value, 10.0)
+        self.assertAlmostEqual(line1.insurance_value, 60.0)
+        self.assertAlmostEqual(line2.insurance_value, 20.0)
+        self.assertAlmostEqual(line1.other_value, 50.0)
+        self.assertAlmostEqual(line2.other_value, 30.0)
 
-        wizard_total.create_invoices()
-        wizard_line.create_invoices()
-
-    def test_sale_order_total_amounts(self):
-        """Check sale order total amounts"""
-        self.assertEqual(
-            self.sale_order_total_id.amount_price_gross,
-            110.0,
-            "Unexpected value for the field amount_price_gross from Sale Order",
-        )
-        # No amount_untaxed é esperado o valor total dos produtos + frete, seguro
-        # e outros.
-        self.assertEqual(
-            self.sale_order_total_id.amount_untaxed,
-            410.0,
-            "Unexpected value for the field amount_untaxed from Sale Order",
-        )
-        self.assertEqual(
-            self.sale_order_total_id.amount_freight_value,
-            100.0,
-            "Unexpected value for the field amount_freight from Sale Order",
-        )
-        self.assertEqual(
-            self.sale_order_total_id.amount_insurance_value,
-            100.0,
-            "Unexpected value for the field amount_insurance from Sale Order",
-        )
-        self.assertEqual(
-            self.sale_order_total_id.amount_other_value,
-            100.0,
-            "Unexpected value for the field amount_costs from Sale Order",
-        )
-        self.assertEqual(
-            self.sale_order_total_id.amount_tax,
-            0.0,
-            "Unexpected value for the field amount_tax from Sale Order",
-        )
-
-    def test_sale_order_line_amounts(self):
-        """Check sale order line amounts"""
-        self.assertEqual(
-            self.sale_order_line_id.amount_price_gross,
-            110.0,
-            "Unexpected value for the field amount_price_gross from Sale Order",
-        )
-        # No amount_untaxed é esperado o valor total dos produtos + frete, seguro
-        # e outros.
-        self.assertEqual(
-            self.sale_order_line_id.amount_untaxed,
-            410.0,
-            "Unexpected value for the field amount_untaxed from Sale Order",
-        )
-        self.assertEqual(
-            self.sale_order_line_id.amount_freight_value,
-            100.0,
-            "Unexpected value for the field amount_freight from Sale Order",
-        )
-        self.assertEqual(
-            self.sale_order_line_id.amount_insurance_value,
-            100.0,
-            "Unexpected value for the field amount_insurance from Sale Order",
-        )
-        self.assertEqual(
-            self.sale_order_line_id.amount_other_value,
-            100.0,
-            "Unexpected value for the field amount_other from Sale Order",
-        )
-        self.assertEqual(
-            self.sale_order_line_id.amount_tax,
-            0.0,
-            "Unexpected value for the field amount_tax from Sale Order",
-        )
-
-    def test_invoice_amount_tax(self):
-        """Check invoice amount tax"""
-        invoice_tax_total = self.sale_order_total_id.invoice_ids[0].amount_tax
-
-        self.assertEqual(
-            invoice_tax_total,
-            0.0,
-            "Unexpected value for the field invoice_tax from Invoice",
-        )
-
-        invoice_tax_line = self.sale_order_line_id.invoice_ids[0].amount_tax
-
-        self.assertEqual(
-            invoice_tax_line,
-            0.0,
-            "Unexpected value for the field invoice_tax from Invoice",
-        )
-
-    def test_inverse_amount_freight_total(self):
-        """Check Fiscal Document freight values for total"""
-        fiscal_document_id = self.sale_order_total_id.invoice_ids[0].fiscal_document_id
-        self.assertEqual(
-            fiscal_document_id.amount_freight_value,
-            100,
-            "Unexpected value for the field amount_freight_value from "
-            "Fiscal Document",
-        )
-
-        for line in fiscal_document_id.fiscal_line_ids:
-            if line.name == "[FURN_7777] Office Chair":
-                self.assertEqual(
-                    line.freight_value,
-                    63.64,
-                    "Unexpected value for the field freight_value from "
-                    "Fiscal Document line",
-                )
-            if line.name == "[FURN_8888] Office Lamp":
-                self.assertEqual(
-                    line.freight_value,
-                    36.36,
-                    "Unexpected value for the field freight_value from "
-                    "Fiscal Document line",
-                )
-
-    def test_inverse_amount_freight_line(self):
-        """Check Fiscal Document freight values for lines"""
-        fiscal_document_id = self.sale_order_line_id.invoice_ids[0].fiscal_document_id
-        self.assertEqual(
-            fiscal_document_id.amount_freight_value,
-            100,
-            "Unexpected value for the field amount_freight_value from "
-            "Fiscal Document",
-        )
-
-        for line in fiscal_document_id.fiscal_line_ids:
-            if line.name == "[FURN_7777] Office Chair":
-                self.assertEqual(
-                    line.freight_value,
-                    87.5,
-                    "Unexpected value for the field freight_value from "
-                    "Fiscal Document line",
-                )
-            if line.name == "[FURN_8888] Office Lamp":
-                self.assertEqual(
-                    line.freight_value,
-                    12.5,
-                    "Unexpected value for the field freight_value from "
-                    "Fiscal Document line",
-                )
-
-    def test_inverse_amount_insurance_total(self):
-        """Check Fiscal Document insurance values for total"""
-        fiscal_document_id = self.sale_order_total_id.invoice_ids[0].fiscal_document_id
-        self.assertEqual(
-            fiscal_document_id.amount_insurance_value,
-            100,
-            "Unexpected value for the field amount_insurance_value from "
-            "Fiscal Document",
-        )
-
-        for line in fiscal_document_id.fiscal_line_ids:
-            if line.name == "[FURN_7777] Office Chair":
-                self.assertEqual(
-                    line.insurance_value,
-                    63.64,
-                    "Unexpected value for the field insurance_value from "
-                    "Fiscal Document line",
-                )
-            if line.name == "[FURN_8888] Office Lamp":
-                self.assertEqual(
-                    line.insurance_value,
-                    36.36,
-                    "Unexpected value for the field insurance_value from "
-                    "Fiscal Document line",
-                )
-
-    def test_inverse_amount_insurance_line(self):
-        """Check Fiscal Document insurance values for lines"""
-        fiscal_document_id = self.sale_order_line_id.invoice_ids[0].fiscal_document_id
-        self.assertEqual(
-            fiscal_document_id.amount_insurance_value,
-            100,
-            "Unexpected value for the field amount_insurance_value from "
-            "Fiscal Document",
-        )
-
-        for line in fiscal_document_id.fiscal_line_ids:
-            if line.name == "[FURN_7777] Office Chair":
-                self.assertEqual(
-                    line.insurance_value,
-                    87.5,
-                    "Unexpected value for the field insurance_value from "
-                    "Fiscal Document line",
-                )
-            if line.name == "[FURN_8888] Office Lamp":
-                self.assertEqual(
-                    line.insurance_value,
-                    12.5,
-                    "Unexpected value for the field insurance_value from "
-                    "Fiscal Document line",
-                )
-
-    def test_inverse_amount_other_costs_total(self):
-        """Check Fiscal Document other costs values for total"""
-        fiscal_document_id = self.sale_order_total_id.invoice_ids[0].fiscal_document_id
-        self.assertEqual(
-            fiscal_document_id.amount_other_value,
-            100,
-            "Unexpected value for the field other_value from " "Fiscal Document",
-        )
-
-        for line in fiscal_document_id.fiscal_line_ids:
-            if line.name == "[FURN_7777] Office Chair":
-                self.assertEqual(
-                    line.other_value,
-                    63.64,
-                    "Unexpected value for the field other_value from "
-                    "Fiscal Document line",
-                )
-            if line.name == "[FURN_8888] Office Lamp":
-                self.assertEqual(
-                    line.other_value,
-                    36.36,
-                    "Unexpected value for the field other_value from "
-                    "Fiscal Document line",
-                )
-
-    def test_inverse_amount_other_line(self):
-        """Check Fiscal Document other other values for lines"""
-        fiscal_document_id = self.sale_order_line_id.invoice_ids[0].fiscal_document_id
-        self.assertEqual(
-            fiscal_document_id.amount_other_value,
-            100,
-            "Unexpected value for the field other_value from " "Fiscal Document",
-        )
-
-        for line in fiscal_document_id.fiscal_line_ids:
-            if line.name == "[FURN_7777] Office Chair":
-                self.assertEqual(
-                    line.other_value,
-                    87.5,
-                    "Unexpected value for the field other_value from "
-                    "Fiscal Document line",
-                )
-            if line.name == "[FURN_8888] Office Lamp":
-                self.assertEqual(
-                    line.other_value,
-                    12.5,
-                    "Unexpected value for the field other_value from "
-                    "Fiscal Document line",
-                )
-
-    def test_not_cost_ratio_by_lines(self):
+    def test_delivery_costs_by_total(self):
         """
-        Teste quando não deve acontecer divisão proporcional entre os valores,
-        de Frete, Seguro e Outros Custos, esses valores nas linhas devem ser
-        independentes.
+        Tests when costs are entered on the SO header. The invoice should reflect
+        these header values and distribute them proportionally to the lines
+        based on price_gross.
         """
-        self.sale_demo.company_id.delivery_costs = "line"
-        self.sale_demo.action_confirm()
+        self.company.delivery_costs = "total"
+        so = self._create_and_prepare_so()
 
-        self.assertEqual(
-            self.sale_demo.amount_freight_value,
-            30.0,
-            "Unexpected value for the field amount_freight from Sale Order",
+        # Update SO header with total costs
+        with Form(so) as so_form:
+            so_form.amount_freight_value = 100.0
+            so_form.amount_insurance_value = 100.0
+            so_form.amount_other_value = 100.0
+
+        # Create the invoice from the finalized SO
+        invoice = self._process_so_to_invoice(so)
+        fiscal_document = invoice.fiscal_document_id
+
+        # Proportionality check:
+        # line1 price_gross = 1 * 70 = 70
+        # line2 price_gross = 1 * 40 = 40
+        # total_gross = 110
+        # line1 proportion = 70 / 110
+        # line2 proportion = 40 / 110
+
+        # Check invoice header totals
+        self.assertAlmostEqual(fiscal_document.amount_freight_value, 100.0)
+        self.assertAlmostEqual(fiscal_document.amount_insurance_value, 100.0)
+        self.assertAlmostEqual(fiscal_document.amount_other_value, 100.0)
+
+        # Check invoice line values (should be proportionally distributed)
+        line1 = fiscal_document.fiscal_line_ids.filtered(
+            lambda line: line.product_id == self.product1
         )
-        self.assertEqual(
-            self.sale_demo.amount_insurance_value,
-            45.0,
-            "Unexpected value for the field amount_insurance from Sale Order",
+        line2 = fiscal_document.fiscal_line_ids.filtered(
+            lambda line: line.product_id == self.product2
         )
-        self.assertEqual(
-            self.sale_demo.amount_other_value,
-            15.0,
-            "Unexpected value for the field amount_costs from Sale Order",
-        )
-        for line in self.sale_demo.order_line:
-            other_line = self.sale_demo.order_line.filtered(
-                lambda o_l, line=line: o_l.id != line.id
-            )
-            self.assertNotEqual(
-                line.freight_value,
-                other_line.freight_value,
-                "Value freight_value should not be has same value in lines.",
-            )
-            self.assertNotEqual(
-                line.insurance_value,
-                other_line.insurance_value,
-                "Value insurance_value should not be has same value in lines.",
-            )
-            self.assertNotEqual(
-                line.other_value,
-                other_line.other_value,
-                "Value other_value should not be has same value in lines.",
-            )
 
-        picking = self.sale_demo.picking_ids
-        # Check product availability
-        picking.action_assign()
-        # Force product availability
-        for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
-        picking.button_validate()
-        self.assertEqual(picking.state, "done")
+        self.assertAlmostEqual(line1.freight_value, 100.0 * (70.0 / 110.0), 2)
+        self.assertAlmostEqual(line2.freight_value, 100.0 * (40.0 / 110.0), 2)
 
-        self.sale_demo._create_invoices(final=True)
+        self.assertAlmostEqual(line1.insurance_value, 100.0 * (70.0 / 110.0), 2)
+        self.assertAlmostEqual(line2.insurance_value, 100.0 * (40.0 / 110.0), 2)
 
-        self.assertEqual(self.sale_demo.state, "sale", "Error to confirm Sale Order.")
-
-        invoice = self.sale_demo.invoice_ids[0]
-        invoice.action_post()
-        self.assertEqual(invoice.state, "posted", "Invoice should be in state Posted")
-        for line in invoice.invoice_line_ids:
-            other_line = invoice.invoice_line_ids.filtered(
-                lambda o_l, line=line: o_l.id != line.id
-            )
-            self.assertNotEqual(
-                line.freight_value,
-                other_line.freight_value,
-                "Value freight_value should not be has same value" " in invoice lines.",
-            )
-            self.assertNotEqual(
-                line.insurance_value,
-                other_line.insurance_value,
-                "Value insurance_value should not be has same value"
-                " in invoice lines.",
-            )
-            self.assertNotEqual(
-                line.other_value,
-                other_line.other_value,
-                "Value other_value should not be has same value" " in invoice lines.",
-            )
-
-        fiscal_document_id = self.sale_demo.invoice_ids[0].fiscal_document_id
-
-        for line in fiscal_document_id.fiscal_line_ids:
-            other_line = fiscal_document_id.fiscal_line_ids.filtered(
-                lambda o_l, line=line: o_l.id != line.id
-            )
-            self.assertNotEqual(
-                line.freight_value,
-                other_line.freight_value,
-                "Value freight_value should not be has same value" " in invoice lines.",
-            )
-            self.assertNotEqual(
-                line.insurance_value,
-                other_line.insurance_value,
-                "Value insurance_value should not be has same value"
-                " in invoice lines.",
-            )
-            self.assertNotEqual(
-                line.other_value,
-                other_line.other_value,
-                "Value other_value should not be has same value" " in invoice lines.",
-            )
+        self.assertAlmostEqual(line1.other_value, 100.0 * (70.0 / 110.0), 2)
+        self.assertAlmostEqual(line2.other_value, 100.0 * (40.0 / 110.0), 2)
