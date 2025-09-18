@@ -266,6 +266,8 @@ class AccountMove(models.Model):
             move.amount_tax_signed = sign * sum(
                 inv_line_ids.mapped("fiscal_amount_tax")
             )
+            move.amount_total = sum(inv_line_ids.mapped("fiscal_amount_total"))
+
         return result
 
     def _compute_imported_terms(self):
