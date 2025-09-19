@@ -2046,7 +2046,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             move_vals,
         )
 
-    def TODO_test_composite_move(self):
+    def test_composite_move(self):
         # first we make a few assertions about an existing vendor bill:
         self.assertEqual(len(self.move_in_compra_para_revenda.invoice_line_ids), 1)
         self.assertEqual(len(self.move_in_compra_para_revenda.line_ids), 10)
