@@ -309,10 +309,6 @@ class AccountMove(models.Model):
                                 pass
                             else:
                                 untaxed_amount_currency += line.price_subtotal
-                                for tax_result in (line.compute_all_tax or {}).values():
-                                    tax_amount_currency += -sign * tax_result.get(
-                                        "amount_currency", 0.0
-                                    )
                         untaxed_amount = untaxed_amount_currency
                         tax_amount = tax_amount_currency
                     else:
