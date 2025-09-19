@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="payment_provider_inter_pix" model="payment.provider">
+        <field name="name">Banco Inter PIX</field>
+        <field name="code">inter_pix</field>
+        <field name="state">test</field>
+        <field name="is_published">False</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="bacen_pix_key" >dummy</field>
+        <field name="bacenpix_client_id" >dummy</field>
+        <field name="bacenpix_client_secret" >dummy</field>
+    </record>
+</odoo>

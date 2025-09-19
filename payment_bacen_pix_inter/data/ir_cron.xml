@@ -1,0 +1,17 @@
+<odoo>
+    <data noupdate="1">
+
+        <record id="ir_cron_update_pix_status" model="ir.cron">
+            <field name="name">Atualizar status PIX Inter</field>
+            <field name="model_id" ref="payment.model_payment_transaction"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_update_pix_status()</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">False</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

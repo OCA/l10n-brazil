@@ -1,0 +1,18 @@
+<odoo>
+    <record id="view_payment_provider_form_inter_pix" model="ir.ui.view">
+        <field name="name">payment.provider.form.inter.pix</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='credentials']" position="inside">
+                <group attrs="{'invisible':[('code','!=','inter_pix')]}">
+                    <field name="bacen_pix_key" />
+                    <field name="bacenpix_client_id" />
+                    <field name="bacenpix_client_secret" />
+                    <field name="bacenpix_certificate" />
+                    <field name="bacenpix_private_key" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
