@@ -243,16 +243,13 @@ class AccountMove(models.Model):
         "line_ids.cfop_id",
     )
     def _compute_amount(self):
-        # TODO find another way to make test_composite_move work
-        # as compute in compute breaks payment_state
-        # for move in self.filtered(lambda m: m.fiscal_operation_id):
-        #     move._compute_fiscal_amount()  # breaks test_composite_move if removed
-        #     for line in move.line_ids:
-        #         if (
-        #             move.is_invoice(include_receipts=True)
-        #             and line.display_type == "product"
-        #         ):
-        #             line._compute_tax_fields()
+        if "force_fiscal_amount_recompute" in self._context:
+            for move in self.filtered(lambda m: m.fiscal_operation_id):
+                # this is a ugly hack required for importing composite
+                # fiscal documents for instance. It should be used
+                # exceptionnaly as it breaks the dependency chain and
+                # can leave fields such as payment_state inconsistent.
+                move._compute_fiscal_amount()
 
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.fiscal_operation_id):
@@ -672,6 +669,7 @@ class AccountMove(models.Model):
             move.with_context(
                 default_move_type=move_type,
                 account_predictive_bills_disable_prediction=True,
+                force_fiscal_amount_recompute=True,
             )
         )
         if not move_id or not move.fiscal_document_id:
