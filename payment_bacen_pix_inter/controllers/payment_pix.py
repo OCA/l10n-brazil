@@ -7,7 +7,7 @@ from odoo.http import request
 
 
 class PaymentPixController(http.Controller):
-    @http.route("/payment/pix/<int:txid>", type="http", auth="public")
+    @http.route("/payment/pix/<int:txid>", type="http", auth="public", website=True)
     def pix_page(self, txid, **kwargs):
         tx = (
             request.env["payment.transaction"]

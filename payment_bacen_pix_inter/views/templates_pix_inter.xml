@@ -1,30 +1,119 @@
 <odoo>
     <template id="pix_inter_redirect_template">
         <form id="o_payment_redirect_form" t-att-action="redirect_url" method="get">
-            <input type="hidden" name="reference" t-att-value="reference"/>
+            <input type="hidden" name="reference" t-att-value="reference" />
         </form>
     </template>
-
-    <template id="pix_inter_page_template">
-        <div style="display:flex; justify-content:center; align-items:center; height:100vh; background-color:#f7f7f7; font-family:Arial, sans-serif;">
-            <div style="background:#ffffff; padding:30px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); max-width:400px; width:100%; text-align:center;">
-                <h3 style="margin-bottom:20px; color:#333;">Pagamento PIX</h3>
-                <p style="margin-bottom:10px; font-size:1.1em;">Valor: <strong>R$ <span t-esc="'%.2f' % amount"/></strong></p>
-                <p style="margin-bottom:20px; font-size:0.95em; color:#555;">Referência: <strong><span t-esc="reference"/></strong></p>
-                <div style="margin-bottom:20px;">
-                    <img t-att-src="'data:image/png;base64,%s' % qrcode_base64" alt="QR Code PIX" style="max-width:250px; width:100%; border:2px solid #eee; border-radius:10px;"/>
-                </div>
-                <div style="margin-bottom:0;">
-                    <label for="pix_code" style="display:block; margin-bottom:5px; font-weight:bold; color:#333;">Código PIX (Copiar e Colar):</label>
+    <template id="pix_inter_inline_template">
+        <div
+            class="o_inter_pix_box"
+            style="border:1px solid #ddd; border-radius:12px; padding:20px; background:#fff; max-width:520px; margin:0 auto;"
+        >
+            <h4 style="margin-top:0; margin-bottom:12px;">Pagamento PIX</h4>
+            <p style="margin:0 0 8px;">Valor:
+                <strong>R$
+                    <span t-out="'%.2f' % amount" />
+                </strong>
+            </p>
+            <p style="margin:0 0 12px;">Referência:
+                <strong>
+                    <span t-out="reference" />
+                </strong>
+            </p>
+            <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+                <img
+                    t-att-src="'data:image/png;base64,%s' % qrcode_base64"
+                    alt="QR Code PIX"
+                    style="max-width:220px; width:100%; border:2px solid #eee; border-radius:10px;"
+                />
+                <div style="flex:1 1 220px;">
+                    <label
+                        for="pix_code_inline"
+                        style="display:block; margin-bottom:6px; font-weight:600;"
+                    >Código PIX (copia e cola):</label>
                     <div style="display:flex; width:100%;">
-                        <input type="text" id="pix_code" t-att-value="pix_code" readonly="readonly"
-                               style="flex:1; padding:10px; border-radius:8px 0 0 8px; border:1px solid #ccc; font-size:0.95em;"/>
-                        <button style="padding:10px 15px; background-color:#007bff; color:#fff; border:none; border-radius:0 8px 8px 0; cursor:pointer; font-weight:bold;">
+                        <input
+                            type="text"
+                            id="pix_code_inline"
+                            t-att-value="bacenpix_qrcode"
+                            readonly="readonly"
+                            style="flex:1; padding:10px; border-radius:8px 0 0 8px; border:1px solid #ccc; font-size:0.95em;"
+                        />
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            style="border-radius:0 8px 8px 0;"
+                            t-attf-onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText(document.querySelector('#pix_code_inline').value); this.innerText='Copiado!'; setTimeout(() => { this.innerText='Copiar'; }, 1500);"
+                        >
                             Copiar
                         </button>
                     </div>
+                    <p
+                        style="margin-top:10px; font-size:0.9em; color:#666;"
+                    >Escaneie o QR Code ou copie o código acima. Após a pagamento, atualizaremos o status automaticamente.</p>
                 </div>
             </div>
         </div>
+    </template>
+    <template id="pix_inter_page_template">
+        <t t-call="website.layout">
+            <div class="container" style="padding:32px 12px;">
+                <div style="display:flex; justify-content:center;">
+                    <div
+                        style="background:#ffffff; padding:30px; border-radius:15px; box-shadow:0 4px 15px rgba(0,0,0,0.1); max-width:520px; width:100%; text-align:center;"
+                    >
+                        <h3 style="margin-bottom:12px; color:#333;">Pagamento PIX</h3>
+                        <p style="margin-bottom:10px; font-size:1.1em;">Valor:
+                            <strong>R$
+                                <span t-out="'%.2f' % amount" />
+                            </strong>
+                        </p>
+                        <p
+                            style="margin-bottom:10px; font-size:0.95em; color:#555;"
+                        >Referência:
+                            <strong>
+                                <span t-out="reference" />
+                            </strong>
+                        </p>
+                        <p
+                            style="margin-bottom:16px; font-size:0.95em; color:#444;"
+                        >O status será processado internamente após o pagamento. Abra o app do seu banco, pague pelo QR Code ou copie o código abaixo e aguarde a confirmação, você não será redirecionado.</p>
+                        <div style="margin-bottom:20px;">
+                            <img
+                                t-att-src="'data:image/png;base64,%s' % qrcode_base64"
+                                alt="QR Code PIX"
+                                style="max-width:260px; width:100%; border:2px solid #eee; border-radius:10px;"
+                            />
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label
+                                for="pix_code"
+                                style="display:block; margin-bottom:5px; font-weight:bold; color:#333;"
+                            >Código PIX (Copiar e Colar):</label>
+                            <div style="display:flex; width:100%;">
+                                <input
+                                    type="text"
+                                    id="pix_code"
+                                    t-att-value="pix_code"
+                                    readonly="readonly"
+                                    style="flex:1; padding:10px; border-radius:8px 0 0 8px; border:1px solid #ccc; font-size:0.95em;"
+                                />
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    style="border:none; padding:10px 15px; border-radius:0 8px 8px 0; cursor:pointer; font-weight:bold;"
+                                    t-attf-onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText(document.querySelector('#pix_code').value); this.innerText='Copiado!'; setTimeout(() => { this.innerText='Copiar'; }, 1500);"
+                                >
+                                    Copiar
+                                </button>
+                            </div>
+                        </div>
+                        <p
+                            style="margin:0; font-size:0.9em; color:#666;"
+                        >Após a confirmação pelo banco, o status será atualizado automaticamente e entraremos em contato.</p>
+                    </div>
+                </div>
+            </div>
+        </t>
     </template>
 </odoo>

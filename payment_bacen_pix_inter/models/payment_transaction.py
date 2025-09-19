@@ -3,7 +3,9 @@ import json
 import logging
 import re
 import tempfile
+from io import BytesIO
 
+import qrcode
 from requests import Session
 
 from odoo import _, api, fields, models
@@ -33,6 +35,9 @@ class PaymentTransaction(models.Model):
         ],
         string="Status PIX",
         readonly=True,
+    )
+    inter_pix_last_notified_status = fields.Char(
+        "Último status PIX notificado", readonly=True
     )
 
     def _inter_get_api_url(self, provider_id):
@@ -111,30 +116,37 @@ class PaymentTransaction(models.Model):
             raise UserError(_(f"Erro ao obter token PIX: {str(e)}")) from e
 
     def _prepare_pix_data_inter(self):
-        """Monta payload para criar cobrança PIX"""
-        invoice = self.invoice_ids[0] if self.invoice_ids else None
+        """Monta payload para criar cobrança PIX.
 
-        if not invoice:
-            raise UserError(
-                _("Não é possível gerar PIX sem fatura ou pedido associado")
-            )
+        Diferente da implementação anterior, não exige fatura/pedido.
+        Utiliza os dados disponíveis na própria transação (partner e amount),
+        permitindo uso em e-commerce onde não há account.move gerada ainda.
+        """
+        partner_source = (
+            self.invoice_ids[:1].partner_id
+            or self.sale_order_ids[:1].partner_id
+            or self.partner_id
+        )
+        partner = partner_source and partner_source.commercial_partner_id
 
-        partner = (invoice.partner_id if invoice else None).commercial_partner_id
+        if not partner:
+            raise UserError(_("Transação não possui parceiro associado ao PIX"))
 
         valor = round(float(self.amount), 2)
         expiracao_segundos = 3600  # 1 hora
 
         # Monta dados do devedor baseado no tipo de pessoa
-        if partner.is_company:
-            devedor_data = {
-                "cnpj": re.sub(r"\D", "", partner.cnpj_cpf or ""),
-                "nome": partner.legal_name or partner.name,
-            }
+        doc = re.sub(r"\D", "", partner.cnpj_cpf or partner.vat or "")
+        if not doc:
+            raise UserError(
+                _("É necessário informar CPF ou CNPJ do pagador para gerar PIX.")
+            )
+
+        devedor_data = {"nome": partner.legal_name or partner.name}
+        if partner.is_company or len(doc) == 14:
+            devedor_data["cnpj"] = doc
         else:
-            devedor_data = {
-                "cpf": re.sub(r"\D", "", partner.cnpj_cpf or ""),
-                "nome": partner.legal_name or partner.name,
-            }
+            devedor_data["cpf"] = doc
 
         pix_data = {
             "calendario": {"expiracao": expiracao_segundos},
@@ -145,6 +157,15 @@ class PaymentTransaction(models.Model):
         }
 
         return pix_data
+
+    def _get_pix_qrcode_base64(self):
+        """Gera QRCode em base64 a partir do copia-e-cola."""
+        self.ensure_one()
+        if not self.bacenpix_qrcode:
+            return ""
+        buffer = BytesIO()
+        qrcode.make(self.bacenpix_qrcode).save(buffer, "PNG")
+        return base64.b64encode(buffer.getvalue()).decode()
 
     def generate_pix(self):
         """Gera cobrança PIX compatível com Banco Inter"""
@@ -241,6 +262,7 @@ class PaymentTransaction(models.Model):
 
                 # Atualiza status local se for a própria transação
                 if self.bacenpix_txid == txid:
+                    previous_status = self.inter_pix_status
                     current_status = data.get("status")
                     if current_status:
                         self.inter_pix_status = current_status
@@ -253,6 +275,10 @@ class PaymentTransaction(models.Model):
                             "REMOVIDA_PELO_PSP",
                         ]:
                             self._set_canceled()
+
+                        # Notifica cliente se status mudou
+                        if current_status != previous_status:
+                            self._notify_pix_status(current_status)
 
                 return data
 
@@ -285,6 +311,7 @@ class PaymentTransaction(models.Model):
                 raise UserError(_("Cobrança PIX não disponível"))
 
             pix_url = f"/payment/pix/{self.id}"
+            qrcode_base64 = self._get_pix_qrcode_base64()
             res.update(
                 {
                     "redirect_url": pix_url,
@@ -298,6 +325,7 @@ class PaymentTransaction(models.Model):
                             "reference": self.reference,
                             "bacenpix_qrcode": self.bacenpix_qrcode,
                             "amount": self.amount,
+                            "qrcode_base64": qrcode_base64,
                         },
                     ),
                 }
@@ -357,6 +385,31 @@ class PaymentTransaction(models.Model):
             )
 
         return self.generate_pix()
+
+    def _notify_pix_status(self, new_status):
+        """Envia notificação simples ao cliente quando o status muda."""
+        self.ensure_one()
+        if new_status == self.inter_pix_last_notified_status:
+            return
+
+        if new_status == "CONCLUIDA":
+            message = _("Seu pagamento PIX foi aprovado.")
+        elif new_status in [
+            "REMOVIDA_PELO_USUARIO_RECEBEDOR",
+            "REMOVIDA_PELO_PSP",
+        ]:
+            message = _("Seu pagamento PIX foi cancelado/recusado.")
+        else:
+            return
+
+        partner_ids = self.partner_id and [self.partner_id.id] or []
+        self.message_post(
+            body=message,
+            message_type="notification",
+            partner_ids=partner_ids,
+            subtype_xmlid="mail.mt_comment",
+        )
+        self.inter_pix_last_notified_status = new_status
 
     @api.model
     def create(self, vals):
