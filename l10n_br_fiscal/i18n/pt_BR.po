@@ -4257,6 +4257,12 @@ msgid "ID"
 msgstr "ID"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__l10n_br_ie_code
+msgid "IE"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__ii
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_search
@@ -4284,6 +4290,12 @@ msgstr "Base do II"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_ii_value
 msgid "II Value"
 msgstr "Valor do II"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__l10n_br_im_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__l10n_br_im_code
+msgid "IM"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__inss
@@ -4706,6 +4718,19 @@ msgstr "Ícone"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "Ícone para indicar uma atividade excepcional."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__vat
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__vat
+msgid "Identification Number"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_cnpj_cpf
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__vat
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__vat
+msgid "Identification Number for selected type"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_cfop__destination
@@ -5330,10 +5355,10 @@ msgid "Multimodal"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__l10n_br_im_code
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__l10n_br_im_code
-msgid "Municipal Tax Number"
-msgstr "Número de Impostos Municipais"
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__l10n_br_im_code
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__l10n_br_im_code
+msgid "Municipal Tax Identification Number"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__my_activity_date_deadline
@@ -7036,9 +7061,14 @@ msgid "State"
 msgstr "Estado"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_l10n_br_ie_code
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__l10n_br_ie_code
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__l10n_br_ie_code
+msgid "State Tax Identification Number. Should contain 9-14 digits."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_l10n_br_ie_code
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__l10n_br_ie_code
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr "Número do Imposto Estadual/RG"
 
@@ -7477,12 +7507,6 @@ msgid "Tax ICMS ST"
 msgstr "Imposto ICMS ST"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__vat
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__vat
-msgid "Tax ID"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ii_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ii_tax_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__tax_ii_id
@@ -7716,16 +7740,6 @@ msgstr "Mensagem de teste"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "The Delivery Costs should be informed by Line or by Total ?"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_cnpj_cpf
-#: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__vat
-#: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__vat
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8240,6 +8254,9 @@ msgstr "pis_wh"
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#~ msgid "Municipal Tax Number"
+#~ msgstr "Número de Impostos Municipais"
 
 #~ msgid "<i class=\"fa fa-arrow-right\"/> Generate an Access Key"
 #~ msgstr "<i class=\"fa fa-arrow-right\"/> Gerar uma chave de acesso"
