@@ -10219,8 +10219,18 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_ie_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "IE"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_im_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_im_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_im_code
+msgid "IM"
 msgstr ""
 
 #. module: l10n_br_base
@@ -10536,6 +10546,19 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2305407
 msgid "Icó"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__vat
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__vat
+msgid "Identification Number"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__vat
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__vat
+msgid "Identification Number for selected type"
 msgstr ""
 
 #. module: l10n_br_base
@@ -15830,10 +15853,17 @@ msgid "Munhoz de Melo"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__inscr_mun
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__l10n_br_im_code
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__inscr_mun
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__l10n_br_im_code
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__inscr_mun
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__l10n_br_im_code
+msgid "Municipal Tax Identification Number"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_im_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_im_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_im_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_im_code
 msgid "Municipal Tax Number"
 msgstr ""
 
@@ -21086,6 +21116,18 @@ msgid "SIAFI Code"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_isuf_code
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_isuf_code
+msgid "SUFRAMA code"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__l10n_br_isuf_code
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__l10n_br_isuf_code
+msgid "SUFRAMA registration number."
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3156700
 msgid "Sabará"
 msgstr ""
@@ -23240,10 +23282,17 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__inscr_est
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__l10n_br_ie_code
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__inscr_est
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__l10n_br_ie_code
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__inscr_est
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__l10n_br_ie_code
+msgid "State Tax Identification Number. Should contain 9-14 digits."
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_ie_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_ie_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_ie_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_ie_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr ""
@@ -23322,8 +23371,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_isuf_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__l10n_br_isuf_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__l10n_br_isuf_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__l10n_br_isuf_code
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "Suframa"
 msgstr ""
@@ -25425,8 +25472,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__vat
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__vat
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__vat
 msgid "Tax ID"
 msgstr ""
 
@@ -25611,16 +25656,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.constraint,message:l10n_br_base.constraint_state_tax_numbers_l10n_br_base_state_tax_numbers_id_uniq
 msgid "The Partner already has a State Tax Number for that State!"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,help:l10n_br_base.field_res_company__vat
-#: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
-#: model:ir.model.fields,help:l10n_br_base.field_res_users__vat
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
 msgstr ""
 
 #. module: l10n_br_base
