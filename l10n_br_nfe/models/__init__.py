@@ -18,8 +18,8 @@ from . import res_city
 from . import res_config_settings
 from . import cfop
 from . import invalidate_number
+from . import nfe_recipient_manifestation_event
 from . import dfe
-from . import mde
 
 spec_schema = "nfe"
 spec_version = "40"

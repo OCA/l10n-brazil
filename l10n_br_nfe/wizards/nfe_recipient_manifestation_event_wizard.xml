@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_nfe_recipient_manifestation_event_wizard_form" model="ir.ui.view">
+        <field name="name">nfe_recipient_manifestation_event.wizard.form</field>
+        <field name="model">nfe_recipient_manifestation_event.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Manifestação do Destinatário da NFe">
+                <group>
+                    <field name="event_type_selection" />
+                </group>
+                <footer>
+                    <button
+                        string="Manifestar"
+                        type="object"
+                        name="action_create_nfe_recipient_manifestation_event"
+                        class="btn-primary"
+                    />
+                    <button string="Close" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
