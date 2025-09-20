@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="nfe_res_company_form" model="ir.ui.view">
+        <field name="name">nfe.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="nfe" string="NF-e">
+                    <group name="nfe_settings" string="NF-e Default Settings">
+                        <group>
+                            <field name="nfe_version" required="1" />
+                            <field name="nfe_environment" required="1" />
+                            <field name="nfe_transmission" required="1" />
+                            <field
+                                name="nfe_enable_sync_transmission"
+                                string="Enable Sync Transmission"
+                            />
+                            <field
+                                name="nfe_separate_async_process"
+                                string="Separate NF-e Send and Consult"
+                            />
+                            <field
+                                name="nfe_enable_contingency_ws"
+                                string="Enable contingency web services"
+                            />
+                            <field name="nfe_danfe_layout" required="1" />
+                            <field name="nfce_danfe_layout" required="1" />
+                            <field
+                                name="nfe_default_serie_id"
+                                domain="[('document_type_id', '=', %(l10n_br_fiscal.document_55)d)]"
+                            />
+                            <field name="nfe_authorize_accountant_download_xml" />
+                            <field name="nfe_authorize_technical_download_xml" />
+                        </group>
+                    </group>
+                    <group name="nfce_settings" string="NFC-e Default Settings">
+                        <group>
+                            <field name="nfce_qrcode_version" />
+                            <field name="nfce_csc_token" />
+                            <field name="nfce_csc_code" />
+                        </group>
+                    </group>
+                    <group name="danfe_settings" string="DANFE Settings">
+                        <group>
+                            <field
+                                name="danfe_invoice_display"
+                                string="Invoice Display"
+                            />
+                            <field
+                                name="danfe_display_pis_cofins"
+                                string="PIS/COFINS Display"
+                            />
+                            <field name="danfe_margin_top" string="Margin Top" />
+                            <field name="danfe_margin_right" string="Margin Right" />
+                            <field name="danfe_margin_bottom" string="Margin Bottom" />
+                            <field name="danfe_margin_left" string="Margin Left" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

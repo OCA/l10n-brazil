@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- NF-e Document -->
+
+    <record id="nfe_document_action" model="ir.actions.act_window">
+        <field name="name">NF-e</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document</field>
+        <field name="view_mode">tree,form</field>
+        <field
+            name="domain"
+            eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_55'))]"
+        />
+        <!--        <field name="view_id" ref="nfe_document_tree"/>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a new NFe</p>
+            <p>Here you can create NF-es</p>
+        </field>
+    </record>
+    <!-- Imported Documents Action -->
+
+    <record id="imported_document_action" model="ir.actions.act_window">
+        <field name="name">Imported Document</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="l10n_br_fiscal.document_search" />
+        <field name="view_id" ref="l10n_br_fiscal.document_tree" />
+        <field name="domain">[('imported_document', '=', True)]</field>
+        <field name="context">{'default_fiscal_operation_type': 'in'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face" />
+        </field>
+    </record>
+</odoo>
