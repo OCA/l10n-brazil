@@ -1,157 +1,153 @@
-# Copyright (C) 2023 KMEE Informatica LTDA
-# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+# Copyright (C) 2025-Today - Engenere (<https://engenere.one>).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+import base64
 
-import logging
-import re
+from odoo import fields, models
 
-from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
-from requests import Session
-
-from odoo import _, api, fields, models
-
-from ..tools import utils
-
-_logger = logging.getLogger(__name__)
+from ..constants.dfe import (
+    OPERATION_TYPE,
+    SITUACAO_NFE,
+)
 
 
 class DFe(models.Model):
     _name = "l10n_br_fiscal.dfe"
+    _description = "DF-e"
     _inherit = ["mail.thread", "mail.activity.mixin"]
-    _description = "Consult DF-e"
     _order = "id desc"
     _rec_name = "display_name"
 
-    display_name = fields.Char(compute="_compute_display_name")
+    dfe_access_key_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.dfe_access_key", string="Chave de Acesso"
+    )
 
-    company_id = fields.Many2one(comodel_name="res.company", string="Company")
+    key = fields.Char(string="Access Key", size=44, related="dfe_access_key_id.key")
 
-    version = fields.Selection(related="company_id.dfe_version")
+    serie = fields.Char(size=3, index=True)
 
-    environment = fields.Selection(related="company_id.dfe_environment")
+    document_number = fields.Float(index=True, digits=(18, 0))
 
-    last_nsu = fields.Char(string="Last NSU", size=25, default="0")
+    emitter = fields.Char(size=60)
 
-    last_query = fields.Datetime(string="Last query")
+    vat = fields.Char(string="CNPJ/CPF", size=18)
 
-    imported_document_ids = fields.One2many(
+    nsu = fields.Char(string="NSU", size=25, index=True)
+
+    operation_type = fields.Selection(
+        selection=OPERATION_TYPE,
+    )
+
+    document_amount = fields.Float(
+        string="Document Total Value",
+        readonly=True,
+        digits=(18, 2),
+    )
+
+    ie = fields.Char(string="Inscrição estadual", size=18)
+
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Supplier (partner)",
+    )
+
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+        readonly=True,
+    )
+
+    emission_datetime = fields.Datetime(
+        string="Emission Date",
+        index=True,
+        default=fields.Datetime.now,
+    )
+
+    inclusion_datetime = fields.Datetime(
+        string="Inclusion Date",
+        index=True,
+        default=fields.Datetime.now,
+    )
+
+    inclusion_mode = fields.Char(size=255)
+
+    document_state = fields.Selection(
+        selection=SITUACAO_NFE,
+        index=True,
+    )
+
+    cfop_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.cfop",
+        string="CFOPs",
+    )
+
+    dfe_nfe_document_type = fields.Selection(
+        selection=[
+            ("dfe_nfe_complete", "NF-e Completa"),
+            ("dfe_nfe_summary", "Resumo da NF-e"),
+            ("dfe_nfe_event", "Evento da NF-e"),
+        ],
+        string="DFe Document Type",
+    )
+
+    dfe_monitor_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.dfe_monitor",
+        string="DFe Monitor",
+    )
+
+    attachment_id = fields.Many2one(comodel_name="ir.attachment")
+
+    document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
-        inverse_name="dfe_id",
-        string="Imported Documents",
+        string="Fiscal Document",
     )
 
-    use_cron = fields.Boolean(
-        default=False,
-        string="Download new documents automatically",
-        help="If activated, allows new manifestations to be automatically "
-        "searched with a Cron",
-    )
+    event_type_dfe = fields.Char()
 
-    @api.depends("company_id.name", "last_nsu")
     def name_get(self):
-        return self.mapped(lambda d: (d.id, f"{d.company_id.name} - NSU: {d.last_nsu}"))
+        result = []
+        for rec in self:
+            document_type = dict(rec._fields["dfe_nfe_document_type"].selection).get(
+                rec.dfe_nfe_document_type
+            )
+            result.append(
+                (
+                    rec.id,
+                    f"{rec.key} - {document_type}",
+                )
+            )
+        return result
 
-    @api.model
-    def _get_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
-        session = Session()
-        session.verify = False
-        return edoc_nfe(
-            TransmissaoSOAP(certificado, session),
-            self.company_id.state_id.ibge_code,
-            versao=self.version,
-            ambiente=self.environment,
+    def create_xml_attachment(self, xml):
+        file_name = "NFe%s.xml" % self.key
+        self.attachment_id = self.env["ir.attachment"].create(
+            {
+                "name": file_name,
+                "datas": base64.b64encode(xml),
+                "store_fname": file_name,
+                "description": "NFe via Manifesto",
+                "res_model": self._name,
+                "res_id": self.id,
+            }
         )
 
-    @api.model
-    def validate_distribution_response(self, result):
-        valid = False
-        message = result.resposta.xMotivo
-        if result.retorno.status_code != 200:
-            code = result.retorno.status_code
-        elif result.resposta.cStat != "138":
-            code = result.resposta.cStat
-        else:
-            valid = True
+    def action_download_xml(self):
+        if len(self) == 1:
+            return self.download_attachment(self.attachment_id)
 
-        if not valid:
-            self.message_post(
-                body=_(
-                    _(
-                        "Error validating document distribution:"
-                        "\n\n%(code)s - %(message)s",
-                        code=code,
-                        message=message,
-                    )
-                )
-            )
+        compressed_attachment_id = (
+            self.env["l10n_br_fiscal.attachment"]
+            .create([])
+            .build_compressed_attachment(self.mapped("attachment_id"))
+        )
+        return self.download_attachment(compressed_attachment_id)
 
-        return valid
-
-    @api.model
-    def _document_distribution(self):
-        maxNSU = ""
-        while maxNSU != self.last_nsu:
-            try:
-                result = self._get_processor().consultar_distribuicao(
-                    cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf),
-                    ultimo_nsu=utils.format_nsu(self.last_nsu),
-                )
-            except Exception as e:
-                self.message_post(
-                    body=_("Error on searching documents.\n%(error)s", error=e)
-                )
-                break
-
-            self.write(
-                {
-                    "last_nsu": result.resposta.ultNSU,
-                    "last_query": fields.Datetime.now(),
-                }
-            )
-
-            if not self.validate_distribution_response(result):
-                break
-
-            self._process_distribution(result)
-
-            maxNSU = result.resposta.maxNSU
-
-    @api.model
-    def _process_distribution(self, result):
-        """Method to process the distribution data."""
-
-    @api.model
-    def _parse_xml_document(self, document):
-        schema_type = document.schema.split("_")[0]
-        method = "parse_%s" % schema_type
-        if not hasattr(self, method):
-            return
-
-        xml = utils.parse_gzip_xml(document.valueOf_)
-        return getattr(self, method)(xml)
-
-    @api.model
-    def _download_document(self, nfe_key):
-        try:
-            result = self._get_processor().consultar_distribuicao(
-                chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
-            )
-        except Exception as e:
-            self.message_post(
-                body=_("Error on searching documents.\n%(error)s", error=e)
-            )
-            return
-
-        if not self.validate_distribution_response(result):
-            return
-
-        return result.resposta.loteDistDFeInt.docZip[0]
-
-    @api.model
-    def _cron_search_documents(self):
-        self.search([("use_cron", "=", True)]).search_documents()
-
-    def search_documents(self):
-        for record in self:
-            record._document_distribution()
+    def download_attachment(self, attachment_id):
+        return {
+            "type": "ir.actions.act_url",
+            "url": (
+                f"/web/content/{attachment_id.id}"
+                f"/{attachment_id.name}?download=true"
+            ),
+            "target": "self",
+        }

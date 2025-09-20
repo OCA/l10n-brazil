@@ -74,7 +74,7 @@ class TestDFe(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.dfe_id = cls.env["l10n_br_fiscal.dfe"].create(
+        cls.dfe_id = cls.env["l10n_br_fiscal.dfe_monitor"].create(
             {"company_id": cls.env.ref("l10n_br_base.empresa_lucro_presumido").id}
         )
 
