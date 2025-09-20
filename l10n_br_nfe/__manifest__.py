@@ -29,8 +29,8 @@
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
         "views/res_config_settings_view.xml",
-        "views/mde/mde_views.xml",
-        "views/dfe/dfe_views.xml",
+        "views/nfe_recipient_manifestation_event/nfe_recipient_manifestation_event_view.xml",
+        "views/dfe/dfe_access_key_views.xml",
         "views/supplier_info_view.xml",
         # Report
         "report/reports.xml",
@@ -38,6 +38,7 @@
         "report/danfe_report.xml",
         # Wizards
         "wizards/import_document.xml",
+        "wizards/nfe_recipient_manifestation_event_wizard.xml",
         # Actions,
         "views/nfe_action.xml",
         # Menus

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright (C) 2025-Today - Engenere (<https://engenere.one>).
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="nfe_dfe_access_key">
+        <field name="name">l10n_br_nfe.dfe_access_key.tree</field>
+        <field name="model">l10n_br_fiscal.dfe_access_key</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_dfe.dfe_access_key_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree/button[@name='make_pdf']" position="after">
+                <button
+                    name="import_document"
+                    string="Importar Documento"
+                    type="object"
+                />
+                <button string="Manifestar" name="create_mde_action" type="object" />
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="nfe_dfe_access_key_form">
+        <field name="name">l10n_br_nfe.dfe_access_key.form</field>
+        <field name="model">l10n_br_fiscal.dfe_access_key</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_dfe.dfe_access_key_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='make_pdf']" position="after">
+                <button
+                    name="import_document"
+                    string="Importar Documento"
+                    type="object"
+                />
+                <button string="Manifestar" name="create_mde_action" type="object" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
