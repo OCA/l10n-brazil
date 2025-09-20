@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==================
 L10n BR Fiscal Dfe
 ==================
@@ -17,7 +13,7 @@ L10n BR Fiscal Dfe
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -65,6 +61,10 @@ Contributors
   - Luis Felipe Miléo <mileo@kmee.com.br>
   - Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
   - Felipe Zago <felipe.zago@kmee.com.br>
+
+- `Engenere <https://engenere.one>`__:
+
+  - Cristiano Mafra Junior
 
 Maintainers
 -----------
