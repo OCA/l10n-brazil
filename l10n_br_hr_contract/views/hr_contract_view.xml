@@ -53,7 +53,7 @@
                         <field name="resignation_code" invisible='1' />
                         <field
                             name="by_death"
-                            attrs="{'invisible': [('resignation_code', 'not in', ('60', '62', '63', '64'))]}"
+                            invisible="resignation_code not in ['60', '62', '63', '64']"
                         />
                     </group>
                     <group

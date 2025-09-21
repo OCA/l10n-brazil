@@ -8,7 +8,7 @@ from odoo import fields, models
 class HrContractResignationCause(models.Model):
     _name = "hr.contract.resignation.cause"
     _inherit = "l10n_br_hr_contract.data.abstract"
-    _description = "Motivo da demissão"
+    _description = "Termination Reason"
 
     name = fields.Char(string="Resignation cause")
 

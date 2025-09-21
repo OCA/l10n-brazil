@@ -8,11 +8,11 @@ from odoo import fields, models
 class HrContractLaborRegime(models.Model):
     _name = "hr.contract.labor.regime"
     _inherit = "l10n_br_hr_contract.data.abstract"
-    _description = "Tipo de regime trabalhista"
+    _description = "Type of employment contract"
 
     name = fields.Char(string="Labor regime")
 
-    short_name = fields.Char(string="Short name")
+    short_name = fields.Char()
 
     code = fields.Char(size=1)
 

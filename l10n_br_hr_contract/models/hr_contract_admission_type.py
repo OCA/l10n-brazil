@@ -8,6 +8,6 @@ from odoo import fields, models
 class HrContractAdmissionType(models.Model):
     _name = "hr.contract.admission.type"
     _inherit = "l10n_br_hr_contract.data.abstract"
-    _description = "Tipo de admissão do trabalhador"
+    _description = "Type of employee hiring"
 
     name = fields.Char(string="Admission type")

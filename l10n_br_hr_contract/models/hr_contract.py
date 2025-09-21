@@ -87,7 +87,6 @@ class HrContract(models.Model):
 
     resignation_code = fields.Char(
         related="resignation_cause_id.code",
-        invisible=True,
     )
 
     @api.onchange("job_id")
