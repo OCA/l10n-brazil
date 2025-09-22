@@ -5,7 +5,7 @@
     <record id="l10n_br_fiscal.fo_manifesto" model="l10n_br_fiscal.operation">
         <field
             name="comment_ids"
-            eval="[(6,0,[ref('l10n_br_fiscal.fiscal_comment_dummy')])]"
+            eval="[Command.set([ref('l10n_br_fiscal.fiscal_comment_dummy')])]"
         />
     </record>
 
