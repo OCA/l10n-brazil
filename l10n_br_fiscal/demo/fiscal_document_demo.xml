@@ -236,7 +236,7 @@
         />
         <field
             name="comment_ids"
-            eval="[(6,0,[ref('l10n_br_fiscal.fiscal_line_comment_dummy')])]"
+            eval="[Command.set([ref('l10n_br_fiscal.fiscal_line_comment_dummy')])]"
         />
         <field name="manual_additional_data">manual comment test</field>
     </record>
@@ -313,7 +313,7 @@
         />
         <field
             name="comment_ids"
-            eval="[(6,0,[ref('l10n_br_fiscal.fiscal_line_comment_dummy')])]"
+            eval="[Command.set([ref('l10n_br_fiscal.fiscal_line_comment_dummy')])]"
         />
         <field name="manual_additional_data">manual comment test</field>
     </record>
