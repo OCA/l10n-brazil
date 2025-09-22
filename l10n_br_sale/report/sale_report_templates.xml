@@ -40,6 +40,28 @@
                 />
             </td>
         </xpath>
+        <xpath expr="//div[@name='total']//t[@t-set='tax_totals']" position="before">
+            <tr t-if="doc.amount_freight_value">
+                <td name="td_amount_freight_label"><strong>Freight</strong></td>
+                <td name="td_amount_freight_value" class="text-end">
+                    <span t-field="doc.amount_freight_value" />
+                </td>
+            </tr>
+
+            <tr t-if="doc.amount_insurance_value">
+                <td name="td_amount_insurance_label"><strong>Insurance</strong></td>
+                <td name="td_amount_insurance_value" class="text-end">
+                    <span t-field="doc.amount_insurance_value" />
+                </td>
+            </tr>
+
+            <tr t-if="doc.amount_other_value">
+                <td name="td_amount_costs_label"><strong>Other Costs</strong></td>
+                <td name="td_amount_other_value" class="text-end">
+                    <span t-field="doc.amount_other_value" />
+                </td>
+            </tr>
+        </xpath>
         <!-- Inclusão de outros Totais usados no Brasil -->
         <!-- TODO migrate overriding _compute_tax_totals_json for v15 -->
         <!--xpath expr="//div[@name='total']/div/table/tr[@style='']" position="replace">
