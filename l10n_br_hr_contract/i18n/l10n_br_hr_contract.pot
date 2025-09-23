@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -131,16 +131,6 @@ msgid "Labor regime"
 msgstr ""
 
 #. module: l10n_br_hr_contract
-#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__write_uid
@@ -163,11 +153,6 @@ msgstr ""
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__monthly_hours
 msgid "Monthly hours"
-msgstr ""
-
-#. module: l10n_br_hr_contract
-#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_resignation_cause
-msgid "Motivo da demissão"
 msgstr ""
 
 #. module: l10n_br_hr_contract
@@ -254,7 +239,7 @@ msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__short_name
-msgid "Short name"
+msgid "Short Name"
 msgstr ""
 
 #. module: l10n_br_hr_contract
@@ -270,18 +255,23 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_hr_contract
-#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_admission_type
-msgid "Tipo de admissão do trabalhador"
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_resignation_cause
+msgid "Termination Reason"
 msgstr ""
 
 #. module: l10n_br_hr_contract
-#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_notice_termination
-msgid "Tipo de aviso prévio"
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_admission_type
+msgid "Type of employee hiring"
 msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_labor_regime
-msgid "Tipo de regime trabalhista"
+msgid "Type of employment contract"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_notice_termination
+msgid "Type of notice period"
 msgstr ""
 
 #. module: l10n_br_hr_contract
