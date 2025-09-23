@@ -23,16 +23,11 @@
         <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_only_products_1_2')]" />
-    </function>
 
     <record id="main_sl_only_products_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_only_products" />
@@ -47,10 +42,6 @@
         <field name="discount_fixed">True</field>
         <field name="discount_value">50.0</field>
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_only_products_2_2')]" />
-    </function>
 
     <!-- Teste Endereço de Cobrança, partner diferente do partner to invoice  -->
     <record id="main_company-sale_2" model="sale.order">
@@ -76,16 +67,11 @@
         <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_line_2_1')]" />
-    </function>
 
     <record id="main_company-sale_line_2_2" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_2" />
@@ -98,10 +84,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_line_2_2')]" />
-    </function>
 
     <!-- Teste Endereço de Entrega  -->
     <record id="main_company-sale_3" model="sale.order">
@@ -127,16 +109,11 @@
         <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_line_3_1')]" />
-    </function>
 
     <record id="main_company-sale_line_3_2" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_3" />
@@ -149,10 +126,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_line_3_2')]" />
-    </function>
 
     <!-- Sale Order with only services test -->
     <record id="main_so_only_services" model="sale.order">
@@ -181,10 +154,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_only_services_1_2')]" />
-    </function>
-
     <record id="main_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_only_services" />
         <field name="name">Virtual Home Staging</field>
@@ -196,10 +165,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_only_services_2_2')]" />
-    </function>
 
     <!-- Sale Order with product and service test -->
     <record id="main_so_product_service" model="sale.order">
@@ -228,10 +193,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_product_service_1_2')]" />
-    </function>
-
     <record id="main_sl_product_service_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_product_service" />
         <field name="name">Customized Odoo Development</field>
@@ -246,10 +207,6 @@
             ref="l10n_br_fiscal.fo_venda_servico_ind"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_sl_product_service_2_2')]" />
-    </function>
 
     <!-- Empresa Simples Nacional -->
     <!-- Sale Order with only products test -->
@@ -279,10 +236,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('sn_sl_only_products_1_2')]" />
-    </function>
-
     <record id="sn_sl_only_products_2_2" model="sale.order.line">
         <field name="order_id" ref="sn_so_only_products" />
         <field name="name">Mouse, Wireless</field>
@@ -294,10 +247,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('sn_sl_only_products_2_2')]" />
-    </function>
 
     <!-- Sale Order with only services test -->
     <record id="sn_so_only_services" model="sale.order">
@@ -326,10 +275,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('sn_sl_only_services_1_2')]" />
-    </function>
-
     <record id="sn_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="sn_so_only_services" />
         <field name="name">Virtual Home Staging</field>
@@ -341,10 +286,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('sn_sl_only_services_2_2')]" />
-    </function>
 
     <!-- Sale Order with product and service test -->
     <record id="sn_so_product_service" model="sale.order">
@@ -373,10 +314,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('sn_sl_product_service_1_4')]" />
-    </function>
-
     <!-- Section -->
     <record id="sn_sl_product_service_2_4" model="sale.order.line">
         <field name="order_id" ref="sn_so_product_service" />
@@ -398,10 +335,6 @@
             ref="l10n_br_fiscal.fo_venda_servico_ind"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('sn_sl_product_service_3_4')]" />
-    </function>
 
     <!-- Note -->
     <record id="sn_sl_product_service_4_4" model="sale.order.line">
@@ -442,10 +375,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lc_sl_only_products_1_2')]" />
-    </function>
-
     <record id="lc_sl_only_products_2_2" model="sale.order.line">
         <field name="order_id" ref="lc_so_only_products" />
         <field name="name">Mouse, Wireless</field>
@@ -457,10 +386,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lc_sl_only_products_2_2')]" />
-    </function>
 
     <!-- Sale Order with only services test -->
     <record id="lc_so_only_services" model="sale.order">
@@ -489,10 +414,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lc_sl_only_services_1_2')]" />
-    </function>
-
     <record id="lc_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="lc_so_only_services" />
         <field name="name">Customized Odoo Development</field>
@@ -504,10 +425,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lc_sl_only_services_2_2')]" />
-    </function>
 
     <!-- Sale Order with product and service test -->
     <record id="lc_so_product_service" model="sale.order">
@@ -536,10 +453,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lc_sl_product_service_1_2')]" />
-    </function>
-
     <record id="lc_sl_product_service_2_2" model="sale.order.line">
         <field name="order_id" ref="lc_so_product_service" />
         <field name="name">Customized Odoo Development</field>
@@ -554,9 +467,5 @@
             ref="l10n_br_fiscal.fo_venda_servico_ind"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lc_sl_product_service_2_2')]" />
-    </function>
 
 </odoo>
