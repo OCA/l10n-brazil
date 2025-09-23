@@ -104,10 +104,6 @@
         <field name="document_total_amount">33.19</field>
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_cte.demo_cte_lc_modal_rodoviario_1-1')]" />
-    </function>
-
     <!-- CTe Test - Modal Aereo - LC -->
     <record id="demo_cte_lc_modal_aereo" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -208,10 +204,6 @@
         <field name="document_total_weight">10</field>
         <field name="document_total_amount">33.19</field>
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_cte.demo_cte_lc_modal_aereo_1-1')]" />
-    </function>
 
     <!-- CTe Test - Modal Aquaviario - LC -->
     <record id="demo_cte_lc_modal_aquaviario" model="l10n_br_fiscal.document">
@@ -314,10 +306,6 @@
         <field name="document_total_amount">33.19</field>
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_cte.demo_cte_lc_modal_aquaviario_1-1')]" />
-    </function>
-
     <!-- CTe Test - Modal Ferroviario - LC -->
     <record id="demo_cte_lc_modal_ferroviario" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -419,10 +407,6 @@
         <field name="document_total_amount">33.19</field>
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_cte.demo_cte_lc_modal_ferroviario_1-1')]" />
-    </function>
-
     <!-- CTe Test - Modal Dutoviario - LC -->
     <record id="demo_cte_lc_modal_dutoviario" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -523,10 +507,6 @@
         <field name="document_total_weight">10</field>
         <field name="document_total_amount">33.19</field>
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_cte.demo_cte_lc_modal_dutoviario_1-1')]" />
-    </function>
 
     <!-- Empresa Simples Nacional -->
 
@@ -630,9 +610,5 @@
         <field name="document_total_weight">10</field>
         <field name="document_total_amount">33.19</field>
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_cte.demo_cte_sn_modal_rodoviario_1-1')]" />
-    </function>
 
 </odoo>
