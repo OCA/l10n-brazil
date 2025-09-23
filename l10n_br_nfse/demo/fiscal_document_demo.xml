@@ -18,13 +18,4 @@
         />
         <field name="cnae_id" ref="l10n_br_fiscal.cnae_3101200" />
     </record>
-
-    <data noupdate="1">
-        <function
-            model="l10n_br_fiscal.document.line"
-            name="_onchange_product_id_fiscal"
-        >
-            <value eval="[ref('l10n_br_fiscal.demo_nfse_line_same_state_1-1')]" />
-        </function>
-    </data>
 </odoo>
