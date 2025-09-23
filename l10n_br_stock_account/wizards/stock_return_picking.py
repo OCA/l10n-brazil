@@ -48,7 +48,6 @@ class StockReturnPicking(models.TransientModel):
                     }
                     write_move = move_obj.browse(move.id)
                     write_move.write(line_values)
-                    write_move._onchange_product_id_fiscal()
                     write_move._onchange_fiscal_operation_id()
 
         return new_picking_id, pick_type_id
