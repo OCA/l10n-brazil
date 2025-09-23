@@ -29,7 +29,6 @@
         <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -41,10 +40,6 @@
         ]"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('so_commission_br_1_1')]" />
-    </function>
 
     <record id="so_commission_br_1_2" model="sale.order.line">
         <field name="order_id" ref="so_commission_br" />
@@ -66,9 +61,5 @@
         ]"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('so_commission_br_1_2')]" />
-    </function>
 
 </odoo>
