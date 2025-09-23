@@ -18,7 +18,6 @@
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -27,10 +26,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_products_1_2')]" />
-    </function>
 
     <record id="main_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products" />
@@ -46,10 +41,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_products_2_2')]" />
-    </function>
 
     <!-- Endereço de Cobrança Diferente do Partner,a Fatura criada deverá ter
          outro partner, o Contato definido como Endereço de Faturamento/Cobrança,
@@ -72,7 +63,6 @@
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -81,10 +71,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-purchase_line_2_1')]" />
-    </function>
 
     <record id="main_company-purchase_line_2_2" model="purchase.order.line">
         <field name="order_id" ref="main_company-purchase_2" />
@@ -100,10 +86,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-purchase_line_2_2')]" />
-    </function>
 
     <!-- Endereço de Cobrança Diferente do Partner, nesse caso o Endereço já
          está informado, não deve ter o Parceiro para Entrega
@@ -126,7 +108,6 @@
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -135,10 +116,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-purchase_line_3_1')]" />
-    </function>
 
     <record id="main_company-purchase_line_3_2" model="purchase.order.line">
         <field name="order_id" ref="main_company-purchase_3" />
@@ -154,10 +131,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-purchase_line_3_2')]" />
-    </function>
 
     <!-- Partner usado é o Contato de Entrega, a Fatura é criada com
          o Partner do Pedido
@@ -182,7 +155,6 @@
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -191,10 +163,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-purchase_line_4_1')]" />
-    </function>
 
     <record id="main_company-purchase_line_4_2" model="purchase.order.line">
         <field name="order_id" ref="main_company-purchase_4" />
@@ -210,10 +178,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-purchase_line_4_2')]" />
-    </function>
 
     <!-- Caso do Pedido com o Partner que tem um Contato com um Endereço de Entrega
     a Fatura é criada com o Partner do Pedido -->
@@ -234,7 +198,6 @@
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -243,10 +206,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-purchase_line_3_1')]" />
-    </function>
 
     <record id="main_company-purchase_line_5_2" model="purchase.order.line">
         <field name="order_id" ref="main_company-purchase_5" />
@@ -262,10 +221,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-purchase_line_5_2')]" />
-    </function>
 
     <!-- Empresa Lucro Presumido -->
     <!-- Purchase Order with only products test -->
@@ -293,10 +248,6 @@
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lp_pl_only_products_1_2')]" />
-    </function>
-
     <record id="lp_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="lp_po_only_products" />
         <field name="name">Drawer Black</field>
@@ -311,10 +262,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lp_pl_only_products_2_2')]" />
-    </function>
 
     <!-- Empresa Simples Nacional -->
     <!-- Purchase Order with only products test -->
@@ -342,10 +289,6 @@
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('sn_pl_only_products_1_2')]" />
-    </function>
-
     <record id="sn_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="sn_po_only_products" />
         <field name="name">Drawer Black</field>
@@ -360,10 +303,6 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('sn_pl_only_products_2_2')]" />
-    </function>
 
     <!-- Purchase Order with only Service -->
     <record id="main_po_only_service" model="purchase.order">
@@ -393,10 +332,6 @@
         <field name="partner_order_line">001</field>
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_service_1_1')]" />
-    </function>
-
     <!-- Purchase Order with Service and Product -->
     <record id="main_po_service_product" model="purchase.order">
         <field name="name">Main l10n_br_purchase - Serviço e Produto</field>
@@ -425,10 +360,6 @@
         <field name="partner_order_line">001</field>
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_service_1_1')]" />
-    </function>
-
     <record id="main_pl_service_product_2_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_service_product" />
         <field name="name">Gaveta Preta</field>
@@ -449,9 +380,5 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_service_product_2_2')]" />
-    </function>
 
 </odoo>
