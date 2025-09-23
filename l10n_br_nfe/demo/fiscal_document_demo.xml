@@ -30,10 +30,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
-    </function>
-
     <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_same_state" />
         <field name="name">Teste</field>
@@ -45,10 +41,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
-    </function>
 
     <!-- NFe Test - Pessoa Física - Same State - Simples Nacional -->
     <record id="demo_nfe_national_sale_for_same_state" model="l10n_br_fiscal.document">
@@ -85,10 +77,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
-    </function>
-
     <!-- NFe Test - Pessoa Física - ICMS 18% with a reduction of 51.11% -->
     <record id="demo_nfe_natural_icms_18_red_51_11" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -124,10 +112,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
-    </function>
-
     <!-- NFe Test - Pessoa Física - ICMS 4% Imported for Resale -->
     <record id="demo_nfe_natural_icms_7_resale" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -159,10 +143,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
-    </function>
 
     <!-- NFCe Test - Empresa Contribuinte - Mesmo Estado -->
     <record id="demo_nfce_same_state" model="l10n_br_fiscal.document">
@@ -196,9 +176,5 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('l10n_br_nfe.demo_nfce_line_same_state_1-1')]" />
-    </function>
 
 </odoo>
