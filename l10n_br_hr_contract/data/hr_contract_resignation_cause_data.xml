@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="hr_contract_resignation_10" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Rescisão de contrato de trabalho por justa causa e iniciativa do empregador ou demissão de servidor</field>
+        <field name="code">10</field>
+        <field name="fgts_withdraw_code">00</field>
+    </record>
+
+    <record id="hr_contract_resignation_11" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Rescisão de contrato de trabalho por justa causa e iniciativa do empregador ou demissão de servidor</field>
+        <field name="code">11</field>
+        <field name="fgts_withdraw_code">01</field>
+    </record>
+
+    <record id="hr_contract_resignation_12" model="hr.contract.resignation.cause">
+        <field name="name">Término do contrato de trabalho</field>
+        <field name="code">12</field>
+        <field name="fgts_withdraw_code">04</field>
+    </record>
+
+    <record id="hr_contract_resignation_20" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Rescisão com justa causa por iniciativa do empregado (rescisão indireta)</field>
+        <field name="code">20</field>
+        <field name="fgts_withdraw_code">00</field>
+    </record>
+
+    <record id="hr_contract_resignation_21" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Rescisão sem justa causa por iniciativa do empregado ou exoneração de cargo efetivo a pedido do servidor</field>
+        <field name="code">21</field>
+        <field name="fgts_withdraw_code">00</field>
+    </record>
+
+    <record id="hr_contract_resignation_22" model="hr.contract.resignation.cause">
+        <field name="name">Posse em outro cargo inacumulável</field>
+        <field name="code">22</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_30" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Transferência de empregado entre estabelecimentos da mesma empresa ou para outra empresa, com ônus para a cedente</field>
+        <field name="code">30</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_31" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Transferência de empregado entre estabelecimentos da mesma empresa ou para outra empresa, sem ônus para a cedente</field>
+        <field name="code">31</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_32" model="hr.contract.resignation.cause">
+        <field name="name">Readaptação</field>
+        <field name="code">32</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_33" model="hr.contract.resignation.cause">
+        <field name="name">Cessão</field>
+        <field name="code">33</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_34" model="hr.contract.resignation.cause">
+        <field name="name">Redistribuição</field>
+        <field name="code">34</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_40" model="hr.contract.resignation.cause">
+        <field name="name">Mudança de regime trabalhista</field>
+        <field name="code">40</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_50" model="hr.contract.resignation.cause">
+        <field name="name">Reforma de militar para a reserva remunerada</field>
+        <field name="code">50</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_60" model="hr.contract.resignation.cause">
+        <field name="name">Falecimento</field>
+        <field name="code">60</field>
+        <field name="fgts_withdraw_code">23</field>
+    </record>
+
+    <record id="hr_contract_resignation_62" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Falecimento decorrente de acidente do trabalho típico (que ocorre no exercício de atividades profissionais a serviço da empresa)</field>
+        <field name="code">62</field>
+        <field name="fgts_withdraw_code">23</field>
+    </record>
+
+    <record id="hr_contract_resignation_63" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Falecimento decorrente de acidente do trabalho de trajeto (ocorrido no trajeto residência–trabalho–residência)</field>
+        <field name="code">63</field>
+        <field name="fgts_withdraw_code">23</field>
+    </record>
+
+    <record id="hr_contract_resignation_64" model="hr.contract.resignation.cause">
+        <field name="name">Falecimento decorrente de doença profissional</field>
+        <field name="code">64</field>
+        <field name="fgts_withdraw_code">23</field>
+    </record>
+
+    <record id="hr_contract_resignation_70" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Aposentadoria por tempo de contribuição, com rescisão contratual</field>
+        <field name="code">70</field>
+        <field name="fgts_withdraw_code">05</field>
+    </record>
+
+    <record id="hr_contract_resignation_71" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Aposentadoria por tempo de contribuição, sem rescisão contratual</field>
+        <field name="code">71</field>
+        <field name="fgts_withdraw_code">05</field>
+    </record>
+
+    <record id="hr_contract_resignation_72" model="hr.contract.resignation.cause">
+        <field name="name">Aposentadoria por idade, com rescisão contratual</field>
+        <field name="code">72</field>
+        <field name="fgts_withdraw_code">05</field>
+    </record>
+
+    <record id="hr_contract_resignation_73" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Aposentadoria por invalidez, decorrente de acidente do trabalho</field>
+        <field name="code">73</field>
+        <field name="fgts_withdraw_code">05</field>
+    </record>
+
+    <record id="hr_contract_resignation_74" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Aposentadoria por invalidez, decorrente de doença profissional</field>
+        <field name="code">74</field>
+        <field name="fgts_withdraw_code">05</field>
+    </record>
+
+    <record id="hr_contract_resignation_75" model="hr.contract.resignation.cause">
+        <field name="name">Aposentadoria compulsória</field>
+        <field name="code">75</field>
+        <field name="fgts_withdraw_code">05</field>
+    </record>
+
+    <record id="hr_contract_resignation_76" model="hr.contract.resignation.cause">
+        <field
+            name="name"
+        >Aposentadoria por invalidez, exceto a decorrente de doença profissional ou acidente do trabalho</field>
+        <field name="code">76</field>
+        <field name="fgts_withdraw_code">05</field>
+    </record>
+
+    <record id="hr_contract_resignation_78" model="hr.contract.resignation.cause">
+        <field name="name">Aposentadoria por idade, sem rescisão contratual</field>
+        <field name="code">78</field>
+        <field name="fgts_withdraw_code">05</field>
+    </record>
+
+    <record id="hr_contract_resignation_79" model="hr.contract.resignation.cause">
+        <field name="name">Aposentadoria especial, com rescisão contratual.</field>
+        <field name="code">79</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+    <record id="hr_contract_resignation_80" model="hr.contract.resignation.cause">
+        <field name="name">Aposentadoria especial, sem rescisão contratual</field>
+        <field name="code">80</field>
+        <field name="fgts_withdraw_code" />
+    </record>
+
+</odoo>

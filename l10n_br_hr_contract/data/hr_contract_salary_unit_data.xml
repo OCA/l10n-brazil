@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- SALARY UNIT -->
+    <record id="salary_unit_5" model="hr.contract.salary.unit">
+        <field name="name">Hourly</field>
+        <field name="code">1</field>
+    </record>
+
+    <record id="salary_unit_4" model="hr.contract.salary.unit">
+        <field name="name">Daily</field>
+        <field name="code">2</field>
+    </record>
+
+    <record id="salary_unit_3" model="hr.contract.salary.unit">
+        <field name="name">Weekly</field>
+        <field name="code">3</field>
+    </record>
+
+    <record id="salary_unit_2" model="hr.contract.salary.unit">
+        <field name="name">Biweekly</field>
+        <field name="code">4</field>
+    </record>
+
+    <record id="salary_unit_1" model="hr.contract.salary.unit">
+        <field name="name">Monthly</field>
+        <field name="code">5</field>
+    </record>
+
+    <record id="salary_unit_6" model="hr.contract.salary.unit">
+        <field name="name">Task</field>
+        <field name="code">6</field>
+    </record>
+
+    <record id="salary_unit_7" model="hr.contract.salary.unit">
+        <field name="name">Não aplicável - salário exclusivamente variável</field>
+        <field name="code">7</field>
+    </record>
+
+</odoo>

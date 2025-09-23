@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- ADMISSION TYPE -->
+    <record id="admission_type_1" model="hr.contract.admission.type">
+        <field name="name">Admissão</field>
+        <field name="code">1</field>
+    </record>
+
+    <record id="admission_type_2" model="hr.contract.admission.type">
+        <field name="name">Transferência de empresa do mesmo grupo econômico</field>
+        <field name="code">2</field>
+    </record>
+
+    <record id="admission_type_3" model="hr.contract.admission.type">
+        <field name="name">Transferência de empresa consorciada ou de consórcio</field>
+        <field name="code">3</field>
+    </record>
+
+    <record id="admission_type_4" model="hr.contract.admission.type">
+        <field
+            name="name"
+        >Transferência por motivo de sucessão, incorporação, cisão ou fusão</field>
+        <field name="code">4</field>
+    </record>
+
+</odoo>

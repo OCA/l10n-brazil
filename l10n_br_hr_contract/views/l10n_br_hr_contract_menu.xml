@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        action=""
+        id="menu_hr_contract_configuration_rais_contract"
+        parent="hr.menu_human_resources_configuration"
+        name="Contract"
+        sequence="30"
+        groups="hr.group_hr_manager"
+    />
+    <menuitem
+        action="action_hr_contract_admission_type"
+        id="menu_hr_contract_admission_type"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Admission Type"
+        sequence="10"
+    />
+    <menuitem
+        action="action_hr_contract_labor_bond_type"
+        id="menu_hr_contract_labor_bond_type"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Labor Bond Type"
+        sequence="11"
+    />
+    <menuitem
+        action="action_hr_contract_labor_regime"
+        id="menu_hr_contract_labor_regime"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Labor Regime"
+        sequence="12"
+    />
+    <menuitem
+        action="action_hr_contract_salary_unit"
+        id="menu_hr_contract_salary_unit"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Salary Unit"
+        sequence="13"
+    />
+    <menuitem
+        action="action_hr_contract_resignation_cause"
+        id="menu_hr_contract_resignation_cause"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Resignation Cause"
+        sequence="14"
+    />
+    <menuitem
+        action="action_hr_contract_notice_termination"
+        id="menu_hr_contract_notice_termination"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Notice Termination"
+        sequence="15"
+    />
+</odoo>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_hr_contract_view_form" model="ir.ui.view">
+        <field name="model">hr.contract</field>
+        <field name="name">l10n_br.hr.contract.view.form</field>
+        <field name="priority">110</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='structure_type_id']" position="after">
+                <field
+                    name="admission_type_id"
+                    options="{'no_create': True, 'create_edit': False, 'no_open': True}"
+                    required="1"
+                />
+                <field name="labor_bond_type_id" />
+                <field
+                    name="labor_regime_id"
+                    options="{'no_create': True, 'create_edit': False}"
+                    required="1"
+                />
+            </xpath>
+            <xpath expr="//group[@name='contract_details']" position="after">
+                <group name="union" string="Union">
+                    <field name="partner_union" />
+                    <field name="union_name" invisible="1" />
+                    <field name="union_cnpj" invisible="1" />
+                    <field name="union_entity_code" invisible="1" />
+                    <field name="discount_union_contribution" />
+                </group>
+            </xpath>
+            <xpath expr="//div[@name='wage']" position="replace">
+                <div class="o_row" name="wage" modifiers="{}">
+                    <field name="wage" nolabel="1" modifiers="{'required':true}" />
+                    <field
+                        name="salary_unit"
+                        options="{'no_create': True, 'no_open': True}"
+                        required="1"
+                        can_create="true"
+                        can_write="true"
+                        modifiers="{'required':true}"
+                    />
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='contract_details']" position="inside">
+                <field name="monthly_hours" />
+                <field name="weekly_hours" />
+            </xpath>
+            <xpath expr="//page[@name='information']" position="after">
+                <page name="resignation_page" string="Resignation">
+                    <group name="resignation_group" string="Resignation">
+                        <field name="resignation_cause_id" />
+                        <field name="resignation_date" />
+                        <field name="resignation_code" invisible='1' />
+                        <field
+                            name="by_death"
+                            invisible="resignation_code not in ['60', '62', '63', '64']"
+                        />
+                    </group>
+                    <group
+                        name="notice_of_terminationstring"
+                        string="Notice of Termination"
+                    >
+                        <field name="notice_of_termination_id" />
+                        <field name="notice_of_termination_date" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

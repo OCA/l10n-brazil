@@ -1,0 +1,328 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_hr_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_admission_type
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_admission_type
+msgid "Admission Type"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__admission_type_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__name
+msgid "Admission type"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__by_death
+msgid "By death"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_l10n_br_hr_contract_data_abstract__code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_configuration_rais_contract
+msgid "Contract"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__create_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__create_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__by_death
+msgid "Death certificate/Process/Beneficiary"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__discount_union_contribution
+msgid "Discount union contribution in admission"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__fgts_withdraw_code
+msgid "FGTS withdrawal code"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_l10n_br_hr_contract_data_abstract
+msgid "HR Data Base Abstract"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_labor_bond_type
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_labor_bond_type
+msgid "Labor Bond Type"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_labor_regime
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_labor_regime
+msgid "Labor Regime"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_labor_bond_type
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__labor_bond_type_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__name
+msgid "Labor bond type"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__labor_regime_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__name
+msgid "Labor regime"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause____last_update
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__write_uid
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_bond_type__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__write_date
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__monthly_hours
+msgid "Monthly hours"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_resignation_cause
+msgid "Motivo da demissão"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_l10n_br_hr_contract_data_abstract__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_notice_termination
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_notice_termination
+msgid "Notice Termination"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
+msgid "Notice of Termination"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__notice_of_termination_date
+msgid "Notice of termination date"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__notice_of_termination_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__name
+msgid "Notice of termination type"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields.selection,name:l10n_br_hr_contract.selection__hr_contract__welfare_policy__rgps
+msgid "Regime Geral da Previdência Social"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields.selection,name:l10n_br_hr_contract.selection__hr_contract__welfare_policy__rpps
+msgid "Regime Próprio da Previdência Social"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields.selection,name:l10n_br_hr_contract.selection__hr_contract__welfare_policy__rpse
+msgid "Regime de Previdência Social no Exterior"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
+msgid "Resignation"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_resignation_cause
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_resignation_cause
+msgid "Resignation Cause"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__resignation_cause_id
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__name
+msgid "Resignation cause"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__resignation_code
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_resignation_cause__code
+msgid "Resignation cause code"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__resignation_date
+msgid "Resignation date"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_salary_unit
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_salary_unit__name
+#: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_salary_unit
+msgid "Salary Unit"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__salary_unit
+msgid "Salary Unity"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_labor_regime__short_name
+msgid "Short name"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__partner_union
+msgid "Sindicato"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__partner_union
+msgid ""
+"Sindicato é um partner que tem código de sindicato (union_entity_code) "
+"definido."
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_admission_type
+msgid "Tipo de admissão do trabalhador"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_notice_termination
+msgid "Tipo de aviso prévio"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_labor_regime
+msgid "Tipo de regime trabalhista"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_salary_unit
+msgid ""
+"Unidade de pagamento da parte fixa da remuneração e-Social - S-2200 "
+"undSalFixo"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_name
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr_contract.l10n_br_hr_contract_view_form
+msgid "Union"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_cnpj
+msgid "Union CNPJ"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_entity_code
+msgid "Union entity code"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__weekly_hours
+msgid "Weekly hours"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__welfare_policy
+msgid "Welfare policy"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__welfare_policy
+msgid "e-Social: S2200/S2300 - tpRegPrev"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__labor_regime_id
+msgid "e-Social: S2200/S2300 - tpRegTrab"
+msgstr ""
