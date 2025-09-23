@@ -37,7 +37,6 @@ class TestNFeExport(TransactionCase):
             nfe.action_document_back2draft()
 
         for line in nfe.fiscal_line_ids:
-            line._onchange_product_id_fiscal()
             line._onchange_fiscal_operation_id()
 
         nfe._register_hook()  # required in v16 for next statement

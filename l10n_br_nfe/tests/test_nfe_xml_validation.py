@@ -37,7 +37,7 @@ class TestXMLValidation(TransactionCase):
                 "product_id": self.env.ref("product.product_product_4c").id,
             }
         )
-        line._onchange_product_id_fiscal()
+        line._onchange_fiscal_operation_id()
         document.action_document_confirm()
         document.action_document_send()
         _logger.info(
@@ -76,9 +76,8 @@ class TestXMLValidation(TransactionCase):
                 "product_id": self.env.ref("product.product_product_4c").id,
             }
         )
-        line._onchange_product_id_fiscal()
-
-        # Force taxes
+        line._onchange_fiscal_operation_id()
+        # Force taxes:
         line.update(
             {
                 "price_unit": 116.41,
@@ -106,9 +105,8 @@ class TestXMLValidation(TransactionCase):
                 "product_id": self.env.ref("product.product_product_4c").id,
             }
         )
-        line2._onchange_product_id_fiscal()
-
-        # Force taxes
+        line2._onchange_fiscal_operation_id()
+        # Force taxes:
         line2.update(
             {
                 "price_unit": 116.41,
