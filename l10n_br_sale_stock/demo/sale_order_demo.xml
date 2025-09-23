@@ -65,10 +65,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_1_1')]" />
-    </function>
-
     <record id="main_company-sale_order_line_1_2" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_order_1" />
         <field
@@ -85,10 +81,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_1_2')]" />
-    </function>
 
     <record id="main_company-sale_order_line_1_3" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_order_1" />
@@ -120,10 +112,6 @@
             ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_1_5')]" />
-    </function>
 
     <!-- Pedido de Venda com Produto e Serviço -->
     <record id="main_company-sale_order_2" model="sale.order">
@@ -175,10 +163,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_2_1')]" />
-    </function>
-
     <record id="main_company-sale_order_line_2_2" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_order_2" />
         <field name="name">This is a Note 2</field>
@@ -208,10 +192,6 @@
             ref="l10n_br_fiscal.fo_venda_servico_ind"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_2_4')]" />
-    </function>
 
     <!-- Teste de Agrupamento -->
     <record id="main_company-sale_order_3" model="sale.order">
@@ -261,10 +241,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_3_1')]" />
-    </function>
-
     <record id="main_company-sale_order_line_3_2" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_order_3" />
         <field
@@ -280,10 +256,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_3_2')]" />
-    </function>
 
     <record id="main_company-sale_order_line_3_3" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_order_3" />
@@ -315,10 +287,6 @@
             ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_3_5')]" />
-    </function>
 
     <!-- Teste de Agrupamento -->
     <record id="main_company-sale_order_4" model="sale.order">
@@ -368,10 +336,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_4_1')]" />
-    </function>
-
     <record id="main_company-sale_order_line_4_2" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_order_4" />
         <field
@@ -387,10 +351,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_4_2')]" />
-    </function>
 
     <record id="main_company-sale_order_line_4_3" model="sale.order.line">
         <field name="order_id" ref="main_company-sale_order_4" />
@@ -422,10 +382,6 @@
             ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_company-sale_order_line_4_5')]" />
-    </function>
 
     <!-- Empresa Lucro Presumido -->
     <!-- Sale Order with only products test -->
@@ -475,10 +431,6 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lucro_presumido-sale_order_line_1_1')]" />
-    </function>
-
     <record id="lucro_presumido-sale_order_line_1_2" model="sale.order.line">
         <field name="order_id" ref="lucro_presumido-sale_order_1" />
         <field name="name">This is a Note 1</field>
@@ -509,9 +461,5 @@
             ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
         />
     </record>
-
-    <function model="sale.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lucro_presumido-sale_order_line_1_4')]" />
-    </function>
 
 </odoo>
