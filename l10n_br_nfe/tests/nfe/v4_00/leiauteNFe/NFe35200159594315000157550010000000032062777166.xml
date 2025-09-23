@@ -70,12 +70,12 @@
         <xProd>Pedal Bin</xProd>
         <NCM>73239900</NCM>
         <CFOP>6102</CFOP>
-        <uCom>UN</uCom>
+        <uCom>KG</uCom>
         <qCom>2.0000</qCom>
         <vUnCom>47.0000000000</vUnCom>
         <vProd>94.00</vProd>
         <cEANTrib>SEM GTIN</cEANTrib>
-        <uTrib>UN</uTrib>
+        <uTrib>KG</uTrib>
         <qTrib>2.0000</qTrib>
         <vUnTrib>47.0000000000</vUnTrib>
         <indTot>1</indTot>
