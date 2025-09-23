@@ -40,7 +40,6 @@ class TestTaxBenefit(TransactionCase):
         """Test NFe with tax benefit."""
 
         for line in self.nfe_tax_benefit.fiscal_line_ids:
-            line._onchange_product_id_fiscal()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
