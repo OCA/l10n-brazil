@@ -141,7 +141,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         sale_order_form = Form(sale_order_2)
         sale_order = sale_order_form.save()
         for line in sale_order.order_line:
-            line._compute_tax_fields()
+            line._onchange_fiscal_operation_id()
         sale_order.action_confirm()
         # Metodo de criação da fatura a partir do sale.order
         # deve gerar apenas a linha de serviço
