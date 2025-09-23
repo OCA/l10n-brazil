@@ -136,7 +136,15 @@ class SaleOrder(models.Model):
         moves = self.env["account.move"]
         for document_type in document_types:
             self = self.with_context(
-                document_type_id=document_type.id, skip_compute_fiscal_tax_ids=True
+                document_type_id=document_type.id,
+                # these skip  flags are here to preserve manual values
+                # in computed fields with readonly=False when
+                # this self.env.flush_all() in the stock.move object
+                # might be hit (through the sale_stock module)
+                # see addons/stock/models/stock_move.py#L1528
+                # may be they can be removed in v17+
+                skip_compute_fiscal_tax_ids=True,
+                skip_compute_product_fiscal_fields=True,
             )
             try:
                 moves |= super()._create_invoices(
