@@ -2083,7 +2083,6 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
                 ).id,
             }
         )
-        fiscal_doc_line_to_import._onchange_product_id_fiscal()
         fiscal_doc_line_to_import._compute_tax_fields()
 
         # let's import it:
