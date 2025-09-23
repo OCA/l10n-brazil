@@ -86,7 +86,6 @@ class TestNFeWithIPI(AccountMoveBRCommon):
                 "ipi_devol_value": 1,
             }
         )
-        fiscal_doc_line._onchange_product_id_fiscal()
 
         self.assertEqual(fiscal_doc_line.nfe40_impostoDevol.nfe40_pDevol, 50.00)
         self.assertEqual(
