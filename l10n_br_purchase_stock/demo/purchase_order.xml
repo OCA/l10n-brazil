@@ -64,10 +64,6 @@
         <field name="freight_value">10</field>
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_products_1_1')]" />
-    </function>
-
     <record id="main_pl_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products_1" />
         <field name="name">Gaveta Preta</field>
@@ -88,10 +84,6 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_products_1_2')]" />
-    </function>
 
     <!-- Section -->
     <record id="main_pl_only_products_1_3" model="purchase.order.line">
@@ -128,10 +120,6 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_products_1_5')]" />
-    </function>
 
     <!-- Purchase Order with only products test 2 - Teste Agrupamento -->
     <record id="main_po_only_products_2" model="purchase.order">
@@ -173,10 +161,6 @@
         <field name="freight_value">10</field>
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_products_2_1')]" />
-    </function>
-
     <record id="main_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products_2" />
         <field name="name">Gaveta Preta</field>
@@ -197,10 +181,6 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_products_2_2')]" />
-    </function>
 
     <!-- Section -->
     <record id="main_pl_only_products_2_3" model="purchase.order.line">
@@ -237,10 +217,6 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_products_2_5')]" />
-    </function>
 
     <!-- Lucro Presumido -->
     <!-- Purchase Order with only products test -->
@@ -284,10 +260,6 @@
         <field name="ind_final">0</field>
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lucro_presumido_pol_only_products_1_1')]" />
-    </function>
-
     <record id="lucro_presumido_pol_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="lucro_presumido_po_only_products_1" />
         <field name="name">Gaveta Preta</field>
@@ -308,10 +280,6 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('lucro_presumido_pol_only_products_1_2')]" />
-    </function>
 
     <!-- Purchase Order with only Service -->
     <!-- Necessario alterar o Metodo de Compra do Servico
@@ -348,10 +316,6 @@
         <field name="partner_order_line">001</field>
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_only_service_stock_1_1')]" />
-    </function>
-
     <!-- Purchase Order with Service and Product -->
     <record id="main_po_service_product_stock" model="purchase.order">
         <field name="name">Main l10n_br_purchase_stock - Serviço e Produto</field>
@@ -381,10 +345,6 @@
         <field name="partner_order_line">001</field>
     </record>
 
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_service_product_stock_1_1')]" />
-    </function>
-
     <record id="main_pl_service_product_stock_2_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_service_product_stock" />
         <field name="name">Gaveta Preta</field>
@@ -405,9 +365,5 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
-    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
-        <value eval="[ref('main_pl_service_product_stock_2_2')]" />
-    </function>
 
 </odoo>
