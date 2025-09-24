@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -143,7 +143,8 @@ msgid "Colaboradores"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__common_law_marriage
+#. odoo-python
+#: code:addons/l10n_br_hr/models/hr_employee.py:0
 msgid "Common law marriage"
 msgstr ""
 
@@ -353,6 +354,11 @@ msgid "Identidade"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
+msgid "Identification Number for selected type"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_identity_type
 msgid "Identity Types"
 msgstr ""
@@ -372,7 +378,6 @@ msgstr ""
 #. module: l10n_br_hr
 #. odoo-python
 #: code:addons/l10n_br_hr/models/hr_employee.py:0
-#, python-format
 msgid "Invalid PIS/PASEP"
 msgstr ""
 
@@ -495,7 +500,8 @@ msgid "Second Category"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__separated
+#. odoo-python
+#: code:addons/l10n_br_hr/models/hr_employee.py:0
 msgid "Separated"
 msgstr ""
 
@@ -508,14 +514,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_hr.hr_employee_terceirizado_action
 #: model:ir.ui.menu,name:l10n_br_hr.hr_menu_employee_terceirizado
 msgid "Terceirizados"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
-msgid ""
-"The Tax Identification Number. Values here will be validated based on the "
-"country format. You can use '/' to indicate that the partner is not subject "
-"to tax."
 msgstr ""
 
 #. module: l10n_br_hr
