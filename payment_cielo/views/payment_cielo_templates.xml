@@ -1,132 +1,344 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <template id="cielo_form">
-            <input
-                type="hidden"
-                name="data_set"
-                t-att-data-action-url="tx_url"
-                data-remove-me=""
-            />
-            <input
-                type="hidden"
-                name='cielo_image'
-                t-att-value="acquirer.cielo_image_url"
-            />
-            <input
-                type="hidden"
-                name='merchant'
-                t-att-value='acquirer.company_id.name'
-            />
-            <input type="hidden" name='amount' t-att-value="amount" />
-            <input type="hidden" name='return_url' t-att-value='returndata' />
-            <!--Order Information -->
-            <input type="hidden" name='invoice_num' t-att-value='reference' />
-            <input type="hidden" name='currency' t-att-value='currency' />
-            <input type="hidden" name='currency_id' t-att-value='currency_id' />
-            <!-- Billing Information-->
-            <input type="hidden" name='name' t-att-value='name' />
-            <input type="hidden" name='address_line1' t-att-value='address_line1' />
-            <input type="hidden" name='address_city' t-att-value='address_city' />
-            <input type="hidden" name='address_zip' t-att-value='address_zip' />
-            <input type="hidden" name='address_country' t-att-value='address_country' />
-            <input type="hidden" name='phone' t-att-value='phone' />
-            <input type="hidden" name='email' t-att-value='email' />
-            <input
-                id="acquirer_cielo"
-                type="hidden"
-                name="acquirer"
-                t-att-value="acquirer.id"
-            />
-            <input
-                type="hidden"
-                name="cielo_key"
-                t-att-value="acquirer.cielo_publishable_key"
-            />
+        <template id="cielo_s2s_form">
+            <style>
+                .cielo-payment-form {
+                    max-width: 500px;
+                    margin: 20px auto;
+                    padding: 30px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 10px;
+                    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                }
+
+                .value {
+                    text-align: center;
+                    margin-bottom: 20px;
+                    font-size: 18px;
+                    color: #343a40;
+                }
+
+                .cielo-payment-form h3 {
+                    text-align: center;
+                    color: #2c3e50;
+                    margin-bottom: 25px;
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+
+                .form-group {
+                    margin-bottom: 20px;
+                }
+
+                .form-group label {
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #495057;
+                    font-size: 14px;
+                }
+
+                .form-group input,
+                .form-group select {
+                    width: 100%;
+                    padding: 12px 16px;
+                    border: 2px solid #dee2e6;
+                    border-radius: 6px;
+                    font-size: 16px;
+                    background-color: #ffffff;
+                    transition: border-color 0.3s ease;
+                    box-sizing: border-box;
+                }
+
+                .form-group input:focus,
+                .form-group select:focus {
+                    outline: none;
+                    border-color: #007bff;
+                    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+                }
+
+                .form-row {
+                    display: flex;
+                    gap: 15px;
+                }
+
+                .form-row .form-group {
+                    flex: 1;
+                }
+
+                .pay-button {
+                    width: 100%;
+                    padding: 16px;
+                    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    margin-top: 20px;
+                    transition: all 0.3s ease;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                .pay-button:hover {
+                    background: linear-gradient(135deg, #218838 0%, #1ca085 100%);
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+                }
+
+                .security-info {
+                    text-align: center;
+                    margin-top: 15px;
+                    color: #6c757d;
+                    font-size: 12px;
+                }
+
+                .security-info .lock-icon {
+                    color: #28a745;
+                    margin-right: 5px;
+                }
+
+                .card-icons {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                    margin: 15px 0;
+                    opacity: 0.7;
+                }
+
+                .card-icons span {
+                    padding: 4px 8px;
+                    background: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    border-radius: 4px;
+                    font-size: 10px;
+                    font-weight: bold;
+                    color: #6c757d;
+                }
+
+                @media (max-width: 768px) {
+                    .cielo-payment-form {
+                        margin: 10px;
+                        padding: 20px;
+                    }
+
+                    .form-row {
+                        flex-direction: column;
+                        gap: 0;
+                    }
+                }
+            </style>
+
+            <div class="cielo-payment-form">
+                <h3>Cartão de Crédito</h3>
+                <div class="value">
+                    <p><strong>Valor:</strong> R$ <t t-esc="tx.amount" /></p>
+                </div>
+
+                <form action="/payment/cielo/s2s/create" method="POST">
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        t-att-value="request.csrf_token()"
+                    />
+                    <input type="hidden" name="transaction_id" t-att-value="tx_id" />
+
+                    <div class="form-group">
+                        <label for="card_number">Número do Cartão *</label>
+                        <input
+                            type="text"
+                            name="card_number"
+                            id="card_number"
+                            placeholder="0000 0000 0000 0000"
+                            required="required"
+                            maxlength="19"
+                            pattern="[0-9\s]{13,19}"
+                            title="Digite apenas números do cartão"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="card_holder">Nome no Cartão *</label>
+                        <input
+                            type="text"
+                            name="card_holder"
+                            id="card_holder"
+                            placeholder="Nome como aparece no cartão"
+                            required="required"
+                            maxlength="50"
+                            pattern="[A-Za-z\s]+"
+                            title="Digite apenas letras e espaços"
+                        />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card_expiry">Validade *</label>
+                            <input
+                                type="text"
+                                name="card_expiry"
+                                id="card_expiry"
+                                placeholder="MM/AAAA"
+                                required="required"
+                                maxlength="7"
+                                pattern="[0-9]{2}/[0-9]{4}"
+                                title="Formato: MM/AAAA"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="card_cvv">Código de Segurança *</label>
+                            <input
+                                type="password"
+                                name="card_cvv"
+                                id="card_cvv"
+                                placeholder="123"
+                                required="required"
+                                maxlength="4"
+                                pattern="[0-9]{3,4}"
+                                title="3 ou 4 dígitos"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="display:none;">
+                        <label for="card_brand">Bandeira do Cartão *</label>
+                        <select name="card_brand" id="card_brand" required="required">
+                            <option value="">Selecione a bandeira...</option>
+                            <option value="Visa">Visa</option>
+                            <option value="Master">MasterCard</option>
+                            <option value="Amex">American Express</option>
+                        </select>
+                    </div>
+
+                    <div class="card-icons">
+                        <span data-brand="Visa">VISA</span>
+                        <span data-brand="Master">MASTERCARD</span>
+                        <span data-brand="Amex">AMEX</span>
+                    </div>
+
+                    <button type="submit" class="pay-button">
+                        Pagar
+                    </button>
+                    <script type="text/javascript">
+                        const cardInput = document.getElementById('card_number');
+                        const brandSelect = document.getElementById('card_brand');
+                        const icons = document.querySelectorAll('.card-icons span');
+
+                        const brandColors = {
+                            'Visa': '#1a1f71',
+                            'Master': '#eb001b',
+                            'Amex': '#2e77bc',
+                        };
+
+                        cardInput.addEventListener('input', () => {
+                            const val = cardInput.value.replace(/\s+/g, '');
+                            let brand = '';
+
+                            if (/^4/.test(val)) brand = 'Visa';
+                            else if (/^5[1-5]/.test(val) || /^2(2[2-9][1-9]|[3-6][0-9]{2}|7[0-1][0-9]|720)/.test(val)) brand = 'Master';
+                            else if (/^3[47]/.test(val)) brand = 'Amex';
+
+                            brandSelect.value = brand;
+
+                            icons.forEach(icon => {
+                                icon.style.opacity = 0.5;
+                                icon.style.color = '#6c757d';
+                            });
+
+                            if (brand) {
+                                const icon = document.querySelector(`.card-icons span[data-brand='${brand}']`);
+                                if (icon) {
+                                    icon.style.opacity = 1;
+                                    icon.style.color = brandColors[brand];
+                                }
+                            }
+                        });
+
+                    </script>
+                </form>
+            </div>
         </template>
 
-        <template id="cielo_s2s_form">
-            <input
-                type="hidden"
-                name="data_set"
-                data-create-route="/payment/cielo/s2s/create_json_3ds"
-            />
-            <div
-                t-attf-class="row mt8 #{'' if bootstrap_formatting else 'o_card_brand_detail'}"
+        <!-- Template do status da transação após o pagamento -->
+        <template id="cielo_status_template" name="Cielo Payment Status Simple">
+                <div
+                class="container"
+                style="max-width: 600px; margin: 50px auto; text-align: center;"
             >
-                <div
-                    t-att-class="'form-group col-lg-12' if bootstrap_formatting else 'form-group'"
-                >
-                    <input
-                        type="tel"
-                        name="cc_number"
-                        id="cc_number"
-                        class="form-control"
-                        placeholder="Card number"
-                        data-is-required="true"
-                    />
-                    <div class="card_placeholder" />
-                    <div class="visa" />
-                    <input type="hidden" name="cc_brand" value="" />
+                    <t t-if="status == 'success'">
+                        <div
+                        style="padding: 30px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724;"
+                    >
+                            <h2
+                            style="color: #155724; margin-bottom: 15px;"
+                        >Pagamento Aprovado!</h2>
+                            <p
+                            style="font-size: 16px;"
+                        >Sua transação foi processada com sucesso.</p>
+                            <t t-if="tx">
+                                <hr style="margin: 20px 0;" />
+                                <p><strong>Referência:</strong> <t
+                                    t-esc="tx.reference"
+                                /></p>
+                                <p><strong>Valor:</strong> R$ <t
+                                    t-esc="tx.amount"
+                                /></p>
+                                <p><strong>Status:</strong> <t
+                                    t-esc="tx.state.title()"
+                                /></p>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div
+                        style="padding: 30px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; color: #721c24;"
+                    >
+                            <h2
+                            style="color: #721c24; margin-bottom: 15px;"
+                        >Pagamento Rejeitado</h2>
+                            <p style="font-size: 16px;"><t
+                                t-esc="message or 'Ocorreu um problema ao processar o pagamento.'"
+                            /></p>
+                            <t t-if="tx">
+                                <hr style="margin: 20px 0;" />
+                                <p><strong>Referência:</strong> <t
+                                    t-esc="tx.reference"
+                                /></p>
+                            </t>
+                        </div>
+                    </t>
+
+                    <div style="margin-top: 30px;">
+                        <a
+                        href="/"
+                        class="btn btn-primary"
+                        style="padding: 12px 30px; text-decoration: none;"
+                    >
+                            ← Voltar ao Início
+                        </a>
+                    </div>
                 </div>
-                <div
-                    t-att-class="'form-group col-lg-5' if bootstrap_formatting else 'form-group'"
-                >
-                    <input
-                        type="text"
-                        name="cc_holder_name"
-                        id="cc_holder_name"
-                        class="form-control"
-                        placeholder="Cardholder name"
-                        data-is-required="true"
-                    />
+        </template>
+
+        <template id="cielo_payment_page" name="Cielo Payment Page">
+                <div class="container" style="max-width: 800px; margin: 50px auto;">
+                    <t t-call="payment_cielo.cielo_s2s_form">
+                        <t t-set="tx_id" t-value="tx.id" />
+                    </t>
                 </div>
-                <div
-                    t-att-class="'form-group col-lg-3' if bootstrap_formatting else 'form-group'"
-                >
-                    <input
-                        type="text"
-                        name="cc_expiry"
-                        id="cc_expiry"
-                        class="form-control"
-                        maxlength="7"
-                        placeholder="Expires (MM / YY)"
-                        data-is-required="true"
-                    />
-                </div>
-                <div
-                    t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'"
-                >
-                    <input
-                        type="text"
-                        name="cvc"
-                        id="cvc"
-                        class="form-control"
-                        maxlength="4"
-                        placeholder="CVC"
-                        data-is-required="true"
-                    />
-                </div>
-                <input type="hidden" name="acquirer_id" t-att-value="id" />
-                <input
-                    t-if="return_url"
-                    type="hidden"
-                    name="return_url"
-                    t-att-value="return_url"
-                />
-                <input
-                    t-if="partner_id"
-                    type="hidden"
-                    name="partner_id"
-                    t-att-value="partner_id"
-                />
-                <input
-                    type="hidden"
-                    name="csrf_token"
-                    t-att-value="request.csrf_token()"
-                />
-                <div class="clearfix" />
-            </div>
+        </template>
+
+
+        <!-- Template de redirecionamento simples -->
+        <template id="cielo_redirect_form">
+            <form action="/payment/cielo/payment" method="get">
+                <input type="hidden" name="tx_id" t-att-value="tx_id" />
+            </form>
         </template>
     </data>
 </odoo>

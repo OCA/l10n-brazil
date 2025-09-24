@@ -14,114 +14,93 @@ _logger = logging.getLogger(__name__)
 class PaymentTokenCielo(models.Model):
     _inherit = "payment.token"
 
-    card_number = fields.Char(
-        string="Number",
-        required=False,
-    )
-
-    card_holder = fields.Char(
-        string="Holder",
-        required=False,
-    )
-
-    card_exp = fields.Char(
-        string="Expiration date",
-        required=False,
-    )
-
-    card_cvc = fields.Char(
-        string="cvc",
-        required=False,
-    )
-
-    card_brand = fields.Char(
-        string="Brand",
-        required=False,
-    )
-
-    cielo_token = fields.Char(
-        string="Token",
-        required=False,
-    )
+    cielo_token = fields.Char(string="Cielo Token", groups="base.group_user")
+    card_brand = fields.Char(string="Card Brand")
 
     def _cielo_tokenize(self, values):
-        """Tokenize card in cielo server.
+        """Tokeniza um cartão no endpoint Cielo.
 
-        Sends card data to cielo and gets back a token. Returns the response
-        dict which still contains all credit card data.
-
+        Espera `values` com chaves: cc_number, cc_holder_name, cc_expiry, cc_brand, partner_id
+        Retorna o JSON do gateway ou lança exceção em caso de erro.
         """
-        aquirer_id = self.env.ref("payment_cielo.payment_acquirer_cielo")
-        api_url_create_card = "https://%s/1/card" % (aquirer_id._get_cielo_api_url())
+        provider = self.env.ref("payment_cielo.payment_provider_cielo")
+        api_host = provider._get_cielo_api_url()
+        api_url_create_card = f"https://{api_host}/1/card"
 
-        partner_id = self.env["res.partner"].browse(values["partner_id"])
-        cielo_expiry = (
-            str(values["cc_expiry"][:2])
-            + "/"
-            + str(datetime.datetime.now().year)[:2]
-            + str(values["cc_expiry"][-2:])
-        )
+        partner = self.env["res.partner"].browse(values.get("partner_id"))
 
-        if values["cc_brand"] == "mastercard":
-            values["cc_brand"] = "master"
+        # formato esperado: MMYY ou MM/YY -> é transformado para MM/YYYY
+        expiry = (values.get("cc_expiry") or "").replace(" ", "")
+        if "/" in expiry:
+            mm, yy = (p.strip() for p in expiry.split("/"))
+        else:
+            mm, yy = expiry[:2], expiry[-2:]
+        try:
+            year4 = int(yy)
+            if year4 < 100:
+                year4 = (datetime.datetime.now().year // 100) * 100 + int(yy)
+        except Exception:
+            year4 = datetime.datetime.now().year
+        cielo_expiry = f"{mm}/{year4}"
 
-        tokenize_params = {
-            "CustomerName": partner_id.name,
-            "CardNumber": values["cc_number"].replace(" ", ""),
-            "Holder": values["cc_holder_name"],
+        brand = (values.get("cc_brand") or "").strip()
+        if brand.lower() == "mastercard":
+            brand = "Master"
+
+        payload = {
+            "CustomerName": partner.name or "",
+            "CardNumber": (values.get("cc_number") or "").replace(" ", ""),
+            "Holder": values.get("cc_holder_name") or "",
             "ExpirationDate": cielo_expiry,
-            "Brand": values["cc_brand"],
+            "Brand": brand,
         }
 
-        _logger.info("_cielo_tokenize: Sending values to URL %s", api_url_create_card)
-        r = requests.post(
+        _logger.info(
+            "Cielo tokenize: POST %s -> payload keys: %s",
             api_url_create_card,
-            json=tokenize_params,
-            headers=aquirer_id._get_cielo_api_headers(),
+            list(payload.keys()),
         )
-        res = r.json()
-        return res
+        try:
+            r = requests.post(
+                api_url_create_card,
+                json=payload,
+                headers=provider._get_cielo_api_headers(),
+                timeout=30,
+            )
+            r.raise_for_status()
+            resp = r.json()
+        except requests.RequestException:
+            _logger.exception("Cielo tokenize request failed")
+            raise
+        except ValueError:
+            _logger.exception("Cielo returned invalid JSON for tokenize")
+            raise
+
+        return resp
 
     @api.model
     def cielo_create(self, values):
-        """Treats tokenizing data.
+        """Cria um registro temporário de token a partir dos dados enviados pelo formulário S2S.
 
-        Calls _cielo_tokenize, formats the response data to the result and
-        removes secret credit card information since it's now stored by cielo.
-        A resulting dict containing card brand, card token, formated name (
-        XXXXXXXXXXXX1234 - Customar Name) and partner_id will be returned.
-
+        Não salva PAN/CVC no banco, apenas armazena o token retornado pela Cielo.
         """
-        token = self._cielo_tokenize(values)
-        if "CardToken" not in token:
+        token_response = self._cielo_tokenize(values)
+        card_token = (
+            token_response.get("CardToken")
+            or token_response.get("cardToken")
+            or token_response.get("id")
+        )
+        if not card_token:
+            _logger.error("Cielo: tokenization failed, response: %s", token_response)
             return False
-        values["card_token"] = token["CardToken"]
 
-        if values.get("cc_number"):
-            description = values["cc_holder_name"]
-        else:
-            partner_id = self.env["res.partner"].browse(values["partner_id"])
-            description = "Partner: %s (id: %s)" % (partner_id.name, partner_id.id)
-        partner_id = self.env["res.partner"].browse(values["partner_id"])
-
-        customer_params = {"description": description or token["card"]["name"]}
+        partner = self.env["res.partner"].browse(values.get("partner_id"))
+        short_name = f"XXXX-XXXX-XXXX-{(values.get('cc_number') or '')[-4:]} - {partner.name or ''}"
 
         res = {
-            "acquirer_ref": partner_id.id,
-            "name": "XXXXXXXXXXXX%s - %s"
-            % (values["cc_number"][-4:], customer_params["description"]),
-            "card_number": values["cc_number"].replace(" ", ""),
-            "card_exp": str(values["cc_expiry"][:2])
-            + "/"
-            + str(datetime.datetime.now().year)[:2]
-            + str(values["cc_expiry"][-2:]),
-            "card_cvc": values["cvc"],
-            "card_holder": values["cc_holder_name"],
-            "card_brand": values["cc_brand"],
-            "cielo_token": values["card_token"],
+            "provider_ref": partner.id,
+            "name": short_name,
+            "cielo_token": card_token,
+            "card_brand": (values.get("cc_brand") or "").lower(),
         }
-
-        # pop credit card info to info sent to create
-        for field_name in ["card_number", "card_cvc", "card_holder", "card_exp"]:
-            res.pop(field_name, None)
         return res
