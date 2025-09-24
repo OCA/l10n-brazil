@@ -1,3 +1,3 @@
 This module depends on:
 
-* payment
+- payment
