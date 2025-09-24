@@ -2,10 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Payent Cielo",
+    "name": "Payment Cielo",
     "summary": """
-        Payment Acquirer: Cielo Implementation""",
-    "version": "12.0.3.2.1",
+        Payment Provider: Cielo Implementation""",
+    "version": "16.0.1.0.0",
     "development_status": "Alpha",
     "license": "AGPL-3",
     "author": "KMEE INFORMATICA LTDA,Odoo Community Association (OCA)",
@@ -15,10 +15,9 @@
     "data": [
         "views/payment_views.xml",
         "views/payment_cielo_templates.xml",
-        "data/payment_acquirer_data.xml",
+        "data/payment_provider_data.xml",
     ],
     "images": ["static/description/icon.png"],
     "installable": True,
-    "post_init_hook": "create_missing_journal_for_acquirers",
     "uninstall_hook": "uninstall_hook",
 }

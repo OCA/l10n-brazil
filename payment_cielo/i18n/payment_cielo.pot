@@ -21,22 +21,22 @@ msgid "&times;"
 msgstr ""
 
 #. module: payment_cielo
-#: model_terms:payment.acquirer,cancel_msg:payment_cielo.payment_acquirer_cielo
+#: model_terms:payment.provider,cancel_msg:payment_cielo.payment_provider_cielo
 msgid "<span><i>Cancel,</i> Your payment has been cancelled.</span>"
 msgstr ""
 
 #. module: payment_cielo
-#: model_terms:payment.acquirer,done_msg:payment_cielo.payment_acquirer_cielo
+#: model_terms:payment.provider,done_msg:payment_cielo.payment_provider_cielo
 msgid "<span><i>Done,</i> Your online payment has been successfully processed. Thank you for your order.</span>"
 msgstr ""
 
 #. module: payment_cielo
-#: model_terms:payment.acquirer,error_msg:payment_cielo.payment_acquirer_cielo
+#: model_terms:payment.provider,error_msg:payment_cielo.payment_provider_cielo
 msgid "<span><i>Error,</i> Please be aware that an error occurred during the transaction. The order has been confirmed but will not be paid. Do not hesitate to contact us if you have any questions on the status of your order.</span>"
 msgstr ""
 
 #. module: payment_cielo
-#: model_terms:payment.acquirer,pending_msg:payment_cielo.payment_acquirer_cielo
+#: model_terms:payment.provider,pending_msg:payment_cielo.payment_provider_cielo
 msgid "<span><i>Pending,</i> Your online payment has been successfully processed. But your order is not validated yet.</span>"
 msgstr ""
 
@@ -71,23 +71,23 @@ msgid "Check Link"
 msgstr ""
 
 #. module: payment_cielo
-#: model:ir.model.fields,field_description:payment_cielo.field_payment_acquirer__cielo_image_url
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_provider__cielo_image_url
 msgid "Checkout Image URL"
 msgstr ""
 
 #. module: payment_cielo
-#: model:payment.acquirer,name:payment_cielo.payment_acquirer_cielo
-#: selection:payment.acquirer,provider:0
+#: model:payment.provider,name:payment_cielo.payment_provider_cielo
+#: selection:payment.provider,provider:0
 msgid "Cielo"
 msgstr ""
 
 #. module: payment_cielo
-#: model:ir.model.fields,field_description:payment_cielo.field_payment_acquirer__cielo_merchant_id
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_provider__cielo_merchant_id
 msgid "Cielo Merchant Id"
 msgstr ""
 
 #. module: payment_cielo
-#: model:ir.model.fields,field_description:payment_cielo.field_payment_acquirer__cielo_merchant_key
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_provider__cielo_merchant_key
 msgid "Cielo Merchant Key"
 msgstr ""
 
@@ -122,7 +122,7 @@ msgid "Holder"
 msgstr ""
 
 #. module: payment_cielo
-#: selection:payment.acquirer,provider:0
+#: selection:payment.provider,provider:0
 msgid "Manual Configuration"
 msgstr ""
 
@@ -132,8 +132,8 @@ msgid "Number"
 msgstr ""
 
 #. module: payment_cielo
-#: model:ir.model,name:payment_cielo.model_payment_acquirer
-msgid "Payment Acquirer"
+#: model:ir.model,name:payment_cielo.model_payment_provider
+msgid "Payment provider"
 msgstr ""
 
 #. module: payment_cielo
@@ -147,7 +147,7 @@ msgid "Payment Transaction"
 msgstr ""
 
 #. module: payment_cielo
-#: model:ir.model.fields,field_description:payment_cielo.field_payment_acquirer__provider
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_provider__provider
 msgid "Provider"
 msgstr ""
 
@@ -162,12 +162,12 @@ msgid "Void Link"
 msgstr ""
 
 #. module: payment_cielo
-#: selection:payment.acquirer,provider:0
+#: selection:payment.provider,provider:0
 msgid "Wire Transfer"
 msgstr ""
 
 #. module: payment_cielo
-#: model_terms:payment.acquirer,pre_msg:payment_cielo.payment_acquirer_cielo
+#: model_terms:payment.provider,pre_msg:payment_cielo.payment_provider_cielo
 msgid "You will be prompted with Cielo Payment page for payment information."
 msgstr ""
 
