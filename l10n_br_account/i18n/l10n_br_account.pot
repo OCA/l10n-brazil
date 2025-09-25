@@ -68,6 +68,7 @@ msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__force_fiscal_operation_journal_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__journal_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_search
 msgid "Account Journal"
