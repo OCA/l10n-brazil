@@ -94,7 +94,6 @@ class CieloController(http.Controller):
             tx.sudo().write(
                 {
                     "state_message": str(e),
-                    "date": request.env["ir.fields"].Datetime.now(),
                 }
             )
             tx._set_transaction_cancel()
