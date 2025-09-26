@@ -25659,6 +25659,17 @@ msgid "The Partner already has a State Tax Number for that State!"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
+#: code:addons/l10n_br_base/tools.py:0
+msgid ""
+"The size of CPF must have 11 and the CNPJ 14 digits without dot, dash and "
+"slash; in this case:\n"
+"\n"
+"CPF or CNPJ: %(d_clean_id)s\n"
+"Size: %(d_size_id)s"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1101609
 msgid "Theobroma"
 msgstr ""
