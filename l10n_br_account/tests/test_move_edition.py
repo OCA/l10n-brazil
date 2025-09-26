@@ -209,9 +209,9 @@ class TestMoveEdition(TransactionCase):
             self.assertEqual(
                 line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_nt")
             )
-            self.assertTrue(abs(line_form.icms_value - 14.7) < 0.01)
+            self.assertAlmostEqual(line_form.icms_value, 14.7, places=2)
             line_form.quantity = 10
-            self.assertTrue(abs(line_form.icms_value - 29.40) < 0.01)
+            self.assertAlmostEqual(line_form.icms_value, 29.40, places=2)
 
             line_form.fiscal_operation_line_id = self.env.ref(
                 "l10n_br_fiscal.fo_venda_venda"
@@ -223,6 +223,9 @@ class TestMoveEdition(TransactionCase):
             self.assertEqual(
                 line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5")
             )
+
+            # ensure manually setting a ncm_id is properly saved (not recomputed):
+            line_form.ncm_id = self.env.ref("l10n_br_fiscal.ncm_94013090")
 
             # ensure manually setting a xx_tax_id is properly saved (not recomputed):
             line_form.icms_tax_id = self.env.ref("l10n_br_fiscal.tax_icms_18")
@@ -262,11 +265,17 @@ class TestMoveEdition(TransactionCase):
         )
 
         self.assertEqual(
-            aml.icms_tax_id.id,
-            self.ref("l10n_br_fiscal.tax_icms_18"),
+            aml.icms_tax_id.name, self.env.ref("l10n_br_fiscal.tax_icms_18").name
         )
         self.assertEqual(aml.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5"))
         self.assertEqual(aml.icms_value, 79.38)
+
+        # NCM entered manually must be maintained,
+        # it must not be the same as the product.
+        self.assertEqual(
+            aml.ncm_id.code, self.env.ref("l10n_br_fiscal.ncm_94013090").code
+        )
+        self.assertNotEqual(aml.ncm_id.code, self.product_id.ncm_id.code)
 
         move.action_post()
         self.assertEqual(move.state, "posted")
