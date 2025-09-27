@@ -27,7 +27,22 @@ class FiscalDocumentLine(models.Model):
     # SHADOWED FIELDS SYNC
     # -------------------------------------------------------------------------
 
-    product_id = fields.Many2one(inverse="_inverse_product_id")
+    proxy_product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Product (proxy)",
+        help="Technical Field.",
+        readonly=False,
+    )
+
+    product_id = fields.Many2one(
+        related="proxy_product_id",
+        comodel_name="product.product",
+        string="Product",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
     name = fields.Char(inverse="_inverse_name")
     quantity = fields.Float(inverse="_inverse_quantity")
     price_unit = fields.Float(inverse="_inverse_price_unit")
