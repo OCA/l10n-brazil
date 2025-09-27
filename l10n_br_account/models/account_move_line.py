@@ -58,8 +58,9 @@ class AccountMoveLine(models.Model):
     @api.onchange("product_id")
     def _inverse_product_id(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.product_id = line.product_id.id
+            # we use proxy_product_id to avoid triggering _compute_product_fiscal_fields
+            # which would erase custom values such as custom ncm_id
+            line.proxy_product_id = line.product_id
         return super()._inverse_product_id()
 
     @api.onchange("name")
