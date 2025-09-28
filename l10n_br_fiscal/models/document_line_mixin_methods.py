@@ -486,7 +486,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if not line.product_id:
                 # reset to default values:
                 line.fiscal_type = False
-                line.uot_id = False
                 line.ncm_id = False
                 line.nbm_id = False
                 line.tax_icms_or_issqn = TAX_DOMAIN_ICMS
@@ -501,7 +500,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             product = line.product_id
             line.fiscal_type = product.fiscal_type
-            line.uot_id = product.uot_id or product.uom_id
             line.ncm_id = product.ncm_id
             line.nbm_id = product.nbm_id
             line.tax_icms_or_issqn = product.tax_icms_or_issqn
@@ -779,11 +777,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
-    @api.onchange("uom_id")
-    def _onchange_uom_id(self):
+    @api.depends("product_id", "uom_id")
+    def _compute_uot_id(self):
         for line in self:
-            if not line.uot_id:
-                line.uot_id = line.uom_id
+            if line.uom_id:
+                line.uot_id = line.uom_id.id
+            elif line.product_id:
+                if line.product_id.uot_id:
+                    line.uot_id = line.product_id.uot_id.id
+                else:
+                    line.uot_id = line.product_id.uom_id.id
+            else:
+                line.uot_id = False
 
     @api.onchange("price_unit")
     def _onchange_price_unit_fiscal(self):
