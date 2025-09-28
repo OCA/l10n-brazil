@@ -137,10 +137,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     uom_id = fields.Many2one(
         comodel_name="uom.uom",
         string="UOM",
-        compute="_compute_product_fiscal_fields",
-        store=True,
-        readonly=False,
-        precompute=True,
     )
 
     quantity = fields.Float(
