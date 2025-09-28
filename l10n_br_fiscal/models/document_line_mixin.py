@@ -242,7 +242,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     uot_id = fields.Many2one(
         comodel_name="uom.uom",
         string="Tax UoM",
-        compute="_compute_product_fiscal_fields",
+        compute="_compute_uot_id",
         store=True,
         readonly=False,
         precompute=True,
