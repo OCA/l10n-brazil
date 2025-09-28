@@ -500,7 +500,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 continue
 
             product = line.product_id
-            line.name = product.display_name
             line.fiscal_type = product.fiscal_type
             line.uot_id = product.uot_id or product.uom_id
             line.ncm_id = product.ncm_id
