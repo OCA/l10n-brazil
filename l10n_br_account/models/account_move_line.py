@@ -54,6 +54,7 @@ class AccountMoveLine(models.Model):
     name = fields.Char(inverse="_inverse_name")
     quantity = fields.Float(inverse="_inverse_quantity")
     price_unit = fields.Float(inverse="_inverse_price_unit")
+    product_uom_id = fields.Many2one(inverse="_inverse_product_uom_id")
 
     @api.onchange("product_id")
     def _inverse_product_id(self):
@@ -80,6 +81,12 @@ class AccountMoveLine(models.Model):
         for line in self:
             if line.fiscal_document_line_id:
                 line.fiscal_document_line_id.price_unit = line.price_unit
+
+    @api.onchange("product_uom_id")
+    def _inverse_product_uom_id(self):
+        for line in self:
+            if line.fiscal_document_line_id:
+                line.fiscal_document_line_id.uom_id = line.product_uom_id
 
     @api.depends(
         "quantity",
