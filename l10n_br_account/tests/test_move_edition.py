@@ -140,6 +140,8 @@ class TestMoveEdition(TransactionCase):
 
         # now user needs to be a Fiscal User:
         self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.groups_id += self.env.ref("uom.group_uom")
+
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
@@ -200,6 +202,11 @@ class TestMoveEdition(TransactionCase):
                 ind_final="1",
             )
 
+            # ensure manually setting a product_uom_id is properly sync'ed:
+            line_form.product_uom_id = self.env.ref("l10n_br_fiscal.UOM_PC")
+            self.assertEqual(line_form.uot_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
+            line_form.uot_id = self.env.ref("uom.product_uom_unit")
+
             line_form.price_unit = 42
             line_form.quantity = 5
             self.assertEqual(len(line_form.fiscal_tax_ids), 4)
@@ -210,6 +217,7 @@ class TestMoveEdition(TransactionCase):
                 line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_nt")
             )
             self.assertAlmostEqual(line_form.icms_value, 14.7, places=2)
+
             line_form.quantity = 10
             self.assertAlmostEqual(line_form.icms_value, 29.40, places=2)
 
@@ -276,6 +284,15 @@ class TestMoveEdition(TransactionCase):
             aml.ncm_id.code, self.env.ref("l10n_br_fiscal.ncm_94013090").code
         )
         self.assertNotEqual(aml.ncm_id.code, self.product_id.ncm_id.code)
+
+        self.assertEqual(aml.uom_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
+        self.assertEqual(aml.uot_id, self.env.ref("uom.product_uom_unit"))
+        self.assertEqual(
+            aml.fiscal_document_line_id.uom_id, self.env.ref("l10n_br_fiscal.UOM_PC")
+        )
+        self.assertEqual(
+            aml.fiscal_document_line_id.uot_id, self.env.ref("uom.product_uom_unit")
+        )
 
         move.action_post()
         self.assertEqual(move.state, "posted")
