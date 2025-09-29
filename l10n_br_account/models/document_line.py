@@ -15,14 +15,6 @@ class FiscalDocumentLine(models.Model):
         string="Invoice Lines",
     )
 
-    uom_id = fields.Many2one(
-        compute="_compute_product_uom_id",
-        store=True,
-        readonly=False,
-        precompute=True,
-        ondelete="restrict",
-    )
-
     # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC
     # -------------------------------------------------------------------------
@@ -46,6 +38,7 @@ class FiscalDocumentLine(models.Model):
     name = fields.Char(inverse="_inverse_name")
     quantity = fields.Float(inverse="_inverse_quantity")
     price_unit = fields.Float(inverse="_inverse_price_unit")
+    uom_id = fields.Many2one(inverse="_inverse_uom_id")
 
     @api.onchange("product_id")
     def _inverse_product_id(self):
@@ -87,14 +80,12 @@ class FiscalDocumentLine(models.Model):
                 ):
                     aml.price_unit = line.price_unit
 
-    @api.depends("product_id")
-    def _compute_product_uom_id(self):
+    @api.onchange("uom_id")
+    def _inverse_uom_id(self):
         for line in self:
-            # vendor bills should have the product purchase UOM
-            if line.fiscal_operation_type == "in":
-                line.uom_id = line.product_id.uom_po_id
-            else:
-                line.uom_id = line.product_id.uom_id
+            for aml in line.account_line_ids:
+                if aml.product_uom_id != line.uom_id:
+                    aml.product_uom_id = line.uom_id
 
     @api.model_create_multi
     def create(self, vals_list):
