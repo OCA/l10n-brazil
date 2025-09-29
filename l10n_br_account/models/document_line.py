@@ -87,6 +87,16 @@ class FiscalDocumentLine(models.Model):
                 if aml.product_uom_id != line.uom_id:
                     aml.product_uom_id = line.uom_id
 
+    @api.depends("product_id", "uom_id", "account_line_ids.uot_id")
+    def _compute_uot_id(self):
+        """
+        Ensure doc line uot_id is consistent with custom aml uot if any.
+        """
+        line_with_aml_uot = self.filtered(lambda line: line.account_line_ids.uot_id)
+        for line in line_with_aml_uot:
+            line.uot_id = line.account_line_ids.uot_id
+        return super(FiscalDocumentLine, self - line_with_aml_uot)._compute_uot_id()
+
     @api.model_create_multi
     def create(self, vals_list):
         """
