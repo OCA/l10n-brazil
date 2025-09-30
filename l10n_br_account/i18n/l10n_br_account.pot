@@ -4508,6 +4508,12 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_product_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_product_id
+msgid "Product (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_proPred
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_prodPred
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_proPred
@@ -5047,6 +5053,13 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_product_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__product_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_product_id
+msgid "Technical Field."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_fone
@@ -5398,6 +5411,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_unit
 msgid "Unit Price"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__product_uom_id
+msgid "Unit of Measure"
 msgstr ""
 
 #. module: l10n_br_account
