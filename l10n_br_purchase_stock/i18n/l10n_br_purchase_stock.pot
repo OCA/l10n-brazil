@@ -93,11 +93,6 @@ msgid "Stock Picking"
 msgstr ""
 
 #. module: l10n_br_purchase_stock
-#: model:ir.model,name:l10n_br_purchase_stock.model_stock_rule
-msgid "Stock Rule"
-msgstr ""
-
-#. module: l10n_br_purchase_stock
 #: model:ir.model,name:l10n_br_purchase_stock.model_stock_picking
 msgid "Transfer"
 msgstr ""
