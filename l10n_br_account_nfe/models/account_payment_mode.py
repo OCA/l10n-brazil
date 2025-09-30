@@ -7,7 +7,7 @@
 
 from odoo import fields, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_PAYMENT_MODE
+from odoo.addons.l10n_br_nfe.constants.nfe import FISCAL_PAYMENT_MODE
 
 
 class AccountPaymentMode(models.Model):
