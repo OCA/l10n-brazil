@@ -14,7 +14,6 @@
     "depends": [
         "l10n_br_coa",
         "l10n_br_fiscal",
-        "l10n_br_account_due_list",
     ],
     "data": [
         # security
