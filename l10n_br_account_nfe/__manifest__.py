@@ -18,6 +18,7 @@
     "depends": [
         "l10n_br_nfe",
         "l10n_br_account",
+        "l10n_br_account_due_list",
         "account_payment_partner",
     ],
     "data": [
