@@ -7,7 +7,7 @@ from unittest import mock
 from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
-from odoo.tests.common import Form
+from odoo.tests.common import Form, tagged
 
 _logger = logging.getLogger(__name__)
 
@@ -25,6 +25,7 @@ class PatchedForm(Form):
             _logger.debug(f"ignoring error {e}")
 
 
+@tagged("post_install", "-at_install")
 class TestMoveEdition(TransactionCase):
     """
     Test basic invoicing scenarios through the user interface to ensure
@@ -258,7 +259,7 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(move.user_id, move.fiscal_document_id.user_id)
 
         # test "shadowed" line fields:
-        aml = move.line_ids[0]
+        aml = move.line_ids.filtered(lambda line: line.product_id)[0]
         fisc_line = move.fiscal_line_ids[0]
         self.assertEqual(aml.product_id, fisc_line.product_id)
         self.assertEqual(aml.name, fisc_line.name)
@@ -385,7 +386,7 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(move.user_id, move.fiscal_document_id.user_id)
 
         # test "shadowed" line fields:
-        aml = move.line_ids[0]
+        aml = move.line_ids.filtered(lambda line: line.product_id)[0]
         fisc_line = move.fiscal_line_ids[0]
         self.assertEqual(aml.product_id, fisc_line.product_id)
         self.assertEqual(aml.name, fisc_line.name)
