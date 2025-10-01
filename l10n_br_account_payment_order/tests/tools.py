@@ -58,7 +58,7 @@ def create_with_form_account_journal(env, values, line_values=False):
     return journal.save()
 
 
-def create_with_form_l10n_br_cnab_config(env, values):  # noqa: C901
+def create_with_form_l10n_br_cnab_config(env, values):
     with Form(
         env["l10n_br_cnab.config"],
         "l10n_br_account_payment_order.l10n_br_cnab_config_form_view",
@@ -66,8 +66,7 @@ def create_with_form_l10n_br_cnab_config(env, values):  # noqa: C901
         cnab_config.name = values.get("name")
         cnab_config.bank_id = values.get("bank_id")
         cnab_config.payment_method_id = values.get("payment_method_id")
-        if values.get("cnab_processor"):
-            cnab_config.cnab_processor = values.get("cnab_processor")
+        cnab_config.cnab_processor = values.get("cnab_processor")
         cnab_config.cnab_company_bank_code = values.get("cnab_company_bank_code")
         if values.get("convention_code"):
             cnab_config.convention_code = values.get("convention_code")
@@ -77,8 +76,7 @@ def create_with_form_l10n_br_cnab_config(env, values):  # noqa: C901
         cnab_config.boleto_accept = values.get("boleto_accept")
         if values.get("boleto_protest_code_id"):
             cnab_config.boleto_protest_code_id = values.get("boleto_protest_code_id")
-        if values.get("boleto_discount_perc"):
-            cnab_config.boleto_discount_perc = values.get("boleto_discount_perc")
+        cnab_config.boleto_discount_perc = values.get("boleto_discount_perc")
         cnab_config.boleto_days_protest = values.get("boleto_days_protest")
         cnab_config.boleto_interest_code = values.get("boleto_interest_code")
         cnab_config.boleto_interest_perc = values.get("boleto_interest_perc")
@@ -117,7 +115,6 @@ def create_with_form_l10n_br_cnab_config(env, values):  # noqa: C901
         #     )
 
         if values.get("change_title_value_code_id"):
-            # UNICRED 400 não tem
             cnab_config.change_title_value_code_id = values.get(
                 "change_title_value_code_id"
             )
@@ -132,16 +129,13 @@ def create_with_form_l10n_br_cnab_config(env, values):  # noqa: C901
         if values.get("protest_title_code_id"):
             cnab_config.protest_title_code_id = values.get("protest_title_code_id")
         if values.get("suspend_protest_keep_wallet_code_id"):
-            # Itau 400 não tem
             cnab_config.suspend_protest_keep_wallet_code_id = values.get(
                 "suspend_protest_keep_wallet_code_id"
             )
-        if values.get("grant_discount_code_id"):
-            # Itau 400 não tem
+        if values.get("grant_rebate_code_id"):
             cnab_config.grant_rebate_code_id = values.get("grant_rebate_code_id")
             cnab_config.cancel_rebate_code_id = values.get("cancel_rebate_code_id")
         if values.get("grant_discount_code_id"):
-            # UNICRED 400 não tem
             cnab_config.grant_discount_code_id = values.get("grant_discount_code_id")
             cnab_config.cancel_discount_code_id = values.get("cancel_discount_code_id")
         if values.get("boleto_byte_idt"):
@@ -149,7 +143,6 @@ def create_with_form_l10n_br_cnab_config(env, values):  # noqa: C901
             cnab_config.boleto_post = values.get("boleto_post")
         if values.get("boleto_fee_code_id"):
             cnab_config.boleto_fee_code_id = values.get("boleto_fee_code_id")
-        if values.get("boleto_fee_perc"):
             cnab_config.boleto_fee_perc = values.get("boleto_fee_perc")
 
     return cnab_config.save()
