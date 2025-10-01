@@ -52,9 +52,9 @@ class TestPaymentOrderInbound(CNABTestCommon):
             assert (
                 line.own_number
             ), "own_number field is not filled in created Move Line."
-            assert line.instruction_move_code_id, (
-                "instruction_move_code_id field is not filled" " in created Move Line."
-            )
+            assert (
+                line.instruction_move_code_id
+            ), "instruction_move_code_id field is not filled in created Move Line."
             # testar com a parcela 700
             if line.debit == 700.0:
                 test_balance_value = line.get_balance()
@@ -62,6 +62,10 @@ class TestPaymentOrderInbound(CNABTestCommon):
         self.assertEqual(test_balance_value, 700.0, "Error with method get_balance()")
 
         payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+        for pay_line in payment_order.payment_line_ids:
+            self.assertFalse(
+                pay_line.amount_interest, "Error with Amout Interest field"
+            )
 
         # Ordem de Pagto CNAB não pode ser apagada
         with self.assertRaises(UserError):
@@ -84,24 +88,63 @@ class TestPaymentOrderInbound(CNABTestCommon):
     def test_warning_when_cnab_config_dont_has_code(self):
         self._run_invoice_and_order_workflow(self.invoice_itau_400)
         aml_to_change = self.invoice_itau_400.due_line_ids[0]
-        self.changes_to_sending.append(
+        self.changes_to_sending += [
             {
                 "change_to_send": "change_date_maturity",
                 "test_dates_are_equals": True,
-            }
-        )
+            },
+            {
+                "change_to_send": "change_discount_date",
+                "test_dates_are_equals": True,
+            },
+            {
+                "change_to_send": "change_discount_date",
+            },
+            {"change_to_send": "suspend_protest_keep_wallet"},
+            {
+                "change_to_send": "not_payment",
+                "without_account": True,
+            },
+        ]
+
         for change in self.changes_to_sending:
             test_dates_are_equals = False
             if change.get("test_dates_are_equals"):
                 test_dates_are_equals = True
             # Caso not_payment não tem Warning
-            if change.get("change_to_send") != "not_payment":
-                self._send_new_cnab_code(
-                    aml_to_change,
-                    change.get("change_to_send"),
-                    warning_error=True,
-                    test_dates_are_equals=test_dates_are_equals,
-                )
+            if change.get("change_to_send") == "not_payment":
+                self.cnab_config_itau_400.write_off_code_id = False
+                if change.get("without_account"):
+                    self.cnab_config_itau_400.not_payment_account_id = False
+            self._send_new_cnab_code(
+                aml_to_change,
+                change.get("change_to_send"),
+                warning_error=True,
+                test_dates_are_equals=test_dates_are_equals,
+            )
+
+    def test_cnab_change_specific_cases(self):
+        self._run_invoice_and_order_workflow(self.invoice_ailos_240)
+        changes_to_sending = [
+            {
+                "change_to_send": "change_discount_date",
+                "test_dates_are_equals": True,
+                "warning_error": True,
+            },
+            {
+                "change_to_send": "change_discount_date",
+            },
+        ]
+        for change in changes_to_sending:
+            self._send_new_cnab_code(
+                self.invoice_ailos_240.due_line_ids[0],
+                change.get("change_to_send"),
+                change.get("warning_error"),
+                change.get("test_dates_are_equals"),
+            )
+            if not change.get("warning_error"):
+                pay_order = self._get_draft_payment_order(self.invoice_ailos_240)
+                self._run_payment_order_workflow(pay_order)
 
     def test_payment_outside_cnab_payment_order_draft(self):
         """
@@ -210,6 +253,9 @@ class TestPaymentOrderInbound(CNABTestCommon):
         self._run_invoice_and_order_workflow(self.invoice_cef_240)
         self.invoice_cef_240.button_cancel()
         self._check_order_with_write_off_code(self.invoice_cef_240)
+        pay_order = self._get_draft_payment_order(self.invoice_cef_240)
+        self._run_payment_order_workflow(pay_order)
+        self.invoice_cef_240.unlink()
 
     def test_cancel_invoice_no_payment_mode_pay(self):
         """Test Pay Invoice without payment mode in cash"""
