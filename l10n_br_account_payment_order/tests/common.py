@@ -8,6 +8,7 @@ from datetime import date
 
 from dateutil.relativedelta import relativedelta
 
+from odoo import Command
 from odoo.exceptions import UserError
 from odoo.fields import Date
 from odoo.tests import Form, tagged
@@ -135,6 +136,18 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             },
         )
 
+        cls.bank_account_ailos = create_with_form_res_partner_bank(
+            cls.env,
+            {
+                "acc_number": "374",
+                "acc_number_dig": "0",
+                "bra_number": "1236",
+                "bra_number_dig": "1",
+                "bank_id": cls.env.ref("l10n_br_base.res_bank_085"),
+                "partner_id": cls.env.company.partner_id,
+            },
+        )
+
         # Sequencias
         cls.common_sequence_values = {
             "number_next_actual": "1",
@@ -196,6 +209,24 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             },
         )
 
+        cls.cnab_seq_ailos = create_with_form_ir_sequence(
+            cls.env,
+            cls.common_sequence_values
+            | {
+                "name": "Sequencia Arquivo CNAB - AILOS 240",
+                "code": "Sequencia Arquivo CNAB - AILOS 240",
+            },
+        )
+
+        cls.own_number_seq_ailos = create_with_form_ir_sequence(
+            cls.env,
+            cls.common_sequence_values
+            | {
+                "name": "Nosso número AILOS",
+                "code": "nosso.numero",
+            },
+        )
+
         # Configurção do CNAB
         cls.common_cnab_config_values = {
             "instructions": "Pagavel em qualquer banco ate o vencimento",
@@ -211,6 +242,17 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             "boleto_interest_perc": "2",
             "boleto_days_protest": "5",
             "boleto_fee_perc": "1",
+            "cnab_processor": False,
+            "change_title_value_code_id": False,
+            "change_maturity_date_code_id": False,
+            "change_discount_date_code_id": False,
+            "protest_title_code_id": False,
+            "suspend_protest_keep_wallet_code_id": False,
+            "grant_discount_code_id": False,
+            "cancel_discount_code_id": False,
+            "grant_rebate_code_id": False,
+            "boleto_byte_idt": False,
+            "boleto_fee_code_id": False,
         }
 
         cls.cnab_config_cef = create_with_form_l10n_br_cnab_config(
@@ -283,9 +325,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
         cls.cnab_config_cef.write(
             {
                 "liq_return_move_code_ids": [
-                    (
-                        6,
-                        0,
+                    Command.set(
                         [
                             cls.env.ref(
                                 "l10n_br_account_payment_order.cef_240_return_06"
@@ -349,6 +389,56 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             },
         )
 
+        cls.cnab_config_ailos_240 = create_with_form_l10n_br_cnab_config(
+            cls.env,
+            cls.common_cnab_config_values
+            | {
+                "name": "Banco AILOS - CNAB 240 (inbound)",
+                "bank_id": cls.env.ref("l10n_br_base.res_bank_085"),
+                "payment_method_id": cls.pay_method_type_240,
+                "boleto_wallet": "01",
+                "boleto_variation": "35",
+                "boleto_discount_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.ailos_240_boleto_discount_code_1"
+                ),
+                "boleto_interest_code": "2",
+                "cnab_sequence_id": cls.cnab_seq_ailos,
+                "own_number_sequence_id": cls.own_number_seq_ailos,
+                "cnab_company_bank_code": "101004",
+                "sending_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.ailos_instruction_01"
+                ),
+                "write_off_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.ailos_instruction_02"
+                ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febrabam_240_boleto_fee_code_2"
+                ),
+                "change_discount_date_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.ailos_instruction_16"
+                ),
+            },
+        )
+        cls.cnab_config_ailos_240.write(
+            {
+                "liq_return_move_code_ids": [
+                    Command.set(
+                        [
+                            cls.env.ref(
+                                "l10n_br_account_payment_order.ailos_240_return_06"
+                            ).id,
+                            cls.env.ref(
+                                "l10n_br_account_payment_order.ailos_240_return_76"
+                            ).id,
+                            cls.env.ref(
+                                "l10n_br_account_payment_order.ailos_240_return_77"
+                            ).id,
+                        ],
+                    )
+                ],
+            }
+        )
+
         # Diário
         cls.journal_cef = create_with_form_account_journal(
             cls.env,
@@ -401,6 +491,26 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             ],
         )
 
+        cls.journal_ailos = create_with_form_account_journal(
+            cls.env,
+            {
+                "name": "Banco AILOS",
+                "type": "bank",
+                "code": "BNC16",
+                "bank_account_id": cls.bank_account_ailos,
+                "edi_format_ids": False,
+                "used_for_import": True,
+                "import_type": "cnab240",
+                "return_auto_reconcile": True,
+            },
+            [
+                {
+                    "name": "AILOS CNAB 240",
+                    "payment_method_id": cls.pay_method_type_240,
+                }
+            ],
+        )
+
         # Modo de Pagamento
         cls.common_pay_mode_values = {
             "bank_account_link": "fixed",
@@ -445,10 +555,23 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             },
         )
 
+        cls.pay_mode_ailos = create_with_form_account_payment_mode(
+            cls.env,
+            cls.common_pay_mode_values
+            | {
+                "name": "Cobrança AILOS 240",
+                "bank_id": cls.env.ref("l10n_br_base.res_bank_085"),
+                "fixed_journal_id": cls.journal_ailos,
+                "payment_method_id": cls.pay_method_type_240,
+                "cnab_config_id": cls.cnab_config_ailos_240,
+            },
+        )
+
         # Fatura
         cls.inv_common_values = {
             "invoice_payment_term_id": cls.pay_terms_b,
             "partner_id": cls.partner_a,
+            "eval_payment_mode_instructions": "Teste Eval Payment Mode Instructions",
             "instructions": "TESTE Intruções Boleto",
         }
         cls.inv_line_common_values = {
@@ -490,6 +613,19 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             },
             cls.inv_line_common_values,
         )
+
+        cls.invoice_ailos_240 = create_with_form_account_move(
+            cls.env,
+            cls.inv_common_values
+            | {
+                "name": "AILOS CNAB 240",
+                "payment_mode_id": cls.pay_mode_ailos,
+            },
+            cls.inv_line_common_values,
+        )
+        # Altera o valor total para 1000
+        for line in cls.invoice_ailos_240.invoice_line_ids:
+            line.tax_ids = False
 
         # Caso que não é um CNAB
         # Diário Cheque
@@ -682,7 +818,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             ),
         ) as f:
             f.change_type = code_to_send
-            if code_to_send == "change_date_maturity":
+            if code_to_send in ("change_date_maturity", "change_discount_date"):
                 new_date = date.today() + relativedelta(years=1)
 
                 if warning_error and test_dates_are_equals:
