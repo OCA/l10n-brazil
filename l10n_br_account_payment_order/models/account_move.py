@@ -146,8 +146,7 @@ class AccountMove(models.Model):
 
         if cnab_already_start:
             # Solicitar a Baixa do CNAB
-            invoice = self.env["account.move"].search([("move_id", "=", self.id)])
-            for l_aml in invoice.mapped("due_line_ids"):
+            for l_aml in self.mapped("due_line_ids"):
                 l_aml.update_cnab_for_cancel_invoice()
 
         return super().unlink()
