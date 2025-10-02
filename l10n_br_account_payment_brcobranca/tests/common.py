@@ -305,7 +305,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "boleto_fee_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.unicred_240_400_boleto_fee_code_2"
                 ),
-                "boleto_interest_code": "2",
+                "boleto_interest_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.unicred_240_400_boleto_interest_code_1"
+                ),
                 "cnab_sequence_id": cls.cnab_seq_unicred,
                 "own_number_sequence_id": cls.own_number_seq_unicred,
                 "cnab_company_bank_code": "92035760",
@@ -367,7 +369,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "payment_method_id": cls.pay_method_type_400,
                 "boleto_wallet": "18",
                 "boleto_variation": "19",
-                "boleto_interest_code": "1",
+                "boleto_interest_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.brasil_400_boleto_interest_code_1"
+                ),
                 "cnab_sequence_id": cls.cnab_seq_brasil,
                 "own_number_sequence_id": cls.own_number_seq_brasil,
                 "cnab_company_bank_code": "1234",
@@ -394,7 +398,10 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "payment_method_id": cls.pay_method_type_400,
                 "boleto_wallet": "03",
                 "boleto_variation": "19",
-                "boleto_interest_code": "2",
+                "boleto_interest_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febrabam_240_boleto_interest_code_3"
+                ),
+                "boleto_interest_perc": False,
                 "cnab_sequence_id": cls.cnab_seq_bradesco,
                 "own_number_sequence_id": cls.own_number_seq_bradesco,
                 "cnab_company_bank_code": "0001222130126",
@@ -419,7 +426,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "payment_method_id": cls.pay_method_type_240,
                 "boleto_wallet": "3",
                 "boleto_variation": "19",
-                "boleto_interest_code": "2",
+                "boleto_interest_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febrabam_240_boleto_interest_code_2"
+                ),
                 "cnab_sequence_id": cls.cnab_seq_sicredi,
                 "own_number_sequence_id": cls.own_number_seq_sicredi,
                 "cnab_company_bank_code": "12345",
@@ -449,7 +458,6 @@ class TestBRCobrancaCommon(CNABTestCommon):
                     "l10n_br_account_payment_order.santander_400_boleto_wallet_code_5"
                 ),
                 "boleto_variation": "35",
-                "boleto_interest_code": "2",
                 "cnab_sequence_id": cls.cnab_seq_santander_400,
                 "own_number_sequence_id": cls.own_number_seq_santander_400,
                 "cnab_company_bank_code": "12345678901234567890",
@@ -481,7 +489,9 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "boleto_fee_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.febrabam_240_boleto_fee_code_2"
                 ),
-                "boleto_interest_code": "2",
+                "boleto_interest_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.santander_240_boleto_interest_code_2"
+                ),
                 "cnab_sequence_id": cls.cnab_seq_santander_240,
                 "own_number_sequence_id": cls.own_number_seq_santander_240,
                 "cnab_company_bank_code": "123456789012345",
@@ -511,7 +521,6 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "payment_method_id": cls.pay_method_type_400,
                 "boleto_wallet": "21",
                 "boleto_variation": "1",
-                "boleto_interest_code": "2",
                 "cnab_sequence_id": cls.cnab_seq_nordeste,
                 "own_number_sequence_id": cls.own_number_seq_nordeste,
                 "cnab_company_bank_code": "0001222130126",
