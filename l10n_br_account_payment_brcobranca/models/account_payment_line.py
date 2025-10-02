@@ -15,24 +15,12 @@ class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
     def _prepare_bank_line_unicred(self, cnab_config, linhas_pagamentos):
-        # TODO - Valores padrões ?
-        #  Estou preenchendo valores que se forem vazios geram erro
-        #  os campos parecem estar usando uma Seleção que é definida
-        #  na Febraban, isso acontece em todos os casos( CNAB 240/400 ) ?
-        #  Isso deveria ser feito para o CNAB de outros Bancos ?
-        #  Na criação dos campos houve a opção de deixa-los com o tipo
-        #  CHAR ao invês de Selection por essa falta de padrão.
+        # Preenchendo valores que se forem vazios geram erro
         linhas_pagamentos["codigo_protesto"] = (
             cnab_config.boleto_protest_code_id.code or "3"
         )
         linhas_pagamentos["dias_protesto"] = cnab_config.boleto_days_protest or "0"
 
-        # Código adotado pela FEBRABAN para identificação
-        # do tipo de pagamento de multa.
-        # Domínio:
-        # ‘1’ = Valor Fixo (R$)
-        # ‘2’ = Taxa (%)
-        # ‘3’ = Isento
         # Isento de Multa caso não exista percentual
         linhas_pagamentos["codigo_multa"] = "3"
 
@@ -141,29 +129,25 @@ class AccountPaymentLine(models.Model):
                 if cnab_config.boleto_fee_perc:
                     linhas_pagamentos["percentual_multa"] = cnab_config.boleto_fee_perc
 
+            # Juros Mora
+            # Casos Isento podem não ter boleto_interest_perc
+            if cnab_config.boleto_interest_code_id:
+                linhas_pagamentos[
+                    "tipo_mora"
+                ] = cnab_config.boleto_interest_code_id.code
             if cnab_config.boleto_interest_perc:
-                linhas_pagamentos["tipo_mora"] = cnab_config.boleto_interest_code
-                # TODO - É padrão em todos os bancos ?
-                # Código adotado pela FEBRABAN para identificação do tipo de
-                # pagamento de mora de juros.
-                # Domínio:
-                # ‘1’ = Valor Diário (R$)
-                # ‘2’ = Taxa Mensal (%)
-                # ‘3’= Valor Mensal (R$) *
-                # ‘4’ = Taxa diária (%)
-                # ‘5’ = Isento
-                # *OBSERVAÇÃO:
-                # ‘3’ - Valor Mensal (R$): a CIP não acata valor mensal,
-                # segundo manual. Cógido mantido
-                # para Correspondentes que ainda utilizam.
-                # Isento de Mora caso não exista percentual
-                if cnab_config.boleto_interest_code == "1":
-                    linhas_pagamentos["valor_mora"] = self.company_currency_id.round(
-                        self.amount_currency
-                        * ((cnab_config.boleto_interest_perc / 100) / 30),
-                    )
-                if cnab_config.boleto_interest_code == "2":
-                    linhas_pagamentos["valor_mora"] = cnab_config.boleto_interest_perc
+                # Padrão 'Valor por Dia', porque os casos Itau, Santander e Nordeste
+                # 400 pelas Documentações não tem um 'Código Mora' mas pelo código
+                # do BRCobranca parece que usam esse caso.
+                valor_mora = self.company_currency_id.round(
+                    self.amount_currency
+                    * ((cnab_config.boleto_interest_perc / 100) / 30),
+                )
+                if cnab_config.boleto_interest_code_id:
+                    if cnab_config.boleto_interest_code_id.code == "2":
+                        valor_mora = cnab_config.boleto_interest_perc
+
+                linhas_pagamentos["valor_mora"] = valor_mora
 
             if self.discount_value:
                 linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
