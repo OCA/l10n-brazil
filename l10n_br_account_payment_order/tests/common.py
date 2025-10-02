@@ -274,7 +274,9 @@ class CNABTestCommon(AccountTestInvoicingCommon):
                     "l10n_br_account_payment_order.cef_240_boleto_fee_code_0"
                 ),
                 "boleto_fee_perc": False,
-                "boleto_interest_code": "2",
+                "boleto_interest_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febrabam_240_boleto_interest_code_2"
+                ),
                 "cnab_sequence_id": cls.cnab_seq_cef,
                 "own_number_sequence_id": cls.own_number_seq_cef,
                 "cnab_company_bank_code": "000122",
@@ -348,7 +350,6 @@ class CNABTestCommon(AccountTestInvoicingCommon):
                 "payment_method_id": cls.pay_method_type_400,
                 "boleto_wallet": "175",
                 "boleto_variation": "19",
-                "boleto_interest_code": "2",
                 "cnab_sequence_id": cls.cnab_seq_itau_400,
                 "own_number_sequence_id": cls.own_number_seq_itau_400,
                 "cnab_company_bank_code": "12345",
@@ -376,7 +377,6 @@ class CNABTestCommon(AccountTestInvoicingCommon):
                 "boleto_protest_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.itau_240_boleto_protest_code_2"
                 ),
-                "boleto_interest_code": "2",
                 "cnab_sequence_id": cls.cnab_seq_itau_240,
                 "own_number_sequence_id": cls.own_number_seq_itau_240,
                 "cnab_company_bank_code": "12345",
@@ -401,7 +401,9 @@ class CNABTestCommon(AccountTestInvoicingCommon):
                 "boleto_discount_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.ailos_240_boleto_discount_code_1"
                 ),
-                "boleto_interest_code": "2",
+                "boleto_interest_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febrabam_240_boleto_interest_code_2"
+                ),
                 "cnab_sequence_id": cls.cnab_seq_ailos,
                 "own_number_sequence_id": cls.own_number_seq_ailos,
                 "cnab_company_bank_code": "101004",

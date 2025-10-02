@@ -78,7 +78,8 @@ def create_with_form_l10n_br_cnab_config(env, values):
             cnab_config.boleto_protest_code_id = values.get("boleto_protest_code_id")
         cnab_config.boleto_discount_perc = values.get("boleto_discount_perc")
         cnab_config.boleto_days_protest = values.get("boleto_days_protest")
-        cnab_config.boleto_interest_code = values.get("boleto_interest_code")
+        if values.get("boleto_interest_code_id"):
+            cnab_config.boleto_interest_code_id = values.get("boleto_interest_code_id")
         cnab_config.boleto_interest_perc = values.get("boleto_interest_perc")
         cnab_config.cnab_sequence_id = values.get("cnab_sequence_id")
         cnab_config.own_number_sequence_id = values.get("own_number_sequence_id")

@@ -240,10 +240,17 @@ Known issues / Roadmap
 Changelog
 =========
 
+16.0.9.0.0 (2025-10-02)
+-----------------------
+
+-  [REF] Alterado o Código de Juros Mora de Char para
+   Objeto/l10n_br_cnab.code
+
 16.0.8.0.0 (2025-09-02)
 -----------------------
 
-- [REF] Alterado o Código de Multa de Char para Objeto/l10n_br_cnab.code
+-  [REF] Alterado o Código de Multa de Char para
+   Objeto/l10n_br_cnab.code
 
 16.0.6.0.0 (2025-03-06)
 -----------------------

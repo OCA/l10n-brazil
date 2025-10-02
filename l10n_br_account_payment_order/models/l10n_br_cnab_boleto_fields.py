@@ -138,9 +138,9 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         tracking=True,
     )
 
-    boleto_interest_code = fields.Char(
+    boleto_interest_code_id = fields.Many2one(
         string="Código da Mora",
-        size=1,
+        comodel_name="l10n_br_cnab.code",
         help="Código adotado pela FEBRABAN para identificação "
         "do tipo de pagamento de mora de juros.",
         tracking=True,
