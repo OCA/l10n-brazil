@@ -109,6 +109,11 @@ msgid "99 - Outros"
 msgstr ""
 
 #. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr ""
+
+#. module: l10n_br_account_nfe
 #: model:account.payment.mode,name:l10n_br_account_nfe.demo_payment_mode_boleto
 msgid "Boleto"
 msgstr ""
@@ -172,6 +177,11 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__0
 msgid "Pagamento à Vista"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_reversal__payment_mode_id
+msgid "Payment Mode"
 msgstr ""
 
 #. module: l10n_br_account_nfe
