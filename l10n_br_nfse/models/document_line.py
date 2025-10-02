@@ -66,7 +66,7 @@ class DocumentLine(models.Model):
         model_view["fields"] = xfields
         return model_view
 
-    def prepare_line_servico(self):
+    def _prepare_line_service(self):
         return {
             "valor_servicos": round(self.price_gross, 2),
             "valor_deducoes": round(self.fiscal_deductions_value, 2),

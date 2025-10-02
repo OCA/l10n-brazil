@@ -164,7 +164,7 @@ class Document(models.Model):
         valor_desconto_incondicionado = 0
 
         for line in lines:
-            result_line.update(line.prepare_line_servico())
+            result_line.update(line._prepare_line_service())
             valor_servicos += result_line.get("valor_servicos")
             valor_deducoes += result_line.get("valor_deducoes")
             valor_pis += result_line.get("valor_pis")
@@ -223,12 +223,14 @@ class Document(models.Model):
             "valor_desconto_incondicionado": valor_desconto_incondicionado,
         }
 
-        result.update(self.company_id.prepare_company_servico())
+        result.update(self.company_id._prepare_company_service())
 
         return result
 
     def _prepare_dados_tomador(self):
-        result = self.partner_id.prepare_partner_tomador(self.company_id.country_id.id)
+        result = self.partner_id._prepare_service_provider(
+            self.company_id.country_id.id
+        )
 
         result.update({"complemento": self.partner_shipping_id.street2 or None})
 
@@ -270,12 +272,12 @@ class Document(models.Model):
             "fiscal_additional_data": self.fiscal_additional_data,
         }
 
-    def convert_type_nfselib(self, class_object, object_filed, value):
+    def _convert_binding_value_to_odoo(self, binding_type, object_filed, value):
         if value is None:
             return value
 
         value_type = ""
-        for field in class_object().member_data_items_:
+        for field in binding_type().member_data_items_:
             if field.name == object_filed:
                 value_type = field.child_attrs.get("type", "").replace("xsd:", "")
                 break
