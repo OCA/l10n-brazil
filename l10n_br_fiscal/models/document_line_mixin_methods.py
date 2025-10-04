@@ -7,8 +7,12 @@ from lxml import etree
 
 from odoo import Command, api, models
 
-from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN
-from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
+from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN, TAX_DOMAIN_ICMS
+from ..constants.icms import (
+    ICMS_BASE_TYPE_DEFAULT,
+    ICMS_ORIGIN_DEFAULT,
+    ICMS_ST_BASE_TYPE_DEFAULT,
+)
 
 FISCAL_TAX_ID_FIELDS = [
     "cofins_tax_id",
@@ -171,11 +175,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             # Total value of products or services
             record.price_gross = round_curr.round(record.price_unit * record.quantity)
             record.amount_fiscal = record.price_gross - record.discount_value
-            record.amount_tax = record.amount_tax_not_included
+            record.fiscal_amount_tax = record.amount_tax_not_included
 
             add_to_amount = sum(record[a] for a in record._add_fields_to_amount())
             rm_to_amount = sum(record[r] for r in record._rm_fields_to_amount())
-            record.amount_untaxed = (
+            record.fiscal_amount_untaxed = (
                 record.price_gross
                 - record.discount_value
                 + add_to_amount
@@ -183,13 +187,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
 
             # Valor do documento (NF)
-            record.amount_total = record.amount_untaxed + record.amount_tax
+            record.fiscal_amount_total = (
+                record.fiscal_amount_untaxed + record.fiscal_amount_tax
+            )
 
             # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
-            record.amount_taxed = record.amount_total - record.amount_tax_withholding
+            record.amount_taxed = (
+                record.fiscal_amount_total - record.amount_tax_withholding
+            )
 
             # Valor do documento (NF) - RETENÇÕES
-            record.amount_total = record.amount_taxed
+            record.fiscal_amount_total = record.amount_taxed
 
             # Valor financeiro
             if (
@@ -305,10 +313,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
-                line.comment_ids = line.fiscal_operation_line_id.comment_ids
-
             else:
                 line.fiscal_tax_ids = [Command.clear()]
+
+    @api.depends("fiscal_operation_line_id")
+    def _compute_comment_ids(self):
+        for line in self:
+            line.comment_ids = [
+                Command.set(line.fiscal_operation_line_id.comment_ids.ids)
+            ]
 
     @api.model
     def _build_null_mask_dict(self) -> dict:
@@ -465,48 +478,50 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
-    @api.onchange("product_id")
-    def _onchange_product_id_fiscal(self):
-        if not self.fiscal_operation_id:
+    @api.depends("product_id")
+    def _compute_product_fiscal_fields(self):
+        if self._context.get("skip_compute_product_fiscal_fields"):
             return
-        if self.product_id:
-            self.name = self.product_id.display_name
-            self.fiscal_type = self.product_id.fiscal_type
-            self.uom_id = self.product_id.uom_id
-            self.ncm_id = self.product_id.ncm_id
-            self.nbm_id = self.product_id.nbm_id
-            self.tax_icms_or_issqn = self.product_id.tax_icms_or_issqn
-            self.icms_origin = self.product_id.icms_origin
-            self.cest_id = self.product_id.cest_id
-            self.nbs_id = self.product_id.nbs_id
-            self.fiscal_genre_id = self.product_id.fiscal_genre_id
-            self.service_type_id = self.product_id.service_type_id
-            self.uot_id = self.product_id.uot_id or self.product_id.uom_id
-            if self.product_id.city_taxation_code_ids:
-                company_city_id = self.company_id.city_id
-                city_id = self.product_id.city_taxation_code_ids.filtered(
-                    lambda r: r.city_id == company_city_id
-                )
-                if city_id:
-                    self.city_taxation_code_id = city_id
-                    self.issqn_fg_city_id = company_city_id
-        else:
-            self.name = False
-            self.fiscal_type = False
-            self.uom_id = False
-            self.ncm_id = False
-            self.nbm_id = False
-            self.tax_icms_or_issqn = False
-            self.icms_origin = False
-            self.cest_id = False
-            self.nbs_id = False
-            self.fiscal_genre_id = False
-            self.service_type_id = False
-            self.city_taxation_code_id = False
-            self.uot_id = False
+        for line in self:
+            if not line.product_id:
+                # reset to default values:
+                line.fiscal_type = False
+                line.ncm_id = False
+                line.nbm_id = False
+                line.tax_icms_or_issqn = TAX_DOMAIN_ICMS
+                line.icms_origin = ICMS_ORIGIN_DEFAULT
+                line.cest_id = False
+                line.nbs_id = False
+                line.fiscal_genre_id = False
+                line.service_type_id = False
+                line.city_taxation_code_id = False
+                line.issqn_fg_city_id = False
+                continue
 
-        self._compute_price_unit_fiscal()
-        self._onchange_fiscal_operation_id()
+            product = line.product_id
+            line.fiscal_type = product.fiscal_type
+            line.ncm_id = product.ncm_id
+            line.nbm_id = product.nbm_id
+            line.tax_icms_or_issqn = product.tax_icms_or_issqn
+            line.icms_origin = product.icms_origin
+            line.cest_id = product.cest_id
+            line.nbs_id = product.nbs_id
+            line.fiscal_genre_id = product.fiscal_genre_id
+            line.service_type_id = product.service_type_id
+            if product.city_taxation_code_ids and line.company_id:
+                city = product.city_taxation_code_ids.filtered(
+                    lambda r, current_line=line: r.city_id
+                    == current_line.company_id.city_id
+                )
+                if city:
+                    line.city_taxation_code_id = city
+                    line.issqn_fg_city_id = line.company_id.city_id
+                else:
+                    line.city_taxation_code_id = False
+                    line.issqn_fg_city_id = False
+            else:
+                line.city_taxation_code_id = False
+                line.issqn_fg_city_id = False
 
     def _prepare_fields_issqn(self, tax_dict):
         self.ensure_one()
@@ -762,11 +777,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
-    @api.depends("uom_id")
+    @api.depends("product_id", "uom_id")
     def _compute_uot_id(self):
         for line in self:
-            if not line.uot_id:
-                line.uot_id = line.uom_id
+            if line.uom_id:
+                line.uot_id = line.uom_id.id
+            elif line.product_id:
+                if line.product_id.uot_id:
+                    line.uot_id = line.product_id.uot_id.id
+                else:
+                    line.uot_id = line.product_id.uom_id.id
+            else:
+                line.uot_id = False
 
     @api.onchange("price_unit")
     def _onchange_price_unit_fiscal(self):

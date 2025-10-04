@@ -36,7 +36,6 @@ from ..constants.icms import (
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
     ICMS_ORIGIN,
-    ICMS_ORIGIN_DEFAULT,
     ICMS_ST_BASE_TYPE,
     ICMS_ST_BASE_TYPE_DEFAULT,
 )
@@ -135,16 +134,31 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     partner_company_type = fields.Selection(related="partner_id.company_type")
 
-    uom_id = fields.Many2one(comodel_name="uom.uom", string="UOM")
+    uom_id = fields.Many2one(
+        comodel_name="uom.uom",
+        string="UOM",
+    )
 
     quantity = fields.Float(
         digits="Product Unit of Measure",
     )
 
-    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE)
+    fiscal_type = fields.Selection(
+        selection=PRODUCT_FISCAL_TYPE,
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
     ncm_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.ncm", index=True, string="NCM"
+        comodel_name="l10n_br_fiscal.ncm",
+        index=True,
+        string="NCM",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     nbm_id = fields.Many2one(
@@ -152,6 +166,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         index=True,
         string="NBM",
         domain="[('ncm_ids', '=', ncm_id)]",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     cest_id = fields.Many2one(
@@ -159,10 +177,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         index=True,
         string="CEST",
         domain="[('ncm_ids', '=', ncm_id)]",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     nbs_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.nbs", index=True, string="NBS"
+        comodel_name="l10n_br_fiscal.nbs",
+        index=True,
+        string="NBS",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     fiscal_operation_id = fields.Many2one(
@@ -258,11 +286,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_fiscal_amounts",
     )
 
-    amount_untaxed = fields.Monetary(
+    fiscal_amount_untaxed = fields.Monetary(
         compute="_compute_fiscal_amounts",
     )
 
-    amount_tax = fields.Monetary(
+    fiscal_amount_tax = fields.Monetary(
         compute="_compute_fiscal_amounts",
     )
 
@@ -270,7 +298,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_fiscal_amounts",
     )
 
-    amount_total = fields.Monetary(
+    fiscal_amount_total = fields.Monetary(
         compute="_compute_fiscal_amounts",
     )
 
@@ -296,7 +324,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     amount_tax_withholding = fields.Monetary(string="Tax Withholding")
 
     fiscal_genre_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.product.genre", string="Fiscal Product Genre"
+        comodel_name="l10n_br_fiscal.product.genre",
+        string="Fiscal Product Genre",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     fiscal_genre_code = fields.Char(
@@ -307,10 +340,19 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.service.type",
         string="Service Type LC 166",
         domain="[('internal_type', '=', 'normal')]",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     city_taxation_code_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
+        comodel_name="l10n_br_fiscal.city.taxation.code",
+        string="City Taxation Code",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     partner_order = fields.Char(string="Partner Order (xPed)", size=15)
@@ -331,6 +373,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     issqn_fg_city_id = fields.Many2one(
         comodel_name="res.city",
         string="ISSQN City",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     # vDeducao
@@ -487,7 +533,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     icms_origin = fields.Selection(
-        selection=ICMS_ORIGIN, string="ICMS Origin", default=ICMS_ORIGIN_DEFAULT
+        selection=ICMS_ORIGIN,
+        string="ICMS Origin",
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     # vBC - Valor da base de cálculo do ICMS
@@ -1620,7 +1671,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.comment",
         string="Comments",
         domain=[("object", "=", FISCAL_COMMENT_LINE)],
-        compute="_compute_fiscal_tax_ids",
+        compute="_compute_comment_ids",
         store=True,
         precompute=True,
         readonly=False,

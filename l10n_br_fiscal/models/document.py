@@ -186,9 +186,9 @@ class Document(models.Model):
     )
 
     currency_id = fields.Many2one(
+        related="company_id.currency_id",
         comodel_name="res.currency",
         string="Currency",
-        compute="_compute_currency_id",
     )
 
     # this related "state" field is required for the status bar widget
@@ -325,11 +325,6 @@ class Document(models.Model):
         ):
             self.fiscal_operation_id = False
         return {"domain": {"fiscal_operation_id": domain}}
-
-    @api.depends("company_id")
-    def _compute_currency_id(self):
-        for doc in self:
-            doc.currency_id = doc.company_id.currency_id or self.env.company.currency_id
 
     def _compute_document_name(self):
         self.ensure_one()

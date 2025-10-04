@@ -1,7 +1,6 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-
 from erpbrasil.base import misc
 from lxml import etree
 
@@ -13,19 +12,22 @@ class DocumentLine(models.Model):
 
     fiscal_deductions_value = fields.Monetary(
         string="Fiscal Deductions",
-        default=0.00,
+        default=0.0,
+        compute="_compute_fiscal_deductions_value",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
     other_retentions_value = fields.Monetary(
         string="Other Retentions",
-        default=0.00,
+        default=0.0,
     )
 
-    @api.onchange("product_id")
-    def _onchange_product_id_fiscal(self):
-        result = super()._onchange_product_id_fiscal()
-        if self.product_id and self.product_id.fiscal_deductions_value:
-            self.fiscal_deductions_value = self.product_id.fiscal_deductions_value
-        return result
+    @api.depends("product_id", "product_id.fiscal_deductions_value")
+    def _compute_fiscal_deductions_value(self):
+        for line in self:
+            if line.product_id and line.product_id.fiscal_deductions_value:
+                line.fiscal_deductions_value = line.product_id.fiscal_deductions_value
 
     def _compute_taxes(self, taxes, cst=None):
         discount_value = self.discount_value
