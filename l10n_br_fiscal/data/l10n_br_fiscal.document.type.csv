@@ -38,4 +38,5 @@
 "document_63","63","Bilhete de Passagem Eletrônico - BP-e","True","BPe","bp-e","icms"
 "document_66","66","Nota Fiscal de Energia Elétrica Eletrônica - NF3e","True","NF3e","nf3-e","icms"
 "document_67","67","Conhecimento de Transporte Eletrônico para Outros Serviços - CT-e OS","True",,,"icms"
+"document_75","75","Nota Fiscal da Água e Saneamento Eletrônica","True","NFAg",,"icms"
 "document_SE","SE","Nota Fiscal de Serviço Eletrônica - NFS-e","True","NFSe","nfs-e","service"
