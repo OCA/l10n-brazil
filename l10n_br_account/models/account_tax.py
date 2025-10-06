@@ -324,10 +324,14 @@ class AccountTax(models.Model):
     @api.model
     def _prepare_tax_totals(self, base_lines, currency, tax_lines=None):
         res = super()._prepare_tax_totals(base_lines, currency, tax_lines)
-        if any(line["record"].fiscal_operation_line_id for line in base_lines):
-            res["formatted_amount_total"] = formatLang(
-                self.env,
-                sum(line["price_subtotal"] for line in base_lines),
-                currency_obj=currency,
-            )
+        base_lines = base_lines or []
+        for line in base_lines:
+            record = line.get("record")
+            if record and record.fiscal_operation_line_id:
+                res["formatted_amount_total"] = formatLang(
+                    self.env,
+                    sum(line.get("price_subtotal", 0.0) for line in base_lines),
+                    currency_obj=currency,
+                )
+                break
         return res
