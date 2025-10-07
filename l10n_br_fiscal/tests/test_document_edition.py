@@ -275,3 +275,28 @@ class TestDocumentEdition(TransactionCase):
         self.assertAlmostEqual(
             doc_after_total_update.fiscal_amount_total, 2776.48, places=2
         )
+
+    def test_difal_calculation(self):
+        partner = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
+        partner.ind_ie_dest = "9"
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        doc_form.company_id = self.company
+        doc_form.partner_id = partner
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+
+        product = self.env.ref("product.product_product_6")
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = product
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+
+        doc = doc_form.save()
+        line = doc.fiscal_line_ids[0]
+        self.assertEqual(line.icms_destination_base, 100.0)
+        self.assertEqual(line.icms_origin_percent, 7.0)
+        self.assertEqual(line.icms_destination_percent, 20.5)
+        self.assertEqual(line.icms_destination_value, 13.5)
