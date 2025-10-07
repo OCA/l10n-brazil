@@ -234,7 +234,7 @@
                             />
                             <field name="partner_shipping_id" />
                         </group>
-                        <group name="l10n_br_fiscal">
+                        <group name="l10n_br_fiscal" attrs="{'invisible': [('document_type', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]}">
                             <field
                                 name="fiscal_operation_id"
                                 options="{'no_create': True, 'no_create_edit': True}"
@@ -291,13 +291,6 @@
                                 groups="base.group_multi_company"
                             />
                             <field name="company_id" invisible="1" />
-                        </group>
-                        <group
-                            name="CT-e Info"
-                            invisible="[('document_type_id.code', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]"
-                        >
-                            <field name="transport_modal" />
-                            <field name="service_provider" />
                         </group>
                     </group>
                     <notebook>
