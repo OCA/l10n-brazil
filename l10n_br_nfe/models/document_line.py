@@ -344,16 +344,17 @@ class NFeLine(spec_models.StackedModel):
 
         if (
             not self.icms_value
+            or self.icms_value <= 0
             or self.partner_id.ind_ie_dest != "9"
             or self.partner_id.state_id == self.company_id.state_id
             or self.partner_id.country_id != self.company_id.country_id
         ):
             xsd_fields.remove("nfe40_ICMSUFDest")
 
-        if not self.pisst_value:
+        if not self.pisst_value or self.pisst_value <= 0:
             xsd_fields.remove("nfe40_PISST")
 
-        if not self.cofinsst_value:
+        if not self.cofinsst_value or self.cofinsst_value <= 0:
             xsd_fields.remove("nfe40_COFINSST")
 
         if not self.cfop_id.is_import and "nfe40_II" in xsd_fields:
