@@ -2101,7 +2101,7 @@ class ICMSRegulation(models.Model):
             company.state_id != partner.state_id
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
             and operation_line.fiscal_operation_type == FISCAL_OUT
-            or operation_line.fiscal_operation_id.fiscal_type == "return_in"
+            or operation_line.fiscal_operation_id.fiscal_type != "return_in"
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
             domain = self._build_map_tax_def_domain(
