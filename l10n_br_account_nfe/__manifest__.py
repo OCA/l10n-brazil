@@ -13,7 +13,7 @@
     "author": "Engenere," "Akretion," "Odoo Community Association (OCA)",
     "maintainers": ["antoniospneto", "felipemotter", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "16.0.5.2.0",
+    "version": "16.0.5.5.0",
     "development_status": "Beta",
     "depends": [
         "l10n_br_nfe",
@@ -23,6 +23,7 @@
     "data": [
         "views/account_payment_mode.xml",
         "report/danfe_report.xml",
+        "wizard/account_move_reversal_view.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,

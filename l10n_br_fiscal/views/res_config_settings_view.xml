@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
 <odoo>
-
     <record id="l10n_br_fiscal_res_config_settings_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.res.config.settings.view.form</field>
         <field name="model">res.config.settings</field>
@@ -28,20 +27,19 @@
                                     class="fa fa-lg fa-building-o"
                                     title="Values set here are company-specific."
                                 />
-                                <div class="text-muted">
-                                    Use IBPT API to Update Estimate Taxes for products and services
-                                </div>
+                                <div
+                                    class="text-muted"
+                                >Use IBPT API to Update Estimate Taxes for products and services</div>
                                 <div attrs="{'invisible': [('ibpt_api', '=', False)]}">
                                     <div class="content-group mt16">
-                                        <label
+                                    <label
                                             for="ibpt_update_days"
                                             class="o_light_label"
                                         />
-                                        <field
+                                    <field
                                             name="ibpt_update_days"
                                             attrs="{'required': [('ibpt_api', '=', True)]}"
-                                        /> dias
-                                    </div>
+                                        />dias</div>
                                     <div class="content-group mt16">
                                         <label for="ibpt_token" class="o_light_label" />
                                         <field
@@ -55,15 +53,13 @@
                                             class="oe_link"
                                             target="_blank"
                                         >
-                                            <i
+                                        <i
                                                 class="fa fa-arrow-right"
-                                            /> Generate an Access Key
-                                        </a>
+                                            />Generate an Access Key</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div
                             id="settings_delivery_costs"
                             class="col-12 col-lg-6 o_setting_box"
@@ -71,9 +67,9 @@
                         >
                             <div class="o_setting_right_pane">
                                 <label for="delivery_costs" />
-                                <div class="text-muted">
-                                    Define if Delivery Costs (Freight, Insurance and Other Costs) should be informed by Line or by Total
-                                </div>
+                                <div
+                                    class="text-muted"
+                                >Define if Delivery Costs (Freight, Insurance and Other Costs) should be informed by Line or by Total</div>
                                 <div class="content-group">
                                     <div class="mt16">
                                         <field
@@ -97,9 +93,9 @@
                                 id="module_l10n_br_nfe_settings"
                             >
                                 <label for="module_l10n_br_nfe" />
-                                <div class="text-muted">
-                                    Create Brazilian eletronic invoice NF-e.
-                                </div>
+                                <div
+                                    class="text-muted"
+                                >Create Brazilian eletronic invoice NF-e.</div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 o_setting_box">
@@ -111,9 +107,9 @@
                                 id="module_l10n_br_mdfe_settings"
                             >
                                 <label for="module_l10n_br_mdfe" />
-                                <div class="text-muted">
-                                    Create Brazilian eletronic invoice NF-e manifest.
-                                </div>
+                                <div
+                                    class="text-muted"
+                                >Create Brazilian eletronic invoice NF-e manifest.</div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 o_setting_box">
@@ -125,9 +121,9 @@
                                 id="module_l10n_br_nfse_settings"
                             >
                                 <label for="module_l10n_br_nfse" />
-                                <div class="text-muted">
-                                    Create Brazilian eletronic invoice for services NFS-e.
-                                </div>
+                                <div
+                                    class="text-muted"
+                                >Create Brazilian eletronic invoice for services NFS-e.</div>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 o_setting_box">
@@ -139,9 +135,9 @@
                                 id="module_l10n_br_cte_settings"
                             >
                                 <label for="module_l10n_br_cte" />
-                                <div class="text-muted">
-                                    Create Brazilian eletronic invoice for freight NFS-e.
-                                </div>
+                                <div
+                                    class="text-muted"
+                                >Create Brazilian eletronic invoice for freight NFS-e.</div>
                             </div>
                         </div>
                     </div>
@@ -149,5 +145,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>

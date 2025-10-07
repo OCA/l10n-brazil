@@ -21,33 +21,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_EM_DIGITACAO,
 )
 
-MOVE_TO_OPERATION = {
-    "out_invoice": "out",
-    "in_invoice": "in",
-    "out_refund": "in",
-    "in_refund": "out",
-    "out_receipt": "out",
-    "in_receipt": "in",
-}
-
-REFUND_TO_OPERATION = {
-    "out_invoice": "in",
-    "in_invoice": "out",
-    "out_refund": "out",
-    "in_refund": "in",
-}
-
-FISCAL_TYPE_REFUND = {
-    "out": ["purchase_refund", "in_return"],
-    "in": ["sale_refund", "out_return"],
-}
-
-MOVE_TAX_USER_TYPE = {
-    "out_invoice": "sale",
-    "in_invoice": "purchase",
-    "out_refund": "sale",
-    "in_refund": "purchase",
-}
+from .constants import (
+    MOVE_TO_OPERATION,
+)
 
 
 class AccountMove(models.Model):
@@ -267,14 +243,13 @@ class AccountMove(models.Model):
         "line_ids.cfop_id",
     )
     def _compute_amount(self):
-        for move in self.filtered(lambda m: m.fiscal_operation_id):
-            move._compute_fiscal_amount()  # breaks test_composite_move if removed
-            for line in move.line_ids:
-                if (
-                    move.is_invoice(include_receipts=True)
-                    and line.display_type == "product"
-                ):
-                    line._compute_tax_fields()
+        if "force_fiscal_amount_recompute" in self._context:
+            for move in self.filtered(lambda m: m.fiscal_operation_id):
+                # this is a ugly hack required for importing composite
+                # fiscal documents for instance. It should be used
+                # exceptionnaly as it breaks the dependency chain and
+                # can leave fields such as payment_state inconsistent.
+                move._compute_fiscal_amount()
 
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.fiscal_operation_id):
@@ -283,12 +258,15 @@ class AccountMove(models.Model):
                 lambda line: line.display_type == "product"
                 and (not line.cfop_id or line.cfop_id.finance_move)
             )
-            move.amount_untaxed = sum(inv_line_ids.mapped("amount_untaxed"))
-            move.amount_tax = sum(inv_line_ids.mapped("amount_tax"))
+            move.amount_untaxed = sum(inv_line_ids.mapped("fiscal_amount_untaxed"))
+            move.amount_tax = sum(inv_line_ids.mapped("fiscal_amount_tax"))
             move.amount_untaxed_signed = sign * sum(
-                inv_line_ids.mapped("amount_untaxed")
+                inv_line_ids.mapped("fiscal_amount_untaxed")
             )
-            move.amount_tax_signed = sign * sum(inv_line_ids.mapped("amount_tax"))
+            move.amount_tax_signed = sign * sum(
+                inv_line_ids.mapped("fiscal_amount_tax")
+            )
+            move.amount_total = sum(inv_line_ids.mapped("fiscal_amount_total"))
 
         return result
 
@@ -333,10 +311,6 @@ class AccountMove(models.Model):
                                 pass
                             else:
                                 untaxed_amount_currency += line.price_subtotal
-                                for tax_result in (line.compute_all_tax or {}).values():
-                                    tax_amount_currency += -sign * tax_result.get(
-                                        "amount_currency", 0.0
-                                    )
                         untaxed_amount = untaxed_amount_currency
                         tax_amount = tax_amount_currency
                     else:
@@ -693,6 +667,7 @@ class AccountMove(models.Model):
             move.with_context(
                 default_move_type=move_type,
                 account_predictive_bills_disable_prediction=True,
+                force_fiscal_amount_recompute=True,
             )
         )
         if not move_id or not move.fiscal_document_id:

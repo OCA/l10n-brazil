@@ -14,35 +14,23 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_cnab_structure
-#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
-msgid ""
-"<span class=\"o_form_label\" modifiers=\"{}\">\n"
-"                                Key Types\n"
-"                            </span>"
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_group_form_view
+msgid "<span class=\"o_form_label\" modifiers=\"{}\">Conditions</span>"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
-msgid ""
-"<span class=\"o_form_label\" modifiers=\"{}\">\n"
-"                                Transfer Types\n"
-"                            </span>"
+msgid "<span class=\"o_form_label\" modifiers=\"{}\">Key Types</span>"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_form_view
-msgid ""
-"<span class=\"o_form_label\" modifiers=\"{}\">\n"
-"                            Payment Ways\n"
-"                        </span>"
+msgid "<span class=\"o_form_label\" modifiers=\"{}\">Payment Ways</span>"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
-#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_line_field_group_form_view
-msgid ""
-"<span class=\"o_form_label\" modifiers=\"{}\">\n"
-"                        Conditions\n"
-"                    </span>"
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "<span class=\"o_form_label\" modifiers=\"{}\">Transfer Types</span>"
 msgstr ""
 
 #. module: l10n_br_cnab_structure

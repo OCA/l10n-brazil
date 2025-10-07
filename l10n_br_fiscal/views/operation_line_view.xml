@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="operation_line_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.operation.line.tree</field>
         <field name="model">l10n_br_fiscal.operation.line</field>
@@ -61,40 +60,40 @@
                                 name="general_cfop"
                                 attrs="{'invisible': [('fiscal_operation_type', '=', 'all')]}"
                             >
-                            <field
+                                <field
                                     name="cfop_internal_id"
                                     options="{'no_create': True, 'no_create_edit': True}"
                                 />
-                            <field
+                                <field
                                     name="cfop_external_id"
                                     options="{'no_create': True, 'no_create_edit': True}"
                                 />
-                            <field
+                                <field
                                     name="cfop_export_id"
                                     options="{'no_create': True, 'no_create_edit': True}"
                                 />
                             </group>
                         </page>
-                      <page name="tax_definitions" string="Tax Definitions">
-                          <field
+                        <page name="tax_definitions" string="Tax Definitions">
+                            <field
                                 name="tax_definition_ids"
                                 nolabel="1"
                                 context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_fiscal_operation_line_id': id}"
                             />
-                      </page>
-                      <page name="extra_info" string="Extra Info">
-                        <group>
-                          <group>
-                            <field name="date_start" />
-                          </group>
-                          <group>
-                            <field name="date_end" />
-                          </group>
-                        </group>
-                        <group>
-                            <field name="comment_ids" widget="many2many_tags" />
-                        </group>
-                      </page>
+                        </page>
+                        <page name="extra_info" string="Extra Info">
+                            <group>
+                                <group>
+                                    <field name="date_start" />
+                                </group>
+                                <group>
+                                    <field name="date_end" />
+                                </group>
+                            </group>
+                            <group>
+                                <field name="comment_ids" widget="many2many_tags" />
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
@@ -105,5 +104,4 @@
             </form>
         </field>
     </record>
-
 </odoo>

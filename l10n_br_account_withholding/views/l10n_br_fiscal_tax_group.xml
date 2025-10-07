@@ -2,7 +2,6 @@
 <!-- Copyright 2024 Marcel Savegnago - Escodoo (https://www.escodoo.com.br)
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="l10n_br_fiscal_tax_group_form_view">
         <field name="model">l10n_br_fiscal.tax.group</field>
         <field name="inherit_id" ref="l10n_br_fiscal.tax_group_form" />
@@ -41,5 +40,4 @@
             </field>
         </field>
     </record>
-
 </odoo>

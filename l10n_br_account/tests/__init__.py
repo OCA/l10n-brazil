@@ -4,7 +4,7 @@ from . import test_account_move_sn
 from . import test_account_move_lc
 from . import test_account_taxes
 from . import test_move_edition
-from . import test_document_date
+from . import test_move_document_discount
 from . import test_invoice_refund
-from . import test_move_discount
 from . import test_multi_localizations_invoice
+from . import test_payment_status

@@ -9,8 +9,7 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
-
-        <menuitem
+    <menuitem
         action="action_workalendar_holiday_import"
         id="sub_menu_impotigrt_holidays"
         name="Import Brazilian Holidays"

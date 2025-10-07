@@ -3885,12 +3885,6 @@ msgid "Bálsamo"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cei_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cei_code
-msgid "CEI Code"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf
@@ -3935,18 +3929,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_pix__key_type__cnpj_cpf
 #, python-format
 msgid "CPF or CNPJ"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_code
-msgid "CRC Code"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_state_id
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_state_id
-msgid "CRC State"
 msgstr ""
 
 #. module: l10n_br_base
@@ -11277,12 +11259,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__is_br_partner
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_br_partner
 msgid "Is Br Partner"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__is_accountant
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_accountant
-msgid "Is accountant?"
 msgstr ""
 
 #. module: l10n_br_base
@@ -20183,12 +20159,6 @@ msgid "RG"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__rntrc_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__rntrc_code
-msgid "RNTRC Code"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2410504
 msgid "Rafael Fernandes"
 msgstr ""
@@ -26483,12 +26453,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4128302
 msgid "Uniflor"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__union_entity_code
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__union_entity_code
-msgid "Union Entity code"
 msgstr ""
 
 #. module: l10n_br_base

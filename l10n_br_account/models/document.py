@@ -89,8 +89,10 @@ class FiscalDocument(models.Model):
     # For some reason, perhaps limitation of _inhertis,
     # the related directly in the account.move does not work correctly.
     incoterm_id = fields.Many2one(
+        comodel_name="account.incoterms",
         string="Fiscal Inconterm",
-        related="move_ids.invoice_incoterm_id",
+        compute="_compute_incoterm_id",
+        inverse="_inverse_incoterm_id",
     )
 
     document_date = fields.Datetime(
@@ -143,6 +145,20 @@ class FiscalDocument(models.Model):
                 move_id = record.move_ids[0]
                 if record.date_in_out:
                     move_id.date = record.date_in_out.date()
+
+    @api.depends("move_ids.invoice_incoterm_id")
+    def _compute_incoterm_id(self):
+        for record in self:
+            for move in record.move_ids:
+                if move.invoice_incoterm_id:
+                    record.incoterm_id = move.invoice_incoterm_id
+                else:
+                    record.incoterm_id = False
+
+    def _inverse_incoterm_id(self):
+        for record in self:
+            if record.move_ids:
+                record.move_ids.invoice_incoterm_id = record.incoterm_id
 
     @api.depends("move_ids")
     def _compute_move_count(self):
@@ -198,9 +214,11 @@ class FiscalDocument(models.Model):
         messages in a fiscal document chatter are visible in the
         related account moves.
         """
+        res = super().message_post(**kwargs)
         for doc in self:
             for move in doc.move_ids:
                 move.message_post(**kwargs)
+        return res
 
     def cancel_move_ids(self):
         for record in self:

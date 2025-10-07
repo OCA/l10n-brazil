@@ -10,6 +10,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
+    COMMENT_TYPE_COMMERCIAL,
+    COMMENT_TYPE_FISCAL,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
@@ -61,6 +63,7 @@ class Document(models.Model):
     _inherit = [
         "l10n_br_fiscal.document.mixin",
         "mail.thread",
+        "mail.activity.mixin",
     ]
     _description = "Fiscal Document"
     _check_company_auto = True
@@ -183,9 +186,9 @@ class Document(models.Model):
     )
 
     currency_id = fields.Many2one(
+        related="company_id.currency_id",
         comodel_name="res.currency",
         string="Currency",
-        compute="_compute_currency_id",
     )
 
     # this related "state" field is required for the status bar widget
@@ -234,6 +237,10 @@ class Document(models.Model):
     company_l10n_br_ie_code_st = fields.Char(
         string="Company ST State Tax Number",
     )
+
+    fiscal_additional_data = fields.Text()
+
+    customer_additional_data = fields.Text()
 
     @api.constrains("document_key")
     def _check_key(self):
@@ -318,11 +325,6 @@ class Document(models.Model):
         ):
             self.fiscal_operation_id = False
         return {"domain": {"fiscal_operation_id": domain}}
-
-    @api.depends("company_id")
-    def _compute_currency_id(self):
-        for doc in self:
-            doc.currency_id = doc.company_id.currency_id or self.env.company.currency_id
 
     def _compute_document_name(self):
         self.ensure_one()
@@ -477,3 +479,27 @@ class Document(models.Model):
     def _compute_edoc_purpose(self):
         for record in self:
             record.edoc_purpose = record.fiscal_operation_id.edoc_purpose
+
+    def __document_comment_vals(self):
+        return {
+            "user": self.env.user,
+            "ctx": self._context,
+            "doc": self,
+        }
+
+    def _document_comment(self):
+        for d in self:
+            # Fiscal Comments
+            d.fiscal_additional_data = d.comment_ids.filtered(
+                lambda c: c.comment_type == COMMENT_TYPE_FISCAL
+            ).compute_message(
+                d.__document_comment_vals(), d.manual_fiscal_additional_data
+            )
+
+            # Commercial Comments
+            d.customer_additional_data = d.comment_ids.filtered(
+                lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
+            ).compute_message(
+                d.__document_comment_vals(), d.manual_customer_additional_data
+            )
+            d.fiscal_line_ids._document_comment()

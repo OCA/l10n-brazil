@@ -67,9 +67,6 @@ class TestSaleOrderPriceList(TestSaleCommon):
                 line_form.product_id.name = "Test Product - New Name"
         self.sale_order = sale_form.save()
 
-        # onchange must be called to follow the same behavior as the view.
-        self.sale_order.order_line._onchange_product_id_fiscal()
-
         # prices after product change.
         price_after = self.sale_order.order_line[0].price_unit
         fiscal_price_after = self.sale_order.order_line[0].fiscal_price

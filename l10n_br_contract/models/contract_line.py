@@ -8,9 +8,6 @@ class ContractLine(models.Model):
     _name = "contract.line"
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
 
-    company_id = fields.Many2one(
-        related="contract_id.company_id",
-    )
     country_id = fields.Many2one(related="company_id.country_id", store=True)
 
     fiscal_tax_ids = fields.Many2many(
@@ -43,6 +40,11 @@ class ContractLine(models.Model):
     )
 
     line_recurrence = fields.Boolean(related="contract_id.line_recurrence")
+
+    def _get_fiscal_tax_ids_dependencies(self):
+        fields = super()._get_fiscal_tax_ids_dependencies()
+        fields.remove("company_id")
+        return fields
 
     def _prepare_invoice_line(self):
         self.ensure_one()

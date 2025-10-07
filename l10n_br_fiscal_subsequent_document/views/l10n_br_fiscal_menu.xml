@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <!-- Subsequent Operation -->
     <menuitem
         id="subsequent_operation_menu"
@@ -9,7 +8,6 @@
         parent="l10n_br_fiscal.operations_config_menu"
         sequence="40"
     />
-
     <!-- Subsequent Document -->
     <menuitem
         id="subsequent_document_menu"
@@ -18,5 +16,4 @@
         parent="l10n_br_fiscal.others_config_menu"
         sequence="60"
     />
-
 </odoo>

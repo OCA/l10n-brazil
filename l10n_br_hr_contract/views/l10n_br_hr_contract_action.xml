@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="action_hr_contract_admission_type" model="ir.actions.act_window">
         <field name="name">Admission Type</field>
         <field name="res_model">hr.contract.admission.type</field>
@@ -36,5 +35,4 @@
         <field name="res_model">hr.contract.notice.termination</field>
         <field name="view_mode">tree,form</field>
     </record>
-
 </odoo>

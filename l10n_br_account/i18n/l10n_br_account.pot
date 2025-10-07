@@ -68,6 +68,7 @@ msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__force_fiscal_operation_journal_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__journal_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_search
 msgid "Account Journal"
@@ -214,11 +215,6 @@ msgid "Amount Gross"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax
-msgid "Amount Tax"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_included
 msgid "Amount Tax Included"
 msgstr ""
@@ -231,16 +227,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_taxed
 msgid "Amount Taxed"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_total
-msgid "Amount Total"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_untaxed
-msgid "Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_account
@@ -1916,6 +1902,30 @@ msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_amount_untaxed
+msgid "Fiscal Amount Untaxed"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_deductions_value
 msgid "Fiscal Deductions"
 msgstr ""
@@ -1957,6 +1967,9 @@ msgid "Fiscal Documents"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__incoterm_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__incoterm_id
 msgid "Fiscal Inconterm"
 msgstr ""
@@ -3414,6 +3427,9 @@ msgid "Insurance Value"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__incoterm_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__incoterm_id
 #: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__incoterm_id
 msgid ""
 "International Commercial Terms are a series of predefined commercial terms "
@@ -4121,8 +4137,7 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfse_action
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_out_action
 msgid ""
-"Odoo helps you easily track all activities\n"
-"            related to a fiscal operation."
+"Odoo helps you easily track all activities related to a fiscal operation."
 msgstr ""
 
 #. module: l10n_br_account
@@ -4490,6 +4505,12 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__product_id
 msgid "Product"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_product_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_product_id
+msgid "Product (proxy)"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5032,6 +5053,13 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_product_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__product_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_product_id
+msgid "Technical Field."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_fone
@@ -5309,6 +5337,11 @@ msgid "Tomador do Serviço"
 msgstr ""
 
 #. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
+msgid "Total"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__total_weight
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__total_weight
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__total_weight
@@ -5378,6 +5411,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_unit
 msgid "Unit Price"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__product_uom_id
+msgid "Unit of Measure"
 msgstr ""
 
 #. module: l10n_br_account

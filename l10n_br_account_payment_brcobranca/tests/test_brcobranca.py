@@ -223,6 +223,11 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             )
             self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 372", moves.ref)
             self.assertEqual(self.invoice_unicred_400_2.payment_state, "paid")
+            with self.assertRaises(UserError):
+                self._run_import_return_file(
+                    "CNAB400UNICRED_valor_maior_4.RET",
+                    self.journal_unicred,
+                )
 
     def test_3_ailos_cnab_240(self):
         """

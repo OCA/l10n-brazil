@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="product_template_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.product.template.search</field>
         <field name="model">product.template</field>
@@ -41,12 +40,12 @@
         <field name="model">product.template</field>
         <field name="arch" type="xml">
             <tree>
-              <field name="default_code" />
-              <field name="name" />
-              <field name="ncm_id" />
-              <field name="standard_price" />
-              <field name="type" />
-              <field name="active" invisible="1" />
+                <field name="default_code" />
+                <field name="name" />
+                <field name="ncm_id" />
+                <field name="standard_price" />
+                <field name="type" />
+                <field name="active" invisible="1" />
             </tree>
         </field>
     </record>
@@ -76,7 +75,7 @@
                                 attrs="{'invisible': [('fiscal_type', '!=', '09')]}"
                             />
                             <field
-                                name="city_taxation_code_id"
+                                name="city_taxation_code_ids"
                                 attrs="{'invisible': [('fiscal_type', '!=', '09')]}"
                                 context="{'default_service_type_id': service_type_id}"
                             >
@@ -147,5 +146,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>

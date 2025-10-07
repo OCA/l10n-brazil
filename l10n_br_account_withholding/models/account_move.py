@@ -182,7 +182,6 @@ class AccountMove(models.Model):
             wh_invoices.filtered(lambda i: i.state == "posted").button_draft()
             wh_invoices.filtered(lambda i: i.state == "draft").button_cancel()
             wh_invoices.line_ids.wh_move_line_id = False
-            wh_invoices.invalidate_cache()
 
     def button_draft(self):
         res = super().button_draft()

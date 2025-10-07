@@ -12,6 +12,10 @@ class TestDocumentEdition(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.user = cls.env.user
+        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        cls.user.company_ids |= cls.company
+        cls.user.company_id = cls.company.id
 
     def test_basic_doc_edition(self):
         doc_form = Form(
@@ -163,3 +167,112 @@ class TestDocumentEdition(TransactionCase):
         self.assertEqual(doc.fiscal_line_ids[0].fiscal_price, 112)
         self.assertEqual(doc.fiscal_line_ids[0].quantity, 10)
         self.assertEqual(doc.fiscal_line_ids[0].fiscal_quantity, 5)
+
+    def test_landed_costs_by_line_and_by_total(self):
+        """
+        Tests both landed cost scenarios: 'by line' and 'by total'.
+        1. By Line: Enters costs on lines and verifies the header totals.
+        2. By Total: Enters costs on the header and verifies lines distribution.
+        """
+        self.env.user.groups_id |= self.env.ref("l10n_br_fiscal.group_user")
+        product1 = self.env.ref("product.product_product_6")
+        product2 = self.env.ref("product.product_product_7")
+
+        # Part 1: Test with delivery_costs = 'line'
+        # ----------------------------------------------------
+        self.company.delivery_costs = "line"
+        doc_form = Form(self.env["l10n_br_fiscal.document"])
+        doc_form.company_id = self.company
+        doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+
+        with doc_form.fiscal_line_ids.new() as line1:
+            line1.product_id = product1
+            line1.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            line1.price_unit = 1000.0
+            line1.quantity = 2.0  # Gross: 2000
+            line1.freight_value = 10.0
+            line1.insurance_value = 20.0
+            line1.other_value = 5.0
+
+        with doc_form.fiscal_line_ids.new() as line2:
+            line2.product_id = product2
+            line2.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            line2.price_unit = 500.0
+            line2.quantity = 1.0  # Gross: 500
+            line2.freight_value = 4.0
+            line2.insurance_value = 6.0
+            line2.other_value = 2.0
+
+        doc = doc_form.save()
+
+        self.assertEqual(doc.company_id.delivery_costs, "line")
+        # Assert header totals are the SUM of line values
+        self.assertAlmostEqual(doc.amount_freight_value, 14.0)  # 10.0 + 4.0
+        self.assertAlmostEqual(doc.amount_insurance_value, 26.0)  # 20.0 + 6.0
+        self.assertAlmostEqual(doc.amount_other_value, 7.0)  # 5.0 + 2.0
+
+        # Assert final fiscal totals (bottom-up calculation)
+        # price_gross = (1000*2) + (500*1) = 2500
+        # landed_costs = 14 + 26 + 7 = 47
+        # fiscal_amount_untaxed (IPI Base) = 2500 + 47 = 2547
+        self.assertAlmostEqual(doc.fiscal_amount_untaxed, 2547.00)
+        # fiscal_amount_tax (IPI) = (2035 * 3.25%) + (512 * 5%) = 66.14 + 25.60 = 91.74
+        self.assertAlmostEqual(doc.fiscal_amount_tax, 91.74, places=2)
+        # fiscal_amount_total = 2547.00 + 91.74 = 2638.74
+        self.assertAlmostEqual(doc.fiscal_amount_total, 2638.74, places=2)
+
+        # Part 2: Test with delivery_costs = 'total'
+        # ----------------------------------------------------
+        self.company.delivery_costs = "total"
+        doc_form_edit = Form(doc)
+        # Set new header totals, which should trigger inverse methods to distribute
+        doc_form_edit.amount_freight_value = 30.0
+        doc_form_edit.amount_insurance_value = 60.0
+        doc_form_edit.amount_other_value = 90.0
+        doc_after_total_update = doc_form_edit.save()
+
+        line1 = doc_after_total_update.fiscal_line_ids[0]
+        line2 = doc_after_total_update.fiscal_line_ids[1]
+
+        # Assert values were distributed proportionally to price_gross
+        # (2000 vs 500 -> 80% vs 20%)
+        # Freight: 30.0 * 0.8 = 24.0 | 30.0 * 0.2 = 6.0
+        self.assertAlmostEqual(line1.freight_value, 24.0)
+        self.assertAlmostEqual(line2.freight_value, 6.0)
+        # Insurance: 60.0 * 0.8 = 48.0 | 60.0 * 0.2 = 12.0
+        self.assertAlmostEqual(line1.insurance_value, 48.0)
+        self.assertAlmostEqual(line2.insurance_value, 12.0)
+        # Other: 90.0 * 0.8 = 72.0 | 90.0 * 0.2 = 18.0
+        self.assertAlmostEqual(line1.other_value, 72.0)
+        self.assertAlmostEqual(line2.other_value, 18.0)
+
+        # Assert final fiscal totals are recomputed correctly (top-down calculation)
+        # price_gross = 2500
+        # landed_costs = 30 + 60 + 90 = 180
+        # fiscal_amount_untaxed (IPI Base) = 2500 + 180 = 2680
+        self.assertAlmostEqual(doc_after_total_update.fiscal_amount_untaxed, 2680.00)
+        # Line 1 IPI Base = 2000 (product) + 24 (freight) + 48 (insurance)
+        # + 72 (other) = 2144
+        # Line 1 IPI Value = 2144 * 3.25% = 69.68
+        self.assertAlmostEqual(line1.ipi_base, 2144.00)
+        self.assertAlmostEqual(line1.ipi_value, 69.68, places=2)
+
+        # Line 2 IPI Base = 500 (product) + 6 (freight) + 12 (insurance)
+        # + 18 (other) = 536
+        # Line 2 IPI Value = 536 * 5% = 26.80
+        self.assertAlmostEqual(line2.ipi_base, 536.00)
+        self.assertAlmostEqual(line2.ipi_value, 26.80, places=2)
+
+        # fiscal_amount_tax (IPI) = 69.68 + 26.80 = 96.48
+        self.assertAlmostEqual(
+            doc_after_total_update.fiscal_amount_tax, 96.48, places=2
+        )
+        # fiscal_amount_total = 2680.00 + 96.48 = 2776.48
+        self.assertAlmostEqual(
+            doc_after_total_update.fiscal_amount_total, 2776.48, places=2
+        )

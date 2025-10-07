@@ -44,9 +44,26 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_partner__crc_code
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_users__crc_code
+msgid "CRC Code"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_partner__crc_state_id
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_users__crc_state_id
+msgid "CRC State"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__company_id
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_mixin__company_id
 msgid "Company"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model,name:l10n_br_sped_base.model_res_partner
+msgid "Contact"
 msgstr ""
 
 #. module: l10n_br_sped_base
@@ -176,6 +193,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__is_imported
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_mixin__is_imported
 msgid "Is Imported"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_partner__is_accountant
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_users__is_accountant
+msgid "Is accountant?"
 msgstr ""
 
 #. module: l10n_br_sped_base

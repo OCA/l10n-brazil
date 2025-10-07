@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="partner_profile_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.partner.profile.search</field>
         <field name="model">l10n_br_fiscal.partner.profile</field>
@@ -8,9 +7,9 @@
             <search string="Fiscal Partner Profile">
                 <field name="code" />
                 <field name="name" />
-                <group expand='0' string='Group By...'>
+                <group expand="0" string="Group By...">
                     <filter
-                        string='Is Company?'
+                        string="Is Company?"
                         name="is_company"
                         domain="[]"
                         context="{'group_by' : 'is_company'}"
@@ -81,12 +80,10 @@
                                 context="{'tree_view_ref': 'l10n_br_fiscal.tax_definition_tree','form_view_ref': 'l10n_br_fiscal.tax_definition_form', 'default_fiscal_profile_id': id}"
                             />
                         </page>
-                        <page string="Notes" name="notes">
-                        </page>
+                        <page string="Notes" name="notes" />
                     </notebook>
                 </sheet>
             </form>
         </field>
     </record>
-
 </odoo>

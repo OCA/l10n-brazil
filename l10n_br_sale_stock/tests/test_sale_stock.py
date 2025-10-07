@@ -112,8 +112,8 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             "fiscal_price",
             "amount_fiscal",
             "price_unit",
-            "amount_untaxed",
-            "amount_total",
+            "fiscal_amount_untaxed",
+            "fiscal_amount_total",
         ]
         skipped_fields[len(skipped_fields) :] = skipped_fields_after_confirm
 
@@ -141,7 +141,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         sale_order_form = Form(sale_order_2)
         sale_order = sale_order_form.save()
         for line in sale_order.order_line:
-            line._compute_tax_fields()
+            line._onchange_fiscal_operation_id()
         sale_order.action_confirm()
         # Metodo de criação da fatura a partir do sale.order
         # deve gerar apenas a linha de serviço

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="cfop_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cfop.search</field>
         <field name="model">l10n_br_fiscal.cfop</field>
@@ -25,15 +24,15 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="small_name" />
-                <group expand='0' string='Group By...'>
+                <group expand="0" string="Group By...">
                     <filter
-                        string='Type In Out'
+                        string="Type In Out"
                         name="type_in_out"
                         domain="[]"
                         context="{'group_by' : 'type_in_out'}"
                     />
                     <filter
-                        string='Type Move'
+                        string="Type Move"
                         name="type_move"
                         domain="[]"
                         context="{'group_by' : 'type_move'}"
@@ -116,5 +115,4 @@
             </form>
         </field>
     </record>
-
 </odoo>

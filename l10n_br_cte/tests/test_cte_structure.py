@@ -3,16 +3,12 @@
 
 from io import StringIO
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons.spec_driven_model.models.spec_models import SpecModel
 
 
-class CTeStructure(SavepointCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
+class CTeStructure(TransactionCase):
     @classmethod
     def get_stacked_tree(cls, klass):
         """

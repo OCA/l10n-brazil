@@ -55,11 +55,11 @@ def purchase_set_journal_in_fiscal_operation(cr):
                     },
                     {
                         "fiscal_operation": "l10n_br_fiscal.fo_devolucao_compras",
-                        "journal": "l10n_br_coa_simple.general_journal_main_company",
+                        "journal": "l10n_br_coa_simple.purchase_journal_main_company",
                     },
                     {
                         "fiscal_operation": "l10n_br_fiscal.fo_entrada_remessa",
-                        "journal": "l10n_br_coa_simple.general_journal_main_company",
+                        "journal": "l10n_br_coa_simple.purchase_journal_main_company",
                     },
                 ],
             )
@@ -75,11 +75,11 @@ def purchase_set_journal_in_fiscal_operation(cr):
                     },
                     {
                         "fiscal_operation": "l10n_br_fiscal.fo_devolucao_compras",
-                        "journal": "l10n_br_coa_simple.general_journal_empresa_sn",
+                        "journal": "l10n_br_coa_simple.purchase_journal_empresa_sn",
                     },
                     {
                         "fiscal_operation": "l10n_br_fiscal.fo_entrada_remessa",
-                        "journal": "l10n_br_coa_simple.general_journal_empresa_sn",
+                        "journal": "l10n_br_coa_simple.purchase_journal_empresa_sn",
                     },
                 ],
             )
@@ -106,11 +106,11 @@ def purchase_set_journal_in_fiscal_operation(cr):
                     },
                     {
                         "fiscal_operation": "l10n_br_fiscal.fo_devolucao_compras",
-                        "journal": "l10n_br_coa_generic.general_journal_empresa_lp",
+                        "journal": "l10n_br_coa_generic.purchase_journal_empresa_lp",
                     },
                     {
                         "fiscal_operation": "l10n_br_fiscal.fo_entrada_remessa",
-                        "journal": "l10n_br_coa_generic.general_journal_empresa_lp",
+                        "journal": "l10n_br_coa_generic.purchase_journal_empresa_lp",
                     },
                 ],
             )

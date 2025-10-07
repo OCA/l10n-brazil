@@ -72,8 +72,9 @@
         <field name="antt_code">Teste - Código ANTT</field>
         <field
             name="vehicle_ids"
-            eval="[(6,0,[ref('test_l10n_br_delivery_carrier_vehicle_1'),
-            ref('test_l10n_br_delivery_carrier_vehicle_2'),
+            eval="[Command.set([
+                ref('test_l10n_br_delivery_carrier_vehicle_1'),
+                ref('test_l10n_br_delivery_carrier_vehicle_2')
             ])]"
         />
     </record>

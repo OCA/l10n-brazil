@@ -133,6 +133,19 @@
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
+    <record id="ailos_instruction_16" model="l10n_br_cnab.code">
+        <field name="name">Alteração de Valor/Data de Desconto</field>
+        <field name="code">16</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_085'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
     <record id="ailos_instruction_31" model="l10n_br_cnab.code">
         <field
             name="name"

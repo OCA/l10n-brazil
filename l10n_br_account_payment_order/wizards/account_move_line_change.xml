@@ -2,7 +2,6 @@
 <!-- Copyright 2020 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="account_move_line_cnab_change_form_view">
         <field
             name="name"
@@ -14,8 +13,8 @@
                 <group>
                     <field name="change_type" widget="radio" />
                     <field
-                        name="date_maturity"
-                        attrs="{'invisible': [('change_type', '!=', 'change_date_maturity')], 'required': [('change_type', '=', 'change_date_maturity')]}"
+                        name="date"
+                        attrs="{'invisible': [('change_type', 'not in', ['change_date_maturity', 'change_discount_date'])]}"
                     />
                     <field
                         name="payment_mode_id"
@@ -48,5 +47,4 @@
         <field name="target">new</field>
         <field name="binding_model_id" ref="account.model_account_move_line" />
     </record>
-
 </odoo>

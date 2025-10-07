@@ -15,22 +15,30 @@ class FiscalDocumentLine(models.Model):
         string="Invoice Lines",
     )
 
-    uom_id = fields.Many2one(
-        compute="_compute_product_uom_id",
-        store=True,
-        readonly=False,
-        precompute=True,
-        ondelete="restrict",
-    )
-
     # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC
     # -------------------------------------------------------------------------
 
-    product_id = fields.Many2one(inverse="_inverse_product_id")
+    proxy_product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Product (proxy)",
+        help="Technical Field.",
+        readonly=False,
+    )
+
+    product_id = fields.Many2one(
+        related="proxy_product_id",
+        comodel_name="product.product",
+        string="Product",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
     name = fields.Char(inverse="_inverse_name")
     quantity = fields.Float(inverse="_inverse_quantity")
     price_unit = fields.Float(inverse="_inverse_price_unit")
+    uom_id = fields.Many2one(inverse="_inverse_uom_id")
 
     @api.onchange("product_id")
     def _inverse_product_id(self):
@@ -72,14 +80,22 @@ class FiscalDocumentLine(models.Model):
                 ):
                     aml.price_unit = line.price_unit
 
-    @api.depends("product_id")
-    def _compute_product_uom_id(self):
+    @api.onchange("uom_id")
+    def _inverse_uom_id(self):
         for line in self:
-            # vendor bills should have the product purchase UOM
-            if line.fiscal_operation_type == "in":
-                line.uom_id = line.product_id.uom_po_id
-            else:
-                line.uom_id = line.product_id.uom_id
+            for aml in line.account_line_ids:
+                if aml.product_uom_id != line.uom_id:
+                    aml.product_uom_id = line.uom_id
+
+    @api.depends("product_id", "uom_id", "account_line_ids.uot_id")
+    def _compute_uot_id(self):
+        """
+        Ensure doc line uot_id is consistent with custom aml uot if any.
+        """
+        line_with_aml_uot = self.filtered(lambda line: line.account_line_ids.uot_id)
+        for line in line_with_aml_uot:
+            line.uot_id = line.account_line_ids.uot_id
+        return super(FiscalDocumentLine, self - line_with_aml_uot)._compute_uot_id()
 
     @api.model_create_multi
     def create(self, vals_list):

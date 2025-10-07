@@ -28,9 +28,6 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         cls.company.icms_regulation_id = cls.env.ref(
             "l10n_br_fiscal.tax_icms_regulation"
         ).id
-        cls.company.city_taxation_code_id = cls.env.ref(
-            "l10n_br_fiscal.city_taxation_code_itajuba"
-        )
         cls.company.document_type_id = cls.env.ref("l10n_br_fiscal.document_SE")
         cls.nfse_same_state.company_id = cls.company.id
 
@@ -70,7 +67,7 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
 
         # IBGE Code
         self.assertEqual(
-            str(self.company.prepare_company_servico().get("codigo_municipio")),
+            str(self.company._prepare_company_service().get("codigo_municipio")),
             "3132404",
             "Error to mappping IBGE Code 3132404"
             " for Venda de Serviço de Contribuinte Dentro do Estado.",
@@ -99,10 +96,9 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         self.company.processador_edoc = PROCESSADOR_NENHUM
         self.assertFalse(filter_processador_edoc_nfse(self.nfse_same_state))
 
-        # Test res.partner.prepare_partner_tomador
         self.assertEqual(
             str(
-                self.nfse_same_state.partner_id.prepare_partner_tomador(
+                self.nfse_same_state.partner_id._prepare_service_provider(
                     self.company.country_id.id
                 ).get("codigo_municipio")
             ),
@@ -111,10 +107,9 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
             " for Venda de Serviço de Contribuinte Dentro do Estado.",
         )
 
-        # Test res.partner.prepare_partner_tomador (Exterior)
         self.assertEqual(
             str(
-                self.nfse_same_state.partner_id.prepare_partner_tomador(1).get(
+                self.nfse_same_state.partner_id._prepare_service_provider(1).get(
                     "codigo_municipio"
                 )
             ),
@@ -124,13 +119,11 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         )
 
         for line in self.nfse_same_state.fiscal_line_ids:
-            line._onchange_product_id_fiscal()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
 
-            # prepare_line_servico()
             self.assertEqual(
-                line.prepare_line_servico().get("codigo_tributacao_municipio"),
+                line._prepare_line_service().get("codigo_tributacao_municipio"),
                 "6311900",
                 "Error to mappping City Taxation Code 6311900"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.",
@@ -154,7 +147,6 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
 
             # Fiscal Deductions Value
             line.product_id.fiscal_deductions_value = 10
-            line._onchange_product_id_fiscal()
             self.assertEqual(
                 line.fiscal_deductions_value,
                 10.0,

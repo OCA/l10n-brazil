@@ -2,7 +2,6 @@
 <!-- Copyright 2024 Marcel Savegnago - Escodoo (https://www.escodoo.com.br)
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="account_move_form_view">
         <field name="model">account.move</field>
         <field name="inherit_id" ref="l10n_br_account.invoice_form" />
@@ -28,5 +27,4 @@
             </button>
         </field>
     </record>
-
 </odoo>

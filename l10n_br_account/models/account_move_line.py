@@ -54,12 +54,14 @@ class AccountMoveLine(models.Model):
     name = fields.Char(inverse="_inverse_name")
     quantity = fields.Float(inverse="_inverse_quantity")
     price_unit = fields.Float(inverse="_inverse_price_unit")
+    product_uom_id = fields.Many2one(inverse="_inverse_product_uom_id")
 
     @api.onchange("product_id")
     def _inverse_product_id(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.product_id = line.product_id.id
+            # we use proxy_product_id to avoid triggering _compute_product_fiscal_fields
+            # which would erase custom values such as custom ncm_id
+            line.proxy_product_id = line.product_id
         return super()._inverse_product_id()
 
     @api.onchange("name")
@@ -79,6 +81,12 @@ class AccountMoveLine(models.Model):
         for line in self:
             if line.fiscal_document_line_id:
                 line.fiscal_document_line_id.price_unit = line.price_unit
+
+    @api.onchange("product_uom_id")
+    def _inverse_product_uom_id(self):
+        for line in self:
+            if line.fiscal_document_line_id:
+                line.fiscal_document_line_id.uom_id = line.product_uom_id
 
     @api.depends(
         "quantity",
@@ -232,11 +240,11 @@ class AccountMoveLine(models.Model):
                     else:
                         if line.move_id.fiscal_operation_id.deductible_taxes:
                             unsigned_amount_currency = (
-                                line.amount_total + line.amount_tax_withholding
+                                line.fiscal_amount_total + line.amount_tax_withholding
                             )
                         else:
                             amount_total = (
-                                line.amount_total + line.amount_tax_withholding
+                                line.fiscal_amount_total + line.amount_tax_withholding
                             )
                             unsigned_amount_currency = line.currency_id.round(
                                 amount_total

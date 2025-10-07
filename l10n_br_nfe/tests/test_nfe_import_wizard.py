@@ -119,7 +119,8 @@ class NFeImportWizardTest(TransactionCase):
         origin_company = self.wizard.company_id
 
         doc_company_id = self.env["res.company"].search(
-            [("nfe40_CNPJ", "=", re.sub("[^0-9]", "", doc.cnpj_cpf_emitente))], limit=1
+            [("cnpj_cpf_stripped", "=", re.sub("[^0-9]", "", doc.cnpj_cpf_emitente))],
+            limit=1,
         )
         self.wizard.company_id = doc_company_id
         self.wizard._set_fiscal_operation_type()

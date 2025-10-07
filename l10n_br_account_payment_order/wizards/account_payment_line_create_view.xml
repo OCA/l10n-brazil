@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="account_payment_line_create_form" model="ir.ui.view">
-        <field name="name">l10n_br_account_payment_boleto.res.company.form
-        </field>
+        <field name="name">l10n_br_account_payment_boleto.res.company.form</field>
         <field name="model">account.payment.line.create</field>
         <field
             name="inherit_id"

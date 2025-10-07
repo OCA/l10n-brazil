@@ -40,10 +40,19 @@
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='contract_line_fixed_ids']/tree"
-                position="attributes"
+                expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='product_id']"
+                position="before"
             >
-                <attribute name="editable" />
+                <button
+                    name="dummy_button_for_js"
+                    icon="fa-external-link"
+                    title="Edit in Form"
+                    class="btn-sm btn-link p-0 edit-line-popup"
+                />
+                <control name="fiscal_fields" invisible="1" />
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
             </xpath>
             <xpath
                 expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='last_date_invoiced']"

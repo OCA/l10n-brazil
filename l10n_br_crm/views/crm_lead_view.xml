@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="l10n_br_crm_leads_form" model="ir.ui.view">
         <field name="name">l10n_br_crm.leads.form</field>
         <field name="model">crm.lead</field>
@@ -13,7 +12,6 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </field>
-
             <xpath expr="//group[@name='lead_info']/div" position="after">
                 <field name="name_surname" />
                 <field
@@ -25,7 +23,6 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>
-
             <xpath
                 expr="//group[@name='lead_partner']/field[@name='partner_name']"
                 position="after"
@@ -43,7 +40,6 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>
-
             <xpath
                 expr="//group[@name='lead_partner']/field[@name='website']"
                 position="before"
@@ -57,7 +53,6 @@
                     attrs="{'invisible': [('show_l10n_br', '=', False)]}"
                 />
             </xpath>
-
             <xpath
                 expr="//page[@name='lead']//group/field[@name='partner_name']"
                 position='after'
@@ -104,5 +99,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>

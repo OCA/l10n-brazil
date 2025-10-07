@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="operation_dashboard_kanban" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.operation.dashboard.kanban</field>
         <field name="model">l10n_br_fiscal.operation</field>
@@ -30,9 +29,9 @@
                                 <div t-attf-class="o_kanban_card_header">
                                     <div class="o_kanban_card_header_title">
                                         <div class="o_primary">
-                                            <a type="object" name="open_action"><field
-                                                    name="name"
-                                                /></a>
+                                            <a type="object" name="open_action">
+                                                <field name="name" />
+                                            </a>
                                         </div>
                                         <div
                                             class="o_secondary"
@@ -45,12 +44,14 @@
                                         <a
                                             class="o_kanban_manage_toggle_button"
                                             href="#"
-                                        ><i
+                                        >
+                                            <i
                                                 class="fa fa-ellipsis-v"
                                                 role="img"
                                                 aria-label="Manage"
                                                 title="Manage"
-                                            /></a>
+                                            />
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="container o_kanban_card_content">
@@ -72,9 +73,10 @@
                                                         name="open_action"
                                                         context="{'search_default_2confirm': '1'}"
                                                     >
-                                                        <span title="A enviar"><t
+                                                        <span title="A enviar">
+                                                        <t
                                                                 t-esc="dashboard.number_2confirm"
-                                                            /> A enviar</span>
+                                                            />A enviar</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -86,10 +88,9 @@
                                                         context="{'search_default_authorized':1}"
                                                         id="fiscal_dashboard_sale_pay_link"
                                                     >
-                                                        <t
+                                                    <t
                                                             t-esc="dashboard.number_authorized"
-                                                        /> Autorizados
-                                                    </a>
+                                                        />Autorizados</a>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -101,9 +102,10 @@
                                                     >
                                                         <span
                                                             title="Faturas canceladas"
-                                                        ><t
+                                                        >
+                                                        <t
                                                                 t-esc="dashboard.number_cancelled"
-                                                            /> Cancelados</span>
+                                                            />Cancelados</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -117,5 +119,4 @@
             </kanban>
         </field>
     </record>
-
 </odoo>

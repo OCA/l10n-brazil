@@ -95,7 +95,7 @@ class TestMoveEdition(TransactionCase):
             line_form.account_id = self.out_invoice_account_id
             line_form.debit = 10
         with self.assertRaises(UserError):  # ensure not balanced is still checked
-            move = move_form.save()
+            move_form.save()
 
         with move_form.line_ids.new() as line_form:
             line_form.account_id = self.out_invoice_account_id
@@ -140,6 +140,8 @@ class TestMoveEdition(TransactionCase):
 
         # now user needs to be a Fiscal User:
         self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.groups_id += self.env.ref("uom.group_uom")
+
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
@@ -200,6 +202,11 @@ class TestMoveEdition(TransactionCase):
                 ind_final="1",
             )
 
+            # ensure manually setting a product_uom_id is properly sync'ed:
+            line_form.product_uom_id = self.env.ref("l10n_br_fiscal.UOM_PC")
+            self.assertEqual(line_form.uot_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
+            line_form.uot_id = self.env.ref("uom.product_uom_unit")
+
             line_form.price_unit = 42
             line_form.quantity = 5
             self.assertEqual(len(line_form.fiscal_tax_ids), 4)
@@ -209,9 +216,10 @@ class TestMoveEdition(TransactionCase):
             self.assertEqual(
                 line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_nt")
             )
-            self.assertTrue(abs(line_form.icms_value - 14.7) < 0.01)
+            self.assertAlmostEqual(line_form.icms_value, 14.7, places=2)
+
             line_form.quantity = 10
-            self.assertTrue(abs(line_form.icms_value - 29.40) < 0.01)
+            self.assertAlmostEqual(line_form.icms_value, 29.40, places=2)
 
             line_form.fiscal_operation_line_id = self.env.ref(
                 "l10n_br_fiscal.fo_venda_venda"
@@ -223,6 +231,9 @@ class TestMoveEdition(TransactionCase):
             self.assertEqual(
                 line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5")
             )
+
+            # ensure manually setting a ncm_id is properly saved (not recomputed):
+            line_form.ncm_id = self.env.ref("l10n_br_fiscal.ncm_94013090")
 
             # ensure manually setting a xx_tax_id is properly saved (not recomputed):
             line_form.icms_tax_id = self.env.ref("l10n_br_fiscal.tax_icms_18")
@@ -262,11 +273,26 @@ class TestMoveEdition(TransactionCase):
         )
 
         self.assertEqual(
-            aml.icms_tax_id.id,
-            self.ref("l10n_br_fiscal.tax_icms_18"),
+            aml.icms_tax_id.name, self.env.ref("l10n_br_fiscal.tax_icms_18").name
         )
         self.assertEqual(aml.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5"))
         self.assertEqual(aml.icms_value, 79.38)
+
+        # NCM entered manually must be maintained,
+        # it must not be the same as the product.
+        self.assertEqual(
+            aml.ncm_id.code, self.env.ref("l10n_br_fiscal.ncm_94013090").code
+        )
+        self.assertNotEqual(aml.ncm_id.code, self.product_id.ncm_id.code)
+
+        self.assertEqual(aml.uom_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
+        self.assertEqual(aml.uot_id, self.env.ref("uom.product_uom_unit"))
+        self.assertEqual(
+            aml.fiscal_document_line_id.uom_id, self.env.ref("l10n_br_fiscal.UOM_PC")
+        )
+        self.assertEqual(
+            aml.fiscal_document_line_id.uot_id, self.env.ref("uom.product_uom_unit")
+        )
 
         move.action_post()
         self.assertEqual(move.state, "posted")
@@ -446,3 +472,89 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(doc.fiscal_line_ids[0].fiscal_price, 50)
         self.assertEqual(doc.fiscal_line_ids[0].quantity, 10)
         self.assertEqual(doc.fiscal_line_ids[0].fiscal_quantity, 20)
+
+    def test_move_landed_costs_by_line_and_by_total(self):
+        """
+        Tests landed cost scenarios on an account.move form.
+        1. By Line: Enters costs on lines and verifies the header totals.
+        2. By Total: Enters costs on the header and verifies distribution to lines.
+        """
+        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.groups_id += self.env.ref("l10n_br_account.group_line_fiscal_detail")
+
+        product1 = self.env.ref("product.product_product_6")
+        product2 = self.env.ref("product.product_product_7")
+
+        # Part 1: Test with delivery_costs = 'line'
+        self.company.delivery_costs = "line"
+        move_form = Form(
+            self.env["account.move"].with_context(default_move_type="out_invoice")
+        )
+        move_form.company_id = self.company
+        move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        move_form.document_serie_id = self.env.ref(
+            "l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        )
+        move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+
+        with move_form.invoice_line_ids.new() as line1:
+            line1.product_id = product1
+            line1.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            line1.price_unit = 1000.0
+            line1.quantity = 2.0
+            line1.freight_value = 10.0
+            line1.insurance_value = 20.0
+            line1.other_value = 5.0
+
+        with move_form.invoice_line_ids.new() as line2:
+            line2.product_id = product2
+            line2.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            line2.price_unit = 500.0
+            line2.quantity = 1.0
+            line2.freight_value = 4.0
+            line2.insurance_value = 6.0
+            line2.other_value = 2.0
+
+        move = move_form.save()
+
+        self.assertEqual(move.company_id.delivery_costs, "line")
+        self.assertAlmostEqual(move.amount_freight_value, 14.0)
+        self.assertAlmostEqual(move.amount_insurance_value, 26.0)
+        self.assertAlmostEqual(move.amount_other_value, 7.0)
+        self.assertAlmostEqual(move.fiscal_amount_untaxed, 2547.00)
+        # Corrected assertion: (2035 * 3.25%) + (512 * 5%) = 66.14 + 25.60 = 91.74
+        self.assertAlmostEqual(move.fiscal_amount_tax, 91.74, places=2)
+        # Corrected assertion: 2547.00 + 91.74 = 2638.74
+        self.assertAlmostEqual(move.fiscal_amount_total, 2638.74, places=2)
+        self.assertAlmostEqual(move.amount_total, 2638.74, places=2)
+
+        # Part 2: Test with delivery_costs = 'total'
+        self.company.delivery_costs = "total"
+        move_form_edit = Form(move)
+        move_form_edit.amount_freight_value = 30.0
+        move_form_edit.amount_insurance_value = 60.0
+        move_form_edit.amount_other_value = 90.0
+        move_after_total_update = move_form_edit.save()
+
+        line1 = move_after_total_update.invoice_line_ids[0]
+        line2 = move_after_total_update.invoice_line_ids[1]
+
+        self.assertAlmostEqual(line1.freight_value, 24.0)
+        self.assertAlmostEqual(line2.freight_value, 6.0)
+        self.assertAlmostEqual(line1.insurance_value, 48.0)
+        self.assertAlmostEqual(line2.insurance_value, 12.0)
+        self.assertAlmostEqual(line1.other_value, 72.0)
+        self.assertAlmostEqual(line2.other_value, 18.0)
+        self.assertAlmostEqual(move_after_total_update.fiscal_amount_untaxed, 2680.00)
+        self.assertAlmostEqual(
+            move_after_total_update.fiscal_amount_tax, 96.48, places=2
+        )
+        self.assertAlmostEqual(
+            move_after_total_update.fiscal_amount_total, 2776.48, places=2
+        )
+        self.assertAlmostEqual(move_after_total_update.amount_total, 2776.48, places=2)

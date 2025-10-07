@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="operation_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.operation.search</field>
         <field name="model">l10n_br_fiscal.operation</field>
@@ -8,9 +7,9 @@
             <search string="Fiscal Operation">
                 <field name="code" />
                 <field name="name" />
-                <group expand='0' string='Group By...'>
+                <group expand="0" string="Group By...">
                     <filter
-                        string='Fiscal Operation Type'
+                        string="Fiscal Operation Type"
                         name="fiscal_operation_type"
                         domain="[]"
                         context="{'group_by' : 'fiscal_operation_type'}"
@@ -99,8 +98,7 @@
                             <field
                                 name="line_ids"
                                 context="{'default_fiscal_operation_id': id, 'default_fiscal_type': fiscal_type, 'default_fiscal_operation_type': fiscal_operation_type, 'form_view_ref': 'l10n_br_fiscal.operation_line_form' , 'show_code_only': 1}"
-                            >
-                            </field>
+                            />
                         </page>
                         <page name="operation_document_type" string="Fiscal Documents">
                             <field
@@ -139,5 +137,4 @@
             </form>
         </field>
     </record>
-
 </odoo>

@@ -2,7 +2,6 @@
 <!-- Copyright 2019 KMEE INFORMATICA LTDA
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="nfse_res_company_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.res.company.form (in l10n_br_nfse)</field>
         <field name="model">res.company</field>
@@ -30,5 +29,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>

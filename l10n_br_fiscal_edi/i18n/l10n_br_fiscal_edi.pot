@@ -56,11 +56,12 @@ msgstr ""
 #. module: l10n_br_fiscal_edi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_edi.report_document_event
 msgid ""
-"A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:<br/>\n"
-"                  <br/>\n"
-"                  I - as variáveis que determinam o valor do imposto tais como: base de cálculo, alíquota, diferença de preço, quantidade, valor da operação ou da prestação;<br/>\n"
-"                  II - a correção de dados cadastrais que impliquem mudança do remetente ou do destinatário;<br/>\n"
-"                  III - a data de emissão ou de saída.<br/>"
+"A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:\n"
+"                <br/>\n"
+"                <br/>I - as variáveis que determinam o valor do imposto tais como: base de cálculo, alíquota, diferença de preço, quantidade, valor da operação ou da prestação;\n"
+"                <br/>II - a correção de dados cadastrais que impliquem mudança do remetente ou do destinatário;\n"
+"                <br/>III - a data de emissão ou de saída.\n"
+"                <br/>"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
@@ -634,17 +635,10 @@ msgid "OK"
 msgstr ""
 
 #. module: l10n_br_fiscal_edi
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_edi.event_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_edi.invalidate_number_action
 msgid ""
-"Odoo helps you easily track all activities\n"
-"              related to a fiscal operation."
-msgstr ""
-
-#. module: l10n_br_fiscal_edi
-#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_edi.event_action
-msgid ""
-"Odoo helps you easily track all activities\n"
-"            related to a fiscal operation."
+"Odoo helps you easily track all activities related to a fiscal operation."
 msgstr ""
 
 #. module: l10n_br_fiscal_edi

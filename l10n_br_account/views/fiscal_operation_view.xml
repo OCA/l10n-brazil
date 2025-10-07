@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
     <record id="fiscal_operation_search" model="ir.ui.view">
         <field name="name">fiscal.operation.search</field>
         <field name="model">l10n_br_fiscal.operation</field>
@@ -60,5 +59,4 @@
             </page>
         </field>
     </record>
-
 </odoo>

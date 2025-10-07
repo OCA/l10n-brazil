@@ -152,9 +152,9 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         tracking=True,
     )
 
-    boleto_fee_code = fields.Char(
-        string="Código da Multa",
-        size=1,
+    boleto_fee_code_id = fields.Many2one(
+        string="Fee Code",
+        comodel_name="l10n_br_cnab.code",
         help="Código adotado pela FEBRABAN para identificação "
         "do tipo de pagamento de multa.",
         tracking=True,
@@ -249,6 +249,14 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
         comodel_name="l10n_br_cnab.code",
         string="Change Maturity Date Movement Instruction Code",
         help="CNAB Movement Instruction Code for Change Maturity Date.",
+        tracking=True,
+    )
+
+    # Código para Alteração da Data de Desconto
+    change_discount_date_code_id = fields.Many2one(
+        comodel_name="l10n_br_cnab.code",
+        string="Change Discount Date Movement Instruction Code",
+        help="CNAB Movement Instruction Code for Change Discount Date.",
         tracking=True,
     )
 

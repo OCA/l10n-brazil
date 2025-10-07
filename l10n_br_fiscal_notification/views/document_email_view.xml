@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="document_email_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.document.email.tree</field>
         <field name="model">l10n_br_fiscal.document.email</field>
@@ -23,15 +22,13 @@
                 <field name="id" invisible="1" />
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-
-            <field name="active" invisible="1" />
-            <widget
+                        <field name="active" invisible="1" />
+                        <widget
                             name="web_ribbon"
                             title="Archived"
                             bg_color="bg-danger"
                             attrs="{'invisible': [('active', '=', True)]}"
                         />
-
                     </div>
                     <group>
                         <field name="document_type_id" />
@@ -44,5 +41,4 @@
             </form>
         </field>
     </record>
-
 </odoo>

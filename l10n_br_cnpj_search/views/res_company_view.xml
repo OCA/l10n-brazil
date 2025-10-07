@@ -1,5 +1,4 @@
 <odoo>
-
     <record id="l10n_br_cnpj_search_fiscal_company_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.company.form (in l10n_br_cnpj_search)</field>
         <field name="model">res.company</field>
@@ -11,21 +10,20 @@
             </field>
             <field name="vat" position="replace">
                 <label for="vat" string="CNPJ" />
-                     <div class="o_row" colspan="1">
-                        <field name="vat" />
-                        <button
+                <div class="o_row" colspan="1">
+                    <field name="vat" />
+                    <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
                         class="btn-sm btn-link mb4 fa fa-search oe_edit_only oe_inline"
                         aria-label="Pesquisar CNPJ"
                         title="Pesquisar CNPJ"
                     />
-                    </div>
-                </field>
-
-                <field name="phone" position="before">
-                    <field name="mobile" widget="phone" />
-                </field>
+                </div>
+            </field>
+            <field name="phone" position="before">
+                <field name="mobile" widget="phone" />
+            </field>
         </field>
     </record>
 </odoo>

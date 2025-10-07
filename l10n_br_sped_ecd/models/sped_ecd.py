@@ -502,10 +502,11 @@ class RegistroI200(models.Model):
         return {
             "NUM_LCTO": record.name,  # Número ou Código de identificação
             "DT_LCTO": record.create_date,  # Data do lançamento.
-            "VL_LCTO": record.amount_total,  # Valor do lançamento.
+            "VL_LCTO": record.fiscal_amount_total,  # Valor do lançamento.
             "IND_LCTO": "N",
             "DT_LCTO_EXT": record.date,  # O Data de ocorrência dos fatos
-            "VL_LCTO_MF": record.amount_total,  # Valor do lançamento em moeda funcional
+            # Valor do lançamento em moeda funcional
+            "VL_LCTO_MF": record.fiscal_amount_total,
         }
 
 
