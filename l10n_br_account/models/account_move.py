@@ -195,7 +195,7 @@ class AccountMove(models.Model):
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         move_type = self.env.context.get("default_move_type", "out_invoice")
-        if move_type != "entry":
+        if move_type and move_type != "entry":
             defaults["fiscal_operation_type"] = MOVE_TO_OPERATION[move_type]
             if defaults["fiscal_operation_type"] == FISCAL_OUT:
                 defaults["issuer"] = DOCUMENT_ISSUER_COMPANY
