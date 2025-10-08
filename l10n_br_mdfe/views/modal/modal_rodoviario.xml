@@ -198,7 +198,10 @@
                         </group>
                         <group>
                             <field name="mdfe30_vContrato" />
-                            <field name="mdfe30_vAdiant" />
+                            <field
+                                name="mdfe30_vAdiant"
+                                attrs="{'invisible': [('mdfe30_indPag', '=', '0')]}"
+                            />
                         </group>
                         <group>
                             <field name="payment_type" />
