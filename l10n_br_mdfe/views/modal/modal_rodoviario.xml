@@ -379,4 +379,19 @@
             </form>
         </field>
     </record>
+
+    <record id="modal_rodoviario_contratante_tree_view" model="ir.ui.view">
+        <field
+            name="name"
+        >modal.rodoviario.contratante.tree.view (in l10n_br_mdfe)</field>
+        <field name="model">l10n_br_mdfe.modal.rodoviario.contratante</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id" />
+                <field name="mdfe30_CNPJ" />
+                <field name="mdfe30_CPF" />
+                <field name="mdfe30_idEstrangeiro" />
+            </tree>
+        </field>
+    </record>
 </odoo>
