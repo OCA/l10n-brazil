@@ -1,3 +1,4 @@
-To install this module, you need to:
+Este modulo depende dos módulos:
 
-- do this ...
+- l10n_br_coa (que depende do módulo account)
+- l10n_br_fiscal

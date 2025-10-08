@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===========================================
 Invoicing and accounting entries for Brazil
 ===========================================
@@ -17,7 +13,7 @@ Invoicing and accounting entries for Brazil
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -32,8 +28,364 @@ Invoicing and accounting entries for Brazil
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module was written to extend the functionality of ... to support
-... and allow you to ...
+Visão Geral
+-----------
+
+O módulo ``l10n_br_account`` integra o motor fiscal brasileiro
+(``l10n_br_fiscal``) ao framework contábil nativo do Odoo (módulo
+``account``). Ele atua como uma ponte robusta, traduzindo a complexa
+lógica da tributação e dos documentos fiscais do Brasil em faturas e
+lançamentos contábeis conforme as normas de contabilidade brasileiras.
+
+Projetado com um alto grau de sofisticação técnica, o módulo atende
+desde a automação na emissão de notas para empresas do Simples Nacional
+até os cenários contábeis mais exigentes do regime normal (Lucro
+Real/Presumido).
+
+Arquitetura e Integração: Decorator Pattern (``_inherits``)
+-----------------------------------------------------------
+
+A arquitetura do módulo se baseia no mecanismo ``_inherits`` do Odoo
+para criar uma composição dinâmica entre os modelos fiscais e contábeis:
+
+-  **``account.move``** herda de **``l10n_br_fiscal.document``**
+-  **``account.move.line``** herda de
+   **``l10n_br_fiscal.document.line``**
+
+Esta abordagem, análoga ao *Decorator Pattern*, oferece as seguintes
+vantagens:
+
+1. **Gerenciamento Unificado**: Permite controlar o Documento Fiscal
+   diretamente pela interface da Fatura do Odoo. Campos fiscais (CFOP,
+   NCM, valores de impostos) são acessados e computados de forma
+   transparente, como se fossem nativos do ``account.move.line``.
+
+2. **Baixíssima Redundância de Dados**: A herança por composição evita a
+   duplicação de centenas de campos fiscais nas tabelas contábeis. A
+   "fonte da verdade" fiscal é sempre o registro em
+   ``l10n_br_fiscal.document``, garantindo um banco de dados normalizado
+   e consistente.
+
+3. **Modularidade e Manutenção**: A lógica fiscal complexa permanece
+   encapsulada no ``l10n_br_fiscal``. Para assegurar a reatividade dos
+   campos computados na interface da fatura, o módulo utiliza um *mixin*
+   especializado (``l10n_br_account.decorator.mixin``) que gerencia a
+   herança de métodos e campos dinâmicos.
+
+Principais Funcionalidades e Casos de Uso
+-----------------------------------------
+
+Uso Simplificado: Automação da Emissão de Documentos Fiscais
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Para empresas do Simples Nacional, o módulo automatiza a emissão de
+documentos fiscais a partir de qualquer fluxo de negócio que gere uma
+fatura no Odoo, como:
+
+-  Ordens de Venda (``sale.order``)
+-  Ordens de Compra (``purchase.order``)
+-  Movimentações de Estoque (``stock.picking``)
+-  Contratos (``contract.contract``), entre outros.
+
+A **Operação Fiscal** pré-configurada orquestra o preenchimento
+automático de todos os dados necessários, permitindo a geração de NF-e,
+NFS-e e outros documentos com mínima intervenção.
+
+Uso Avançado: Contabilidade Estratégica para o Regime Normal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Para empresas no Lucro Real ou Presumido, o ``l10n_br_account`` habilita
+uma gestão contábil e fiscal precisa e aderente à legislação.
+
+-  **Lançamentos Contábeis de Impostos**: Conecta os impostos fiscais
+   (``l10n_br_fiscal.tax``) aos contábeis (``account.tax``), garantindo
+   que a validação de uma fatura gere os lançamentos corretos para ICMS,
+   IPI, PIS, COFINS, etc., em suas respectivas contas (custo,
+   recuperável, despesa).
+
+-  **Operações Sem Impacto Financeiro**: Suporta operações como "Remessa
+   para Industrialização", permitindo a emissão do documento fiscal
+   obrigatório e o lançamento correto dos impostos, mas sem gerar contas
+   a pagar ou a receber, mantendo a integridade fiscal e contábil.
+
+-  **Composição de Valores Financeiros**: Gerencia a correta composição
+   do valor financeiro das faturas. Por exemplo, assegura que o valor do
+   IPI, quando não recuperável, seja somado ao contas a pagar do
+   fornecedor.
+
+-  **Importação de Documentos (XML)**: Facilita a importação de
+   documentos de fornecedores, criando simultaneamente o
+   ``l10n_br_fiscal.document`` com os dados fiscais e a fatura de
+   fornecedor (``account.move``) pronta para validação e pagamento.
+
+Detalhes sobre o modelo de dados
+--------------------------------
+
+Cardinalidade: Documentos Fiscais e Lançamentos Contábeis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A arquitetura suporta cenários onde um único lançamento financeiro
+(``account.move``) agrupa múltiplos documentos fiscais, como uma fatura
+única para pagar vários Conhecimentos de Transporte (CT-e). Esta
+flexibilidade é garantida por três campos-chave:
+
+-  **``account.move.fiscal_document_id``**: O campo ``Many2one`` que
+   implementa o ``_inherits``. Representa o documento fiscal "principal"
+   ou em edição na interface da fatura.
+
+-  **``account.move.line.fiscal_document_line_id``**: O pilar da
+   arquitetura. Permite que **cada linha** da fatura aponte para uma
+   linha de um documento fiscal distinto. É isso que possibilita agregar
+   múltiplos documentos em um único ``account.move``.
+
+-  **``account.move.fiscal_document_ids``**: Campo ``One2many``
+   computado que agrega todos os documentos fiscais vinculados às linhas
+   da fatura, oferecendo uma visão completa e consolidada.
+
+A flexibilidade do design é bidirecional. O sistema também gerencia
+nativamente cenários onde **um lançamento contábil (``account.move``)
+não possui nenhum documento fiscal associado**. Isso é fundamental para
+operações puramente contábeis ou não fiscais, como:
+
+-  Lançamentos de folha de pagamento.
+-  Operações financeiras ou contábeis em empresas de um grupo
+   multi-nacional que não operam no Brasil.
+
+Além disso, mesmo dentro de uma fatura fiscalizada, a associação é
+granular. Apenas as linhas de produto (``invoice_line_ids`` com
+``display_type='product'``) são vinculadas a uma
+``l10n_br_fiscal.document.line``. Linhas de impostos, de contas a
+pagar/receber, ou linhas de anotação/seção permanecem como lançamentos
+puramente contábeis, sem linha de documento fiscal especifica.
+
+Observação sobre a Normalização do Modelo de Dados
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Idealmente, o modelo de dados teria redundância zero. Contudo, para
+simplificar a injeção de mixins fiscais — em especial o
+``l10n_br_fiscal.document.line.mixin`` — e alavancar a lógica nativa do
+Odoo, foi uma decisão de design manter a nomenclatura de um pequeno e
+controlado conjunto de campos, como ``partner_id``, ``company_id``,
+``user_id``, ``currency_id``, ``product_id``, ``quantity``,
+``price_unit`` e ``name``.
+
+Como consequência, existe uma redundância mínima e gerenciada.
+Considerando os milhares de campos necessários para a diversidade de
+documentos fiscais brasileiros, apenas cerca de quatro campos do
+``account.move`` e quatro do ``account.move.line`` são efetivamente
+duplicados. Para garantir a integridade, estes campos (apelidados de
+*shadow fields*) são cuidadosamente sincronizados em tempo real,
+inclusive durante a edição de novos registros em memória (fase
+``NewId``), assegurando total consistência entre a fatura e o documento
+fiscal.
+
+A Separação Estratégica dos Mixins de Métodos
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Um detalhe arquitetônico fundamental é a separação dos mixins fiscais em
+duas partes: uma para campos (``...mixin``) e outra para métodos
+(``...mixin.methods``). Esta decisão foi motivada pela forma como o Odoo
+lida com os mecanismos de herança:
+
+-  **``_inherits`` (Composição)**: Herda os **campos**, tornando-os
+   disponíveis no modelo de destino sem duplicá-los no banco de dados,
+   mas **não herda os métodos**.
+-  **``_inherit`` (Herança Clássica)**: Herda tanto os **campos** quanto
+   os **métodos**, mas cria os campos na tabela do modelo de destino.
+
+No caso do ``account.move``, o objetivo era obter os campos do
+``l10n_br_fiscal.document`` sem duplicá-los (o que o ``_inherits`` faz
+perfeitamente), mas também precisávamos de seus métodos (como
+``_compute_fiscal_tax_ids`` ou ``_compute_tax_fields``). Se usássemos
+``_inherit`` no mixin principal (``l10n_br_fiscal.document.mixin``),
+teríamos os métodos, mas os campos seriam duplicados, quebrando o
+princípio de normalização.
+
+A solução foi:
+
+1. **``account.move``** usa ``_inherits`` em ``l10n_br_fiscal.document``
+   para acessar os campos fiscais de forma eficiente.
+2. **``account.move``** usa ``_inherit`` em
+   ``l10n_br_fiscal.document.mixin.methods`` para herdar apenas a lógica
+   de negócio (os métodos), sem herdar os campos novamente.
+
+Em contrapartida, modelos como ``sale.order`` e ``purchase.order`` não
+são uma representação de um documento fiscal, mas sim precursores dele.
+Portanto, eles podem usar uma herança simples (``_inherit``) diretamente
+no mixin principal (``l10n_br_fiscal.document.mixin``), pois precisam
+tanto dos campos quanto dos métodos para preparar os dados que serão
+posteriormente utilizados na geração do documento fiscal.
+
+Modelo UML Simplificado
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: mermaid
+
+   classDiagram
+       direction LR
+
+       subgraph l10n_br_fiscal
+           class l10n_br_fiscal.document.mixin.methods {
+               <<Mixin>>
+               + _prepare_br_fiscal_dict()
+           }
+           class l10n_br_fiscal.document.mixin {
+               <<Mixin>>
+               + fiscal_operation_id
+               + ... (fiscal header fields)
+           }
+           class l10n_br_fiscal.document {
+               + state_edoc
+               + document_number
+           }
+           l10n_br_fiscal.document --|> l10n_br_fiscal.document.mixin
+           l10n_br_fiscal.document.mixin --|> l10n_br_fiscal.document.mixin.methods
+       end
+
+       subgraph l10n_br_account
+           class l10n_br_account.decorator.mixin {
+               <<Mixin>>
+               + _add_inherited_fields()
+           }
+           class account.move {
+               + fiscal_document_id
+           }
+           account.move --o l10n_br_fiscal.document : _inherits (Composition)
+           account.move ..|> l10n_br_fiscal.document.mixin.methods : _inherit (gets methods)
+           account.move ..|> l10n_br_account.decorator.mixin : _inherit
+       end
+
+       subgraph l10n_br_sale
+           class sale.order
+           sale.order ..|> l10n_br_fiscal.document.mixin : _inherit (gets fields & methods)
+       end
+
+.. code:: mermaid
+
+   classDiagram
+       direction LR
+
+       subgraph l10n_br_fiscal
+           class l10n_br_fiscal.document.line.mixin.methods {
+               <<Mixin>>
+               + _compute_fiscal_amounts()
+           }
+           class l10n_br_fiscal.document.line.mixin {
+               <<Mixin>>
+               + product_id
+               + price_unit
+               + ... (fiscal fields)
+           }
+           class l10n_br_fiscal.document.line {
+               + document_id
+           }
+           l10n_br_fiscal.document.line --|> l10n_br_fiscal.document.line.mixin
+           l10n_br_fiscal.document.line.mixin --|> l10n_br_fiscal.document.line.mixin.methods
+       end
+
+       subgraph l10n_br_account
+           class l10n_br_account.decorator.mixin {
+               <<Mixin>>
+           }
+           class account.move.line {
+               + fiscal_document_line_id
+           }
+           account.move.line --o l10n_br_fiscal.document.line : _inherits (Composition)
+           account.move.line ..|> l10n_br_fiscal.document.line.mixin.methods : _inherit (gets methods)
+           account.move.line ..|> l10n_br_account.decorator.mixin : _inherit
+       end
+
+       subgraph l10n_br_sale
+           class sale.order.line
+           sale.order.line ..|> l10n_br_fiscal.document.line.mixin : _inherit (gets fields & methods)
+       end
+
+Escopo e Delimitação do Módulo
+------------------------------
+
+O nome ``l10n_br_account`` deriva do módulo ``account``, que ele
+estende. É importante notar que o módulo ``account`` do Odoo, em sua
+essência, é focado em faturamento, embora contenha os conceitos
+fundamentais de planos de contas e lançamentos contábeis.
+
+Para uma contabilidade completa de uma empresa no regime normal, mesmo
+utilizando o Odoo Enterprise, é necessária a instalação de dezenas de
+módulos adicionais da OCA, provenientes de diversos repositórios da OCA.
+O ``l10n_br_account``, apesar do nome, **não substitui** este
+ecossistema. Ele se concentra na ponte fiscal-contábil. Funções como
+conciliação avançada (através de módulos como ``account_reconcile``),
+gestão de ordens de pagamento, integração bancária (CNAB) e importação
+de extratos são tratadas por idezenas de outros módulos específicos da
+OCA...
+
+Por outro lado, é importante ressaltar que os autores deste módulo
+possuem clientes do regime normal com uma contabilidade
+significativamente mais completa do que a oferecida nativamente pelo
+Odoo Enterprise, baseando-se exclusivamente em módulos de código aberto
+da OCA. Alcançar tal nível de sofisticação, no entanto, exige anos de
+experiência em implementação e uma escolha estratégica da versão do
+Odoo. É importante evitar versões muito recentes, para as quais o
+ecossistema de módulos da OCA ainda não atingiu a maturidade e
+estabilidade necessárias após o processo de migração.
+
+Vale a pena mencionar que lançamentos de Custo da Mercadoria Vendida
+(CMV) e outros lançamentos de contabilidade de estoque IFRS/IAS2, são
+tipicamente realizados através da combinação do módulo nativo
+``stock_account``, do ``l10n_br_stock_account`` (deste mesmo repo) e da
+ativação do modo "anglo-saxon" no seu plano de contas.
+
+Aviso Importante: Pré-requisitos e Complexidade
+-----------------------------------------------
+
+Para utilizar o ``l10n_br_account`` de forma eficaz, é necessário ter
+domínio aprofundado de dois ecossistemas complexos: o módulo ``account``
+nativo do Odoo e o motor ``l10n_br_fiscal`` deste repositório.
+
+O ``account`` é o maior e mais intrincado módulo do Odoo, constituindo
+por si só um ERP financeiro completo, e não apenas um simples software
+de emissão de notas para microempresas. Por sua vez, o
+``l10n_br_fiscal`` é o maior módulo entre os mais de 3000 disponíveis na
+OCA. Este módulo, ``l10n_br_account``, está também entre os três mais
+complexos da localização brasileira e exige um uso avançado do ORM do
+Odoo para gerenciar a dualidade documento fiscal/lançamento contábil.
+
+A implementação bem-sucedida de um ERP estrangeiro no Brasil é uma
+tarefa que demanda profissionais altamente qualificados, com anos de
+experiência em programação backend (Python) e implantação de verdadeiros
+sistemas ERP. Uma implementação não se resume a baixar e instalar módulo
+(apenas 1% do trabalho); envolve análise de processos, configuração,
+migração de dados e customizações. Subestimar essa complexidade
+invariavelmente leva a projetos problemáticos e custos elevados no longo
+prazo.
+
+Este aviso serve para alinhar expectativas e reforçar que o sucesso de
+uma implantação Odoo no Brasil, depende de expertise técnica e funcional
+aprofundada. Infelizmente, este mercado atrai aventureiros que
+subestimam essa complexidade ou que vendem projetos que não vão
+entregar, explorando a falta de informação do cliente. Este cenário
+caracteriza um "market for lemons", onde a assimetria de informação
+torna difícil distinguir entre fornecedores qualificados e despreparados
+e impede assim o desenvolvimento de um mercado de implementação amplo.
+
+Adicionalmente, existe um ecossistema comercial "oficial" que procura
+mascarar essa realidade, promovendo uma visão paralela onde a
+consultoria de implementação é tratada como uma commodity. Esse modelo,
+muitas vezes focado em comissões pela venda de licenças (frequentemente
+desnecessárias ao usar o ecosistema da OCA), atrai profissionais que
+subestimam a dificuldade, para depois transferir a responsabilidade da
+implementação sem o devido suporte. Cuidado com narrativas que
+simplificam a implementação e priorizam a venda de licenças em
+detrimento do sucesso do projeto!
+
+Conclusão
+---------
+
+O ``l10n_br_account`` possui um design robusto que unifica as complexas
+lógicas fiscal e contábil do Brasil dentro do Odoo. Sua arquitetura,
+projetada por especialistas para especialistas, oferece uma plataforma
+flexível e confiável, capaz de sustentar operações de alta complexidade
+e garantir a conformidade fiscal e contábil das empresas que utilizam a
+localização brasileira da OCA.
 
 **Table of contents**
 
@@ -43,23 +395,119 @@ This module was written to extend the functionality of ... to support
 Installation
 ============
 
-To install this module, you need to:
+Este modulo depende dos módulos:
 
-- do this ...
+-  l10n_br_coa (que depende do módulo account)
+-  l10n_br_fiscal
 
 Configuration
 =============
 
-To configure this module, you need to:
+Antes de seguir este guia, é fundamental que você:
 
-- go to ...
+1. **Tenha configurado sua empresa** com o país "Brasil". A maioria dos
+   campos fiscais só aparecerá neste contexto.
+2. Tenha configurado o regime fiscal da sua empresa.
+3. Tenha configurado um Plano de Contas, idealmente deriavdo do plano
+   base do módulo l10n_br_coa.
+4. **Esteja familiarizado com o processo de faturamento padrão do Odoo**
+   através do módulo ``account``.
+5. **Compreenda os conceitos básicos do módulo ``l10n_br_fiscal``**,
+   especialmente o que são Operações Fiscais
+   (``l10n_br_fiscal.operation``) e como o sistema seleciona e calcula
+   os impostos com base nelas.
 
 Usage
 =====
 
-To use this module, you need to:
+Passo a Passo: Criando uma Fatura Fiscal
+----------------------------------------
 
-- go to ...
+O processo se inicia a partir da fatura padrão do Odoo, agora "decorada"
+com os campos fiscais necessários.
+
+1. **Navegue até Faturamento** Acesse o menu
+   ``Faturamento > Clientes > Faturas``.
+
+2. **Crie uma Nova Fatura** Clique no botão ``Criar``.
+
+3. **Selecione o Cliente** No campo ``Cliente``, selecione um parceiro
+   configurado para o Brasil. O cadastro do cliente contenha as
+   informações fiscais corretas (CNPJ/CPF, perfil fiscal, endereço,
+   etc.). Nos dados de demonstração, a **AMD do Brasil** é um excelente
+   exemplo.
+
+4. **Preencha os Dados Fiscais do Cabeçalho** Com a instalação do
+   módulo, novos campos fiscais aparecerão no cabeçalho da fatura.
+
+   -  **Tipo de Documento**: Selecione o modelo do documento fiscal.
+      Para uma NF-e, por exemplo, escolha
+      **``55 - Nota Fiscal Eletrônica``**.
+   -  **Operação Fiscal**: Este é um campo chave. Ele define a natureza
+      da transação. Selecione uma operação compatível, como
+      **``Venda de Mercadoria``**.
+
+5. **Adicione as Linhas da Fatura** Na aba ``Linhas da Fatura``, clique
+   em ``Adicionar uma linha``.
+
+   -  Selecione um produto. Usando os dados de demonstração, você pode
+      escolher o produto **``[E-COM08] Storage Box``**.
+   -  Observe que, ao selecionar o produto, os campos fiscais da linha,
+      como ``Operação Fiscal da Linha`` e ``Impostos``, são preenchidos
+      automaticamente com base nas regras da Operação Fiscal principal.
+      Os impostos são calculados e exibidos em tempo real.
+
+Visualizando e Editando os Detalhes Fiscais da Linha
+----------------------------------------------------
+
+A grade de linhas da fatura oferece uma visão simplificada. Para acessar
+todos os detalhes fiscais de uma linha ou para editar manualmente algum
+campo (como um NCM ou CST específico para aquela operação), você pode
+usar o modo de edição em pop-up.
+
+-  Clique no ícone de **"abrir registro externo" (um quadrado com uma
+   seta)**, localizado à esquerda da linha do produto na grade editável.
+-  Uma janela pop-up se abrirá, exibindo o formulário completo da linha.
+   Nele, você encontrará a aba **``Impostos``**, que contém o
+   detalhamento completo dos cálculos para cada tributo (ICMS, IPI, PIS,
+   COFINS, etc.).
+
+Verificando os Lançamentos Contábeis
+------------------------------------
+
+Após preencher a fatura, você pode (e deve) inspecionar os lançamentos
+contábeis que serão gerados.
+
+1. Acesse a aba **``Lançamentos Contábeis``**.
+2. Nesta aba, você verá todas as contas que serão movimentadas,
+   incluindo as linhas específicas para cada imposto (débito de impostos
+   a recuperar, crédito de impostos a recolher, etc.), refletindo o
+   resultado dos cálculos do motor fiscal.
+
+..
+
+   **Nota Importante**: Para usuários da versão Community do Odoo, a aba
+   ``Lançamentos Contábeis`` pode estar oculta por padrão. A instalação
+   do módulo **``account_usability``** (disponível no repositório
+   ``OCA/account-financial-tools``) é fortemente recomendada para
+   torná-la visível e facilitar a análise contábil.
+
+Após a conferência, você pode ``Confirmar`` a fatura para gerar os
+lançamentos contábeis e prosseguir com a transmissão do documento
+fiscal, caso seja um documento eletrônico.
+
+Acessando a Visão Fiscal Detalhada
+----------------------------------
+
+No canto superior direito do formulário da fatura, você encontrará um
+*smart button* chamado **Detalhe Fiscal**.
+
+Clicar neste botão permite navegar diretamente para a tela do
+``l10n_br_fiscal.document``, que oferece uma visão completa e focada nos
+aspectos puramente fiscais. Nesta tela, é possível consultar detalhes
+aprofundados, gerenciar o ciclo de vida do documento (cancelamento,
+carta de correção) e, para documentos eletrônicos, acompanhar todo o
+histórico de comunicação e o status de transmissão junto à SEFAZ.
 
 Known issues / Roadmap
 ======================
@@ -92,23 +540,23 @@ Authors
 Contributors
 ------------
 
-- `Akretion <https://akretion.com/pt-BR>`__:
+-  `Akretion <https://akretion.com/pt-BR>`__:
 
-  - Renato Lima <renato.lima@akretion.com.br>
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Mileo <mileo@kmee.com.br>
+   -  Luis Felipe Mileo <mileo@kmee.com.br>
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Antônio S. Pereira Neto <neto@engenere.one>
-  - Felipe Motter Pereira <felipe@engenere.one>
+   -  Antônio S. Pereira Neto <neto@engenere.one>
+   -  Felipe Motter Pereira <felipe@engenere.one>
 
 Maintainers
 -----------
