@@ -86,7 +86,6 @@ class Document(models.Model):
         selection=SITUACAO_FISCAL,
         string="Situação Fiscal",
         copy=False,
-        # tracking=True,
         index=True,
     )
 
@@ -437,12 +436,6 @@ class Document(models.Model):
     # the following actions are meant to be implemented in other modules such as
     # l10n_br_fiscal_edi. They are defined here so they can be overriden in modules
     # that don't depend on l10n_br_fiscal_edi (such as l10n_br_account).
-    def view_pdf(self):
-        pass
-
-    def view_xml(self):
-        pass
-
     def button_open(self):
         """Open the fiscal document, changing its state to 'open'"""
         self.write({"state": DOCUMENT_STATE_OPEN})
@@ -454,15 +447,6 @@ class Document(models.Model):
     def button_draft(self):
         """Reset the fiscal document to draft, changing its state to 'draft'"""
         self.write({"state": DOCUMENT_STATE_DRAFT})
-
-    def action_document_send(self):
-        pass
-
-    def action_document_invalidate(self):
-        pass
-
-    def action_document_correction(self):
-        pass
 
     @api.depends("fiscal_operation_id")
     def _compute_edoc_purpose(self):

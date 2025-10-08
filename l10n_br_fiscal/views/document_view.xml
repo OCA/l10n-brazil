@@ -104,22 +104,6 @@
                         attrs="{'invisible': [('state', 'in', ('open', 'cancel'))]}"
                     />
                     <button
-                        name="action_document_send"
-                        type="object"
-                        string="Enviar"
-                        groups="l10n_br_fiscal.group_user"
-                        class="btn-primary"
-                        attrs="{'invisible': [('state','!=','a_enviar')]}"
-                    />
-                    <button
-                        name="action_document_send"
-                        type="object"
-                        string="Consultar Recibo"
-                        groups="l10n_br_fiscal.group_user"
-                        class="btn-primary"
-                        attrs="{'invisible': [('state','!=','enviada')]}"
-                    />
-                    <button
                         name="button_draft"
                         type="object"
                         string="Voltar p/ Em Digitação"
@@ -128,41 +112,11 @@
                         attrs="{'invisible': [('state', '=', 'draft')]}"
                     />
                     <button
-                        name="view_pdf"
-                        type="object"
-                        string="Visualizar PDF"
-                        groups="l10n_br_fiscal.group_user"
-                        class="btn-primary"
-                        attrs="{'invisible': [('state', '=', 'em_digitacao')]}"
-                    />
-                    <button
-                        name="view_xml"
-                        type="object"
-                        string="Visualizar XML"
-                        groups="l10n_br_fiscal.group_user"
-                        class="btn-primary"
-                        attrs="{'invisible': ['|', ('document_electronic', '=', False), ('state', '=', 'em_digitacao')]}"
-                    />
-                    <button
                         name="button_cancel"
                         type="object"
                         string="Cancelar"
                         groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('state', '=', 'cancel')]}"
-                    />
-                    <button
-                        name="action_document_invalidate"
-                        type="object"
-                        string="Invalidar Numeração"
-                        groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state', 'in', ('em_digitacao', 'autorizada', 'cancelada', 'denegada'))]}"
-                    />
-                    <button
-                        name="action_document_correction"
-                        type="object"
-                        string="Carta de correção"
-                        groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state', '!=', 'autorizada')]}"
                     />
                     <button
                         name="action_create_return"
