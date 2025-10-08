@@ -2,14 +2,24 @@
 # Copyright (C) 2019  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from transitions import Machine, MachineError
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_OPEN,
     PROCESSADOR_NENHUM,
-    SITUACAO_EDOC_AUTORIZADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED,
+    DOCUMENT_STATE_REJECTED,
+    DOCUMENT_STATE_SEND,
+    DOCUMENT_STATES,
 )
 
 
@@ -165,23 +175,103 @@ class Document(models.Model):
         copy=False,
     )
 
+    state = fields.Selection(
+        add_selection=DOCUMENT_STATES,
+    )
+
+    def get_state_machine_config(self):
+        self.ensure_one()
+        state_machine_config = {
+            "states": [
+                DOCUMENT_STATE_DRAFT,
+                DOCUMENT_STATE_OPEN,
+                DOCUMENT_STATE_CANCEL,
+                DOCUMENT_STATE_SEND,
+                DOCUMENT_STATE_AUTHORIZED,
+                DOCUMENT_STATE_REJECTED,
+            ],
+            "transitions": [
+                {
+                    "trigger": "action_validate",
+                    "source": DOCUMENT_STATE_DRAFT,
+                    "dest": DOCUMENT_STATE_SEND,
+                    "before": self._before_document_validate,
+                    "after": self._after_document_validate,
+                },
+                {
+                    "trigger": "action_send",
+                    "source": DOCUMENT_STATE_SEND,
+                    "dest": DOCUMENT_STATE_OPEN,
+                    "before": self._before_document_send,
+                    "after": self._after_document_send
+                },
+                {
+                    "trigger": "action_cancel",
+                    "source": [DOCUMENT_STATE_SEND, DOCUMENT_STATE_CANCEL],
+                    "dest": DOCUMENT_STATE_CANCEL,
+                    "before": self._before_document_cancel,
+                    "after": self._after_document_cancel,
+                },
+                {
+                    "trigger": "action_draft",
+                    "source": [
+                        DOCUMENT_STATE_OPEN,
+                        DOCUMENT_STATE_SEND,
+                        DOCUMENT_STATE_CANCEL,
+                    ],
+                    "dest": DOCUMENT_STATE_DRAFT,
+                    "before": self._before_document_draft,
+                    "after": self._after_document_draft,
+                },
+            ],
+            "after_state_change": self._after_trigger_fsm,
+            "initial": self.state,
+        }
+        return state_machine_config
+
+    def _trigger_fsm(self, trigger):
+        """
+        Helper method to trigger a state transition, reducing code repetition.
+        :param trigger: The name of the trigger/event to fire.
+        """
+        for doc in self:
+            try:
+                state_machine_config = self.get_state_machine_config()
+                machine = Machine(
+                    states=state_machine_config["states"],
+                    transitions=state_machine_config["transitions"],
+                    initial=state_machine_config["initial"],
+                    after_state_change=state_machine_config["after_state_change"],
+                )
+                # Dynamically call the trigger method on the machine instance
+                getattr(machine, trigger)()
+            except MachineError as e:
+                raise UserError(
+                    _("State transition failed for action '%(action)s': %(error)s")
+                    % {"action": trigger, "error": e}
+                )
+
+    def _after_state_change(self):
+        # TODO Update Odoo document state field
+        pass
+
     # these workflow methods are plugged here so their interface defined in
     # l10n_br_fiscal can easily be overriden in other modules.
-    def action_document_confirm(self):
-        super().action_document_confirm()
-        return self._document_confirm_to_send()
+    def button_open(self):
+        """Transição para o estado 'Validado'."""
+        self._trigger_fsm("action_validate")
 
-    def action_document_send(self):
-        super().action_document_send()
-        return self._action_document_send()
+    def button_cancel(self):
+        """Transição para o estado 'Cancelado'."""
+        self._trigger_fsm("action_cancel")
 
-    def action_document_back2draft(self):
-        super().action_document_back2draft()
-        return self._action_document_back2draft()
+    def button_draft(self):
+        """Transição para o estado 'Cancelado'."""
+        self._trigger_fsm("action_cancel")
 
-    def action_document_cancel(self):
-        super().action_document_confirm()
-        return self._action_document_cancel()
+    def button_send(self):
+        """Transição para o estado 'Enviado'."""
+        self._trigger_fsm("action_send")
 
     def action_document_invalidate(self):
         super().action_document_invalidate()
@@ -247,7 +337,7 @@ class Document(models.Model):
                 "target": "new",
             }
 
-    def view_xml(self):
+    def button_view_xml(self):
         self.ensure_one()
         super().view_xml()
         xml_file = self.authorization_file_id or self.send_file_id
@@ -261,7 +351,7 @@ class Document(models.Model):
     def make_pdf(self):
         pass
 
-    def view_pdf(self):
+    def button_view_pdf(self):
         self.ensure_one()
         super().view_pdf()
         if not self.file_report_id or not self.authorization_file_id:

@@ -1,11 +1,93 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <record id="document_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.search</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_search" />
+        <field name="arch" type="xml">
+            <filter name="draft" position="after">
+                <filter
+                    name="send"
+                    string="To Send"
+                    domain="[('state','=','a_enviar')]"
+                />
+                <filter
+                    name="rejected"
+                    string="Rejected"
+                    domain="[('state','=','rejeitada')]"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <record id="document_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.tree</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_search" />
+        <field name="arch" type="xml">
+            <field name="state" position="attributes">
+                <attribute name="decoration-info">state == 'a_enviar'</attribute>
+                <attribute name="decoration-danger">state == 'rejeitada'</attribute>
+            </field>
+        </field>
+    </record>
+
     <record id="document_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal_edi.document.form</field>
         <field name="model">l10n_br_fiscal.document</field>
         <field name="priority">5</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
+            <button name="button_draft" position="before">
+                <button
+                    name="action_document_send"
+                    type="object"
+                    string="Enviar"
+                    groups="l10n_br_fiscal.group_user"
+                    class="btn-primary"
+                    attrs="{'invisible': [('state','!=','a_enviar')]}"
+                />
+                    <button
+                    name="action_document_send"
+                    type="object"
+                    string="Consultar Recibo"
+                    groups="l10n_br_fiscal.group_user"
+                    class="btn-primary"
+                    attrs="{'invisible': [('state','!=','enviada')]}"
+                />
+                    <button
+                    name="button_view_pdf"
+                    type="object"
+                    string="Visualizar PDF"
+                    groups="l10n_br_fiscal.group_user"
+                    class="btn-primary"
+                    attrs="{'invisible': [('state', '=', 'em_digitacao')]}"
+                />
+                    <button
+                    name="button_view_xml"
+                    type="object"
+                    string="Visualizar XML"
+                    groups="l10n_br_fiscal.group_user"
+                    class="btn-primary"
+                    attrs="{'invisible': ['|', ('document_electronic', '=', False), ('state', '=', 'em_digitacao')]}"
+                />
+                    <button
+                    name="action_document_invalidate"
+                    type="object"
+                    string="Invalidar Numeração"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('state', 'in', ('em_digitacao', 'autorizada', 'cancelada', 'denegada'))]}"
+                />
+                    <button
+                    name="action_document_correction"
+                    type="object"
+                    string="Carta de correção"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('state', '!=', 'autorizada')]}"
+                />
+            </button>
             <xpath expr="//page[@name='delivery']" position="after">
                 <page name="others" string="EDI">
                     <group>
