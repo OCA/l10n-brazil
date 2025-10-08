@@ -156,7 +156,10 @@ class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
         comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento.prazo"
     )
 
-    mdfe30_vContrato = fields.Monetary(required=True)
+    mdfe30_vContrato = fields.Monetary(
+        required=True,
+        compute="_compute_vcontrato",
+    )
 
     mdfe30_indPag = fields.Selection(required=True)
 
@@ -203,6 +206,11 @@ class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
                     rec.mdfe30_choice_tresponsible = "mdfe30_CPF"
             else:
                 rec.mdfe30_choice_tresponsible = False
+
+    @api.depends("mdfe30_comp.mdfe30_vComp")
+    def _compute_vcontrato(self):
+        for rec in self:
+            rec.mdfe30_vContrato = sum(rec.mdfe30_comp.mapped("mdfe30_vComp"))
 
 
 class MDFeModalRodoviarioPagamentoFrete(spec_models.SpecModel):
