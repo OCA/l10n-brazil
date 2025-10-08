@@ -242,15 +242,15 @@ class Tax(models.Model):
 
     @api.model
     def _compute_tax_base(self, tax, tax_dict, **kwargs):
-        company = kwargs.get("company", tax.env.company)
-        currency = kwargs.get("currency", company.currency_id)
-        fiscal_price = kwargs.get("fiscal_price", 0.00)
-        fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
+        company = kwargs.get("company") or self.env.company
+        currency = kwargs.get("currency") or company.currency_id
+        fiscal_price = kwargs.get("fiscal_price", 0.0)
+        fiscal_quantity = kwargs.get("fiscal_quantity", 0.0)
         compute_reduction = kwargs.get("compute_reduction", True)
-        discount_value = kwargs.get("discount_value", 0.00)
-        insurance_value = kwargs.get("insurance_value", 0.00)
-        freight_value = kwargs.get("freight_value", 0.00)
-        other_value = kwargs.get("other_value", 0.00)
+        discount_value = kwargs.get("discount_value", 0.0)
+        insurance_value = kwargs.get("insurance_value", 0.0)
+        freight_value = kwargs.get("freight_value", 0.0)
+        other_value = kwargs.get("other_value", 0.0)
 
         if tax.tax_group_id.base_with_additional_values:
             tax_dict["add_to_base"] += sum(
@@ -258,7 +258,7 @@ class Tax(models.Model):
             )
         tax_dict["remove_from_base"] += sum([discount_value])
 
-        base = 0.00
+        base = 0.0
 
         if not tax_dict.get("percent_amount") and tax.percent_amount:
             tax_dict["percent_amount"] = tax.percent_amount
@@ -316,8 +316,8 @@ class Tax(models.Model):
     def _compute_tax(self, tax, taxes_dict, **kwargs):
         """Generic calculation of Brazilian taxes"""
 
-        company = kwargs.get("company", tax.env.company)
-        currency = kwargs.get("currency", company.currency_id)
+        company = kwargs.get("company") or self.env.company
+        currency = kwargs.get("currency") or company.currency_id
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
 
@@ -339,13 +339,13 @@ class Tax(models.Model):
         if tax.tax_group_id.base_without_icms:
             # Get Computed ICMS Tax
             tax_dict_icms = taxes_dict.get("icms", {})
-            tax_dict["remove_from_base"] += tax_dict_icms.get("tax_value", 0.00)
+            tax_dict["remove_from_base"] += tax_dict_icms.get("tax_value", 0.0)
 
         # TODO futuramente levar em consideração outros tipos de base de calculo
-        if float_is_zero(tax_dict.get("base", 0.00), currency.decimal_places):
+        if float_is_zero(tax_dict.get("base", 0.0), currency.decimal_places):
             tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
 
-        base_amount = tax_dict.get("base", 0.00)
+        base_amount = tax_dict.get("base", 0.0)
 
         if tax_dict["base_type"] == "percent":
             tax_dict["tax_value"] = currency.round(
@@ -361,11 +361,11 @@ class Tax(models.Model):
 
     @api.model
     def _compute_estimate_taxes(self, **kwargs):
-        company = kwargs.get("company")
+        company = kwargs.get("company") or self.env.company
         product = kwargs.get("product")
         fiscal_price = kwargs.get("fiscal_price")
         fiscal_quantity = kwargs.get("fiscal_quantity")
-        currency = kwargs.get("currency", company.currency_id)
+        currency = kwargs.get("currency") or company.currency_id
         ncm = kwargs.get("ncm") or product.ncm_id
         nbs = kwargs.get("nbs") or product.nbs_id
         icms_origin = kwargs.get("icms_origin") or product.icms_origin

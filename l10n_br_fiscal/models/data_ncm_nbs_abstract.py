@@ -54,7 +54,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
             last_estimated = record.env["l10n_br_fiscal.tax.estimate"].search(
                 [
                     (object_field, "=", record.id),
-                    ("company_id", "=", record.env.company.id),
+                    ("company_id", "=", self.env.company.id),
                 ],
                 order="create_date DESC",
                 limit=1,

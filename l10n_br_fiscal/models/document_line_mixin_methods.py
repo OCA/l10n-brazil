@@ -7,7 +7,11 @@ from lxml import etree
 
 from odoo import Command, api, models
 
-from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN, TAX_DOMAIN_ICMS
+from ..constants.fiscal import (
+    CFOP_DESTINATION_EXPORT,
+    FISCAL_IN,
+    TAX_DOMAIN_ICMS,
+)
 from ..constants.icms import (
     ICMS_BASE_TYPE_DEFAULT,
     ICMS_ORIGIN_DEFAULT,
@@ -46,6 +50,30 @@ FISCAL_CST_ID_FIELDS = [
     "cofins_cst_id",
     "cofinsst_cst_id",
 ]
+
+
+class LineWrapper:
+    """
+    Simple Wrapper to work around an Odoo ORM limitation.
+
+    In Odoo 16 ORM, when line is a l10n_br_fiscal.document.line that is
+    being edited via an account.move.line form (using _inherits in l10n_br_account)
+    and when both are NewID, then the line fields might be empty.
+    This wrapper falls back to the related aml account_line_ids fields in this case.
+    """
+
+    def __init__(self, primary):
+        self.primary = primary
+        if hasattr(primary, "account_line_ids") and primary.account_line_ids:
+            self.fallback = primary.account_line_ids[0]
+        else:
+            self.fallback = None
+
+    def __getattr__(self, name):
+        primary_value = getattr(self.primary, name)
+        if not primary_value and self.fallback:
+            return getattr(self.fallback, name)
+        return primary_value
 
 
 class FiscalDocumentLineMixinMethods(models.AbstractModel):
@@ -281,19 +309,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self._context.get("skip_compute_fiscal_tax_ids"):
             return
         for line in self:
-            if hasattr(line, "account_line_ids") and line.account_line_ids:
-                # it seems Odoo 16 ORM has a limitation when line is an
-                # l10n_br_fiscal.document.line that is edited via an account.move.line
-                # form and when both are a newID, then line relational field might be
-                # empty here. But in this case, we detect it and we wrap it back in the
-                wrapped_line = line.account_line_ids[0]
-            else:
-                wrapped_line = line
+            wrapped_line = LineWrapper(line)
 
             if wrapped_line.fiscal_operation_line_id:
                 mapping_result = wrapped_line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=wrapped_line.company_id,
-                    partner=wrapped_line._get_fiscal_partner(),
+                    company=wrapped_line.company_id
+                    or self.env["res.company"].browse(
+                        self._context.get("default_company_id")
+                    ),
+                    partner=wrapped_line._get_fiscal_partner()
+                    or self.env["res.partner"].browse(
+                        self._context.get("default_partner_id")
+                    ),
                     product=wrapped_line.product_id,
                     ncm=wrapped_line.ncm_id,
                     nbm=wrapped_line.nbm_id,
@@ -376,22 +403,21 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
         null_mask = None
         for line in self.filtered(lambda line: not line._is_imported()):
-            if hasattr(line, "account_line_ids") and line.account_line_ids:
-                # it seems Odoo 16 ORM has a limitation when line is an
-                # l10n_br_fiscal.document.line that is edited via an account.move.line
-                # form and when both are a newID, then line relational field might be
-                # empty here. But in this case, we detect it and we wrap it back in the
-                wrapped_line = line.account_line_ids[0]
-            else:
-                wrapped_line = line
+            wrapped_line = LineWrapper(line)
 
             if null_mask is None:
                 null_mask = self._build_null_mask_dict()
             to_update = null_mask.copy()
             if wrapped_line.fiscal_operation_line_id:
                 compute_result = wrapped_line.fiscal_tax_ids.compute_taxes(
-                    company=wrapped_line.company_id,
-                    partner=wrapped_line._get_fiscal_partner(),
+                    company=wrapped_line.company_id
+                    or self.env["res.company"].browse(
+                        self._context.get("default_company_id")
+                    ),
+                    partner=wrapped_line._get_fiscal_partner()
+                    or self.env["res.partner"].browse(
+                        self._context.get("default_partner_id")
+                    ),
                     product=wrapped_line.product_id,
                     price_unit=wrapped_line.price_unit,
                     quantity=wrapped_line.quantity,
