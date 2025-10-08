@@ -15,6 +15,10 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_OPEN,
+    DOCUMENT_STATES,
     EDOC_PURPOSE,
     EDOC_PURPOSE_NORMAL,
     FISCAL_IN_OUT_DICT,
@@ -22,12 +26,6 @@ from ..constants.fiscal import (
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
-    SITUACAO_EDOC,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_INUTILIZADA,
     SITUACAO_FISCAL,
 )
 
@@ -74,14 +72,13 @@ class Document(models.Model):
         index=True,
     )
 
-    state_edoc = fields.Selection(
-        selection=SITUACAO_EDOC,
+    state = fields.Selection(
+        selection=DOCUMENT_STATES,
         string="Situação e-doc",
-        default=SITUACAO_EDOC_EM_DIGITACAO,
+        default=DOCUMENT_STATE_DRAFT,
         copy=False,
         required=True,
         readonly=True,
-        # tracking=True,
         index=True,
     )
 
@@ -190,11 +187,6 @@ class Document(models.Model):
         comodel_name="res.currency",
         string="Currency",
     )
-
-    # this related "state" field is required for the status bar widget
-    # while state_edoc avoids colliding with the state field
-    # of objects where the fiscal mixin might be injected.
-    state = fields.Selection(related="state_edoc", string="State")
 
     transport_modal = fields.Selection(
         selection=[
@@ -387,10 +379,8 @@ class Document(models.Model):
 
     def unlink(self):
         forbidden_states_unlink = [
-            SITUACAO_EDOC_AUTORIZADA,
-            SITUACAO_EDOC_CANCELADA,
-            SITUACAO_EDOC_DENEGADA,
-            SITUACAO_EDOC_INUTILIZADA,
+            DOCUMENT_STATE_OPEN,
+            DOCUMENT_STATE_CANCEL,
         ]
 
         for record in self.filtered(lambda d: d.state_edoc in forbidden_states_unlink):
@@ -453,26 +443,25 @@ class Document(models.Model):
     def view_xml(self):
         pass
 
-    def action_document_confirm(self):
-        pass
+    def button_open(self):
+        """Open the fiscal document, changing its state to 'open'"""
+        self.write({"state": DOCUMENT_STATE_OPEN})
+
+    def button_cancel(self):
+        """Cancel the fiscal document, changing its state to 'cancel'"""
+        self.write({"state": DOCUMENT_STATE_CANCEL})
+
+    def button_draft(self):
+        """Reset the fiscal document to draft, changing its state to 'draft'"""
+        self.write({"state": DOCUMENT_STATE_DRAFT})
 
     def action_document_send(self):
-        pass
-
-    def action_document_back2draft(self):
-        pass
-
-    def action_document_cancel(self):
         pass
 
     def action_document_invalidate(self):
         pass
 
     def action_document_correction(self):
-        pass
-
-    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
-        # see https://github.com/OCA/l10n-brazil/pull/3272
         pass
 
     @api.depends("fiscal_operation_id")
