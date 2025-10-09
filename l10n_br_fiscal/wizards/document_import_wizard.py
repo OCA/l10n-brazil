@@ -17,9 +17,9 @@ except ImportError:
     _logger.warning("xsdata Python lib not installed!")
 
 
-class DocumentImportWizardMixin(models.TransientModel):
-    _name = "l10n_br_fiscal.document.import.wizard.mixin"
-    _description = "Wizard Import Document Mixin"
+class DocumentImportWizard(models.TransientModel):
+    _name = "l10n_br_fiscal.document.import.wizard"
+    _description = "Import Document Wizard"
     _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
     company_id = fields.Many2one(

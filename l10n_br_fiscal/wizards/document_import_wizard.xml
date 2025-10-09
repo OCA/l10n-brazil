@@ -2,9 +2,9 @@
 <!-- Copyright 2023 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record id="l10n_br_fiscal_document_import_wizard_mixin_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document.import.wizard.mixin.form</field>
-        <field name="model">l10n_br_fiscal.document.import.wizard.mixin</field>
+    <record id="l10n_br_fiscal_document_import_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.import.wizard.form</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard</field>
         <field name="arch" type="xml">
             <form string="Import Document">
                 <group>
