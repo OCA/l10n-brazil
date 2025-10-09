@@ -5,7 +5,7 @@
 from odoo import api, fields, models
 
 
-class BaseWizardMixin(models.TransientModel):
+class BaseWizardMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.base.wizard.mixin"
     _description = "Fiscal Base Wizard Mixin"
 
