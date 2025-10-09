@@ -80,14 +80,11 @@ msgid "Account Move Reversal"
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_tree
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "Account Number"
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Accounting"
 msgstr ""
@@ -131,12 +128,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__all
 msgid "All"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_all_action
-#: model:ir.ui.menu,name:l10n_br_account.document_all_menu
-msgid "All Documents"
 msgstr ""
 
 #. module: l10n_br_account
@@ -239,11 +230,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Amounts"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_line_form
-msgid "Analytic"
 msgstr ""
 
 #. module: l10n_br_account
@@ -355,7 +341,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "CNPJ/CPF"
 msgstr ""
@@ -834,23 +819,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__correction_reason
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__correction_reason
 msgid "Correction Reason"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_all_action
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_in_action
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_out_action
-msgid "Create a new Document"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfe_action
-msgid "Create a new NF-e"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfse_action
-msgid "Create a new NFS-e"
 msgstr ""
 
 #. module: l10n_br_account
@@ -1504,11 +1472,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_xDetRetira
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_xDetRetira
 msgid "Detalhes do retira"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
-msgid "Devolver"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2998,11 +2961,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_in_action
-msgid "Incomming Document"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_incoterms
 msgid "Incoterms"
 msgstr ""
@@ -3462,7 +3420,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__move_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__move_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__move_ids
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.nfe_document_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.account_document_form_inherit
 msgid "Invoices"
 msgstr ""
 
@@ -3552,7 +3510,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "Legal Name"
 msgstr ""
@@ -3842,16 +3799,6 @@ msgid "NCM"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_nfe_action
-msgid "NF-e"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_nfse_action
-msgid "NFS-e"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfse_environment
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfse_environment
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfse_environment
@@ -4131,16 +4078,6 @@ msgid "ObsFisco"
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_all_action
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_in_action
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfe_action
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfse_action
-#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_out_action
-msgid ""
-"Odoo helps you easily track all activities related to a fiscal operation."
-msgstr ""
-
-#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_tree
 msgid "Open Fiscal Document"
@@ -4202,11 +4139,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__out
 msgid "Out"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_out_action
-msgid "Outgoing Document"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4747,7 +4679,7 @@ msgid "Shipping Address"
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.nfe_document_form_inherit
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.account_document_form_inherit
 msgid "Show related invoices"
 msgstr ""
 
@@ -4858,7 +4790,6 @@ msgid "Situação e-doc"
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "State Tax Number"
 msgstr ""
@@ -5337,11 +5268,6 @@ msgid "Tomador do Serviço"
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
-msgid "Total"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__total_weight
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__total_weight
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__total_weight
@@ -5424,11 +5350,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__user_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__user_id
 msgid "User"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
-msgid "Validate"
 msgstr ""
 
 #. module: l10n_br_account
@@ -5851,11 +5772,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_veicProd
 msgid "Veículos novos"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
-msgid "Voltar para Digitação"
 msgstr ""
 
 #. module: l10n_br_account
