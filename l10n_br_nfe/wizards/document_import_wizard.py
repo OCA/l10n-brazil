@@ -15,8 +15,8 @@ from odoo.osv import expression
 from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_NFE
 
 
-class DocumentImporterWizardMixin(models.TransientModel):
-    _inherit = "l10n_br_fiscal.document.import.wizard.mixin"
+class DocumentImporterWizard(models.TransientModel):
+    _inherit = "l10n_br_fiscal.document.import.wizard"
 
     @api.model
     def _detect_binding(self, binding):
@@ -33,7 +33,7 @@ class NfeImport(models.TransientModel):
 
     _name = "l10n_br_nfe.import_xml"
     _description = "Import XML Brazilian Fiscal Document"
-    _inherit = "l10n_br_fiscal.document.import.wizard.mixin"
+    _inherit = "l10n_br_fiscal.document.import.wizard"
 
     xml_partner_cpf_cnpj = fields.Char(string="Imported Partner Identification")
 
