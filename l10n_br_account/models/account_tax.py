@@ -327,7 +327,7 @@ class AccountTax(models.Model):
         if any(line["record"].fiscal_operation_line_id for line in base_lines):
             res["formatted_amount_total"] = formatLang(
                 self.env,
-                sum(line["price_subtotal"] for line in base_lines),
+                sum(line["record"].price_total if line['record'] else line['price_subtotal'] for line in base_lines),
                 currency_obj=currency,
             )
         return res
