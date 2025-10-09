@@ -7,7 +7,7 @@ from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
 
-from ..wizards.import_document import NfeImport
+from ..wizards.document_import_wizard import NfeImport
 
 
 class NFeImportWizardTest(TransactionCase):
