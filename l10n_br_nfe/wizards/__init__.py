@@ -1,1 +1,1 @@
-from . import import_document
+from . import document_import_wizard
