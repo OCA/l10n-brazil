@@ -291,19 +291,27 @@ class Document(models.Model):
                 ("document_number", "=", record.document_number),
             ]
 
-            invalid_number = False
-
             if record.issuer == DOCUMENT_ISSUER_PARTNER:
                 domain.append(("partner_id", "=", record.partner_id.id))
             else:
                 if record.document_serie_id:
-                    invalid_number = record.document_serie_id._is_invalid_number(
+                    invalid_number = record.document_serie_id.is_invalid_number(
                         record.document_number
                     )
 
-            documents = record.env["l10n_br_fiscal.document"].search_count(domain)
+                    if invalid_number:
+                        raise ValidationError(
+                            _(
+                                "The %(document_type)s, serie %(serie)s, "
+                                "number %(number)s is invalidated!",
+                                document_type=record.document_type_id.name,
+                                serie=record.document_serie,
+                                number=record.document_number,
+                            )
+                        )
 
-            if documents or invalid_number:
+            documents = record.env["l10n_br_fiscal.document"].search_count(domain)
+            if documents:
                 raise ValidationError(
                     _(
                         "There is already a fiscal document with this "
