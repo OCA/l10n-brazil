@@ -321,3 +321,7 @@ class SaleOrderLine(models.Model):
             return super(
                 SaleOrderLine, lines_without_fiscal_operation
             )._compute_tax_id()
+
+    @api.model
+    def _get_total_for_tax_totals(self):
+        return self.order_id.amount_total
