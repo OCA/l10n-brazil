@@ -95,13 +95,10 @@ class DocumentImportWizard(models.TransientModel):
     def _get_importer_action(self, attachments, move_id=None):
         """
         Try to parse the 1st file of the the attachments to
-        detect its type and return the specialized wizard import
-        action for it. Also mark the other attachments to be imported
-        next.
+        detect its type and return the wizard import action.
+        Also mark the other attachments to be imported next.
         """
-        binding = self._parse_file_data(attachments[0].datas)
-        kind, specialized_importer = self._detect_binding(binding)
-        wizard = self.env[specialized_importer].create(
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
             {
                 "file": attachments[0].datas,
                 "first_imported_move_id": self.first_imported_move_id or move_id,
@@ -115,10 +112,10 @@ class DocumentImportWizard(models.TransientModel):
 
         wizard._onchange_file()
         return {
-            "name": _("Adjust Importation for document type %s") % (kind,),
+            "name": _("Adjust Importation"),
             "type": "ir.actions.act_window",
             "target": "new",
             "views": [[False, "form"]],
             "res_id": wizard.id,
-            "res_model": specialized_importer,
+            "res_model": "l10n_br_fiscal.document.import.wizard",
         }
