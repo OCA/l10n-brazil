@@ -539,3 +539,7 @@ class AccountMoveLine(models.Model):
     def _check_product_uom_category_id(self):
         not_imported = self.filtered(lambda line: not line._is_imported())
         return super(AccountMoveLine, not_imported)._check_product_uom_category_id()
+
+    @api.model
+    def _get_total_for_tax_totals(self):
+        return self.move_id.amount_total
