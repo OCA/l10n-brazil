@@ -5,7 +5,7 @@
 from odoo import _, fields, models
 
 
-class DocumentImportWizardMixin(models.TransientModel):
+class DocumentImportWizard(models.TransientModel):
     """
     Extend the generic Document Importer so that importing
     a fiscal document will also create an account move and so
@@ -13,7 +13,7 @@ class DocumentImportWizardMixin(models.TransientModel):
     the vendor bills upload button.
     """
 
-    _inherit = "l10n_br_fiscal.document.import.wizard.mixin"
+    _inherit = "l10n_br_fiscal.document.import.wizard"
 
     # a transient wizard cannot be linked to any persistent
     # account.move record. So in case the user upload several
@@ -46,7 +46,7 @@ class DocumentImportWizardMixin(models.TransientModel):
             .sudo()
             .search(
                 [
-                    ("res_model", "=", "l10n_br_fiscal.document.import.wizard.mixin"),
+                    ("res_model", "=", "l10n_br_fiscal.document.import.wizard"),
                     ("res_id", "=", self.id),
                     ("create_uid", "=", self._uid),
                 ],
@@ -110,7 +110,7 @@ class DocumentImportWizardMixin(models.TransientModel):
 
         for attachment in attachments:
             # this link will allow to retrieve the next attachments to import:
-            attachment.res_model = "l10n_br_fiscal.document.import.wizard.mixin"
+            attachment.res_model = "l10n_br_fiscal.document.import.wizard"
             attachment.res_id = wizard.id
 
         wizard._onchange_file()
