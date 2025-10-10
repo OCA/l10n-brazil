@@ -7,7 +7,7 @@
         <field name="model">l10n_br_fiscal.document.import.wizard</field>
         <field
             name="inherit_id"
-            ref="l10n_br_fiscal.l10n_br_fiscal_document_import_wizard_form"
+            ref="l10n_br_fiscal.document_import_wizard_form"
         />
         <field name="arch" type="xml">
             <button name="action_import_and_open_document" position="after">
