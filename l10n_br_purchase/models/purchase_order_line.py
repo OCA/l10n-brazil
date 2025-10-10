@@ -161,3 +161,7 @@ class PurchaseOrderLine(models.Model):
                 partner.address_get(["invoice"]).get("invoice")
             )
         return partner
+
+    @api.model
+    def _get_total_for_tax_totals(self):
+        return self.order_id.amount_total
