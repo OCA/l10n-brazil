@@ -4,10 +4,18 @@
 import base64
 import logging
 
+from erpbrasil.base.fiscal.cnpj_cpf import validar_cnpj, validar_cpf
+from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
+from erpbrasil.base.misc import punctuation_rm
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constants.fiscal import FISCAL_IN_OUT_ALL
+from ..constants.fiscal import (
+    FISCAL_IN,
+    FISCAL_IN_OUT,
+    FISCAL_OUT,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -38,7 +46,69 @@ class DocumentImportWizard(models.TransientModel):
 
     document_type = fields.Char()
 
-    fiscal_operation_type = fields.Selection(selection=FISCAL_IN_OUT_ALL)
+    fiscal_operation_type = fields.Selection(
+        selection=FISCAL_IN_OUT,
+        compute="_compute_fiscal_operation_type",
+    )
+
+    issuer_cnpj = fields.Char(string="CNPJ")
+    issuer_legal_name = fields.Char(string="Razão Social")
+    issuer_name = fields.Char(string="Fantasia")
+    issuer_partner_id = fields.Many2one(comodel_name="res.partner", string="Parceiro")
+    issuer_type_in_out = fields.Selection(selection=FISCAL_IN_OUT, string="Type")
+
+    destination_cnpj = fields.Char(string="CNPJ")
+    destination_name = fields.Char(string="Razão Social")
+    destination_partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Parceiro"
+    )
+    destination_type_in_out = fields.Selection(selection=FISCAL_IN_OUT, string="Type")
+
+    @api.depends("issuer_cnpj", "company_id.cnpj_cpf")
+    def _compute_fiscal_operation_type(self):
+        if self.issuer_cnpj == self.company_id.cnpj_cpf:
+            self.fiscal_operation_type = "out"
+        else:
+            self.fiscal_operation_type = "in"
+
+    def _search_partner(self, cnpj=None, name=None, legal_name=None):
+        """
+        Search for a partner based on CNPJ, name, or legal name.
+
+        This method searches for a partner in the `res.partner` model
+        based on the provided CNPJ, name, or legal name.
+        If a CNPJ is provided, it validates whether it is a
+        company or an individual and constructs the search domain accordingly.
+
+        If a legal name or name is provided, it constructs the
+        search domain to match either the legal name or the name.
+        If neither CNPJ nor legal name/name is provided, it raises a UserError.
+
+        Args:
+            cnpj (str, optional): The CNPJ or CPF of the partner.
+            name (str, optional): The name of the partner.
+            legal_name (str, optional): The legal name of the partner.
+
+        Returns:
+            recordset: A recordset of the found partner, limited to one result.
+
+        Raises:
+            UserError: If neither CNPJ nor legal name/name is provided.
+        """
+        if cnpj:
+            if validar_cnpj(cnpj):
+                domain = [("is_company", "=", True)]
+            elif validar_cpf(cnpj):
+                domain = [("is_company", "=", False)]
+            domain.append(("cnpj_cpf_stripped", "=", punctuation_rm(cnpj)))
+        elif legal_name or name:
+            domain = [("is_company", "=", True)]
+            domain.append(
+                ["|", ("legal_name", "ilike", legal_name), ("name", "ilike", name)]
+            )
+        else:
+            raise UserError(_("No CNPJ or Legal Name to search for a partner!"))
+        return self.env["res.partner"].search(domain, limit=1)
 
     def _import_edoc(self):
         self._find_existing_document()
@@ -48,12 +118,27 @@ class DocumentImportWizard(models.TransientModel):
             binding = self._parse_file()
         return binding, self.document_id
 
-    def action_import_and_open_document(self):
+    def action_import_and_open_document(self):  # TODO used?
         self._import_edoc()
         return self.action_open_document()
 
+    def _destination_partner_from_binding(self, binding):
+        pass
+
     def _create_edoc_from_file(self):
         pass  # meant to be overriden
+
+    def _detect_document_type(self, code):
+        self.document_type_id = self.env["l10n_br_fiscal.document.type"].search(
+            [("code", "=", code)],
+            limit=1,
+        )
+
+    def _find_existing_document(self):
+        self.document_id = self.env["l10n_br_fiscal.document"].search(
+            [("document_key", "=", self.document_key.replace(" ", ""))],
+            limit=1,
+        )
 
     @api.onchange("file")
     def _onchange_file(self):
@@ -61,7 +146,28 @@ class DocumentImportWizard(models.TransientModel):
             self._fill_wizard_from_binding()
 
     def _fill_wizard_from_binding(self):
-        pass  # meant to be overriden
+        binding = self._parse_file()
+        self._detect_binding(binding)
+        self._extract_binding_data(binding)
+        self._find_existing_document()
+        self._destination_partner_from_binding(binding)
+        return binding
+
+    @api.model
+    def _detect_binding(self, binding):
+        """
+        A pluggable method were each specialized fiscal document
+        importation wizard can register itself and return a tuple
+        with (the_fiscal_document_type_code, the_name_of_the_importation_wizard)
+        """
+        raise UserError(
+            _("Importation not implemented for %s!")
+            % (
+                type(
+                    binding,
+                )
+            )
+        )
 
     def action_open_document(self):
         return {
@@ -73,15 +179,26 @@ class DocumentImportWizard(models.TransientModel):
             "res_model": "l10n_br_fiscal.document",
         }
 
-    def _document_key_from_binding(self, binding):
+    def _extract_binding_data(self, binding):
         pass  # meant to be overriden
 
-    def _find_existing_document(self):
-        document_key = self._document_key_from_binding(self._parse_file())
-        self.document_id = self.env["l10n_br_fiscal.document"].search(
-            [("document_key", "=", document_key.chave)],
-            limit=1,
-        )
+    def _extract_key_information(self, edoc_key):
+        """TODO: Melhorar códifo da chave para não precisar
+        remover o tipo de chave do prefixo:
+            binding.NFe.infNFe.Id[3:]
+        """
+        edoc = detectar_chave_edoc(edoc_key)
+        self.document_key = " ".join(edoc.partes())
+        self.document_number = edoc.numero_documento.strip("0")
+        self.document_serie = edoc.numero_serie.strip("0")
+        self.issuer_cnpj = edoc.cnpj_cpf_emitente
+        self.issuer_partner_id = self._search_partner(edoc.cnpj_cpf_emitente)
+        if edoc.forma_emissao == "1":
+            self.issuer_type_in_out = FISCAL_OUT
+            self.destination_type_in_out = FISCAL_IN
+        else:
+            self.issuer_type_in_out = FISCAL_IN
+            self.destination_type_in_out = FISCAL_OUT
 
     def _find_document_type(self, code):
         return self.env["l10n_br_fiscal.document.type"].search(
@@ -111,19 +228,3 @@ class DocumentImportWizard(models.TransientModel):
     def _parse_file_data(self, file_data):
         # NOTE: no try and a stacktrace does help for debug/support
         return XmlParser().from_bytes(base64.b64decode(file_data))
-
-    @api.model
-    def _detect_binding(self, binding):
-        """
-        A pluggable method were each specialized fiscal document
-        importation wizard can register itself and return a tuple
-        with (the_fiscal_document_type_code, the_name_of_the_importation_wizard)
-        """
-        raise UserError(
-            _("Importation not implemented for %s!")
-            % (
-                type(
-                    binding,
-                )
-            )
-        )
