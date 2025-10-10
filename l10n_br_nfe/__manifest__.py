@@ -40,8 +40,6 @@
         "wizards/document_import_wizard.xml",
         # Actions,
         "views/nfe_action.xml",
-        # Menus
-        "views/nfe_menu.xml",
     ],
     "demo": [
         "demo/res_users_demo.xml",
