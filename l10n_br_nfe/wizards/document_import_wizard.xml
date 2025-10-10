@@ -2,21 +2,13 @@
 <!-- Copyright 2023 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record id="l10n_br_nfe_import_xml_form" model="ir.ui.view">
-        <field name="name">l10n_br_nfe.import_xml.form</field>
-        <field name="model">l10n_br_nfe.import_xml</field>
-        <field
-            name="inherit_id"
-            ref="l10n_br_fiscal.l10n_br_fiscal_document_import_wizard_form"
-        />
-        <field name="mode">primary</field>
+    <record id="document_import_wizard_form" model="ir.ui.view">
+        <field name="name">document_import_wizard.form</field>
+        <field name="model">l10n_br_fiscal.document.import.wizard</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_import_wizard_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='document_serie']" position="after">
                 <field name="nat_op" readonly="1" />
-            </xpath>
-            <xpath expr="//field[@name='partner_id']" position="before">
-                <field name="xml_partner_cpf_cnpj" readonly="1" />
-                <field name="xml_partner_name" readonly="1" />
             </xpath>
             <xpath expr="//group[@id='document_info']" position="after">
                 <group id="existing_document" invisible="not document_id">
@@ -68,7 +60,7 @@
 
     <record id="l10n_br_nfe_import_xml_action" model="ir.actions.act_window">
         <field name="name">Importar NF-e XML</field>
-        <field name="res_model">l10n_br_nfe.import_xml</field>
+        <field name="res_model">l10n_br_fiscal.document.import.wizard</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>
         <field name="target">new</field>
