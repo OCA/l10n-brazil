@@ -266,6 +266,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 "code": "1",
                 "name": "Série 1",
                 "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+                "company_id": cls.company_data["company"].id,
                 "active": True,
             }
         )
