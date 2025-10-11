@@ -3,11 +3,13 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     FISCAL_IN_OUT,
     FISCAL_IN_OUT_DEFAULT,
+    SITUACAO_EDOC_EM_DIGITACAO,
 )
 
 
@@ -55,6 +57,14 @@ class DocumentSerie(models.Model):
         string="Invalidate Number Range",
     )
 
+    _sql_constraints = [
+        (
+            "document_serie_unique",
+            "unique(code, document_type_id, company_id)",
+            "A Fiscal Document Serie already exists for this document type.",
+        )
+    ]
+
     @api.model
     def _create_sequence(self, values):
         """Create new no_gap entry sequence for every
@@ -82,6 +92,29 @@ class DocumentSerie(models.Model):
     def _compute_display_name(self):
         for record in self:
             record.display_name = record.name
+
+    def write(self, vals):
+        if "internal_sequence_id" in vals:
+            raise ValidationError(_("You cannot change the internal sequence."))
+        if "code" in vals:
+            for serie in self:
+                if serie.code == vals["code"]:
+                    continue
+                if self.env["l10n_br_fiscal.document"].search_count(
+                    [
+                        ("document_serie_id", "=", serie.id),
+                        ("state_edoc", "not in", [SITUACAO_EDOC_EM_DIGITACAO]),
+                    ],
+                    limit=1,
+                ):
+                    raise ValidationError(
+                        _(
+                            "You cannot change the code of a document "
+                            "serie %(name)s that is already in use.",
+                            name=serie.name,
+                        )
+                    )
+        return super().write(vals)
 
     def _is_invalid_number(self, document_number):
         self.ensure_one()
