@@ -88,7 +88,11 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     @api.depends("document_type_id", "issuer")
     def _compute_document_serie_id(self):
         for doc in self:
-            if doc.document_type_id and doc.issuer == DOCUMENT_ISSUER_COMPANY:
+            if (
+                not doc.document_serie_id
+                and doc.document_type_id
+                and doc.issuer == DOCUMENT_ISSUER_COMPANY
+            ):
                 doc.document_serie_id = doc.document_type_id.get_document_serie(
                     doc.company_id, doc.fiscal_operation_id
                 )
