@@ -15,7 +15,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_INUTILIZADA,
     SITUACAO_EDOC_REJEITADA,
 )
 
@@ -118,7 +117,17 @@ class TestNFCe(TestNFeExport):
         )
         inutilizar_wizard.doit()
 
-        self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_INUTILIZADA)
+        invalidate = self.env["l10n_br_fiscal.invalidate.number"].search(
+            [
+                ("state", "=", "done"),
+                ("company_id", "=", self.document_id.company_id.id),
+                ("document_type_id", "=", self.document_id.document_type_id.id),
+                ("document_serie_id", "=", self.document_id.document_serie_id.id),
+                ("number_start", "=", self.document_id.document_number),
+                ("number_end", "=", self.document_id.document_number),
+            ]
+        )
+        self.assertEqual(len(invalidate), 1)
 
     def test_atualiza_status_nfce(self):
         self.document_id._compute_nfe40_dhSaiEnt()

@@ -37,7 +37,7 @@ class InvalidateNumber(models.Model):
 
         return edoc_nfe(**params)
 
-    def _invalidate(self, document_id=False):
+    def action_invalidate(self):
         processador = self._edoc_processor()
         evento = processador.inutilizacao(
             cnpj=punctuation_rm(self.company_id.cnpj_cpf),
@@ -62,8 +62,6 @@ class InvalidateNumber(models.Model):
             invalidate_number_id=self,
         )
 
-        if document_id:
-            event_id.document_id = document_id
         self.event_ids |= event_id
         self.authorization_event_id = event_id
 
@@ -83,4 +81,4 @@ class InvalidateNumber(models.Model):
         )
 
         if processo.resposta.infInut.cStat == "102":
-            return super()._invalidate(document_id)
+            return super().action_invalidate()
