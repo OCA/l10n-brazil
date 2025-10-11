@@ -13,6 +13,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.configure_normal_company_taxes()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         cls.sale_account = cls.env["account.account"].create(
@@ -55,9 +56,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                 partner_id=cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
                 journal_id=cls.refund_journal.id,
                 document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
-                document_serie_id=cls.env.ref(
-                    "l10n_br_fiscal.empresa_lc_document_55_serie_1"
-                ).id,
+                document_serie_id=cls.empresa_lc_document_55_serie_1.id,
                 invoice_line_ids=[
                     (
                         0,
