@@ -21,7 +21,7 @@ class InvalidateNumberWizard(models.TransientModel):
                 "justification": self.justification,
             }
         )
-        invalidate._invalidate(self.document_id)
+        invalidate.action_invalidate()
         if hasattr(self.document_id, "cancel_move_ids"):
             # cancel moves if l10n_br_account is installed
             # (thus l10n_br_account doesn't need to depend on l10n_br_fiscal_edi)
