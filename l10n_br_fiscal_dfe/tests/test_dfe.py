@@ -1,4 +1,5 @@
 # Copyright (C) 2023 - TODAY Felipe Zago - KMEE
+#
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 # pylint: disable=line-too-long
 
@@ -23,10 +24,6 @@ class TestDFe(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
-        # Simulate having certificate data for the NfeClient
-        # cls.company.certificate.file = b"fake_cert_data"
-        # cls.company.certificate.password = "fake_password"
-
         cls.dfe = cls.env["l10n_br_fiscal.dfe"].create({"company_id": cls.company.id})
 
     @mock.patch.object(DefaultTransport, "post")
@@ -37,10 +34,11 @@ class TestDFe(TransactionCase):
 
         self.assertEqual(self.dfe.display_name, "Empresa Lucro Presumido - NSU: 0")
 
-        # The search_documents method will now use NfeClient, which is mocked at the transport layer.
+        # The search_documents method will now use NfeClient,
+        # which is mocked at the transport layer.
         self.dfe.search_documents()
 
-        # The application logic should correctly parse the response and update the last_nsu.
+        # Ensure it should correctly parse the response and update the last_nsu.
         self.assertEqual(self.dfe.last_nsu, utils.format_nsu("201"))
         mock_post.assert_called_once()
 
@@ -62,8 +60,9 @@ class TestDFe(TransactionCase):
             # Reset last_nsu to ensure this test is isolated
             self.dfe.last_nsu = "0"
             self.dfe.search_documents()
-            # The app should process the rejection and not update the NSU from the response.
-            # However, the dfe.py logic updates last_nsu *before* validation. Let's check that.
+            # The app should process the rejection and not update the NSU
+            # from the response.
+            # However, the dfe.py logic updates last_nsu *before* validation.
             # The response has ultNSU = 0, so last_nsu will be set to '0' again.
             self.assertEqual(self.dfe.last_nsu, "000000000000000")
             mock_post_rejection.assert_called_once()
@@ -108,7 +107,6 @@ class TestDFe(TransactionCase):
             self.assertEqual(dfe_record.last_nsu, "000000000000201")
 
     def test_utils(self):
-        """Test utility functions (no changes needed here)."""
         nsu_formatted = utils.format_nsu("100")
         self.assertEqual(nsu_formatted, "000000000000100")
 

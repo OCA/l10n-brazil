@@ -2,6 +2,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import gzip
+import logging
 import re
 from io import BytesIO
 
@@ -10,6 +11,8 @@ from nfelib.nfe.client.v4_0.dfe import DfeClient
 from odoo import _, api, fields, models
 
 from ..tools import utils
+
+_logger = logging.getLogger(__name__)
 
 
 class DFe(models.Model):
@@ -50,15 +53,14 @@ class DFe(models.Model):
 
     @api.model
     def _get_processor(self):
-        if True:  # TODO company flag
-            return DfeClient(
-                ambiente=self.environment,
-                uf=self.company_id.state_id.ibge_code,
-                pkcs12_data=self.company_id.certificate.file,
-                fake_certificate=self.company_id.certificate.file,
-                pkcs12_password=self.company_id.certificate.password,
-                wrap_response=True,
-            )
+        return DfeClient(
+            ambiente=self.environment,
+            uf=self.company_id.state_id.ibge_code,
+            pkcs12_data=self.company_id.certificate.file,
+            fake_certificate=self.company_id.certificate.file,
+            pkcs12_password=self.company_id.certificate.password,
+            wrap_response=True,
+        )
 
     @api.model
     def validate_distribution_response(self, result):
@@ -121,7 +123,7 @@ class DFe(models.Model):
     @api.model
     def _parse_xml_document(self, document):
         """
-        Parses the content of a DocZip object returned by the nfelib client.
+        Parse the content of a DocZip object returned by the nfelib client.
         'document' is an xsdata dataclass object.
         """
 
