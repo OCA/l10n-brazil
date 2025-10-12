@@ -4,9 +4,8 @@
 
 from unittest import mock
 
-from xsdata.formats.dataclass.transports import DefaultTransport
 from requests.exceptions import RequestException
-from nfelib.nfe_dist_dfe.bindings.v1_0.ret_dist_dfe_int_v1_01 import RetDistDfeInt
+from xsdata.formats.dataclass.transports import DefaultTransport
 
 from odoo.tests.common import TransactionCase
 
