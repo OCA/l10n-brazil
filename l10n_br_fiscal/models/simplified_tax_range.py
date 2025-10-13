@@ -66,3 +66,11 @@ class SimplifiedTaxRange(models.Model):
     tax_pis_percent = fields.Float(
         string="Tax PIS Percent", digits="Fiscal Tax Percent"
     )
+
+    tax_ibs_percent = fields.Float(
+        string="Tax IBS Percent", digits="Fiscal Tax Percent"
+    )
+
+    tax_cbs_percent = fields.Float(
+        string="Tax CBS Percent", digits="Fiscal Tax Percent"
+    )
