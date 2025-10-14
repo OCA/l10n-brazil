@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- TODO: A linha pylint é necessária na versão 7.0.2
-      na versão v9.0.0 pode ser removida -->
-<!-- pylint:disable=duplicate-xml-record-id -->
 <!-- oca-hooks:disable=xml-duplicate-record-id -->
 <odoo>
-
     <record id="l10n_br_coa_simple_chart_template" model="account.chart.template">
-        <field name="property_account_receivable_id" ref="account_template_11201" />
-        <field name="property_account_payable_id" ref="account_template_21101" />
-        <field name="property_account_expense_categ_id" ref="account_template_32103" />
-        <field name="property_account_income_categ_id" ref="account_template_31101" />
+        <field name="property_account_receivable_id" ref="account_template_1120101" />
+        <field name="property_account_payable_id" ref="account_template_2120101" />
+        <field
+            name="property_account_expense_categ_id"
+            ref="account_template_3210101"
+        />
+        <field name="property_account_income_categ_id" ref="account_template_3110103" />
         <field
             name="income_currency_exchange_account_id"
-            ref="account_template_32302"
+            ref="account_template_3410204"
         />
         <field
             name="expense_currency_exchange_account_id"
-            ref="account_template_32302"
+            ref="account_template_3410105"
         />
-        <field name="default_pos_receivable_account_id" ref="account_template_11203" />
+        <field
+            name="default_pos_receivable_account_id"
+            ref="account_template_1120101"
+        />
     </record>
 
     <data noupdate="1">
