@@ -51,6 +51,10 @@
                             <field name="sequence" />
                             <field name="comment_type" />
                             <field name="object" />
+                            <field
+                                name="company_id"
+                                options="{'no_create_edit': True}"
+                            />
                         </group>
                         <group>
                             <field name="date_begin" />

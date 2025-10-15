@@ -61,26 +61,35 @@ class Comment(models.Model):
         ondelete="set null",
     )
 
+    company_id = fields.Many2one(
+        "res.company",
+        string="Company",
+        index=True,
+    )
+
     @api.model
     def _name_search(
         self, name, args=None, operator="ilike", limit=100, name_get_uid=None
     ):
         args = args or []
+        allowed_company_ids = self.env.companies.ids or [self.env.company.id]
+        company_domain = [
+            "|",
+            ("company_id", "=", False),
+            ("company_id", "in", allowed_company_ids),
+        ]
+
         if name:
-            domain = [
-                "|",
-                ("comment", "ilike", "%" + name + "%"),
-                ("name", operator, name),
-            ]
+            domain = ["|", ("comment", "ilike", f"%{name}%"), ("name", operator, name)]
             return super()._name_search(
-                args=AND([args, domain]),
+                args=AND([args, company_domain, domain]),
                 operator=operator,
                 limit=limit,
                 name_get_uid=name_get_uid,
             )
         return super()._name_search(
             name=name,
-            args=args,
+            args=AND([args, company_domain]),
             operator=operator,
             limit=limit,
             name_get_uid=name_get_uid,

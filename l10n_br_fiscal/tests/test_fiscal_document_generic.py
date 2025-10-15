@@ -1049,6 +1049,125 @@ class TestFiscalDocumentGeneric(SavepointCase):
             # correct
         )
 
+    def test_comment_company_filter_name_search(self):
+        """Test that _name_search filters fiscal comments by company."""
+        company_a = self.env.company
+        company_b = self.env["res.company"].create(
+            {
+                "name": "Company B",
+                "currency_id": company_a.currency_id.id,
+                "country_id": company_a.country_id.id or self.env.ref("base.br").id,
+            }
+        )
+        self.env.user.company_ids = [(4, company_b.id)]
+
+        global_comment = self.env["l10n_br_fiscal.comment"].create(
+            {
+                "name": "Global Comment",
+                "comment": "Manual comment for all companies",
+                "comment_type": "commercial",
+                "object": "l10n_br_fiscal.document.line.mixin",
+                "company_id": False,
+            }
+        )
+
+        company_a_comment = self.env["l10n_br_fiscal.comment"].create(
+            {
+                "name": "Company A Comment",
+                "comment": "Comment specific to Company A",
+                "comment_type": "commercial",
+                "object": "l10n_br_fiscal.document.line.mixin",
+                "company_id": company_a.id,
+            }
+        )
+
+        company_b_comment = self.env["l10n_br_fiscal.comment"].create(
+            {
+                "name": "Company B Comment",
+                "comment": "Comment specific to Company B",
+                "comment_type": "commercial",
+                "object": "l10n_br_fiscal.document.line.mixin",
+                "company_id": company_b.id,
+            }
+        )
+
+        comment_env_company_a = self.env["l10n_br_fiscal.comment"].with_context(
+            allowed_company_ids=[company_a.id],
+            force_company=company_a.id,
+        )
+        result_company_a = comment_env_company_a.name_search(
+            name=None, operator="ilike"
+        )
+        comment_ids_company_a = {record_id for record_id, _ in result_company_a}
+
+        self.assertIn(
+            global_comment.id,
+            comment_ids_company_a,
+            "Global comment should be visible for Company A",
+        )
+        self.assertIn(
+            company_a_comment.id,
+            comment_ids_company_a,
+            "Company A comment should be visible for Company A",
+        )
+        self.assertNotIn(
+            company_b_comment.id,
+            comment_ids_company_a,
+            "Company B comment should NOT be visible for Company A",
+        )
+
+        comment_env_company_b = self.env["l10n_br_fiscal.comment"].with_context(
+            allowed_company_ids=[company_b.id],
+            force_company=company_b.id,
+        )
+        result_company_b = comment_env_company_b.name_search(
+            name=None, operator="ilike"
+        )
+        comment_ids_company_b = {record_id for record_id, _ in result_company_b}
+
+        self.assertIn(
+            global_comment.id,
+            comment_ids_company_b,
+            "Global comment should be visible for Company B",
+        )
+        self.assertIn(
+            company_b_comment.id,
+            comment_ids_company_b,
+            "Company B comment should be visible for Company B",
+        )
+        self.assertNotIn(
+            company_a_comment.id,
+            comment_ids_company_b,
+            "Company A comment should NOT be visible for Company B",
+        )
+
+        comment_env_both_companies = self.env["l10n_br_fiscal.comment"].with_context(
+            allowed_company_ids=[company_a.id, company_b.id],
+            force_company=company_a.id,
+        )
+        result_both_companies = comment_env_both_companies.name_search(
+            name=None, operator="ilike"
+        )
+        comment_ids_both_companies = {
+            record_id for record_id, _ in result_both_companies
+        }
+
+        self.assertIn(
+            global_comment.id,
+            comment_ids_both_companies,
+            "Global comment should be visible when A+B active",
+        )
+        self.assertIn(
+            company_a_comment.id,
+            comment_ids_both_companies,
+            "Company A comment should be visible when A+B active",
+        )
+        self.assertIn(
+            company_b_comment.id,
+            comment_ids_both_companies,
+            "Company B comment should be visible when A+B active",
+        )
+
     def test_fields_freight_insurance_other_costs(self):
         """Test fields Freight, Insurance and Other Costs when
         defined or By Line or By Total.
