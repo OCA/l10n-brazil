@@ -13,9 +13,9 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
 
     document_id = fields.Many2one(comodel_name="l10n_br_fiscal.document")
 
-    mdfe30_cMunDescarga = fields.Char(compute="_compute_city_data")
+    mdfe30_cMunDescarga = fields.Char(related="city_id.ibge_code")
 
-    mdfe30_xMunDescarga = fields.Char(compute="_compute_city_data")
+    mdfe30_xMunDescarga = fields.Char(related="city_id.name")
 
     mdfe30_infCTe = fields.One2many(compute="_compute_document_data")
 
@@ -32,7 +32,7 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
         comodel_name="res.country.state",
         string="State",
         domain="[('country_id', '=', country_id)]",
-        required=True,
+        compute="_compute_state_id",
     )
 
     city_id = fields.Many2one(
@@ -67,12 +67,6 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
         relation="mdfe_related_mdfe_carregamento_rel",
     )
 
-    @api.depends("city_id")
-    def _compute_city_data(self):
-        for record in self:
-            record.mdfe30_cMunDescarga = record.city_id.ibge_code
-            record.mdfe30_xMunDescarga = record.city_id.name
-
     @api.depends("document_type", "nfe_ids", "cte_ids")
     def _compute_document_data(self):
         for record in self:
@@ -95,3 +89,9 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
                     Command.create({"mdfe30_chMDFe": mdfe.mdfe30_chMDFe})
                     for mdfe in record.mdfe_ids
                 ]
+
+    @api.depends("city_id")
+    def _compute_state_id(self):
+        for record in self:
+            if record.city_id:
+                record.state_id = record.city_id.state_id.id

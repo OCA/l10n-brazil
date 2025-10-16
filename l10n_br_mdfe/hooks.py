@@ -14,9 +14,7 @@ _logger = logging.getLogger(__name__)
 
 def post_init_hook(cr, registry):
     env = api.Environment(cr, SUPERUSER_ID, {})
-    cr.execute("select demo from ir_module_module where name='l10n_br_mdfe';")
-    is_demo = cr.fetchone()[0]
-    if is_demo:
+    if env.ref("base.module_l10n_br_mdfe").demo:
         res_items = (
             "mdfe",
             "samples",
@@ -32,11 +30,8 @@ def post_init_hook(cr, registry):
         )
         try:
             existing_docs.unlink()
-            doc = (
-                env["mdfe.30.tmdfe_infmdfe"]
-                .with_context(tracking_disable=True, edoc_type="in")
-                .build_from_binding("mdfe", "30", binding.infMDFe)
+            env["l10n_br_fiscal.document"].import_binding_mdfe(
+                binding, edoc_type="in", dry_run=False
             )
-            _logger.info(doc.mdfe30_emit.mdfe30_CNPJ)
         except ValidationError:
             _logger.info(f"MDF-e already {document_number} imported by hooks")
