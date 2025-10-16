@@ -3,6 +3,7 @@
 
 import dataclasses
 import inspect
+import itertools
 import logging
 import re
 from datetime import datetime
@@ -27,7 +28,7 @@ class SpecMixinImport(models.AbstractModel):
     """
 
     @api.model
-    def build_from_binding(self, spec_schema, spec_version, node, dry_run=False):
+    def build_from_binding(self, spec_schema, spec_version, binding, dry_run=False):
         """
         Build an instance of an Odoo Model from a pre-populated
         Python binding object. Binding object such as the ones generated using
@@ -47,7 +48,7 @@ class SpecMixinImport(models.AbstractModel):
         )
         self._register_hook()
         model = self._get_concrete_model(self._name)
-        attrs = model.build_attrs(node)
+        attrs = model.build_attrs(binding)
         if dry_run:
             return model.new(attrs)
         else:
@@ -117,17 +118,13 @@ class SpecMixinImport(models.AbstractModel):
                 else:
                     key = fields[key].related
                 comodel_name = fields[key].comodel_name
+                comodel = self._get_concrete_model(comodel_name)
             else:
-                clean_type = binding_type.lower()
-                comodel_name = "{}.{}.{}".format(
-                    self._context["spec_schema"],
-                    self._context["spec_version"].replace(".", "")[0:2],
-                    clean_type.split(".")[-1],
-                )
+                comodel = self._comodel_from_binding_type(binding_type)
 
-            comodel = self._get_concrete_model(comodel_name)
             if comodel is None:  # example skip ICMS100 class
                 return
+
             if str(attr[1].type).startswith("typing.List"):
                 # o2m
                 lines = []
@@ -146,6 +143,54 @@ class SpecMixinImport(models.AbstractModel):
                 self._build_many2one(
                     comodel, vals, comodel_vals, key, value, child_path
                 )
+
+    @api.model
+    def _comodel_from_binding_type(self, binding_type):
+        """
+        The binding_type is a full binding name. But it can be too long.
+        So in xsdata-odoo, when generating the corresponding abstract models,
+        we figure out the a minimal subset of the full binding_type name that is
+        both minimal and unique. For polymorphic schemas like Brazilian CT-e or MDF-e,
+        this minimal Odoo abstract unique model is not trivial and for a given binding,
+        we can try different combo of binding_type subsets until we eventually find the
+        Odoo model where it is mapped. This is what this method does.
+        """
+
+        def _comodel_from_model_suffix(model_suffix):
+            comodel_name = "{}.{}.{}".format(
+                self._context["spec_schema"],
+                self._context["spec_version"].replace(".", "")[0:2],
+                model_suffix,
+            )
+            return self._get_concrete_model(comodel_name)
+
+        clean_type = binding_type.lower()
+        parts = clean_type.split(".")
+        if len(parts) <= 1:
+            return _comodel_from_model_suffix(clean_type)
+
+        first = parts[0]
+        last = parts[-1]
+        middle = parts[1:-1]
+
+        all_combos = []
+
+        # Loop through all possible lengths for the middle part combinations
+        # (from 0 to all of them)
+        for i in range(len(middle) + 1):
+            # Get all combinations of the middle parts for a given length
+            for combo in itertools.combinations(middle, i):
+                # Create the new string by joining the first part,
+                # the current combination, and the last part
+                new_string = "_".join([first] + list(combo) + [last])
+                all_combos.append(new_string)
+
+        all_combos.append(last)
+        for model_suffix in all_combos:
+            comodel = _comodel_from_model_suffix(model_suffix)
+            if comodel is not None:
+                return comodel
+        return None
 
     @api.model
     def _build_many2one(self, comodel, vals, comodel_vals, key, value, path):
