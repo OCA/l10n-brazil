@@ -1199,6 +1199,15 @@ class CTe(spec_models.StackedModel):
     # Framework Spec model's methods
     ################################
 
+    @api.model
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        return {
+            **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
+            "imported_document": True,
+        }
+
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         if xsd_field == "cte40_tpAmb":
             self.env.context = dict(self.env.context)
