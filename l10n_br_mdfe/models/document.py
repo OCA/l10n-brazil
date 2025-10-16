@@ -4,9 +4,9 @@
 import base64
 import re
 import string
-from enum import Enum
 from unicodedata import normalize
 
+from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -681,15 +681,25 @@ class MDFe(spec_models.StackedModel):
     # NF-e tag: tot
     ##########################
 
-    mdfe30_qCTe = fields.Char(compute="_compute_mdfe30_tot")
+    mdfe30_qCTe = fields.Integer(
+        compute="_compute_mdfe30_tot", store=True, readonly=False
+    )
 
-    mdfe30_qNFe = fields.Char(compute="_compute_mdfe30_tot")
+    mdfe30_qNFe = fields.Integer(
+        compute="_compute_mdfe30_tot", store=True, readonly=False
+    )
 
-    mdfe30_qMDFe = fields.Char(compute="_compute_mdfe30_tot")
+    mdfe30_qMDFe = fields.Integer(
+        compute="_compute_mdfe30_tot", store=True, readonly=False
+    )
 
-    mdfe30_qCarga = fields.Float(compute="_compute_mdfe30_tot")
+    mdfe30_qCarga = fields.Float(
+        compute="_compute_mdfe30_tot", store=True, readonly=False
+    )
 
-    mdfe30_vCarga = fields.Float(compute="_compute_mdfe30_tot")
+    mdfe30_vCarga = fields.Float(
+        compute="_compute_mdfe30_tot", store=True, readonly=False
+    )
 
     mdfe30_cUnid = fields.Selection(default="01")
 
@@ -833,31 +843,18 @@ class MDFe(spec_models.StackedModel):
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
-    def _build_attr(self, node, fields, vals, path, attr):
-        key = f"mdfe30_{attr[0]}"
-        value = getattr(node, attr[0])
-
-        # if attr[0] == "any_element":  # build modal
-        #     modal_id = self._get_mdfe_modal_to_build(node.any_element.__module__)
-        #     if modal_id is False:
-        #         return
-
-        #     modal_attrs = modal_id.build_attrs(value, path=path)
-        #     for chave, valor in modal_attrs.items():
-        #         vals[chave] = valor
-        #     return
-
-        if key == "mdfe30_mod":
-            if isinstance(value, Enum):
-                value = value.value
-
-            vals["document_type_id"] = (
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        res = super()._prepare_import_dict(values, model, parent_dict, defaults_model)
+        res["imported_document"] = True
+        if "mdfe30_mod" in values:
+            res["document_type_id"] = (
                 self.env["l10n_br_fiscal.document.type"]
-                .search([("code", "=", value)], limit=1)
+                .search([("code", "=", values["mdfe30_mod"])], limit=1)
                 .id
             )
-
-        return super()._build_attr(node, fields, vals, path, attr)
+        return res
 
     def _get_mdfe_modal_to_build(self, module):
         modal_by_binding_module = {
@@ -907,6 +904,22 @@ class MDFe(spec_models.StackedModel):
             if match:
                 return match.id
         return False
+
+    def import_binding_mdfe(self, binding, edoc_type="in", dry_run=False):
+        if hasattr(binding, "MDFe"):
+            binding = binding.MDFe
+        document = (
+            self.env["mdfe.30.tmdfe_infmdfe"]
+            .with_context(tracking_disable=True, edoc_type=edoc_type)
+            .build_from_binding("mdfe", "30", binding.infMDFe, dry_run=dry_run)
+        )
+
+        if edoc_type == "in" and document.company_id.vat != cnpj_cpf.formata(
+            binding.infMDFe.emit.CNPJ
+        ):
+            document.fiscal_operation_type = "in"
+            document.issuer = "partner"
+        return document
 
     ################################
     # Business Model Methods

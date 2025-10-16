@@ -1,5 +1,6 @@
 from . import transporte
 from . import res_company
+from . import res_country_state
 from . import document
 from . import document_related
 from . import res_partner
