@@ -4,8 +4,6 @@
 import logging
 
 import pkg_resources
-
-# from nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00 import Tcte
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo import SUPERUSER_ID, api
@@ -19,9 +17,7 @@ _logger = logging.getLogger(__name__)
 
 def post_init_hook(cr, registry):
     env = api.Environment(cr, SUPERUSER_ID, {})
-    cr.execute("select demo from ir_module_module where name='l10n_br_cte';")
-    is_demo = cr.fetchone()[0]
-    if is_demo:
+    if env.ref("base.module_l10n_br_cte").demo:
         res_items = (
             "tests",
             "cte",
@@ -39,11 +35,8 @@ def post_init_hook(cr, registry):
         )
         try:
             existing_docs.unlink()
-            cte = (
-                env["cte.40.tcte_infcte"]
-                .with_context(tracking_disable=True, edoc_type="in")
-                .build_from_binding("cte", "40", binding.infCte)
+            env["l10n_br_fiscal.document"].import_binding_cte(
+                binding, edoc_type="in", dry_run=False
             )
-            _logger.info(cte.cte40_emit.cte40_CNPJ)
         except ValidationError:
             _logger.info(f"CTE-e already {document_number} imported by hooks")
