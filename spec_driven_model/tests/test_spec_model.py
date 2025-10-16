@@ -4,6 +4,8 @@
 
 import logging
 
+from unittest.mock import patch
+
 from odoo_test_helper import FakeModelLoader
 
 from odoo.models import NewId
@@ -218,3 +220,36 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             imported_po.partner_id.id, self.env.ref("base.res_partner_1").id
         )
         self.assertEqual(imported_po.order_line[0].name, "Some product desc")
+
+    def test_polymorphic_comodel_from_binding_type(self):
+        binding_type = "Cte.Tcte.Ide"
+        expected_model_name = "cte.40.ide"
+        # in the l10n_br_cte module tcte_ide is actually expected
+        # but expecting the last combo here allows us to check the iterations/combos
+        available_models = {expected_model_name: "Found Fallback Model"}
+
+        method_path = (
+            "odoo.addons.spec_driven_model.models.spec_mixin."
+            "SpecMixin._get_concrete_model"
+        )
+        with patch(method_path) as mock_get_concrete_model:
+            mock_get_concrete_model.side_effect = lambda name: available_models.get(
+                name
+            )
+            model_instance = self.env["spec.mixin"].with_context(
+                spec_schema="cte", spec_version="40"
+            )
+            result = model_instance._comodel_from_binding_type(binding_type)
+
+        assert result == "Found Fallback Model"
+
+        # Check the full sequence of calls.
+        actual_calls = [c.args[0] for c in mock_get_concrete_model.call_args_list]
+        expected_model_suffixes = [
+            "cte.40.cte_ide",
+            "cte.40.cte_tcte_ide",
+            "cte.40.ide",  # This is the one that should be found (in this test)
+        ]
+
+        assert actual_calls == expected_model_suffixes
+        assert mock_get_concrete_model.call_count == len(expected_model_suffixes)
