@@ -313,6 +313,7 @@
                             >
                                 <list>
                                     <field name="product_id" />
+                                    <field name="name" />
                                     <field name="uom_id" />
                                     <field name="price_unit" />
                                     <field name="quantity" />
