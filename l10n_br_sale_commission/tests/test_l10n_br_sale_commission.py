@@ -1,19 +1,56 @@
 # Copyright (C) 2022-Today - Akretion (<http://www.akretion.com>).
 # @author Renato Lima <renato.lima@akretion.com.br>
 # @author Magno Costa <magno.costa@akretion.com.br>
+# Copyright (C) 2025 - Engenere (<http://www.engenere.one>).
+# @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from datetime import date
 
 from dateutil.relativedelta import relativedelta
 
-from odoo.tests import Form, TransactionCase
+from odoo import Command
+from odoo.tests import Form, TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestL10nBrSalesCommission(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.company = cls.env.company
+        cls.commission = cls.env["commission"].create(
+            {
+                "name": "Commission 10%",
+                "commission_type": "fixed",
+                "fix_qty": 10.0,
+                "amount_base_type": "gross_amount",
+                "settlement_type": "sale_invoice",
+            }
+        )
+        cls.agent = cls.env["res.partner"].create(
+            {
+                "name": "Sales Agent",
+                "company_id": cls.company.id,
+                "agent": True,
+                "commission_id": cls.commission.id,
+                "settlement": "monthly",
+            }
+        )
+        cls.customer = cls.env["res.partner"].create(
+            {
+                "name": "BR Customer",
+                "company_id": cls.company.id,
+                "agent_ids": [Command.set(cls.agent.ids)],
+            }
+        )
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Commissioned Service",
+                "list_price": 500.0,
+                "type": "service",
+            }
+        )
 
     def test_commission_config(self):
         config_form = Form(self.env["res.config.settings"])
@@ -113,10 +150,32 @@ class TestL10nBrSalesCommission(TransactionCase):
 
         return settlements.mapped("invoice_id")
 
+    @classmethod
+    def _create_sale_order_with_commission(cls):
+        """Build a simple sale order linked to the default agent/commission."""
+
+        sale_form = Form(cls.env["sale.order"])
+        sale_form.partner_id = cls.customer
+        sale_form.pricelist_id = cls.env.ref("product.list0")
+        sale_form.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
+        with sale_form.order_line.new() as line_form:
+            line_form.product_id = cls.product
+            line_form.product_uom_qty = 2
+            line_form.price_unit = cls.product.list_price
+            line_form.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
+            line_form.fiscal_operation_line_id = cls.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+
+        sale_order = sale_form.save()
+        sale_order.recompute_lines_agents()
+
+        return sale_order
+
     def test_sale_order_commission_br(self):
         """Test Brazilian Commission"""
 
-        sale_order = self.env.ref("l10n_br_sale_commission.so_commission_br")
+        sale_order = self._create_sale_order_with_commission()
         sale_order.action_confirm()
         self.assertEqual(len(sale_order.invoice_ids), 0)
         sale_order._create_invoices(final=True)
@@ -178,3 +237,45 @@ class TestL10nBrSalesCommission(TransactionCase):
             "Refund Commission Invoice was not Created.",
         )
         refund_settlement_invoice.action_post()
+
+    def test_sale_order_commission_override_persists_on_invoice(self):
+        """Validate custom agent/commission stay on invoice."""
+
+        sale_order = self._create_sale_order_with_commission()
+        override_commission = self.env["commission"].create(
+            {
+                "name": "Commission 15%",
+                "commission_type": "fixed",
+                "fix_qty": 15.0,
+                "amount_base_type": "gross_amount",
+                "settlement_type": "sale_invoice",
+            }
+        )
+        override_agent = self.env["res.partner"].create(
+            {
+                "name": "Sales Agent Override",
+                "company_id": self.company.id,
+                "agent": True,
+                "commission_id": override_commission.id,
+                "settlement": "monthly",
+            }
+        )
+
+        order_line_agent = sale_order.order_line.agent_ids
+        self.assertTrue(order_line_agent)
+        self.assertEqual(order_line_agent.commission_id, self.commission)
+        self.assertEqual(order_line_agent.agent_id, self.agent)
+
+        order_line_agent.commission_id = override_commission
+        order_line_agent.agent_id = override_agent
+
+        sale_order.action_confirm()
+        sale_order._create_invoices(final=True)
+        invoice = sale_order.invoice_ids
+
+        invoice_line_agents = invoice.invoice_line_ids.filtered(
+            lambda line: line.product_id == self.product
+        ).agent_ids
+        self.assertTrue(invoice_line_agents)
+        self.assertEqual(invoice_line_agents.commission_id, override_commission)
+        self.assertEqual(invoice_line_agents.agent_id, override_agent)
