@@ -354,6 +354,11 @@ msgid "A CST is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_document_serie_document_serie_unique
+msgid "A Fiscal Document Serie already exists for this document type."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.legal_nature_action
 msgid ""
 "A Legal nature is necessary to determine the fiscal definitions for your "
@@ -8138,6 +8143,20 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:0
 msgid "You can delete only draft Invalidate Number Range !"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_serie.py:0
+msgid ""
+"You cannot change the code of a document serie %(name)s that is already in "
+"use."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_serie.py:0
+msgid "You cannot change the internal sequence."
 msgstr ""
 
 #. module: l10n_br_fiscal
