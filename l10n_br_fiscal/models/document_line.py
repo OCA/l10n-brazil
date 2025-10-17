@@ -55,15 +55,6 @@ class DocumentLine(models.Model):
         precompute=True,
     )
 
-    uom_id = fields.Many2one(
-        comodel_name="uom.uom",
-        string="UOM",
-        compute="_compute_uom_id",
-        store=True,
-        readonly=False,
-        precompute=True,
-    )
-
     quantity = fields.Float(default=1.0)
 
     ind_final = fields.Selection(
@@ -97,14 +88,6 @@ class DocumentLine(models.Model):
                 line.name = line.product_id.display_name
             else:
                 line.name = False
-
-    @api.depends("product_id")
-    def _compute_uom_id(self):
-        for line in self:
-            if line.fiscal_operation_type == "in":
-                line.uom_id = line.product_id.uom_po_id
-            else:
-                line.uom_id = line.product_id.uom_id
 
     def __document_comment_vals(self):
         self.ensure_one()

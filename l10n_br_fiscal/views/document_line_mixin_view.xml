@@ -35,10 +35,7 @@
           <field name="financial_total" force_save="1" invisible="1" />
           <field name="financial_total_gross" force_save="1" invisible="1" />
           <field name="financial_discount_value" force_save="1" invisible="1" />
-
-
           <field name="cfop_id" force_save="1" invisible="1" />
-
           <field name="cfop_destination" force_save="1" invisible="1" />
                     <field name="fiscal_genre_id" force_save="1" invisible="1" />
                     <field name="fiscal_genre_code" force_save="1" invisible="1" />
@@ -49,6 +46,7 @@
                     <field name="service_type_id" force_save="1" invisible="1" />
                     <field name="city_taxation_code_id" force_save="1" invisible="1" />
                     <field name="uot_id" force_save="1" invisible="1" />
+                    <field name="uom_id" force_save="1" invisible="1" />
                     <field name="fiscal_price" force_save="1" invisible="1" />
                     <field name="fiscal_quantity" force_save="1" invisible="1" />
                     <field

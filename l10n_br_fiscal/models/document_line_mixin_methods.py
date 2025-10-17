@@ -466,7 +466,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if not line.product_id:
                 # Default Values
                 line.fiscal_type = False
-                line.uom_id = False
                 line.ncm_id = False
                 line.nbm_id = False
                 line.tax_icms_or_issqn = TAX_DOMAIN_ICMS
@@ -478,7 +477,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 continue
             p = line.product_id
             line.fiscal_type = p.fiscal_type
-            line.uom_id = p.uom_id
             line.ncm_id = p.ncm_id
             line.nbm_id = p.nbm_id
             line.tax_icms_or_issqn = p.tax_icms_or_issqn
@@ -487,6 +485,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             line.nbs_id = p.nbs_id
             line.fiscal_genre_id = p.fiscal_genre_id
             line.service_type_id = p.service_type_id
+
+    @api.depends("product_id")
+    def _compute_uom_id(self):
+        # Commercial Unit of Measure
+        for line in self:
+            if line.fiscal_operation_type == "in":
+                line.uom_id = line.product_id.uom_po_id
+            else:
+                line.uom_id = line.product_id.uom_id
 
     @api.depends("product_id")
     def _compute_city_taxation_code_id(self):

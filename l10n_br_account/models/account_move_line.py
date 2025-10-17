@@ -89,8 +89,7 @@ class AccountMoveLine(models.Model):
     @api.onchange("product_uom_id")
     def _inverse_product_uom_id(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.uom_id = line.product_uom_id
+            line.uom_id = line.product_uom_id
 
     @api.depends(
         "quantity",
