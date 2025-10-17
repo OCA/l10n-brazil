@@ -134,13 +134,15 @@ class TestCurrencyRateUpdateBCB(TransactionCase):
         self.assertTrue(currencies)
 
     @not_every_day_test
-    def test_update_BCB_today(self):
+    @mock.patch("requests.get", side_effect=mocked_requests_get)
+    def test_update_BCB_today(self, mock_get):
         """No checks are made since today may not be a banking day"""
         self.bcb_provider._update(self.today, self.today)
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
     @not_every_day_test
-    def test_update_BCB_month(self):
+    @mock.patch("requests.get", side_effect=mocked_requests_get)
+    def test_update_BCB_month(self, mock_get):
         self.bcb_provider._update(self.today - relativedelta(months=1), self.today)
 
         rates = self.CurrencyRate.search(
@@ -151,7 +153,8 @@ class TestCurrencyRateUpdateBCB(TransactionCase):
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
     @not_every_day_test
-    def test_update_BCB_year(self):
+    @mock.patch("requests.get", side_effect=mocked_requests_get)
+    def test_update_BCB_year(self, mock_get):
         self.bcb_provider._update(self.today - relativedelta(years=1), self.today)
 
         rates = self.CurrencyRate.search(
@@ -162,7 +165,8 @@ class TestCurrencyRateUpdateBCB(TransactionCase):
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
     @not_every_day_test
-    def test_update_BCB_scheduled(self):
+    @mock.patch("requests.get", side_effect=mocked_requests_get)
+    def test_update_BCB_scheduled(self, mock_get):
         self.bcb_provider.interval_type = "days"
         self.bcb_provider.interval_number = 14
         self.bcb_provider.next_run = self.today - relativedelta(days=1)
@@ -176,7 +180,8 @@ class TestCurrencyRateUpdateBCB(TransactionCase):
         self.CurrencyRate.search([("currency_id", "=", self.usd_currency.id)]).unlink()
 
     @not_every_day_test
-    def test_update_BCB_no_base_update(self):
+    @mock.patch("requests.get", side_effect=mocked_requests_get)
+    def test_update_BCB_no_base_update(self, mock_get):
         self.bcb_provider.interval_type = "days"
         self.bcb_provider.interval_number = 14
         self.bcb_provider.next_run = self.today - relativedelta(days=1)

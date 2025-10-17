@@ -53,35 +53,49 @@ class ResCurrencyRateProviderBCB(models.Model):
             url = (
                 "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/"
                 "v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial"
-                "=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?"
-                "format=json&skip=0&top=10000&$filter=tipoBoletim%20eq"
-                "%20%27Fechamento%27%20or%20tipoBoletim%20eq%20%27Abert"
-                "ura%27&select=paridadeCompra%2CparidadeVen"
-                "da%2CcotacaoCompra%2CcotacaoVenda%2CdataHoraCotacao%2"
-                "CtipoBoletim"
+                "=@dataInicial,dataFinalCotacao=@dataFinalCotacao)"
             )
 
-            params = dict()
-            params["@dataInicial"] = date_from.strftime("'%m-%d-%Y'")
-            params["@dataFinalCotacao"] = date_to.strftime("'%m-%d-%Y'")
+            base_params = {
+                "format": "json",
+                "skip": 0,
+                "top": 10000,
+                "$filter": "tipoBoletim eq 'Fechamento' or tipoBoletim eq 'Abertura'",
+                "select": (
+                    "paridadeCompra,paridadeVenda,cotacaoCompra,cotacaoVenda,"
+                    "dataHoraCotacao,tipoBoletim"
+                ),
+            }
+
+            date_params = {
+                "@dataInicial": date_from.strftime("'%m-%d-%Y'"),
+                "@dataFinalCotacao": date_to.strftime("'%m-%d-%Y'"),
+            }
 
             data = {}
             for cur in currencies:
-                params["@moeda"] = "'" + cur + "'"
+                params = {**base_params, **date_params, "@moeda": f"'{cur}'"}
                 response = requests.get(url, params=params, timeout=10)
                 if response.ok:
                     content = response.json()
+                    if not content.get("value"):
+                        continue
+                    for rate in content.get("value", []):
+                        required_keys = ["dataHoraCotacao", "cotacaoVenda"]
+                        if not all(key in rate for key in required_keys):
+                            continue
 
-                    for rate in content.get("value"):
                         rate_date = fields.Date.from_string(
                             rate.get("dataHoraCotacao")
                         ).strftime(DEFAULT_SERVER_DATE_FORMAT)
 
-                        if data.get(rate_date):
-                            data[rate_date][cur] = 1 / rate.get("cotacaoVenda")
-                        else:
-                            rate_dict = {cur: 1 / rate.get("cotacaoVenda")}
-                            data[rate_date] = rate_dict
+                        cotacao_venda = rate.get("cotacaoVenda")
+                        if cotacao_venda and cotacao_venda > 0:
+                            if data.get(rate_date):
+                                data[rate_date][cur] = 1 / cotacao_venda
+                            else:
+                                rate_dict = {cur: 1 / cotacao_venda}
+                                data[rate_date] = rate_dict
 
             return data
 
