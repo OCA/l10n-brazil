@@ -107,7 +107,6 @@ class TestInvoiceDatesAndDiscount(TransactionCase):
         self.move_id.issuer = DOCUMENT_ISSUER_PARTNER
         new_date = datetime.now() - timedelta(days=2)
         self.move_id.fiscal_document_id.document_date = new_date
-        self.move_id.fiscal_document_id._inverse_document_date()
 
         self.assertEqual(
             self.move_id.invoice_date,
