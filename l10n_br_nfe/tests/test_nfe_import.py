@@ -1,4 +1,5 @@
-import logging
+# Copyright 2021 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import nfelib
 import pkg_resources
@@ -6,8 +7,6 @@ from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
 from odoo.models import NewId
 from odoo.tests import TransactionCase
-
-_logger = logging.getLogger(__name__)
 
 
 class NFeImportTest(TransactionCase):
@@ -23,11 +22,8 @@ class NFeImportTest(TransactionCase):
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
-
-        nfe = (
-            self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in")
-            .build_from_binding("nfe", "40", binding.NFe.infNFe, dry_run=True)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=True
         )
         assert isinstance(nfe.id, NewId)
         self._check_nfe(nfe)
@@ -43,10 +39,8 @@ class NFeImportTest(TransactionCase):
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
         binding = TnfeProc.from_xml(nfe_stream.read().decode())
-        nfe = (
-            self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type="in")
-            .build_from_binding("nfe", "40", binding.NFe.infNFe, dry_run=False)
+        nfe = self.env["l10n_br_fiscal.document"].import_binding_nfe(
+            binding, edoc_type="in", dry_run=False
         )
 
         assert isinstance(nfe.id, int)
@@ -54,6 +48,10 @@ class NFeImportTest(TransactionCase):
 
     def _check_nfe(self, nfe):
         self.assertEqual(type(nfe)._name, "l10n_br_fiscal.document")
+        self.assertEqual(
+            nfe.document_type_id, self.env.ref("l10n_br_fiscal.document_55")
+        )
+        self.assertEqual(nfe.document_number, "47428")
 
         # here we check that emit and enderEmit
         # are now the supplier data (partner_id)
