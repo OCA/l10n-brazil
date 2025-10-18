@@ -204,12 +204,17 @@ class TestMoveEdition(TransactionCase):
             )
 
             # ensure manually setting a product_uom_id is properly sync'ed:
+            self.assertEqual(
+                line_form.product_uom_id, self.env.ref("uom.product_uom_unit")
+            )
+            self.assertEqual(line_form.uot_id, self.env.ref("uom.product_uom_unit"))
             line_form.product_uom_id = self.env.ref("l10n_br_fiscal.UOM_PC")
             self.assertEqual(line_form.uot_id, self.env.ref("l10n_br_fiscal.UOM_PC"))
             line_form.uot_id = self.env.ref("uom.product_uom_unit")
 
             line_form.price_unit = 42
             line_form.quantity = 5
+
             self.assertEqual(len(line_form.fiscal_tax_ids), 4)
             self.assertEqual(
                 line_form.icms_tax_id, self.env.ref("l10n_br_fiscal.tax_icms_7")
@@ -242,6 +247,9 @@ class TestMoveEdition(TransactionCase):
             self.assertEqual(
                 line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5")
             )
+            line_form.icmsfcp_base = line_form.price_unit
+            line_form.icmsfcp_value = 3  # ensure manually setting FCP value works
+            self.assertEqual(line_form.icmsfcp_value, 3)
 
         move = move_form.save()
 
@@ -278,6 +286,8 @@ class TestMoveEdition(TransactionCase):
         )
         self.assertEqual(aml.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_5"))
         self.assertEqual(aml.icms_value, 79.38)
+        self.assertEqual(aml.icmsfcp_base, aml.price_unit)
+        self.assertEqual(aml.icmsfcp_value, 3)
 
         # NCM entered manually must be maintained,
         # it must not be the same as the product.
