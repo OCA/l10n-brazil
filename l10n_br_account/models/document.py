@@ -77,11 +77,6 @@ class FiscalDocument(models.Model):
                 if move.partner_shipping_id != doc.partner_shipping_id:
                     move.partner_shipping_id = doc.partner_shipping_id
 
-    # commented out because of badly written TestInvoiceDiscount.test_date_in_out
-    #    def write(self, vals):
-    #        if self.document_type_id:
-    #            return super().write(vals)
-
     fiscal_line_ids = fields.One2many(
         copy=False,
     )
