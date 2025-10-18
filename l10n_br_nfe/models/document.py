@@ -727,23 +727,15 @@ class NFe(spec_models.StackedModel):
     def _prepare_import_dict(
         self, values, model=None, parent_dict=None, defaults_model=None
     ):
-        return {
-            **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
-            "imported_document": True,
-        }
-
-    def _build_attr(self, node, fields, vals, path, attr):
-        key = f"nfe40_{attr[0]}"  # TODO schema wise
-        value = getattr(node, attr[0])
-
-        if key == "nfe40_mod":
-            vals["document_type_id"] = (
+        res = super()._prepare_import_dict(values, model, parent_dict, defaults_model)
+        res["imported_document"] = True
+        if "nfe40_mod" in values:
+            res["document_type_id"] = (
                 self.env["l10n_br_fiscal.document.type"]
-                .search([("code", "=", value)], limit=1)
+                .search([("code", "=", values["nfe40_mod"])], limit=1)
                 .id
             )
-
-        return super()._build_attr(node, fields, vals, path, attr)
+        return res
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
@@ -1375,15 +1367,17 @@ class NFe(spec_models.StackedModel):
 
         self.file_report_id = self.env["ir.attachment"].create(attachment_data)
 
-    def import_binding_nfe(self, binding, edoc_type="out"):
+    def import_binding_nfe(self, binding, edoc_type="in", dry_run=False):
+        if hasattr(binding, "NFe"):
+            binding = binding.NFe
         document = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
-            .build_from_binding("nfe", "40", binding.NFe.infNFe)
+            .with_context(tracking_disable=True, edoc_type=edoc_type)
+            .build_from_binding("nfe", "40", binding.infNFe, dry_run=dry_run)
         )
 
         if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
-            binding.NFe.infNFe.emit.CNPJ
+            binding.infNFe.emit.CNPJ
         ):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
