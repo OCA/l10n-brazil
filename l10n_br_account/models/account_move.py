@@ -224,6 +224,15 @@ class AccountMove(models.Model):
 
         return arch, view
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        if "skip_fiscal_recompute_on_create" in self._context:
+            self = self.with_context(
+                skip_compute_fiscal_tax_ids=True,
+                skip_compute_tax_fields=True,
+            )
+        return super().create(vals_list)
+
     @api.depends(
         "line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched",
         "line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual",

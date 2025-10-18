@@ -122,6 +122,11 @@ class AccountMoveLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        if "skip_fiscal_recompute_on_create" in self._context:
+            self = self.with_context(
+                skip_compute_fiscal_tax_ids=True, skip_compute_tax_fields=True
+            )
+
         for values in vals_list:
             if values.get("fiscal_document_line_id"):
                 continue

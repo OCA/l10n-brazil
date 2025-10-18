@@ -496,4 +496,30 @@
             </xpath>
         </field>
     </record>
+
+    <!-- skip_fiscal_recompute_on_create allows user to edit custom Brazilian tax values -->
+    <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
+        <field
+            name="context"
+        >{'default_move_type': 'out_invoice', 'skip_fiscal_recompute_on_create': True}</field>
+    </record>
+
+    <record id="account.action_move_out_refund_type" model="ir.actions.act_window">
+        <field
+            name="context"
+        >{'default_move_type': 'out_invoice', 'skip_fiscal_recompute_on_create': True}</field>
+    </record>
+
+    <record id="account.action_move_in_invoice_type" model="ir.actions.act_window">
+        <field
+            name="context"
+        >{'default_move_type': 'in_invoice', 'skip_fiscal_recompute_on_create': True}</field>
+    </record>
+
+    <record id="account.action_move_in_refund_type" model="ir.actions.act_window">
+        <field
+            name="context"
+        >{'default_move_type': 'in_invoice', 'skip_fiscal_recompute_on_create': True}</field>
+    </record>
+
 </odoo>
