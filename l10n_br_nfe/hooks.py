@@ -13,9 +13,7 @@ _logger = logging.getLogger(__name__)
 
 def post_init_hook(env):
     cr = env.cr
-    cr.execute("select demo from ir_module_module where name='l10n_br_nfe';")
-    is_demo = cr.fetchone()[0]
-    if is_demo:
+    if env.ref("base.module_l10n_br_nfe").demo:
         res_items = (
             "nfe",
             "samples",
@@ -32,11 +30,8 @@ def post_init_hook(env):
         )
         try:
             existing_nfes.unlink()
-            nfe = (
-                env["nfe.40.infnfe"]
-                .with_context(tracking_disable=True, edoc_type="in")
-                .build_from_binding("nfe", "40", binding.NFe.infNFe)
+            env["l10n_br_fiscal.document"].import_binding_nfe(
+                binding, edoc_type="in", dry_run=False
             )
-            _logger.info(nfe.nfe40_emit.nfe40_CNPJ)
         except ValidationError:
             _logger.info(f"NF-e already {document_number} imported by hooks")
