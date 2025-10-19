@@ -209,7 +209,12 @@ class AccountTax(models.Model):
         """
         taxes = base_line["taxes"]._origin
         line = base_line.get("record")
-        if not taxes or not line or not line.fiscal_tax_ids:
+        if (
+            not taxes
+            or not line
+            or not hasattr(line, "fiscal_tax_ids")
+            or not line.fiscal_tax_ids
+        ):
             return super()._compute_taxes_for_single_line(
                 base_line,
                 handle_price_include=True,
@@ -233,7 +238,6 @@ class AccountTax(models.Model):
             )
 
         if taxes:
-            # line = base_line["record"]
             taxes_res = taxes.with_context(**base_line["extra_context"]).compute_all(
                 price_unit_after_discount,
                 currency=currency,
@@ -243,24 +247,6 @@ class AccountTax(models.Model):
                 is_refund=base_line["is_refund"],
                 handle_price_include=base_line["handle_price_include"],
                 include_caba_tags=include_caba_tags,
-                fiscal_taxes=line.fiscal_tax_ids,
-                operation_line=line.fiscal_operation_line_id,
-                cfop=line.cfop_id or None,
-                ncm=line.ncm_id,
-                nbs=line.nbs_id,
-                nbm=line.nbm_id,
-                cest=line.cest_id,
-                discount_value=line.discount_value,
-                insurance_value=line.insurance_value,
-                other_value=line.other_value,
-                ii_customhouse_charges=line.ii_customhouse_charges,
-                freight_value=line.freight_value,
-                fiscal_price=line.fiscal_price,
-                fiscal_quantity=line.fiscal_quantity,
-                uot_id=line.uot_id,
-                icmssn_range=line.icmssn_range_id,
-                icms_origin=line.icms_origin,
-                ind_final=line.ind_final,
             )
 
             to_update_vals = {
@@ -281,11 +267,29 @@ class AccountTax(models.Model):
                     is_refund=base_line["is_refund"],
                     handle_price_include=base_line["handle_price_include"],
                     include_caba_tags=include_caba_tags,
+                    fiscal_taxes=line.fiscal_tax_ids,
+                    operation_line=line.fiscal_operation_line_id,
+                    cfop=line.cfop_id or None,
+                    ncm=line.ncm_id,
+                    nbs=line.nbs_id,
+                    nbm=line.nbm_id,
+                    cest=line.cest_id,
+                    discount_value=line.discount_value,
+                    insurance_value=line.insurance_value,
+                    other_value=line.other_value,
+                    ii_customhouse_charges=line.ii_customhouse_charges,
+                    freight_value=line.freight_value,
+                    fiscal_price=line.fiscal_price,
+                    fiscal_quantity=line.fiscal_quantity,
+                    uot_id=line.uot_id,
+                    icmssn_range=line.icmssn_range_id,
+                    icms_origin=line.icms_origin,
+                    ind_final=line.ind_final,
                 )
-                for tax_res, _new_taxes_res in zip(
-                    taxes_res["taxes"], new_taxes_res["taxes"], strict=True
+                for tax_res, new_taxes_res in zip(
+                    taxes_res["taxes"], new_taxes_res["taxes"]
                 ):
-                    delta_tax = _new_taxes_res["amount"] - tax_res["amount"]
+                    delta_tax = new_taxes_res["amount"] - tax_res["amount"]
                     tax_res["amount"] += delta_tax
                     to_update_vals["price_total"] += delta_tax
 
@@ -322,8 +326,12 @@ class AccountTax(models.Model):
         return to_update_vals, tax_values_list
 
     @api.model
-    def _prepare_tax_totals(self, base_lines, currency, tax_lines=None):
-        res = super()._prepare_tax_totals(base_lines, currency, tax_lines)
+    def _prepare_tax_totals(
+        self, base_lines, currency, tax_lines=None, is_company_currency_requested=False
+    ):
+        res = super()._prepare_tax_totals(
+            base_lines, currency, tax_lines, is_company_currency_requested
+        )
         amount_total = res["amount_total"]
 
         for line in base_lines:
