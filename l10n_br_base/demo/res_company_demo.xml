@@ -7,10 +7,7 @@
         <field name="street_name">Avenida Paulista</field>
         <field name="street_number">1</field>
         <field name="district">Bela Vista</field>
-        <field name="city_id" ref="l10n_br_base.city_3550308" />
         <field name="zip">01311-000</field>
-        <field name="country_id" ref="base.br" />
-        <field name='state_id' ref='base.state_br_sp' />
         <field name="phone">+55 11 9999-9999</field>
         <field name="email">info@suaempresa.com.br</field>
         <field name="website">www.example.com</field>
