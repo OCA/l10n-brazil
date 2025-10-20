@@ -299,6 +299,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
             cls.env["account.move"].with_context(
                 default_move_type=move_type,
                 account_predictive_bills_disable_prediction=True,
+                skip_fiscal_recompute_on_create=True,
             )
         )
         move_form.invoice_date = invoice_date or fields.Date.from_string("2019-01-01")
@@ -322,7 +323,6 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
 
                 # extra BR fiscal params:
                 line_form.fiscal_operation_line_id = fiscal_operation_lines[index]
-
                 if taxes:
                     line_form.tax_ids.clear()
                     line_form.tax_ids.add(taxes)
