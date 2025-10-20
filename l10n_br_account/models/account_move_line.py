@@ -128,6 +128,7 @@ class AccountMoveLine(models.Model):
             )
 
         for values in vals_list:
+            print("create line", values.get("amount_tax_included"), values.get("icms_relief_value"))
             if values.get("fiscal_document_line_id"):
                 continue
 
@@ -258,6 +259,7 @@ class AccountMoveLine(models.Model):
                                 if line.tax_ids
                                 else amount_total
                             )
+                            print("*****", line.name, unsigned_amount_currency, line.amount_tax_included, line.icms_relief_value)
 
                 amount_currency = unsigned_amount_currency * line.move_id.direction_sign
 

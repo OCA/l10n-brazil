@@ -155,6 +155,14 @@
                     placeholders kick in.
                 -->
                 <field name="proxy_product_id" invisible="1" />
+                <field name="amount_tax_included" invisible="1" />
+                <field name="amount_tax_not_included" invisible="1" />
+                <field name="estimate_tax" invisible="1" />
+                <field name="amount_tax_withholding" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
+                <field name="freight_value" invisible="1" />
+                <field name="icms_relief_value" invisible="1" />
                 <field name="fiscal_operation_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
@@ -305,6 +313,8 @@
                 <field name="amount_tax_withholding" invisible="1" />
                 <field name="amount_tax_included" invisible="1" />
                 <field name="amount_tax_not_included" invisible="1" />
+                <field name="estimate_tax" invisible="1" />
+                <field name="icms_relief_value" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
                 <field name="partner_company_type" force_save="1" invisible="1" />
                 <field name="cfop_destination" force_save="1" invisible="1" />
