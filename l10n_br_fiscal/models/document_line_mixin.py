@@ -317,11 +317,34 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_fiscal_amounts",
     )
 
-    amount_tax_included = fields.Monetary()
+    amount_tax_included = fields.Monetary(
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
-    amount_tax_not_included = fields.Monetary()
+    amount_tax_not_included = fields.Monetary(
+        compute="_compute_tax_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
-    amount_tax_withholding = fields.Monetary(string="Tax Withholding")
+    amount_tax_withholding = fields.Monetary(
+        string="Tax Withholding",
+        compute="_compute_tax_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+
+    estimate_tax = fields.Monetary(
+        compute="_compute_tax_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
@@ -1680,8 +1703,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     manual_additional_data = fields.Text(
         help="Additional data manually entered by user"
     )
-
-    estimate_tax = fields.Monetary()
 
     cnae_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
