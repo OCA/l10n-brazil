@@ -226,7 +226,7 @@ class AccountMove(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        if "skip_fiscal_recompute_on_create" in self._context:
+        if "force_fiscal_recompute" not in self._context:
             self = self.with_context(
                 skip_compute_fiscal_tax_ids=True,
                 skip_compute_tax_fields=True,
