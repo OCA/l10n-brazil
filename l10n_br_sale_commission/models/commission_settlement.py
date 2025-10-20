@@ -9,6 +9,11 @@ from odoo import Command, models
 class CommissionSettlement(models.Model):
     _inherit = "commission.settlement"
 
+    def make_invoices(self, journal, product, date=False, grouped=False):
+        return super(
+            CommissionSettlement, self.with_context(force_fiscal_recompute=True)
+        ).make_invoices(journal, product, date, grouped)
+
     def _prepare_invoice(self, journal, product, date=False):
         vals = super()._prepare_invoice(journal, product, date)
         if self.env.context.get("document_type_id"):
