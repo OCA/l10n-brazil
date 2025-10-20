@@ -526,28 +526,29 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields.remove("nfe40_ICMSST")
 
         xsd_fields = [self.nfe40_choice_icms]
-        icms_tag = (
-            self.nfe40_choice_icms.replace("nfe40_", "")
-            .replace("ICMS", "Icms")
-            .replace("IcmsSN", "Icmssn")
-        )
-        binding_module = sys.modules[self._get_spec_property("binding_module")]
-        # Tnfe.InfNfe.Det.Imposto.Icms.Icms00
-        # see https://stackoverflow.com/questions/31174295/
-        # getattr-and-setattr-on-nested-subobjects-chained-properties
-        tnfe = binding_module.Tnfe
-        infnfe = tnfe.InfNfe
-        det = infnfe.Det
-        imposto = det.Imposto
-        icms = imposto.Icms
-        icms_binding = getattr(icms, icms_tag)
-        icms_dict = self._export_fields_icms()
-        sliced_icms_dict = {
-            key: icms_dict.get(key)
-            for key in icms_binding.__dataclass_fields__.keys()
-            if icms_dict.get(key)
-        }
-        export_dict[icms_tag.upper()] = icms_binding(**sliced_icms_dict)
+        if self.nfe40_choice_icms:
+            icms_tag = (
+                self.nfe40_choice_icms.replace("nfe40_", "")
+                .replace("ICMS", "Icms")
+                .replace("IcmsSN", "Icmssn")
+            )
+            binding_module = sys.modules[self._get_spec_property("binding_module")]
+            # Tnfe.InfNfe.Det.Imposto.Icms.Icms00
+            # see https://stackoverflow.com/questions/31174295/
+            # getattr-and-setattr-on-nested-subobjects-chained-properties
+            tnfe = binding_module.Tnfe
+            infnfe = tnfe.InfNfe
+            det = infnfe.Det
+            imposto = det.Imposto
+            icms = imposto.Icms
+            icms_binding = getattr(icms, icms_tag)
+            icms_dict = self._export_fields_icms()
+            sliced_icms_dict = {
+                key: icms_dict.get(key)
+                for key in icms_binding.__dataclass_fields__.keys()
+                if icms_dict.get(key)
+            }
+            export_dict[icms_tag.upper()] = icms_binding(**sliced_icms_dict)
 
     #######################################
     # NF-e tag: ICMSPart
