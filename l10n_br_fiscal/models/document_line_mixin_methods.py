@@ -461,6 +461,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "fiscal_operation_id",
     )
     def _compute_price_unit_fiscal(self):  # OK when edited from aml?? c-> check
+        if self._context.get("skip_compute_price_unit_fiscal"):
+            return
         for line in self:
             line.price_unit = {
                 "sale_price": line.product_id.list_price,
