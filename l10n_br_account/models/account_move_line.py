@@ -11,10 +11,8 @@ from odoo.tools import frozendict
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _fiscal_decorator_model = "l10n_br_fiscal.document.line"
-    _fiscal_decorator_compute_blacklist = ["_compute_fiscal_amounts"]
     _inherit = [
         _name,
-        "l10n_br_fiscal.document.line.mixin.methods",
         "l10n_br_account.decorator.mixin",
     ]
     _inherits = {_fiscal_decorator_model: "fiscal_document_line_id"}
@@ -34,6 +32,13 @@ class AccountMoveLine(models.Model):
     discount = fields.Float(
         compute="_compute_discounts",
         store=True,
+    )
+
+    price_subtotal = fields.Monetary(
+        readonly=False,
+    )
+    price_total = fields.Monetary(
+        readonly=False,
     )
 
     payment_term_number = fields.Char(
@@ -67,26 +72,22 @@ class AccountMoveLine(models.Model):
     @api.onchange("name")
     def _inverse_name(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.name = line.name
+            line.proxy_name = line.name
 
     @api.onchange("quantity")
     def _inverse_quantity(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.quantity = line.quantity
+            line.proxy_quantity = line.quantity
 
     @api.onchange("price_unit")
     def _inverse_price_unit(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.price_unit = line.price_unit
+            line.proxy_price_unit = line.price_unit
 
     @api.onchange("product_uom_id")
     def _inverse_product_uom_id(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.uom_id = line.product_uom_id
+            line.uom_id = line.product_uom_id
 
     @api.depends(
         "quantity",
@@ -120,9 +121,27 @@ class AccountMoveLine(models.Model):
             return super()._compute_name()
         return True
 
+    @api.model
+    def _sync_proxy_fields_vals(self, vals):
+        if "proxy_quantity" not in vals and "quantity" in vals:
+            vals["proxy_quantity"] = vals["quantity"]
+        if "proxy_price_unit" not in vals and "price_unit" in vals:
+            vals["proxy_price_unit"] = vals["price_unit"]
+        if "proxy_name" not in vals and "name" in vals:
+            vals["proxy_name"] = vals["name"]
+        if "proxy_product_id" not in vals and "product_id" in vals:
+            vals["proxy_product_id"] = vals["product_id"]
+
+    def write(self, values):
+        self._sync_proxy_fields_vals(values)
+        res = super().write(values)
+        return res
+
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
+            self._sync_proxy_fields_vals(values)
+
             if values.get("fiscal_document_line_id"):
                 continue
 
@@ -312,19 +331,16 @@ class AccountMoveLine(models.Model):
         "icmssn_range_id",
         "icms_origin",
         "ind_final",
+        "icms_relief_value",
     )
     def _compute_totals(self):
         """
         Overriden to pass all the Brazilian parameters we need
         to the account.tax#compute_all method.
         """
-        result = super(
-            AccountMoveLine,
-            self.with_context(
-                skip_compute_fiscal_tax_ids=True, skip_compute_tax_fields=True
-            ),
-        )._compute_totals()
+
         if not self.move_id.fiscal_operation_id:
+            result = super()._compute_totals()
             return result
 
         for line in self:
@@ -343,9 +359,7 @@ class AccountMoveLine(models.Model):
                     partner=line.partner_id,
                     is_refund=line.move_type in ("out_refund", "in_refund"),
                     handle_price_include=True,  # sure?
-                    fiscal_taxes=line.with_context(
-                        skip_compute_fiscal_tax_ids=True
-                    ).fiscal_tax_ids,
+                    fiscal_taxes=line.fiscal_tax_ids,
                     operation_line=line.fiscal_operation_line_id,
                     cfop=line.cfop_id or None,
                     ncm=line.ncm_id,
