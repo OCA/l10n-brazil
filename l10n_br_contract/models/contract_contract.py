@@ -91,6 +91,11 @@ class ContractContract(models.Model):
         return invoice_vals
 
     def _recurring_create_invoice(self, date_ref=False):
+        self = self.with_context(
+            skip_compute_fiscal_tax_ids=True,
+            skip_compute_product_fiscal_fields=True,
+            skip_compute_price_unit_fiscal=True,
+        )
         moves = super()._recurring_create_invoice(date_ref)
 
         for move in moves:
