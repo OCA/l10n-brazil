@@ -222,8 +222,6 @@ class StockMove(models.Model):
             # Caso Brasil se caracteriza por ter Operação Fiscal
             return new_moves_vals
 
-        self._onchange_fiscal_taxes()
-
         for new_move_vals in new_moves_vals:
             new_move_vals.update(self._prepare_br_fiscal_dict())
 
@@ -233,6 +231,12 @@ class StockMove(models.Model):
     def _compute_fiscal_price(self):
         for record in self:
             record.fiscal_price = record.price_unit
+
+    @api.depends("product_id", "state")
+    def _compute_product_fiscal_fields(self):
+        # Skip compute for "done" records
+        moves = self.filtered(lambda m: m.state != "done")
+        return super(StockMove, moves)._compute_product_fiscal_fields()
 
     def _get_taxes(self, fiscal_position, inv_type):
         """

@@ -1,7 +1,7 @@
 # Copyright 2024 Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests.common import tagged
 
 from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
@@ -12,6 +12,13 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
+        # Ensure the NFe user group is enabled so fiscal fields are available
+        # on invoices when the l10n_br_nfe module is installed.
+        nfe_user_group = cls.env.ref("l10n_br_nfe.group_user", raise_if_not_found=False)
+        if nfe_user_group:
+            cls.env.user.write({"groups_id": [Command.link(nfe_user_group.id)]})
+
         cls.pis_tax_definition_empresa_lc = cls.env[
             "l10n_br_fiscal.tax.definition"
         ].create(
@@ -429,7 +436,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             line_ids.issqn_fg_city_id = self.env.ref("l10n_br_base.city_3550308")
             line_ids.issqn_wh_tax_id = self.env.ref("l10n_br_fiscal.tax_issqn_wh_5")
 
-        move_issqn.invoice_line_ids._onchange_fiscal_taxes()
         move_issqn.action_post()
         move_issqn._compute_wh_invoice_ids()
 
@@ -504,7 +510,6 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             line_ids.issqn_fg_city_id = self.env.ref("l10n_br_base.city_3550308")
             line_ids.issqn_wh_tax_id = self.env.ref("l10n_br_fiscal.tax_issqn_wh_5")
 
-        move_issqn.invoice_line_ids._onchange_fiscal_taxes()
         move_issqn.action_post()
         move_issqn._compute_wh_invoice_ids()
 

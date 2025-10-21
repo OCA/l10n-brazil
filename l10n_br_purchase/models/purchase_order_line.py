@@ -38,16 +38,6 @@ class PurchaseOrderLine(models.Model):
         "('state', '=', 'approved')]",
     )
 
-    # overriden to disable precompute as it depends on price_unit which is not
-    # precompute in the purchase module. We don't need precompute in purchase.
-    fiscal_price = fields.Float(
-        precompute=False,
-    )
-
-    price_unit = fields.Float(
-        precompute=False,
-    )
-
     quantity = fields.Float(
         string="Mixin Quantity",
         related="product_qty",
@@ -79,18 +69,6 @@ class PurchaseOrderLine(models.Model):
         related="company_id.delivery_costs",
     )
 
-    def _get_fiscal_tax_ids_dependencies(self):
-        fields = super()._get_fiscal_tax_ids_dependencies()
-        fields.remove("company_id")
-        fields.remove("partner_id")
-        return fields
-
-    def _get_tax_fields_dependencies(self):
-        fields = super()._get_tax_fields_dependencies()
-        fields.remove("price_unit")
-        fields.remove("fiscal_price")
-        return fields
-
     @api.depends(
         "product_uom_qty",
         "price_unit",
@@ -107,7 +85,6 @@ class PurchaseOrderLine(models.Model):
         result = super()._compute_amount()
         for line in self:
             if line.fiscal_operation_id:
-                line._compute_tax_fields()  # TODO is it required?
                 line.update(
                     {
                         "price_subtotal": line.fiscal_amount_untaxed,
@@ -161,6 +138,18 @@ class PurchaseOrderLine(models.Model):
                 partner.address_get(["invoice"]).get("invoice")
             )
         return partner
+
+    def _setup_complete(self):
+        # /!\ LOW-LEVEL OVERRIDE (registry setup) /!\
+        # The BR fiscal mixin uses many fields with precompute=True,
+        # but purchase does not have all dependencies ready at create time.
+        # Since we have hundreds of fields, instead of overriding each one,
+        # we set precompute=False dynamically here.
+        res = super()._setup_complete()
+        for field in self._fields.values():
+            if getattr(field, "precompute", False):
+                field.precompute = False
+        return res
 
     @api.model
     def _get_total_for_tax_totals(self):

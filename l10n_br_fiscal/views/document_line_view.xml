@@ -102,15 +102,15 @@
                     <page name="amounts" string="Amounts">
                         <group>
                             <group>
-                                <field name="fiscal_amount_untaxed" />
-                                <field name="amount_fiscal" />
-                                <field name="fiscal_amount_tax" />
-                                <field name="estimate_tax" />
+                                <field name="fiscal_amount_untaxed" force_save="1" />
+                                <field name="amount_fiscal" force_save="1" />
+                                <field name="fiscal_amount_tax" force_save="1" />
+                                <field name="estimate_tax" force_save="1" />
                             </group>
                             <group>
-                                <field name="fiscal_amount_total" />
-                                <field name="amount_tax_withholding" />
-                                <field name="amount_taxed" />
+                                <field name="fiscal_amount_total" force_save="1" />
+                                <field name="amount_tax_withholding" force_save="1" />
+                                <field name="amount_taxed" force_save="1" />
                             </group>
                         </group>
                     </page>

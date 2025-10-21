@@ -156,10 +156,7 @@ class L10nBrSaleBaseTest(TransactionCase):
         # Skip when it is a display line.
         if sale_line.display_type:
             return
-        sale_line._compute_product_fiscal_fields()
         sale_line._onchange_fiscal_operation_id()
-        sale_line._onchange_fiscal_taxes()
-        sale_line._onchange_fiscal_tax_ids()
 
     def _invoice_sale_order(self, sale_order):
         sale_order.action_confirm()

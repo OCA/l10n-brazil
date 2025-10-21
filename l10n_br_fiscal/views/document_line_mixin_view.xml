@@ -21,13 +21,25 @@
                     <field name="fiscal_type" force_save="1" invisible="1" />
                     <field name="partner_company_type" force_save="1" invisible="1" />
                     <field name="tax_framework" force_save="1" invisible="1" />
-                    <field
-                        name="amount_tax_not_included"
-                        force_save="1"
-                        invisible="1"
-                    />
+
+          <field name="amount_tax_included" force_save="1" invisible="1" />
+          <field name="amount_tax_not_included" force_save="1" invisible="1" />
                     <field name="amount_tax_withholding" force_save="1" invisible="1" />
-                    <field name="cfop_destination" force_save="1" invisible="1" />
+
+          <field name="amount_fiscal" force_save="1" invisible="1" />
+          <field name="price_gross" force_save="1" invisible="1" />
+          <field name="fiscal_amount_untaxed" force_save="1" invisible="1" />
+          <field name="fiscal_amount_tax" force_save="1" invisible="1" />
+          <field name="amount_taxed" force_save="1" invisible="1" />
+          <field name="fiscal_amount_total" force_save="1" invisible="1" />
+          <field name="financial_total" force_save="1" invisible="1" />
+          <field name="financial_total_gross" force_save="1" invisible="1" />
+          <field name="financial_discount_value" force_save="1" invisible="1" />
+
+
+          <field name="cfop_id" force_save="1" invisible="1" />
+
+          <field name="cfop_destination" force_save="1" invisible="1" />
                     <field name="fiscal_genre_id" force_save="1" invisible="1" />
                     <field name="fiscal_genre_code" force_save="1" invisible="1" />
                     <field name="ncm_id" force_save="1" invisible="1" />
@@ -57,6 +69,7 @@
                                 force_save="1"
                                 attrs="{'readonly': [('product_id', '!=', False), ('tax_icms_or_issqn', '!=', False)], 'required': [('tax_icms_or_issqn', '!=', False), ('fiscal_tax_ids', '!=', False)]}"
                             />
+                            <field name="fiscal_tax_ids" widget="many2many_tags" />
                         </group>
                         <notebook>
                             <page
@@ -243,6 +256,16 @@
                                         />
                                         <field
                                             name="icmssn_credit_value"
+                                            force_save="1"
+                                            attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"
+                                        />
+                                        <field
+                                            name="simple_value"
+                                            force_save="1"
+                                            attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"
+                                        />
+                                        <field
+                                            name="simple_without_icms_value"
                                             force_save="1"
                                             attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"
                                         />
@@ -543,7 +566,8 @@
                                     <group>
                                         <field name="ii_base" />
                                         <field name="ii_value" />
-                                    </group>
+                                        <field name="ii_percent" />
+                                </group>
                                     <group>
                                         <field name="ii_iof_value" />
                                         <field name="ii_customhouse_charges" />

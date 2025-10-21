@@ -49,8 +49,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             line.product_uom_qty = 3
 
         self.so = sale_form.save()
-        for line in self.so.order_line:
-            line._compute_tax_fields()
 
         # confirm our standard so, check the picking
         self.so.action_confirm()
@@ -411,8 +409,6 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         sale_order_1 = self.env.ref("l10n_br_sale_stock.lucro_presumido-sale_order_1")
         sale_order_form = Form(sale_order_1)
         sale_order = sale_order_form.save()
-        for line in sale_order.order_line:
-            line._compute_tax_fields()
         sale_order.incoterm = self.env.ref("account.incoterm_FOB")
 
         sale_order.action_confirm()

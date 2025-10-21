@@ -59,12 +59,11 @@ class CommissionSettlement(models.Model):
                     values = line_obj.default_get(line_obj.fields_get().keys())
                     values.update(line_dict)
                     move_line = self.env["account.move.line"].new(values.copy())
-                    move_line._inverse_partner_id()
-                    move_line._inverse_product_id()
-                    move_line._inverse_account_id()
-                    move_line._inverse_amount_currency()
                     # Fiscal Brazil:
                     move_line._onchange_fiscal_operation_id()
+
+                    # TODO hack para o campo estar presente no cache
+                    _ = move_line.fiscal_operation_line_id
 
                     new_values = move_line._convert_to_write(move_line._cache)
                     new_values.update(values)

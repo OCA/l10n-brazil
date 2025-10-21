@@ -66,7 +66,11 @@ class DocumentLine(models.Model):
 
     quantity = fields.Float(default=1.0)
 
-    ind_final = fields.Selection(related="document_id.ind_final")
+    ind_final = fields.Selection(
+        related="document_id.ind_final",
+        store=True,
+        precompute=True,
+    )
 
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total
@@ -80,6 +84,8 @@ class DocumentLine(models.Model):
 
     edoc_purpose = fields.Selection(
         related="document_id.edoc_purpose",
+        store=True,
+        precompute=True,
     )
 
     additional_data = fields.Text()
