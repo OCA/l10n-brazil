@@ -154,7 +154,6 @@
                     domain here that is checked before the dynamic fiscal
                     placeholders kick in.
                 -->
-                <field name="proxy_product_id" invisible="1" />
                 <field name="fiscal_operation_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
@@ -289,7 +288,6 @@
                     name="fiscal_price"
                     attrs="{'invisible': [('document_type_id', '=', False)]}"
                 />
-                <field name="proxy_product_id" invisible="1" />
                 <field name="amount_currency" invisible="1" />
                 <field name="date" invisible="1" />
                 <field name="date_maturity" invisible="1" />

@@ -56,14 +56,6 @@ class AccountMoveLine(models.Model):
     price_unit = fields.Float(inverse="_inverse_price_unit")
     product_uom_id = fields.Many2one(inverse="_inverse_product_uom_id")
 
-    @api.onchange("product_id")
-    def _inverse_product_id(self):
-        for line in self:
-            # we use proxy_product_id to avoid triggering _compute_product_fiscal_fields
-            # which would erase custom values such as custom ncm_id
-            line.proxy_product_id = line.product_id
-        return super()._inverse_product_id()
-
     @api.onchange("name")
     def _inverse_name(self):
         for line in self:

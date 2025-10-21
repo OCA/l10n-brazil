@@ -19,15 +19,7 @@ class FiscalDocumentLine(models.Model):
     # SHADOWED FIELDS SYNC
     # -------------------------------------------------------------------------
 
-    proxy_product_id = fields.Many2one(
-        comodel_name="product.product",
-        string="Product (proxy)",
-        help="Technical Field.",
-        readonly=False,
-    )
-
     product_id = fields.Many2one(
-        related="proxy_product_id",
         comodel_name="product.product",
         string="Product",
         store=True,
