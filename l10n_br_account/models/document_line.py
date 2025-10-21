@@ -32,13 +32,6 @@ class FiscalDocumentLine(models.Model):
     price_unit = fields.Float(inverse="_inverse_price_unit")
     uom_id = fields.Many2one(inverse="_inverse_uom_id")
 
-    @api.onchange("product_id")
-    def _inverse_product_id(self):
-        for line in self:
-            for aml in line.account_line_ids:
-                if aml.product_id != line.product_id:
-                    aml.product_id = line.product_id.id
-
     @api.onchange("name")
     def _inverse_name(self):
         for line in self:
