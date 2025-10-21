@@ -120,9 +120,20 @@ class AccountMoveLine(models.Model):
             return super()._compute_name()
         return True
 
+    @api.model
+    def _sync_proxy_fields_vals(self, vals):
+        if "proxy_product_id" not in vals and "product_id" in vals:
+            vals["proxy_product_id"] = vals["product_id"]
+
+    def write(self, values):
+        self._sync_proxy_fields_vals(values)
+        res = super().write(values)
+        return res
+
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
+            self._sync_proxy_fields_vals(values)
             if values.get("fiscal_document_line_id"):
                 continue
 
