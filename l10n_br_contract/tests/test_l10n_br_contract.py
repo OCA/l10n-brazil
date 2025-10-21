@@ -29,6 +29,7 @@ class TestL10nBrContract(TransactionCase):
                     "l10n_br_fiscal.customized_development_sale"
                 )
                 line.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
+                line.price_unit = 550.00
 
         # Create Invoice and Fiscal Documents related to the contract
         cls.contract_id.recurring_create_invoice()
@@ -74,6 +75,12 @@ class TestL10nBrContract(TransactionCase):
                     "The product of the Fiscal Document does not "
                     "correspond with the expected",
                 )
+                self.assertEqual(
+                    550.00,
+                    document_id.fiscal_line_ids[0].price_unit,
+                    "The price unit of the Fiscal Document does not "
+                    "correspond with the expected",
+                )
 
             else:
                 product_1_id = self.env.ref("product.product_delivery_01")
@@ -112,6 +119,13 @@ class TestL10nBrContract(TransactionCase):
                     service_product_id.id,
                     invoice.invoice_line_ids[0].product_id.id,
                     "The product of the Fiscal Document does not "
+                    "correspond with the expected",
+                )
+
+                self.assertEqual(
+                    550.00,
+                    invoice.invoice_line_ids[0].price_unit,
+                    "The price unit of the Invoice does not "
                     "correspond with the expected",
                 )
 
