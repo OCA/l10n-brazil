@@ -96,7 +96,8 @@ class AccountMove(models.Model):
     def _inverse_company_id(self):
         for move in self:
             for doc in move.fiscal_document_ids:
-                doc.company_id = move.company_id
+                with self.env.protecting(set(doc._fields.values()), doc):
+                    doc.company_id = move.company_id
         return super()._inverse_company_id()
 
     @api.onchange("currency_id")
@@ -110,7 +111,11 @@ class AccountMove(models.Model):
     def _inverse_partner_id(self):
         for move in self:
             for doc in move.fiscal_document_ids:
-                doc.partner_id = move.partner_id
+                # NOTE this protecting makes test_sale_stock crash
+                # but is required for test_move_edition
+                # TODO use if context key if possible (if different call stacks)
+                with self.env.protecting(set(doc._fields.values()), doc):
+                    doc.partner_id = move.partner_id
         return super()._inverse_partner_id()
 
     @api.onchange("user_id")
@@ -208,6 +213,7 @@ class AccountMove(models.Model):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR" or view_type != "form":
             return arch, view
+        # TODO if view_type == "form":
         arch = self.env["account.move.line"].inject_fiscal_fields(arch)
 
         for tax_totals_node in arch.xpath(

@@ -545,11 +545,14 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             move_vals,
         )
 
-    def test_venda_with_icms_reduction_with_relief(self):
+    def test_venda_with_icms_reduction_with_relief(self):  # TODO
         # Testando com Alivio do ICMS
-        self.move_out_venda_with_icms_reduction.invoice_line_ids[0].icms_relief_id = 1
-        self.move_out_venda_with_icms_reduction.invoice_line_ids._onchange_fiscal_taxes()
-        self.move_out_venda_with_icms_reduction.line_ids._compute_fiscal_amounts()
+        self.move_out_venda_with_icms_reduction.invoice_line_ids[
+            0
+        ].icms_relief_id = self.env.ref("l10n_br_fiscal.icms_relief_1").id
+        self.move_out_venda_with_icms_reduction.invoice_line_ids[
+            0
+        ]._compute_tax_fields()
 
         product_line_vals_1 = {
             "name": self.product_a.display_name,
@@ -561,7 +564,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             "discount": 0.0,
             "price_unit": 1000.0,
             "price_subtotal": 1000.0,
-            "price_total": 1032.5,
+            "price_total": 1032.5,  # 996.27,  # vProd + vIPI - vICMSDeson
             "tax_line_id": False,
             "currency_id": self.company_data["currency"].id,
             "amount_currency": -839.15,
