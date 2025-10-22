@@ -76,6 +76,10 @@ class FocusnfeNfse(models.AbstractModel):
                 params=params,
                 auth=auth,
             )
+            if response.status_code == 422:
+                payload = response.json()
+                msg = payload.get("mensagem") or ""
+                raise UserError(f"Error communicating with NFSe service: {msg}")
             response.raise_for_status()  # Raises an error for 4xx/5xx responses
             return response
         except requests.HTTPError as e:
