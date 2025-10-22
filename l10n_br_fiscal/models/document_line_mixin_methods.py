@@ -7,6 +7,7 @@ from lxml import etree
 from lxml.builder import E
 
 from odoo import Command, api, models
+from odoo.fields import NewId
 
 from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN, TAX_DOMAIN_ICMS
 from ..constants.icms import (
@@ -183,26 +184,54 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "amount_tax_not_included",
         "amount_tax_included",
         "amount_tax_withholding",
+        "icms_relief_value",
         "uot_id",
         "product_id",
         "partner_id",
         "company_id",
         "price_unit",
         "quantity",
-        "icms_relief_id",
         "fiscal_operation_line_id",
     )
     def _compute_fiscal_amounts(self):
-        for record in self:
+        if any(not isinstance(rec.id, NewId) for rec in self):
+            skip_compute_tax_fields = True
+        else:
+            skip_compute_tax_fields = False
+        for record in self.with_context(
+            # NOTE we need that flag for test_move_edition
+            # but we need skip_compute_tax_fields=False for the ICMS relief test
+            # because icms_relief_value impacts here
+            # (and it's probably the same with other _add/_rm_fields_to_amount)
+            # we need a different value with the same call stack
+            # -> seems very tricky to fix!
+            # and idea is to merge _compute_fiscal_amounts into skip_compute_tax_fields
+            # but the aml decorator makes it hard it seems...
+            skip_compute_tax_fields=skip_compute_tax_fields,
+            from_doc_compute_fiscal_amounts=True,
+            # skip_compute_tax_fields=True #-> test_move_edition OK, landed_cost KO, test_venda_with_icms_reduction_with_relief KO (unbalanced)
+            # BUT the if self_context... breaks self.assertEqual(aml.icmsfcp_base, aml.price_unit) in test_move_edition
+            # skip_compute_tax_fields=skip_compute_tax_fields if self._context.get("from_doc_compute_fiscal_amount") else False
+        ):
+            if hasattr(record, "account_line_ids") and record.account_line_ids:
+                # it seems Odoo 16 ORM has a limitation when line is an
+                # l10n_br_fiscal.document.line that is edited via an account.move.line
+                # form and when both are a newID, then the document line field might be
+                # empty here. But in this case, we detect it and we wrap it back in the
+                # aml
+                wrapped_line = record.account_line_ids[0]
+            else:
+                wrapped_line = record
+
             round_curr = record.currency_id or self.env.ref("base.BRL")
 
             # Total value of products or services
             record.price_gross = round_curr.round(record.price_unit * record.quantity)
             record.amount_fiscal = record.price_gross - record.discount_value
-            record.fiscal_amount_tax = record.amount_tax_not_included
+            record.fiscal_amount_tax = wrapped_line.amount_tax_not_included
 
-            add_to_amount = sum(record[a] for a in record._add_fields_to_amount())
-            rm_to_amount = sum(record[r] for r in record._rm_fields_to_amount())
+            add_to_amount = sum(record[a] for a in wrapped_line._add_fields_to_amount())
+            rm_to_amount = sum(record[r] for r in wrapped_line._rm_fields_to_amount())
             record.fiscal_amount_untaxed = (
                 record.price_gross
                 - record.discount_value
@@ -217,7 +246,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
             record.amount_taxed = (
-                record.fiscal_amount_total - record.amount_tax_withholding
+                record.fiscal_amount_total - wrapped_line.amount_tax_withholding
             )
 
             # Valor do documento (NF) - RETENÇÕES
@@ -308,8 +337,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if hasattr(line, "account_line_ids") and line.account_line_ids:
                 # it seems Odoo 16 ORM has a limitation when line is an
                 # l10n_br_fiscal.document.line that is edited via an account.move.line
-                # form and when both are a newID, then line relational field might be
+                # form and when both are a newID, then the document line field might be
                 # empty here. But in this case, we detect it and we wrap it back in the
+                # aml
                 wrapped_line = line.account_line_ids[0]
             else:
                 wrapped_line = line
@@ -403,8 +433,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if hasattr(line, "account_line_ids") and line.account_line_ids:
                 # it seems Odoo 16 ORM has a limitation when line is an
                 # l10n_br_fiscal.document.line that is edited via an account.move.line
-                # form and when both are a newID, then line relational field might be
+                # form and when both are a newID, then the document line field might be
                 # empty here. But in this case, we detect it and we wrap it back in the
+                # aml
                 wrapped_line = line.account_line_ids[0]
             else:
                 wrapped_line = line

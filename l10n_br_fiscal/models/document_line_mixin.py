@@ -317,11 +317,34 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_fiscal_amounts",
     )
 
-    amount_tax_included = fields.Monetary()
+    amount_tax_included = fields.Monetary(
+        compute="_compute_tax_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
-    amount_tax_not_included = fields.Monetary()
+    amount_tax_not_included = fields.Monetary(
+        compute="_compute_tax_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
-    amount_tax_withholding = fields.Monetary(string="Tax Withholding")
+    amount_tax_withholding = fields.Monetary(
+        string="Tax Withholding",
+        compute="_compute_tax_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+
+    estimate_tax = fields.Monetary(
+        compute="_compute_tax_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
@@ -501,9 +524,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         readonly=False,
     )
 
-    icms_cst_code = fields.Char(
-        related="icms_cst_id.code", string="ICMS CST Code", store=True
-    )
+    icms_cst_code = fields.Char(related="icms_cst_id.code", string="ICMS CST Code")
 
     icms_tax_benefit_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.definition",
@@ -901,9 +922,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         readonly=False,
     )
 
-    ipi_cst_code = fields.Char(
-        related="ipi_cst_id.code", string="IPI CST Code", store=True
-    )
+    ipi_cst_code = fields.Char(related="ipi_cst_id.code", string="IPI CST Code")
 
     ipi_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
@@ -1026,7 +1045,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     cofins_cst_code = fields.Char(
-        related="cofins_cst_id.code", string="COFINS CST Code", store=True
+        related="cofins_cst_id.code", string="COFINS CST Code"
     )
 
     cofins_base_type = fields.Selection(
@@ -1103,7 +1122,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     cofinsst_cst_code = fields.Char(
-        related="cofinsst_cst_id.code", string="COFINS ST CST Code", store=True
+        related="cofinsst_cst_id.code", string="COFINS ST CST Code"
     )
 
     cofinsst_base_type = fields.Selection(
@@ -1223,9 +1242,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         readonly=False,
     )
 
-    pis_cst_code = fields.Char(
-        related="pis_cst_id.code", string="PIS CST Code", store=True
-    )
+    pis_cst_code = fields.Char(related="pis_cst_id.code", string="PIS CST Code")
 
     pis_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
@@ -1300,9 +1317,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         readonly=False,
     )
 
-    pisst_cst_code = fields.Char(
-        related="pisst_cst_id.code", string="PIS ST CST Code", store=True
-    )
+    pisst_cst_code = fields.Char(related="pisst_cst_id.code", string="PIS ST CST Code")
 
     pisst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
@@ -1680,8 +1695,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     manual_additional_data = fields.Text(
         help="Additional data manually entered by user"
     )
-
-    estimate_tax = fields.Monetary()
 
     cnae_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
