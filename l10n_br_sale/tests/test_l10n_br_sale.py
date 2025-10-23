@@ -2,8 +2,6 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import TransactionCase
-
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
     CFOP_DESTINATION_INTERNAL,
@@ -15,16 +13,23 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 
 
-class L10nBrSaleBaseTest(TransactionCase):
+class L10nBrSaleBaseTest:
+    __test__ = False
+
+    company_ref = None
+    so_products_ref = None
+    so_services_ref = None
+    so_product_service_ref = None
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.main_company = cls.env.ref("base.main_company")
-        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
-        cls.so_products = cls.env.ref("l10n_br_sale.lc_so_only_products")
-        cls.so_services = cls.env.ref("l10n_br_sale.lc_so_only_services")
-        cls.so_product_service = cls.env.ref("l10n_br_sale.lc_so_product_service")
+        cls.company = cls.env.ref(cls.company_ref)
+        cls.so_products = cls.env.ref(cls.so_products_ref)
+        cls.so_services = cls.env.ref(cls.so_services_ref)
+        cls.so_product_service = cls.env.ref(cls.so_product_service_ref)
         cls.fsc_op_sale = cls.env.ref("l10n_br_fiscal.fo_venda")
         # Testa os Impostos Dedutiveis
         cls.fsc_op_sale.deductible_taxes = True
