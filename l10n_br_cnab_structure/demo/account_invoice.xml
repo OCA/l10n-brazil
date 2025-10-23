@@ -146,4 +146,78 @@
             ]).id"
         />
     </function>
+
+    <!-- Vendor Bill - Santander - TED -->
+    <record id="demo_bill_santander_ted" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="intel_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_santander_ted" />
+        <field name="payment_reference">test ted - Santander</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 189.75, 'quantity': 8})
+        ]"
+        />
+    </record>
+
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_santander_ted')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_santander_ted')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_santander_ted')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Vendor Bill - Santander - PIX Transfer -->
+    <record id="demo_bill_santander_pix" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="intel_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_santander_pix" />
+        <field name="payment_reference">test pix - Santander</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 299.50, 'quantity': 4})
+        ]"
+        />
+    </record>
+
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_santander_pix')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_santander_pix')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_santander_pix')),
+            ]).id"
+        />
+    </function>
 </odoo>
