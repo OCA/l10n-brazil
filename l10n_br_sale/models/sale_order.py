@@ -75,7 +75,8 @@ class SaleOrder(models.Model):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR":
             return arch, view
-        arch = self.env["sale.order.line"].inject_fiscal_fields(arch)
+        if view_type == "form" and self.env.company.country_id.code == "BR":
+            arch = self.env["sale.order.line"].inject_fiscal_fields(arch)
         for tax_totals_node in arch.xpath(
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
         ):
