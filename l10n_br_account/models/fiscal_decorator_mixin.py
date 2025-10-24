@@ -67,7 +67,18 @@ class FiscalDecoratorMixin(models.AbstractModel):
                     self.__class__, field.compute
                 ):
                     continue
-
+                if field.name.startswith("proxy_"):
+                    # o atributo "related" deve manter o original para os campos proxy,
+                    # caso contrário, o valor não é sincronizado corretamente.
+                    _logger.debug(
+                        f"Skipping proxy field {name} from "
+                        f"{self._fiscal_decorator_model} in {self._name}."
+                    )
+                    continue
+                if field.name == "ind_final":
+                    # TODO a alteração dos related faz com que os campos inherites=True
+                    # falhem na sincronização.
+                    continue
                 attrs = {
                     "related": field.related,
                     "compute": field.compute,

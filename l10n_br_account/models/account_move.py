@@ -80,57 +80,10 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
-    # -------------------------------------------------------------------------
-    # SHADOWED FIELDS SYNC
-    # These fields have the same name in account.move
-    # and l10n_br_fiscal.document. So they wouldn't get updated
-    # by the _inherits system. An alternative would be changing their name
-    # in l10n_br_fiscal but that would make the code unreadable and fiscal mixin
-    # methods would fail to do what we expect from them in the Odoo objects.
-    # -------------------------------------------------------------------------
-
-    user_id = fields.Many2one(inverse="_inverse_user_id")
-    partner_shipping_id = fields.Many2one(inverse="_inverse_partner_shipping_id")
-
-    @api.onchange("company_id")
-    def _inverse_company_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.company_id = move.company_id
-        return super()._inverse_company_id()
-
-    @api.onchange("currency_id")
-    def _inverse_currency_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.currency_id = move.currency_id
-        return super()._inverse_currency_id()
-
-    @api.onchange("partner_id")
-    def _inverse_partner_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.partner_id = move.partner_id
-        return super()._inverse_partner_id()
-
     @api.onchange("user_id")
     def _inverse_user_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.user_id = move.user_id
-
-    @api.onchange("partner_shipping_id")
-    def _inverse_partner_shipping_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.partner_shipping_id = move.partner_shipping_id
-
-    @api.onchange("document_type_id")
-    def _inverse_document_type_id(self):
-        if (self.document_type_id and not self.fiscal_document_id) or (
-            not self.document_type_id and self.fiscal_document_id
-        ):
-            self.env.add_to_compute(self._fields["fiscal_document_id"], self)
+        for line in self:
+            line.proxy_user_id = line.user_id
 
     def _compute_fiscal_document_id(self):
         for move in self:

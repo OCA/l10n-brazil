@@ -67,20 +67,17 @@ class AccountMoveLine(models.Model):
     @api.onchange("name")
     def _inverse_name(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.name = line.name
+            line.proxy_name = line.name
 
     @api.onchange("quantity")
     def _inverse_quantity(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.quantity = line.quantity
+            line.proxy_quantity = line.quantity
 
     @api.onchange("price_unit")
     def _inverse_price_unit(self):
         for line in self:
-            if line.fiscal_document_line_id:
-                line.fiscal_document_line_id.price_unit = line.price_unit
+            line.proxy_price_unit = line.price_unit
 
     @api.onchange("product_uom_id")
     def _inverse_product_uom_id(self):
@@ -122,6 +119,16 @@ class AccountMoveLine(models.Model):
 
     @api.model
     def _sync_proxy_fields_vals(self, vals):
+        if "proxy_company_id" not in vals and "company_id" in vals:
+            vals["proxy_company_id"] = vals["company_id"]
+        if "proxy_partner_id" not in vals and "partner_id" in vals:
+            vals["proxy_partner_id"] = vals["partner_id"]
+        if "proxy_quantity" not in vals and "quantity" in vals:
+            vals["proxy_quantity"] = vals["quantity"]
+        if "proxy_price_unit" not in vals and "price_unit" in vals:
+            vals["proxy_price_unit"] = vals["price_unit"]
+        if "proxy_name" not in vals and "name" in vals:
+            vals["proxy_name"] = vals["name"]
         if "proxy_product_id" not in vals and "product_id" in vals:
             vals["proxy_product_id"] = vals["product_id"]
 

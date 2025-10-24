@@ -16,15 +16,76 @@ class FiscalDocumentLine(models.Model):
     )
 
     # -------------------------------------------------------------------------
-    # SHADOWED FIELDS SYNC
+    # PROXY FIELDS FOR _inherits SHADOWED NAMES
     # -------------------------------------------------------------------------
+    # When using _inherits (delegation), fields with identical names on both the
+    # child and delegated model may not synchronize correctly. To avoid ORM sync
+    # issues, we define proxy_* fields related to the delegated document fields.
+    # Then the child "original" fields point to the proxies, ensuring consistency
+    # and editability.
 
+    proxy_company_id = fields.Many2one(
+        related="document_id.company_id",
+        comodel_name="res.company",
+        string="Company (proxy)",
+        help="Technical Field.",
+        readonly=False,
+        store=True,
+        precompute=True,
+    )
+
+    proxy_partner_id = fields.Many2one(
+        related="document_id.partner_id",
+        comodel_name="res.partner",
+        string="Partner (proxy)",
+        help="Technical Field.",
+        readonly=False,
+        store=True,
+        precompute=True,
+    )
     proxy_product_id = fields.Many2one(
         comodel_name="product.product",
         string="Product (proxy)",
         help="Technical Field.",
         readonly=False,
     )
+    proxy_name = fields.Char(
+        string="Name (proxy)",
+        help="Technical Field.",
+        readonly=False,
+    )
+    proxy_quantity = fields.Float(
+        string="Quantity (proxy)",
+        help="Technical Field.",
+        readonly=False,
+    )
+    proxy_price_unit = fields.Float(
+        string="Unit Price (proxy)",
+        help="Technical mirror.",
+        readonly=False,
+    )
+
+    partner_id = fields.Many2one(
+        related="proxy_partner_id",
+        comodel_name="res.partner",
+        string="Partner",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+
+    company_id = fields.Many2one(
+        related="proxy_company_id",
+        comodel_name="res.company",
+        string="Company",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+
+    # -------------------------------------------------------------------------
+    # SHADOWED FIELDS SYNC
+    # -------------------------------------------------------------------------
 
     product_id = fields.Many2one(
         related="proxy_product_id",
@@ -34,11 +95,28 @@ class FiscalDocumentLine(models.Model):
         precompute=True,
         readonly=False,
     )
-
-    name = fields.Char(inverse="_inverse_name")
-    quantity = fields.Float(inverse="_inverse_quantity")
-    price_unit = fields.Float(inverse="_inverse_price_unit")
     uom_id = fields.Many2one(inverse="_inverse_uom_id")
+    name = fields.Char(
+        related="proxy_name",
+        string="Name",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+    quantity = fields.Float(
+        related="proxy_quantity",
+        string="Quantity",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+    price_unit = fields.Float(
+        related="proxy_price_unit",
+        string="Price Unit",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
     @api.onchange("product_id")
     def _inverse_product_id(self):
@@ -97,6 +175,21 @@ class FiscalDocumentLine(models.Model):
             line.uot_id = line.account_line_ids.uot_id
         return super(FiscalDocumentLine, self - line_with_aml_uot)._compute_uot_id()
 
+    @api.model
+    def _sync_shadow_fields(self, vals):
+        if "company_id" not in vals and "proxy_company_id" in vals:
+            vals["company_id"] = vals["proxy_company_id"]
+        if "partner_id" not in vals and "proxy_partner_id" in vals:
+            vals["partner_id"] = vals["proxy_partner_id"]
+        if "quantity" not in vals and "proxy_quantity" in vals:
+            vals["quantity"] = vals["proxy_quantity"]
+        if "price_unit" not in vals and "proxy_price_unit" in vals:
+            vals["price_unit"] = vals["proxy_price_unit"]
+        if "name" not in vals and "proxy_name" in vals:
+            vals["name"] = vals["proxy_name"]
+        if "product_id" not in vals and "proxy_product_id" in vals:
+            vals["product_id"] = vals["proxy_product_id"]
+
     @api.model_create_multi
     def create(self, vals_list):
         """
@@ -108,6 +201,8 @@ class FiscalDocumentLine(models.Model):
         account.move.line records with NULL values for fiscal_document_line_id where
         necessary.
         """
+        for vals in vals_list:
+            self._sync_shadow_fields(vals)
 
         if self._context.get("create_from_account"):
             # Filter out the dictionaries that do not meet the conditions
