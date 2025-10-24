@@ -55,7 +55,8 @@ class PurchaseOrder(models.Model):
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
         ):
             tax_totals_node.set("attrs", "{'invisible': True}")
-        arch = self.env["purchase.order.line"].inject_fiscal_fields(arch)
+        if view_type == "form" and self.env.company.country_id.code == "BR":
+            arch = self.env["purchase.order.line"].inject_fiscal_fields(arch)
 
         if view_type == "form" and (
             self.user_has_groups("l10n_br_purchase.group_line_fiscal_detail")
