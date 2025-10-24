@@ -4,6 +4,7 @@
 from copy import deepcopy
 
 from lxml import etree
+from lxml.builder import E
 
 from odoo import Command, api, models
 
@@ -85,6 +86,23 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         Inject common fiscal fields into view placeholder elements.
         Used for invoice line, sale order line, purchase order line...
         """
+
+        # the list of computed fields we will add to the view when missing
+        missing_line_fields = set(
+            [
+                fname
+                for fname, _field in filter(
+                    lambda item: item[1].compute
+                    in (
+                        "_compute_tax_fields",
+                        "_compute_fiscal_tax_ids",
+                        "_compute_product_fiscal_fields",
+                    ),
+                    self.env["l10n_br_fiscal.document.line.mixin"]._fields.items(),
+                )
+            ]
+        )
+
         fiscal_view = self.env.ref(
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
         ).sudo()
@@ -133,13 +151,19 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                         e.attrib["name"] for e in target_node if e.tag == "field"
                     ]
                     for fiscal_node in fiscal_nodes:
+                        if fiscal_node.attrib["name"] in missing_line_fields:
+                            missing_line_fields.remove(fiscal_node.attrib["name"])
                         if fiscal_node.attrib["name"] in existing_fields:
                             continue
                         field = deepcopy(fiscal_node)
                         if not field.attrib.get("optional"):
-                            field.attrib["invisible"] = "0"
                             field.attrib["optional"] = "hide"
                         target_node.append(field)
+                    for fname in missing_line_fields:
+                        if fname not in existing_fields:
+                            target_node.append(
+                                E.field(name=fname, string=fname, optional="hide")
+                            )
         return doc
 
     @api.model
