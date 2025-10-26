@@ -76,6 +76,10 @@ class FocusnfeNfse(models.AbstractModel):
                 params=params,
                 auth=auth,
             )
+            if response.status_code == 422:
+                payload = response.json()
+                msg = payload.get("mensagem") or ""
+                raise UserError(f"Error communicating with NFSe service: {msg}")
             response.raise_for_status()  # Raises an error for 4xx/5xx responses
             return response
         except requests.HTTPError as e:
@@ -146,8 +150,10 @@ class FocusnfeNfse(models.AbstractModel):
             "natureza_operacao": rps_info.get("natureza_operacao"),
             "optante_simples_nacional": rps_info.get("optante_simples_nacional", False),
             "status": rps_info.get("status"),
-            "informacoes_adicionais_contribuinte": rps_info.get(
-                "customer_additional_data", False
+            "informacoes_adicionais_contribuinte": (
+                rps_info.get("customer_additional_data", False)[:256]
+                if rps_info.get("customer_additional_data")
+                else False
             ),
         }
         codigo_obra = rps_info.get("codigo_obra", False)
