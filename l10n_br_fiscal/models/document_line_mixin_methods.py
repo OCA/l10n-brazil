@@ -274,25 +274,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 product=self.product_id,
             )
 
-    def _get_fiscal_tax_ids_dependencies(self):
-        """
-        Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
-        """
-        return [
-            "company_id",
-            "partner_id",
-            "fiscal_operation_line_id",
-            "product_id",
-            "ncm_id",
-            "nbs_id",
-            "nbm_id",
-            "cest_id",
-            "city_taxation_code_id",
-            "service_type_id",
-            "ind_final",
-        ]
-
-    @api.depends(lambda self: self._get_fiscal_tax_ids_dependencies())
+    @api.depends(
+        "partner_id",
+        "fiscal_operation_line_id",
+        "product_id",
+        "ncm_id",
+        "nbs_id",
+        "nbm_id",
+        "cest_id",
+        "city_taxation_code_id",
+        "service_type_id",
+        "ind_final",
+    )
     def _compute_fiscal_tax_ids(self):
         """
         Use fiscal_operation_line_id to map and compute the applicable Brazilian taxes.
@@ -363,34 +356,26 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             mask_dict[fiscal_tax_field] = False
         return mask_dict
 
-    def _get_tax_fields_dependencies(self):
-        """
-        Dynamically get the list of fields dependencies, overriden in l10n_br_purchase.
-        """
-        # IMPORTANT NOTE: as _compute_fiscal_tax_ids triggers _compute_tax_fields,
-        # we don't put fields that trigger _compute_fiscal_tax_ids as dependencies here.
-        return [
-            "price_unit",
-            "quantity",
-            "uom_id",
-            "fiscal_price",
-            "fiscal_quantity",
-            "uot_id",
-            "discount_value",
-            "insurance_value",
-            "ii_customhouse_charges",
-            "ii_iof_value",
-            "other_value",
-            "freight_value",
-            "cfop_id",
-            "icmssn_range_id",
-            "icms_origin",
-            "icms_cst_id",
-            "icms_relief_id",
-            "fiscal_tax_ids",
-        ]
-
-    @api.depends(lambda self: self._get_tax_fields_dependencies())
+    @api.depends(
+        "price_unit",
+        "quantity",
+        "uom_id",
+        "fiscal_price",
+        "fiscal_quantity",
+        "uot_id",
+        "discount_value",
+        "insurance_value",
+        "ii_customhouse_charges",
+        "ii_iof_value",
+        "other_value",
+        "freight_value",
+        "cfop_id",
+        "icmssn_range_id",
+        "icms_origin",
+        "icms_cst_id",
+        "icms_relief_id",
+        "fiscal_tax_ids",
+    )
     def _compute_tax_fields(self):
         """
         Compute base, percent, value... tax fields for ICMS, IPI, PIS, COFINS... taxes.
