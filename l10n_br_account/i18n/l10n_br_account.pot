@@ -3678,6 +3678,27 @@ msgid "Mdfe30 Lacrodo"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_qCTe
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_qCTe
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_qCTe
+msgid "Mdfe30 Qcte"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_qMDFe
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_qMDFe
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_qMDFe
+msgid "Mdfe30 Qmdfe"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_qNFe
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_qNFe
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_qNFe
+msgid "Mdfe30 Qnfe"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_UF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_UF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_UF
@@ -4514,48 +4535,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_qSelo
 msgid "Quantidade de selo de controle do IPI"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_qCTe
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_qCTe
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_qCTe
-msgid "Quantidade total de CT-e relacionados"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__mdfe30_qCTe
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__mdfe30_qCTe
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_qCTe
-msgid "Quantidade total de CT-e relacionados no Manifesto"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_qMDFe
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_qMDFe
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_qMDFe
-msgid "Quantidade total de MDF-e relacionados"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__mdfe30_qMDFe
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__mdfe30_qMDFe
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_qMDFe
-msgid "Quantidade total de MDF-e relacionados no Manifesto Aquaviário"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_qNFe
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_qNFe
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_qNFe
-msgid "Quantidade total de NF-e relacionadas"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__mdfe30_qNFe
-#: model:ir.model.fields,help:l10n_br_account.field_account_move__mdfe30_qNFe
-#: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_qNFe
-msgid "Quantidade total de NF-e relacionadas no Manifesto"
 msgstr ""
 
 #. module: l10n_br_account
