@@ -31,36 +31,42 @@ class DocumentImportWizard(models.TransientModel):
         """
         Register the import_xml NFe importer
         """
-        if hasattr(binding, "NFe"):
+        if hasattr(binding, "infNFe") or hasattr(binding, "NFe"):
             return self._detect_document_type(MODELO_FISCAL_NFE)
         return super()._detect_binding(binding)
 
     def _extract_binding_data(self, binding):
+        if hasattr(binding, "NFe"):
+            binding = binding.NFe
         res = super()._extract_binding_data(binding)
         if self.document_type == MODELO_FISCAL_NFE:
-            self._extract_key_information(binding.NFe.infNFe.Id[3:])
-            infNFe = binding.NFe.infNFe
+            self._extract_key_information(binding.infNFe.Id[3:])
+            infNFe = binding.infNFe
             self.nat_op = infNFe.ide.natOp
             self.fiscal_operation_id = self._find_fiscal_operation(
                 infNFe.det[0].prod.CFOP, self.nat_op, self.fiscal_operation_type
             )
-            self._create_imported_products_by_xml()
+            self._create_imported_products_by_xml(binding)
         return res
 
     def _destination_partner_from_binding(self, binding):
         if self.document_type == MODELO_FISCAL_NFE:
+            if hasattr(binding, "NFe"):
+                binding = binding.NFe
             self.destination_partner_id = self._search_partner(
-                cnpj=binding.NFe.infNFe.dest.CNPJ,
-                legal_name=binding.NFe.infNFe.dest.xNome,
+                cnpj=binding.infNFe.dest.CNPJ,
+                legal_name=binding.infNFe.dest.xNome,
             )
-            self.issuer_legal_name = binding.NFe.infNFe.emit.xNome
-            self.issuer_name = binding.NFe.infNFe.emit.xFant
+            self.issuer_legal_name = binding.infNFe.emit.xNome
+            self.issuer_name = binding.infNFe.emit.xFant
 
-            self.destination_cnpj = formata(binding.NFe.infNFe.dest.CNPJ)
-            self.destination_name = binding.NFe.infNFe.dest.xNome
+            self.destination_cnpj = formata(binding.infNFe.dest.CNPJ)
+            self.destination_name = binding.infNFe.dest.xNome
 
     def _parse_file(self):
         binding = super()._parse_file()
+        if hasattr(binding, "NFe"):
+            binding = binding.NFe
         if self.document_type == MODELO_FISCAL_NFE:
             return self._edit_parsed_xml(binding)
         return binding
@@ -74,10 +80,9 @@ class DocumentImportWizard(models.TransientModel):
                 _(f"Incorrect fiscal document model! Accepted one is {nfe_model_code}")
             )
 
-    def _create_imported_products_by_xml(self):
-        xml = self._parse_file()
+    def _create_imported_products_by_xml(self, binding):
         product_ids = []
-        for product in xml.NFe.infNFe.det:
+        for product in binding.infNFe.det:
             product_ids.append(
                 self.env["l10n_br_nfe.import_xml.products"]
                 .create(self._prepare_imported_product_values(product))
@@ -234,7 +239,7 @@ class DocumentImportWizard(models.TransientModel):
     def _edit_parsed_xml(self, parsed_xml):
         for product_line in self.imported_products_ids.filtered("product_id"):
             internal_product = product_line.product_id
-            for xml_product in parsed_xml.NFe.infNFe.det:
+            for xml_product in parsed_xml.infNFe.det:
                 if xml_product.prod.cProd == product_line.product_code:
                     xml_product.prod.cProd = internal_product.default_code
                     xml_product.prod.xProd = internal_product.name

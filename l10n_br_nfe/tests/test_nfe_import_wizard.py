@@ -169,7 +169,7 @@ class NFeImportWizardTest(TransactionCase):
         self._prepare_wizard(self.xml_1)
 
         xml = self.wizard._parse_file()
-        xml_product_1 = xml.NFe.infNFe.det[0].prod
+        xml_product_1 = xml.infNFe.det[0].prod
         prod_id = self.wizard._match_product(xml_product_1)
         self.assertEqual(prod_id, self.env.ref("product.product_product_10"))
 
@@ -210,7 +210,7 @@ class NFeImportWizardTest(TransactionCase):
         first_product.new_cfop_id = self.env.ref("l10n_br_fiscal.cfop_5111").id
 
         xml = self.wizard._parse_file()
-        first_xml_product = xml.NFe.infNFe.det[0].prod
+        first_xml_product = xml.infNFe.det[0].prod
         self.assertEqual(first_xml_product.CFOP, "5111")
 
         mock_prod = MagicMock(spec=["imposto"])
