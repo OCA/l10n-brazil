@@ -11,10 +11,8 @@ from odoo.tools import frozendict
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _fiscal_decorator_model = "l10n_br_fiscal.document.line"
-    _fiscal_decorator_compute_blacklist = ["_compute_fiscal_amounts"]
     _inherit = [
         _name,
-        "l10n_br_fiscal.document.line.mixin.methods",
         "l10n_br_account.decorator.mixin",
     ]
     _inherits = {_fiscal_decorator_model: "fiscal_document_line_id"}
