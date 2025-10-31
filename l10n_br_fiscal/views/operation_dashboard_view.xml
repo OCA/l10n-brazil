@@ -86,7 +86,7 @@
                                                         <span title="A enviar">
                                                         <t
                                                             t-esc="dashboard.number_2confirm"
-                                                        />A enviar</span>
+                                                        /> A enviar</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -100,7 +100,7 @@
                                                     >
                                                     <t
                                                         t-esc="dashboard.number_authorized"
-                                                    />Autorizados</a>
+                                                    /> Autorizados</a>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -113,7 +113,7 @@
                                                         <span title="Cancelados">
                                                         <t
                                                             t-esc="dashboard.number_cancelled"
-                                                        />Cancelados</span>
+                                                        /> Cancelados</span>
                                                     </a>
                                                 </div>
                                             </div>
