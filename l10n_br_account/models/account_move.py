@@ -29,10 +29,8 @@ from .constants import (
 class AccountMove(models.Model):
     _name = "account.move"
     _fiscal_decorator_model = "l10n_br_fiscal.document"
-    _fiscal_decorator_compute_blacklist = ["_compute_fiscal_amount"]
     _inherit = [
         _name,
-        "l10n_br_fiscal.document.mixin.methods",
         "l10n_br_account.decorator.mixin",
     ]
 
