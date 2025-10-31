@@ -234,6 +234,12 @@ class StockMove(models.Model):
         for record in self:
             record.fiscal_price = record.price_unit
 
+    @api.depends("product_id", "state")
+    def _compute_product_fiscal_fields(self):
+        # Skip compute for "done" records
+        moves = self.filtered(lambda m: m.state != "done")
+        return super(StockMove, moves)._compute_product_fiscal_fields()
+
     def _get_taxes(self, fiscal_position, inv_type):
         """
         Map product taxes based on given fiscal position
