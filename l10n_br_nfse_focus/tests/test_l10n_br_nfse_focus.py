@@ -313,6 +313,23 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertEqual(result.status_code, 204)  # Asserting status code 204
 
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.request")
+    def test_make_focus_nfse_http_request_422(self, mock_request):
+        """Tests handling of HTTP 422 with Focus NFSe error message."""
+        mock_request.return_value.status_code = 422
+        mock_request.return_value.json.return_value = {
+            "mensagem": "CNPJ do emitente não autorizado."
+        }
+
+        with self.assertRaises(UserError) as e:
+            self.nfse_focus._make_focus_nfse_http_request(
+                "POST", "https://api.focusnfe.com.br/v2/nfse", self.token, PAYLOAD
+            )
+        self.assertIn(
+            "Error communicating with NFSe service: CNPJ do emitente não autorizado.",
+            str(e.exception),
+        )
+
     def test_make_focus_nfse_pdf(self):
         """Tests generation of NFSe PDF."""
         record = self.nfse_demo
