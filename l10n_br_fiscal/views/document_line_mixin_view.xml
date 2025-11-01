@@ -1053,6 +1053,11 @@
                             <field name="manual_additional_data" />
                         </group>
                     </page>
+                    <page name="fiscal_line_debug" string="Debug">
+                        <group>
+                            <field name="debug_message" />
+                        </group>
+                    </page>
                 </notebook>
             </form>
         </field>

@@ -427,6 +427,7 @@
                         </group>
                     </page>
                     <page name="fiscal_line_extra_info" string="Extra Info" />
+                    <page name="fiscal_line_debug" string="Debug" />
                     <page name="accounting" string="Accounting">
                         <group>
                             <field name="fiscal_document_line_id" />
