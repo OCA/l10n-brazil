@@ -71,6 +71,14 @@ class DocumentLine(models.Model):
         precompute=True,
     )
 
+    price_unit = fields.Float(
+        digits="Product Price",
+        compute="_compute_price_unit_fiscal",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
     quantity = fields.Float(default=1.0)
 
     # Usado para tornar Somente Leitura os campos dos custos

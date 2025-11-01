@@ -125,10 +125,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     price_unit = fields.Float(
         digits="Product Price",
-        compute="_compute_price_unit_fiscal",
         store=True,
-        precompute=True,
-        readonly=False,
     )
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
