@@ -12,7 +12,6 @@ _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(env):
-    cr = env.cr
     if env.ref("base.module_l10n_br_nfe").demo:
         res_items = (
             "nfe",
