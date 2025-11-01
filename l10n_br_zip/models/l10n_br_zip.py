@@ -2,11 +2,18 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
+from unittest.mock import patch
+
+import requests
 from brazilcep import WebService, get_address_from_cep
 from erpbrasil.base import misc
 
 from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
+
+# This is the original 'send' method from the requests library that
+# Odoo's test suite patches over.
+_original_send = requests.Session.send
 
 
 class L10nBrZip(models.Model):
@@ -122,9 +129,10 @@ class L10nBrZip(models.Model):
                 .sudo()
                 .get_param("l10n_zip.cep_ws_provider", default="viacep")
             )
-            cep = get_address_from_cep(
-                zip_str, webservice=cep_ws_providers.get(cep_ws_provide)
-            )
+            with patch("requests.Session.send", _original_send):
+                cep = get_address_from_cep(
+                    zip_str, webservice=cep_ws_providers.get(cep_ws_provide)
+                )
         except Exception as e:
             raise UserError(_("Error in BrazilCEP: ") + str(e)) from e
 
