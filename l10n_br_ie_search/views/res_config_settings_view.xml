@@ -26,7 +26,7 @@
                 <div
                     class="col-12 col-lg-6 o_setting_box"
                     name="l10n_br_sintegraws_api"
-                    attrs="{'invisible': [('ie_search', '!=', 'sintegraws')]}"
+                    invisible="ie_search != 'sintegraws'"
                 >
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
