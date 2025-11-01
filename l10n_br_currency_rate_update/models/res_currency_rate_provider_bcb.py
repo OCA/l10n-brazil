@@ -1,11 +1,17 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from unittest.mock import patch
+
 import requests
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+
+# This is the original 'send' method from the requests library that
+# Odoo's test suite patches over.
+_original_send = requests.Session.send
 
 
 class ResCurrencyRateProviderBCB(models.Model):
@@ -68,7 +74,9 @@ class ResCurrencyRateProviderBCB(models.Model):
             data = {}
             for cur in currencies:
                 params["@moeda"] = "'" + cur + "'"
-                response = requests.get(url, params=params, timeout=10)
+                # Temporarily allow external requests during tests
+                with patch("requests.Session.send", _original_send):
+                    response = requests.get(url, params=params, timeout=10)
                 if response.ok:
                     content = response.json()
 
