@@ -8,9 +8,9 @@
             <form class="o_form_sheet">
                 <div class="alert alert-info" role="alert" style="margin-bottom: 0px;">
                     CNPJ data was obtained through the webservice: <field
-                        name="provider_name"
-                        readonly="1"
-                    />
+                    name="provider_name"
+                    readonly="1"
+                />
                 </div>
 
                 <group>
