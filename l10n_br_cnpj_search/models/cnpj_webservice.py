@@ -56,15 +56,15 @@ class CNPJWebservice(models.AbstractModel):
         Params:
             cnpj (str): Partner CNPJ.
         """
-        if hasattr(self, "%s_get_api_url" % self.get_provider()):
-            return getattr(self, "%s_get_api_url" % self.get_provider())(cnpj)
+        if hasattr(self, f"{self.get_provider()}_get_api_url"):
+            return getattr(self, f"{self.get_provider()}_get_api_url")(cnpj)
         return False
 
     @api.model
     def get_headers(self):
         """Get webservice request headers"""
-        if hasattr(self, "%s_get_headers" % self.get_provider()):
-            return getattr(self, "%s_get_headers" % self.get_provider())()
+        if hasattr(self, f"{self.get_provider()}_get_headers"):
+            return getattr(self, f"{self.get_provider()}_get_headers")()
         return False
 
     @api.model
@@ -73,8 +73,8 @@ class CNPJWebservice(models.AbstractModel):
 
         Returns: data (dict)
         """
-        if hasattr(self, "%s_validate" % self.get_provider()):
-            return getattr(self, "%s_validate" % self.get_provider())(response)
+        if hasattr(self, f"{self.get_provider()}_validate"):
+            return getattr(self, f"{self.get_provider()}_validate")(response)
         return False
 
     @api.model
@@ -87,8 +87,8 @@ class CNPJWebservice(models.AbstractModel):
         Returns:
             values (dict): dict with res_partner fields and it's values
         """
-        if hasattr(self, "_%s_import_data" % self.get_provider()):
-            return getattr(self, "_%s_import_data" % self.get_provider())(data)
+        if hasattr(self, f"_{self.get_provider()}_import_data"):
+            return getattr(self, f"_{self.get_provider()}_import_data")(data)
         return False
 
     @api.model
