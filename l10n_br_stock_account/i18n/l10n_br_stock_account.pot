@@ -329,6 +329,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__company_id
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__company_id
 msgid "Company"
 msgstr ""
@@ -336,6 +337,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_company_type
 msgid "Company Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ind_final
+msgid "Consumidor final"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -461,7 +467,6 @@ msgid "FCP WH Base"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ind_final
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__ind_final
 msgid "Final Consumption Operation"
 msgstr ""
