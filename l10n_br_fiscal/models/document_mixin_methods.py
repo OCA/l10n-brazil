@@ -178,14 +178,22 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
-    @api.onchange("partner_id")
-    def _onchange_partner_id_fiscal(self):
-        partner = self._get_fiscal_partner()
-        if partner:
-            self.ind_final = partner.ind_final
-            for line in self._get_amount_lines():
-                # reload fiscal data, operation line, cfop, taxes, etc.
-                line._onchange_fiscal_operation_id()
+    @api.depends("partner_id")
+    def _compute_ind_final(self):
+        for doc in self:
+            partner = doc._get_fiscal_partner()
+            if partner:
+                doc.ind_final = partner.ind_final
+            else:
+                # Default Value
+                doc.ind_final = "1"  # Yes
+
+    @api.onchange("ind_final")
+    def _inverse_ind_final(self):
+        for doc in self:
+            for line in doc._get_amount_lines():
+                if line.ind_final != doc.ind_final:
+                    line.ind_final = doc.ind_final
 
     @api.depends("fiscal_operation_id")
     def _compute_operation_name(self):

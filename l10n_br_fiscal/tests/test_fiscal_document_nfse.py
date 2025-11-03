@@ -13,11 +13,7 @@ class TestFiscalDocumentNFSe(TransactionCase):
 
     def test_nfse_same_state(self):
         """Test NFSe same state."""
-
         for line in self.nfse_same_state.fiscal_line_ids:
-            line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_taxes()
-
             self.assertEqual(
                 line.fiscal_operation_line_id.name,
                 "Prestação de Serviço",

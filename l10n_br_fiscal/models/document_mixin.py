@@ -8,7 +8,6 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
     FINAL_CUSTOMER,
-    FINAL_CUSTOMER_YES,
     FISCAL_COMMENT_DOCUMENT,
     NFE_IND_PRES,
     NFE_IND_PRES_DEFAULT,
@@ -111,7 +110,11 @@ class FiscalDocumentMixin(models.AbstractModel):
     ind_final = fields.Selection(
         selection=FINAL_CUSTOMER,
         string="Final Consumption Operation",
-        default=FINAL_CUSTOMER_YES,
+        compute="_compute_ind_final",
+        inverse="_inverse_ind_final",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     currency_id = fields.Many2one(
