@@ -1121,9 +1121,7 @@ class CTe(spec_models.StackedModel):
     @api.depends(
         "issuer",
         "company_id",
-        "company_id.partner_id.rntrc_code",
         "partner_id",
-        "partner_id.rntrc_code",
     )
     def _compute_cte40_RNTRC(self):
         for record in self.filtered(filter_processador_edoc_cte):
