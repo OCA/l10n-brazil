@@ -222,8 +222,6 @@ class StockMove(models.Model):
             # Caso Brasil se caracteriza por ter Operação Fiscal
             return new_moves_vals
 
-        self._onchange_fiscal_taxes()
-
         for new_move_vals in new_moves_vals:
             new_move_vals.update(self._prepare_br_fiscal_dict())
 
