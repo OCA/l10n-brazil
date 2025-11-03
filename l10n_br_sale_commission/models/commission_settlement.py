@@ -58,17 +58,7 @@ class CommissionSettlement(models.Model):
                     line_obj = self.env["account.move.line"]
                     values = line_obj.default_get(line_obj.fields_get().keys())
                     values.update(line_dict)
-                    move_line = self.env["account.move.line"].new(values.copy())
-                    move_line._inverse_partner_id()
-                    move_line._inverse_product_id()
-                    move_line._inverse_account_id()
-                    move_line._inverse_amount_currency()
-                    # Fiscal Brazil:
-                    move_line._onchange_fiscal_operation_id()
-
-                    new_values = move_line._convert_to_write(move_line._cache)
-                    new_values.update(values)
-                    new_invoice_line_ids.append(Command.create(new_values))
+                    new_invoice_line_ids.append(Command.create(values))
 
             vals["invoice_line_ids"] = new_invoice_line_ids
 
