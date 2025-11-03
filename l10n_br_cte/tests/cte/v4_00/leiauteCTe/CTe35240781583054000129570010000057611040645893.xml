@@ -145,9 +145,9 @@
       <ICMS>
         <ICMS00>
           <CST>00</CST>
-          <vBC>47.00</vBC>
+          <vBC>100.00</vBC>
           <pICMS>18.00</pICMS>
-          <vICMS>8.46</vICMS>
+          <vICMS>18.00</vICMS>
         </ICMS00>
       </ICMS>
     </imp>
