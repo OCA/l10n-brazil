@@ -36,18 +36,17 @@ class StockReturnPicking(models.TransientModel):
                     )
             else:
                 picking.fiscal_operation_id = refund_fiscal_operation.id
-                move_obj = self.env["stock.move"]
                 for move in picking.move_ids:
                     ret_move = move.origin_returned_move_id
                     fiscal_op = ret_move.fiscal_operation_id.return_fiscal_operation_id
                     fiscal_op_line = ret_move.fiscal_operation_line_id.line_refund_id
-
-                    line_values = {
-                        "fiscal_operation_id": fiscal_op.id,
-                        "fiscal_operation_line_id": fiscal_op_line.id,
-                    }
-                    write_move = move_obj.browse(move.id)
-                    write_move.write(line_values)
-                    write_move._onchange_fiscal_operation_id()
-
+                    vals = {}
+                    vals["fiscal_operation_id"] = fiscal_op.id
+                    if fiscal_op_line:
+                        # Only include fiscal_operation_line_id when the return
+                        # has a fiscal operation line otherwise, omit it so Odoo
+                        # can compute/fallback to the default value.
+                        vals["fiscal_operation_line_id"] = fiscal_op_line.id
+                    if vals:
+                        move.write(vals)
         return new_picking_id, pick_type_id
