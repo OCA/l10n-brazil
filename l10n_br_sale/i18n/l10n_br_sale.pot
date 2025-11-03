@@ -354,6 +354,7 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__company_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__company_id
 msgid "Company"
 msgstr ""
 
@@ -365,6 +366,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model,name:l10n_br_sale.model_res_config_settings
 msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ind_final
+msgid "Consumidor final"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -510,7 +516,6 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ind_final
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ind_final
 msgid "Final Consumption Operation"
 msgstr ""
 
