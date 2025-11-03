@@ -27,9 +27,6 @@ class TestSubsequentOperation(TransactionCase):
         # to a compute so this onchange might need rework here:
         # self.nfe_simples_faturamento._onchange_fiscal_operation_id()
 
-        for line in self.nfe_simples_faturamento.fiscal_line_ids:
-            line._onchange_fiscal_taxes()
-
         self.nfe_simples_faturamento.state_edoc = "a_enviar"
         self.nfe_simples_faturamento._generates_subsequent_operations()
 
