@@ -11,6 +11,5 @@ class TestBrPickingInvoicingCommon(TestPickingInvoicingCommon):
 
     def _run_line_onchanges(self, record):
         result = super()._run_line_onchanges(record)
-        record._onchange_fiscal_taxes()
         record._onchange_product_quantity()
         return result
