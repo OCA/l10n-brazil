@@ -45,10 +45,6 @@ class ContractLine(models.Model):
         self.ensure_one()
 
         contract = self.contract_id
-
-        if contract.contract_recalculate_taxes_before_invoice:
-            self._onchange_fiscal_operation_id()
-
         invoice_line_vals = super()._prepare_invoice_line()
 
         # Por algum motivo com a localização o campo company_currency_id
