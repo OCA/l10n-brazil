@@ -74,7 +74,6 @@
         <field name="quantity">1</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <!-- NFe Test - Pessoa Física - ICMS 18% with a reduction of 51.11% -->
@@ -109,7 +108,6 @@
         <field name="quantity">1</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <!-- NFe Test - Pessoa Física - ICMS 4% Imported for Resale -->
