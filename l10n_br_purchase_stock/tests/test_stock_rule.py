@@ -37,7 +37,6 @@ class StockRuleTest(TransactionCase):
             [("orderpoint_id", "=", orderpoint.id)]
         )
         self.assertTrue(po_line.fiscal_operation_id, "Missing Fiscal Operation.")
-        po_line._onchange_fiscal_operation_id()
         self.assertTrue(
             po_line.fiscal_operation_line_id,
             "Missing Fiscal Operation Line in Purchase Order.",
@@ -54,7 +53,6 @@ class StockRuleTest(TransactionCase):
         for line in picking.move_ids:
             self.assertEqual(line.invoice_state, "2binvoiced")
             # Valida presença dos campos principais para o mapeamento Fiscal
-            line._onchange_fiscal_operation_id()
             self.assertTrue(
                 line.fiscal_operation_id, "Missing Fiscal Operation in Stock Move."
             )
