@@ -187,10 +187,7 @@
         <field name="product_uom" ref="uom.product_uom_hour" />
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
-        <field
-            name="fiscal_operation_line_id"
-            ref="l10n_br_fiscal.fo_venda_servico_ind"
-        />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
 
     <!-- Teste de Agrupamento -->
