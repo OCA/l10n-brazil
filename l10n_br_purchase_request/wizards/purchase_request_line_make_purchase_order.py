@@ -12,7 +12,6 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         purchases = self.env["purchase.order"].search(res.get("domain"))
         for purchase in purchases:
             if purchase.fiscal_operation_id:
-                purchase._onchange_partner_id_fiscal()
                 for line in purchase.order_line:
                     description = line.name
                     price_unit = line.price_unit
