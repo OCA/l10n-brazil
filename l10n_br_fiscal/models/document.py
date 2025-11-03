@@ -140,7 +140,15 @@ class Document(models.Model):
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Partner",
+        inverse="_inverse_partner_id",
     )
+
+    @api.onchange("partner_id")
+    def _inverse_partner_id(self):
+        for doc in self:
+            for line in doc.fiscal_line_ids:
+                if line.partner_id != doc.partner_id:
+                    line.partner_id = doc.partner_id
 
     partner_shipping_id = fields.Many2one(
         comodel_name="res.partner",
@@ -426,8 +434,6 @@ class Document(models.Model):
                         ).format(line.fiscal_operation_id)
                     )
                 line.fiscal_operation_id = fsc_op_line
-                line._onchange_fiscal_operation_id()
-
             return_docs |= new_doc
         return return_docs
 
