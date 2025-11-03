@@ -60,7 +60,6 @@ class AccountMove(models.Model):
         ondelete="cascade",
         store=True,
         readonly=False,
-        compute="_compute_fiscal_document_id",
     )
 
     fiscal_document_ids = fields.One2many(
@@ -78,68 +77,10 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
-    # -------------------------------------------------------------------------
-    # SHADOWED FIELDS SYNC
-    # These fields have the same name in account.move
-    # and l10n_br_fiscal.document. So they wouldn't get updated
-    # by the _inherits system. An alternative would be changing their name
-    # in l10n_br_fiscal but that would make the code unreadable and fiscal mixin
-    # methods would fail to do what we expect from them in the Odoo objects.
-    # -------------------------------------------------------------------------
-
-    user_id = fields.Many2one(inverse="_inverse_user_id")
-    partner_shipping_id = fields.Many2one(inverse="_inverse_partner_shipping_id")
-
-    @api.onchange("company_id")
-    def _inverse_company_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.company_id = move.company_id
-        return super()._inverse_company_id()
-
-    @api.onchange("currency_id")
-    def _inverse_currency_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.currency_id = move.currency_id
-        return super()._inverse_currency_id()
-
-    @api.onchange("partner_id")
-    def _inverse_partner_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.partner_id = move.partner_id
-        return super()._inverse_partner_id()
-
     @api.onchange("user_id")
     def _inverse_user_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.user_id = move.user_id
-
-    @api.onchange("partner_shipping_id")
-    def _inverse_partner_shipping_id(self):
-        for move in self:
-            for doc in move.fiscal_document_ids:
-                doc.partner_shipping_id = move.partner_shipping_id
-
-    @api.onchange("document_type_id")
-    def _inverse_document_type_id(self):
-        if (self.document_type_id and not self.fiscal_document_id) or (
-            not self.document_type_id and self.fiscal_document_id
-        ):
-            self.env.add_to_compute(self._fields["fiscal_document_id"], self)
-
-    def _compute_fiscal_document_id(self):
-        for move in self:
-            if move.document_type_id and not move.fiscal_document_id:
-                move.fiscal_document_id = (
-                    self.env["l10n_br_fiscal.document"].create({}).id
-                )
-            elif not move.document_type_id and move.fiscal_document_id:
-                bad_fiscal_doc = move.fiscal_document_id
-                move.fiscal_document_id = False
-                bad_fiscal_doc.action_document_cancel()
+        for line in self:
+            line.proxy_user_id = line.user_id
 
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
@@ -152,7 +93,7 @@ class AccountMove(models.Model):
                     )
                 )
 
-    @api.depends("line_ids", "invoice_line_ids", "fiscal_document_id")
+    @api.depends("line_ids", "fiscal_document_id")
     def _compute_fiscal_document_ids(self):
         for move in self:
             docs = move.fiscal_document_id
@@ -207,7 +148,7 @@ class AccountMove(models.Model):
         if self.env.company.country_id.code != "BR" or view_type != "form":
             return arch, view
         if view_type == "form" and self.env.company.country_id.code == "BR":
-            arch = self.env["account.move.line"].inject_fiscal_fields(arch)
+            arch = self.env["l10n_br_fiscal.document.line"].inject_fiscal_fields(arch)
 
         for tax_totals_node in arch.xpath(
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
@@ -238,8 +179,11 @@ class AccountMove(models.Model):
         "line_ids.payment_id.state",
         "line_ids.full_reconcile_id",
         "state",
-        "ind_final",
-        "line_ids.cfop_id",
+        "direction_sign",
+        "fiscal_operation_id",
+        "fiscal_line_ids.cfop_id",
+        "fiscal_line_ids.fiscal_amount_untaxed",
+        "fiscal_line_ids.fiscal_amount_tax",
     )
     def _compute_amount(self):
         if "force_fiscal_amount_recompute" in self._context:
@@ -586,7 +530,6 @@ class AccountMove(models.Model):
                     force_fiscal_operation_id
                     or line.fiscal_operation_id.return_fiscal_operation_id
                 )
-                line._onchange_fiscal_operation_id()
 
             # This method is in l10n_br_fiscal_subsequent_document module, the IF
             # is necessary to avoid a 'glue module' or direct dependence.
