@@ -3,6 +3,7 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import inspect
 import operator
 import re
 from datetime import datetime
@@ -10,7 +11,7 @@ from datetime import datetime
 from unidecode import unidecode
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools.safe_eval import safe_eval, time
 
 
@@ -196,6 +197,28 @@ class CNABField(models.Model):
         for rec in self:
             value = rec.default_value or ""
             if rec.content_source_field and resource_ref:
+                if not hasattr(resource_ref, rec.content_source_field):
+                    raise ValidationError(
+                        _(
+                            "CNAB Field Error:\n"
+                            "- Field: '%(field_name)s' (ID: %(field_id)s)\n"
+                            "- Attempted Attribute: '%(attr)s'\n"
+                            "- Resource Type: '%(res_type)s' (ID: %(res_id)s)\n"
+                            "- Issue: Attribute does not exist\n"
+                            "- Suggestion: Please check the mapping in the CSV data\n"
+                            "- File: %(file)s\n"
+                            "- Line: %(line)s"
+                        )
+                        % {
+                            "field_name": rec.name,
+                            "field_id": rec.id,
+                            "attr": rec.content_source_field,
+                            "res_type": type(resource_ref).__name__,
+                            "res_id": getattr(resource_ref, "id", "N/A"),
+                            "file": __file__,
+                            "line": inspect.currentframe().f_lineno + 1,
+                        }
+                    )
                 value = (
                     operator.attrgetter(rec.content_source_field)(resource_ref) or ""
                 )
