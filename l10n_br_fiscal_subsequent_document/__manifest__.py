@@ -8,7 +8,7 @@
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
-    "version": "16.0.1.3.0",
+    "version": "16.0.2.0.0",
     "depends": [
         "l10n_br_fiscal",
     ],
