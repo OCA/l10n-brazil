@@ -333,12 +333,18 @@ msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__company_id
 msgid "Company"
 msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_company_type
 msgid "Company Type"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ind_final
+msgid "Consumidor final"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -448,7 +454,6 @@ msgstr ""
 
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__ind_final
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ind_final
 msgid "Final Consumption Operation"
 msgstr ""
 
