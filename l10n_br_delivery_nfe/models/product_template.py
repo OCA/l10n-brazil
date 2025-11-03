@@ -15,7 +15,7 @@ class ProductTemplate(models.Model):
         store=True,
     )
 
-    @api.depends("product_variant_ids", "product_variant_ids.product_volume_type")
+    @api.depends("product_variant_ids.product_volume_type")
     def _compute_product_volume_type(self):
         unique_variants = self.filtered(
             lambda template: len(template.product_variant_ids) == 1
