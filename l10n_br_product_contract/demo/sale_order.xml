@@ -36,8 +36,4 @@
         <field name="is_contract">True</field>
     </record>
 
-    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_recurrency_service_1_1')]" />
-    </function>
-
 </odoo>
