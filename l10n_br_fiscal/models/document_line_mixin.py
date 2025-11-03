@@ -4,10 +4,10 @@
 from odoo import api, fields, models
 
 from ..constants.fiscal import (
+    FINAL_CUSTOMER,
     FISCAL_COMMENT_LINE,
     PRODUCT_FISCAL_TYPE,
     TAX_BASE_TYPE,
-    TAX_BASE_TYPE_PERCENT,
     TAX_DOMAIN_COFINS,
     TAX_DOMAIN_COFINS_ST,
     TAX_DOMAIN_COFINS_WH,
@@ -34,10 +34,8 @@ from ..constants.fiscal import (
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
-    ICMS_BASE_TYPE_DEFAULT,
     ICMS_ORIGIN,
     ICMS_ST_BASE_TYPE,
-    ICMS_ST_BASE_TYPE_DEFAULT,
 )
 from ..constants.issqn import (
     ISSQN_ELIGIBILITY,
@@ -112,7 +110,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     tax_icms_or_issqn = fields.Selection(
         selection=TAX_ICMS_OR_ISSQN,
         string="ICMS or ISSQN Tax",
-        default=TAX_DOMAIN_ICMS,
+        compute="_compute_product_fiscal_fields",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
 
     partner_is_public_entity = fields.Boolean(related="partner_id.is_public_entity")
@@ -131,6 +132,26 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
+
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+    )
+
+    ind_final = fields.Selection(
+        selection=FINAL_CUSTOMER,
+        string="Consumidor final",
+        compute="_compute_ind_final",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    def _compute_ind_final(self):
+        for line in self:
+            doc = line._get_document()
+            if line.ind_final != doc.ind_final:
+                line.ind_final = doc.ind_final
 
     partner_company_type = fields.Selection(related="partner_id.company_type")
 
@@ -212,8 +233,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
         string="Operation Line",
+        compute="_compute_fiscal_operation_line_id",
         domain="[('fiscal_operation_id', '=', fiscal_operation_id), "
         "('state', '=', 'approved')]",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     cfop_id = fields.Many2one(
@@ -317,11 +342,27 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_fiscal_amounts",
     )
 
-    amount_tax_included = fields.Monetary()
+    amount_tax_included = fields.Monetary(
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
-    amount_tax_not_included = fields.Monetary()
+    amount_tax_not_included = fields.Monetary(
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
-    amount_tax_withholding = fields.Monetary(string="Tax Withholding")
+    amount_tax_withholding = fields.Monetary(
+        string="Tax Withholding",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
@@ -348,8 +389,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     city_taxation_code_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.city.taxation.code",
-        string="City Taxation Code",
-        compute="_compute_product_fiscal_fields",
+        compute="_compute_city_taxation_code_id",
         store=True,
         readonly=False,
         precompute=True,
@@ -372,10 +412,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     issqn_fg_city_id = fields.Many2one(
         comodel_name="res.city",
+        related="city_taxation_code_id.city_id",
         string="ISSQN City",
-        compute="_compute_product_fiscal_fields",
         store=True,
-        readonly=False,
         precompute=True,
     )
 
@@ -525,7 +564,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
-        default=ICMS_BASE_TYPE_DEFAULT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -612,7 +650,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmsst_base_type = fields.Selection(
         selection=ICMS_ST_BASE_TYPE,
         string="ICMS ST Base Type",
-        default=ICMS_ST_BASE_TYPE_DEFAULT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -908,7 +945,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ipi_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="IPI Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1032,7 +1068,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofins_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1109,7 +1144,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofinsst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS ST Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1161,7 +1195,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofins_wh_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS WH Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1230,7 +1263,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pis_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1307,7 +1339,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pisst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS ST Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1359,7 +1390,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pis_wh_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS WH Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1681,11 +1711,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         help="Additional data manually entered by user"
     )
 
-    estimate_tax = fields.Monetary()
+    estimate_tax = fields.Monetary(
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
     cnae_id = fields.Many2one(
+        related="city_taxation_code_id.cnae_id",
         comodel_name="l10n_br_fiscal.cnae",
         string="CNAE Code",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     @api.depends("company_id")
