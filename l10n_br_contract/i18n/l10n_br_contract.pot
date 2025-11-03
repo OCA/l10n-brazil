@@ -318,12 +318,18 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__company_id
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__company_id
 msgid "Company"
 msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_company_type
 msgid "Company Type"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ind_final
+msgid "Consumidor final"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -453,7 +459,6 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ind_final
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ind_final
 msgid "Final Consumption Operation"
 msgstr ""
 
