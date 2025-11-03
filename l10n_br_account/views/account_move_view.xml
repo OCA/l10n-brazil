@@ -124,11 +124,22 @@
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
             <!-- invoice_line_ids tree (Invoice Lines) -->
-            <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
-                <attribute
-                    name="context"
-                >{'default_move_type': context.get('default_move_type'), 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
-            </xpath>
+            <field name="invoice_line_ids" position="attributes">
+                <attribute name="context">
+                    {
+                        'default_move_type': context.get('default_move_type'),
+                        'journal_id': journal_id,
+                        'default_ind_final': ind_final,
+                        'default_partner_id': commercial_partner_id,
+                        'default_proxy_partner_id': commercial_partner_id,
+                        'default_proxy_company_id': company_id,
+                        'default_currency_id': currency_id or company_currency_id,
+                        'default_fiscal_operation_id': fiscal_operation_id,
+                        'default_document_type_id': document_type_id
+
+                    }
+                </attribute>
+            </field>
             <xpath
                 expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']"
                 position="before"
@@ -155,10 +166,18 @@
                     placeholders kick in.
                 -->
                 <field name="proxy_product_id" invisible="1" />
+                <field name="proxy_company_id" invisible="1" />
+                <field name="proxy_partner_id" invisible="1" />
+                <field name="proxy_name" invisible="1" />
+                <field name="proxy_quantity" invisible="1" />
+                <field name="proxy_price_unit" invisible="1" />
                 <field name="fiscal_operation_id" invisible="1" />
                 <field name="document_type_id" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
                 <field name="tax_icms_or_issqn" invisible="1" />
+                <field name="price_subtotal" force_save="1" invisible="1" />
+                <field name="price_total" force_save="1" invisible="1" />
+                <field name="ind_final" />
                 <field name="account_id" optional="hide" />
                 <field
                     name="tax_ids"
@@ -186,9 +205,21 @@
             <!-- line_ids tree (Journal Items) -->
             <!-- repeating fiscal fields in line_ids IS REQUIRED to persist values -->
             <xpath expr="//field[@name='line_ids']" position="attributes">
-                <attribute
-                    name="context"
-                >{'default_move_type': context.get('default_move_type'), 'line_ids': line_ids, 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id, 'default_exclude_from_invoice_tab': 1}</attribute>
+                <attribute name="context">
+                    {
+                        'default_move_type': context.get('default_move_type'),
+                        'line_ids': line_ids,
+                        'journal_id': journal_id,
+                        'default_partner_id': commercial_partner_id,
+                        'default_ind_final': ind_final,
+                        'default_proxy_partner_id': commercial_partner_id,
+                        'default_proxy_company_id': company_id,
+                        'default_currency_id': currency_id or company_currency_id,
+                        'default_fiscal_operation_id': fiscal_operation_id,
+                        'default_document_type_id': document_type_id,
+                        'default_exclude_from_invoice_tab': 1
+                    }
+                    </attribute>
             </xpath>
             <!--xpath
                 TODO MIGRATE see https://github.com/OCA/l10n-brazil/pull/3037
@@ -221,6 +252,14 @@
                 <field name="document_type_id" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
                 <field name="tax_icms_or_issqn" invisible="1" />
+                <field name="proxy_company_id" force_save="1" invisible="1" />
+                <field name="proxy_partner_id" force_save="1" invisible="1" />
+                <field name="proxy_product_id" force_save="1" invisible="1" />
+                <field name="proxy_name" force_save="1" invisible="1" />
+                <field name="proxy_quantity" force_save="1" invisible="1" />
+                <field name="proxy_price_unit" force_save="1" invisible="1" />
+                <field name="price_subtotal" force_save="1" invisible="1" />
+                <field name="price_total" force_save="1" invisible="1" />
                 <field
                     name="tax_ids"
                     optional="hide"
@@ -290,6 +329,11 @@
                     attrs="{'invisible': [('document_type_id', '=', False)]}"
                 />
                 <field name="proxy_product_id" invisible="1" />
+                <field name="proxy_company_id" invisible="1" />
+                <field name="proxy_partner_id" invisible="1" />
+                <field name="proxy_name" invisible="1" />
+                <field name="proxy_quantity" invisible="1" />
+                <field name="proxy_price_unit" invisible="1" />
                 <field name="amount_currency" invisible="1" />
                 <field name="date" invisible="1" />
                 <field name="date_maturity" invisible="1" />
@@ -312,6 +356,7 @@
                 <field name="price_total" force_save="1" invisible="1" />
                 <field name="credit" invisible="1" />
                 <field name="debit" invisible="1" />
+                <field name="ind_final" force_save="1" />
             </xpath>
             <!-- The next fields are defined in a superficial way in the inherited
                 form that is considered specific for mobile edition by Odoo but not
