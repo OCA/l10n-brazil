@@ -157,8 +157,6 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         purchase_order._onchange_fiscal_operation_id()
 
     def _run_purchase_line_onchanges(self, purchase_line):
-        purchase_line._onchange_fiscal_operation_id()
-        purchase_line._onchange_fiscal_taxes()
         purchase_line._onchange_fiscal_tax_ids()
 
     def _invoice_purchase_order(self, order):
