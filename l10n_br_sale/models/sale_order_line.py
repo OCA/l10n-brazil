@@ -10,10 +10,6 @@ class SaleOrderLine(models.Model):
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
 
     @api.model
-    def _default_fiscal_operation(self):
-        return self.env.company.sale_fiscal_operation_id
-
-    @api.model
     def _fiscal_operation_domain(self):
         domain = [
             ("fiscal_operation_type", "=", "out"),
@@ -24,7 +20,6 @@ class SaleOrderLine(models.Model):
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
@@ -184,7 +179,6 @@ class SaleOrderLine(models.Model):
         result = super()._compute_amount()
         for line in self:
             if line.fiscal_operation_id:
-                line._compute_tax_fields()  # TODO is it required?
                 line.update(
                     {
                         "price_subtotal": line.fiscal_amount_untaxed,
@@ -204,11 +198,6 @@ class SaleOrderLine(models.Model):
                 result["fiscal_quantity"] = self.qty_to_invoice
         result.update(super()._prepare_invoice_line(**optional_values))
         return result
-
-    @api.onchange("product_uom_qty")
-    def _onchange_quantity_fiscal(self):
-        self.fiscal_quantity = 0
-        self._compute_fiscal_quantity()
 
     @api.depends(
         "qty_delivered_method",
@@ -257,15 +246,6 @@ class SaleOrderLine(models.Model):
                     line.discount / 100
                 )
 
-    @api.onchange("fiscal_tax_ids")
-    def _onchange_fiscal_tax_ids(self):
-        if self.product_id and self.fiscal_operation_line_id:
-            self.tax_id = self.fiscal_tax_ids.account_taxes(
-                user_type="sale",
-                fiscal_operation=self.fiscal_operation_id,
-                company=self.company_id,
-            )
-
     def _compute_price_unit_fiscal(self):
         for line in self:
             if (
@@ -302,7 +282,13 @@ class SaleOrderLine(models.Model):
 
         return partner
 
-    @api.depends("product_id", "company_id", "fiscal_tax_ids")
+    @api.depends(
+        "product_id",
+        "company_id",
+        "fiscal_tax_ids",
+        "fiscal_operation_id",
+        "fiscal_operation_line_id",
+    )
     def _compute_tax_id(self):
         """Compute taxes based on fiscal operation or fallback to default behavior."""
         lines_with_fiscal_operation = self.filtered(

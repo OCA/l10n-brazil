@@ -137,15 +137,7 @@ class SaleOrder(models.Model):
         moves = self.env["account.move"]
         for document_type in document_types:
             self = self.with_context(
-                document_type_id=document_type.id,
-                # these skip  flags are here to preserve manual values
-                # in computed fields with readonly=False when
-                # this self.env.flush_all() in the stock.move object
-                # might be hit (through the sale_stock module)
-                # see addons/stock/models/stock_move.py#L1528
-                # may be they can be removed in v17+
-                skip_compute_fiscal_tax_ids=True,
-                skip_compute_product_fiscal_fields=True,
+                document_type_id=document_type.id, l10n_br_fiscal_active=True
             )
             try:
                 moves |= super()._create_invoices(
@@ -166,7 +158,7 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
-        if self.fiscal_operation_id:  # (Brazil)
+        if self._context.get("l10n_br_fiscal_active"):
             fiscal_values = self._prepare_br_fiscal_dict()
             # unlike super()._prepare_invoice(), prepare_fiscal_dict doesn't consider
             # partner_invoice_id, so we adjust the partner_id eventually:
