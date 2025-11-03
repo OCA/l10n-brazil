@@ -35,7 +35,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
-    FISCAL_PAYMENT_MODE,
     LOTE_PROCESSADO,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
@@ -54,6 +53,7 @@ from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
+    FISCAL_PAYMENT_MODE,
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENTS,

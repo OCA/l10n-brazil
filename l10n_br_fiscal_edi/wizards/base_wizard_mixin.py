@@ -4,7 +4,7 @@
 from odoo import fields, models
 
 
-class BaseWizardMixin(models.TransientModel):
+class BaseWizardMixin(models.AbstractModel):
     _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
     event_id = fields.Many2one(
