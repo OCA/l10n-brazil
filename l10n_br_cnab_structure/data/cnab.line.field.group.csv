@@ -11,3 +11,7 @@
 "l10n_br_cnab_structure.cnab_line_field_group_2_santander","Conta Corrente - Outros Bancos","l10n_br_cnab_structure.cnab_santander_240_pagamentos_segmento_a"
 "l10n_br_cnab_structure.cnab_line_field_group_3_santander","Conta Pagamento - Outros Bancos","l10n_br_cnab_structure.cnab_santander_240_pagamentos_segmento_a"
 "l10n_br_cnab_structure.cnab_line_field_group_4_santander","Conta Corrente - Chave PIX","l10n_br_cnab_structure.cnab_santander_240_pagamentos_segmento_a"
+"l10n_br_cnab_structure.cnab_line_field_group_1_sicoob","Conta Corrente - Mesmo Banco","l10n_br_cnab_structure.cnab_sicoob_240_pagamentos_segmento_a"
+"l10n_br_cnab_structure.cnab_line_field_group_2_sicoob","Conta Corrente - Outros Bancos","l10n_br_cnab_structure.cnab_sicoob_240_pagamentos_segmento_a"
+"l10n_br_cnab_structure.cnab_line_field_group_3_sicoob","Conta Pagamento - Outros Bancos","l10n_br_cnab_structure.cnab_sicoob_240_pagamentos_segmento_a"
+"l10n_br_cnab_structure.cnab_line_field_group_4_sicoob","Conta Corrente - Chave PIX","l10n_br_cnab_structure.cnab_sicoob_240_pagamentos_segmento_a"
