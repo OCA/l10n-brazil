@@ -10,10 +10,14 @@ class SaleOrder(models.Model):
 
         order = request.website.sale_get_order()
 
-        for line in order.order_line:
-            line._compute_product_fiscal_fields()
+        update_line_id = result.get("line_id")
+        if update_line_id:
+            line = order.order_line.browse(update_line_id)
+            line._onchange_quantity_fiscal()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_taxes()
             line._onchange_fiscal_tax_ids()
+            line._compute_product_fiscal_fields()
+            line._compute_fiscal_amounts()
 
         return result
