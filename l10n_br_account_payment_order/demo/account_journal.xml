@@ -277,6 +277,25 @@
         <field name="journal_id" ref="nordeste_journal" />
     </record>
 
+    <!-- Diario Sicoob -->
+    <record id="sicoob_journal" model="account.journal">
+        <field name="name">Banco Sicoob</field>
+        <field name="type">bank</field>
+        <field name="code">BNC11</field>
+        <field name="bank_account_id" ref="main_company_bank_sicoob" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="edi_format_ids" eval="False" />
+    </record>
+
+    <record
+        id="sicoob_journal_payment_method_cnab240"
+        model="account.payment.method.line"
+    >
+        <field name="name">Sicoob CNAB 240</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="journal_id" ref="sicoob_journal" />
+    </record>
+
     <!-- Diario Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
     <record id="cheque_journal" model="account.journal">
         <field name="name">Diário Cheque</field>
