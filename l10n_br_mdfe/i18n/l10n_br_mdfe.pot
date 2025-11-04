@@ -2291,7 +2291,6 @@ msgid "Grupo de informações do contrato"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model,name:l10n_br_mdfe.model_mdfe_30_infcontrato
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_contratante__mdfe30_infContrato
 msgid "Grupo de informações do contrato entre transportador e contratante"
 msgstr ""
@@ -4040,7 +4039,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_emi__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infcontrato__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infentregaparcial__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_inffisco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infmuncarrega__brl_currency_id
@@ -4473,18 +4471,6 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_codBanco
 msgid "Número do banco"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infcontrato__mdfe30_NroContrato
-msgid "Número do contrato do transportador"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,help:l10n_br_mdfe.field_mdfe_30_infcontrato__mdfe30_NroContrato
-msgid ""
-"Número do contrato do transportador com o contratante quando este existir "
-"para prestações continuadas"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6553,11 +6539,6 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento_frete__mdfe30_vComp
 msgid "Valor do componente"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infcontrato__mdfe30_vContratoGlobal
-msgid "Valor global do contrato"
 msgstr ""
 
 #. module: l10n_br_mdfe
