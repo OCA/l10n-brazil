@@ -8,7 +8,7 @@
         Used to exchange information with Brazilian banks.""",
     "version": "16.0.1.4.0",
     "author": "Engenere, Escodoo, Odoo Community Association (OCA)",
-    "maintainers": ["antoniospneto", "felipemotter"],
+    "maintainers": ["antoniospneto", "felipemotter", "marcelsavegnago", "kaynnan"],
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
     "depends": [
