@@ -13,3 +13,7 @@
 "l10n_br_cnab_structure.cnab_santander_240_boleto","Boleto","l10n_br_cnab_structure.cnab_santander_240"
 "l10n_br_cnab_structure.cnab_santander_240_conc_tributo_bc","Contas de Concessionárias e Tributos com Código de Barras","l10n_br_cnab_structure.cnab_santander_240"
 "l10n_br_cnab_structure.cnab_santander_240_tributo_sem_bc","Tributos sem Código de Barras","l10n_br_cnab_structure.cnab_santander_240"
+"l10n_br_cnab_structure.cnab_sicoob_240_pagamentos","Pagamento","l10n_br_cnab_structure.cnab_sicoob_240"
+"l10n_br_cnab_structure.cnab_sicoob_240_boleto","Boleto","l10n_br_cnab_structure.cnab_sicoob_240"
+"l10n_br_cnab_structure.cnab_sicoob_240_conc_tributo_bc","Contas de Concessionárias e Tributos","l10n_br_cnab_structure.cnab_sicoob_240"
+"l10n_br_cnab_structure.cnab_sicoob_240_tributo_sem_bc","Tributos sem código de barras e FGTS-GRF/GRRF/GRDE com código de barras","l10n_br_cnab_structure.cnab_sicoob_240"
