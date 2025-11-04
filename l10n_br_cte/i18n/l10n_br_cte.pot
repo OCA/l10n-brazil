@@ -545,7 +545,6 @@ msgid "Chave de acesso da GTV-e"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnfe__cte40_chave
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infnfetranspparcial__cte40_chNFe
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnfe__cte40_chave
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infnfe__cte40_chNFe
@@ -603,14 +602,12 @@ msgid "Chave de acesso do CT-e a ser substituído (original)"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_chCTeFerroOrigem
 msgid "Chave de acesso do CT-e emitido"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_trafmut__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_chCTeFerroOrigem
 msgid "Chave de acesso do CT-e emitido pelo ferrovia de origem"
@@ -859,11 +856,6 @@ msgid "Cte40 Det Infcte"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_detcont__cte40_detCont_aquav_id
-msgid "Cte40 Detcont Aquav"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_dup__cte40_dup_cobr_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_dup__cte40_dup_cobr_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_dup__cte40_dup_cobr_id
@@ -895,11 +887,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_ferroEnv
 msgid "Cte40 Ferroenv"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_ferroenv__cte40_ferroEnv_trafMut_id
-msgid "Cte40 Ferroenv Trafmut"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -969,7 +956,6 @@ msgid "Cte40 Infgtve Infctenorm"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnf__cte40_infNF_infDoc_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnf__cte40_infNF_infDoc_id
 msgid "Cte40 Infnf Infdoc"
 msgstr ""
@@ -980,7 +966,6 @@ msgid "Cte40 Infnfe Det"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnfe__cte40_infNFe_infDoc_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnfe__cte40_infNFe_infDoc_id
 msgid "Cte40 Infnfe Infdoc"
 msgstr ""
@@ -1044,11 +1029,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infveiculo__cte40_infVeiculo_detGTV_id
 msgid "Cte40 Infveiculo Detgtv"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_lacre__cte40_lacre_detCont_id
-msgid "Cte40 Lacre Detcont"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1398,14 +1378,12 @@ msgid "Código do status do CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_ferroenv__cte40_cInt
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_partner__cte40_cInt
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_cInt
 msgid "Código interno da Ferrovia envolvida"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_ferroenv__cte40_cInt
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_cInt
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_cInt
 msgid ""
@@ -1553,11 +1531,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderReceb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_users__cte40_enderReme
 msgid "Dados do endereço"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_ferroenv__cte40_enderFerro
-msgid "Dados do endereço da ferrovia envolvida"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -1840,7 +1813,6 @@ msgid "Detalhamento de informações"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_trafmut
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_trafMut
 msgid "Detalhamento de informações para o tráfego mútuo"
 msgstr ""
@@ -2088,14 +2060,12 @@ msgid "Expedidor"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__cte40_ferrEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_ferrEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_ferrEmi
 msgid "Ferrovia Emitente do CTe"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_trafmut__cte40_ferrEmi
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_ferrEmi
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_ferrEmi
 msgid ""
@@ -2289,13 +2259,6 @@ msgid "Grupo de informações de detalhamento"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_detcont
-msgid ""
-"Grupo de informações de detalhamento dos conteiners\n"
-"(Somente para Redespacho Intermediário e Serviço Vinculado a Multimodal)"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_detCont
 msgid ""
 "Grupo de informações de detalhamento dos conteiners \n"
@@ -2336,17 +2299,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_infSolicNFF
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infSolicNFF
 msgid "Grupo de informações do pedido de emissão da Nota Fiscal Fácil"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_detcont__cte40_lacre
-msgid "Grupo de informações dos lacres"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_lacre
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_detcont__cte40_lacre
-msgid "Grupo de informações dos lacres dos cointainers da qtde da carga"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2605,11 +2557,6 @@ msgid "Identificação do CT-e Outros Serviços"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_detcont__cte40_nCont
-msgid "Identificação do Container"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tcteos_emit
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tctesimp_emit
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tgtve_emit
@@ -2790,8 +2737,6 @@ msgid "Informações das Espécies transportadas"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_ferroenv
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__cte40_ferroEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_ferroEnv
 msgid "Informações das Ferrovias Envolvidas"
 msgstr ""
@@ -2808,8 +2753,6 @@ msgid "Informações das GTV-e relacionadas ao CT-e OS"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_aquav_infnf
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__cte40_infNF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__cte40_infNF
 msgid "Informações das NF"
 msgstr ""
@@ -2833,12 +2776,6 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infNFe
 msgid "Informações das NF-e DOCS (Cte)"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_aquav_infnfe
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__cte40_infNFe
-msgid "Informações das NFe"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3112,17 +3049,6 @@ msgid "Informações dos demais documentos"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_detcont__cte40_infDoc
-msgid "Informações dos documentos"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model,name:l10n_br_cte.model_cte_40_aquav_infdoc
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_detcont__cte40_infDoc
-msgid "Informações dos documentos dos conteiners"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_cte_40_infdocref
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infctenorm__cte40_infDocRef
 msgid "Informações dos documentos referenciados"
@@ -3189,7 +3115,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_emidocant__cte40_IE
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_ferroenv__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_emit__cte40_IEST
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_toma__cte40_IE
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_emit__cte40_IEST
@@ -3316,11 +3241,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_xJust
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_xJust
 msgid "Justificativa da entrada em contingência"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_lacre__cte40_nLacre
-msgid "Lacre"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -3578,16 +3498,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnf__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_comhora__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_det__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_detcont__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_detgtv__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_docant__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_emidocant__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_ferroenv__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_iddocant__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_iddocantele__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_iddocantpap__brl_currency_id
@@ -3604,7 +3519,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infservvinc__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_inftribfed__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infveiculo__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_lacre__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_lacunidcarga__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_lacunidtransp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_nointer__brl_currency_id
@@ -3690,7 +3604,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve_inffisco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve_infprot__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidadetransp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tunidcarga__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_cargo_quantity_infos__brl_currency_id
@@ -3930,7 +3843,6 @@ msgid "Não Contribuinte"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnf__cte40_nDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infdocref__cte40_nDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infoutros__cte40_nDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnf__cte40_nDoc
@@ -4024,7 +3936,6 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_emidocant__cte40_CNPJ
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_ferroenv__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_toma__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_CNPJ
@@ -4063,14 +3974,6 @@ msgid ""
 "Número do CNPJ\n"
 "Em caso de empresa não estabelecida no Brasil, será informado o CNPJ com zeros.\n"
 "\t\t\t\t\t\t\t\t\t\t\t\tInformar os zeros não significativos."
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_ferroenv__cte40_CNPJ
-msgid ""
-"Número do CNPJ\n"
-"Informar o CNPJ da Ferrovia Envolvida. Caso a Ferrovia envolvida não seja inscrita no CNPJ o campo deverá preenchido com zeros.\n"
-"Informar os zeros não significativos."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4423,7 +4326,6 @@ msgid "RS"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_ferroenv__cte40_xNome
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_xNome
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_xNome
 msgid "Razão Social ou Nome"
@@ -4515,19 +4417,9 @@ msgid "Report Action"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__cte40_respFat
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_respFat
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_respFat
 msgid "Responsável pelo Faturamento"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_trafmut__cte40_respFat
-msgid ""
-"Responsável pelo Faturamento\n"
-"Preencher com: \n"
-"\t\t\t\t\t\t\t\t\t1-Ferrovia de origem; \n"
-"\t\t\t\t\t\t\t\t\t2-Ferrovia de destino"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4730,7 +4622,6 @@ msgid "Sul, O-Oeste"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnf__cte40_serie
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infdocref__cte40_serie
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcte_infnf__cte40_serie
 msgid "Série"
@@ -5392,18 +5283,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnf__cte40_unidRat
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnfe__cte40_unidRat
-msgid "Unidade de medida rateada"
-msgstr ""
-
-#. module: l10n_br_cte
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_aquav_infnf__cte40_unidRat
-#: model:ir.model.fields,help:l10n_br_cte.field_cte_40_aquav_infnfe__cte40_unidRat
-msgid "Unidade de medida rateada (Peso,Volume)"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_res_partner__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_res_users__cte40_xNome
@@ -5552,7 +5431,6 @@ msgid "Valor do CSLL"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_trafmut__cte40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vFrete
 msgid "Valor do Frete do Tráfego Mútuo"
