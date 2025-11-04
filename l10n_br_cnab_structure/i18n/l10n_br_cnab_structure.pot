@@ -1309,6 +1309,11 @@ msgid "PIX Transferência - SISPAG Santander"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_pix_trasfer_sicoob
+msgid "PIX Transferência - SISPAG Sicoob"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__parent_model_id
 msgid "Parent Model"
 msgstr ""
@@ -1672,6 +1677,11 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_santander_ted
 msgid "TED - SISPAG Santander"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_ted_sicoob
+msgid "TED - SISPAG Sicoob "
 msgstr ""
 
 #. module: l10n_br_cnab_structure
