@@ -220,4 +220,76 @@
             ]).id"
         />
     </function>
+
+    <!-- Invoice Bill - Sicoob - TED -->
+    <record id="demo_bill_sicoob_ted" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_ted_sicoob" />
+        <field name="payment_reference">test ted - Sicoob</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 3})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_sicoob_ted')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_sicoob_ted')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_ted_sicoob')),
+            ]).id"
+        />
+    </function>
+
+    <!-- Invoice Bill - Sicoob - PIX Transferência -->
+    <record id="demo_bill_sicoob_pix" model="account.move">
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_amd" />
+        <field name="move_type">in_invoice</field>
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-01'" />
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="partner_bank_id" ref="amd_bank_account" />
+        <field name="payment_mode_id" ref="payment_mode_sispag_pix_trasfer_sicoob" />
+        <field name="payment_reference">test pix - Sicoob</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 199, 'quantity': 2})
+        ]"
+        />
+    </record>
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_bill_sicoob_pix')]" />
+    </function>
+    <!-- Add and Confirm Payment Order for this Bill-->
+    <function model="account.move" name="create_account_payment_line">
+        <value eval="[ref('demo_bill_sicoob_pix')]" />
+    </function>
+    <function model="account.payment.order" name="draft2open">
+        <value
+            model="account.payment.order"
+            eval="obj().search([
+                ('payment_mode_id', '=', ref('payment_mode_sispag_pix_trasfer_sicoob')),
+            ]).id"
+        />
+    </function>
 </odoo>
