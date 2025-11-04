@@ -70,6 +70,7 @@ FISCAL_PAYMENT_MODE = [
     ("17", "17 - Pagamento Instantâneo (PIX)"),
     ("18", "18 - Transferência bancária, Carteira Digital"),
     ("19", "19 - Programa de fidelidade, Cashback, Crédito Virtual"),
+    ("20", "20 - Pagamento Instantâneo (PIX) - Estático"),
     ("90", "90 - Sem Pagamento"),
     ("99", "99 - Outros"),
 ]
