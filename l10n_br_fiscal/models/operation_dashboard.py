@@ -127,7 +127,7 @@ class Operation(models.Model):
         }
 
     def open_action(self):
-        """return action based on type for related journals"""
+        """Return action based on type for related journals"""
 
         _fiscal_type_map = {
             "purchase": "in",
@@ -157,7 +157,8 @@ class Operation(models.Model):
             }
         )
 
-        [action] = self.env.ref("l10n_br_fiscal.{action_name}").read()
+        xmlid = f"l10n_br_fiscal.{action_name}"
+        [action] = self.env.ref(xmlid).read()
         action["context"] = ctx
         action["domain"] = self._context.get("use_domain", [])
         action["domain"] += [
