@@ -18,6 +18,11 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__br_currency_id
+msgid "BR Company Currency"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj
 msgid "CNPJ"
 msgstr "CNPJ"
@@ -53,11 +58,6 @@ msgid "Cnae Main"
 msgstr "Cnae Principal"
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__br_currency_id
-msgid "Company Currency"
-msgstr "Moeda da Empresa"
-
-#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
 msgid "Country"
 msgstr "País"
@@ -88,7 +88,7 @@ msgid "Legal Name"
 msgstr "Razão Social"
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_nature
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_nature_id
 msgid "Legal Nature"
 msgstr "Natureza jurídica"
 
@@ -96,6 +96,11 @@ msgstr "Natureza jurídica"
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_im_code
 msgid "Municipal Tax Number"
 msgstr "Cod. Municipal"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_mun
+msgid "Municipal Tax Number alias"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__name_surname
@@ -113,7 +118,7 @@ msgid "Others State Tax Number"
 msgstr "Outros Número de Contribuinte Estadual"
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__rg
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_rg_code
 msgid "RG"
 msgstr "RG"
 
@@ -126,6 +131,11 @@ msgstr "Exibir L10N Br"
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr "Número de inscrição estadual"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
+msgid "State Tax Number alias"
+msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_name
@@ -146,6 +156,14 @@ msgstr "Suframa"
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_name
 msgid "Used in fiscal documents"
 msgstr "Usado em Documentos Fiscais"
+
+#. module: l10n_br_crm
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__vat
+msgid "Vat"
+msgstr ""
+
+#~ msgid "Company Currency"
+#~ msgstr "Moeda da Empresa"
 
 #, python-format
 #~ msgid "Invalid CNPJ!"
