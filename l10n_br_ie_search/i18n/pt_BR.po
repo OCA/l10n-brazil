@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_ie_search
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-09-02 23:06+0000\n"
+"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_ie_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
+msgid ""
+"<span class=\"o_form_label\">Brazilian State Subscription service API</span>"
+msgstr ""
+"<span class=\"o_form_label\">API do serviço de assinatura estadual "
+"brasileira</span>"
+
+#. module: l10n_br_ie_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
+msgid ""
+"Brazilian State Subscription service API to search partner state "
+"subscription using cnpj code."
+msgstr ""
+"API do serviço de Inscrição Estadual brasileira para buscar a inscrição "
+"estadual do parceiro usando o código CNPJ."
+
+#. module: l10n_br_ie_search
+#: model:ir.model,name:l10n_br_ie_search.model_l10n_br_cnpj_search_webservice_abstract
+msgid "CNPJ Webservice"
+msgstr "CNPJ Webservice"
+
+#. module: l10n_br_ie_search
+#: model:ir.model,name:l10n_br_ie_search.model_partner_search_wizard
+msgid "CNPJ based search wizard allowing to update partner data."
+msgstr ""
+"Assistente de pesquisa baseado em CNPJ que permite atualizar dados de "
+"parceiros."
+
+#. module: l10n_br_ie_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
+msgid "Choose the provider for state subscription search"
+msgstr "Escolha o provedor para busca de Inscrição Estadual"
+
+#. module: l10n_br_ie_search
+#: model:ir.model,name:l10n_br_ie_search.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de Configurações"
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields.selection,name:l10n_br_ie_search.selection__res_config_settings__ie_search__sefaz
+msgid "SEFAZ"
+msgstr "SEFAZ"
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__sintegra_token
+msgid "SINTEGRA Token"
+msgstr "SINTEGRA Token"
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields.selection,name:l10n_br_ie_search.selection__res_config_settings__ie_search__sintegraws
+msgid "SINTEGRAWS"
+msgstr "SINTEGRAWS"
+
+#. module: l10n_br_ie_search
+#: model:ir.model.fields,field_description:l10n_br_ie_search.field_res_config_settings__ie_search
+msgid "Select IE search provider"
+msgstr "Selecione o provedor de pesquisa do IE"
+
+#. module: l10n_br_ie_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
+msgid ""
+"Select to choose the provider for state subscription search when searching "
+"for cnpj"
+msgstr ""
+"Selecione para escolher o provedor para a busca de Inscrição Estadual ao "
+"pesquisar pelo CNPJ"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
