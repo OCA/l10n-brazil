@@ -1,0 +1,374 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_cnpj_search
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-09-02 23:06+0000\n"
+"Last-Translator: Antônio Neto <netosjb@yahoo.com.br>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
+msgid "<span class=\"o_form_label\">Brazilian CNPJ service API</span>"
+msgstr "<span class=\"o_form_label\">API de Serviço do CNPJ Brasileiro</span>"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Address"
+msgstr "Endereço"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
+msgid ""
+"Brazilian CNPJ service API to search partner information using cnpj code."
+msgstr ""
+"API do serviço CNPJ brasileiro para busca de informações de parceiros "
+"utilizando código cnpj."
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_l10n_br_base_party_mixin
+msgid "Brazilian partner and company data mixin"
+msgstr "Mixin de dados de parceiros e empresas brasileiras"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__serpro_schema__basica
+msgid "Básica"
+msgstr "Básica"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_company_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "CNPJ"
+msgstr "CNPJ"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__cnpj_provider
+msgid "CNPJ Search Provider"
+msgstr "Provedor de Pesquisa de CNPJ"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_l10n_br_cnpj_search_webservice_abstract
+msgid "CNPJ Webservice"
+msgstr "Webservice CNPJ"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_partner_search_wizard
+msgid "CNPJ based search wizard allowing to update partner data."
+msgstr ""
+"Assistente de pesquisa baseado em CNPJ que permite atualizar dados de "
+"parceiros."
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "CNPJ data was obtained through the webservice:"
+msgstr "Os dados do CNPJ foram obtidos através do webservice:"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__child_ids
+msgid "Child"
+msgstr "Filhos"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__city_id
+msgid "City"
+msgstr "Cidade"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Close"
+msgstr "Fechar"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__cnae_main_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_main_id
+msgid "Cnae Main"
+msgstr "Cnae Principal"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_secondary_ids
+msgid "Cnae Secondary"
+msgstr "Cnae Secundário"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnpj_cpf
+msgid "Cnpj Cpf"
+msgstr "Cnpj Cpf"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__br_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__br_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__company_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__br_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__br_currency_id
+msgid "Company Currency"
+msgstr "Moeda da Empresa"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__company_type
+msgid "Company Type"
+msgstr "Tipo de Empresa"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de Configurações"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model,name:l10n_br_cnpj_search.model_res_partner
+msgid "Contact"
+msgstr "Contato"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Contacts"
+msgstr "Contatos"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__country_id
+msgid "Country"
+msgstr "País"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__district
+msgid "District"
+msgstr "Bairro"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__email
+msgid "Email"
+msgstr "E-mail"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__serpro_schema__empresa
+msgid "Empresa"
+msgstr "Empresa"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__equity_capital
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__equity_capital
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__equity_capital
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__equity_capital
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__equity_capital
+msgid "Equity Capital"
+msgstr "Capital Social"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "IE"
+msgstr "IE"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Identification"
+msgstr "Identificação"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__l10n_br_ie_code
+msgid "Inscr Est"
+msgstr "Inscr Estadual"
+
+#. module: l10n_br_cnpj_search
+#. odoo-python
+#: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
+#, python-format
+msgid ""
+"It is necessary to activate the option to validate de CNPJ to use this "
+"functionality."
+msgstr ""
+"É necessário ativar a opção de validação de CNPJ para que você possa "
+"utilizar essa funcionalidade."
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__legal_name
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__legal_nature
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__legal_nature
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__legal_nature
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__legal_nature
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__legal_nature
+msgid "Legal Nature"
+msgstr "Natureza Jurídica"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__cnae_main_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__cnae_main_id
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__cnae_main_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Main CNAE"
+msgstr "CNAE Principal"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__mobile
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__mobile
+msgid "Mobile"
+msgstr "Celular"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Other Information"
+msgstr "Outras Informações"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_company_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_partner_form
+msgid "Pesquisar CNPJ"
+msgstr "Pesquisar CNPJ"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__phone
+msgid "Phone"
+msgstr "Telefone"
+
+#. module: l10n_br_cnpj_search
+#. odoo-python
+#: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
+#, python-format
+msgid "Please enter your CNPJ"
+msgstr "Por favor digite seu CNPJ"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__provider_name
+msgid "Provider Name"
+msgstr "Nome do Provedor"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__serpro_schema__qsa
+msgid "QSA"
+msgstr "QSA"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__cnpj_provider__receitaws
+msgid "ReceitaWS"
+msgstr "ReceitaWS"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__cnpj_provider__serpro
+msgid "SERPRO"
+msgstr "SERPRO"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__serpro_schema
+msgid "SERPRO Schema"
+msgstr "Esquema SERPRO"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__serpro_token
+msgid "SERPRO Token"
+msgstr "Token SERPRO"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__cnae_secondary_ids
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__cnae_secondary_ids
+msgid "Secondary CNAE"
+msgstr "CNAE Secundário"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Secundary CNAE"
+msgstr "CNAB Secundário"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__state_id
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street_name
+msgid "Street Name"
+msgstr "Nome da Rua"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street_number
+msgid "Street Number"
+msgstr "Número do Endereço"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street2
+msgid "Street2"
+msgstr "Complemento"
+
+#. module: l10n_br_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
+msgid "Update Partner"
+msgstr "Atualizar Parceiro"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__serpro_trial
+msgid "Use SERPRO Trial"
+msgstr "Use o teste SERPRO"
+
+#. module: l10n_br_cnpj_search
+#: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__zip
+msgid "Zip"
+msgstr "CEP"
+
+#, python-format
+#~ msgid "Por favor insira o CNPJ"
+#~ msgstr "Por favor, insira o CNPJ"

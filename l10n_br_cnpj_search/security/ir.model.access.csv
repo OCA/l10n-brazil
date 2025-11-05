@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_br_cnpj_search_webservice,access_l10n_br_cnpj_search_webservice,model_l10n_br_cnpj_search_webservice_abstract,base.group_user,1,1,1,1
+"l10n_br_fiscal_partner_profile_user","l10n_br_fiscal.partner_profile","l10n_br_fiscal.model_l10n_br_fiscal_partner_profile","base.group_user",1,0,0,0
+"l10n_br_fiscal_cnae","l10n_br_fiscal.cnae","l10n_br_fiscal.model_l10n_br_fiscal_cnae","base.group_user",1,0,0,0
+access_partner_search_wizard,res_partner_wizard,model_partner_search_wizard,base.group_user,1,1,1,1

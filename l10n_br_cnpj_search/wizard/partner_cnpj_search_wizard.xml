@@ -1,0 +1,67 @@
+<!-- Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
+@author Cristiano Mafra Junior-->
+<odoo>
+    <record id="res_partner_wizard_view" model="ir.ui.view">
+        <field name="name">res_partner_wizard</field>
+        <field name="model">partner.search.wizard</field>
+        <field name="arch" type="xml">
+            <form class="o_form_sheet">
+                <div class="alert alert-info" role="alert" style="margin-bottom: 0px;">
+                    CNPJ data was obtained through the webservice: <field
+                        name="provider_name"
+                        readonly="1"
+                    />
+                </div>
+
+                <group>
+                    <group name="Identification" string="Identification">
+                        <field name="name" />
+                        <field name="legal_name" />
+                        <field name="cnpj_cpf" readonly="1" string="CNPJ" />
+                        <field name="l10n_br_ie_code" string="IE" />
+                    </group>
+
+                    <group name="Contacts" string="Contacts">
+                        <field name="phone" />
+                        <field name="mobile" />
+                        <field name="email" />
+                    </group>
+                </group>
+
+                <group>
+                    <group name="Address" string="Address">
+                        <field name="zip" />
+                        <field name="street_name" />
+                        <field name="street_number" />
+                        <field name="street2" />
+                        <field name="district" />
+                        <field name="state_id" />
+                        <field name="city_id" />
+                    </group>
+
+                    <group name="Other Information" string="Other Information">
+                        <field name="legal_nature_id" />
+                        <field name="equity_capital" widget="monetary" />
+                        <field name="cnae_main_id" string="Main CNAE" />
+                        <field
+                            name="cnae_secondary_ids"
+                            widget="many2many_tags"
+                            string="Secundary CNAE"
+                        />
+                        <field name="currency_id" invisible="1" />
+                    </group>
+                </group>
+
+                <footer>
+                    <button
+                        string="Update Partner"
+                        type="object"
+                        class="oe_highlight"
+                        name="action_update_partner"
+                    />
+                    <button string="Close" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
