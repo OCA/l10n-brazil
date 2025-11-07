@@ -60,6 +60,16 @@ class ResCompany(models.Model):
         [("decimal", "Decimal"), ("percentage", "Percentage")], default="decimal"
     )
 
+    focusnfe_nfse_type = fields.Selection(
+        [
+            ("nfse", "NFSe"),
+            ("nfse_nacional", "NFSe Nacional"),
+        ],
+        string="FocusNFe NFSe Type",
+        default="nfse",
+        help="Select whether to use NFSe (municipal) or NFSe Nacional (national) API",
+    )
+
     def get_focusnfe_token(self):
         """
         Retrieve the appropriate FocusNFe API token based on the current NFSe
