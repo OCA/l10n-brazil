@@ -1,6 +1,7 @@
 # Copyright (C) 2023 KMEE Informatica LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
+import base64
 import gzip
 import logging
 import re
@@ -76,11 +77,11 @@ class DFeMonitor(models.Model):
 
     @api.model
     def _get_processor(self):
+        cert = base64.b64decode(self.company_id.certificate.file)
         return DfeClient(
             ambiente=self.environment,
             uf=self.company_id.state_id.ibge_code,
-            pkcs12_data=self.company_id.certificate.file,
-            fake_certificate=self.company_id.certificate.file,
+            pkcs12_data=cert,
             pkcs12_password=self.company_id.certificate.password,
             wrap_response=True,
         )
