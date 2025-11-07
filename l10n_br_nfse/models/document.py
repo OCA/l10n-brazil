@@ -167,6 +167,8 @@ class Document(models.Model):
         cbs_aliquota = 0
         ibs_uf_valor = 0
         cbs_valor = 0
+        base_calculo_pis = 0
+        base_calculo_cofins = 0
 
         for line in lines:
             result_line.update(line._prepare_line_service())
@@ -195,6 +197,15 @@ class Document(models.Model):
             cbs_aliquota += result_line.get("cbs_aliquota") or 0
             ibs_uf_valor += result_line.get("ibs_uf_valor") or 0
             cbs_valor += result_line.get("cbs_valor") or 0
+            situacao_tributaria_pis = result_line.get("situacao_tributaria_pis")
+            situacao_tributaria_cofins = result_line.get("situacao_tributaria_cofins")
+            base_calculo_pis += result_line.get("base_calculo_pis", 0)
+            base_calculo_cofins += result_line.get("base_calculo_cofins", 0)
+            aliquota_pis = result_line.get("aliquota_pis") or 0
+            aliquota_cofins = result_line.get("aliquota_cofins") or 0
+            tipo_retencao_pis_cofins = (
+                result_line.get("tipo_retencao_pis_cofins") or "2"
+            )
 
         result = {
             "valor_servicos": valor_servicos,
@@ -246,6 +257,13 @@ class Document(models.Model):
             "ibs_uf_valor": ibs_uf_valor if ibs_uf_valor else None,
             "ibs_mun_valor": 0.0,
             "cbs_valor": cbs_valor if cbs_valor else None,
+            "situacao_tributaria_pis": situacao_tributaria_pis,
+            "situacao_tributaria_cofins": situacao_tributaria_cofins,
+            "base_calculo_pis": round(base_calculo_pis, 2),
+            "base_calculo_cofins": round(base_calculo_cofins, 2),
+            "aliquota_pis": round(aliquota_pis, 2),
+            "aliquota_cofins": round(aliquota_cofins, 2),
+            "tipo_retencao_pis_cofins": tipo_retencao_pis_cofins,
         }
 
         result.update(self.company_id._prepare_company_service())

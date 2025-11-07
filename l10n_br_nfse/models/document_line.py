@@ -109,4 +109,15 @@ class DocumentLine(models.Model):
             "ibs_uf_valor": round(self.ibs_value, 2) if self.ibs_value else None,
             "ibs_mun_valor": 0.0,
             "cbs_valor": round(self.cbs_value, 2) if self.cbs_value else None,
+            "situacao_tributaria_pis": self.pis_cst_code or "",
+            "situacao_tributaria_cofins": self.cofins_cst_code or "",
+            "base_calculo_pis": round(self.pis_base, 2),
+            "base_calculo_cofins": round(self.cofins_base, 2),
+            "aliquota_pis": round(self.pis_percent, 2) if self.pis_percent else 0.0,
+            "aliquota_cofins": (
+                round(self.cofins_percent, 2) if self.cofins_percent else 0.0
+            ),
+            "tipo_retencao_pis_cofins": (
+                "1" if (self.pis_wh_value or self.cofins_wh_value) else "2"
+            ),
         }
