@@ -25,7 +25,13 @@ from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfs
 
 # Importing necessary models and functions for NFSe processing
 from ... import l10n_br_nfse_focus
-from ..models.document import API_ENDPOINT, NFSE_URL, Document, filter_focusnfe
+from ..models.constants import API_ENDPOINT, NFSE_URL
+from ..models.document import Document
+from ..models.helpers import (
+    filter_focusnfe,
+    filter_focusnfe_municipal,
+    filter_focusnfe_nacional,
+)
 
 # Mock path for testing purposes
 MOCK_PATH = "odoo.addons.l10n_br_nfse_focus"
@@ -199,7 +205,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             record.company_id.provedor_nfse, "focusnfe"
         )  # Asserting provider is set to focusnfe
 
-    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.request")
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
     def test_processar_documento(self, mock_post):
         """Tests document processing with mocked POST request."""
         mock_post.return_value.status_code = 200  # Simulating successful POST request
@@ -216,7 +222,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             result.json(), {"status": "simulado"}
         )  # Asserting expected JSON response
 
-    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.request")
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
     def test_make_focus_nfse_http_request_generic(self, mock_request):
         """
         Tests generic HTTP request for Focus NFSe operations with mocked responses.
@@ -283,7 +289,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             result_delete.json(), {"status": "success"}
         )  # Asserting JSON response
 
-    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.request")
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
     def test_consulta_nfse_rps(self, mock_get):
         """Tests NFSe query by RPS with mocked GET request."""
         mock_get.return_value.status_code = 200  # Simulating successful GET request
@@ -301,7 +307,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             result.json(), {"status": "success", "data": {"nfse_info": "…"}}
         )  # Asserting expected JSON response
 
-    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.request")
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
     def test_cancela_documento(self, mock_delete):
         """Tests document cancellation with mocked DELETE request."""
         mock_delete.return_value.status_code = (
@@ -313,7 +319,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertEqual(result.status_code, 204)  # Asserting status code 204
 
-    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.request")
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
     def test_make_focus_nfse_http_request_422(self, mock_request):
         """Tests handling of HTTP 422 with Focus NFSe error message."""
         mock_request.return_value.status_code = 422
@@ -422,7 +428,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertTrue(record.authorization_event_id)
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.document.FocusnfeNfse.query_focus_nfse_by_rps"
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.query_focus_nfse_by_rps"
     )
     def test_document_status(self, mock_query):
         """Tests querying document status."""
@@ -446,7 +452,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         )  # Asserting result message
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.document.FocusnfeNfse._make_focus_nfse_http_request"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.base.FocusnfeNfseBase._make_focus_nfse_http_request"  # noqa: B950
     )
     def test_cancel_document_focus_with_error(self, mock_request):
         """Tests document cancellation with simulated error."""
@@ -461,12 +467,15 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.document_type_id.code = (
             MODELO_FISCAL_NFSE  # Setting document type to NFSe
         )
+        document.company_id.provedor_nfse = "focusnfe"  # Setting provider
+        document.company_id.focusnfe_nfse_type = "nfse"  # Setting to municipal
         document.document_date = datetime.strptime(
             "2024-01-01T05:10:12", "%Y-%m-%dT%H:%M:%S"
         )  # Setting document date
         document.date_in_out = datetime.strptime(
             "2024-01-01T05:10:12", "%Y-%m-%dT%H:%M:%S"
         )  # Setting date in/out
+        document.cancel_reason = "Teste de cancelamento"
 
         with self.assertRaises(UserError) as context:
             document.cancel_document_focus()  # Attempting to cancel document
@@ -478,7 +487,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         )
 
     @patch(
-        "odoo.addons.l10n_br_nfse_focus.models.document.FocusnfeNfse.process_focus_nfse_document"  # noqa: B950
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.process_focus_nfse_document"  # noqa: B950
     )
     def test_eletronic_document_send(self, mock_process_focus_nfse_document):
         """Tests sending of electronic document with simulated responses."""
@@ -597,3 +606,959 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertEqual(
             result, mock_cancel_document_focus.return_value
         )  # Asserting expected result
+
+    def test_filter_focusnfe_nacional(self):
+        """Tests filtering of NFSe Nacional documents."""
+        record = self.nfse_demo
+        record.company_id.provedor_nfse = "focusnfe"
+        record.company_id.focusnfe_nfse_type = "nfse_nacional"
+
+        result = filter_focusnfe_nacional(record)
+
+        self.assertEqual(record.company_id.provedor_nfse, "focusnfe")
+        self.assertEqual(record.company_id.focusnfe_nfse_type, "nfse_nacional")
+        self.assertEqual(result, True)
+
+        record.company_id.focusnfe_nfse_type = "nfse"
+        result = filter_focusnfe_nacional(record)
+        self.assertEqual(result, False)
+
+    def test_filter_focusnfe_municipal(self):
+        """Tests filtering of NFSe Municipal documents."""
+        record = self.nfse_demo
+        record.company_id.provedor_nfse = "focusnfe"
+        record.company_id.focusnfe_nfse_type = "nfse"
+
+        result = filter_focusnfe_municipal(record)
+
+        self.assertEqual(record.company_id.provedor_nfse, "focusnfe")
+        self.assertEqual(record.company_id.focusnfe_nfse_type, "nfse")
+        self.assertEqual(result, True)
+
+        record.company_id.focusnfe_nfse_type = "nfse_nacional"
+        result = filter_focusnfe_municipal(record)
+        self.assertEqual(result, False)
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
+    def test_process_focus_nfse_nacional_document(self, mock_post):
+        """Tests NFSe Nacional document processing with mocked POST request."""
+        mock_post.return_value.status_code = 202
+        mock_post.return_value.json.return_value = {"status": "processando_autorizacao"}
+
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        result = nfse_nacional.process_focus_nfse_nacional_document(
+            edoc, "12345", self.company, self.tpAmb
+        )
+
+        self.assertEqual(result.status_code, 202)
+        self.assertEqual(result.json(), {"status": "processando_autorizacao"})
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
+    def test_query_focus_nfse_nacional_by_ref(self, mock_get):
+        """Tests NFSe Nacional query by reference with mocked GET request."""
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = {
+            "status": "autorizado",
+            "numero": "12345",
+            "codigo_verificacao": "12345678901234567890",
+        }
+
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+
+        result = nfse_nacional.query_focus_nfse_nacional_by_ref(
+            "12345", self.company, self.tpAmb
+        )
+
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.json()["status"], "autorizado")
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
+    def test_cancel_focus_nfse_nacional_document(self, mock_delete):
+        """Tests NFSe Nacional document cancellation with mocked DELETE request."""
+        mock_delete.return_value.status_code = 200
+        mock_delete.return_value.json.return_value = {"status": "cancelado"}
+
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+
+        result = nfse_nacional.cancel_focus_nfse_nacional_document(
+            "12345", "Teste de cancelamento", self.company, self.tpAmb
+        )
+
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.json()["status"], "cancelado")
+
+    def test_prepare_payload_nacional(self):
+        """Tests NFSe Nacional payload preparation."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        # Set company city for IBGE code
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertIn("data_emissao", payload)
+        self.assertIn("data_competencia", payload)
+        self.assertIn("cnpj_prestador", payload)
+        self.assertIn("cnpj_tomador", payload)
+        self.assertIn("codigo_tributacao_nacional_iss", payload)
+        self.assertIn("valor_servico", payload)
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.process_focus_nfse_nacional_document"  # noqa: B950
+    )
+    def test_eletronic_document_send_nacional(self, mock_process):
+        """Tests sending electronic document for NFSe Nacional."""
+        mock_response = MagicMock()
+        mock_response.status_code = 202
+        mock_response.json.return_value = {"status": "processando_autorizacao"}
+        mock_process.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.document_date = datetime.strptime(
+            "2024-01-01T05:10:12", "%Y-%m-%dT%H:%M:%S"
+        )
+        document.date_in_out = datetime.strptime(
+            "2024-01-01T05:10:12", "%Y-%m-%dT%H:%M:%S"
+        )
+
+        document._eletronic_document_send()
+
+        self.assertEqual(document.state, SITUACAO_EDOC_ENVIADA)
+        mock_process.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+    )
+    def test_document_status_nacional(self, mock_query):
+        """Tests document status check for NFSe Nacional."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "status": "autorizado",
+            "data_emissao": "2024-01-01T05:10:12-03:00",
+            "numero": "12345",
+            "codigo_verificacao": "12345678901234567890",
+        }
+        mock_query.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.state = "enviada"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.requests.get"
+        ) as mock_get:
+            mock_get.return_value.content.decode.return_value = "<xml>test</xml>"
+            result = document._document_status()
+
+        self.assertIn("autorizado", result)
+        mock_query.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.cancel_focus_nfse_nacional_document"  # noqa: B950
+    )
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+    )
+    def test_cancel_document_focus_nacional(self, mock_query, mock_cancel):
+        """Tests document cancellation for NFSe Nacional."""
+        # Mock query response - not cancelled yet
+        mock_query_response = MagicMock()
+        mock_query_response.status_code = 200
+        mock_query_response.json.return_value = {"status": "autorizado"}
+        mock_query.return_value = mock_query_response
+
+        # Mock cancel response
+        mock_cancel_response = MagicMock()
+        mock_cancel_response.status_code = 200
+        mock_cancel_response.json.return_value = {"status": "cancelado"}
+        mock_cancel.return_value = mock_cancel_response
+
+        # Mock query response after cancellation
+        mock_query_response_after = MagicMock()
+        mock_query_response_after.status_code = 200
+        mock_query_response_after.json.return_value = {
+            "status": "cancelado",
+            "url_danfse": "https://example.com/danfse.pdf",
+        }
+        mock_query.side_effect = [
+            mock_query_response,
+            mock_query_response_after,
+        ]
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.cancel_reason = "Teste de cancelamento"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.requests.get"
+        ) as mock_get:
+            mock_get.return_value.content = b"%PDF-test%%EOF"
+            result = document.cancel_document_focus()
+
+        self.assertEqual(result.status_code, 200)
+        mock_cancel.assert_called_once()
+
+    def test_parse_authorization_datetime(self):
+        """Tests parsing authorization datetime from JSON data."""
+        document = self.nfse_demo
+        json_data = {"data_emissao": "2024-01-01T05:10:12-03:00"}
+
+        result = document._parse_authorization_datetime(json_data)
+
+        self.assertIsInstance(result, datetime)
+        self.assertEqual(result.year, 2024)
+        self.assertEqual(result.month, 1)
+        self.assertEqual(result.day, 1)
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_fetch_xml_from_path_success(self, mock_get):
+        """Tests successful XML fetch from path."""
+        document = self.nfse_demo
+        document.nfse_environment = "1"
+        xml_path = "/v2/nfse/12345.xml"
+        mock_get.return_value.content.decode.return_value = "<xml>test</xml>"
+
+        result = document._fetch_xml_from_path(document, xml_path)
+
+        self.assertEqual(result, "<xml>test</xml>")
+        mock_get.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_fetch_xml_from_path_error(self, mock_get):
+        """Tests XML fetch from path with error."""
+        document = self.nfse_demo
+        document.nfse_environment = "1"
+        xml_path = "/v2/nfse/12345.xml"
+        mock_get.side_effect = Exception("Connection error")
+
+        result = document._fetch_xml_from_path(document, xml_path)
+
+        self.assertEqual(result, "")
+        mock_get.assert_called_once()
+
+    def test_fetch_xml_from_path_empty(self):
+        """Tests XML fetch with empty path."""
+        document = self.nfse_demo
+        result = document._fetch_xml_from_path(document, "")
+        self.assertEqual(result, "")
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_fetch_pdf_from_urls_url_first(self, mock_get):
+        """Tests PDF fetch using url first."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_force_odoo_danfse = False
+        document.company_id.nfse_ssl_verify = True
+        json_data = {"url": "https://example.com/pdf.pdf"}
+        mock_get.return_value.content = b"%PDF-test%%EOF"
+
+        result = document._fetch_pdf_from_urls(document, json_data, use_url_first=True)
+
+        self.assertEqual(result, b"%PDF-test%%EOF")
+        mock_get.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_fetch_pdf_from_urls_url_danfse(self, mock_get):
+        """Tests PDF fetch using url_danfse."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_force_odoo_danfse = False
+        document.company_id.nfse_ssl_verify = True
+        json_data = {"url_danfse": "https://example.com/danfse.pdf"}
+        mock_get.return_value.content = b"%PDF-test%%EOF"
+
+        result = document._fetch_pdf_from_urls(document, json_data, use_url_first=False)
+
+        self.assertEqual(result, b"%PDF-test%%EOF")
+        mock_get.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_fetch_pdf_from_urls_invalid_pdf(self, mock_get):
+        """Tests PDF fetch with invalid PDF content."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_force_odoo_danfse = False
+        document.company_id.nfse_ssl_verify = True
+        json_data = {"url": "https://example.com/invalid.pdf"}
+        mock_get.return_value.content = b"invalid content"
+
+        result = document._fetch_pdf_from_urls(document, json_data, use_url_first=True)
+
+        self.assertIsNone(result)
+
+    def test_fetch_pdf_from_urls_force_odoo_danfse(self):
+        """Tests PDF fetch when force_odoo_danfse is True."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_force_odoo_danfse = True
+        json_data = {"url": "https://example.com/pdf.pdf"}
+
+        result = document._fetch_pdf_from_urls(document, json_data, use_url_first=True)
+
+        self.assertIsNone(result)
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_fetch_pdf_from_urls_error(self, mock_get):
+        """Tests PDF fetch with error."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_force_odoo_danfse = False
+        document.company_id.nfse_ssl_verify = True
+        json_data = {"url": "https://example.com/pdf.pdf"}
+        mock_get.side_effect = Exception("Connection error")
+
+        result = document._fetch_pdf_from_urls(document, json_data, use_url_first=True)
+
+        self.assertIsNone(result)
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+    )
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_process_authorized_status_nacional(self, mock_get, mock_query):
+        """Tests processing authorized status for NFSe Nacional."""
+        mock_query_response = MagicMock()
+        mock_query_response.status_code = 200
+        mock_query_response.json.return_value = {
+            "status": "autorizado",
+            "data_emissao": "2024-01-01T05:10:12-03:00",
+            "numero": "12345",
+            "codigo_verificacao": "12345678901234567890",
+        }
+        mock_query.return_value = mock_query_response
+        mock_get.return_value.content.decode.return_value = "<xml>test</xml>"
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.company_id.focusnfe_nfse_force_odoo_danfse = False
+        document.state = "enviada"
+        document.nfse_environment = "1"
+        json_data = {
+            "status": "autorizado",
+            "data_emissao": "2024-01-01T05:10:12-03:00",
+            "numero": "12345",
+            "codigo_verificacao": "12345678901234567890",
+            "url_danfse": "https://example.com/danfse.pdf",
+            "caminho_xml_nota_fiscal": "/v2/nfsen/12345.xml",
+        }
+
+        # Create authorization event to trigger the state change
+        # Create a real event in the database
+        auth_event = self.env["l10n_br_fiscal.event"].create(
+            {
+                "type": "0",
+                "company_id": document.company_id.id,
+                "document_type_id": document.document_type_id.id,
+                "document_serie_id": document.document_serie_id.id,
+                "document_number": document.document_number or "TEST001",
+            }
+        )
+        document.authorization_event_id = auth_event
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+        ) as mock_change_state:
+            with patch(
+                "odoo.addons.l10n_br_nfse_focus.models.document.Document.make_focus_nfse_pdf"
+            ) as mock_make_pdf:
+                with patch(
+                    "odoo.addons.l10n_br_fiscal_edi.models.document_event.Event.set_done"
+                ) as mock_set_done:
+                    with patch(
+                        "odoo.addons.l10n_br_nfse_focus.models.document.Document._fetch_xml_from_path"
+                    ) as mock_fetch_xml:
+                        mock_fetch_xml.return_value = b"<xml>test</xml>"
+                        mock_get.return_value.content = b"%PDF-test%%EOF"
+                        document._process_authorized_status_nacional(
+                            document,
+                            json_data,
+                        )
+
+                    mock_change_state.assert_called_once()
+                    mock_make_pdf.assert_called_once()
+                    mock_set_done.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.query_focus_nfse_by_rps"  # noqa: B950
+    )
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_process_authorized_status_municipal(self, mock_get, mock_query):
+        """Tests processing authorized status for NFSe Municipal."""
+        mock_query_response = MagicMock()
+        mock_query_response.status_code = 200
+        mock_query_response.json.return_value = {
+            "status": "autorizado",
+            "data_emissao": "2024-01-01T05:10:12-03:00",
+            "numero": "12345",
+            "codigo_verificacao": "12345678901234567890",
+        }
+        mock_query.return_value = mock_query_response
+        mock_get.return_value.content.decode.return_value = "<xml>test</xml>"
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse"
+        document.company_id.focusnfe_nfse_force_odoo_danfse = False
+        document.state = "enviada"
+        document.nfse_environment = "1"
+        json_data = {
+            "status": "autorizado",
+            "data_emissao": "2024-01-01T05:10:12-03:00",
+            "numero": "12345",
+            "codigo_verificacao": "12345678901234567890",
+            "caminho_xml_nota_fiscal": "/v2/nfse/12345.xml",
+            "url": "https://example.com/pdf.pdf",
+        }
+
+        # Create authorization event to trigger the state change
+        # Create a real event in the database
+        auth_event = self.env["l10n_br_fiscal.event"].create(
+            {
+                "type": "0",
+                "company_id": document.company_id.id,
+                "document_type_id": document.document_type_id.id,
+                "document_serie_id": document.document_serie_id.id,
+                "document_number": document.document_number or "TEST001",
+            }
+        )
+        document.authorization_event_id = auth_event
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+        ) as mock_change_state:
+            with patch(
+                "odoo.addons.l10n_br_nfse_focus.models.document.Document.make_focus_nfse_pdf"
+            ) as mock_make_pdf:
+                with patch(
+                    "odoo.addons.l10n_br_fiscal_edi.models.document_event.Event.set_done"
+                ) as mock_set_done:
+                    mock_get.return_value.content = b"%PDF-test%%EOF"
+                    document._process_authorized_status_municipal(document, json_data)
+
+                    mock_change_state.assert_called_once()
+                    mock_make_pdf.assert_called_once()
+                    mock_set_done.assert_called_once()
+
+    def test_process_error_status(self):
+        """Tests processing error status."""
+        document = self.nfse_demo
+        json_data = {"erros": [{"mensagem": "Error message"}]}
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+        ) as mock_change_state:
+            document._process_error_status(document, json_data)
+
+            self.assertEqual(document.edoc_error_message, "Error message")
+            mock_change_state.assert_called_once()
+
+    def test_process_error_status_no_errors(self):
+        """Tests processing error status without errors list."""
+        document = self.nfse_demo
+        json_data = {}
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+        ) as mock_change_state:
+            document._process_error_status(document, json_data)
+
+            mock_change_state.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_create_cancel_event(self, mock_get):
+        """Tests creating cancel event."""
+        document = self.nfse_demo
+        document.nfse_environment = "1"
+        status_json = {
+            "caminho_xml_cancelamento": "/v2/nfse/12345_cancel.xml",
+        }
+        mock_get.return_value.content.decode.return_value = "<xml>cancel</xml>"
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document_event.Event.create_event_save_xml"
+        ) as mock_create_event:
+            mock_event = MagicMock()
+            mock_create_event.return_value = mock_event
+            mock_event.set_done = MagicMock()
+
+            result = document.create_cancel_event(status_json, document)
+
+            self.assertEqual(result, mock_event)
+            mock_event.set_done.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_fetch_and_verify_pdf_content(self, mock_get):
+        """Tests fetching and verifying PDF content."""
+        document = self.nfse_demo
+        document.company_id.nfse_ssl_verify = True
+        status_json = {
+            "url": "https://example.com/pdf.pdf",
+            "url_danfse": "https://example.com/danfse.pdf",
+        }
+        mock_get.return_value.content = b"%PDF-test%%EOF"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document.make_focus_nfse_pdf"
+        ) as mock_make_pdf:
+            document.fetch_and_verify_pdf_content(status_json, document)
+
+            mock_make_pdf.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_fetch_and_verify_pdf_content_fallback(self, mock_get):
+        """Tests fetching PDF with fallback to url_danfse."""
+        document = self.nfse_demo
+        document.company_id.nfse_ssl_verify = True
+        status_json = {
+            "url": "https://example.com/invalid.pdf",
+            "url_danfse": "https://example.com/danfse.pdf",
+        }
+        # First call returns invalid PDF, second returns valid
+        mock_get.side_effect = [
+            MagicMock(content=b"invalid"),
+            MagicMock(content=b"%PDF-test%%EOF"),
+        ]
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document.make_focus_nfse_pdf"
+        ) as mock_make_pdf:
+            document.fetch_and_verify_pdf_content(status_json, document)
+
+            mock_make_pdf.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_handle_cancelled_status_force_odoo(self, mock_get):
+        """Tests handling cancelled status with force_odoo_danfse."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_force_odoo_danfse = True
+        status_json = {"url": "https://example.com/pdf.pdf"}
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document.create_cancel_event"
+        ) as mock_create_event:
+            with patch(
+                "odoo.addons.l10n_br_fiscal_edi.models.document.Document.make_pdf"
+            ) as mock_make_pdf:
+                # Create a real event in the database for the mock to return
+                mock_event = self.env["l10n_br_fiscal.event"].create(
+                    {
+                        "type": "2",
+                        "company_id": document.company_id.id,
+                        "document_type_id": document.document_type_id.id,
+                        "document_serie_id": document.document_serie_id.id,
+                        "document_number": document.document_number or "TEST001",
+                    }
+                )
+                mock_create_event.return_value = mock_event
+
+                document._handle_cancelled_status(
+                    document, status_json, use_url_first=False
+                )
+
+                mock_make_pdf.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_handle_cancelled_status_use_url_first(self, mock_get):
+        """Tests handling cancelled status with use_url_first."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_force_odoo_danfse = False
+        document.company_id.nfse_ssl_verify = True
+        status_json = {
+            "url": "https://example.com/pdf.pdf",
+            "url_danfse": "https://example.com/danfse.pdf",
+        }
+        mock_get.return_value.content = b"%PDF-test%%EOF"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document.create_cancel_event"
+        ) as mock_create_event:
+            with patch(
+                "odoo.addons.l10n_br_nfse_focus.models.document.Document.fetch_and_verify_pdf_content"  # noqa: B950
+            ) as mock_fetch_pdf:
+                # Create a real event in the database for the mock to return
+                mock_event = self.env["l10n_br_fiscal.event"].create(
+                    {
+                        "type": "2",
+                        "company_id": document.company_id.id,
+                        "document_type_id": document.document_type_id.id,
+                        "document_serie_id": document.document_serie_id.id,
+                        "document_number": document.document_number or "TEST001",
+                    }
+                )
+                mock_create_event.return_value = mock_event
+
+                document._handle_cancelled_status(
+                    document, status_json, use_url_first=True
+                )
+
+                mock_fetch_pdf.assert_called_once()
+
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
+    def test_handle_cancelled_status_url_danfse(self, mock_get):
+        """Tests handling cancelled status with url_danfse."""
+        document = self.nfse_demo
+        document.company_id.focusnfe_nfse_force_odoo_danfse = False
+        document.company_id.nfse_ssl_verify = True
+        status_json = {"url_danfse": "https://example.com/danfse.pdf"}
+        mock_get.return_value.content = b"%PDF-test%%EOF"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document.create_cancel_event"
+        ) as mock_create_event:
+            with patch(
+                "odoo.addons.l10n_br_nfse_focus.models.document.Document.make_focus_nfse_pdf"
+            ) as mock_make_pdf:
+                # Create a real event in the database for the mock to return
+                mock_event = self.env["l10n_br_fiscal.event"].create(
+                    {
+                        "type": "2",
+                        "company_id": document.company_id.id,
+                        "document_type_id": document.document_type_id.id,
+                        "document_serie_id": document.document_serie_id.id,
+                        "document_number": document.document_number or "TEST001",
+                    }
+                )
+                mock_create_event.return_value = mock_event
+
+                document._handle_cancelled_status(
+                    document, status_json, use_url_first=False
+                )
+
+                mock_make_pdf.assert_called_once()
+
+    def test_serialize_nacional(self):
+        """Tests serialization for NFSe Nacional."""
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse.models.document.Document._prepare_lote_rps",
+            return_value={"rps": "data"},
+        ) as mock_rps:
+            with patch(
+                "odoo.addons.l10n_br_nfse.models.document.Document._prepare_dados_servico",
+                return_value={"service": "data"},
+            ) as mock_service:
+                with patch(
+                    "odoo.addons.l10n_br_nfse.models.document.Document._prepare_dados_tomador",
+                    return_value={"recipient": "data"},
+                ) as mock_recipient:
+                    edocs = []
+                    result = document._serialize(edocs)
+
+                    self.assertIsInstance(result, list)
+                    mock_rps.assert_called_once()
+                    mock_service.assert_called_once()
+                    mock_recipient.assert_called_once()
+
+    def test_serialize_municipal(self):
+        """Tests serialization for NFSe Municipal."""
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse.models.document.Document._prepare_lote_rps",
+            return_value={"rps": "data"},
+        ) as mock_rps:
+            with patch(
+                "odoo.addons.l10n_br_nfse.models.document.Document._prepare_dados_servico",
+                return_value={"service": "data"},
+            ) as mock_service:
+                with patch(
+                    "odoo.addons.l10n_br_nfse.models.document.Document._prepare_dados_tomador",
+                    return_value={"recipient": "data"},
+                ) as mock_recipient:
+                    edocs = []
+                    result = document._serialize(edocs)
+
+                    self.assertIsInstance(result, list)
+                    mock_rps.assert_called_once()
+                    mock_service.assert_called_once()
+                    mock_recipient.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+    )
+    def test_process_status_nacional_autorizado(self, mock_query):
+        """Tests process status nacional with autorizado status."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "status": "autorizado",
+            "data_emissao": "2024-01-01T05:10:12-03:00",
+            "numero": "12345",
+            "codigo_verificacao": "12345678901234567890",
+        }
+        mock_query.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.state = "enviada"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document._process_authorized_status_nacional"  # noqa: B950
+        ) as mock_process:
+            with patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get"):
+                with patch(
+                    "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+                ):
+                    result = document._process_status_nacional(document)
+
+                    self.assertIn("autorizado", result)
+                    mock_process.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+    )
+    def test_process_status_nacional_erro(self, mock_query):
+        """Tests process status nacional with erro status."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "status": "erro_autorizacao",
+            "erros": [{"mensagem": "Error message"}],
+        }
+        mock_query.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.state = "enviada"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document._process_error_status"
+        ) as mock_process:
+            with patch(
+                "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+            ):
+                result = document._process_status_nacional(document)
+
+                self.assertIn("erro_autorizacao", result)
+                mock_process.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+    )
+    def test_process_status_nacional_cancelado(self, mock_query):
+        """Tests process status nacional with cancelado status."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {"status": "cancelado"}
+        mock_query.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.state = "enviada"
+        document.cancel_reason = "Teste"
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._document_cancel"
+        ) as mock_cancel:
+            result = document._process_status_nacional(document)
+
+            self.assertIn("cancelado", result)
+            mock_cancel.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.query_focus_nfse_by_rps"  # noqa: B950
+    )
+    def test_process_status_municipal_autorizado(self, mock_query):
+        """Tests process status municipal with autorizado status."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "status": "autorizado",
+            "data_emissao": "2024-01-01T05:10:12-03:00",
+            "numero": "12345",
+            "codigo_verificacao": "12345678901234567890",
+        }
+        mock_query.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse"
+        document.state = "enviada"
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document._process_authorized_status_municipal"  # noqa: B950
+        ) as mock_process:
+            with patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get"):
+                with patch(
+                    "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+                ):
+                    result = document._process_status_municipal(document)
+
+                    self.assertIn("autorizado", result)
+                    mock_process.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.query_focus_nfse_by_rps"  # noqa: B950
+    )
+    def test_process_status_municipal_erro(self, mock_query):
+        """Tests process status municipal with erro status."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "status": "erro_autorizacao",
+            "erros": [{"mensagem": "Error message"}],
+        }
+        mock_query.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse"
+        document.state = "enviada"
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+        ) as mock_change_state:
+            result = document._process_status_municipal(document)
+
+            self.assertIn("erro_autorizacao", result)
+            mock_change_state.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.process_focus_nfse_nacional_document"  # noqa: B950
+    )
+    def test_process_send_nacional_422_autorizada(self, mock_process):
+        """Tests process send nacional with 422 and autorizada code."""
+        mock_response = MagicMock()
+        mock_response.status_code = 422
+        mock_response.json.return_value = {"codigo": "nfe_autorizada"}
+        mock_process.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.state = "enviada"
+        document.document_date = datetime.now()
+        document.date_in_out = datetime.now()
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document._document_status"
+        ) as mock_status:
+            with patch(
+                "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+            ):
+                document._process_send_nacional(document)
+
+                mock_status.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal.FocusnfeNfse.process_focus_nfse_document"  # noqa: B950
+    )
+    def test_process_send_municipal_422_autorizada(self, mock_process):
+        """Tests process send municipal with 422 and autorizada code."""
+        mock_response = MagicMock()
+        mock_response.status_code = 422
+        mock_response.json.return_value = {"codigo": "nfe_autorizada"}
+        mock_process.return_value = mock_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse"
+        document.state = "enviada"
+        document.document_date = datetime.now()
+        document.date_in_out = datetime.now()
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document._document_status"
+        ) as mock_status:
+            with patch(
+                "odoo.addons.l10n_br_fiscal_edi.models.document_workflow.DocumentWorkflow._change_state"
+            ):
+                document._process_send_municipal(document)
+
+                mock_status.assert_called_once()
+
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
+    )
+    @patch(
+        "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.cancel_focus_nfse_nacional_document"  # noqa: B950
+    )
+    def test_process_cancel_base_already_cancelled(self, mock_cancel, mock_query):
+        """Tests process cancel base when already cancelled."""
+        # First query returns cancelled
+        mock_query_response = MagicMock()
+        mock_query_response.status_code = 200
+        mock_query_response.json.return_value = {
+            "status": "cancelado",
+            "url_danfse": "https://example.com/danfse.pdf",
+        }
+        mock_query.return_value = mock_query_response
+
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.cancel_reason = "Teste"
+
+        def query_method(ref, company, environment):
+            return mock_query_response
+
+        def cancel_method(ref, cancel_reason, company, environment):
+            mock_cancel_response = MagicMock()
+            mock_cancel_response.status_code = 200
+            mock_cancel_response.json.return_value = {"status": "cancelado"}
+            return mock_cancel_response
+
+        with patch(
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document._handle_cancelled_status"
+        ) as mock_handle:
+            with patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get"):
+                result = document._process_cancel_base(
+                    document,
+                    "12345",
+                    query_method,
+                    cancel_method,
+                    use_url_first=False,
+                )
+
+                mock_handle.assert_called_once()
+                self.assertEqual(result.status_code, 200)
