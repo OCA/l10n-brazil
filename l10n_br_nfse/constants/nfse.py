@@ -32,3 +32,14 @@ TAXATION_SPECIAL_REGIME = [
     ("5", "Microempresario Individual(MEI)"),
     ("6", "Microempresario e Empresa de Pequeno Porte(ME EPP)"),
 ]
+
+
+ISSQN_TO_TRIBUTACAO_ISS = {
+    "1": "1",  # Exigível → Operação tributável
+    "2": "4",  # Não incidência → Não Incidência
+    "3": "4",  # Isenção → Não Incidência
+    "4": "3",  # Exportação → Exportação de serviço
+    "5": "2",  # Imunidade → Imunidade
+    "6": "1",  # Suspensa (Judicial) → Operação tributável
+    "7": "1",  # Suspensa (Administrativo) → Operação tributável
+}
