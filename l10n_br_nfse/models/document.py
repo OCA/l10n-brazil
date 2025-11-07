@@ -20,6 +20,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 
 from ..constants.nfse import (
+    ISSQN_TO_TRIBUTACAO_ISS,
     NFSE_ENVIRONMENTS,
     OPERATION_NATURE,
     RPS_TYPE,
@@ -167,6 +168,8 @@ class Document(models.Model):
         cbs_aliquota = 0
         ibs_uf_valor = 0
         cbs_valor = 0
+        base_calculo_pis = 0
+        base_calculo_cofins = 0
 
         for line in lines:
             result_line.update(line._prepare_line_service())
@@ -195,6 +198,15 @@ class Document(models.Model):
             cbs_aliquota += result_line.get("cbs_aliquota") or 0
             ibs_uf_valor += result_line.get("ibs_uf_valor") or 0
             cbs_valor += result_line.get("cbs_valor") or 0
+            situacao_tributaria_pis = result_line.get("situacao_tributaria_pis")
+            situacao_tributaria_cofins = result_line.get("situacao_tributaria_cofins")
+            base_calculo_pis += result_line.get("base_calculo_pis", 0)
+            base_calculo_cofins += result_line.get("base_calculo_cofins", 0)
+            aliquota_pis = result_line.get("aliquota_pis") or 0
+            aliquota_cofins = result_line.get("aliquota_cofins") or 0
+            tipo_retencao_pis_cofins = (
+                result_line.get("tipo_retencao_pis_cofins") or "2"
+            )
 
         result = {
             "valor_servicos": valor_servicos,
@@ -219,10 +231,14 @@ class Document(models.Model):
             "valor_liquido_nfse": valor_liquido_nfse,
             "item_lista_servico": self.fiscal_line_ids[0].service_type_id.code
             and self.fiscal_line_ids[0].service_type_id.code.replace(".", ""),
+            "codigo_tributacao_nacional": self.fiscal_line_ids[
+                0
+            ].national_taxation_code_id.code
+            or None,
             "codigo_tributacao_municipio": self.fiscal_line_ids[
                 0
             ].city_taxation_code_id.code
-            or "",
+            or None,
             "municipio_prestacao_servico": self.fiscal_line_ids[
                 0
             ].issqn_fg_city_id.ibge_code
@@ -246,6 +262,16 @@ class Document(models.Model):
             "ibs_uf_valor": ibs_uf_valor if ibs_uf_valor else None,
             "ibs_mun_valor": 0.0,
             "cbs_valor": cbs_valor if cbs_valor else None,
+            "situacao_tributaria_pis": situacao_tributaria_pis,
+            "situacao_tributaria_cofins": situacao_tributaria_cofins,
+            "base_calculo_pis": round(base_calculo_pis, 2),
+            "base_calculo_cofins": round(base_calculo_cofins, 2),
+            "aliquota_pis": round(aliquota_pis, 2),
+            "aliquota_cofins": round(aliquota_cofins, 2),
+            "tipo_retencao_pis_cofins": tipo_retencao_pis_cofins,
+            "codigo_tributacao_iss": ISSQN_TO_TRIBUTACAO_ISS[
+                self.fiscal_line_ids[0].issqn_eligibility
+            ],
         }
 
         result.update(self.company_id._prepare_company_service())
