@@ -5,7 +5,9 @@ class NfeRecipientManifestationEventWizard(models.TransientModel):
     _name = "nfe_recipient_manifestation_event.wizard"
     _description = "Wizard to manifest"
 
-    event_type_selection = fields.Selection(
+    nfe_access_key = fields.Char(size=44, required=True)
+
+    event_type = fields.Selection(
         selection=[
             ("ciente", "Ciente da Operação"),
             ("confirmado", "Confirmada operação"),
@@ -16,26 +18,24 @@ class NfeRecipientManifestationEventWizard(models.TransientModel):
         required=True,
     )
 
-    def action_create_nfe_recipient_manifestation_event(self):
-        dfe_access_key_id = self.env.context.get("default_dfe_access_key_id")
-        dfe_access_key = self.env["l10n_br_fiscal.dfe_access_key"].browse(
-            dfe_access_key_id
-        )
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        access_key = self.env.context.get("default_nfe_access_key")
+        res.update({"nfe_access_key": access_key})
+        return res
 
+    def action_create_nfe_recipient_manifestation_event(self):
         mde = self.env["l10n_br_nfe.recipient_manifestation_event"].create(
             {
-                "key": dfe_access_key.key,
-                "event_type": self.event_type_selection,
-                "event_type_selection": self.event_type_selection,
+                "key": self.nfe_access_key,
+                "event_type": self.event_type,
                 "company_id": self.env.company.id,
-                "dfe_access_key_id": dfe_access_key.id,
                 "mde_document_type": "mde_nfe",
-                "status": "transmitido",
+                "status": "draft",
             }
         )
 
         mde.action_confirm_selection()
-
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",

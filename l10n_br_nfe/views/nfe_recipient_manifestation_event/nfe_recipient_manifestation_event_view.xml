@@ -9,12 +9,13 @@
         <field name="model">l10n_br_nfe.recipient_manifestation_event</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <form string="Manifestation">
+            <form string="Recipient Manifestation">
                 <header>
                     <button
-                        name="action_confirm_selection"
-                        string="Transmitir"
+                        name="action_confirm"
+                        string="Transmit"
                         type="object"
+                        attrs="{'invisible':[('status','!=','draft')]}"
                     />
                     <field
                         name="status"
@@ -26,11 +27,14 @@
                     />
                 </header>
 
-                <separator string="Manifestation Selection" />
-                <field name="event_type_selection" />
+                <separator string="Manifestation" />
+                <field
+                    name="event_type"
+                    attrs="{'readonly': [('status', '!=', 'draft')]}"
+                />
 
                 <separator string="Access Key" />
-                <field name="dfe_access_key_id" readonly="1" />
+                <field name="nfe_dfe_bundle_id" readonly="1" />
 
                 <separator string="Document Info" />
                 <group>
@@ -38,6 +42,12 @@
                     <field name="document_number" readonly="1" />
                     <field name="serie" readonly="1" />
                     <field name="mde_document_type" readonly="1" />
+                </group>
+                <separator string="Transmission" />
+                <group>
+                    <field name="protocol" readonly="1" />
+                    <field name="protocol_date" readonly="1" />
+                    <field name="response_xml" readonly="1" />
                 </group>
             </form>
         </field>
@@ -91,7 +101,7 @@
                 <field name="company_id" />
                 <field name="event_type" />
                 <field name="mde_document_type" />
-                <field name="dfe_access_key_id" string="Key" />
+                <field name="nfe_dfe_bundle_id" string="Key" />
             </tree>
         </field>
     </record>

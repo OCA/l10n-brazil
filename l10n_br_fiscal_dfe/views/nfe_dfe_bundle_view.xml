@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-    <record model="ir.ui.view" id="dfe_access_key_form">
-        <field name="name">l10n_br_fiscal.dfe_access_key.form</field>
-        <field name="model">l10n_br_fiscal.dfe_access_key</field>
+    <record model="ir.ui.view" id="nfe_dfe_bundle_form">
+        <field name="name">l10n_br_fiscal.nfe_dfe_bundle.form</field>
+        <field name="model">l10n_br_fiscal.nfe_dfe_bundle</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="DF-e Access Key">
@@ -25,20 +25,32 @@
                         decoration-muted="manifestation_status == 'Evento Desconhecido'"
                         readonly="1"
                     />
+                    <field name="manifestations_ids" readonly="1" />
                     <field name="document_state" />
                     <field name="document_number" />
                     <field name="emitter" readonly="1" />
                     <field name="vat" readonly="1" />
                     <field name="document_amount" widget="monetary" readonly="1" />
                 </group>
-                <field name="dfe_ids" />
+                <field name="dfe_ids">
+                    <tree>
+                        <field name="dfe_nfe_document_type" string="DF-e" />
+                        <field name="nsu" />
+                        <button
+                            string="XML"
+                            name="action_download_xml"
+                            type="object"
+                            icon="fa-download"
+                        />
+                    </tree>
+                </field>
             </form>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="dfe_access_key_tree">
-        <field name="name">l10n_br_fiscal.dfe_access_key.tree</field>
-        <field name="model">l10n_br_fiscal.dfe_access_key</field>
+    <record model="ir.ui.view" id="nfe_dfe_bundle_tree">
+        <field name="name">l10n_br_fiscal.nfe_dfe_bundle.tree</field>
+        <field name="model">l10n_br_fiscal.nfe_dfe_bundle</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree
@@ -48,32 +60,45 @@
                 decoration-muted="color_status == 'normal'"
             >
                 <field name="color_status" invisible="1" />
+                <field name="document_number" string="Number" />
+                <field
+                    name="document_emission_date"
+                    string="Emission"
+                    widget="datetime"
+                />
                 <field name="key" />
                 <field name="emitter" />
                 <field name="vat" />
-                <field name="document_amount" />
+                <field name="document_amount" string="Amount" />
                 <field
                     name="manifestation_status"
                     widget="badge"
+                    string="Manifestation"
                     decoration-success="manifestation_status == 'Confirmação de Operação pelo Destinatário'"
                     decoration-info="manifestation_status == 'Ciência da Operação pelo Destinatário'"
                     decoration-warning="manifestation_status == 'Desconhecimento da Operação pelo Destinatário'"
                     decoration-danger="manifestation_status == 'Operação não Realizada'"
                     decoration-muted="manifestation_status == 'Evento Desconhecido'"
                 />
-                <button string="XML" name="action_download_xml" type="object" />
-                                    <button
+                <button
+                    string="XML"
+                    name="action_download_xml"
+                    type="object"
+                    icon="fa-file-code-o"
+                />
+                <button
                     string="DANFE"
                     name="make_pdf"
                     type="object"
+                    icon="fa-file-pdf-o"
                 />
             </tree>
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="dfe_access_key_action">
+    <record model="ir.actions.act_window" id="nfe_dfe_bundle_action">
         <field name="name">DF-e Access Key</field>
-        <field name="res_model">l10n_br_fiscal.dfe_access_key</field>
+        <field name="res_model">l10n_br_fiscal.nfe_dfe_bundle</field>
         <field name="view_mode">tree,form</field>
     </record>
 

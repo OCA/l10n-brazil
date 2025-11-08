@@ -92,7 +92,7 @@ class TestNFeMDE(TransactionCase):
                 "document_number": cls.dfe.document_number,
                 "event_type": "ciente",
                 "status": "rascunho",
-                "dfe_access_key_id": cls.dfe.dfe_access_key_id.id,
+                "nfe_dfe_bundle_id": cls.dfe.nfe_dfe_bundle_id.id,
                 "mde_document_type": "mde_nfe",
             }
         )
@@ -111,23 +111,23 @@ class TestNFeMDE(TransactionCase):
             "odoo.addons.l10n_br_nfe.models.nfe_recipient_manifestation_event.NfeRecipientManifestationEvent._get_processor",
             return_value=proc,
         ):
-            self.mde_id.event_type_selection = "confirmado"
-            self.mde_id.action_confirm_selection()
+            self.mde_id.event_type = "confirmado"
+            self.mde_id.action_confirm()
             self.assertEqual(self.mde_id.event_type, "confirmado")
 
-            self.mde_id.event_type_selection = "ciente"
-            self.mde_id.action_confirm_selection()
+            self.mde_id.event_type = "ciente"
+            self.mde_id.action_confirm()
             self.assertEqual(self.mde_id.event_type, "ciente")
             self.assertEqual(
                 self.mde_id.display_name, "31201010588201000105550010038421171838422178"
             )
 
-            self.mde_id.event_type_selection = "desconhecido"
-            self.mde_id.action_confirm_selection()
+            self.mde_id.event_type = "desconhecido"
+            self.mde_id.action_confirm()
             self.assertEqual(self.mde_id.event_type, "desconhecido")
 
-            self.mde_id.event_type_selection = "nao_realizado"
-            self.mde_id.action_confirm_selection()
+            self.mde_id.event_type = "nao_realizado"
+            self.mde_id.action_confirm()
             self.assertEqual(self.mde_id.event_type, "nao_realizado")
 
     def test_event_error(self):
@@ -141,8 +141,8 @@ class TestNFeMDE(TransactionCase):
             ),
             self.assertRaises(ValidationError),
         ):
-            self.mde_id.event_type_selection = "confirmado"
-            self.mde_id.action_confirm_selection()
+            self.mde_id.event_type = "confirmado"
+            self.mde_id.action_confirm()
 
         proc_negocio = _FakeProcessor(
             {
@@ -158,8 +158,8 @@ class TestNFeMDE(TransactionCase):
             ),
             self.assertRaises(ValidationError),
         ):
-            self.mde_id.event_type_selection = "confirmado"
-            self.mde_id.action_confirm_selection()
+            self.mde_id.event_type = "confirmado"
+            self.mde_id.action_confirm()
 
     # @mock.patch.object(MDe, "action_ciencia_emissao", return_value=None)
     # def test_download_documents(self, mock_ciencia):

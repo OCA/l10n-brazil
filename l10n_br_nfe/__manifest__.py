@@ -17,7 +17,6 @@
         "l10n_br_fiscal_certificate",
         "l10n_br_nfe_spec",
         "spec_driven_model",
-        "l10n_br_fiscal_dfe",
     ],
     "data": [
         # Data
@@ -30,7 +29,7 @@
         "views/nfe_document_view.xml",
         "views/res_config_settings_view.xml",
         "views/nfe_recipient_manifestation_event/nfe_recipient_manifestation_event_view.xml",
-        "views/dfe/dfe_access_key_views.xml",
+        "views/dfe/nfe_dfe_bundle_view.xml",
         "views/supplier_info_view.xml",
         # Report
         "report/reports.xml",

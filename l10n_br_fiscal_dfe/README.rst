@@ -1,6 +1,6 @@
-==================
-L10n BR Fiscal Dfe
-==================
+===============
+Monitor de NF-e
+===============
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -56,15 +56,15 @@ Authors
 Contributors
 ------------
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Miléo <mileo@kmee.com.br>
-  - Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
-  - Felipe Zago <felipe.zago@kmee.com.br>
+   -  Luis Felipe Miléo <mileo@kmee.com.br>
+   -  Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
+   -  Felipe Zago <felipe.zago@kmee.com.br>
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Cristiano Mafra Junior
+   -  Cristiano Mafra Junior
 
 Maintainers
 -----------

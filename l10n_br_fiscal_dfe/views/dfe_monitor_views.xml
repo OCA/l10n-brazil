@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2023 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="dfe_monitor_form">
+        <field name="name">l10n_br_fiscal.dfe_monitor.form</field>
+        <field name="model">l10n_br_fiscal.dfe_monitor</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="DF-e Consult" duplicate="false">
+                <header>
+                    <button
+                        name="document_distribution"
+                        string="Search aDocuments"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_search_specific_nfe"
+                        type="object"
+                        string="Search NF-e by Key/NSU"
+                        class="btn-secondary"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <span>Monitor de NF-e - </span>
+                            <field
+                                name="company_id"
+                                class="oe_inline"
+                                required="1"
+                                domain="[('certificate_nfe_id', '!=', False)]"
+                            />
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="NF-e Encontradas">
+                            <field name="nfe_dfe_bundle_id" readonly="1" />
+                        </page>
+                        <page string="Todos DF-e">
+                            <field name="dfe_ids" nolabel="1" readonly="1">
+                            </field>
+                        </page>
+                        <page name="info" string="Other Informations">
+                            <!-- CONFIG ocupa a linha toda -->
+                            <group name="config" string="Configuration" colspan="4">
+                                <field name="use_cron" nolabel="1" />
+                                <label
+                                    for="use_cron"
+                                    string="Use Cron Job to Automatically Query New Documents"
+                                />
+                                <field
+                                    name="automatically_acknowledge_receipt"
+                                    nolabel="1"
+                                />
+                                <label
+                                    for="automatically_acknowledge_receipt"
+                                    string="Automatically Acknowledge Receipt"
+                                />
+                            </group>
+                            <group name="last_query" string="Last Query">
+                                <group>
+                                    <field name="last_nsu" string="NSU" required="1" />
+                                    <field
+                                        name="max_nsu"
+                                        string="Max NSU"
+                                        required="1"
+                                    />
+                                    <field
+                                        name="last_query"
+                                        string="Date"
+                                        readonly="1"
+                                        widget="datetime"
+                                    />
+                                </group>
+                                <group>
+                                    <field
+                                        name="last_status"
+                                        string="Status"
+                                        readonly="1"
+                                    />
+                                    <field
+                                        name="last_status_code"
+                                        string="Status Code"
+                                        readonly="1"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dfe_monitor_tree">
+        <field name="name">l10n_br_fiscal.dfe_monitor.tree</field>
+        <field name="model">l10n_br_fiscal.dfe_monitor</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree duplicate="false">
+                <field name="company_id" required="1" />
+                <field name="last_nsu" required="1" />
+                <field name="last_query" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="dfe_monitor_action">
+        <field name="name">Monitor NF-e</field>
+        <field name="res_model">l10n_br_fiscal.dfe_monitor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="dfe_form_action">
+        <field eval="2" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="dfe_monitor_form" />
+        <field name="act_window_id" ref="dfe_monitor_action" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="dfe_tree_action">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="dfe_monitor_tree" />
+        <field name="act_window_id" ref="dfe_monitor_action" />
+    </record>
+
+    <record model="ir.ui.view" id="dfe_search">
+        <field name="name">l10n_br_fiscal.dfe_monitor.search</field>
+        <field name="model">l10n_br_fiscal.dfe_monitor</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="DF-e Consult">
+                <field name="company_id" />
+            </search>
+        </field>
+    </record>
+
+</odoo>

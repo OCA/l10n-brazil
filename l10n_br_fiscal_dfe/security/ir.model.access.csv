@@ -5,5 +5,5 @@ access_l10n_br_fiscal_attachment_user,access_l10n_br_fiscal_attachment_user,mode
 access_l10n_br_fiscal_attachment_manager,access_l10n_br_fiscal_attachment_manager,model_l10n_br_fiscal_attachment,l10n_br_fiscal.group_manager,1,1,1,1
 l10n_br_fiscal_dfe_monitor_user,Consult DFe Monitor for User,model_l10n_br_fiscal_dfe_monitor,l10n_br_fiscal.group_user,1,1,1,0
 l10n_br_fiscal_dfe_monitor_manager,Consult DFe Monitor for Manager,model_l10n_br_fiscal_dfe_monitor,l10n_br_fiscal.group_manager,1,1,1,1
-l10n_br_fiscal_dfe_access_key_user,Consult DFe Monitor for User,model_l10n_br_fiscal_dfe_access_key,l10n_br_fiscal.group_user,1,1,1,0
-l10n_br_fiscal_dfe_access_key_manager,Consult DFe Monitor for Manager,model_l10n_br_fiscal_dfe_access_key,l10n_br_fiscal.group_manager,1,1,1,1
+l10n_br_fiscal_nfe_dfe_bundle_user,Consult DFe Monitor for User,model_l10n_br_fiscal_nfe_dfe_bundle,l10n_br_fiscal.group_user,1,1,1,0
+l10n_br_fiscal_nfe_dfe_bundle_manager,Consult DFe Monitor for Manager,model_l10n_br_fiscal_nfe_dfe_bundle,l10n_br_fiscal.group_manager,1,1,1,1

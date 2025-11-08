@@ -41,9 +41,13 @@ class DFeMonitor(models.Model):
 
     last_nsu = fields.Char(related="company_id.last_nsu", readonly=False)
 
-    max_nsu = fields.Char(readonly=True)
+    max_nsu = fields.Char(string="Max NSU", readonly=True)
 
-    last_query = fields.Datetime(string="Last query")
+    last_query = fields.Datetime()
+
+    last_status = fields.Char(readonly=True)
+
+    last_status_code = fields.Char(readonly=True)
 
     use_cron = fields.Boolean(
         default=False,
@@ -59,8 +63,8 @@ class DFeMonitor(models.Model):
         "of notifications or events without manual intervention",
     )  # TODO: Vê um nome melhor pro campo
 
-    dfe_access_key_id = fields.One2many(
-        comodel_name="l10n_br_fiscal.dfe_access_key",
+    nfe_dfe_bundle_id = fields.One2many(
+        comodel_name="l10n_br_fiscal.nfe_dfe_bundle",
         inverse_name="dfe_monitor_id",
         string="Chave de Acesso",
     )
@@ -107,21 +111,51 @@ class DFeMonitor(models.Model):
 
         return valid
 
-    @api.model
+    def document_distribution(self):
+        self.ensure_one()
+        action = self._document_distribution()
+        return action
+
     def _document_distribution(self):
+        self.ensure_one()
         last_nsu = (
             self.last_nsu
             if (self.last_nsu and self.last_nsu.isdigit())
             else "000000000000000"
         )
         raw_max = (self.max_nsu or "").strip()
-        maxNSU = raw_max if (raw_max and raw_max != "000000000000000") else False
+        max_nsu = raw_max if (raw_max and raw_max != "000000000000000") else False
+        last_query = self.last_query or fields.Datetime.now()
 
-        if maxNSU and last_nsu == maxNSU:
-            last_query = self.last_query or fields.Datetime.now()
+        if self.last_status_code == "656":
             if fields.Datetime.now() - last_query < timedelta(hours=1):
-                self.message_post(body=_("Waiting 1 hour before making a new request."))
-                return
+                # Bloqueado - Consumo Indevido
+                # self.message_post(body=_(
+                #     "Consumo Indevido detected.\n"
+                #     "Waiting 1 hour before making a new request."
+                # ))
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Consumo Indevido detected"),
+                        "message": _("Waiting 1 hour before making a new request."),
+                        "type": "warning",
+                        "sticky": False,
+                    },
+                }
+
+        if max_nsu and last_nsu >= max_nsu:
+            if self.last_status_code == "137":
+                # Bloqueado - Sem novos documentos
+                if fields.Datetime.now() - last_query < timedelta(hours=1):
+                    self.message_post(
+                        body=_(
+                            "No new documents to download.\n"
+                            "Waiting 1 hour before making a new request."
+                        )
+                    )
+                    return
 
         last_query_success = None
 
@@ -139,21 +173,28 @@ class DFeMonitor(models.Model):
 
             last_query_success = fields.Datetime.now()
             last_nsu = result.resposta.ultNSU
-            if not maxNSU:
-                maxNSU = result.resposta.maxNSU
+            max_nsu = result.resposta.maxNSU
 
             if not self.validate_distribution_response(result):
                 break
 
             self._process_distribution(result)
-            if last_nsu == maxNSU:
+
+            if last_nsu >= max_nsu:
+                # Não há mais documentos para baixar
                 break
 
         self.write(
             {
                 "last_nsu": last_nsu,
                 "last_query": last_query_success or self.last_query,
-                "max_nsu": maxNSU,
+                "last_status": getattr(result.resposta, "xMotivo", "")
+                if result
+                else "",
+                "last_status_code": getattr(result.resposta, "cStat", "")
+                if result
+                else "",
+                "max_nsu": max_nsu,
             }
         )
 
@@ -209,6 +250,9 @@ class DFeMonitor(models.Model):
         for record in self:
             record._document_distribution()
 
+    def action_search_specific_nfe(self):
+        pass
+
     def _process_distribution(self, result):
         for doc in result.resposta.loteDistDFeInt.docZip:
             payload = getattr(doc, "value", None)
@@ -259,8 +303,9 @@ class DFeMonitor(models.Model):
                     }
                 )
             if dfe_id:
+                dfe_id.schema_type = schema_type
                 dfe_id.create_xml_attachment(xml)
-        self.dfe_access_key_id.update_manifestation_status()
+        self.nfe_dfe_bundle_id.update_manifestation_status()
 
     @api.model
     def _create_dfe_from_procNFe(self, root, nsu):
@@ -344,14 +389,12 @@ class DFeMonitor(models.Model):
                 {
                     "key": nfe_key,
                     "event_type": "ciente",
-                    "event_type_selection": "ciente",
                     "company_id": self.env.company.id,
-                    "dfe_access_key_id": access_key.id,
                     "mde_document_type": "mde_nfe",
                     "status": "transmitido",
                 }
             )
-            mde.action_confirm_selection()
+            mde.action_confirm()
 
         access_key.dfe_ids = [(4, dfe.id)]
         return dfe
@@ -420,11 +463,11 @@ class DFeMonitor(models.Model):
         return dfe
 
     def _get_or_create_access_key(self, nfe_key):
-        access_key = self.env["l10n_br_fiscal.dfe_access_key"].search(
+        access_key = self.env["l10n_br_fiscal.nfe_dfe_bundle"].search(
             [("key", "=", nfe_key)], limit=1
         )
         if not access_key:
-            access_key = self.env["l10n_br_fiscal.dfe_access_key"].create(
+            access_key = self.env["l10n_br_fiscal.nfe_dfe_bundle"].create(
                 {"key": nfe_key, "dfe_monitor_id": self.id}
             )
         return access_key

@@ -65,13 +65,13 @@ class TestNFeDFe(TransactionCase):
             dfe1.display_name,
             "31201010588201000105550010038421171838422178 - Resumo da NF-e",
         )
-        self.assertEqual(dfe1.dfe_access_key_id.color_status, "blue")
+        self.assertEqual(dfe1.nfe_dfe_bundle_id.color_status, "blue")
         self.assertEqual(
-            dfe1.dfe_access_key_id.display_name,
+            dfe1.nfe_dfe_bundle_id.display_name,
             "31201010588201000105550010038421171838422178",
         )
         self.assertEqual(
-            dfe1.dfe_access_key_id.key, "31201010588201000105550010038421171838422178"
+            dfe1.nfe_dfe_bundle_id.key, "31201010588201000105550010038421171838422178"
         )
 
         self.assertEqual(dfe2.company_id, self.dfe_monitor.company_id)
@@ -84,15 +84,15 @@ class TestNFeDFe(TransactionCase):
         self.assertEqual(dfe2.emitter, "TESTE - Simples Nacional")
         self.assertEqual(dfe2.document_amount, 14.0)
         self.assertEqual(
-            dfe2.dfe_access_key_id.key, "35200159594315000157550010000000012062777161"
+            dfe2.nfe_dfe_bundle_id.key, "35200159594315000157550010000000012062777161"
         )
         self.assertEqual(
             dfe2.display_name,
             "35200159594315000157550010000000012062777161 - NF-e Completa",
         )
-        self.assertEqual(dfe2.dfe_access_key_id.color_status, "green")
+        self.assertEqual(dfe2.nfe_dfe_bundle_id.color_status, "green")
         self.assertEqual(
-            dfe2.dfe_access_key_id.display_name,
+            dfe2.nfe_dfe_bundle_id.display_name,
             "35200159594315000157550010000000012062777161",
         )
 
@@ -102,7 +102,7 @@ class TestNFeDFe(TransactionCase):
         self.dfe_monitor.search_documents()
         dfe = self.dfe_monitor.dfe_ids[0]
 
-        result = dfe.dfe_access_key_id.make_pdf()
+        result = dfe.nfe_dfe_bundle_id.make_pdf()
 
         self.assertEqual(result["type"], "ir.actions.act_url")
         self.assertTrue(result["url"].startswith("/web/content/"))
@@ -124,13 +124,13 @@ class TestNFeDFe(TransactionCase):
         self.assertTrue(attachment_single_dfe1)
         self.assertEqual(attachment_single_dfe1, dfe1.attachment_id)
 
-        result_dfe2_access_key = dfe2.dfe_access_key_id.action_download_xml()
+        result_dfe2_access_key = dfe2.nfe_dfe_bundle_id.action_download_xml()
         attachment_single_dfe2_access_key = self._get_attachment_from_result(
             result_dfe2_access_key
         )
         self.assertTrue(attachment_single_dfe2_access_key)
         with self.assertRaises(UserError):
-            dfe1.dfe_access_key_id.action_download_xml()
+            dfe1.nfe_dfe_bundle_id.action_download_xml()
 
     def _get_attachment_from_result(self, result):
         _, _, _, att_id, _ = result["url"].split("/")

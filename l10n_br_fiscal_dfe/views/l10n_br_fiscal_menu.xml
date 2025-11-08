@@ -7,9 +7,9 @@
     <menuitem
         action="dfe_monitor_action"
         id="dfe_consult_menu"
-        name="DF-e"
+        name="Monitor"
         groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
-        parent="l10n_br_fiscal.document_menu"
+        parent="l10n_br_nfe.nfe_sub_menu"
         sequence="15"
     />
 </odoo>

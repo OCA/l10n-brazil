@@ -8,16 +8,32 @@ from brazilfiscalreport.danfe import Danfe
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+EVENT_TYPE_MAP = {
+    "210200": "Confirmada operação",
+    "210210": "Ciente da Operação",
+    "210220": "Desconhecimento da Operação",
+    "210240": "Operação não realizada",
+}
+
 
 class AccessKey(models.Model):
-    _name = "l10n_br_fiscal.dfe_access_key"
-    _description = ""
+    _name = "l10n_br_fiscal.nfe_dfe_bundle"
+    _description = "Group of DF-e documents for one NF-e"
+    _order = "id desc"
+
+    _sql_constraints = [
+        (
+            "unique_key",
+            "UNIQUE(key)",
+            "The access key already exists",
+        ),
+    ]
 
     key = fields.Char(size=44, required=True)
 
     dfe_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.dfe",
-        inverse_name="dfe_access_key_id",
+        inverse_name="nfe_dfe_bundle_id",
         string="DFe",
     )
 
@@ -33,20 +49,14 @@ class AccessKey(models.Model):
 
     document_number = fields.Float(related="dfe_ids.document_number")
 
+    document_emission_date = fields.Datetime(related="dfe_ids.emission_datetime")
+
     serie = fields.Char(related="dfe_ids.serie")
 
     dfe_monitor_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.dfe_monitor",
         string="Monitor de DFe",
     )
-
-    _sql_constraints = [
-        (
-            "unique_key",
-            "UNIQUE(key)",
-            "The access key already exists",
-        ),
-    ]
 
     color_status = fields.Selection(
         [
@@ -66,6 +76,12 @@ class AccessKey(models.Model):
             ("sem_manifestacao", "Sem manifestação"),
         ],
         default="sem_manifestacao",
+    )
+
+    manifestations_ids = fields.One2many(
+        comodel_name="l10n_br_nfe.recipient_manifestation_event",
+        inverse_name="nfe_dfe_bundle_id",
+        string="Manifestations",
     )
 
     @api.depends("dfe_ids.dfe_nfe_document_type")
@@ -135,7 +151,7 @@ class AccessKey(models.Model):
             "view_mode": "form",
             "target": "new",
             "context": {
-                "default_dfe_access_key_id": self.id,
+                "default_nfe_dfe_bundle_id": self.id,
             },
         }
 
@@ -149,12 +165,10 @@ class AccessKey(models.Model):
 
     @api.model
     def update_manifestation_status(self):
-        EVENT_TYPE_MAP = {
-            "210200": "Confirmada operação",
-            "210210": "Ciente da Operação",
-            "210220": "Desconhecimento da Operação",
-            "210240": "Operação não realizada",
-        }
+        # TODO
+        # Os eventos de manifestação que recebemos via DF-e distribuição
+        # são de terceiros.
+        # As MD-e que fazemos das notas recebidas não são tratados aqui.
 
         dfe_events = self.env["l10n_br_fiscal.dfe"].search(
             [("dfe_nfe_document_type", "=", "dfe_nfe_event")],

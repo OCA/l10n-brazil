@@ -22,8 +22,8 @@
                         <field name="ie" readonly="1" />
                         <field name="document_amount" widget="monetary" readonly="1" />
                         <field name="document_state" readonly="1" />
+                        <field name="cfop_ids" readonly="1" widget="many2many_tags" />
                     </group>
-                    <field name="cfop_ids" readonly="1" />
                     <group>
                         <field name="company_id" readonly="1" />
                         <field name="document_id" readonly="1" />
@@ -31,7 +31,16 @@
                         <field name="inclusion_mode" readonly="1" />
                         <field name="inclusion_datetime" readonly="1" />
                         <field name="emission_datetime" readonly="1" />
+                        <field name="attachment_id" readonly="1" />
+                        <field name="display_name" readonly="1" />
                     </group>
+                    <label for="xml_pretty" string="XML Attachment" />
+                    <field
+                        name="xml_pretty"
+                        readonly="1"
+                        widget="ace"
+                        options="{'mode': 'xml'}"
+                    />
                 </group>
             </form>
         </field>
@@ -43,9 +52,16 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree create="false">
-                <field name="dfe_nfe_document_type" />
                 <field name="nsu" />
-                <button string="XML" name="action_download_xml" type="object" />
+                <field name="dfe_nfe_document_type" string="DF-e" />
+                <button
+                    string="XML"
+                    name="action_download_xml"
+                    type="object"
+                    icon="fa-download"
+                />
+                <field name="emission_datetime" widget="datetime" string="Emission" />
+                <field name="inclusion_datetime" widget="datetime" string="Inclusion" />
             </tree>
         </field>
     </record>

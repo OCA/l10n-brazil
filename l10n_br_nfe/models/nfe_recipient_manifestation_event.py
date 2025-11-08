@@ -2,6 +2,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import re
+from datetime import datetime
 
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
@@ -25,16 +26,11 @@ class NfeRecipientManifestationEvent(models.Model):
 
     company_id = fields.Many2one(comodel_name="res.company", string="Company")
 
-    document_number = fields.Float(
-        string="Document Number",
-        index=True,
-        digits=(18, 0),
-        related="dfe_access_key_id.document_number",
-    )
+    document_number = fields.Float()
 
-    key = fields.Char(string="Access Key", size=44, related="dfe_access_key_id.key")
+    key = fields.Char(string="Access Key", size=44)
 
-    serie = fields.Char(size=3, index=True, related="dfe_access_key_id.serie")
+    serie = fields.Char()
 
     event_type = fields.Selection(
         string="Manifestation State",
@@ -42,29 +38,25 @@ class NfeRecipientManifestationEvent(models.Model):
         index=True,
     )
 
-    event_type_selection = fields.Selection(
-        selection=SITUACAO_MANIFESTACAO,
-        default="ciente",
-        required=True,
-    )
-
     status = fields.Selection(
         selection=[
-            ("rascunho", "Rascunho"),
-            ("transmitido", "Transmitido"),
+            ("draft", "Draft"),
+            ("transmitted", "Transmitted"),
         ],
     )
 
-    environment = fields.Selection(related="company_id.dfe_environment")
+    protocol = fields.Char()
 
-    dfe_access_key_id = fields.Many2one(
-        string="DF-e", comodel_name="l10n_br_fiscal.dfe_access_key"
-    )
+    protocol_date = fields.Datetime(string="Registration Date")
+
+    response_xml = fields.Text(string="Response XML")
+
+    environment = fields.Selection(related="company_id.nfe_environment")
 
     mde_document_type = fields.Selection(
         selection=[
-            ("mde_nfe", "NFe"),
-            ("mde_nfce", "NFCe"),
+            ("mde_nfe", "NF-e"),
+            ("mde_nfce", "NFC-e"),
         ],
         string="MDe Document Type",
     )
@@ -96,6 +88,12 @@ class NfeRecipientManifestationEvent(models.Model):
                 message = inf_evento.xMotivo
             else:
                 valid = True
+                self.protocol = inf_evento.nProt
+                self.protocol_date = fields.Datetime.to_string(
+                    datetime.fromisoformat(inf_evento.dhRegEvento)
+                )
+                self.response_xml = result.retorno._content.decode("utf-8")
+                self.status = "transmitted"
 
         if not valid:
             raise ValidationError(
@@ -122,34 +120,13 @@ class NfeRecipientManifestationEvent(models.Model):
             except Exception as e:
                 raise e
 
-    def action_confirm_selection(self):
+    def action_confirm(self):
         event_mapping = {
-            SIT_MANIF_CIENTE[0]: ("ciencia_da_operacao", ["135"], SIT_MANIF_CIENTE[0]),
-            SIT_MANIF_CONFIRMADO[0]: (
-                "confirmacao_da_operacao",
-                ["135"],
-                SIT_MANIF_CONFIRMADO[0],
-            ),
-            SIT_MANIF_DESCONHECIDO[0]: (
-                "desconhecimento_da_operacao",
-                ["135"],
-                SIT_MANIF_DESCONHECIDO[0],
-            ),
-            SIT_MANIF_NAO_REALIZADO[0]: (
-                "operacao_nao_realizada",
-                ["135"],
-                SIT_MANIF_NAO_REALIZADO[0],
-            ),
+            SIT_MANIF_CIENTE: ("ciencia_da_operacao", ["135"]),
+            SIT_MANIF_CONFIRMADO: ("confirmacao_da_operacao", ["135"]),
+            SIT_MANIF_DESCONHECIDO: ("desconhecimento_da_operacao", ["135"]),
+            SIT_MANIF_NAO_REALIZADO: ("operacao_nao_realizada", ["135"]),
         }
-
         for record in self:
-            if record.event_type_selection in event_mapping:
-                operation, valid_codes, new_state = event_mapping[
-                    record.event_type_selection
-                ]
-                record.action_send_event(operation, valid_codes, new_state)
-                record.event_type_selection = False
-            else:
-                raise ValidationError(
-                    _("Select a manifestation type before confirming")
-                )
+            operation, valid_codes = event_mapping[record.event_type]
+            record.action_send_event(operation, valid_codes, record.event_type)

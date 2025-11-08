@@ -2,12 +2,21 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import base64
 
-from odoo import fields, models
+from lxml import etree
+
+from odoo import _, api, fields, models
 
 from ..constants.dfe import (
     OPERATION_TYPE,
     SITUACAO_NFE,
 )
+
+DFE_DESCRIPTION_MAP = {
+    "procNFe": "XML NF-e completo (procNFe) via distribuição DF-e",
+    "resNFe": "Resumo de NF-e (resNFe) via distribuição DF-e",
+    "procEventoNFe": "XML de evento de NF-e (procEventoNFe) via distribuição DF-e",
+    "resEvento": "Resumo de evento de NF-e (resEvento) via distribuição DF-e",
+}
 
 
 class DFe(models.Model):
@@ -17,11 +26,11 @@ class DFe(models.Model):
     _order = "id desc"
     _rec_name = "display_name"
 
-    dfe_access_key_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.dfe_access_key", string="Chave de Acesso"
+    nfe_dfe_bundle_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.nfe_dfe_bundle", string="Chave de Acesso"
     )
 
-    key = fields.Char(string="Access Key", size=44, related="dfe_access_key_id.key")
+    key = fields.Char(string="Access Key", size=44, related="nfe_dfe_bundle_id.key")
 
     serie = fields.Char(size=3, index=True)
 
@@ -33,6 +42,11 @@ class DFe(models.Model):
 
     nsu = fields.Char(string="NSU", size=25, index=True)
 
+    schema_type = fields.Char(
+        help="Type of the DF-e document according to the XML schema.",
+    )
+
+    # Saida ou Entrada
     operation_type = fields.Selection(
         selection=OPERATION_TYPE,
     )
@@ -87,7 +101,7 @@ class DFe(models.Model):
             ("dfe_nfe_summary", "Resumo da NF-e"),
             ("dfe_nfe_event", "Evento da NF-e"),
         ],
-        string="DFe Document Type",
+        string="DF-e Type (NF-e)",
     )
 
     dfe_monitor_id = fields.Many2one(
@@ -95,7 +109,12 @@ class DFe(models.Model):
         string="DFe Monitor",
     )
 
-    attachment_id = fields.Many2one(comodel_name="ir.attachment")
+    attachment_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        help="XML Attachment stored in Odoo.",
+    )
+
+    xml_pretty = fields.Text(string="XML Pretty", compute="_compute_xml_pretty")
 
     document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
@@ -119,13 +138,11 @@ class DFe(models.Model):
         return result
 
     def create_xml_attachment(self, xml):
-        file_name = "NFe%s.xml" % self.key
         self.attachment_id = self.env["ir.attachment"].create(
             {
-                "name": file_name,
+                "name": f"{self.schema_type}{self.key}.xml",
                 "datas": base64.b64encode(xml),
-                "store_fname": file_name,
-                "description": "NFe via Manifesto",
+                "description": DFE_DESCRIPTION_MAP.get(self.schema_type),
                 "res_model": self._name,
                 "res_id": self.id,
             }
@@ -151,3 +168,35 @@ class DFe(models.Model):
             ),
             "target": "self",
         }
+
+    def import_document(self):
+        self.ensure_one()
+        try:
+            document = self.dfe_monitor_id._download_document(self.key)
+            document_id = self.dfe_monitor_id._parse_xml_document(document)
+        except Exception as e:
+            self.message_post(
+                body=_("Error importing document: \n\n %(error)s", error=e)
+            )
+            return
+        if document_id:
+            self.document_id = document_id
+
+    def import_document_multi(self):
+        for rec in self:
+            rec.import_document()
+
+    @api.depends("attachment_id")
+    def _compute_xml_pretty(self):
+        for rec in self:
+            rec.xml_pretty = False
+            data = rec.attachment_id.with_context(bin_size=False).datas
+            if not data:
+                continue
+            xml_file = base64.b64decode(data)
+            root = etree.fromstring(xml_file)
+            rec.xml_pretty = etree.tostring(
+                root,
+                pretty_print=True,
+                encoding="unicode",
+            )
