@@ -129,7 +129,7 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "erpbrasil.base>=2.3.0",
+            "erpbrasil.base",
         ]
     },
     "post_init_hook": "post_init_hook",
