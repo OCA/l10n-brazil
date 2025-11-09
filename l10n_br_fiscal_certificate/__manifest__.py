@@ -25,7 +25,7 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "erpbrasil.assinatura>=1.7.0",
+            "erpbrasil.assinatura",
         ]
     },
 }
