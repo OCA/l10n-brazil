@@ -53,11 +53,11 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib<=2.0.7",
-            "erpbrasil.assinatura>=1.7.0",
-            "erpbrasil.transmissao>=1.1.0",
-            "erpbrasil.edoc>=2.5.2",
-            "erpbrasil.base>=2.3.0",
+            "nfelib",
+            "erpbrasil.assinatura",
+            "erpbrasil.transmissao",
+            "erpbrasil.edoc",
+            "erpbrasil.base",
             "brazilfiscalreport",
         ],
     },
