@@ -26,7 +26,7 @@
         # Menu
         "views/l10n_br_hr_contract_menu.xml",
     ],
-    "external_dependencies": {"python": ["erpbrasil.base>=2.3.0"]},
+    "external_dependencies": {"python": ["erpbrasil.base"]},
     "installable": True,
     "auto_install": False,
 }
