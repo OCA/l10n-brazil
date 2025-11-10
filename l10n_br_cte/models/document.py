@@ -245,7 +245,7 @@ class CTe(spec_models.StackedModel):
 
     cte40_nCT = fields.Char(related="document_number")
 
-    cte40_dhEmi = fields.Datetime(related="document_date")
+    cte40_dhEmi = fields.Datetime(related="document_date", string="CTe - Document Date")
 
     # TODO: Tratar/Avaliar
     # cte40_cDV = fields.Char(compute="_compute_cte40_cDV", store=True)
@@ -329,7 +329,9 @@ class CTe(spec_models.StackedModel):
     cte40_tpImp = fields.Selection(selection=CTE_TPIMP, default=CTE_TPIMP_DEFAULT)
 
     # toma
-    cte40_toma = fields.Selection(related="service_provider")
+    cte40_toma = fields.Selection(
+        related="service_provider", string="CTe - Tomador do Serviço"
+    )
 
     cte40_choice_toma = fields.Selection(
         selection=[
@@ -909,7 +911,9 @@ class CTe(spec_models.StackedModel):
 
     cte40_modal = fields.Selection(related="transport_modal")
 
-    cte_modal = fields.Selection(related="transport_modal")
+    cte_modal = fields.Selection(
+        related="transport_modal", string="CTe - Modal de Transporte"
+    )
 
     cte40_versaoModal = fields.Char(default=CTE_MODAL_VERSION_DEFAULT)
 

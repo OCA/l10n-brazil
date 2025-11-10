@@ -80,25 +80,44 @@ class ResCompany(spec_models.SpecModel):
         comodel_name="res.partner",
         related="partner_id",
         readonly=False,
+        string="CTe - Endereço do emitente",
     )
 
     cte40_choice_emit = fields.Selection(
         [("cte40_CNPJ", "CNPJ"), ("cte40_CPF", "CPF")],
-        string="CNPJ ou CPF?",
+        string="CTe - CNPJ ou CPF?",
         compute="_compute_cte_data",
     )
 
-    cte40_CNPJ = fields.Char(related="partner_id.cte40_CNPJ")
+    cte40_CNPJ = fields.Char(
+        related="partner_id.cte40_CNPJ",
+        string="CTe - CNPJ do emitente",
+    )
 
-    cte40_CPF = fields.Char(related="partner_id.cte40_CPF")
+    cte40_CPF = fields.Char(
+        related="partner_id.cte40_CPF",
+        string="CTe - CPF do emitente",
+    )
 
-    cte40_xNome = fields.Char(related="partner_id.legal_name")
+    cte40_xNome = fields.Char(
+        related="partner_id.legal_name",
+        string="CTe - Razão social ou Nome do emitente",
+    )
 
-    cte40_xFant = fields.Char(related="partner_id.name")
+    cte40_xFant = fields.Char(
+        related="partner_id.name",
+        string="CTe - Nome fantasia",
+    )
 
-    cte40_IE = fields.Char(related="partner_id.cte40_IE")
+    cte40_IE = fields.Char(
+        related="partner_id.cte40_IE",
+        string="CTe - Inscrição Estadual do Emitente",
+    )
 
-    cte40_fone = fields.Char(related="partner_id.cte40_fone")
+    cte40_fone = fields.Char(
+        related="partner_id.cte40_fone",
+        string="CTe - Telefone",
+    )
 
     cte40_CRT = fields.Selection(related="tax_framework")
 

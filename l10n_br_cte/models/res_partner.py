@@ -117,30 +117,35 @@ class ResPartner(spec_models.SpecModel):
         comodel_name="res.partner",
         compute="_compute_cte40_enderToma",
         compute_sudo=True,
+        string="CTe - Dados do endereço (Tomador)",
     )
 
     cte40_enderReme = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_cte40_enderReme",
         compute_sudo=True,
+        string="CTe - Dados do endereço (Remetente)",
     )
 
     cte40_enderDest = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_cte40_enderDest",
         compute_sudo=True,
+        string="CTe - Dados do endereço (Destinatário)",
     )
 
     cte40_enderExped = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_cte40_enderExped",
         compute_sudo=True,
+        string="CTe - Dados do endereço (Expedidor)",
     )
 
     cte40_enderReceb = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_cte40_enderReceb",
         compute_sudo=True,
+        string="CTe - Dados do endereço (Recebedor)",
     )
 
     cte40_enderFerro = fields.Many2one(
@@ -208,7 +213,7 @@ class ResPartner(spec_models.SpecModel):
         ],
         compute="_compute_cte_data",
         compute_sudo=True,
-        string="CNPJ/CPF/idEstrangeiro",
+        string="CTe - CNPJ/CPF/idEstrangeiro (Tomador)",
     )
 
     cte40_choice_dest = fields.Selection(
@@ -219,7 +224,7 @@ class ResPartner(spec_models.SpecModel):
         ],
         compute="_compute_cte_data",
         compute_sudo=True,
-        string="CNPJ/CPF/idEstrangeiro",
+        string="CTe - CNPJ/CPF/idEstrangeiro (Destinatário)",
     )
 
     cte40_choice_rem = fields.Selection(
@@ -230,7 +235,7 @@ class ResPartner(spec_models.SpecModel):
         ],
         compute="_compute_cte_data",
         compute_sudo=True,
-        string="CNPJ/CPF/idEstrangeiro",
+        string="CTe - CNPJ/CPF/idEstrangeiro (Remetente)",
     )
 
     cte40_choice_dest = fields.Selection(
@@ -241,7 +246,7 @@ class ResPartner(spec_models.SpecModel):
         ],
         compute="_compute_cte_data",
         compute_sudo=True,
-        string="CNPJ/CPF/idEstrangeiro",
+        string="CTe - CNPJ/CPF/idEstrangeiro (Destinatário)",
     )
 
     cte40_choice_receb = fields.Selection(
@@ -252,7 +257,7 @@ class ResPartner(spec_models.SpecModel):
         ],
         compute="_compute_cte_data",
         compute_sudo=True,
-        string="CNPJ/CPF/idEstrangeiro",
+        string="CTe - CNPJ/CPF/idEstrangeiro (Recebedor)",
     )
 
     cte40_choice_exped = fields.Selection(
@@ -263,7 +268,7 @@ class ResPartner(spec_models.SpecModel):
         ],
         compute="_compute_cte_data",
         compute_sudo=True,
-        string="CNPJ/CPF/idEstrangeiro",
+        string="CTe - CNPJ/CPF/idEstrangeiro (Expedidor)",
     )
 
     # cte.40.autXML

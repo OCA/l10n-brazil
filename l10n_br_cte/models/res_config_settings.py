@@ -16,7 +16,7 @@ class ResConfigSettings(models.TransientModel):
     )
 
     cte_transmission = fields.Selection(
-        string="NFe Transmission",
+        string="CTe Transmission",
         related="company_id.cte_transmission",
         readonly=False,
     )
