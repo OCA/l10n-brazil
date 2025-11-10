@@ -2,9 +2,17 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import unicodedata
+from decimal import Decimal
 
 from nfselib.barueri.NFeLoteEnviarArquivo import NFeLoteEnviarArquivo
-from nfselib.barueri.rps import RPS, RegistroTipo2
+from nfselib.barueri.rps import (
+    RPS,
+    RegistroTipo1,
+    RegistroTipo2,
+    RegistroTipo3,
+    RegistroTipo9,
+)
 
 from odoo import _, models
 
@@ -50,33 +58,133 @@ class Document(models.Model):
         dados = self._prepare_dados_tomador()
         return dados
 
+    def formata_cpf_cnpj(self, valor):
+        if not valor:
+            return "0" * 14
+
+        # Garante string
+        valor = str(valor).strip()
+
+        # Se vier com espaços, remove
+        valor = valor.replace(" ", "")
+
+        # Se vier com máscara (nunca se sabe), remove qualquer não dígito
+        valor = "".join(ch for ch in valor if ch.isdigit())
+
+        # Agora já está limpo
+        if len(valor) == 14:
+            return valor
+
+        if len(valor) == 11:
+            return valor.zfill(14)
+        return valor.zfill(14)
+
+    def discrimina(self):
+        partes = []
+
+        if self.customer_additional_data:
+            partes.append(f"Pedido: {self.customer_additional_data}")
+        if self.amount_total:
+            partes.append(f"Valor Total: {self.amount_total:.2f}")
+        if self.fiscal_additional_data:
+            partes.append(f"Descricao do Servico: {self.fiscal_additional_data}")
+        if self.customer_additional_data:
+            partes.append(f"Obs Cliente: {self.customer_additional_data}")
+        if self.document_date:
+            partes.append(f"Data: {self.document_date.strftime('%d/%m/%Y')}")
+            partes.append(f"Competencia: {self.document_date.strftime('%m/%Y')}")
+        if self.partner_city_id:
+            partes.append(f"Cidade Tomador: {self.partner_city_id.name}")
+        if self.partner_phone:
+            partes.append(f"Telefone: {self.partner_phone}")
+        if self.partner_id.email:
+            partes.append(f"Email Tomador: {self.partner_id.email}")
+        if self.amount_pis_value or self.amount_cofins_value or self.amount_issqn_value:
+            partes.append(
+                f"Impostos: "
+                f"PIS {self.amount_pis_value or 0:.2f} | "
+                f"COFINS {self.amount_cofins_value or 0:.2f} | "
+                f"ISS {self.amount_issqn_value or 0:.2f}"
+            )
+        if self.manual_fiscal_additional_data:
+            partes.append(f"Obs: {self.manual_fiscal_additional_data}")
+
+        texto = "|".join(partes)
+        texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode()
+
+        return texto[:1000]
+
     def _serialize_barueri_lote_rps(self):
         dados = self._prepare_lote_rps()
         dados_servico = self._serialize_barueri_dados_servico()
         dados_tomador = self._serialize_barueri_dados_tomador()
+        # Registro tipo 1 - Cabeçalho do arquivo RPS
+        registro_tipo1 = RegistroTipo1()
+        registro_tipo1.TipoRegistro = 1
+        registro_tipo1.InscricaoContribuinte = "4BA3842"
+        registro_tipo1.InicioPeriodo = (
+            dados["data_emissao"].split("T")[0].replace("-", "")
+        )
+        registro_tipo1.TerminoPeriodo = (
+            dados["date_in_out"].split("T")[0].replace("-", "")
+        )
+        registro_tipo1.VersaoLayout = "PMB002"
+        registro_tipo1.IdentificacaoRemessaContribuinte = "00092864189"
+        # Registro tipo 2 - Dados do RPS
         registro_tipo2 = RegistroTipo2()
-        registro_tipo2.SerieNFe = dados["serie"]
-        registro_tipo2.DataRPS = dados["data_emissao"].split("T")[0].replace("-", "")
-        registro_tipo2.HoraRPS = dados["data_emissao"].split("T")[1].replace(":", "")
-        registro_tipo2.SituacaoRPS = "E"
-        registro_tipo2.CodigoServicoPrestado = dados_servico["codigo_cnae"]
-        registro_tipo2.QuantidadeServico = 1
-        registro_tipo2.ValorServico = dados_servico["valor_servicos"]
-        registro_tipo2.ValorTotalRetencoes = self.amount_tax_withholding
-        registro_tipo2.TomadorEstrangeiro = 2
-        registro_tipo2.IndicadorCPFCNPJTomador = 2
-        registro_tipo2.CPFCNPJTomador = dados_tomador["cnpj"]
+        registro_tipo2.TipoRegistro = 2
+        registro_tipo2.SerieNFe = ""
+        registro_tipo2.NumeroNFe = dados["numero"]
+        registro_tipo2.DataNFe = dados["data_emissao"].split("T")[0].replace("-", "")
+        registro_tipo2.HoraNFe = dados["data_emissao"].split("T")[1].replace(":", "")
+        registro_tipo2.SerieRPS = ""
+        registro_tipo2.NumeroRPS = self.rps_number
+        registro_tipo2.CodigoAutenticidade = ""
+        registro_tipo2.Tributacao = 3
+        registro_tipo2.ISSRetido = "N"
+        registro_tipo2.SituacaoNFe = "A"
+        registro_tipo2.DataCancelamento = ""
+        registro_tipo2.NumeroGuia = 0
+        registro_tipo2.DataPagamentoGuia = ""
+        cnpj = dados_tomador.get("cnpj") or ""
+        cpf = dados_tomador.get("cpf") or ""
+        valor = cnpj if cnpj else cpf
+        registro_tipo2.CPFCNPJTomador = self.formata_cpf_cnpj(valor)
         registro_tipo2.RazaoSocialNomeTomador = dados_tomador["razao_social"]
-        registro_tipo2.EnderecoLogradouroTomador = dados_tomador["endereco"]
+        registro_tipo2.EnderecoLogradouroTomador = "R Pedra Sabao"
         registro_tipo2.NumeroLogradouroTomador = dados_tomador["numero"]
         registro_tipo2.ComplementoLogradouroTomador = dados_tomador["complemento"]
         registro_tipo2.BairroLogradouroTomador = dados_tomador["bairro"]
         registro_tipo2.CidadeLogradouroTomador = dados_tomador["descricao_municipio"]
         registro_tipo2.UFLogradouroTomador = dados_tomador["uf"]
         registro_tipo2.CEPLogradouroTomador = dados_tomador["cep"]
-        registro_tipo2.EmailTomador = dados_tomador["email"]
-        registro_tipo2.DiscriminacaoServico = dados_servico["discriminacao"]
-        rps = RPS([registro_tipo2]).exportar()
+        registro_tipo2.PaisLogradouroTomador = "Brasil"
+        registro_tipo2.EmailTomador = "palomafernades@gmail.com"  # teste isso
+        registro_tipo2.DiscriminacaoServico = self.discrimina()
+        # Registro tipo 3 - Valores do serviço
+        registro_tipo3 = RegistroTipo3()
+        registro_tipo3.TipoRegistro = 3
+        registro_tipo3.QuantidadeServico = 1
+        registro_tipo3.DescricaoServico = dados_servico["discriminacao"]
+        registro_tipo3.CodigoServico = "000001712"
+        valor = Decimal(str(dados_servico["valor_servicos"]).replace(",", "."))
+        registro_tipo3.ValorUnitarioServico = str(int(valor * 100)).rjust(15, "0")
+        aliquota = Decimal(str(dados_servico["aliquota"])).quantize(Decimal("0.0000"))
+        registro_tipo3.AliquotaServico = str(int(aliquota * 10000)).rjust(4, "0")
+        # RegistroTipo4 - Informações adicionais do RPS
+        # registro_tipo4 = RegistroTipo4()
+        # registro_tipo4.CodigoOutrosValores
+        # registro_tipo4.TipoRegistro = 4
+        # registro_tipo4.Valor = dados_servico["valor_servicos"]
+        # Registro tipo 9 - Rodapé do arquivo RPS
+        registro_tipo9 = RegistroTipo9()
+        registro_tipo9.TipoRegistro = 9
+        registro_tipo9.NumeroTotalLinhas = "0000004"
+        registro_tipo9.ValorTotalServicos = "000000000100"
+        registro_tipo9.ValorTotalValores = "00000000000000102"
+        rps = RPS(
+            [registro_tipo1, registro_tipo2, registro_tipo3, registro_tipo9]
+        ).exportar()
 
         if isinstance(rps, str):
             rps = rps.encode("utf-8")
