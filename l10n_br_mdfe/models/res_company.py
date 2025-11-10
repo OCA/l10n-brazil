@@ -61,24 +61,42 @@ class ResCompany(spec_models.SpecModel):
     mdfe30_enderEmit = fields.Many2one(
         comodel_name="res.partner",
         related="partner_id",
-        string="Endereço Emitente - MDFe",
+        string="MDFe - Endereço do emitente",
     )
 
-    mdfe30_CNPJ = fields.Char(related="partner_id.mdfe30_CNPJ")
+    mdfe30_CNPJ = fields.Char(
+        related="partner_id.mdfe30_CNPJ",
+        string="MDFe - CNPJ do emitente",
+    )
 
-    mdfe30_CPF = fields.Char(related="partner_id.mdfe30_CPF")
+    mdfe30_CPF = fields.Char(
+        related="partner_id.mdfe30_CPF",
+        string="MDFe - CPF do emitente",
+    )
 
-    mdfe30_xNome = fields.Char(related="partner_id.legal_name")
+    mdfe30_xNome = fields.Char(
+        related="partner_id.legal_name",
+        string="MDFe - Razão social ou Nome do emitente",
+    )
 
-    mdfe30_xFant = fields.Char(related="partner_id.name")
+    mdfe30_xFant = fields.Char(
+        related="partner_id.name",
+        string="MDFe - Nome fantasia",
+    )
 
-    mdfe30_IE = fields.Char(related="partner_id.mdfe30_IE")
+    mdfe30_IE = fields.Char(
+        related="partner_id.mdfe30_IE",
+        string="MDFe - Inscrição Estadual do Emitente",
+    )
 
-    mdfe30_fone = fields.Char(related="partner_id.mdfe30_fone")
+    mdfe30_fone = fields.Char(
+        related="partner_id.mdfe30_fone",
+        string="MDFe - Telefone",
+    )
 
     mdfe30_choice_emit = fields.Selection(
         [("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
-        string="MDFe emit CNPJ/CPF",
+        string="MDFe - CNPJ ou CPF?",
         compute="_compute_mdfe_data",
     )
 
