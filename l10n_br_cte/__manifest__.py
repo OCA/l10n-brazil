@@ -45,10 +45,10 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "nfelib<=2.0.7",
+            "nfelib",
             "erpbrasil.assinatura",
-            "erpbrasil.transmissao>=1.1.0",
-            "erpbrasil.edoc>=2.5.2",
+            "erpbrasil.transmissao",
+            "erpbrasil.edoc",
         ],
     },
 }
