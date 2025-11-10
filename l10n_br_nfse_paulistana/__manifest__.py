@@ -5,7 +5,7 @@
     "name": "NFS-e (Nota Paulistana)",
     "summary": """
         NFS-e (Nota Paulistana)""",
-    "version": "14.0.1.2.1",
+    "version": "14.0.1.3.0",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "maintainers": ["gabrielcardoso21", "mileo", "luismalta"],
