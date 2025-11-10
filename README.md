@@ -44,6 +44,77 @@ addon | version | maintainers | summary
 
 <!-- prettier-ignore-end -->
 
+# 📊 Addons Comparison: OCA/l10n-brazil (v16.0 vs v18.0)
+
+| Addon                               | v16.0 | v18.0 |
+|-------------------------------------|:-----:|:-----:|
+| l10n_br                             | ✅    | ✅    |
+| l10n_br_account                     | ✅    | ❌    |
+| l10n_br_account_due_list            | ❌    | ✅    |
+| l10n_br_account_nfe                 | ✅    | ❌    |
+| l10n_br_account_payment_brcobranca  | ✅    | ❌    |
+| l10n_br_account_payment_order       | ✅    | ❌    |
+| l10n_br_account_withholding         | ✅    | ❌    |
+| l10n_br_base                        | ✅    | ✅    |
+| l10n_br_base_address                | ✅    | ❌    |
+| l10n_br_base_fiscal                 | ✅    | ❌    |
+| l10n_br_base_location               | ✅    | ❌    |
+| l10n_br_base_l10n_br_compat         | ❌    | ✅    |
+| l10n_br_base_partner                | ✅    | ❌    |
+| l10n_br_base_product                | ✅    | ❌    |
+| l10n_br_base_service                | ✅    | ❌    |
+| l10n_br_base_sped                   | ✅    | ❌    |
+| l10n_br_cnab_structure              | ✅    | ❌    |
+| l10n_br_cnpj_search                 | ✅    | ❌    |
+| l10n_br_coa                         | ✅    | ❌    |
+| l10n_br_coa_generic                 | ✅    | ❌    |
+| l10n_br_coa_simple                  | ✅    | ❌    |
+| l10n_br_contract                    | ✅    | ❌    |
+| l10n_br_crm                         | ❌    | ✅    |
+| l10n_br_crm_cnpj_search             | ✅    | ❌    |
+| l10n_br_cte                         | ✅    | ❌    |
+| l10n_br_cte_spec                    | ❌    | ✅    |
+| l10n_br_currency_rate_update        | ❌    | ✅    |
+| l10n_br_delivery                    | ✅    | ❌    |
+| l10n_br_delivery_nfe                | ✅    | ❌    |
+| l10n_br_fiscal                      | ✅    | ✅    |
+| l10n_br_fiscal_certificate          | ❌    | ✅    |
+| l10n_br_fiscal_closing              | ✅    | ❌    |
+| l10n_br_fiscal_document             | ✅    | ❌    |
+| l10n_br_fiscal_dfe                  | ❌    | ✅    |
+| l10n_br_fiscal_edi                  | ❌    | ✅    |
+| l10n_br_fiscal_notification         | ✅    | ❌    |
+| l10n_br_fiscal_subsequent_document  | ✅    | ❌    |
+| l10n_br_hr                          | ❌    | ✅    |
+| l10n_br_hr_contract                 | ❌    | ✅    |
+| l10n_br_ie_search                   | ✅    | ❌    |
+| l10n_br_mdfe                        | ✅    | ❌    |
+| l10n_br_mdfe_spec                   | ❌    | ✅    |
+| l10n_br_mis_report                  | ✅    | ❌    |
+| l10n_br_nfe                         | ✅    | ❌    |
+| l10n_br_nfe_spec                    | ❌    | ✅    |
+| l10n_br_nfse                        | ❌    | ✅    |
+| l10n_br_nfse_focus                  | ❌    | ✅    |
+| l10n_br_portal                      | ✅    | ❌    |
+| l10n_br_product_contract            | ✅    | ❌    |
+| l10n_br_purchase                    | ✅    | ❌    |
+| l10n_br_purchase_request            | ✅    | ❌    |
+| l10n_br_purchase_stock              | ✅    | ❌    |
+| l10n_br_resource                    | ✅    | ❌    |
+| l10n_br_sale                        | ✅    | ❌    |
+| l10n_br_sale_commission             | ✅    | ❌    |
+| l10n_br_sale_invoice_plan           | ✅    | ❌    |
+| l10n_br_sale_stock                  | ✅    | ❌    |
+| l10n_br_service                     | ✅    | ❌    |
+| l10n_br_setup_tests                 | ✅    | ❌    |
+| l10n_br_sped_base                   | ✅    | ❌    |
+| l10n_br_sped_ecd                    | ✅    | ❌    |
+| l10n_br_stock                       | ✅    | ❌    |
+| l10n_br_stock_account               | ✅    | ❌    |
+| l10n_br_stock_account_report        | ✅    | ❌    |
+| l10n_br_zip                         | ❌    | ✅    |
+| spec_driven_model                   | ❌    | ✅    |
+
 ## Licenses
 
 This repository is licensed under [AGPL-3.0](LICENSE).
