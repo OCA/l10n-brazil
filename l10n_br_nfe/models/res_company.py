@@ -30,23 +30,42 @@ class ResCompany(spec_models.SpecModel):
     _inherit = ["res.company", "nfe.40.emit"]
     _nfe_search_keys = ["vat", "nfe40_xNome", "nfe40_xFant"]
 
-    nfe40_CNPJ = fields.Char(related="partner_id.nfe40_CNPJ")
-    nfe40_CPF = fields.Char(related="partner_id.nfe40_CPF")
-    nfe40_xNome = fields.Char(related="partner_id.legal_name")
-    nfe40_xFant = fields.Char(related="partner_id.name")
-    nfe40_IE = fields.Char(related="partner_id.nfe40_IE")
-    nfe40_fone = fields.Char(related="partner_id.nfe40_fone")
+    nfe40_CNPJ = fields.Char(
+        related="partner_id.nfe40_CNPJ",
+        string="NFe - CNPJ do emitente",
+    )
+    nfe40_CPF = fields.Char(
+        related="partner_id.nfe40_CPF",
+        string="NFe - CPF do emitente",
+    )
+    nfe40_xNome = fields.Char(
+        related="partner_id.legal_name",
+        string="NFe - Razão social ou Nome do emitente",
+    )
+    nfe40_xFant = fields.Char(
+        related="partner_id.name",
+        string="NFe - Nome fantasia",
+    )
+    nfe40_IE = fields.Char(
+        related="partner_id.nfe40_IE",
+        string="NFe - Inscrição Estadual do Emitente",
+    )
+    nfe40_fone = fields.Char(
+        related="partner_id.nfe40_fone",
+        string="NFe - Telefone",
+    )
     nfe40_CRT = fields.Selection(related="tax_framework")
 
     nfe40_enderEmit = fields.Many2one(
         comodel_name="res.partner",
         related="partner_id",
         readonly=False,
+        string="NFe - Endereço do emitente",
     )
 
     nfe40_choice_emit = fields.Selection(
         [("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
-        string="CNPJ ou CPF?",
+        string="NFe - CNPJ ou CPF?",
         compute="_compute_nfe_data",
     )
 
