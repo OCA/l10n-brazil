@@ -13,9 +13,9 @@
     "development_status": "Beta",
     "external_dependencies": {
         "python": [
-            "erpbrasil.edoc>=2.5.2",
+            "erpbrasil.edoc",
             "erpbrasil.assinatura",
-            "erpbrasil.transmissao>=1.1.0",
+            "erpbrasil.transmissao",
             "erpbrasil.base",
             "nfselib.barueri",
         ],
