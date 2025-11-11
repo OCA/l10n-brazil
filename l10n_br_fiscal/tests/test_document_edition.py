@@ -102,20 +102,42 @@ class TestDocumentEdition(TransactionCase):
                 line_form.fiscal_operation_line_id,
                 self.env.ref("l10n_br_fiscal.fo_venda_revenda"),
             )
+            self.assertEqual(
+                line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_nt")
+            )
 
-            # line_form.fiscal_operation_line_id = False
-            # self.assertEqual(len(line_form.fiscal_tax_ids), 0)
+            line_form.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            self.assertEqual(
+                line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_3_25")
+            )
+
+            # ensure manually setting a xx_tax_id is properly saved (not recomputed):
+            line_form.icms_tax_id = self.env.ref("l10n_br_fiscal.tax_icms_18")
+            self.assertEqual(line_form.icms_value, 37.17)
+            self.assertEqual(
+                line_form.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_3_25")
+            )
 
         doc = doc_form.save()
-        self.assertEqual(doc.fiscal_line_ids[0].price_unit, 100)
-        self.assertEqual(doc.fiscal_line_ids[0].fiscal_price, 100)
-        self.assertEqual(doc.fiscal_line_ids[0].quantity, 2)
-        self.assertEqual(doc.fiscal_line_ids[0].fiscal_quantity, 2)
-        self.assertEqual(len(doc.fiscal_line_ids[0].fiscal_tax_ids), 4)
+        line = doc.fiscal_line_ids[0]
+        self.assertEqual(line.price_unit, 100)
+        self.assertEqual(line.fiscal_price, 100)
+        self.assertEqual(line.quantity, 2)
+        self.assertEqual(line.fiscal_quantity, 2)
+        self.assertEqual(len(line.fiscal_tax_ids), 4)
+
         self.assertEqual(
-            doc.fiscal_line_ids[0].icms_tax_id.id,
-            self.ref("l10n_br_fiscal.tax_icms_12"),
+            line.fiscal_operation_line_id,
+            self.env.ref("l10n_br_fiscal.fo_venda_venda"),
         )
+        self.assertEqual(
+            line.icms_tax_id.id,
+            self.ref("l10n_br_fiscal.tax_icms_18"),
+        )
+        self.assertEqual(line.ipi_tax_id, self.env.ref("l10n_br_fiscal.tax_ipi_3_25"))
+        self.assertEqual(line.icms_value, 37.17)
 
     def test_product_fiscal_factor(self):
         doc_form = Form(
