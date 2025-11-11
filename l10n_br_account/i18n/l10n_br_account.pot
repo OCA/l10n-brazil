@@ -6048,6 +6048,16 @@ msgid "Tipo de Carroceria"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_tpEnteGov
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_tpEnteGov
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_tpEnteGov
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__public_entity_type
+msgid "Tipo de Entidade Governamental"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_choice_icms
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_choice_icms
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_choice_icms
@@ -6077,15 +6087,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__edoc_refund_credit_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_tpNFCredito
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__edoc_refund_credit_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_tpNFCredito
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__edoc_refund_credit_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_tpNFCredito
 msgid "Tipo de Nota de Crédito"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__edoc_refund_debit_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_tpNFDebito
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__edoc_refund_debit_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_tpNFDebito
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__edoc_refund_debit_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_tpNFDebito
 msgid "Tipo de Nota de Débito"
 msgstr ""
