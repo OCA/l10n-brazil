@@ -5,8 +5,8 @@
 from unittest import mock
 
 from erpbrasil.edoc.resposta import analisar_retorno_raw
+from erpbrasil.nfelib_legacy.v4_00 import retEnvEvento
 from nfelib.nfe.ws.edoc_legacy import DocumentoElectronicoAdapter
-from nfelib.v4_00 import retEnvEvento
 
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
