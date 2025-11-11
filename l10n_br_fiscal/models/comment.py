@@ -87,7 +87,7 @@ class Comment(models.Model):
         lang = env.ref("base.lang_pt_BR")
 
         formatted_amount = (
-            lang.format(fmt, currency.round(amount), grouping=True, monetary=True)
+            lang.format(fmt, amount, grouping=True)
             .replace(r" ", "\N{NO-BREAK SPACE}")
             .replace(r"-", "-\N{ZERO WIDTH NO-BREAK SPACE}")
         )
