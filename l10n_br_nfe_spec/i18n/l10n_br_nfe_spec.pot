@@ -14,8 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFCredito__01
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFDebito__01
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_related__nfe40_mod__01
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFCredito__01
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFDebito__01
@@ -25,8 +23,6 @@ msgid "01"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFCredito__02
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFDebito__02
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_related__nfe40_mod__02
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFCredito__02
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFDebito__02
@@ -35,32 +31,27 @@ msgid "02"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFDebito__03
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFDebito__03
 msgid "03"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFDebito__04
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFDebito__04
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_refnfp__nfe40_mod__04
 msgid "04"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFDebito__05
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFDebito__05
 msgid "05"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFDebito__06
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFDebito__06
 msgid "06"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNFDebito__07
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNFDebito__07
 msgid "07"
 msgstr ""
