@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,13 +14,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_sale_blanket_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.inherit_sale_blanket_order_line_form_fiscal_tabs
 msgid "Accounting"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__additional_data
-msgid "Additional Data"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -65,11 +60,6 @@ msgid "Amount Gross"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax
-msgid "Amount Tax"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_tax_included
 msgid "Amount Tax Included"
 msgstr ""
@@ -85,22 +75,12 @@ msgid "Amount Taxed"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_total
-msgid "Amount Total"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__amount_untaxed
-msgid "Amount Untaxed"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_price_gross
 msgid "Amount without discount."
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.inherit_sale_blanket_order_line_form_fiscal_tabs
 msgid "Amounts"
 msgstr ""
 
@@ -341,6 +321,7 @@ msgid "CST PIS ST"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
+#. odoo-python
 #: code:addons/l10n_br_sale_blanket_order/wizards/sale_blanket_order_wizard.py:0
 #, python-format
 msgid ""
@@ -361,12 +342,18 @@ msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__company_id
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__company_id
 msgid "Company"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__partner_company_type
 msgid "Company Type"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ind_final
+msgid "Consumidor final"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -383,11 +370,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__currency_id
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__currency_id
 msgid "Currency"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__customer_additional_data
-msgid "Customer Additional Data"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -423,13 +405,6 @@ msgid "Discount Value"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_wizard__display_name
-msgid "Display Name"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__key_check_digit
 msgid "Document Key Check Digit"
 msgstr ""
@@ -455,12 +430,17 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
+msgid "Edit in Form"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__estimate_tax
 msgid "Estimate Tax"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.inherit_sale_blanket_order_line_form_fiscal_tabs
 msgid "Extra Info"
 msgstr ""
 
@@ -481,7 +461,6 @@ msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__ind_final
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ind_final
 msgid "Final Consumption Operation"
 msgstr ""
 
@@ -497,18 +476,26 @@ msgid "Financial Gross Amount"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_additional_data
-msgid "Fiscal Additional Data"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_operation_type
-msgid "Fiscal Operation Type"
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_amount_untaxed
+msgid "Fiscal Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -528,7 +515,7 @@ msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_quantity
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.inherit_sale_blanket_order_line_form_fiscal_tabs
 msgid "Fiscal Quantity"
 msgstr ""
 
@@ -539,7 +526,6 @@ msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr ""
 
@@ -780,13 +766,6 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__id
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__id
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_wizard__id
-msgid "ID"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1080,15 +1059,13 @@ msgid "Insurance Value"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__document_key
-msgid "Key"
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__issuer
+msgid "Issuer"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_wizard____last_update
-msgid "Last Modified on"
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__document_key
+msgid "Key"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1143,6 +1120,11 @@ msgid "Operation"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__operation_fiscal_type
+msgid "Operation Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_operation_line_id
 msgid "Operation Line"
 msgstr ""
@@ -1150,6 +1132,11 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__operation_name
 msgid "Operation Name"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_operation_type
+msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1348,7 +1335,7 @@ msgid "Simplified Range Tax"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__ie
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__l10n_br_ie_code
 msgid "State Tax Number/RG"
 msgstr ""
 
@@ -1489,8 +1476,7 @@ msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_tax
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.inherit_sale_blanket_order_line_form_fiscal_tabs
 msgid "Taxes"
 msgstr ""
 
@@ -1499,6 +1485,14 @@ msgstr ""
 msgid ""
 "Terms and conditions... (note: you can setup default ones in the "
 "Configuration menu)"
+msgstr ""
+
+#. module: l10n_br_sale_blanket_order
+#: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order__cnpj_cpf
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
@@ -1546,7 +1540,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_total
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__price_total
 msgid "Total"
 msgstr ""
@@ -1569,18 +1562,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__fiscal_operation_type
 msgid "Type"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__uom_id
 msgid "UOM"
-msgstr ""
-
-#. module: l10n_br_sale_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__amount_untaxed
-msgid "Untaxed Amount"
 msgstr ""
 
 #. module: l10n_br_sale_blanket_order
