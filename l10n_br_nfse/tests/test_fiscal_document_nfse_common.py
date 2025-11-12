@@ -119,9 +119,6 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         )
 
         for line in self.nfse_same_state.fiscal_line_ids:
-            line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_taxes()
-
             self.assertEqual(
                 line._prepare_line_service().get("codigo_tributacao_municipio"),
                 "6311900",

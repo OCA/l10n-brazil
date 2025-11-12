@@ -17,11 +17,14 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     EDOC_PURPOSE,
     EDOC_PURPOSE_NORMAL,
+    EDOC_REFUND_CREDIT_TYPE,
+    EDOC_REFUND_DEBIT_TYPE,
     FISCAL_IN_OUT_DICT,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
+    PUBLIC_ENTIRY_TYPE,
     SITUACAO_EDOC,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
@@ -141,7 +144,15 @@ class Document(models.Model):
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Partner",
+        inverse="_inverse_partner_id",
     )
+
+    @api.onchange("partner_id")
+    def _inverse_partner_id(self):
+        for doc in self:
+            for line in doc.fiscal_line_ids:
+                if line.partner_id != doc.partner_id:
+                    line.partner_id = doc.partner_id
 
     partner_shipping_id = fields.Many2one(
         comodel_name="res.partner",
@@ -169,6 +180,21 @@ class Document(models.Model):
         compute="_compute_edoc_purpose",
         store=True,
         precompute=True,
+    )
+
+    edoc_refund_debit_type = fields.Selection(
+        selection=EDOC_REFUND_DEBIT_TYPE,
+        string="Tipo de Nota de Débito",
+    )
+
+    edoc_refund_credit_type = fields.Selection(
+        selection=EDOC_REFUND_CREDIT_TYPE,
+        string="Tipo de Nota de Crédito",
+    )
+
+    public_entity_type = fields.Selection(
+        selection=PUBLIC_ENTIRY_TYPE,
+        string="Tipo de Entidade Governamental",
     )
 
     document_type = fields.Char(
@@ -427,8 +453,6 @@ class Document(models.Model):
                         ).format(line.fiscal_operation_id)
                     )
                 line.fiscal_operation_id = fsc_op_line
-                line._onchange_fiscal_operation_id()
-
             return_docs |= new_doc
         return return_docs
 

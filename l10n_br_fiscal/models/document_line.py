@@ -50,10 +50,17 @@ class DocumentLine(models.Model):
     )
 
     partner_id = fields.Many2one(
-        related="document_id.partner_id",
+        comodel_name="res.partner",
+        compute="_compute_partner_id",
         store=True,
         precompute=True,
+        readonly=False,
     )
+
+    # Do not depend on `document_id.partner_id`, the inverse is taking care of that
+    def _compute_partner_id(self):
+        for line in self:
+            line.partner_id = line.document_id.partner_id
 
     uom_id = fields.Many2one(
         comodel_name="uom.uom",
@@ -64,9 +71,15 @@ class DocumentLine(models.Model):
         precompute=True,
     )
 
-    quantity = fields.Float(default=1.0)
+    price_unit = fields.Float(
+        digits="Product Price",
+        compute="_compute_price_unit_fiscal",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
 
-    ind_final = fields.Selection(related="document_id.ind_final")
+    quantity = fields.Float(default=1.0)
 
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total

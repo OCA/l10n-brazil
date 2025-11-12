@@ -307,6 +307,14 @@ FINAL_CUSTOMER_NO = "0"
 FINAL_CUSTOMER_YES = "1"
 
 
+PUBLIC_ENTIRY_TYPE = [
+    ("1", "União"),
+    ("2", "Estado"),
+    ("3", "Distrito Federal"),
+    ("4", "Município"),
+]
+
+
 CFOP_TYPE_MOVE = [
     ("purchase_industry", "Purchase Industry"),
     ("purchase_commerce", "Purchase Commerce"),
@@ -477,12 +485,27 @@ EDOC_PURPOSE = [
     ("2", "Complementar"),
     ("3", "Ajuste"),
     ("4", "Devolução de mercadoria"),
+    ("5", "Nota de Crédito"),
+    ("6", "Nota de Débito"),
 ]
 
 EDOC_PURPOSE_NORMAL = "1"
 EDOC_PURPOSE_COMPLEMENTAR = "2"
 EDOC_PURPOSE_AJUSTE = "3"
 EDOC_PURPOSE_DEVOLUCAO = "4"
+
+EDOC_REFUND_DEBIT_TYPE = [
+    ("01", "Transferência de créditos para Cooperativas"),
+    ("02", "Anulação de Crédito por Saídas Imunes/Isentas"),
+    ("03", "Débitos de notas fiscais não processadas na apuração"),
+    ("04", "Multa e juros"),
+    ("05", "Transferência de crédito de sucessão"),
+]
+
+# TODO - Implementar nas proximas versões da NT da Reforma tributária
+EDOC_REFUND_CREDIT_TYPE = [
+    ("00", "Não Implementado"),
+]
 
 PROCESSADOR_NENHUM = "nenhum"
 PROCESSADOR_OCA = "oca"
@@ -507,4 +530,29 @@ EVENT_ENV_HML = "hml"
 EVENT_ENVIRONMENT = [
     (EVENT_ENV_PROD, "Production"),
     (EVENT_ENV_HML, "Homologation"),
+]
+
+# fiscal document line mixin
+FISCAL_TAX_ID_FIELDS = [
+    "cofins_tax_id",
+    "cofins_wh_tax_id",
+    "cofinsst_tax_id",
+    "csll_tax_id",
+    "csll_wh_tax_id",
+    "icms_tax_id",
+    "icmsfcp_tax_id",
+    "icmssn_tax_id",
+    "icmsst_tax_id",
+    "icmsfcpst_tax_id",
+    "ii_tax_id",
+    "inss_tax_id",
+    "inss_wh_tax_id",
+    "ipi_tax_id",
+    "irpj_tax_id",
+    "irpj_wh_tax_id",
+    "issqn_tax_id",
+    "issqn_wh_tax_id",
+    "pis_tax_id",
+    "pis_wh_tax_id",
+    "pisst_tax_id",
 ]

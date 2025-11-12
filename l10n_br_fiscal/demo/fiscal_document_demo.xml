@@ -39,10 +39,6 @@
     <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_same_state_1-1')]" />
-    </function>
-
     <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_same_state" />
         <field name="name">Teste</field>
@@ -56,10 +52,6 @@
 
     <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_same_state_1-2')]" />
-    </function>
 
     <!-- NFe Test - Empresa Contribuinte - Outro Estado -->
     <record id="demo_nfe_other_state" model="l10n_br_fiscal.document">
@@ -90,10 +82,6 @@
     <record id="demo_nfe_line_other_state_1-3" model="l10n_br_fiscal.document.line">
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_other_state_1-3')]" />
-    </function>
-
     <record id="demo_nfe_line_other_state_2-3" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_other_state" />
         <field name="name">Teste</field>
@@ -107,10 +95,6 @@
 
     <record id="demo_nfe_line_other_state_2-3" model="l10n_br_fiscal.document.line">
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_other_state_2-3')]" />
-    </function>
 
     <record id="demo_nfe_line_other_state_3-3" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_other_state" />
@@ -126,10 +110,6 @@
 
     <record id="demo_nfe_line_other_state_3-3" model="l10n_br_fiscal.document.line">
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_other_state_3-3')]" />
-    </function>
 
     <!-- NFe Test - Empresa Contribuinte - Exterior -->
     <record id="demo_nfe_export" model="l10n_br_fiscal.document">
@@ -162,10 +142,6 @@
     <record id="demo_nfe_line_export_3-1" model="l10n_br_fiscal.document.line">
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_export_3-1')]" />
-    </function>
-
     <record id="demo_nfe_line_export_3-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_export" />
         <field name="name">Teste</field>
@@ -179,10 +155,6 @@
 
     <record id="demo_nfe_line_export_3-2" model="l10n_br_fiscal.document.line">
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_export_3-2')]" />
-    </function>
 
     <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PJ -->
     <record id="demo_nfe_nao_contribuinte" model="l10n_br_fiscal.document">
@@ -227,10 +199,6 @@
     >
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_nao_contribuinte_4-1')]" />
-    </function>
-
     <record
         id="demo_nfe_line_nao_contribuinte_4-2"
         model="l10n_br_fiscal.document.line"
@@ -253,10 +221,6 @@
         model="l10n_br_fiscal.document.line"
     >
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_nao_contribuinte_4-2')]" />
-    </function>
 
     <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PJ Tax Benefit -->
     <record id="demo_nfe_tax_benefit" model="l10n_br_fiscal.document">
@@ -295,10 +259,6 @@
     <record id="demo_nfe_tax_benefit_4-1" model="l10n_br_fiscal.document.line">
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_tax_benefit_4-1')]" />
-    </function>
-
     <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PF -->
     <record id="demo_nfe_nao_contribuinte_pf" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -331,10 +291,6 @@
     <record id="demo_nfe_nao_contribuinte_pf_1-2" model="l10n_br_fiscal.document.line">
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_nao_contribuinte_pf_1-2')]" />
-    </function>
-
     <record id="demo_nfe_nao_contribuinte_pf_2-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_nao_contribuinte_pf" />
         <field name="name">Teste</field>
@@ -351,10 +307,6 @@
 
     <record id="demo_nfe_nao_contribuinte_pf_2-2" model="l10n_br_fiscal.document.line">
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_nao_contribuinte_pf_2-2')]" />
-    </function>
 
     <!-- NFe Test - Empresa Simples Nacional - Mesmo Estado -->
     <record id="demo_nfe_sn_same_state" model="l10n_br_fiscal.document">
@@ -385,10 +337,6 @@
     <record id="demo_nfe_line_sn_same_state_5-1" model="l10n_br_fiscal.document.line">
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_sn_same_state_5-1')]" />
-    </function>
-
     <record id="demo_nfe_line_sn_same_state_5-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_same_state" />
         <field name="name">Teste</field>
@@ -402,10 +350,6 @@
 
     <record id="demo_nfe_line_sn_same_state_5-2" model="l10n_br_fiscal.document.line">
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_sn_same_state_5-2')]" />
-    </function>
 
     <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
     <record id="demo_nfe_sn_other_state" model="l10n_br_fiscal.document">
@@ -436,10 +380,6 @@
     <record id="demo_nfe_line_sn_other_state_6-1" model="l10n_br_fiscal.document.line">
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_sn_other_state_6-1')]" />
-    </function>
-
     <record id="demo_nfe_line_sn_other_state_6-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_other_state" />
         <field name="name">Teste</field>
@@ -453,10 +393,6 @@
 
     <record id="demo_nfe_line_sn_other_state_6-2" model="l10n_br_fiscal.document.line">
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_sn_other_state_6-2')]" />
-    </function>
 
     <!-- NFe Test - Empresa Simples Nacional - Exterior -->
     <record id="demo_nfe_sn_export" model="l10n_br_fiscal.document">
@@ -487,10 +423,6 @@
     <record id="demo_nfe_line_sn_export_7-1" model="l10n_br_fiscal.document.line">
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_sn_export_7-1')]" />
-    </function>
-
     <record id="demo_nfe_line_sn_export_7-2" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_sn_export" />
         <field name="name">Teste</field>
@@ -504,10 +436,6 @@
 
     <record id="demo_nfe_line_sn_export_7-2" model="l10n_br_fiscal.document.line">
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_sn_export_7-2')]" />
-    </function>
 
     <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
     <record id="demo_nfe_sn_nao_contribuinte" model="l10n_br_fiscal.document">
@@ -544,10 +472,6 @@
     >
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_sn_nao_contribuinte_7-1')]" />
-    </function>
-
     <record
         id="demo_nfe_line_sn_nao_contribuinte_7-2"
         model="l10n_br_fiscal.document.line"
@@ -567,10 +491,6 @@
         model="l10n_br_fiscal.document.line"
     >
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_sn_nao_contribuinte_7-2')]" />
-    </function>
 
     <!-- NFe Test - Subsequent Operation - Simples Faturamento -->
     <record id="demo_nfe_so_simples_faturamento" model="l10n_br_fiscal.document">
@@ -615,10 +535,6 @@
     >
     </record>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_line_so_simples_faturamento_7-1')]" />
-    </function>
-
     <!-- NFe Compras Test - Empresa Contribuinte - Mesmo Estado -->
     <record id="demo_nfe_purchase_same_state" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
@@ -654,9 +570,5 @@
         model="l10n_br_fiscal.document.line"
     >
     </record>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('demo_nfe_purchase_line_same_state_1-1')]" />
-    </function>
 
 </odoo>
