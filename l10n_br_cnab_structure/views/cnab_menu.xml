@@ -49,6 +49,13 @@
             action="action_cnab_line_fields_group_condition"
             sequence="60"
         />
+        <menuitem
+            id="menu_cnab_data_management"
+            name="CNAB Data Management"
+            action="action_cnab_data_management"
+            sequence="70"
+        />
+
     </menuitem>
     <!-- TODO Por enquanto não há a implementação para cobrança, então está comentado -->
     <!-- <menuitem
