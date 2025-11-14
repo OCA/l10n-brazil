@@ -28,6 +28,11 @@ msgid "<option value=\"\">select...</option>"
 msgstr "<option value=\"\">selecione...</option>"
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__br_currency_id
+msgid "BR Company Currency"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
@@ -110,6 +115,11 @@ msgid "Email"
 msgstr "E-mail"
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__equity_capital
+msgid "Equity Capital"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__id
 msgid "ID"
 msgstr "ID"
@@ -124,6 +134,16 @@ msgstr "Última Modificação em"
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Legal Name"
 msgstr "Razão Social"
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_nature_id
+msgid "Legal Nature"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnae_main_id
+msgid "Main CNAE"
+msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
