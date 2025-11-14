@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2025 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+    License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+-->
+<odoo>
+
+    <record id="cnab_operation_tree" model="ir.ui.view">
+        <field name="name">cnab.data.management.tree</field>
+        <field name="model">cnab.data.management</field>
+        <field name="arch" type="xml">
+            <tree
+                decoration-success="operation_status == 'completed'"
+                decoration-danger="operation_status == 'error'"
+                decoration-warning="operation_status == 'processing'"
+                decoration-muted="operation_status == 'locked'"
+            >
+                <field name="name" />
+                <field name="operation_type" />
+                <field
+                    name="operation_status"
+                    widget="badge"
+                    decoration-success="operation_status == 'completed'"
+                    decoration-danger="operation_status == 'error'"
+                    decoration-warning="operation_status == 'processing'"
+                    decoration-info="operation_status == 'draft'"
+                    decoration-muted="operation_status == 'locked'"
+                />
+                <field name="csv_filename" />
+                <field name="detected_model" />
+                <field name="records_processed" />
+                <field name="create_date" />
+                <field name="is_locked" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="cnab_operation_form" model="ir.ui.view">
+        <field name="name">cnab.data.management.form</field>
+        <field name="model">cnab.data.management</field>
+        <field name="arch" type="xml">
+            <form string="CNAB Operation">
+                <header>
+                    <field
+                        name="operation_status"
+                        widget="statusbar"
+                        statusbar_visible="draft,processing,completed,error,locked"
+                    />
+
+                    <button
+                        name="action_process_operation"
+                        string="Execute Operation"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible': [('operation_status', '!=', 'draft')]}"
+                        icon="fa-play"
+                    />
+
+                    <button
+                        name="action_lock_operation"
+                        string="Lock Operation"
+                        type="object"
+                        class="btn-warning"
+                        attrs="{'invisible': [('operation_status', 'not in', ['completed', 'error'])]}"
+                        confirm="Are you sure you want to lock this operation? This action cannot be undone by regular users."
+                        icon="fa-lock"
+                    />
+
+                    <button
+                        name="action_reset_to_draft"
+                        string="Reset to Draft"
+                        type="object"
+                        class="btn-secondary"
+                        attrs="{'invisible': [('operation_status', '=', 'draft')]}"
+                        groups="base.group_system"
+                        confirm="Are you sure you want to reset this operation to draft? This will clear all processing results."
+                        icon="fa-refresh"
+                    />
+                </header>
+
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1>
+                            <field
+                                name="name"
+                                placeholder="Operation Name..."
+                                attrs="{'readonly': [('is_locked', '=', True)]}"
+                            />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Operation Details">
+                            <field
+                                name="operation_type"
+                                attrs="{'readonly': [('is_locked', '=', True)]}"
+                            />
+                            <field
+                                name="target_model"
+                                attrs="{'readonly': [('is_locked', '=', True)],
+                                       'invisible': [('operation_type', 'in', ['restore', 'upgrade'])],
+                                       'required': [('operation_type', '=', 'backup')]}"
+                            />
+                            <field
+                                name="detected_model"
+                                attrs="{'invisible': [('detected_model', '=', False)]}"
+                            />
+                            <field name="is_locked" invisible="1" />
+                        </group>
+                        <group string="Status Information">
+                            <field
+                                name="records_processed"
+                                attrs="{'invisible': [('records_processed', '=', 0)]}"
+                            />
+                            <field name="create_date" readonly="1" />
+                            <field
+                                name="write_date"
+                                readonly="1"
+                                attrs="{'invisible': [('write_date', '=', False)]}"
+                            />
+                        </group>
+                    </group>
+
+                    <group
+                        string="CSV File Upload"
+                        attrs="{'invisible': [('operation_type', '!=', 'restore')]}"
+                    >
+                        <group col="1">
+                            <field
+                                name="csv_file"
+                                filename="csv_filename"
+                                widget="binary"
+                                attrs="{'readonly': ['|', ('is_locked', '=', True), ('operation_status', '=', 'processing')],
+                                       'required': [('operation_type', '=', 'restore')]}"
+                                help="Select a CSV file to upload and restore"
+                            />
+                            <field name="csv_filename" invisible="1" />
+                        </group>
+                    </group>
+
+                    <group
+                        string="Generated Backup"
+                        attrs="{'invisible': [('backup_file', '=', False)]}"
+                    >
+                        <group col="1">
+                            <field
+                                name="backup_file"
+                                filename="backup_filename"
+                                widget="binary"
+                                readonly="1"
+                                help="Download your backup file"
+                            />
+                            <field name="backup_filename" invisible="1" />
+                        </group>
+                    </group>
+
+                    <group
+                        string="Upgrade Operation"
+                        attrs="{'invisible': [('operation_type', '!=', 'upgrade')]}"
+                        col="1"
+                    >
+                        <div class="alert alert-info" role="alert">
+                            <i class="fa fa-sync-alt" title="Sync Info" />
+                            <strong>Upgrade Operation:</strong>
+                            This operation will load all CSV files from the data directory,
+                            upgrading the system with the latest CNAB structure definitions. No CSV
+                            upload is required - all files are automatically processed. </div>
+                    </group>
+
+                    <group string="Supported CSV Files" col="1">
+                        <div class="text-muted">
+                            <p>
+                                <i
+                                    class="fa fa-file-text-o text-info"
+                                    title="Structure Files"
+                                />
+                                <strong>Structure Files:</strong>
+                            </p>
+                            <ul class="list-unstyled ml-3">
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> l10n_br_cnab.structure.csv</li>
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> l10n_br_cnab.batch.csv</li>
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> l10n_br_cnab.line.csv</li>
+                            </ul>
+
+                            <p>
+                                <i
+                                    class="fa fa-sitemap text-warning"
+                                    title="Field Groups"
+                                />
+                                <strong>Field Groups:</strong>
+                            </p>
+                            <ul class="list-unstyled ml-3">
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> cnab.line.field.group.csv</li>
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> cnab.line.group.field.condition.csv</li>
+                            </ul>
+
+                            <p>
+                                <i
+                                    class="fa fa-cogs text-success"
+                                    title="Configuration Files"
+                                />
+                                <strong>Configuration Files:</strong>
+                            </p>
+                            <ul class="list-unstyled ml-3">
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> cnab.occurrence.csv</li>
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> cnab.pix.key.type.csv</li>
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> cnab.pix.transfer.type.csv</li>
+                                <li><i
+                                        class="fa fa-caret-right text-primary"
+                                        title="Bullet"
+                                    /> cnab.payment.way.csv</li>
+                            </ul>
+                        </div>
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="cnab_operation_search" model="ir.ui.view">
+        <field name="name">cnab.data.management.search</field>
+        <field name="model">cnab.data.management</field>
+        <field name="arch" type="xml">
+            <search string="Search CNAB Operations">
+                <field name="name" string="Operation Name" />
+                <field name="csv_filename" string="CSV File" />
+                <field name="detected_model" string="Model" />
+                <field name="operation_type" />
+                <field name="operation_status" />
+
+                <separator />
+                <filter
+                    string="Draft"
+                    name="draft"
+                    domain="[('operation_status', '=', 'draft')]"
+                />
+                <filter
+                    string="Processing"
+                    name="processing"
+                    domain="[('operation_status', '=', 'processing')]"
+                />
+                <filter
+                    string="Completed"
+                    name="completed"
+                    domain="[('operation_status', '=', 'completed')]"
+                />
+                <filter
+                    string="Error"
+                    name="error"
+                    domain="[('operation_status', '=', 'error')]"
+                />
+                <filter
+                    string="Locked"
+                    name="locked"
+                    domain="[('operation_status', '=', 'locked')]"
+                />
+
+                <separator />
+                <filter
+                    string="Backup Operations"
+                    name="backup"
+                    domain="[('operation_type', '=', 'backup')]"
+                />
+                <filter
+                    string="Restore Operations"
+                    name="restore"
+                    domain="[('operation_type', '=', 'restore')]"
+                />
+                <filter
+                    string="Upgrade Operations"
+                    name="upgrade"
+                    domain="[('operation_type', '=', 'upgrade')]"
+                />
+
+                <separator />
+                <filter
+                    string="My Operations"
+                    name="my_operations"
+                    domain="[('create_uid', '=', uid)]"
+                />
+                <filter
+                    string="Today"
+                    name="today"
+                    domain="[('create_date', '&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"
+                />
+                <filter
+                    string="This Week"
+                    name="this_week"
+                    domain="[('create_date', '&gt;=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"
+                />
+
+                <group expand="0" string="Group By">
+                    <filter
+                        string="Status"
+                        name="group_status"
+                        context="{'group_by': 'operation_status'}"
+                    />
+                    <filter
+                        string="Type"
+                        name="group_type"
+                        context="{'group_by': 'operation_type'}"
+                    />
+                    <filter
+                        string="Model"
+                        name="group_model"
+                        context="{'group_by': 'detected_model'}"
+                    />
+                    <filter
+                        string="Creation Date"
+                        name="group_create_date"
+                        context="{'group_by': 'create_date:day'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="cnab_operation_kanban" model="ir.ui.view">
+        <field name="name">cnab.data.management.kanban</field>
+        <field name="model">cnab.data.management</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="operation_status" class="o_kanban_small_column">
+                <field name="name" />
+                <field name="operation_type" />
+                <field name="operation_status" />
+                <field name="csv_filename" />
+                <field name="detected_model" />
+                <field name="records_processed" />
+                <field name="create_date" />
+                <field name="is_locked" />
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div
+                            t-attf-class="#{kanban_color(record.operation_status.raw_value)} oe_kanban_card oe_kanban_global_click"
+                        >
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">
+                                        <strong>
+                                            <t t-esc="record.name.value" />
+                                        </strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container o_kanban_card_content">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button
+                                            t-if="record.operation_status.raw_value == 'draft'"
+                                            type="object"
+                                            name="action_process_operation"
+                                            class="btn btn-primary btn-sm"
+                                        >
+                                            <i
+                                                class="fa fa-play"
+                                                title="Process"
+                                            /> Process </button>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <span
+                                            t-if="record.records_processed.raw_value > 0"
+                                            class="badge badge-info"
+                                        >
+                                            <t
+                                                t-esc="record.records_processed.value"
+                                            /> records </span>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="row mt-2"
+                                    t-if="record.detected_model.value"
+                                >
+                                    <div class="col-12">
+                                        <small class="text-muted">
+                                            <i
+                                                class="fa fa-database"
+                                                title="Database Model"
+                                            />
+                                            <t t-esc="record.detected_model.value" />
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-1">
+                                    <div class="col-12">
+                                        <small class="text-muted">
+                                            <i
+                                                class="fa fa-clock-o"
+                                                title="Creation Date"
+                                            />
+                                            <t t-esc="record.create_date.value" />
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_cnab_data_management" model="ir.actions.act_window">
+        <field name="name">CNAB Data Management</field>
+        <field name="res_model">cnab.data.management</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first CNAB Data Management
+            </p>
+            <p>
+                Manage CNAB data operations including backups, restores, and system upgrades.
+                Track all operations with a complete audit trail and status workflow.
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -29,6 +29,7 @@
         "views/cnab_line_field_group.xml",
         "views/cnab_line_field_group_condition.xml",
         "views/journal_view.xml",
+        "views/cnab_data_management.xml",
         "security/cnab_security.xml",
         "security/ir.model.access.csv",
         "views/cnab_menu.xml",

@@ -8,6 +8,7 @@ from . import cnab_payment_way
 from . import cnab_occurrences
 from . import cnab_pix_key_type
 from . import cnab_pix_transfer_type
+from . import cnab_data_management
 
 # OVERRIDES
 
