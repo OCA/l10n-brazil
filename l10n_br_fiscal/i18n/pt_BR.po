@@ -682,6 +682,13 @@ msgstr ""
 "              operações fiscais para seus movimentos fiscais."
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.legal_nature_action
+msgid ""
+"A Legal nature is necessary to determine the\n"
+"              fiscal definitions for your company."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbm_action
 msgid ""
 "A NBM is necessary to create\n"
@@ -838,6 +845,7 @@ msgstr "Ação Necessária"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__active
@@ -953,6 +961,11 @@ msgstr "Adicionar um novo Regulamento de ICMS"
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_icms_relief_action
 msgid "Add a new ICMS Relief"
 msgstr "Adicionar uma nova Desoneração de ICMS"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.legal_nature_action
+msgid "Add a new Legal Nature"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbm_action
@@ -1285,6 +1298,11 @@ msgid "Anonymous Partner"
 msgstr "Parceiro Anônimo"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__02
+msgid "Anulação de Crédito por Saídas Imunes/Isentas"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Approve"
@@ -1596,7 +1614,6 @@ msgstr "CFOP já existe com este código !"
 #: model:ir.ui.menu,name:l10n_br_fiscal.cnae_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cnae_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cnae_search
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "CNAE"
 msgstr "CNAE"
 
@@ -1613,6 +1630,11 @@ msgstr "Código CNAE"
 #, python-format
 msgid "CNAE already exists with this code !"
 msgstr "CNAE já existe com este código !"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+msgid "CNAE and Legal Nature"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__cnae_ids
@@ -2090,6 +2112,7 @@ msgstr "Cidade do Endereço"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_status_wizard__document_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__code
@@ -2461,6 +2484,7 @@ msgstr "Criar novos produtos."
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__create_uid
@@ -2507,6 +2531,7 @@ msgstr "Criado por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__create_date
@@ -2809,6 +2834,7 @@ msgstr "Valor do Desconto"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__display_name
@@ -2843,6 +2869,13 @@ msgstr "Valor do Desconto"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom_alternative__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__3
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__3
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__3
+msgid "Distrito Federal"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__document_id
@@ -2992,6 +3025,11 @@ msgid "Dutoviário"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__03
+msgid "Débitos de notas fiscais não processadas na apuração"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_EMBALAGEM
 msgid "EMBALAGEM"
 msgstr "EMBALAGEM"
@@ -3072,6 +3110,13 @@ msgstr "Enviar"
 #, python-format
 msgid "Error in the request: {}"
 msgstr "Erro na solicitação: {}"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__2
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__2
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__2
+msgid "Estado"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__estimate_tax
@@ -4986,6 +5031,7 @@ msgstr "Valor do Crédito de ICMSSN"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__id
@@ -5842,6 +5888,7 @@ msgstr "LATA"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm____last_update
@@ -5901,6 +5948,7 @@ msgstr "Valor da folha de pagamento do último período"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__write_uid
@@ -5947,6 +5995,7 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__write_date
@@ -5978,6 +6027,23 @@ msgstr "Última Atualização em"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_legal_name
 msgid "Legal Name"
 msgstr "Razão Social"
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.legal_nature_action
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_legal_nature
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__legal_nature_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__legal_nature_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__legal_nature_id
+#: model:ir.ui.menu,name:l10n_br_fiscal.legal_nature_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.legal_nature_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.legal_nature_search
+msgid "Legal Nature"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_legal_nature_fiscal_legal_nature_code_uniq
+msgid "Legal Nature already exists with this code !"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__icmsst_base_type__1
@@ -6329,6 +6395,11 @@ msgid "Move Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__04
+msgid "Multa e juros"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__06
 msgid "Multimodal"
 msgstr ""
@@ -6339,6 +6410,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_mun
 msgid "Municipal Tax Number"
 msgstr "Número da Inscrição Municipal"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__4
+msgid "Município"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__my_activity_date_deadline
@@ -6507,6 +6585,7 @@ msgstr "NFS-e"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__name
@@ -6627,6 +6706,18 @@ msgid "Nota Fiscal/Produtor/Cupom Fiscal"
 msgstr "Nota Fiscal/Produtor/Cupom Fiscal"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__5
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__5
+msgid "Nota de Crédito"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__6
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__6
+msgid "Nota de Débito"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_form
 msgid "Notes"
@@ -6739,6 +6830,11 @@ msgstr "Numeração inutilizada"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_picking__ind_final__0
 msgid "Não"
 msgstr "Não"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_credit_type__00
+msgid "Não Implementado"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__issqn_eligibility__2
@@ -8222,9 +8318,14 @@ msgstr "Pesquisar NCMs"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__cnae_secondary_ids
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "Secondary CNAE"
 msgstr "CNAE secundário"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__cnae_secondary_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__cnae_secondary_ids
+msgid "Secondary CNAEs"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__segment
@@ -9290,6 +9391,24 @@ msgid "Tintas e vernizes"
 msgstr "Tintas e vernizes"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__public_entity_type
+msgid "Tipo de Entidade Governamental"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__edoc_refund_credit_type
+msgid "Tipo de Nota de Crédito"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__edoc_refund_debit_type
+msgid "Tipo de Nota de Débito"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "To Send"
 msgstr ""
@@ -9330,6 +9449,16 @@ msgid ""
 msgstr ""
 "Valor total dos produtos ou serviços (quantidade x preço unitário) antes de "
 "quaisquer descontos."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__05
+msgid "Transferência de crédito de sucessão"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__01
+msgid "Transferência de créditos para Cooperativas"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__ind_transp
@@ -9394,6 +9523,13 @@ msgid "Units of Measure"
 msgstr "Unidades de Medida"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__1
+msgid "União"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__code_unmasked
@@ -9405,6 +9541,7 @@ msgstr "Unidades de Medida"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__code_unmasked
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__code_unmasked
