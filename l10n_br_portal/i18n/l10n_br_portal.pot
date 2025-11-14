@@ -24,6 +24,11 @@ msgid "<option value=\"\">select...</option>"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__br_currency_id
+msgid "BR Company Currency"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_cpf
 msgid "CNPJ/CPF"
 msgstr ""
@@ -103,6 +108,11 @@ msgid "Email"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__equity_capital
+msgid "Equity Capital"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__id
 msgid "ID"
 msgstr ""
@@ -116,6 +126,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_name
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__legal_nature_id
+msgid "Legal Nature"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnae_main_id
+msgid "Main CNAE"
 msgstr ""
 
 #. module: l10n_br_portal
