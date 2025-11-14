@@ -1189,6 +1189,11 @@ msgid "Legal Name"
 msgstr "Razão Social"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__legal_nature_id
+msgid "Legal Nature"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Anexo Principal"
@@ -1607,6 +1612,11 @@ msgid "Second Category"
 msgstr "Segunda categoria"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cnae_secondary_ids
+msgid "Secondary CNAEs"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
 msgid "Select the default payment mode for this customer."
 msgstr "Selecione o modo de pagamento padrão para este cliente."
@@ -1922,6 +1932,11 @@ msgstr "Deslocamento de Fuso Horário"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__tipo
 msgid "Tipo de Colaborador"
 msgstr "Tipo de Colaborador"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__public_entity_type
+msgid "Tipo de Entidade Governamental"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__title
