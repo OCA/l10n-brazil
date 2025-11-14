@@ -8,6 +8,7 @@
             name="fiscal_profile_id"
             ref="l10n_br_fiscal.partner_fiscal_profile_snc"
         />
+        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
     </record>
 
     <!-- Empresa Lucro Presumido -->
@@ -16,6 +17,7 @@
             name="fiscal_profile_id"
             ref="l10n_br_fiscal.partner_fiscal_profile_cnt"
         />
+        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
     </record>
 
     <!-- Empresa Simples Nacional -->
@@ -24,6 +26,7 @@
             name="fiscal_profile_id"
             ref="l10n_br_fiscal.partner_fiscal_profile_snc"
         />
+        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
     </record>
 
     <!-- Sua Empresa -->
@@ -37,6 +40,7 @@
         />
         <field name="tax_ipi_id" ref="l10n_br_fiscal.tax_ipi_outros" />
         <field name="tax_icms_id" ref="l10n_br_fiscal.tax_icms_sn_com_credito" />
+        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
     </record>
@@ -108,6 +112,7 @@
         <field name="is_industry" eval="True" />
         <field name="ripi" eval="True" />
         <field name="icms_regulation_id" ref="tax_icms_regulation" />
+        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200" />
         <field name="piscofins_id" ref="l10n_br_fiscal.tax_pis_cofins_columativo" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
@@ -197,6 +202,7 @@
         />
         <field name="tax_ipi_id" ref="l10n_br_fiscal.tax_ipi_outros" />
         <field name="tax_icms_id" ref="l10n_br_fiscal.tax_icms_sn_com_credito" />
+        <field name="legal_nature_id" ref="l10n_br_fiscal.legal_nature_2062" />
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200" />
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="annual_revenue">815000.00</field>

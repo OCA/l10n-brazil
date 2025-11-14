@@ -12,6 +12,7 @@ from . import comment
 from . import ibpt
 from . import cfop
 from . import cst
+from . import legal_nature
 from . import cnae
 from . import nbs
 from . import service_type

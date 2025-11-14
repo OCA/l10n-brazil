@@ -10,6 +10,7 @@ from ..constants.fiscal import (
     NFE_IND_IE_DEST,
     NFE_IND_IE_DEST_9,
     NFE_IND_IE_DEST_DEFAULT,
+    PUBLIC_ENTIRY_TYPE,
     TAX_FRAMEWORK,
     TAX_FRAMEWORK_NORMAL,
 )
@@ -33,10 +34,21 @@ class ResPartner(models.Model):
         tracking=True,
     )
 
+    legal_nature_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.legal.nature",
+        string="Legal Nature",
+    )
+
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
         domain=[("internal_type", "=", "normal")],
         string="Main CNAE",
+    )
+
+    cnae_secondary_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.cnae",
+        domain="[('internal_type', '=', 'normal'), ('id', '!=', cnae_main_id)]",
+        string="Secondary CNAEs",
     )
 
     ind_ie_dest = fields.Selection(
@@ -63,6 +75,11 @@ class ResPartner(models.Model):
         "range of entities such as municipal governments, state-owned "
         "enterprises (where the government is the largest shareholder), and "
         "other government-controlled organizations.",
+    )
+
+    public_entity_type = fields.Selection(
+        selection=PUBLIC_ENTIRY_TYPE,
+        string="Tipo de Entidade Governamental",
     )
 
     ind_final = fields.Selection(
@@ -117,6 +134,7 @@ class ResPartner(models.Model):
                 p.tax_framework = p.fiscal_profile_id.tax_framework
                 p.ind_ie_dest = p.fiscal_profile_id.ind_ie_dest
                 p.is_public_entity = p.fiscal_profile_id.is_public_entity
+                p.public_entity_type = p.fiscal_profile_id.public_entity_type
 
     @api.onchange("ind_ie_dest")
     def _onchange_ind_ie_dest(self):

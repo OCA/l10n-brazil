@@ -3,12 +3,28 @@
 # Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
 # @author Cristiano Mafra Junior
 
-from odoo import _, api, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
 class PartyMixin(models.AbstractModel):
     _inherit = "l10n_br_base.party.mixin"
+
+    equity_capital = fields.Monetary(currency_field="br_currency_id")
+
+    cnae_main_id = fields.Many2one(comodel_name="l10n_br_fiscal.cnae")
+
+    legal_nature_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.legal.nature",
+        string="Legal Nature",
+    )
+
+    br_currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        default=lambda self: self.env.ref("base.BRL"),
+        string="BR Company Currency",
+        readonly=True,
+    )
 
     def action_open_cnpj_search_wizard(self):
         if not self.cnpj_cpf:

@@ -15,6 +15,23 @@
         </field>
     </record>
 
+    <!-- Legal Nature -->
+    <record id="legal_nature_action" model="ir.actions.act_window">
+        <field name="name">Legal Nature</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.legal.nature</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="legal_nature_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new Legal Nature
+            </p><p>
+              A Legal nature is necessary to determine the
+              fiscal definitions for your company.
+            </p>
+        </field>
+    </record>
+
     <!-- CNAE -->
     <record id="cnae_action" model="ir.actions.act_window">
         <field name="name">CNAE</field>
