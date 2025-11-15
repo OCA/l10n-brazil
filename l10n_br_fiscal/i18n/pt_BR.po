@@ -861,6 +861,11 @@ msgid "Annual Revenue"
 msgstr "Receita Anual"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__02
+msgid "Anulação de Crédito por Saídas Imunes/Isentas"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Approve"
@@ -1726,6 +1731,7 @@ msgstr "Empresas"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard_mixin__company_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__company_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__company_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__company_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__company_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__company_id
@@ -1798,6 +1804,12 @@ msgstr "Confirmar"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Consultar Recibo"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ind_final
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ind_final
+msgid "Consumidor final"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2270,6 +2282,13 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__3
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__3
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__3
+msgid "Distrito Federal"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__document_id
 msgid "Document"
 msgstr "Documento"
@@ -2416,6 +2435,11 @@ msgid "Dutoviário"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__03
+msgid "Débitos de notas fiscais não processadas na apuração"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_EMBALAGEM
 msgid "EMBALAGEM"
 msgstr "EMBALAGEM"
@@ -2460,6 +2484,13 @@ msgstr "Energia elétrica"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Enviar"
 msgstr "Enviar"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__2
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__2
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__2
+msgid "Estado"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__estimate_tax
@@ -2616,7 +2647,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_final
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__ind_final
@@ -5344,6 +5374,11 @@ msgid "Move Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__04
+msgid "Multa e juros"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__transport_modal__06
 msgid "Multimodal"
 msgstr ""
@@ -5352,6 +5387,13 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__l10n_br_im_code
 #: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__l10n_br_im_code
 msgid "Municipal Tax Identification Number"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__4
+msgid "Município"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5650,6 +5692,18 @@ msgid "Nota Fiscal/Produtor/Cupom Fiscal"
 msgstr "Nota Fiscal/Produtor/Cupom Fiscal"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__5
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__5
+msgid "Nota de Crédito"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__6
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__6
+msgid "Nota de Débito"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_form
 msgid "Notes"
@@ -5721,13 +5775,20 @@ msgstr "Numeração inutilizada"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__ind_final__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__issqn_incentive__2
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__issqn_incentive__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__ind_final__0
 msgid "Não"
 msgstr "Não"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_credit_type__00
+msgid "Não Implementado"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__issqn_eligibility__2
@@ -6954,7 +7015,9 @@ msgstr "Endereço de Entrega"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__ind_final__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__issqn_incentive__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__issqn_incentive__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__ind_final__1
@@ -7800,6 +7863,24 @@ msgid "Tintas e vernizes"
 msgstr "Tintas e vernizes"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__public_entity_type
+msgid "Tipo de Entidade Governamental"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__edoc_refund_credit_type
+msgid "Tipo de Nota de Crédito"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__edoc_refund_debit_type
+msgid "Tipo de Nota de Débito"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "To Send"
 msgstr ""
@@ -7842,6 +7923,16 @@ msgstr ""
 msgid ""
 "Total value of products or services (quantity x unit price)before any "
 "discounts."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__05
+msgid "Transferência de crédito de sucessão"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__01
+msgid "Transferência de créditos para Cooperativas"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7910,6 +8001,13 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_fiscal.uom_menu
 msgid "Units of Measure"
 msgstr "Unidades de Medida"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__1
+msgid "União"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__code_unmasked
