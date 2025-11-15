@@ -2791,12 +2791,6 @@ msgid "Fiscal Document Line"
 msgstr "Linha de Documento Fiscal"
 
 #. module: l10n_br_fiscal
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line_mixin_methods
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_mixin_methods
-msgid "Fiscal Document Mixin Methods"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_related
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_related_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_related_id
