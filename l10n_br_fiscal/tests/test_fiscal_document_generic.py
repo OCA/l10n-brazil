@@ -948,10 +948,16 @@ class TestFiscalDocumentGeneric(TransactionCase):
     def test_nfe_comments(self):
         self.nfe_not_taxpayer._document_comment()
         additional_data = self.nfe_not_taxpayer.fiscal_line_ids[0].additional_data
-        self.assertEqual(
-            additional_data,
-            "manual comment test - Valor Aprox. dos Tributos: R$\xa00,00",
-        )
+        if self.env.ref("base.lang_pt_BR").active:
+            self.assertEqual(
+                additional_data,
+                "manual comment test - Valor Aprox. dos Tributos: R$\xa00,00",
+            )
+        else:  # no pt_BR amount formatting available
+            self.assertEqual(
+                additional_data,
+                "manual comment test - Valor Aprox. dos Tributos: R$\xa00.00",
+            )
 
     def test_fields_freight_insurance_other_costs(self):
         """Test fields Freight, Insurance and Other Costs when

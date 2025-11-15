@@ -85,6 +85,8 @@ class Comment(models.Model):
     def format_amount(self, env, amount, currency):
         fmt = f"%.{currency.decimal_places}f"
         lang = env.ref("base.lang_pt_BR")
+        if not lang.active:
+            lang = env.ref("base.lang_en")
 
         formatted_amount = (
             lang.format(fmt, amount, grouping=True)
