@@ -213,7 +213,7 @@ class FocusnfeNfse(models.AbstractModel):
             "valor_deducoes": round(service.get("valor_deducoes", 0), 2),
             "fonte_total_tributos": service.get("fonte_total_tributos", "IBPT"),
             "desconto_incondicionado": round(
-                service.get("desconto_incondicionado", 0), 2
+                service.get("valor_desconto_incondicionado", 0), 2
             ),
             "desconto_condicionado": round(service.get("desconto_condicionado", 0), 2),
             "outras_retencoes": round(service.get("outras_retencoes", 0), 2),
