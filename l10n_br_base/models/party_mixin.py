@@ -107,7 +107,7 @@ class PartyMixin(models.AbstractModel):
         ):
             for term in domain:
                 if (
-                    isinstance(term, list | tuple)
+                    isinstance(term, (list, tuple))
                     and len(term) == 3
                     and term[0] == "vat"
                     and term[1] == "ilike"
