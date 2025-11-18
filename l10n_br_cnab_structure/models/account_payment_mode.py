@@ -19,6 +19,7 @@ class AccountPaymentMode(models.Model):
         comodel_name="cnab.payment.way",
         relation="payment_mode_cnab_payment_way_rel",
         string="CNAB Payment Ways",
+        domain="[('cnab_structure_id', '=', cnab_structure_id)]",
     )
 
     cnab_structure_ok = fields.Boolean(
