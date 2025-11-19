@@ -868,7 +868,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             if code_to_send == "change_date_maturity":
                 new_date = date.today() + relativedelta(years=1)
                 self.assertEqual(
-                    aml_to_change.date,
+                    aml_to_change.date_maturity,
                     new_date,
                     "Data não alterada",
                 )
