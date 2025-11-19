@@ -205,13 +205,13 @@ class L10nBrCNABChangeMethods(models.Model):
         :return: deveria retornar algo ? Uma mensagem de confirmação talvez ?
         """
 
-        if new_date == self.date:
+        if new_date == self.date_maturity:
             raise UserError(
                 _(
                     "New Date Maturity %(new_date)s is equal to actual Date "
                     "Maturity %(date_maturity)s",
                     new_date=new_date,
-                    date_maturity=self.date,
+                    date_maturity=self.date_maturity,
                 )
             )
 
@@ -220,7 +220,7 @@ class L10nBrCNABChangeMethods(models.Model):
         if not cnab_config.change_maturity_date_code_id:
             self._msg_error_cnab_missing(self.payment_mode_id, "Date Maturity Code")
 
-        self.date = new_date
+        self.date_maturity = new_date
 
         return cnab_config.change_maturity_date_code_id
 
