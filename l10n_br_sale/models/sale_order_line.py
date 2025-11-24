@@ -88,12 +88,14 @@ class SaleOrderLine(models.Model):
 
     discount = fields.Float(
         compute="_compute_discounts",
+        inverse="_inverse_discount",
         store=True,
         precompute=True,
     )
 
     discount_value = fields.Monetary(
         compute="_compute_discounts",
+        inverse="_inverse_discount_value",
         store=True,
         precompute=True,
     )
@@ -245,6 +247,18 @@ class SaleOrderLine(models.Model):
                 line.discount_value = (line.product_uom_qty * line.price_unit) * (
                     line.discount / 100
                 )
+
+    def _inverse_discount(self):
+        for line in self:
+            line.discount_value = (line.product_uom_qty * line.price_unit) * (
+                line.discount / 100
+            )
+
+    def _inverse_discount_value(self):
+        for line in self:
+            line.discount = (line.discount_value * 100) / (
+                line.product_uom_qty * line.price_unit or 1
+            )
 
     def _compute_price_unit_fiscal(self):
         for line in self:
