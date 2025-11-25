@@ -4,6 +4,7 @@
 
 
 from odoo.tests import SavepointCase
+from odoo.tests.common import Form
 
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 
@@ -22,6 +23,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         )
 
         cls.nfe_export = cls.env.ref("l10n_br_fiscal.demo_nfe_export")
+        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
 
         # Simples Nacional
         cls.nfe_sn_same_state = cls.env.ref("l10n_br_fiscal.demo_nfe_sn_same_state")
@@ -1038,6 +1040,31 @@ class TestFiscalDocumentGeneric(SavepointCase):
             self.nfe_same_state.fiscal_operation_id.return_fiscal_operation_id.id,
             "Error on creation return",
         )
+
+    def test_difal_calculation(self):
+        partner = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
+        partner.ind_ie_dest = "9"
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        doc_form.company_id = self.company
+        doc_form.partner_id = partner
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+
+        product = self.env.ref("product.product_product_6")
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = product
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+
+        doc = doc_form.save()
+        line = doc.fiscal_line_ids[0]
+        self.assertEqual(line.icms_destination_base, 100.0)
+        self.assertEqual(line.icms_origin_percent, 7.0)
+        self.assertEqual(line.icms_destination_percent, 20.5)
+        self.assertEqual(line.icms_destination_value, 13.5)
 
     def test_nfe_comments(self):
         self.nfe_not_taxpayer._document_comment()
