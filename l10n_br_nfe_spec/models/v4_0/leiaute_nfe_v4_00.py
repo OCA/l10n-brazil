@@ -795,18 +795,31 @@ TPROCEMI = [
     ("3", "3"),
 ]
 
-# Tipo de Nota de Crédito: 01=Multa e juros; 02=Apropriação de crédito
-# presumido de IBS sobre o saldo devedor na ZFM (art. 450, § 1º, LC
-# 214/25)
+# Tipo de Nota de Crédito:
+# 01=Multa e juros;
+# 02=Apropriação de crédito presumido de IBS sobre o saldo devedor na ZFM (art.
+# 450, § 1º, LC 214/25);
+# 03=Retorno por recusa na entrega ou por não localização do destinatário na
+# tentativa de entrega;
+# 04=Redução de valores;
+# 05=Transferência de crédito na sucessão;
 TTPNFCREDITO = [
     ("01", "01"),
     ("02", "02"),
+    ("03", "03"),
+    ("04", "04"),
+    ("05", "05"),
 ]
 
-# Tipo de Nota de Débito: 01=Transferência de créditos para Cooperativas;
-# 02=Anulação de Crédito por Saídas Imunes/Isentas; 03=Débitos de notas
-# fiscais não processadas na apuração; 04=Multa e juros; 05=Transferência de
-# crédito de sucessão); 06=Pagamento antecipado; 07=Perda em estoque
+# Tipo de Nota de Débito:
+# 01=Transferência de créditos para Cooperativas;
+# 02=Anulação de Crédito por Saídas Imunes/Isentas;
+# 03=Débitos de notas fiscais não processadas na apuração;
+# 04=Multa e juros;
+# 05=Transferência de crédito na sucessão;
+# 06=Pagamento antecipado;
+# 07=Perda em estoque;
+# 08=Desenquadramento do SN;
 TTPNFDEBITO = [
     ("01", "01"),
     ("02", "02"),
@@ -815,6 +828,7 @@ TTPNFDEBITO = [
     ("05", "05"),
     ("06", "06"),
     ("07", "07"),
+    ("08", "08"),
 ]
 
 # Tipo Origem da mercadoria CST ICMS origem da mercadoria: 0-Nacional
@@ -1854,6 +1868,12 @@ class Ide(models.AbstractModel):
         ),
     )
 
+    nfe40_dPrevEntrega = fields.Date(
+        string="Data da previsão de entrega",
+        xsd_type="TData",
+        help=("Data da previsão de entrega ou disponibilização do bem (AAAA-MM-DD)"),
+    )
+
     nfe40_tpNF = fields.Selection(
         IDE_TPNF,
         string="Tipo do Documento Fiscal",
@@ -1943,15 +1963,7 @@ class Ide(models.AbstractModel):
     )
 
     nfe40_tpNFDebito = fields.Selection(
-        TTPNFDEBITO,
-        string="Tipo de Nota de Débito",
-        xsd_type="TTpNFDebito",
-        help=(
-            "Tipo de Nota de Débito:\n01=Transferência de créditos para "
-            "Cooperativas; \n02=Anulação de Crédito por Saídas Imunes/Isentas;"
-            " \n03=Débitos de notas fiscais não processadas na apuração; "
-            "\n04=Multa e juros; \n05=Transferência de crédito de sucessão."
-        ),
+        TTPNFDEBITO, string="Tipo de Nota de Débito", xsd_type="TTpNFDebito"
     )
 
     nfe40_tpNFCredito = fields.Selection(
@@ -2636,6 +2648,12 @@ class Prod(models.AbstractModel):
         "nfe40_gCred_prod_id",
         string="Grupo de informações sobre",
         help="Grupo de informações sobre o CréditoPresumido",
+    )
+
+    nfe40_tpCredPresIBSZFM = fields.Char(
+        string="Classificação para subapuração do IBS",
+        xsd_type="TTpCredPresIBSZFM",
+        help="Classificação para subapuração do IBS na ZFM",
     )
 
     nfe40_EXTIPI = fields.Char(string="Código EX TIPI (3 posições)")
@@ -5166,6 +5184,13 @@ class Total(models.AbstractModel):
 
     nfe40_IBSCBSTot = fields.Char(
         string="Valores totais da NF com IBS / CBS", xsd_type="TIBSCBSMonoTot"
+    )
+
+    nfe40_vNFTot = fields.Monetary(
+        string="Valor Total da NF considerando",
+        xsd_type="TDec_1302Opc",
+        currency_field="brl_currency_id",
+        help=("Valor Total da NF considerando os impostos por fora IBS, CBS e IS"),
     )
 
 
