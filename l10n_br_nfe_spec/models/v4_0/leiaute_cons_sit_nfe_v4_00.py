@@ -112,7 +112,7 @@ class TeventoInfEvento(models.AbstractModel):
     )
 
     nfe40_chNFe = fields.Char(
-        string="chNFe",
+        string="Chave de Acesso da NF-e vinculada",
         xsd_required=True,
         xsd_type="TChNFe",
         help="Chave de Acesso da NF-e vinculada ao evento",
@@ -131,7 +131,7 @@ class TeventoInfEvento(models.AbstractModel):
     nfe40_tpEvento = fields.Char(string="Tipo do Evento", xsd_required=True)
 
     nfe40_nSeqEvento = fields.Char(
-        string="Seqüencial do evento para",
+        string="Seqüencial do evento para o mesmo tipo",
         xsd_required=True,
         help=(
             "Seqüencial do evento para o mesmo tipo de evento.  Para maioria "
@@ -280,7 +280,7 @@ class TretCancNfe(models.AbstractModel):
 
     nfe40_infCanc = fields.Many2one(
         comodel_name="nfe.40.infcanc",
-        string="Dados do Resultado",
+        string="Dados do Resultado do Pedido",
         xsd_required=True,
         help=("Dados do Resultado do Pedido de Cancelamento da Nota Fiscal Eletrônica"),
     )
