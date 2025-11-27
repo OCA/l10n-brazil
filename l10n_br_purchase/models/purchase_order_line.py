@@ -61,7 +61,10 @@ class PurchaseOrderLine(models.Model):
         string="Comments",
     )
 
-    ind_final = fields.Selection(related="order_id.ind_final")
+    document_id = fields.Many2one(
+        comodel_name="purchase.order",
+        related="order_id",
+    )
 
     # Usado para tornar Somente Leitura os campos totais dos custos
     # de entrega quando a definição for por Linha

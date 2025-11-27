@@ -71,7 +71,10 @@ class StockMove(models.Model):
     # A Fatura é criada com os dois valores positivos.
     fiscal_price = fields.Float(compute="_compute_fiscal_price")
 
-    ind_final = fields.Selection(related="picking_id.ind_final")
+    document_id = fields.Many2one(
+        comodel_name="stock.picking",
+        related="picking_id",
+    )
 
     # Usado para tornar Somente Leitura os campos totais dos custos
     # de entrega quando a definição for por Linha

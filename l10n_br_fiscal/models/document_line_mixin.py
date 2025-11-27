@@ -521,10 +521,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 "cost_price": line.product_id.standard_price,
             }.get(line.fiscal_operation_id.default_price_unit, 0)
 
-    def _get_document(self):
-        self.ensure_one()
-        return self.document_id
-
     def _get_fiscal_partner(self):
         """
         Meant to be overriden when the l10n_br_fiscal.document partner_id should not
@@ -873,6 +869,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_currency_id",
     )
 
+    document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.mixin",
+        string="Fiscal Document",
+    )
+
     product_id = fields.Many2one(
         comodel_name="product.product",
         string="Product",
@@ -910,17 +911,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ind_final = fields.Selection(
         selection=FINAL_CUSTOMER,
         string="Consumidor final",
-        compute="_compute_ind_final",
-        store=True,
-        precompute=True,
-        readonly=False,
+        related="document_id.ind_final",
     )
-
-    def _compute_ind_final(self):
-        for line in self:
-            doc = line._get_document()
-            if line.ind_final != doc.ind_final:
-                line.ind_final = doc.ind_final
 
     partner_company_type = fields.Selection(related="partner_id.company_type")
 

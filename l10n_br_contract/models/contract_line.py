@@ -29,7 +29,10 @@ class ContractLine(models.Model):
         string="Partner",
     )
 
-    ind_final = fields.Selection(related="contract_id.ind_final")
+    document_id = fields.Many2one(
+        comodel_name="contract.contract",
+        related="contract_id",
+    )
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",

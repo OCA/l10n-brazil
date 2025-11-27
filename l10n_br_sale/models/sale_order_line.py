@@ -98,7 +98,10 @@ class SaleOrderLine(models.Model):
         precompute=True,
     )
 
-    ind_final = fields.Selection(related="order_id.ind_final")
+    document_id = fields.Many2one(
+        comodel_name="sale.order",
+        related="order_id",
+    )
 
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total

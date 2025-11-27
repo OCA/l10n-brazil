@@ -75,12 +75,15 @@ class SaleBlanketOrderLine(models.Model):
         string="Comments",
     )
 
-    ind_final = fields.Selection(related="order_id.ind_final")
-
     # Fields compute need parameter compute_sudo
     price_subtotal = fields.Monetary(compute_sudo=True)
     price_tax = fields.Monetary(compute_sudo=True)
     price_total = fields.Monetary(compute_sudo=True)
+
+    document_id = fields.Many2one(
+        comodel_name="sale.blanket.order",
+        related="order_id",
+    )
 
     @api.model
     def _cnae_domain(self):

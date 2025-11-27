@@ -26,9 +26,19 @@
                 <attribute name="force_save">1</attribute>
             </field>
             <field name="move_ids_without_package" position="attributes">
-                <attribute
-                    name="context"
-                >{'default_invoice_state': invoice_state, 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'picking_type_code': picking_type_code}</attribute>
+                <attribute name="context">{
+                    'default_invoice_state': invoice_state,
+                    'address_in_id': partner_id,
+                    'default_picking_type_id': picking_type_id,
+                    'default_picking_id': id,
+                    'default_location_id': location_id,
+                    'default_location_dest_id': location_dest_id,
+                    'default_fiscal_operation_id': fiscal_operation_id,
+                    'default_ind_final': ind_final,
+                    'default_company_id': company_id,
+                    'default_partner_id': partner_id,
+                    'picking_type_code': picking_type_code
+                }</attribute>
             </field>
             <xpath
                 expr="//field[@name='move_ids_without_package']//tree/field[@name='product_id']"

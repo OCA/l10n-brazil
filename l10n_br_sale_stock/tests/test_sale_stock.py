@@ -75,11 +75,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         sm_fields = [key for key in self.env["stock.move"]._fields.keys()]
         sol_fields = [key for key in self.env["sale.order.line"]._fields.keys()]
 
-        skipped_fields = [
-            "id",
-            "display_name",
-            "state",
-        ]
+        skipped_fields = ["id", "display_name", "state", "document_id"]
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
         for field in common_fields:
@@ -216,6 +212,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             # In the sale.orde.line display_type has only line_section
             # and line_note, the acccount.move.line has more options
             "display_type",
+            "document_id",
         ]
 
         common_fields = list(set(acl_fields) & set(sol_fields) - set(skipped_fields))
