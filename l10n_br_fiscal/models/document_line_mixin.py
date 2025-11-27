@@ -864,10 +864,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         return ["icms_relief_value"]
 
     def _is_imported(self):
-        # When the mixin is used for instance
-        # in a PO line or SO line, there is no document_id
-        # and we consider the document is not imported
-        return hasattr(self, "document_id") and self.document_id.imported_document
+        # Override this method in inherited models if needed
+        return False
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",

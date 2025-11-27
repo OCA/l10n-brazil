@@ -499,6 +499,10 @@ class Document(models.Model):
         # see https://github.com/OCA/l10n-brazil/pull/3272
         pass
 
+    def _is_imported(self):
+        # Mixin method override
+        return self.document_id.imported_document
+
     @api.depends("fiscal_operation_id")
     def _compute_edoc_purpose(self):
         for record in self:
