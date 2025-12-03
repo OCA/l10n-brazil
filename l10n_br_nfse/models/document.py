@@ -110,6 +110,7 @@ class Document(models.Model):
             ambiente=self.nfse_environment,
             cidade_ibge=int(self.company_id.partner_id.city_id.ibge_code),
             cnpj_prestador=misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf),
+            cnpj_tomador=misc.punctuation_rm(self.partner_id.cnpj_cpf),
             im_prestador=misc.punctuation_rm(
                 self.company_id.partner_id.inscr_mun or ""
             ),
