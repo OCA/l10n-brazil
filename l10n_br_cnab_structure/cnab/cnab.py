@@ -75,11 +75,12 @@ class CnabDetailRecord:
 
 
 class CnabBatch:
-    header: CnabLine
+    header: list[CnabLine]
     detail_records: list[CnabDetailRecord]
     trailer: CnabLine
 
     def __init__(self) -> None:
+        self.header = []
         self.detail_records = []
 
     def detail_lines(self) -> list[CnabLine]:
@@ -90,7 +91,7 @@ class CnabBatch:
 
     def lines(self) -> list[CnabLine]:
         lines = []
-        lines.append(self.header)
+        lines.extend(self.header)
         lines.extend(self.detail_lines())
         lines.append(self.trailer)
         return lines
@@ -99,11 +100,11 @@ class CnabBatch:
         count_records = 0
         for detail in self.detail_records:
             count_records += detail.len_records()
-        return count_records + 2
+        return count_records + len(self.header) + 1
 
     def asdict(self):
         return {
-            "header": self.header.asdict(),
+            "header": [h.asdict() for h in self.header],
             "detail_records": [d.asdict() for d in self.detail_records],
             "trailer": self.trailer.asdict(),
         }
