@@ -1,0 +1,7 @@
+"id","code","name","description","effective_date"
+"tax_classification_001","001","Classificação Tributária 001","Tributação integral - Produtos e serviços em geral","2026-01-01"
+"tax_classification_002","002","Classificação Tributária 002","Alíquota reduzida - Produtos essenciais","2026-01-01"
+"tax_classification_003","003","Classificação Tributária 003","Isenção - Produtos e serviços isentos","2026-01-01"
+"tax_classification_004","004","Classificação Tributária 004","Imunidade - Produtos e serviços imunes","2026-01-01"
+"tax_classification_005","005","Classificação Tributária 005","Diferimento - Produtos e serviços com diferimento","2026-01-01"
+"tax_classification_006","006","Classificação Tributária 006","Suspensão - Produtos e serviços com suspensão","2026-01-01"

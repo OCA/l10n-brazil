@@ -113,6 +113,13 @@ class ProductTemplate(models.Model):
         domain="[('ncm_ids', '=', ncm_id)]",
     )
 
+    tax_classification_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.classification",
+        index=True,
+        string="Tax Classification",
+        help="Tax classification for Brazilian Tax Reform (IBS, CBS, IS)",
+    )
+
     uoe_id = fields.Many2one(
         comodel_name="uom.uom",
         related="ncm_id.uoe_id",
