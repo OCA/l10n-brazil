@@ -72,13 +72,16 @@ class CNABBatch(models.Model):
         seq_record_detail_counter = 0
 
         # HEADER
-        batch.header = self.get_header().output(
-            pay_order,
-            RecordType.HEADER_BATCH,
-            seq_batch=seq_batch,
-            payment_way_code=payment_way_id.code,
-            payment_type_code=type_code,
-        )
+        for header_line in self.get_header():
+            batch.header.append(
+                header_line.output(
+                    pay_order,
+                    RecordType.HEADER_BATCH,
+                    seq_batch=seq_batch,
+                    payment_way_code=payment_way_id.code,
+                    payment_type_code=type_code,
+                )
+            )
 
         # DETAIL RECORDS
 
@@ -139,10 +142,10 @@ class CNABBatch(models.Model):
                 )
             )
 
-        if len(header_line) != 1:
+        if len(header_line) < 1:
             raise UserError(
                 _(
-                    f"Batch {self.name}: One batch need to have one and only one"
+                    f"Batch {self.name}: One batch need to have at least one"
                     " header line!"
                 )
             )
