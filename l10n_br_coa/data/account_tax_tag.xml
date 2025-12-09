@@ -133,6 +133,24 @@
         <field name="country_id" ref="base.br" />
     </record>
 
+    <record id="tax_tag_ibs" model="account.account.tag">
+        <field name="name">IBS</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.br" />
+    </record>
+
+    <record id="tax_tag_cbs" model="account.account.tag">
+        <field name="name">CBS</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.br" />
+    </record>
+
+    <record id="tax_tag_is" model="account.account.tag">
+        <field name="name">IS</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.br" />
+    </record>
+
     <record id="tax_tag_simples" model="account.account.tag">
         <field name="name">Simples Nacional</field>
         <field name="applicability">taxes</field>
