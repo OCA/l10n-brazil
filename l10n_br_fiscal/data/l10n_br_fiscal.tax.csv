@@ -414,3 +414,8 @@
 "tax_cbs_imunidade","CBS Imunidade","percent","0.00","0.00","tax_group_cbs","cst_cbs_410","cst_cbs_410",,,,,"0","4",,
 "tax_cbs_diferimento","CBS Diferimento","percent","0.00","0.00","tax_group_cbs","cst_cbs_510","cst_cbs_510",,,,,"0","4",,
 "tax_cbs_suspensao","CBS Suspensão","percent","0.00","0.00","tax_group_cbs","cst_cbs_550","cst_cbs_550",,,,,"0","4",,
+"tax_is_0","IS 0%","percent","0.00","0.00","tax_group_is","cst_is_200","cst_is_200",,,,,"0","4",,
+"tax_is_isento","IS Isento","percent","0.00","0.00","tax_group_is","cst_is_400","cst_is_400",,,,,"0","4",,
+"tax_is_imunidade","IS Imunidade","percent","0.00","0.00","tax_group_is","cst_is_410","cst_is_410",,,,,"0","4",,
+"tax_is_diferimento","IS Diferimento","percent","0.00","0.00","tax_group_is","cst_is_510","cst_is_510",,,,,"0","4",,
+"tax_is_suspensao","IS Suspensão","percent","0.00","0.00","tax_group_is","cst_is_550","cst_is_550",,,,,"0","4",,
