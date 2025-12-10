@@ -651,6 +651,94 @@
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
     </record>
 
+    <record id="tax_template_ibs_out" model="account.tax.template">
+        <field name="description">IBS</field>
+        <field name="name">IBS Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ibs" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_ibs_out_deductible" model="account.tax.template">
+        <field name="description">IBS</field>
+        <field name="name">IBS Saída Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ibs" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_ibs_in" model="account.tax.template">
+        <field name="description">IBS</field>
+        <field name="name">IBS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ibs" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_ibs_in_deductible" model="account.tax.template">
+        <field name="description">IBS</field>
+        <field name="name">IBS Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ibs" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_cbs_out" model="account.tax.template">
+        <field name="description">CBS</field>
+        <field name="name">CBS Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cbs" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_cbs_out_deductible" model="account.tax.template">
+        <field name="description">CBS</field>
+        <field name="name">CBS Saída Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cbs" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_cbs_in" model="account.tax.template">
+        <field name="description">CBS</field>
+        <field name="name">CBS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cbs" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_cbs_in_deductible" model="account.tax.template">
+        <field name="description">CBS</field>
+        <field name="name">CBS Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cbs" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
     <record id="tax_template_simples" model="account.tax.template">
         <field name="description">Simples Nacional</field>
         <field name="name">Simples Nacional</field>
