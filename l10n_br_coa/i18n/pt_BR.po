@@ -122,6 +122,11 @@ msgid "Brazil"
 msgstr "Brasil"
 
 #. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_cbs
+msgid "CBS"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_cofins
 msgid "COFINS"
 msgstr "COFINS"
@@ -193,6 +198,11 @@ msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_ibs
+msgid "IBS"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_icms
 msgid "ICMS"
 msgstr "ICMS"
@@ -260,6 +270,11 @@ msgstr "IRPJ"
 #: model:account.tax.group,name:l10n_br_coa.tax_group_irpj_wh
 msgid "IRPJ WH"
 msgstr "IRPJ WH"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_is
+msgid "IS"
+msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_issqn
