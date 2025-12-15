@@ -8,26 +8,6 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="description" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="IBS Tax"
-                        name="tax_ibs_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_ibs_id'}"
-                    />
-                    <filter
-                        string="CBS Tax"
-                        name="tax_cbs_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_cbs_id'}"
-                    />
-                    <filter
-                        string="IS Tax"
-                        name="tax_is_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_is_id'}"
-                    />
-                </group>
             </search>
         </field>
     </record>
@@ -39,10 +19,7 @@
             <tree>
                 <field name="code" />
                 <field name="name" />
-                <field name="tax_ibs_id" />
-                <field name="tax_cbs_id" />
-                <field name="tax_is_id" />
-                <field name="effective_date" />
+                <field name="description" />
             </tree>
         </field>
     </record>
@@ -57,7 +34,6 @@
                         <group>
                             <field name="code" />
                             <field name="name" />
-                            <field name="effective_date" />
                         </group>
                         <group>
                             <field name="active" />
@@ -66,26 +42,9 @@
                     <group>
                         <field
                             name="description"
-                            placeholder="Detailed description of the tax classification"
+                            placeholder="Descrição cClassTrib - Detailed description of the tax classification"
                         />
                     </group>
-                    <notebook>
-                        <page string="Taxes" name="taxes">
-                            <group>
-                                <field name="tax_ibs_id" />
-                                <field name="tax_cbs_id" />
-                                <field name="tax_is_id" />
-                            </group>
-                        </page>
-                        <page string="Products" name="products">
-                            <field name="product_tmpl_ids" readonly="1">
-                                <tree>
-                                    <field name="name" />
-                                    <field name="default_code" />
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -100,9 +59,9 @@
                 Create a new tax classification
             </p>
             <p>
-                Tax classifications are used to determine how products and services
-                will be taxed by the new taxes (IBS, CBS, IS) that will come into
-                effect from 2026.
+                Tax classifications (cClassTrib) from Brazilian Tax Reform (LC 214/2025).
+                Each classification has a code, name, and description. The tax treatment
+                (IBS, CBS, IS) is defined separately in Tax Definition.
             </p>
         </field>
     </record>

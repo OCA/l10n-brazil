@@ -3,16 +3,19 @@
 
 from odoo import fields, models
 
-from ..constants.fiscal import TAX_DOMAIN_CBS, TAX_DOMAIN_IBS, TAX_DOMAIN_IS
-
 
 class TaxClassification(models.Model):
     """
     Tax Classification for Brazilian Tax Reform (Reforma Tributária).
 
-    This model represents the tax classification table used to determine
-    how products and services will be taxed by the new taxes (IBS, CBS, IS)
-    that will come into effect from 2026.
+    This model represents the tax classification table (cClassTrib) from
+    the Brazilian Tax Reform (LC 214/2025). It stores the three main fields:
+    - code (cClassTrib): The classification code
+    - name (Nome cClassTrib): The classification name
+    - description (Descrição cClassTrib): The detailed description
+
+    The tax treatment (IBS, CBS, IS) is defined separately in Tax Definition,
+    not directly in the classification itself.
     """
 
     _name = "l10n_br_fiscal.tax.classification"
@@ -24,33 +27,21 @@ class TaxClassification(models.Model):
 
     code_unmasked = fields.Char(size=10)
 
-    description = fields.Text()
-
-    tax_ibs_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="IBS Tax",
-        domain=[("tax_domain", "=", TAX_DOMAIN_IBS)],
+    description = fields.Text(
+        help="Descrição cClassTrib - Detailed description of the tax classification",
     )
 
-    tax_cbs_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="CBS Tax",
-        domain=[("tax_domain", "=", TAX_DOMAIN_CBS)],
+    product_tmpl_ids = fields.One2many(
+        comodel_name="product.template",
+        inverse_name="tax_classification_id",
+        string="Products",
+        readonly=True,
     )
-
-    tax_is_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax",
-        string="IS Tax",
-        domain=[("tax_domain", "=", TAX_DOMAIN_IS)],
-    )
-
-    effective_date = fields.Date()
-
-    product_tmpl_ids = fields.One2many(inverse_name="tax_classification_id")
 
     tax_definition_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         relation="tax_classification_tax_definition_rel",  # (orm default is too long)
         readonly=True,
-        string="Tax Definition",
+        string="Tax Definitions",
+        help="Tax definitions that reference this classification",
     )
