@@ -253,6 +253,27 @@
                             </field>
                         </page>
                         <page
+                            name="payment_rules"
+                            string="Payment Rules"
+                            attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
+                        >
+                            <field
+                                name="cnab_payment_rule_ids"
+                                mode='tree'
+                                widget='one2many'
+                                context="{'default_cnab_structure_id': id}"
+                            >
+                                <tree default_order="sequence" editable="bottom">
+                                    <field name="cnab_structure_id" invisible="1" />
+                                    <field name="sequence" widget="handle" />
+                                    <field name="match_bank_type" />
+                                    <field name="match_partner_type" />
+                                    <field name="payment_way_id" />
+                                    <field name="service_type" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page
                             name="pix_config"
                             string="PIX"
                             attrs="{'invisible': [('payment_type', '!=', 'outbound')]}"
