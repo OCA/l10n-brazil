@@ -172,6 +172,23 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         ]
         cls.payment_order_model.search(cls.domain).unlink()
 
+        cls.partner_a_itau_bank = cls.res_partner_bank_model.create(
+            {
+                "acc_number": "123456",
+                "bra_number": "0001",
+                "bank_id": cls.bank_341.id,
+                "partner_id": cls.partner_a.id,
+            }
+        )
+        cls.partner_a_bb_bank = cls.res_partner_bank_model.create(
+            {
+                "acc_number": "789012",
+                "bra_number": "0002",
+                "bank_id": cls.bank_001.id,
+                "partner_id": cls.partner_a.id,
+            }
+        )
+
     def test_file_generete_and_return(self):
         payment_order_id = self._create_and_get_payment_order()
         self.assertEqual(len(payment_order_id), 1)
@@ -521,3 +538,94 @@ class TestCNABStructure(AccountTestInvoicingCommon):
             seqs_true = [line[8:13] for line in lines_true if line[7] == "3"]
             self.assertEqual(seqs_true, sorted(seqs_true))
             self.assertEqual(len(seqs_true), len(set(seqs_true)))
+
+    def test_payment_rules(self):
+        """
+        Test the dynamic selection of Payment Ways and Service Types based on Rules.
+        """
+        cnab_structure = self.cnab_structure_itau_240
+
+        self.env["l10n_br_cnab.batch"].create(
+            {
+                "name": "Batch 1",
+                "cnab_structure_id": cnab_structure.id,
+            }
+        )
+        batch = cnab_structure.batch_ids[0]
+
+        way_same_bank = self.env["cnab.payment.way"].create(
+            {
+                "code": "01",
+                "description": "Credit Same Bank",
+                "cnab_structure_id": cnab_structure.id,
+                "batch_id": batch.id,
+            }
+        )
+        way_other_bank = self.env["cnab.payment.way"].create(
+            {
+                "code": "41",
+                "description": "TED Other Bank",
+                "cnab_structure_id": cnab_structure.id,
+                "batch_id": batch.id,
+            }
+        )
+
+        self.env["l10n_br_cnab.payment.rule"].create(
+            {
+                "cnab_structure_id": cnab_structure.id,
+                "sequence": 10,
+                "match_bank_type": "same",
+                "match_partner_type": "any",
+                "payment_way_id": way_same_bank.id,
+                "service_type": "30",
+            }
+        )
+        self.env["l10n_br_cnab.payment.rule"].create(
+            {
+                "cnab_structure_id": cnab_structure.id,
+                "sequence": 20,
+                "match_bank_type": "other",
+                "match_partner_type": "any",
+                "payment_way_id": way_other_bank.id,
+                "service_type": "20",
+            }
+        )
+
+        payment_order_1 = self._create_and_get_payment_order()
+
+        line_same = self.env["account.payment.line"].create(
+            {
+                "order_id": payment_order_1.id,
+                "partner_id": self.partner_a.id,
+                "partner_bank_id": self.partner_a_itau_bank.id,
+                "amount_currency": 100.0,
+            }
+        )
+        line_same._compute_cnab_payment_way_id()
+
+        self.assertEqual(line_same.cnab_payment_way_id, way_same_bank)
+        self.assertEqual(line_same.service_type, "30")
+
+        invoice_2 = self.invoice.copy()
+        invoice_2.invoice_date = fields.Date.today()
+        invoice_2.ref = "Test Bill Invoice 2"
+        invoice_2.action_post()
+
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=invoice_2.ids
+        ).create({}).run()
+
+        payment_order_2 = self.env["account.payment.order"].search(self.domain, limit=1)
+
+        line_other = self.env["account.payment.line"].create(
+            {
+                "order_id": payment_order_2.id,
+                "partner_id": self.partner_a.id,
+                "partner_bank_id": self.partner_a_bb_bank.id,
+                "amount_currency": 200.0,
+            }
+        )
+        line_other._compute_cnab_payment_way_id()
+
+        self.assertEqual(line_other.cnab_payment_way_id, way_other_bank)
+        self.assertEqual(line_other.service_type, "20")

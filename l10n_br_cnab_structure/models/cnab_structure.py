@@ -223,6 +223,14 @@ class CNABStructure(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    cnab_payment_rule_ids = fields.One2many(
+        comodel_name="l10n_br_cnab.payment.rule",
+        inverse_name="cnab_structure_id",
+        string="Payment Rules",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+    )
+
     @api.onchange("cnab_format", "payment_type")
     def _onchange_cnab_format(self):
         if self.cnab_format == "240":
