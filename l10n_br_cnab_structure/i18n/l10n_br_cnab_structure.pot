@@ -23,6 +23,171 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__01
+msgid "01 - Cobrança"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__03
+msgid "03 - Boleto de Pagamento Eletrônico"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__04
+msgid "04 - Conciliação Bancária"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__05
+msgid "05 - Débitos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__06
+msgid "06 - Custódia de Cheques"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__07
+msgid "07 - Gestão de Caixa"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__08
+msgid "08 - Consulta/Informação Margem"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__09
+msgid "09 - Averbação da Consignação/Retenção"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__10
+msgid "10 - Pagamento Dividendos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__11
+msgid "11 - Manutenção da Consignação"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__12
+msgid "12 - Consignação de Parcelas"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__13
+msgid "13 -  Glosa da Consignação (INSS)"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__14
+msgid "14 - Consulta de Tributos a pagar"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__20
+msgid "20 - Pagamento Fornecedor"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__22
+msgid "22 - Pagamento de Contas, Tributos e Impostos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__23
+msgid "23 - Interoperabilidade entre Contas de Instituições de Pagamentos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__25
+msgid "25 - Compror"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__26
+msgid "26 - Compror Rotativo"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__29
+msgid "29 - Alegação do Pagador"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__30
+msgid "30 - Pagamento Salários"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__32
+msgid "32 - Pagamento de honorários"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__33
+msgid "33 - Pagamento de bolsa auxílio"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__34
+msgid "34 - Pagamento de prebenda (remuneração a padres e sacerdotes)"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__40
+msgid "40 - Vendor"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__41
+msgid "41 - Vendor a Termo"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__50
+msgid "50 - Pagamento Sinistros Segurados"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__60
+msgid "60 - Pagamento Despesas Viajante em Trânsito"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__70
+msgid "70 - Pagamento Autorizado"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__75
+msgid "75 - Pagamento Credenciados"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__77
+msgid "77 - Pagamento de Remuneração"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__80
+msgid "80 - Pagamento Representantes / Vendedores Autorizados"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__90
+msgid "90 - Pagamento Benefícios"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__service_type__98
+msgid "98 - Pagamentos Diversos"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_operation_form
 msgid ""
 "<i class=\"fa fa-caret-right text-primary\" title=\"Bullet\"/> "
@@ -215,6 +380,12 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_structure
 msgid ""
 "An structure with header, body and trailer that make up the CNAB structure."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__match_bank_type__any
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__match_partner_type__any
+msgid "Any"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -494,6 +665,11 @@ msgid "CNAB PIX Transfer Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:ir.model,name:l10n_br_cnab_structure.model_l10n_br_cnab_payment_rule
+msgid "CNAB Payment Selection Rule"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_data_management__target_model__cnab_payment_way
 msgid "CNAB Payment Way"
 msgstr ""
@@ -597,6 +773,16 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__output_yaml
 msgid "CNAB YAML Output"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#. odoo-python
+#: code:addons/l10n_br_cnab_structure/models/account_payment_line.py:0
+#, python-format
+msgid ""
+"CNAB payment way not found.\n"
+"Payment Mode: %(payment_mode)s\n"
+"CNAB Structure: %(cnab_structure)s"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -755,6 +941,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_preview_wizard__cnab_structure_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__cnab_structure_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__cnab_structure_id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__cnab_structure_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__cnab_structure_id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__cnab_structure_id
 msgid "Cnab Structure"
@@ -923,6 +1110,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__create_uid
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__create_uid
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__create_uid
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__create_uid
 msgid "Created by"
 msgstr ""
@@ -941,6 +1129,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__create_date
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__create_date
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__create_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__create_date
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__create_date
 msgid "Created on"
 msgstr ""
@@ -1045,6 +1234,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__display_name
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__display_name
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__display_name
 msgid "Display Name"
 msgstr ""
@@ -1083,6 +1273,11 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_key_type__key_type__email
 msgid "E-mail"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__match_partner_type__employee
+msgid "Employee"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -1268,6 +1463,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__id
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__id
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__id
 msgid "ID"
 msgstr ""
@@ -1429,6 +1625,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field____last_update
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule____last_update
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -1447,6 +1644,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__write_uid
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__write_uid
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__write_uid
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__write_uid
 msgid "Last Updated by"
 msgstr ""
@@ -1465,6 +1663,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_batch__write_date
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__write_date
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__write_date
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__write_date
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__write_date
 msgid "Last Updated on"
 msgstr ""
@@ -1560,6 +1759,16 @@ msgstr ""
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_cnab_occurrence__gen_liquidation_move
 msgid "Mark this option if this occurrence corresponds to a liquidation move."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__match_bank_type
+msgid "Match Bank Type"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__match_partner_type
+msgid "Match Partner Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -1828,6 +2037,11 @@ msgid "Optional Rules"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__match_bank_type__other
+msgid "Other Bank"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
 msgid "Other Infos"
 msgstr ""
@@ -1971,11 +2185,18 @@ msgid "Payment Order"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_payment_rule_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
+msgid "Payment Rules"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__payment_type
 msgid "Payment Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__payment_way_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
 msgid "Payment Way"
 msgstr ""
@@ -2209,6 +2430,11 @@ msgid "Review"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__match_bank_type__same
+msgid "Same Bank"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_transfer_type__type_domain__saving
 msgid "Saving Account (Conta Poupança)"
 msgstr ""
@@ -2273,7 +2499,13 @@ msgstr ""
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__sequence
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_payment_rule__service_type
+msgid "Service Type"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
@@ -2334,6 +2566,11 @@ msgstr ""
 #: code:addons/l10n_br_cnab_structure/models/cnab_data_management.py:0
 #, python-format
 msgid "Successfully restored %(count)d records to %(model)s."
+msgstr ""
+
+#. module: l10n_br_cnab_structure
+#: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_payment_rule__match_partner_type__supplier
+msgid "Supplier"
 msgstr ""
 
 #. module: l10n_br_cnab_structure
