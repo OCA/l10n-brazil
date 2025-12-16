@@ -117,6 +117,21 @@
         <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_simples" />
     </record>
 
+    <record id="l10n_br_coa.tax_group_ibs" model="account.tax.group">
+        <field name="name">IBS</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_ibs" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_cbs" model="account.tax.group">
+        <field name="name">CBS</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_cbs" />
+    </record>
+
+    <record id="l10n_br_coa.tax_group_is" model="account.tax.group">
+        <field name="name">IS</field>
+        <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_is" />
+    </record>
+
     <record id="l10n_br_coa.tax_group_others" model="account.tax.group">
         <field name="name">Outros</field>
         <field name="fiscal_tax_group_id" ref="l10n_br_fiscal.tax_group_others" />
