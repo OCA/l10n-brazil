@@ -17,12 +17,14 @@ class DocumentImporterWizardMixin(models.TransientModel):
         """
         Register the CTe importer
         """
-        if hasattr(binding, "infCte"):
+        if hasattr(binding, "infCte") or hasattr(binding, "CTe"):
             return self._detect_document_type(MODELO_FISCAL_CTE)
         return super()._detect_binding(binding)
 
     def _extract_binding_data(self, binding):
         res = super()._extract_binding_data(binding)
+        if hasattr(binding, "CTe"):
+            binding = binding.CTe
         if self.document_type == MODELO_FISCAL_CTE:
             self._extract_key_information(binding.infCte.Id[3:])
         return res
