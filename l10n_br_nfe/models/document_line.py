@@ -115,6 +115,7 @@ class NFeLine(spec_models.StackedModel):
             > <COFINSOutr>
         > <COFINSST>
         > <ICMSUFDest>
+        > <IBSCBS>
     - <impostoDevol>
     - <obsItem>
     - <DFeReferenciado>"""
@@ -362,6 +363,58 @@ class NFeLine(spec_models.StackedModel):
 
         if self.document_id.document_type == "65":
             xsd_fields.remove("nfe40_IPI")
+
+        # Handle IBSCBS field
+        if not self.ibs_cst_code or not self.tax_classification_id:
+            # Remove IBSCBS if not filled (check fiscal model fields)
+            if "nfe40_IBSCBS" in xsd_fields:
+                xsd_fields.remove("nfe40_IBSCBS")
+        elif "nfe40_IBSCBS" in xsd_fields:
+            # Build IBSCBS XML string manually
+            # For Char fields with xsd_type, we need to provide XML string
+            xml_parts = []
+            xml_parts.append(f"<CST>{self.ibs_cst_code}</CST>")
+            xml_parts.append(
+                f"<cClassTrib>{self.tax_classification_id.code}</cClassTrib>"
+            )
+
+            # Build gIBSCBS if we have base calculation
+            if self.ibs_base:
+                gibscbs_parts = []
+                gibscbs_parts.append(f"<vBC>{self.ibs_base:.2f}</vBC>")
+
+                # Build gIBSUF if we have IBS UF values
+                # For now, using IBS percent and value as UF values
+                # since IBS is registered as federal but represents state tax
+                if self.ibs_percent is not None or self.ibs_value:
+                    gibsuf_parts = []
+                    gibsuf_parts.append(
+                        f"<pIBSUF>{self.ibs_percent or 0.0:.4f}</pIBSUF>"
+                    )
+                    gibsuf_parts.append(f"<vIBSUF>{self.ibs_value or 0.0:.2f}</vIBSUF>")
+                    gibscbs_parts.append(f"<gIBSUF>{''.join(gibsuf_parts)}</gIBSUF>")
+
+                # Always include gIBSMun (municipal IBS) with zero values if not
+                # available. This is required by the XML schema even when there's no
+                # municipal tax
+                gibsmun_parts = []
+                # TODO: When municipal IBS fields are available, use them here
+                # For now, always use zero values
+                gibsmun_parts.append("<pIBSMun>0.0000</pIBSMun>")
+                gibsmun_parts.append("<vIBSMun>0.00</vIBSMun>")
+                gibscbs_parts.append(f"<gIBSMun>{''.join(gibsmun_parts)}</gIBSMun>")
+
+                # Build gCBS - always include when gIBSCBS is present
+                # According to schema, gCBS is required after the IBS sequence
+                gcbs_parts = []
+                gcbs_parts.append(f"<pCBS>{self.cbs_percent or 0.0:.4f}</pCBS>")
+                gcbs_parts.append(f"<vCBS>{self.cbs_value or 0.0:.2f}</vCBS>")
+                gibscbs_parts.append(f"<gCBS>{''.join(gcbs_parts)}</gCBS>")
+
+                xml_parts.append(f"<gIBSCBS>{''.join(gibscbs_parts)}</gIBSCBS>")
+
+            # Join all parts - framework will wrap in <IBSCBS> tag
+            export_dict["IBSCBS"] = "".join(xml_parts)
 
     ##################################################
     # NF-e tag: ICMS
@@ -935,6 +988,33 @@ class NFeLine(spec_models.StackedModel):
     ####################
 
     # TODO
+
+    #################################################################
+    # NF-e tag: IBSCBS
+    # Grupo de informações dos tributos IBS, CBS e Imposto Seletivo
+    #################################################################
+
+    # IBSCBS fields mapped from fiscal document line
+    # Note: For now we only have IBS state (UF) - municipal IBS not yet available
+    # IBS is registered as federal tax but can remain that way
+    # The IBSCBS object is built in _export_fields_nfe_40_imposto method
+
+    def _export_field(self, xsd_field, class_obj, field_spec, export_value=None):
+        """Override to use export_value for Char fields with xsd_type when available"""
+        # For IBSCBS field, use the export_value if it exists
+        # (set in _export_fields_nfe_40_imposto)
+        # The export_value contains the XML string we built manually
+        # Check both by xsd_field name and field_spec name to ensure we catch it
+        if xsd_field == "nfe40_IBSCBS" or (
+            hasattr(field_spec, "name") and field_spec.name == "IBSCBS"
+        ):
+            if export_value:
+                # Return the XML string directly - framework will insert it as XML
+                # content
+                return export_value
+            # If no export_value, return False to skip the field
+            return False
+        return super()._export_field(xsd_field, class_obj, field_spec, export_value)
 
     #################
     # NF-e tag: ISSQN

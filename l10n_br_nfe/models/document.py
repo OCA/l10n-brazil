@@ -558,6 +558,11 @@ class NFe(spec_models.StackedModel):
     nfe40_vTotTrib = fields.Monetary(related="amount_estimate_tax")
 
     ##########################
+    # NF-e tag: IBSCBSTot
+    # The IBSCBSTot XML is built in _export_fields_nfe_40_total method
+    ##########################
+
+    ##########################
     # NF-e tag: ISSQNtot
     ##########################
 
@@ -620,6 +625,88 @@ class NFe(spec_models.StackedModel):
                 record.nfe40_infCpl = remove_non_ascii_characters(
                     record.customer_additional_data
                 )
+
+    def _export_fields_nfe_40_total(self, xsd_fields, class_obj, export_dict):
+        """Export fields for nfe.40.total model"""
+        # Handle IBSCBSTot field
+        if "nfe40_IBSCBSTot" in xsd_fields:
+            # Check if any line has IBSCBS (has ibs_cst_code)
+            lines_with_ibscbs = self.fiscal_line_ids.filtered(
+                lambda line: line.ibs_cst_code and line.tax_classification_id
+            )
+
+            if not lines_with_ibscbs:
+                # Remove IBSCBSTot if not filled
+                if "nfe40_IBSCBSTot" in xsd_fields:
+                    xsd_fields.remove("nfe40_IBSCBSTot")
+            else:
+                # Calculate totals from document lines with IBSCBS
+                total_ibs_base = sum(lines_with_ibscbs.mapped("ibs_base") or [0.0])
+                total_ibs_uf_value = sum(lines_with_ibscbs.mapped("ibs_value") or [0.0])
+                total_ibs_mun_value = (
+                    0.0
+                )  # TODO: When municipal IBS fields are available
+                total_ibs_value = total_ibs_uf_value + total_ibs_mun_value
+                total_cbs_value = sum(lines_with_ibscbs.mapped("cbs_value") or [0.0])
+
+                # Build IBSCBSTot XML string manually
+                xml_parts = []
+                # vBCIBSCBS - total base calculation
+                xml_parts.append(f"<vBCIBSCBS>{total_ibs_base:.2f}</vBCIBSCBS>")
+
+                # gIBS group
+                gibs_parts = []
+                # gIBSUF
+                gibsuf_parts = []
+                gibsuf_parts.append("<vDif>0.00</vDif>")  # TODO: When available
+                gibsuf_parts.append("<vDevTrib>0.00</vDevTrib>")  # TODO: When available
+                gibsuf_parts.append(f"<vIBSUF>{total_ibs_uf_value:.2f}</vIBSUF>")
+                gibs_parts.append(f"<gIBSUF>{''.join(gibsuf_parts)}</gIBSUF>")
+
+                # gIBSMun
+                gibsmun_parts = []
+                gibsmun_parts.append("<vDif>0.00</vDif>")  # TODO: When available
+                gibsmun_parts.append(
+                    "<vDevTrib>0.00</vDevTrib>"
+                )  # TODO: When available
+                gibsmun_parts.append(f"<vIBSMun>{total_ibs_mun_value:.2f}</vIBSMun>")
+                gibs_parts.append(f"<gIBSMun>{''.join(gibsmun_parts)}</gIBSMun>")
+
+                # vIBS
+                gibs_parts.append(f"<vIBS>{total_ibs_value:.2f}</vIBS>")
+                # vCredPres and vCredPresCondSus
+                gibs_parts.append("<vCredPres>0.00</vCredPres>")  # TODO: When available
+                gibs_parts.append(
+                    "<vCredPresCondSus>0.00</vCredPresCondSus>"
+                )  # TODO: When available
+
+                xml_parts.append(f"<gIBS>{''.join(gibs_parts)}</gIBS>")
+
+                # gCBS group
+                gcbs_parts = []
+                gcbs_parts.append("<vDif>0.00</vDif>")  # TODO: When available
+                gcbs_parts.append("<vDevTrib>0.00</vDevTrib>")  # TODO: When available
+                gcbs_parts.append(f"<vCBS>{total_cbs_value:.2f}</vCBS>")
+                gcbs_parts.append("<vCredPres>0.00</vCredPres>")  # TODO: When available
+                gcbs_parts.append(
+                    "<vCredPresCondSus>0.00</vCredPresCondSus>"
+                )  # TODO: When available
+                xml_parts.append(f"<gCBS>{''.join(gcbs_parts)}</gCBS>")
+
+                # Join all parts - framework will wrap in <IBSCBSTot> tag
+                # Note: The XML string will be escaped by xsdata when serialized,
+                # so we'll fix it in _document_export method after serialization
+                export_dict["IBSCBSTot"] = "".join(xml_parts)
+
+    def _export_field(self, xsd_field, class_obj, field_spec, export_value=None):
+        """Override to use export_value for Char fields with xsd_type when available"""
+        # For IBSCBSTot field, use the export_value if it exists
+        # (set in _export_fields_nfe_40_total)
+        if xsd_field == "nfe40_IBSCBSTot":
+            if export_value:
+                return export_value
+            return False
+        return super()._export_field(xsd_field, class_obj, field_spec, export_value)
 
     ##########################
     # NF-e tag: fat
@@ -967,6 +1054,36 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
             xml_file = edoc.to_xml()
+
+            # Fix IBSCBS and IBSCBSTot XML escaping issue
+            # The xsdata framework escapes XML strings in Char fields with xsd_type
+            # We need to unescape them after serialization
+            # Order matters: &amp; must be replaced last to avoid double replacement
+            def unescape_xml_content(content):
+                """Unescape XML entities in the correct order"""
+                # Replace in order: &amp; last to avoid double replacement
+                content = content.replace("&lt;", "<")
+                content = content.replace("&gt;", ">")
+                content = content.replace("&quot;", '"')
+                content = content.replace("&amp;", "&")  # Must be last
+                return content
+
+            # Fix IBSCBS tags (line items)
+            xml_file = re.sub(
+                r"<IBSCBS>(.*?)</IBSCBS>",
+                lambda m: "<IBSCBS>" + unescape_xml_content(m.group(1)) + "</IBSCBS>",
+                xml_file,
+                flags=re.DOTALL,
+            )
+            # Fix IBSCBSTot tags (totals)
+            xml_file = re.sub(
+                r"<IBSCBSTot>(.*?)</IBSCBSTot>",
+                lambda m: "<IBSCBSTot>"
+                + unescape_xml_content(m.group(1))
+                + "</IBSCBSTot>",
+                xml_file,
+                flags=re.DOTALL,
+            )
             # Delete previous authorization events in draft
             if (
                 record.authorization_event_id
