@@ -30,6 +30,9 @@ account_template_21303,2.1.3.03,ISSQN a Recolher,,liability_current,0,l10n_br_co
 account_template_21304,2.1.3.04,IPI a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
 account_template_21305,2.1.3.05,PIS A RECUPERAR,,liability_current,0,l10n_br_coa_simple_chart_template
 account_template_21306,2.1.3.06,COFINS A RECUPERAR,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21307,2.1.3.07,IBS a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21308,2.1.3.08,CBS a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
+account_template_21309,2.1.3.09,IS a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
 account_template_21401,2.1.4.01,Salários a Pagar,,liability_current,0,l10n_br_coa_simple_chart_template
 account_template_21402,2.1.4.02,FGTS a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
 account_template_21403,2.1.4.03,INSS dos Segurados a Recolher,,liability_current,0,l10n_br_coa_simple_chart_template
