@@ -739,6 +739,50 @@
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
     </record>
 
+    <record id="tax_template_is_out" model="account.tax.template">
+        <field name="description">IS</field>
+        <field name="name">IS Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_is" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_is_out_deductible" model="account.tax.template">
+        <field name="description">IS</field>
+        <field name="name">IS Saída Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_is" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_is_in" model="account.tax.template">
+        <field name="description">IS</field>
+        <field name="name">IS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_is" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_is_in_deductible" model="account.tax.template">
+        <field name="description">IS</field>
+        <field name="name">IS Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_is" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
     <record id="tax_template_simples" model="account.tax.template">
         <field name="description">Simples Nacional</field>
         <field name="name">Simples Nacional</field>
