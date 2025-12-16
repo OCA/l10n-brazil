@@ -1286,7 +1286,9 @@ class CTe(spec_models.StackedModel):
         return res
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
-        if key == "cte40_emit" and self.env.context.get("edoc_type") == "in":
+        if key in ("cte40_infNFe", "cte40_autXML"):
+            return  # TODO fix these imports eventually
+        elif key == "cte40_emit" and self.env.context.get("edoc_type") == "in":
             enderEmit_value = self.env["res.partner"].build_attrs(
                 value.enderEmit, path=path
             )
