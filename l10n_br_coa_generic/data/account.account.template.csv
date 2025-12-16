@@ -69,6 +69,9 @@ coa_generic_114108,1.1.4.1.08,IRRF a Compensar,,asset_current,0,l10n_br_coa_gene
 coa_generic_114109,1.1.4.1.09,ISS a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114110,1.1.4.1.10,II a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114111,1.1.4.1.11,INSS a Compensar,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_114112,1.1.4.1.12,IBS a Compensar,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_114113,1.1.4.1.13,CBS a Compensar,,asset_current,0,l10n_br_coa_generic_template
+coa_generic_114114,1.1.4.1.14,IS a Compensar,,asset_current,0,l10n_br_coa_generic_template
 coa_generic_114201,1.1.4.2.01,Adto Quinzenal,,asset_current,1,l10n_br_coa_generic_template
 coa_generic_114202,1.1.4.2.02,Adto Salarial,,asset_current,1,l10n_br_coa_generic_template
 coa_generic_114203,1.1.4.2.03,Adto de Férias,,asset_current,1,l10n_br_coa_generic_template
@@ -204,6 +207,9 @@ coa_generic_217110,2.1.7.1.10,ISSF a Recolher,,liability_current,0,l10n_br_coa_g
 coa_generic_217111,2.1.7.1.11,ICMS Substituição Tributária a Recolher,,liability_current,0,l10n_br_coa_generic_template
 coa_generic_217112,2.1.7.1.12,ICMS Diferencial de Alíquota a Recolher,,liability_current,0,l10n_br_coa_generic_template
 coa_generic_217113,2.1.7.1.13,II a Recolher,,liability_current,0,l10n_br_coa_generic_template
+coa_generic_217114,2.1.7.1.14,IBS a Recolher,,liability_current,0,l10n_br_coa_generic_template
+coa_generic_217115,2.1.7.1.15,CBS a Recolher,,liability_current,0,l10n_br_coa_generic_template
+coa_generic_217116,2.1.7.1.16,IS a Recolher,,liability_current,0,l10n_br_coa_generic_template
 coa_generic_218101,2.1.8.1.01,Férias Provisão,,liability_current,0,l10n_br_coa_generic_template
 coa_generic_218102,2.1.8.1.02,13o. Salário Provisão,,liability_current,0,l10n_br_coa_generic_template
 coa_generic_218201,2.1.8.2.01,INSS s/ Férias Provisão,,liability_current,0,l10n_br_coa_generic_template
