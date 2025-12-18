@@ -74,3 +74,4 @@ from . import city_taxation_code
 
 from . import dfe
 from . import mdfe
+from . import tax_classification
