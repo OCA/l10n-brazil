@@ -9,6 +9,12 @@ from odoo import api, fields, models
 class AccountMoveReversal(models.TransientModel):
     _inherit = "account.move.reversal"
 
+    journal_id = fields.Many2one(
+        compute="_compute_journal_id",
+        store=True,
+        precompute=True,
+    )
+
     force_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation", string="Force Fiscal Operation"
     )
