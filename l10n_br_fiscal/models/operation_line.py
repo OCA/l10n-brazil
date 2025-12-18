@@ -37,6 +37,11 @@ class OperationLine(models.Model):
 
     document_type_id = fields.Many2one(comodel_name="l10n_br_fiscal.document.type")
 
+    tax_classification_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.classification",
+        string="Tax Classification",
+    )
+
     cfop_internal_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP Internal",
@@ -176,6 +181,13 @@ class OperationLine(models.Model):
             cfop = self.cfop_export_id
         return cfop
 
+    def _get_tax_classification(self, company):
+        if self.tax_classification_id:
+            return self.tax_classification_id
+        elif company.tax_classification_id:
+            return company.tax_classification_id
+        return self.env["l10n_br_fiscal.tax.classification"]
+
     def _build_mapping_result_ipi(self, mapping_result, tax_definition):
         if tax_definition and tax_definition.ipi_guideline_id:
             mapping_result["ipi_guideline"] = tax_definition.ipi_guideline_id
@@ -202,11 +214,56 @@ class OperationLine(models.Model):
         cest=None,
     ):
 
+        The method aggregates tax definitions from various sources, applying a
+        precedence order:
+        1. Company-level tax definitions.
+        2. NCM-defined taxes (IPI, II).
+        3. ICMS Regulation specific taxes.
+        4. Taxes defined directly on this fiscal operation line.
+        5. Taxes defined on the determined CFOP.
+        6. Taxes from the partner's fiscal profile.
+
+        It also filters taxes based on whether the product is subject to
+        ICMS or ISSQN.
+
+        :param company: The company record (res.company).
+        :param partner: The partner record (res.partner).
+        :param product: Optional product record (product.product).
+        :param fiscal_price: (Unused in direct logic; kept for signature
+            consistency for overrides/extensions)
+        :param fiscal_quantity: (Unused in direct logic; kept for signature
+            consistency for overrides/extensions)
+        :param ncm: Optional NCM record (l10n_br_fiscal.ncm);
+            defaults to product's NCM.
+        :param nbm: Optional NBM record (l10n_br_fiscal.nbm);
+            defaults to product's NBM.
+        :param nbs: Optional NBS record (l10n_br_fiscal.nbs);
+            defaults to product's NBS.
+        :param cest: Optional CEST record (l10n_br_fiscal.cest);
+            defaults to product's CEST.
+        :param city_taxation_code: Optional City Taxation Code record
+            (l10n_br_fiscal.city.taxation.code).
+        :param service_type: Optional Service Type record
+            (l10n_br_fiscal.service.type).
+        :param ind_final: (Passed to icms_regulation_id.map_tax; not directly
+            used for tax calculation here)
+        :return: A dictionary containing:
+            - 'taxes': A dictionary of applicable tax records
+              (l10n_br_fiscal.tax) keyed by their tax_domain.
+            - 'cfop': The determined CFOP record (l10n_br_fiscal.cfop).
+            - 'ipi_guideline': The determined IPI guideline record
+              (l10n_br_fiscal.tax.ipi.guideline).
+            - 'icms_tax_benefit_id': The determined ICMS tax benefit record
+              ID (l10n_br_fiscal.tax.definition) or False.
+            - 'tax_classification': The determined Tax Classification record
+              (l10n_br_fiscal.tax.classification).
+        """
         mapping_result = {
             "taxes": {},
             "cfop": False,
             "ipi_guideline": self.env.ref("l10n_br_fiscal.tax_guideline_999"),
             "icms_tax_benefit_id": False,
+            "tax_classification": False,
         }
 
         self.ensure_one()
@@ -214,11 +271,24 @@ class OperationLine(models.Model):
         # Define CFOP
         mapping_result["cfop"] = self._get_cfop(company, partner)
 
+        # Define Tax Classification
+        mapping_result["tax_classification"] = self._get_tax_classification(company)
+
         # 1 Get Tax Defs from Company
         for tax_definition in company.tax_definition_ids.map_tax_definition(
             company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
         ):
             self._build_mapping_result(mapping_result, tax_definition)
+
+        # 1_5 From Tax Classification
+        if mapping_result["tax_classification"]:
+            mapping_result["taxes"][
+                mapping_result["tax_classification"].tax_cbs_id.tax_domain
+            ] = mapping_result["tax_classification"].tax_cbs_id
+
+            mapping_result["taxes"][
+                mapping_result["tax_classification"].tax_ibs_id.tax_domain
+            ] = mapping_result["tax_classification"].tax_ibs_id
 
         # 2 From NCM
         if not ncm and product:

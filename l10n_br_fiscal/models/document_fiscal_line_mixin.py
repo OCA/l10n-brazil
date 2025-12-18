@@ -887,6 +887,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="CNAE Code",
     )
 
+    # CBS/IBS Tax Classification
+    tax_classification_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.classification",
+        string="Tax Classification",
+    )
+
     # CBS Fields
     cbs_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
