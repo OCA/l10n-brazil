@@ -516,3 +516,40 @@ EVENT_ENVIRONMENT = [
     (EVENT_ENV_PROD, "Production"),
     (EVENT_ENV_HML, "Homologation"),
 ]
+
+# fiscal document line mixin
+FISCAL_TAX_ID_FIELDS = [
+    "cofins_tax_id",
+    "cofins_wh_tax_id",
+    "cofinsst_tax_id",
+    "csll_tax_id",
+    "csll_wh_tax_id",
+    "icms_tax_id",
+    "icmsfcp_tax_id",
+    "icmssn_tax_id",
+    "icmsst_tax_id",
+    "icmsfcpst_tax_id",
+    "ii_tax_id",
+    "inss_tax_id",
+    "inss_wh_tax_id",
+    "ipi_tax_id",
+    "irpj_tax_id",
+    "irpj_wh_tax_id",
+    "issqn_tax_id",
+    "issqn_wh_tax_id",
+    "pis_tax_id",
+    "pis_wh_tax_id",
+    "pisst_tax_id",
+    "cbs_tax_id",
+    "ibs_tax_id",
+]
+
+TAX_RATE_TYPE = [
+    ("1", "1 - Fixa"),
+    ("2", "2 - Padrão"),
+    ("3", "3 - Sem Alíquota"),
+    ("4", "4 - Uniforme Nacional"),
+    ("5", "5 - Uniforme Setorial"),
+]
+
+TAX_RATE_TYPE_DEFAULT = "2"
