@@ -311,6 +311,20 @@
             >All Serie for Documents supported by Brazilian Fiscal modulo for Odoo.</p>
         </field>
     </record>
+    <!-- Tax Classification -->
+
+    <record id="tax_classification_action" model="ir.actions.act_window">
+        <field name="name">Tax Classification</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.tax.classification</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tax_classification_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a new Tax Classification</p>
+            <p
+            >A Tax Classification is necessary to create fiscal operations for your fiscal moves.</p>
+        </field>
+    </record>
     <!-- Simplified Tax -->
 
     <record id="simplified_tax_action" model="ir.actions.act_window">
