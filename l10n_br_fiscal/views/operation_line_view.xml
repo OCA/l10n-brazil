@@ -56,6 +56,9 @@
                                 <field name="document_type_id" />
                                 <field name="add_to_amount" />
                             </group>
+                            <group name="general_tax_classification">
+                                <field name="tax_classification_id" />
+                            </group>
                             <group
                                 name="general_cfop"
                                 invisible="fiscal_operation_type == 'all'"
