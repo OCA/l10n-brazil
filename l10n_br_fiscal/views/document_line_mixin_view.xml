@@ -61,6 +61,107 @@
                             />
                         </group>
                         <notebook>
+                            <page name="cbs/ibs" string="CBS/IBS">
+                                <group string="Tax Classification">
+                                    <field
+                                        name="tax_classification_id"
+                                        force_save="1"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </group>
+                                <group string="CBS">
+                                    <group>
+                                        <field
+                                            name="cbs_tax_id"
+                                            options="{'no_create': True, 'no_create_edit': True}"
+                                        />
+                                        <field
+                                            name="cbs_cst_id"
+                                            force_save="1"
+                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                            options="{'no_create': True, 'no_create_edit': True}"
+                                        />
+                                        <field
+                                            name="cbs_cst_code"
+                                            readonly="1"
+                                            invisible="1"
+                                        />
+                                        <field
+                                            name="cbs_base_type"
+                                            force_save="1"
+                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                        />
+                                    </group>
+                                    <group>
+                                        <field
+                                            name="cbs_base"
+                                            force_save="1"
+                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                        />
+                                        <field
+                                            name="cbs_percent"
+                                            force_save="1"
+                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                        />
+                                        <field
+                                            name="cbs_reduction"
+                                            force_save="1"
+                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                        />
+                                        <field
+                                            name="cbs_value"
+                                            force_save="1"
+                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                        />
+                                    </group>
+                                </group>
+                                <group string="IBS">
+                                    <group>
+                                        <field
+                                            name="ibs_tax_id"
+                                            options="{'no_create': True, 'no_create_edit': True}"
+                                        />
+                                        <field
+                                            name="ibs_cst_id"
+                                            force_save="1"
+                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                            options="{'no_create': True, 'no_create_edit': True}"
+                                        />
+                                        <field
+                                            name="ibs_cst_code"
+                                            readonly="1"
+                                            invisible="1"
+                                        />
+                                        <field
+                                            name="ibs_base_type"
+                                            force_save="1"
+                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                        />
+                                    </group>
+                                    <group>
+                                        <field
+                                            name="ibs_base"
+                                            force_save="1"
+                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                        />
+                                        <field
+                                            name="ibs_percent"
+                                            force_save="1"
+                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                        />
+                                        <field
+                                            name="ibs_reduction"
+                                            force_save="1"
+                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                        />
+                                        <field
+                                            name="ibs_value"
+                                            force_save="1"
+                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                        />
+                                    </group>
+                                </group>
+                            </page>
                             <page
                                 name="issqn"
                                 string="ISSQN"
