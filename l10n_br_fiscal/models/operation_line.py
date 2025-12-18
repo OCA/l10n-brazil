@@ -213,7 +213,7 @@ class OperationLine(models.Model):
         nbs=None,
         cest=None,
     ):
-
+        """
         The method aggregates tax definitions from various sources, applying a
         precedence order:
         1. Company-level tax definitions.
