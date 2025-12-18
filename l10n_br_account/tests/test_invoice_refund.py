@@ -300,3 +300,19 @@ class TestInvoiceRefund(AccountMoveBRCommon):
             "Journal ID should remain unchanged when force_fiscal_operation_id\
                  is not set",
         )
+
+    def test_reversal_create_without_journal_id_uses_force_operation_journal(self):
+        fiscal_operation = self.env.ref("l10n_br_fiscal.fo_devolucao_venda")
+        fiscal_operation.with_company(self.env.company).journal_id = self.refund_journal
+
+        invoice = self._create_test_invoice(
+            "Test Refund Invoice without journal_id",
+            "Refund Test without journal_id",
+        )
+        move_reversal = self._create_move_reversal(
+            invoice,
+            force_fiscal_operation_id=fiscal_operation,
+            journal_id=None,
+        )
+
+        self.assertEqual(move_reversal.journal_id.id, self.refund_journal.id)
