@@ -52,3 +52,4 @@ from . import uom_uom
 from . import operation_dashboard
 from . import city_taxation_code
 from . import document_supplement
+from . import tax_classification
