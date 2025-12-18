@@ -304,4 +304,46 @@
         />
     </record>
 
+    <record id="l10n_br_coa.tax_template_ibs_out" model="account.tax.template">
+        <field
+            name="fiscal_tax_ids"
+            search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_ibs').id)]"
+        />
+    </record>
+
+    <record id="l10n_br_coa.tax_template_ibs_in" model="account.tax.template">
+        <field
+            name="fiscal_tax_ids"
+            search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_ibs').id)]"
+        />
+    </record>
+
+    <record id="l10n_br_coa.tax_template_cbs_out" model="account.tax.template">
+        <field
+            name="fiscal_tax_ids"
+            search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_cbs').id)]"
+        />
+    </record>
+
+    <record id="l10n_br_coa.tax_template_cbs_in" model="account.tax.template">
+        <field
+            name="fiscal_tax_ids"
+            search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_cbs').id)]"
+        />
+    </record>
+
+    <record id="l10n_br_coa.tax_template_is_out" model="account.tax.template">
+        <field
+            name="fiscal_tax_ids"
+            search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_is').id)]"
+        />
+    </record>
+
+    <record id="l10n_br_coa.tax_template_is_in" model="account.tax.template">
+        <field
+            name="fiscal_tax_ids"
+            search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_is').id)]"
+        />
+    </record>
+
 </odoo>
