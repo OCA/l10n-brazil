@@ -137,11 +137,6 @@ class AccountMoveLine(models.Model):
         if "proxy_product_id" not in vals and "product_id" in vals:
             vals["proxy_product_id"] = vals["product_id"]
 
-    def write(self, values):
-        self._sync_proxy_fields_vals(values)
-        res = super().write(values)
-        return res
-
     @api.model_create_multi
     def create(self, vals_list):
         for values in vals_list:
@@ -530,6 +525,11 @@ class AccountMoveLine(models.Model):
     def _onchange_icms_fields(self):
         if self.fiscal_document_line_id:
             self.fiscal_document_line_id._onchange_icms_fields()
+
+    @api.onchange("tax_classification_id")
+    def _onchange_tax_classification_id(self):
+        if self.fiscal_document_line_id:
+            self.fiscal_document_line_id._onchange_tax_classification_id()
 
     @api.onchange(*FISCAL_TAX_ID_FIELDS)
     def _onchange_fiscal_taxes(self):
