@@ -15,6 +15,8 @@ from ..constants.fiscal import (
     TAX_DOMAIN_COFINS_WH,
     TAX_DOMAIN_CSLL,
     TAX_DOMAIN_CSLL_WH,
+    TAX_DOMAIN_IBS,
+    TAX_DOMAIN_CBS,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ICMS_FCP,
     TAX_DOMAIN_ICMS_SN,
@@ -884,3 +886,69 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.cnae",
         string="CNAE Code",
     )
+
+    # CBS Fields
+    cbs_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax CBS",
+        domain=[("tax_domain", "=", TAX_DOMAIN_CBS)],
+    )
+
+    cbs_cst_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cst",
+        string="CST CBS",
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'cbs')]",
+    )
+
+    cbs_cst_code = fields.Char(
+        related="cbs_cst_id.code", string="CBS CST Code", store=True
+    )
+
+    cbs_base_type = fields.Selection(
+        selection=TAX_BASE_TYPE,
+        string="CBS Base Type",
+        default=TAX_BASE_TYPE_PERCENT,
+    )
+
+    cbs_base = fields.Monetary(string="CBS Base")
+
+    cbs_percent = fields.Float(string="CBS %")
+
+    cbs_reduction = fields.Float(string="CBS % Reduction")
+
+    cbs_value = fields.Monetary(string="CBS Value")
+
+    # IBS Fields
+    ibs_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax IBS",
+        domain=[("tax_domain", "=", TAX_DOMAIN_IBS)],
+    )
+
+    ibs_cst_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cst",
+        string="CST IBS",
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'ibs')]",
+    )
+
+    ibs_cst_code = fields.Char(
+        related="ibs_cst_id.code", string="IBS CST Code", store=True
+    )
+
+    ibs_base_type = fields.Selection(
+        selection=TAX_BASE_TYPE,
+        string="IBS Base Type",
+        default=TAX_BASE_TYPE_PERCENT,
+    )
+
+    ibs_base = fields.Monetary(string="IBS Base")
+
+    ibs_percent = fields.Float(string="IBS %")
+
+    ibs_reduction = fields.Float(string="IBS % Reduction")
+
+    ibs_value = fields.Monetary(string="IBS Value")
