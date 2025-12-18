@@ -560,4 +560,16 @@ FISCAL_TAX_ID_FIELDS = [
     "pis_tax_id",
     "pis_wh_tax_id",
     "pisst_tax_id",
+    "cbs_tax_id",
+    "ibs_tax_id",
 ]
+
+TAX_RATE_TYPE = [
+    ("1", "1 - Fixa"),
+    ("2", "2 - Padrão"),
+    ("3", "3 - Sem Alíquota"),
+    ("4", "4 - Uniforme Nacional"),
+    ("5", "5 - Uniforme Setorial"),
+]
+
+TAX_RATE_TYPE_DEFAULT = "2"
