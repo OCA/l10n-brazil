@@ -304,6 +304,9 @@ class CNABImportWizard(models.TransientModel):
 
     def _parse_value(self, value, fld):
         if fld.type == "num":
+            value = value.strip()
+            if not value:
+                value = "0"
             if fld.assumed_comma > 0:
                 value = float(value) / (10**fld.assumed_comma)
             else:
