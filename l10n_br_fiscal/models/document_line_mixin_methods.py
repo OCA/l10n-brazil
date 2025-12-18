@@ -33,6 +33,8 @@ FISCAL_TAX_ID_FIELDS = [
     "pis_tax_id",
     "pis_wh_tax_id",
     "pisst_tax_id",
+    "cbs_tax_id",
+    "ibs_tax_id",
 ]
 
 FISCAL_CST_ID_FIELDS = [

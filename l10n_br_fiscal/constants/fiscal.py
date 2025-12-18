@@ -560,3 +560,13 @@ FISCAL_PAYMENT_MODE = [
     ("90", "90 - Sem Pagamento"),
     ("99", "99 - Outros"),
 ]
+
+TAX_RATE_TYPE = [
+    ("1", "1 - Fixa"),
+    ("2", "2 - Padrão"),
+    ("3", "3 - Sem Alíquota"),
+    ("4", "4 - Uniforme Nacional"),
+    ("5", "5 - Uniforme Setorial"),
+]
+
+TAX_RATE_TYPE_DEFAULT = "2"
