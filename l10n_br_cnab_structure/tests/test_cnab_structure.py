@@ -629,3 +629,46 @@ class TestCNABStructure(AccountTestInvoicingCommon):
 
         self.assertEqual(line_other.cnab_payment_way_id, way_other_bank)
         self.assertEqual(line_other.service_type, "20")
+
+    def test_unique_sequence_per_segment_behavior(self):
+        cnab_structure = self.cnab_structure_bb_240
+
+        payment_order = self._create_and_get_payment_order()
+        invoice_2 = self.invoice.copy(
+            {
+                "ref": "Test Invoice 2",
+                "invoice_date": fields.Date.today(),
+            }
+        )
+        invoice_2.action_post()
+        self.env["account.invoice.payment.line.multi"].with_context(
+            active_model="account.move", active_ids=invoice_2.ids
+        ).create({}).run()
+
+        payment_order.draft2open()
+
+        cnab_structure.unique_seq_per_segment = False
+        action_false = payment_order.open2generated()
+        data_false = (
+            base64.b64decode(self.attachment_model.browse(action_false["res_id"]).datas)
+            .decode()
+            .splitlines()
+        )
+        details_false = [line[8:13] for line in data_false if line[7] == "3"]
+
+        self.assertEqual(details_false[0], details_false[1])
+        self.assertNotEqual(details_false[0], details_false[2])
+
+        cnab_structure.unique_seq_per_segment = True
+        payment_order.state = "open"
+        action_true = payment_order.open2generated()
+        data_true = (
+            base64.b64decode(self.attachment_model.browse(action_true["res_id"]).datas)
+            .decode()
+            .splitlines()
+        )
+        details_true = [line[8:13] for line in data_true if line[7] == "3"]
+
+        self.assertEqual(details_true[0], details_true[1])
+        self.assertNotEqual(details_true[0], details_true[2])
+        self.assertEqual(int(details_true[2]), int(details_true[0]) + 1)

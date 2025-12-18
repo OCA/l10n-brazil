@@ -221,13 +221,30 @@ class CNABImportWizard(models.TransientModel):
         return segments
 
     def _get_details(self, detail_lines, batch_template):
-        detail_list = self._get_unique_datail_list(detail_lines)
         details = []
 
-        for d in detail_list:
-            segment_lines = self._filter_lines(detail_lines, "detail", d)
-            segments = self._get_segments(segment_lines, batch_template)
-            details.append(segments)
+        if self.cnab_structure_id.unique_seq_per_segment:
+            current_group = []
+            seen_segment_codes = set()
+
+            for line in detail_lines:
+                segment_code = self._get_content(line, "segment")
+                if segment_code in seen_segment_codes:
+                    details.append(self._get_segments(current_group, batch_template))
+                    current_group = [line]
+                    seen_segment_codes = {segment_code}
+                else:
+                    current_group.append(line)
+                    seen_segment_codes.add(segment_code)
+
+            if current_group:
+                details.append(self._get_segments(current_group, batch_template))
+        else:
+            detail_list = self._get_unique_datail_list(detail_lines)
+            for detail in detail_list:
+                segment_lines = self._filter_lines(detail_lines, "detail", detail)
+                segments = self._get_segments(segment_lines, batch_template)
+                details.append(segments)
 
         return details
 
