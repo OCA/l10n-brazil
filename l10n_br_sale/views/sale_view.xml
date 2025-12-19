@@ -201,7 +201,7 @@
             </xpath>
             <!-- order lines form view extensions:  -->
             <xpath expr="//field[@name='order_line']/form" position="inside">
-                <field name="product_template_id" />
+                <field name="product_template_id" invisible="1" />
                 <group name="fiscal_fields" invisible="1">
                     <!-- this is a dynamic fiscal fields placeholder-->
                     <!-- required because of cfop_id default domain: -->
