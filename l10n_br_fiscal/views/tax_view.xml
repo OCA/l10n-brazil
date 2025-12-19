@@ -95,12 +95,12 @@
                         />
                         <field
                             name="cst_in_id"
-                            invisible="tax_domain not in ['icms', 'icmssn', 'ipi', 'pis', 'cofins']"
+                            invisible="tax_domain not in ['icms', 'icmssn', 'ipi', 'pis', 'cofins', 'ibs', 'cbs']"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                         <field
                             name="cst_out_id"
-                            invisible="tax_domain not in ['icms', 'icmssn', 'ipi', 'pis', 'cofins']"
+                            invisible="tax_domain not in ['icms', 'icmssn', 'ipi', 'pis', 'cofins', 'ibs', 'cbs']"
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                     </group>
