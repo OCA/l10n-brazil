@@ -3432,6 +3432,11 @@ msgid "Identifies the operation destination."
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_reversal__journal_id
+msgid "If empty, uses the journal of the journal entry to be reversed."
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.document_import_wizard_mixin_form
 msgid "Import Account Move"
 msgstr ""
@@ -6520,6 +6525,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__product_uom_id
 msgid "Unit of Measure"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__journal_id
+msgid "Use Specific Journal"
 msgstr ""
 
 #. module: l10n_br_account
