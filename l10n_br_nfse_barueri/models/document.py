@@ -2,10 +2,10 @@
 # Copyright 2025 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import unicodedata
 from datetime import datetime
 
 import requests
-import unicodedata
 from nfselib.barueri.NFeLoteEnviarArquivo import NFeLoteEnviarArquivo
 from nfselib.barueri.nfse import (
     NFSeRegistroTipo1,
@@ -24,7 +24,7 @@ from nfselib.barueri.rps import (
     RegistroTipo9,
 )
 
-from odoo import _, models
+from odoo import _, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
@@ -76,6 +76,61 @@ def parse_linha_exporta(line: str):
 class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
 
+    url_nfse_barueri = fields.Char(
+        string="URL of NFSe Barueri",
+        compute="_compute_url_nfse_barueri",
+        help="URL to access the Nota Fiscal de Serviços Eletrônicos (NFSe)"
+        "from the São Paulo City (Barueri).",
+    )
+    is_nfse_barueri = fields.Boolean(
+        string="Is NFSe Barueri?",
+        compute="_compute_is_nfse_barueri",
+        help="Technical field to identify if the document is a NFSe Barueri.",
+    )
+
+    def _compute_url_nfse_barueri(self):
+        for doc in self:
+            if not doc.is_nfse_barueri:
+                doc.url_nfse_barueri = ""
+                continue
+
+            autenticidade = (doc.verify_code or "").strip()
+            cnpj_tomador = "".join(
+                ch for ch in (doc.partner_id.cnpj_cpf or "") if ch.isdigit()
+            )
+            if not (autenticidade and cnpj_tomador):
+                doc.url_nfse_barueri = ""
+                continue
+            if doc.nfse_environment == "1":
+                base_url = "https://www.barueri.sp.gov.br/nfe/wfimagemNota.aspx"
+            else:
+                base_url = "https://testeeiss.barueri.sp.gov.br/nfe/wfimagemNota.aspx"
+
+            doc.url_nfse_barueri = (
+                f"{base_url}"
+                f"?CODIGOAUTENTICIDADE={autenticidade}"
+                f"&NUMDOC={cnpj_tomador}"
+            )
+
+    def action_open_nfse_barueri(self):
+        return {
+            "type": "ir.actions.act_url",
+            "url": self.url_nfse_barueri,
+            "target": "new",
+        }
+
+    def _compute_is_nfse_barueri(self):
+        for doc in self:
+            is_nfse = doc.document_type == "SE"
+            is_barueri = doc.company_id.city_id == self.env.ref(
+                "l10n_br_base.city_3505708"
+            )
+
+            if is_nfse and is_barueri:
+                doc.is_nfse_barueri = True
+            else:
+                doc.is_nfse_barueri = False
+
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
         for record in self.filtered(filter_oca_nfse).filtered(filter_barueri):
@@ -92,9 +147,11 @@ class Document(models.Model):
         return dados
 
     def _sem_acento(self, value):
-        return unicodedata.normalize(
-            "NFKD", value or ""
-        ).encode("ASCII", "ignore").decode("ASCII")
+        return (
+            unicodedata.normalize("NFKD", value or "")
+            .encode("ASCII", "ignore")
+            .decode("ASCII")
+        )
 
     def _serialize_barueri_lote_rps(self):
         dados = self._prepare_lote_rps()
@@ -229,7 +286,9 @@ class Document(models.Model):
         registro_tipo4.CodigoCidadeTomador = str(
             self.partner_id.city_id.ibge_code or ""
         ).zfill(7)
-        registro_tipo4.CodigoNBS = "".join(c for c in str(dados_servico.get("nbs", "")) if c.isdigit())
+        registro_tipo4.CodigoNBS = "".join(
+            c for c in str(dados_servico.get("nbs", "")) if c.isdigit()
+        )
         registro_tipo4.CodigoIndicadorOperacaoFornecimento = "100301"
         registro_tipo4.CodigoClassificacaoTributariaIBSCBS = "000001"
         registro_tipo4.CodigoSituacaoTributariaIBSCBS = "000"
@@ -275,9 +334,7 @@ class Document(models.Model):
         quantidade_total = int(registro_tipo2.QuantidadeServico)
         valor_unitario_centavos = int(registro_tipo2.ValorServico)
         valor_total_servicos_centavos = quantidade_total * valor_unitario_centavos
-        valor_total_registro3 = sum(
-            int(r.Valor) for r in registros_tipo3
-        )
+        valor_total_registro3 = sum(int(r.Valor) for r in registros_tipo3)
         registro_tipo9 = RegistroTipo9()
         registro_tipo9.TipoRegistro = 9
         registro_tipo9.NumeroTotalLinhas = str(numero_total_linhas).zfill(7)
