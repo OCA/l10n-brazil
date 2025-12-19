@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    # Copyright 2025 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="nfse_barueri_direct_print_document_form_inherit" model="ir.ui.view">
+        <field
+            name="name"
+        >l10n_br_nfse_barueri_direct_print.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <button name="view_pdf" position="attributes">
+                <attribute name="attrs">
+                    {'invisible': [
+                        '|',
+                        ('state_edoc', 'not in', ('autorizada', 'cancelada')),
+                        ('is_nfse_barueri', '=', True)
+                    ]}
+                </attribute>
+            </button>
+            <button name="view_pdf" position="after">
+                <field name="is_nfse_barueri" invisible="1" />
+                <button
+                    name="action_open_nfse_barueri"
+                    string="Visualizar NFSe Barueri"
+                    type="object"
+                    class="btn-primary"
+                    icon="fa-file-text"
+                    attrs="{'invisible': ['|', ('is_nfse_barueri', '=', False), ('state_edoc', 'not in', ('autorizada', 'cancelada'))]}"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>
