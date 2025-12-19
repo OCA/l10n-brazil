@@ -225,6 +225,11 @@ class Document(models.Model):
             "codigo_cnae": misc.punctuation_rm(self.fiscal_line_ids[0].cnae_id.code)
             or None,
             "valor_desconto_incondicionado": valor_desconto_incondicionado,
+            "nbs": (
+                misc.punctuation_rm(self.fiscal_line_ids[0].nbs_id.code)
+                if self.fiscal_line_ids[0].nbs_id
+                else ""
+            ),
         }
 
         result.update(self.company_id.prepare_company_servico())

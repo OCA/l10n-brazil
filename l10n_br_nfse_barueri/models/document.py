@@ -1,9 +1,11 @@
 # Copyright 2023 - KMEE INFORMATICA LTDA
+# Copyright 2025 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime
 
 import requests
+import unicodedata
 from nfselib.barueri.NFeLoteEnviarArquivo import NFeLoteEnviarArquivo
 from nfselib.barueri.nfse import (
     NFSeRegistroTipo1,
@@ -89,6 +91,11 @@ class Document(models.Model):
         dados = self._prepare_dados_tomador()
         return dados
 
+    def _sem_acento(self, value):
+        return unicodedata.normalize(
+            "NFKD", value or ""
+        ).encode("ASCII", "ignore").decode("ASCII")
+
     def _serialize_barueri_lote_rps(self):
         dados = self._prepare_lote_rps()
         dados_servico = self._serialize_barueri_dados_servico()
@@ -98,24 +105,17 @@ class Document(models.Model):
         registro_tipo1.TipoRegistro = 1
         registro_tipo1.InscricaoContribuinte = self.company_inscr_mun
         registro_tipo1.VersaoLayout = "PMB004"
-        # Identificação da Remessa: AAAAMMDDxxx (11 dígitos numéricos)
-        # Formato: ano(4) + mês(2) + dia(2) + sequencial(3)
         data_emissao = dados["data_emissao"].split("T")[0]
-        ano_mes_dia = data_emissao.replace("-", "")  # AAAAMMDD
-        # Usar número do RPS ou timestamp como sequencial único
-        sequencial = str(self.rps_number or "1").zfill(3)[:3]
+        ano_mes_dia = data_emissao.replace("-", "")
+        sequencial = datetime.now().strftime("%f")[-3:]
         registro_tipo1.IdentificacaoRemessaContribuinte = f"{ano_mes_dia}{sequencial}"
 
         # Registro tipo 2 - Dados do RPS
         registro_tipo2 = RegistroTipo2()
         registro_tipo2.TipoRegistro = 2
-        # TipoRPS: Deve ser literalmente "RPS  "
         registro_tipo2.TipoRPS = "RPS"
-        # registro_tipo2.SerieRPS = self.document_serie or ""
-        # registro_tipo2.SerieNFe = dados.get("serie", "") or ""
-        # NumeroRPS: 10 dígitos, 3 primeiros zeros obrigatórios
-        numero_rps = str(self.rps_number or "1").zfill(7)  # 7 dígitos
-        registro_tipo2.NumeroRPS = f"000{numero_rps}"  # Total 10 dígitos
+        numero_rps = str(self.rps_number or "1").zfill(7)
+        registro_tipo2.NumeroRPS = f"000{numero_rps}"
         registro_tipo2.DataRPS = dados["data_emissao"].split("T")[0].replace("-", "")
         registro_tipo2.HoraRPS = dados["data_emissao"].split("T")[1].replace(":", "")
         registro_tipo2.SituacaoRPS = "E"
@@ -138,40 +138,38 @@ class Document(models.Model):
         registro_tipo2.CidadeLogradouroLocalServico = ""
         registro_tipo2.UFLogradouroLocalServico = ""
         registro_tipo2.CEPLogradouroLocalServico = ""
-        # Quantidade e Valor do Serviço - usar valores das linhas fiscais
         fiscal_line = self.fiscal_line_ids[0] if self.fiscal_line_ids else None
         quantidade = int(fiscal_line.quantity or 1) if fiscal_line else 1
-        # Valor unitário do serviço (valor total / quantidade)
         valor_servicos_total = dados_servico.get("valor_servicos", 0) or 0
         valor_unitario = (
             valor_servicos_total / quantidade
             if quantidade > 0
             else valor_servicos_total
         )
-        # Converter valor para centavos e formatar com 15 dígitos
         valor_unitario_centavos = int(round(float(valor_unitario) * 100))
         registro_tipo2.QuantidadeServico = str(quantidade).zfill(6)
         registro_tipo2.ValorServico = str(valor_unitario_centavos).zfill(15)
-        # Valor Total das Retenções (soma de todas as retenções)
         valor_retencoes_total = (
             (dados_servico.get("valor_ir_retido", 0) or 0)
             + (dados_servico.get("valor_pis_retido", 0) or 0)
             + (dados_servico.get("valor_cofins_retido", 0) or 0)
             + (dados_servico.get("valor_csll_retido", 0) or 0)
-            + (dados_servico.get("valor_inss_retido", 0) or 0)
-            + (dados_servico.get("valor_iss_retido", 0) or 0)
-            + (dados_servico.get("outras_retencoes", 0) or 0)
         )
         valor_retencoes_centavos = int(round(float(valor_retencoes_total) * 100))
         registro_tipo2.ValorTotalRetencoes = str(valor_retencoes_centavos).zfill(15)
         registro_tipo2.TomadorEstrangeiro = "2"  # String: 1=Estrangeiro, 2=Brasileiro
         registro_tipo2.ServicoExportacao = "2"  # String: 1=Exportado, 2=Não exportado
-        registro_tipo2.IndicadorCPFCNPJTomador = "2"  # String: 1=CPF, 2=CNPJ
-        # Verificar se é CPF ou CNPJ
         cnpj_cpf = dados_tomador.get("cnpj") or dados_tomador.get("cpf", "")
-        registro_tipo2.CPFCNPJTomador = "".join(
-            [char for char in str(cnpj_cpf) if char.isdigit()]
-        ).zfill(14)
+        if cnpj_cpf:
+            if len(cnpj_cpf) == 14 and cnpj_cpf.isdigit():
+                registro_tipo2.IndicadorCPFCNPJTomador = "2"
+                registro_tipo2.CPFCNPJTomador = cnpj_cpf.zfill(14)
+            elif len(cnpj_cpf) == 11 and cnpj_cpf.isdigit():
+                registro_tipo2.IndicadorCPFCNPJTomador = "1"
+                registro_tipo2.CPFCNPJTomador = cnpj_cpf.zfill(14)
+        else:
+            registro_tipo2.IndicadorCPFCNPJTomador = "1"
+            registro_tipo2.CPFCNPJTomador = "0" * 14
         registro_tipo2.RazaoSocialNomeTomador = dados_tomador.get("razao_social", "")
         registro_tipo2.EnderecoLogradouroTomador = (
             dados_tomador.get("logradouro", "") or "R Pedra Sabao"
@@ -182,17 +180,15 @@ class Document(models.Model):
         registro_tipo2.ComplementoLogradouroTomador = str(
             dados_tomador.get("complemento", "") or "N/A"
         )
-        registro_tipo2.BairroLogradouroTomador = dados_tomador.get(
-            "bairro", "Bairro N/A"
+        registro_tipo2.BairroLogradouroTomador = self._sem_acento(
+            dados_tomador.get("bairro", "Bairro N/A")
         )
-        # registro_tipo2.CidadeLogradouroTomador = dados_tomador.get(
-        #     "descricao_municipio", "Cidade N/A"
-        # )
 
-        registro_tipo2.CidadeLogradouroTomador = "Aluminio"
+        registro_tipo2.CidadeLogradouroTomador = self._sem_acento(
+            dados_tomador.get("municipio")
+        )
 
         registro_tipo2.UFLogradouroTomador = dados_tomador.get("uf", "")
-        # CEP: remover formatação e completar com zeros à esquerda
         cep = (
             str(dados_tomador.get("cep", "") or "")
             .replace("-", "")
@@ -201,56 +197,44 @@ class Document(models.Model):
         )
         registro_tipo2.CEPLogradouroTomador = cep.zfill(8) if cep else ""
         registro_tipo2.EmailTomador = dados_tomador.get("email", "tomador@email.com")
-        # registro_tipo2.ValorFatura = "000000000000100"
-        registro_tipo2.DiscriminacaoServico = (
-            "testeasdasdasdasdasdasdasdadasdasdasdasdddddddddddddddddddddddddddddddddd"
-        )  # self.discrimina()
+        registro_tipo2.DiscriminacaoServico = self._sem_acento(
+            dados_servico.get("discriminacao", "")
+        )
         # Registro tipo 3 - Valores do serviço (retenções)
-        # Só criar registro tipo 3 se houver retenções
-        registro_tipo3 = None
-        valor_total_retencoes_registro3 = 0
-        # Verificar se há retenções para criar registro tipo 3
-        if dados_servico.get("valor_ir_retido", 0):
-            registro_tipo3 = RegistroTipo3()
-            registro_tipo3.TipoRegistro = 3
-            registro_tipo3.CodigoOutrosValores = "01"  # IRRF
-            valor_ir = int(float(dados_servico.get("valor_ir_retido", 0)) * 100)
-            registro_tipo3.Valor = str(valor_ir).zfill(15)
-            valor_total_retencoes_registro3 += valor_ir
-        # Se não houver retenções, criar registro vazio (conforme exemplo original)
-        # if not registro_tipo3:
-        #     registro_tipo3 = RegistroTipo3()
-        #     registro_tipo3.TipoRegistro = 3
-        #     registro_tipo3.CodigoOutrosValores = "01"
-        #     registro_tipo3.Valor = "000000000000000"
-        # Registro tipo 4 - Dados complementares
+        registros_tipo3 = []
+        retencoes = [
+            ("01", "valor_ir_retido"),
+            ("02", "valor_pis_retido"),
+            ("03", "valor_cofins_retido"),
+            ("04", "valor_csll_retido"),
+        ]
+        for codigo, campo in retencoes:
+            valor = dados_servico.get(campo, 0) or 0
+            if valor:
+                reg = RegistroTipo3()
+                reg.TipoRegistro = 3
+                reg.CodigoOutrosValores = codigo
+                reg.Valor = str(int(round(float(valor) * 100))).zfill(15)
+                registros_tipo3.append(reg)
+
         registro_tipo4 = RegistroTipo4()
         registro_tipo4.TipoRegistro = 4
         registro_tipo4.OptanteSimplesNacional = (
             1
         )  # String: 1=Não optante, 2=MEI, 3=ME/EPP
-        registro_tipo4.RegimeApuracaoSN = ""  # String: 1, 2 ou 3 conforme documentação
+        registro_tipo4.RegimeApuracaoSN = ""
         registro_tipo4.CodigoCidadeLocalPrestacao = str(
             self.company_id.city_id.ibge_code or ""
         ).zfill(7)
         registro_tipo4.CodigoCidadeTomador = str(
             self.partner_id.city_id.ibge_code or ""
         ).zfill(7)
-        registro_tipo4.CodigoNBS = "114012100"
+        registro_tipo4.CodigoNBS = "".join(c for c in str(dados_servico.get("nbs", "")) if c.isdigit())
         registro_tipo4.CodigoIndicadorOperacaoFornecimento = "100301"
         registro_tipo4.CodigoClassificacaoTributariaIBSCBS = "000001"
         registro_tipo4.CodigoSituacaoTributariaIBSCBS = "000"
         registro_tipo4.OperacaoUsoConsumoPessoal = "0"
         registro_tipo4.IndicadorDestinatarioServico = "0"
-
-        # registro_tipo4.OptanteSimplesNacional = 2  # 1=Não optante, 2=MEI, 3=ME/EPP
-        # registro_tipo4.RegimeApuracaoSN = 1  # String: 1, 2 ou 3 conforme documentação
-        # registro_tipo4.CodigoCidadeLocalPrestacao = str(
-        #    self.company_id.city_id.ibge_code or ""
-        # ).zfill(7)
-        # registro_tipo4.CodigoCidadeTomador = str(
-        #    self.partner_id.city_id.ibge_code or ""
-        # ).zfill(7)
 
         # Registro tipo 5 - Dados complementares do Ambiente de Dados Nacional
         registro_tipo5 = RegistroTipo5()
@@ -280,33 +264,26 @@ class Document(models.Model):
         registro_tipo5.CodigoEnderecoPostalDestinatarioEstrangeiro = ""
         registro_tipo5.EstadoProvinciaRegiaoDestinatarioEstrangeiro = ""
         # Registro tipo 9 - Rodapé do arquivo RPS
-        # Número total de linhas: conta apenas registros 1,2,3,4,5 (não inclui o 9)
-        # Contar quantos registros de dados existem
         registros_dados = [registro_tipo1, registro_tipo2]
-        if registro_tipo3:
-            registros_dados.append(registro_tipo3)
+        if registros_tipo3:
+            registros_dados.extend(registros_tipo3)
         registros_dados.append(registro_tipo4)
 
-        # Sempre incluir tipo 5 (obrigatório conforme layout v4)
         registros_dados.append(registro_tipo5)
 
         numero_total_linhas = len(registros_dados) + 1
-
-        # Calcular valor total dos serviços: quantidade × valor unitário
         quantidade_total = int(registro_tipo2.QuantidadeServico)
         valor_unitario_centavos = int(registro_tipo2.ValorServico)
         valor_total_servicos_centavos = quantidade_total * valor_unitario_centavos
-
-        # Valor total do registro 3 (retenções)
-        valor_total_registro3 = int(registro_tipo3.Valor) if registro_tipo3 else 0
-
+        valor_total_registro3 = sum(
+            int(r.Valor) for r in registros_tipo3
+        )
         registro_tipo9 = RegistroTipo9()
         registro_tipo9.TipoRegistro = 9
         registro_tipo9.NumeroTotalLinhas = str(numero_total_linhas).zfill(7)
         registro_tipo9.ValorTotalServicos = str(valor_total_servicos_centavos).zfill(15)
         registro_tipo9.ValorTotalValores = str(valor_total_registro3).zfill(15)
 
-        # Montar lista final de registros
         registros_finais = registros_dados + [registro_tipo9]
         rps = RPS(registros_finais).exportar()
 
