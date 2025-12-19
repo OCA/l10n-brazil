@@ -305,6 +305,7 @@ class ResCompany(models.Model):
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
         string="Default Tax Classification",
+        domain=[("tax_ibs_id", "!=", False), ("tax_cbs_id", "!=", False)],
     )
 
     tax_definition_ids = fields.One2many(
