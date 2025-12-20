@@ -115,7 +115,6 @@ class NFeLine(spec_models.StackedModel):
             > <COFINSOutr>
         > <COFINSST>
         > <ICMSUFDest>
-        > <IBSCBS>
     - <impostoDevol>
     - <obsItem>
     - <DFeReferenciado>"""
