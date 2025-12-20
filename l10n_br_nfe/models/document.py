@@ -67,6 +67,86 @@ NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
 _logger = logging.getLogger(__name__)
 
 
+def _unescape_embedded_xml_blocks(xml: str) -> str:
+    """
+    Unescape embedded XML blocks stored as escaped text inside specific tags.
+
+    Context:
+    - Some tags (e.g. IBSCBS/IBSCBSTot) are represented in the bindings as Char
+      fields, so xsdata serializes their content as escaped text.
+    - SEFAZ schema expects element-only content inside these tags.
+    """
+
+    def _unescape_xml_content(content: str) -> str:
+        # Order matters: &amp; must be replaced last to avoid double unescaping.
+        content = content.replace("&lt;", "<")
+        content = content.replace("&gt;", ">")
+        content = content.replace("&quot;", '"')
+        content = content.replace("&amp;", "&")
+        return content
+
+    def _unescape_block(tag: str, xml_in: str) -> str:
+        # Support optional prefixes and attributes on the opening tag.
+        pattern = rf"(<(?:\w+:)?{tag}\b[^>]*>)(.*?)(</(?:\w+:)?{tag}>)"
+        return re.sub(
+            pattern,
+            lambda m: m.group(1) + _unescape_xml_content(m.group(2)) + m.group(3),
+            xml_in,
+            flags=re.DOTALL,
+        )
+
+    xml = _unescape_block("IBSCBS", xml)
+    xml = _unescape_block("IBSCBSTot", xml)
+    return xml
+
+
+def _apply_nfelib_unescape_patch() -> None:
+    """
+    Apply a runtime monkeypatch to nfelib so that envelope serialization (enviNFe)
+    does not escape IBSCBS/IBSCBSTot inner XML.
+
+    This is required for the sending flow because the processor serializes the
+    edoc object again when building the envelope.
+    """
+    try:
+        from nfelib.nfe.ws import edoc_legacy  # type: ignore
+    except (
+        Exception
+    ) as exc:  # pragma: no cover  # pylint: disable=broad-exception-caught
+        _logger.debug("nfelib not available for unescape patch: %s", exc)
+        return
+
+    adapter_cls = getattr(edoc_legacy, "DocumentoElectronicoAdapter", None)
+    if not adapter_cls:
+        return
+
+    if getattr(adapter_cls, "_l10n_br_nfe_unescape_patch_applied", False):
+        return
+
+    original = adapter_cls.render_edoc_xsdata
+
+    def patched_render_edoc_xsdata(self, edoc, pretty_print=False):  # noqa: ANN001
+        xml_string, xml_etree = original(self, edoc, pretty_print=pretty_print)
+        if isinstance(xml_string, str):
+            fixed = _unescape_embedded_xml_blocks(xml_string)
+            if fixed != xml_string:
+                try:
+                    xml_etree = etree.fromstring(fixed.encode("utf-8"))
+                except (
+                    Exception
+                ):  # pragma: no cover  # pylint: disable=broad-exception-caught
+                    # Keep the original if parsing fails for any reason.
+                    return xml_string, xml_etree
+                return fixed, xml_etree
+        return xml_string, xml_etree
+
+    adapter_cls.render_edoc_xsdata = patched_render_edoc_xsdata
+    adapter_cls._l10n_br_nfe_unescape_patch_applied = True
+
+
+_apply_nfelib_unescape_patch()
+
+
 def filter_processador_edoc_nfe(record):
     if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
         MODELO_FISCAL_NFE,
@@ -1055,36 +1135,7 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
             xml_file = edoc.to_xml()
-
-            # Fix IBSCBS and IBSCBSTot XML escaping issue
-            # The xsdata framework escapes XML strings in Char fields with xsd_type
-            # We need to unescape them after serialization
-            # Order matters: &amp; must be replaced last to avoid double replacement
-            def unescape_xml_content(content):
-                """Unescape XML entities in the correct order"""
-                # Replace in order: &amp; last to avoid double replacement
-                content = content.replace("&lt;", "<")
-                content = content.replace("&gt;", ">")
-                content = content.replace("&quot;", '"')
-                content = content.replace("&amp;", "&")  # Must be last
-                return content
-
-            # Fix IBSCBS tags (line items)
-            xml_file = re.sub(
-                r"<IBSCBS>(.*?)</IBSCBS>",
-                lambda m: "<IBSCBS>" + unescape_xml_content(m.group(1)) + "</IBSCBS>",
-                xml_file,
-                flags=re.DOTALL,
-            )
-            # Fix IBSCBSTot tags (totals)
-            xml_file = re.sub(
-                r"<IBSCBSTot>(.*?)</IBSCBSTot>",
-                lambda m: "<IBSCBSTot>"
-                + unescape_xml_content(m.group(1))
-                + "</IBSCBSTot>",
-                xml_file,
-                flags=re.DOTALL,
-            )
+            xml_file = _unescape_embedded_xml_blocks(xml_file)
             # Delete previous authorization events in draft
             if (
                 record.authorization_event_id
