@@ -404,6 +404,11 @@ class NFeLine(spec_models.StackedModel):
                 gibsmun_parts.append("<vIBSMun>0.00</vIBSMun>")
                 gibscbs_parts.append(f"<gIBSMun>{''.join(gibsmun_parts)}</gIBSMun>")
 
+                # vIBS must be placed between gIBSMun and gCBS, as per SEFAZ layout.
+                # Municipal IBS is not available yet, so vIBS equals the UF IBS value.
+                total_ibs_value = (self.ibs_value or 0.0) + 0.0
+                gibscbs_parts.append(f"<vIBS>{total_ibs_value:.2f}</vIBS>")
+
                 # Build gCBS - always include when gIBSCBS is present
                 # According to schema, gCBS is required after the IBS sequence
                 gcbs_parts = []

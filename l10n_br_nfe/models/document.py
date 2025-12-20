@@ -672,7 +672,8 @@ class NFe(spec_models.StackedModel):
                 gibsmun_parts.append(f"<vIBSMun>{total_ibs_mun_value:.2f}</vIBSMun>")
                 gibs_parts.append(f"<gIBSMun>{''.join(gibsmun_parts)}</gIBSMun>")
 
-                # vIBS
+                # vIBS must be placed between gIBSMun and vCredPres, as per
+                # SEFAZ layout.
                 gibs_parts.append(f"<vIBS>{total_ibs_value:.2f}</vIBS>")
                 # vCredPres and vCredPresCondSus
                 gibs_parts.append("<vCredPres>0.00</vCredPres>")  # TODO: When available
@@ -1187,9 +1188,44 @@ class NFe(spec_models.StackedModel):
         if not self.filtered(filter_processador_edoc_nfe):
             return super()._validate_xml(xml_file)
 
-        erros = Nfe.schema_validation(xml_file)
-        erros = "\n".join(erros)
-        self.write({"xml_error_message": erros or False})
+        # Local schema (packaged XSD) may lag behind SEFAZ updates.
+        # For Reforma Tributária IBSCBS, SEFAZ may require <vIBS> inside line-level
+        # IBSCBS, while the local XSD might still reject it (expecting gCBS right
+        # after gIBSMun). We keep the original XML intact for SEFAZ, but validate a
+        # sanitized copy to avoid false negatives locally.
+        def _strip_vibs_for_local_validation(xml: str) -> str:
+            """
+            Remove only the <vIBS> elements inside IBSCBS (line-level) blocks.
+
+            Note: We intentionally do NOT strip vIBS from IBSCBSTot (totals), because
+            newer layouts include it there and other parts may depend on its presence.
+            """
+
+            def _strip_vibs(content: str) -> str:
+                return re.sub(
+                    r"<(?:\w+:)?vIBS>.*?</(?:\w+:)?vIBS>",
+                    "",
+                    content,
+                    flags=re.DOTALL,
+                )
+
+            pattern = r"(<(?:\w+:)?IBSCBS\b[^>]*>)(.*?)(</(?:\w+:)?IBSCBS>)"
+            return re.sub(
+                pattern,
+                lambda m: m.group(1) + _strip_vibs(m.group(2)) + m.group(3),
+                xml,
+                flags=re.DOTALL,
+            )
+
+        errors = Nfe.schema_validation(xml_file) or []
+
+        # If the only blocker is vIBS being unexpected (local XSD outdated),
+        # retry validation without vIBS inside IBSCBS blocks.
+        if any("vIBS" in e and "not expected" in e for e in errors):
+            xml_sanitized = _strip_vibs_for_local_validation(xml_file)
+            errors = Nfe.schema_validation(xml_sanitized) or []
+
+        self.write({"xml_error_message": "\n".join(errors) or False})
 
     def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
         self.ensure_one()
