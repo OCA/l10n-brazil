@@ -93,6 +93,37 @@ ICMS_SUB_TAGS = [
 _logger = logging.getLogger(__name__)
 
 
+def _unescape_embedded_xml_blocks(xml: str) -> str:
+    """
+    Unescape embedded XML blocks stored as escaped text inside specific tags.
+
+    Context:
+    - Some tags (e.g. IBSCBS) are represented in the bindings as Char fields, so
+      xsdata serializes their inner XML as escaped text.
+    - SEFAZ schema expects element-only content inside these tags.
+    """
+
+    def _unescape_xml_content(content: str) -> str:
+        # Order matters: &amp; must be replaced last to avoid double unescaping.
+        content = content.replace("&lt;", "<")
+        content = content.replace("&gt;", ">")
+        content = content.replace("&quot;", '"')
+        content = content.replace("&amp;", "&")
+        return content
+
+    def _unescape_block(tag: str, xml_in: str) -> str:
+        # Support optional prefixes and attributes on the opening tag.
+        pattern = rf"(<(?:\w+:)?{tag}\b[^>]*>)(.*?)(</(?:\w+:)?{tag}>)"
+        return re.sub(
+            pattern,
+            lambda m: m.group(1) + _unescape_xml_content(m.group(2)) + m.group(3),
+            xml_in,
+            flags=re.DOTALL,
+        )
+
+    return _unescape_block("IBSCBS", xml)
+
+
 def filter_processador_edoc_cte(record):
     if record.processador_edoc == "oca" and record.document_type_id.code in [
         "57",
@@ -741,6 +772,77 @@ class CTe(spec_models.StackedModel):
             }
             export_dict[icms_tag.upper()] = icms_binding(**sliced_icms_dict)
 
+    def _cte40_build_ibscbs_xml(self):
+        """
+        Build the inner XML for the IBSCBS tag (without the outer <IBSCBS> tag).
+
+        The CT-e schema defines IBSCBS as TTribCTe, but in the generated bindings
+        it is represented as a Char field. Therefore, we must provide a string
+        containing the inner XML and later unescape it in the serialized output.
+        """
+        self.ensure_one()
+
+        if not self.fiscal_line_ids:
+            return None
+
+        # Prefer a line that has the required classification fields filled.
+        source_line = (
+            self.fiscal_line_ids.filtered(
+                lambda line: line.ibs_cst_code and line.tax_classification_id
+            )[:1]
+            or self.fiscal_line_ids[:1]
+        )
+
+        if not source_line:
+            return None
+
+        cst_code = source_line.ibs_cst_code
+        tax_classification = source_line.tax_classification_id
+        if not cst_code or not tax_classification or not tax_classification.code:
+            return None
+
+        ibs_base = sum(self.fiscal_line_ids.mapped("ibs_base") or [0.0])
+        ibs_value = sum(self.fiscal_line_ids.mapped("ibs_value") or [0.0])
+        cbs_value = sum(self.fiscal_line_ids.mapped("cbs_value") or [0.0])
+
+        # Percent fields are typically the same across lines; take from the source.
+        ibs_percent = source_line.ibs_percent or 0.0
+        cbs_percent = source_line.cbs_percent or 0.0
+
+        parts = []
+        parts.append(f"<CST>{cst_code}</CST>")
+        parts.append(f"<cClassTrib>{tax_classification.code}</cClassTrib>")
+
+        # Build gIBSCBS when there is any IBS/CBS data (base/percent/value).
+        if any([ibs_base, ibs_percent, ibs_value, cbs_percent, cbs_value]):
+            gibscbs_parts = []
+            gibscbs_parts.append(f"<vBC>{ibs_base:.2f}</vBC>")
+
+            # gIBSUF
+            gibsuf_parts = []
+            gibsuf_parts.append(f"<pIBSUF>{ibs_percent:.4f}</pIBSUF>")
+            gibsuf_parts.append(f"<vIBSUF>{ibs_value:.2f}</vIBSUF>")
+            gibscbs_parts.append(f"<gIBSUF>{''.join(gibsuf_parts)}</gIBSUF>")
+
+            # gIBSMun (not available yet - keep zeros, as per layout expectations)
+            gibsmun_parts = []
+            gibsmun_parts.append("<pIBSMun>0.0000</pIBSMun>")
+            gibsmun_parts.append("<vIBSMun>0.00</vIBSMun>")
+            gibscbs_parts.append(f"<gIBSMun>{''.join(gibsmun_parts)}</gIBSMun>")
+
+            # vIBS must be placed between gIBSMun and gCBS.
+            gibscbs_parts.append(f"<vIBS>{ibs_value:.2f}</vIBS>")
+
+            # gCBS
+            gcbs_parts = []
+            gcbs_parts.append(f"<pCBS>{cbs_percent:.4f}</pCBS>")
+            gcbs_parts.append(f"<vCBS>{cbs_value:.2f}</vCBS>")
+            gibscbs_parts.append(f"<gCBS>{''.join(gcbs_parts)}</gCBS>")
+
+            parts.append(f"<gIBSCBS>{''.join(gibscbs_parts)}</gIBSCBS>")
+
+        return "".join(parts)
+
     # ##########################
     # # CT-e tag: ICMSUFFim
     # ##########################
@@ -1205,6 +1307,10 @@ class CTe(spec_models.StackedModel):
             self.env.context.update({"tpAmb": self[xsd_field]})
             self.env.context.update({"doc": self.id})
 
+        if xsd_field == "cte40_IBSCBS":
+            xml_inner = self._cte40_build_ibscbs_xml()
+            return xml_inner or False
+
         # TODO: Força a remoção da tag infGlobalizado já que o
         # campo xObs está no l10n_br_fiscal.document
         if xsd_field == "cte40_infGlobalizado":
@@ -1397,6 +1503,17 @@ class CTe(spec_models.StackedModel):
             edoc = record.serialize()[0]
             # processador = record._edoc_processor()
             xml_file = edoc.to_xml()
+            if isinstance(xml_file, bytes | bytearray):
+                try:
+                    xml_file = xml_file.decode("utf-8")
+                except Exception:  # pylint: disable=broad-exception-caught
+                    # Keep original when decoding fails for any reason.
+                    _logger.debug(
+                        "Failed to decode CT-e XML as UTF-8; keeping original bytes.",
+                        exc_info=True,
+                    )
+            if isinstance(xml_file, str):
+                xml_file = _unescape_embedded_xml_blocks(xml_file)
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
