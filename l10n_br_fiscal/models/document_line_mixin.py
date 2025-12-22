@@ -555,6 +555,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.nbs_id = False
                 line.fiscal_genre_id = False
                 line.service_type_id = False
+                line.operation_indicator_id = False
                 continue
             p = line.product_id
             line.fiscal_type = p.fiscal_type
@@ -566,6 +567,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             line.nbs_id = p.nbs_id
             line.fiscal_genre_id = p.fiscal_genre_id
             line.service_type_id = p.service_type_id
+            line.operation_indicator_id = p.operation_indicator_id
 
     @api.depends("product_id")
     def _compute_city_taxation_code_id(self):
@@ -1196,6 +1198,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     city_taxation_code_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.city.taxation.code",
         compute="_compute_city_taxation_code_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+
+    operation_indicator_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+        string="Operation Indicator",
+        compute="_compute_product_fiscal_fields",
         store=True,
         readonly=False,
         precompute=True,
