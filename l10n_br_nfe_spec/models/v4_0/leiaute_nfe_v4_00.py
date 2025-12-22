@@ -6,6 +6,9 @@ import textwrap
 
 from odoo import fields, models
 
+from .dfe_tipos_basicos_v1_00 import (
+    TTPCREDPRESIBSZFM,
+)
 from .tipos_basico_v4_00 import (
     TAMB,
     TCODUFIBGE,
@@ -1446,14 +1449,33 @@ class Tlocal(models.AbstractModel):
     nfe40_IE = fields.Char(string="Inscrição Estadual (v2.0)", xsd_type="TIe")
 
 
-class TretConsReciNfe(models.AbstractModel):
-    """Tipo Retorno do Pedido de Consulta do Recido do Lote de Notas Fiscais
-    Eletrônicas"""
+class TprotNfe(models.AbstractModel):
+    "Tipo Protocolo de status resultado do processamento da NF-e"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "nfe.40.tretconsrecinfe"
+    _name = "nfe.40.tprotnfe"
     _inherit = "spec.mixin.nfe"
-    _binding_type = "TretConsReciNfe"
+    _binding_type = "TprotNfe"
+
+    nfe40_protNFe_TRetConsReciNFe_id = fields.Many2one(
+        comodel_name="nfe.40.tretconsrecinfe", xsd_implicit=True, ondelete="cascade"
+    )
+    nfe40_infProt = fields.Many2one(
+        comodel_name="nfe.40.infprot",
+        string="Dados do protocolo de status",
+        xsd_required=True,
+    )
+
+    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+
+
+class InfProt(models.AbstractModel):
+    "Dados do protocolo de status"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.infprot"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TprotNfe.InfProt"
 
     nfe40_tpAmb = fields.Selection(
         TAMB,
@@ -1470,28 +1492,15 @@ class TretConsReciNfe(models.AbstractModel):
         help="Versão do Aplicativo que processou a NF-e",
     )
 
-    nfe40_nRec = fields.Char(
-        string="Número do Recibo Consultado", xsd_required=True, xsd_type="TRec"
-    )
-
-    nfe40_cStat = fields.Char(
-        string="Código do status da mensagem enviada",
+    nfe40_chNFe = fields.Char(
+        string="Chaves de acesso da NF-e",
         xsd_required=True,
-        xsd_type="TStat",
-    )
-
-    nfe40_xMotivo = fields.Char(
-        string="Descrição literal do status",
-        xsd_required=True,
-        xsd_type="TMotivo",
-        help="Descrição literal do status do serviço solicitado.",
-    )
-
-    nfe40_cUF = fields.Selection(
-        TCODUFIBGE,
-        string="código da UF de atendimento",
-        xsd_required=True,
-        xsd_type="TCodUfIBGE",
+        xsd_type="TChNFe",
+        help=(
+            "Chaves de acesso da NF-e, compostas por: UF do emitente, AAMM da "
+            "emissão da NFe, CNPJ do emitente, modelo, série e número da NF-e "
+            "e código numérico+DV."
+        ),
     )
 
     nfe40_dhRecbto = fields.Datetime(
@@ -1500,55 +1509,29 @@ class TretConsReciNfe(models.AbstractModel):
         xsd_type="TDateTimeUTC",
         help=(
             "Data e hora de processamento, no formato AAAA-MM-DDTHH:MM:SSTZD. "
-            "Em caso de Rejeição, com data e hora do recebimento do Lote de "
-            "NF-e enviado."
+            "Deve ser preenchida com data e hora da gravação no Banco em caso "
+            "de Confirmação. Em caso de Rejeição, com data e hora do "
+            "recebimento do Lote de NF-e enviado."
         ),
     )
 
-    nfe40_cMsg = fields.Char(
-        string="Código da Mensagem (v2.0)",
+    nfe40_nProt = fields.Char(
+        string="Número do Protocolo de Status da NF-e",
+        xsd_type="TProt",
         help=(
-            "Código da Mensagem (v2.0) \nalterado para tamanho variavel 1-4. "
-            "(NT2011/004)"
+            "Número do Protocolo de Status da NF-e. 1 posição (1 – Secretaria "
+            "de Fazenda Estadual 2 – Receita Federal); 2 - códiga da UF - 2 "
+            "posições ano; 10 seqüencial no ano."
         ),
     )
 
-    nfe40_xMsg = fields.Char(
-        string="Mensagem da SEFAZ para o emissor",
-        help="Mensagem da SEFAZ para o emissor. (v2.0)",
-    )
-
-    nfe40_protNFe = fields.One2many(
-        "nfe.40.tprotnfe",
-        "nfe40_protNFe_TRetConsReciNFe_id",
-        string="Protocolo de status resultado",
-        xsd_type="TProtNFe",
-        help="Protocolo de status resultado do processamento da NF-e",
-    )
-
-    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
-
-
-class TretEnviNfe(models.AbstractModel):
-    "Tipo Retorno do Pedido de Autorização da Nota Fiscal Eletrônica"
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "nfe.40.tretenvinfe"
-    _inherit = "spec.mixin.nfe"
-    _binding_type = "TretEnviNfe"
-
-    nfe40_tpAmb = fields.Selection(
-        TAMB,
-        string="Identificação do Ambiente",
-        xsd_required=True,
-        xsd_type="TAmb",
-        help="Identificação do Ambiente:\n1 - Produção\n2 - Homologação",
-    )
-
-    nfe40_verAplic = fields.Char(
-        string="Versão do Aplicativo que recebeu o Lote",
-        xsd_required=True,
-        xsd_type="TVerAplic",
+    nfe40_digVal = fields.Char(
+        string="Digest Value da NF-e processada",
+        xsd_type="ds:DigestValueType",
+        help=(
+            "Digest Value da NF-e processada. Utilizado para conferir a "
+            "integridade da NF-e original."
+        ),
     )
 
     nfe40_cStat = fields.Char(
@@ -1564,57 +1547,11 @@ class TretEnviNfe(models.AbstractModel):
         help="Descrição literal do status do serviço solicitado.",
     )
 
-    nfe40_cUF = fields.Selection(
-        TCODUFIBGE,
-        string="código da UF de atendimento",
-        xsd_required=True,
-        xsd_type="TCodUfIBGE",
-    )
+    nfe40_cMsg = fields.Char(string="Código da Mensagem")
 
-    nfe40_dhRecbto = fields.Datetime(
-        string="Data e hora do recebimento",
-        xsd_required=True,
-        xsd_type="TDateTimeUTC",
-        help=("Data e hora do recebimento, no formato AAAA-MM-DDTHH:MM:SSTZD"),
-    )
+    nfe40_xMsg = fields.Char(string="Mensagem da SEFAZ para o emissor")
 
-    nfe40_infRec = fields.Many2one(
-        comodel_name="nfe.40.infrec",
-        string="Dados do Recibo do Lote",
-        choice="tretenvinfe",
-        xsd_choice_required=True,
-    )
-
-    nfe40_protNFe = fields.Many2one(
-        comodel_name="nfe.40.tprotnfe",
-        string="Protocolo de status resultado",
-        choice="tretenvinfe",
-        xsd_choice_required=True,
-        xsd_type="TProtNFe",
-        help=("Protocolo de status resultado do processamento sincrono da NFC-e"),
-    )
-
-    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
-
-
-class InfRec(models.AbstractModel):
-    "Dados do Recibo do Lote"
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "nfe.40.infrec"
-    _inherit = "spec.mixin.nfe"
-    _binding_type = "TretEnviNfe.InfRec"
-
-    nfe40_nRec = fields.Char(
-        string="Número do Recibo", xsd_required=True, xsd_type="TRec"
-    )
-
-    nfe40_tMed = fields.Char(
-        string="Tempo médio de resposta do serviço",
-        xsd_required=True,
-        xsd_type="TMed",
-        help=("Tempo médio de resposta do serviço (em segundos) dos últimos 5 minutos"),
-    )
+    nfe40_Id = fields.Char(string="Id", xsd_type="xs:ID")
 
 
 class Tveiculo(models.AbstractModel):
@@ -2040,8 +1977,10 @@ class Ide(models.AbstractModel):
         string="Grupo de infromações da NF referenciada",
     )
 
-    nfe40_gCompraGov = fields.Char(
-        string="Grupo de Compras Governamentais", xsd_type="TCompraGov"
+    nfe40_gCompraGov = fields.Many2one(
+        comodel_name="nfe.40.tcompragov",
+        string="Grupo de Compras Governamentais",
+        xsd_type="TCompraGov",
     )
 
     nfe40_gPagAntecipado = fields.Many2one(
@@ -2650,7 +2589,8 @@ class Prod(models.AbstractModel):
         help="Grupo de informações sobre o CréditoPresumido",
     )
 
-    nfe40_tpCredPresIBSZFM = fields.Char(
+    nfe40_tpCredPresIBSZFM = fields.Selection(
+        TTPCREDPRESIBSZFM,
         string="Classificação para subapuração do IBS",
         xsd_type="TTpCredPresIBSZFM",
         help="Classificação para subapuração do IBS na ZFM",
@@ -3691,11 +3631,14 @@ class Imposto(models.AbstractModel):
         ),
     )
 
-    nfe40_IS = fields.Char(
-        string="Grupo de informações do Imposto Seletivo", xsd_type="TIS"
+    nfe40_IS = fields.Many2one(
+        comodel_name="nfe.40.tis",
+        string="Grupo de informações do Imposto Seletivo",
+        xsd_type="TIS",
     )
 
-    nfe40_IBSCBS = fields.Char(
+    nfe40_IBSCBS = fields.Many2one(
+        comodel_name="nfe.40.ttribnfe",
         string="Grupo de informações dos tributos IBS",
         xsd_type="TTribNFe",
         help=("Grupo de informações dos tributos IBS, CBS e Imposto Seletivo"),
@@ -5176,14 +5119,17 @@ class Total(models.AbstractModel):
         comodel_name="nfe.40.rettrib", string="Retenção de Tributos Federais"
     )
 
-    nfe40_ISTot = fields.Char(
+    nfe40_ISTot = fields.Many2one(
+        comodel_name="nfe.40.tistot",
         string="Valores totais da NF",
         xsd_type="TISTot",
         help="Valores totais da NF com Imposto Seletivo",
     )
 
-    nfe40_IBSCBSTot = fields.Char(
-        string="Valores totais da NF com IBS / CBS", xsd_type="TIBSCBSMonoTot"
+    nfe40_IBSCBSTot = fields.Many2one(
+        comodel_name="nfe.40.tibscbsmonotot",
+        string="Valores totais da NF com IBS / CBS",
+        xsd_type="TIBSCBSMonoTot",
     )
 
     nfe40_vNFTot = fields.Monetary(
@@ -6385,6 +6331,177 @@ class InfNfeSupl(models.AbstractModel):
             "deve estar informada no DANFE NFC-e para consulta por chave de "
             "acesso."
         ),
+    )
+
+
+class TretConsReciNfe(models.AbstractModel):
+    """Tipo Retorno do Pedido de Consulta do Recido do Lote de Notas Fiscais
+    Eletrônicas"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tretconsrecinfe"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TretConsReciNfe"
+
+    nfe40_tpAmb = fields.Selection(
+        TAMB,
+        string="Identificação do Ambiente",
+        xsd_required=True,
+        xsd_type="TAmb",
+        help="Identificação do Ambiente:\n1 - Produção\n2 - Homologação",
+    )
+
+    nfe40_verAplic = fields.Char(
+        string="Versão do Aplicativo que processou",
+        xsd_required=True,
+        xsd_type="TVerAplic",
+        help="Versão do Aplicativo que processou a NF-e",
+    )
+
+    nfe40_nRec = fields.Char(
+        string="Número do Recibo Consultado", xsd_required=True, xsd_type="TRec"
+    )
+
+    nfe40_cStat = fields.Char(
+        string="Código do status da mensagem enviada",
+        xsd_required=True,
+        xsd_type="TStat",
+    )
+
+    nfe40_xMotivo = fields.Char(
+        string="Descrição literal do status",
+        xsd_required=True,
+        xsd_type="TMotivo",
+        help="Descrição literal do status do serviço solicitado.",
+    )
+
+    nfe40_cUF = fields.Selection(
+        TCODUFIBGE,
+        string="código da UF de atendimento",
+        xsd_required=True,
+        xsd_type="TCodUfIBGE",
+    )
+
+    nfe40_dhRecbto = fields.Datetime(
+        string="Data e hora de processamento",
+        xsd_required=True,
+        xsd_type="TDateTimeUTC",
+        help=(
+            "Data e hora de processamento, no formato AAAA-MM-DDTHH:MM:SSTZD. "
+            "Em caso de Rejeição, com data e hora do recebimento do Lote de "
+            "NF-e enviado."
+        ),
+    )
+
+    nfe40_cMsg = fields.Char(
+        string="Código da Mensagem (v2.0)",
+        help=(
+            "Código da Mensagem (v2.0) \nalterado para tamanho variavel 1-4. "
+            "(NT2011/004)"
+        ),
+    )
+
+    nfe40_xMsg = fields.Char(
+        string="Mensagem da SEFAZ para o emissor",
+        help="Mensagem da SEFAZ para o emissor. (v2.0)",
+    )
+
+    nfe40_protNFe = fields.One2many(
+        "nfe.40.tprotnfe",
+        "nfe40_protNFe_TRetConsReciNFe_id",
+        string="Protocolo de status resultado",
+        xsd_type="TProtNFe",
+        help="Protocolo de status resultado do processamento da NF-e",
+    )
+
+    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+
+
+class TretEnviNfe(models.AbstractModel):
+    "Tipo Retorno do Pedido de Autorização da Nota Fiscal Eletrônica"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tretenvinfe"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TretEnviNfe"
+
+    nfe40_tpAmb = fields.Selection(
+        TAMB,
+        string="Identificação do Ambiente",
+        xsd_required=True,
+        xsd_type="TAmb",
+        help="Identificação do Ambiente:\n1 - Produção\n2 - Homologação",
+    )
+
+    nfe40_verAplic = fields.Char(
+        string="Versão do Aplicativo que recebeu o Lote",
+        xsd_required=True,
+        xsd_type="TVerAplic",
+    )
+
+    nfe40_cStat = fields.Char(
+        string="Código do status da mensagem enviada",
+        xsd_required=True,
+        xsd_type="TStat",
+    )
+
+    nfe40_xMotivo = fields.Char(
+        string="Descrição literal do status",
+        xsd_required=True,
+        xsd_type="TMotivo",
+        help="Descrição literal do status do serviço solicitado.",
+    )
+
+    nfe40_cUF = fields.Selection(
+        TCODUFIBGE,
+        string="código da UF de atendimento",
+        xsd_required=True,
+        xsd_type="TCodUfIBGE",
+    )
+
+    nfe40_dhRecbto = fields.Datetime(
+        string="Data e hora do recebimento",
+        xsd_required=True,
+        xsd_type="TDateTimeUTC",
+        help=("Data e hora do recebimento, no formato AAAA-MM-DDTHH:MM:SSTZD"),
+    )
+
+    nfe40_infRec = fields.Many2one(
+        comodel_name="nfe.40.infrec",
+        string="Dados do Recibo do Lote",
+        choice="tretenvinfe",
+        xsd_choice_required=True,
+    )
+
+    nfe40_protNFe = fields.Many2one(
+        comodel_name="nfe.40.tprotnfe",
+        string="Protocolo de status resultado",
+        choice="tretenvinfe",
+        xsd_choice_required=True,
+        xsd_type="TProtNFe",
+        help=("Protocolo de status resultado do processamento sincrono da NFC-e"),
+    )
+
+    nfe40_versao = fields.Char(string="versao", xsd_required=True, xsd_type="TVerNFe")
+
+
+class InfRec(models.AbstractModel):
+    "Dados do Recibo do Lote"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.infrec"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TretEnviNfe.InfRec"
+
+    nfe40_nRec = fields.Char(
+        string="Número do Recibo", xsd_required=True, xsd_type="TRec"
+    )
+
+    nfe40_tMed = fields.Char(
+        string="Tempo médio de resposta do serviço",
+        xsd_required=True,
+        xsd_type="TMed",
+        help=("Tempo médio de resposta do serviço (em segundos) dos últimos 5 minutos"),
     )
 
 
