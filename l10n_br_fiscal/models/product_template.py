@@ -106,6 +106,10 @@ class ProductTemplate(models.Model):
         comodel_name="l10n_br_fiscal.nbs", index=True, string="NBS"
     )
 
+    operation_indicator_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+    )
+
     cest_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cest",
         index=True,
