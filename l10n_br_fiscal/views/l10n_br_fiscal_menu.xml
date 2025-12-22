@@ -337,6 +337,14 @@
         parent="taxes_config_menu"
         sequence="30"
     />
+    <!-- Operation Indicator -->
+    <menuitem
+        id="operation_indicator_menu"
+        action="operation_indicator_action"
+        groups="l10n_br_fiscal.group_manager"
+        parent="taxes_config_menu"
+        sequence="30"
+    />
     <!-- Tax ICMS Settings -->
     <menuitem
         id="tax_icms_config_menu"
