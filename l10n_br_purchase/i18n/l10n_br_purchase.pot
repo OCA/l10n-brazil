@@ -100,6 +100,36 @@ msgid "Buyer Presence"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_percent
+msgid "CBS %"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_reduction
+msgid "CBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_base
+msgid "CBS Base"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_base_type
+msgid "CBS Base Type"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_cst_code
+msgid "CBS CST Code"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_value
+msgid "CBS Value"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cest_id
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__cest_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
@@ -286,6 +316,11 @@ msgid "CSLL Value"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_cst_id
+msgid "CST CBS"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_cst_id
 msgid "CST COFINS"
 msgstr ""
@@ -293,6 +328,11 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_cst_id
 msgid "CST COFINS ST"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_cst_id
+msgid "CST IBS"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -548,6 +588,36 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__price_gross
 msgid "Gross Product/Service Amount"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_percent
+msgid "IBS %"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_reduction
+msgid "IBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_base
+msgid "IBS Base"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_base_type
+msgid "IBS Base Type"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_cst_code
+msgid "IBS CST Code"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_value
+msgid "IBS Value"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1440,6 +1510,11 @@ msgid "Tax Benefit Code"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cbs_tax_id
+msgid "Tax CBS"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_tax_id
 msgid "Tax COFINS"
 msgstr ""
@@ -1465,8 +1540,18 @@ msgid "Tax CSLL RET"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__tax_classification_id
+msgid "Tax Classification"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__tax_framework
 msgid "Tax Framework"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ibs_tax_id
+msgid "Tax IBS"
 msgstr ""
 
 #. module: l10n_br_purchase
