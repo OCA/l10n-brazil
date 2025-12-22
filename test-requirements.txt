@@ -2,3 +2,4 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+nfelib @ git+https://github.com/akretion/nfelib.git@fix-nfe-gen
