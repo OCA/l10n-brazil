@@ -433,6 +433,10 @@
                     name="nbs_id"
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
                 />
+                <field
+                    name="operation_indicator_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
+                />
             </xpath>
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/field[@name='name']"
