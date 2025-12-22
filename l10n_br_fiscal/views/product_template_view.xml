@@ -127,6 +127,11 @@
                                 options="{'no_create': True, 'no_create_edit': True}"
                             />
                             <field
+                                name="operation_indicator_id"
+                                invisible="fiscal_type != '09'"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
+                            <field
                                 name="ipi_guideline_class_id"
                                 invisible="fiscal_type == '09'"
                                 options="{'no_create': True, 'no_create_edit': True}"
