@@ -3,3 +3,5 @@ odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 signxml<3.1.0
 xmldiff
+# erpbrasil.edoc
+erpbrasil.edoc @ git+https://github.com/Escodoo/erpbrasil.edoc.git@master-escodoo-fixes
