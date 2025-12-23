@@ -316,17 +316,17 @@ class Document(models.Model):
             self.partner_id.city_id.ibge_code or ""
         ).zfill(7)
         registro_tipo4.CodigoNBS = "".join(
-            c for c in str(dados_servico.get("nbs", "")) if c.isdigit()
+            c for c in str(dados_servico.get("codigo_nbs", "")) if c.isdigit()
         )
         registro_tipo4.CodigoIndicadorOperacaoFornecimento = dados_servico.get(
-            "indop", ""
+            "codigo_indicador_operacao", ""
         ).zfill(6)
         registro_tipo4.CodigoClassificacaoTributariaIBSCBS = dados_servico.get(
-            "cclass_trib", ""
+            "codigo_classificacao_tributaria", ""
         ).zfill(6)
 
         registro_tipo4.CodigoSituacaoTributariaIBSCBS = dados_servico.get(
-            "cst_trib", ""
+            "codigo_situacao_tributaria", ""
         ).zfill(3)
         registro_tipo4.OperacaoUsoConsumoPessoal = "0"
         registro_tipo4.IndicadorDestinatarioServico = "0"
