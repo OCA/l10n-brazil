@@ -21,11 +21,23 @@ class ResPartner(models.Model):
         if self.country_id.id != country_id:
             address_invoice_state_code = "EX"
             address_invoice_city_code = int("9999999")
-            address_invoice_city_description = "EX Description"
+            address_invoice_city_description = (
+                self.city or self.city_id.name or "EXTERIOR"
+            )
+            tomador_cnpj = "99999999999" if tomador_cnpj else None
+            tomador_cpf = "99999999999" if tomador_cpf else None
+            nif = self.vat
+            if not nif:
+                nif_motivo_ausencia = self.nif_motive_absence
+            else:
+                nif_motivo_ausencia = None
+
         else:
             address_invoice_state_code = self.state_id.code
             address_invoice_city_code = int(self.city_id.ibge_code)
             address_invoice_city_description = self.city_id.name
+            nif = None
+            nif_motivo_ausencia = None
 
         if self.email:
             email = self.email
@@ -49,4 +61,6 @@ class ResPartner(models.Model):
             "uf": address_invoice_state_code,
             "municipio": self.city or None,
             "cep": int(partner_cep),
+            "nif": nif,
+            "nif_motivo_ausencia": nif_motivo_ausencia,
         }
