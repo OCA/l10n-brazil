@@ -1278,6 +1278,11 @@ msgid "Operation Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__operation_indicator_id
+msgid "Operation Indicator"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_line_id
 msgid "Operation Line"
 msgstr ""
