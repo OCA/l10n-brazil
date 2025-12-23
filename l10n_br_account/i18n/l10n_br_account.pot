@@ -5115,6 +5115,11 @@ msgid "Operation Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__operation_indicator_id
+msgid "Operation Indicator"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__fiscal_operation_line_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_line_id
 msgid "Operation Line"
