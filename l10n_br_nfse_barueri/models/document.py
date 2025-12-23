@@ -318,16 +318,17 @@ class Document(models.Model):
         registro_tipo4.CodigoNBS = "".join(
             c for c in str(dados_servico.get("codigo_nbs", "")) if c.isdigit()
         )
-        registro_tipo4.CodigoIndicadorOperacaoFornecimento = dados_servico.get(
-            "codigo_indicador_operacao", ""
-        ).zfill(6)
-        registro_tipo4.CodigoClassificacaoTributariaIBSCBS = dados_servico.get(
-            "codigo_classificacao_tributaria", ""
-        ).zfill(6)
+        registro_tipo4.CodigoIndicadorOperacaoFornecimento = (
+            dados_servico.get("codigo_indicador_operacao") or ""
+        )
 
-        registro_tipo4.CodigoSituacaoTributariaIBSCBS = dados_servico.get(
-            "codigo_situacao_tributaria", ""
-        ).zfill(3)
+        registro_tipo4.CodigoClassificacaoTributariaIBSCBS = (
+            dados_servico.get("codigo_classificacao_tributaria") or ""
+        )
+
+        registro_tipo4.CodigoSituacaoTributariaIBSCBS = (
+            dados_servico.get("codigo_situacao_tributaria") or ""
+        )
         registro_tipo4.OperacaoUsoConsumoPessoal = "0"
         registro_tipo4.IndicadorDestinatarioServico = "0"
 
@@ -417,6 +418,7 @@ class Document(models.Model):
         return lote_rps
 
     def _document_status(self):
+        mensagem = False
         status = super()._document_status()
         for record in self.filtered(filter_oca_nfse).filtered(filter_barueri):
             processador = record._processador_erpbrasil_nfse()
@@ -685,7 +687,7 @@ class Document(models.Model):
 
             arquivo = processo_retorno.retorno.ArquivoRPSBase64.decode("latin1")
             linhas = arquivo.splitlines()
-            registros = [parse_linha_exporta(l) for l in linhas]
+            registros = [parse_linha_exporta(linha) for linha in linhas]
 
             nfse_status = registros[1].campos[10].valor
             if nfse_status == "C":
