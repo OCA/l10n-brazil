@@ -48,6 +48,10 @@
                         options="{'no_create': True, 'no_create_edit': True}"
                     />
                     <field name="ind_final" />
+                    <field
+                        name="nif_motive_absence"
+                        attrs="{'invisible': [('country_id', '==', %(base.br)d)]}"
+                    />
                     <field name="is_anonymous_consumer" />
                 </group>
             </group>

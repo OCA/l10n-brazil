@@ -118,6 +118,16 @@ class ResPartner(models.Model):
         string="Anonymous Consumer",
     )
 
+    nif_motive_absence = fields.Selection(
+        selection=[
+            ("0", "Not informed in the origin note"),
+            ("1", "Exemption from NIF"),
+            ("2", "NIF not required"),
+        ],
+        default=False,
+        string="NIF motive absence",
+    )
+
     def _inverse_fiscal_profile(self):
         for p in self:
             p._onchange_fiscal_profile_id()
