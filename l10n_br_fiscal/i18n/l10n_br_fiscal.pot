@@ -701,6 +701,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__active
@@ -1179,6 +1180,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_email_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_serie_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_search
 msgid "Archived"
 msgstr ""
 
@@ -2363,6 +2365,11 @@ msgid "Create a new partner in your address book"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_indicator_action
+msgid "Create an Operation Indicator record"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
 #, python-format
 msgid "Create invoice/bill"
@@ -2398,6 +2405,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__create_uid
@@ -2446,6 +2454,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__create_date
@@ -2523,6 +2532,11 @@ msgstr ""
 #: model:product.product,name:l10n_br_fiscal.customized_development_sale
 #: model:product.template,name:l10n_br_fiscal.customized_development_sale_product_template
 msgid "Customized Odoo Development"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__supply_location
+msgid "DFe Supply Location"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2763,6 +2777,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__display_name
@@ -5036,6 +5051,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__id
@@ -5895,6 +5911,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre____last_update
@@ -5956,6 +5973,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__write_uid
@@ -6004,6 +6022,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__write_date
@@ -6587,6 +6606,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__name
@@ -6948,8 +6968,38 @@ msgid "Operation Dashboard"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+msgid "Operation Details"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__document_type_ids
 msgid "Operation Document Types"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.operation_indicator_action
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_operation_indicator
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__operation_indicator_id
+#: model:ir.ui.menu,name:l10n_br_fiscal.operation_indicator_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_search
+msgid "Operation Indicator"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__code
+msgid "Operation Indicator Code"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.operation_indicator_action
+msgid ""
+"Operation Indicators are used to categorize consumption\n"
+"                operations."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6972,6 +7022,11 @@ msgid "Operation Line Refund"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_location
+msgid "Operation Location Consideration"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__operation_name
 msgid "Operation Name"
 msgstr ""
@@ -6979,6 +7034,18 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__operation_performed
 msgid "Operation Performed"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__code
+msgid ""
+"Operation indicator code according to Annex VII of NT 004/2025 (e.g., "
+"020101, 030101)"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7640,6 +7707,19 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_total_weight
 msgid "Peso Total"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+msgid "Place of supply"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__supply_location
+msgid ""
+"Place of supply to be identified in the Digital Fiscal Document (DFe), such "
+"as supplier establishment, acquirer address, recipient address, or other "
+"locations depending on the operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8642,6 +8722,13 @@ msgid "Source document"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__supply_characteristic
+msgid ""
+"Specific characteristic of the supply execution that determines the place of"
+" supply"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__date_start
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__date_start
 msgid "Start Date"
@@ -8765,6 +8852,21 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_suframa
 msgid "Suframa"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__supply_characteristic
+msgid "Supply Characteristic"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+msgid "Supply Information"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+msgid "Supply characteristic"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9593,6 +9695,17 @@ msgid "Type Move"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+msgid "Type of operation"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_type
+msgid ""
+"Type of operation according to Art. 11 of Complementary Law No. 214/2025"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__activity_exception_decoration
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__activity_exception_decoration
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__activity_exception_decoration
@@ -9644,6 +9757,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__code_unmasked
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__code_unmasked
@@ -9870,6 +9984,17 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__website_message_ids
 #: model:ir.model.fields,help:l10n_br_fiscal.field_uom_uom__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
+msgid "Where the operation is considered"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_location
+msgid ""
+"Where the operation is considered to take place according to the legislation"
 msgstr ""
 
 #. module: l10n_br_fiscal
