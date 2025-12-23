@@ -1646,6 +1646,13 @@ msgid "Operation"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__operation_indicator_id
+msgid "Operation Indicator"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__fiscal_operation_line_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_line_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_line_id
