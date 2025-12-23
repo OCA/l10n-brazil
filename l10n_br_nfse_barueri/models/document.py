@@ -27,9 +27,12 @@ from nfselib.barueri.rps import (
 from odoo import _, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
     PROCESSADOR_OCA,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
 )
@@ -64,6 +67,8 @@ def parse_linha_exporta(line: str):
     elif tipo == "3":
         reg = NFSeRegistroTipo3.from_line(line)
     elif tipo == "4":
+        reg = NFSeRegistroTipo4.from_line(line)
+    elif tipo == "5":
         reg = NFSeRegistroTipo4.from_line(line)
     elif tipo == "9":
         reg = NFSeRegistroTipo9.from_line(line)
@@ -153,7 +158,7 @@ class Document(models.Model):
             .decode("ASCII")
         )
 
-    def _serialize_barueri_lote_rps(self):
+    def _serialize_barueri_lote_rps(self, cancel=False):
         dados = self._prepare_lote_rps()
         dados_servico = self._serialize_barueri_dados_servico()
         dados_tomador = self._serialize_barueri_dados_tomador()
@@ -162,7 +167,11 @@ class Document(models.Model):
         registro_tipo1.TipoRegistro = 1
         registro_tipo1.InscricaoContribuinte = self.company_inscr_mun
         registro_tipo1.VersaoLayout = "PMB004"
-        data_emissao = dados["data_emissao"].split("T")[0]
+        if cancel:
+            data_base = datetime.now()
+            data_emissao = data_base.strftime("%Y-%m-%d")
+        else:
+            data_emissao = dados["data_emissao"].split("T")[0]
         ano_mes_dia = data_emissao.replace("-", "")
         sequencial = datetime.now().strftime("%f")[-3:]
         registro_tipo1.IdentificacaoRemessaContribuinte = f"{ano_mes_dia}{sequencial}"
@@ -171,16 +180,36 @@ class Document(models.Model):
         registro_tipo2 = RegistroTipo2()
         registro_tipo2.TipoRegistro = 2
         registro_tipo2.TipoRPS = "RPS"
-        numero_rps = str(self.rps_number or "1").zfill(7)
-        registro_tipo2.NumeroRPS = f"000{numero_rps}"
-        registro_tipo2.DataRPS = dados["data_emissao"].split("T")[0].replace("-", "")
-        registro_tipo2.HoraRPS = dados["data_emissao"].split("T")[1].replace(":", "")
-        registro_tipo2.SituacaoRPS = "E"
-        registro_tipo2.CodigoMotivoCancelamento = ""
-        registro_tipo2.NumeroNFeCancelada = ""
-        registro_tipo2.SerieNFeCancelada = ""
-        registro_tipo2.DataEmissaoNFeCancelada = ""
-        registro_tipo2.DescricaoCancelamento = ""
+        if cancel:
+            registro_tipo2.SituacaoRPS = "C"
+            registro_tipo2.NumeroRPS = "0" * 10
+            now = datetime.now()
+            registro_tipo2.DataRPS = now.strftime("%Y%m%d")
+            registro_tipo2.HoraRPS = now.strftime("%H%M%S")
+            registro_tipo2.CodigoMotivoCancelamento = "01"
+            registro_tipo2.NumeroNFeCancelada = str(int(self.document_number)).zfill(7)
+            registro_tipo2.SerieNFeCancelada = ""
+            registro_tipo2.DataEmissaoNFeCancelada = self.authorization_date.strftime(
+                "%Y%m%d"
+            )
+            descricao = (self.cancel_reason or "").strip()
+            descricao = self._sem_acento(descricao)[:180]
+            registro_tipo2.DescricaoCancelamento = descricao
+        else:
+            numero_rps = str(self.rps_number or "1").zfill(7)
+            registro_tipo2.NumeroRPS = f"000{numero_rps}"
+            registro_tipo2.DataRPS = (
+                dados["data_emissao"].split("T")[0].replace("-", "")
+            )
+            registro_tipo2.HoraRPS = (
+                dados["data_emissao"].split("T")[1].replace(":", "")
+            )
+            registro_tipo2.SituacaoRPS = "E"
+            registro_tipo2.CodigoMotivoCancelamento = ""
+            registro_tipo2.NumeroNFeCancelada = ""
+            registro_tipo2.SerieNFeCancelada = ""
+            registro_tipo2.DataEmissaoNFeCancelada = ""
+            registro_tipo2.DescricaoCancelamento = ""
         registro_tipo2.CodigoServicoPrestado = dados_servico[
             "codigo_tributacao_municipio"
         ]
@@ -289,9 +318,16 @@ class Document(models.Model):
         registro_tipo4.CodigoNBS = "".join(
             c for c in str(dados_servico.get("nbs", "")) if c.isdigit()
         )
-        registro_tipo4.CodigoIndicadorOperacaoFornecimento = "100301"
-        registro_tipo4.CodigoClassificacaoTributariaIBSCBS = "000001"
-        registro_tipo4.CodigoSituacaoTributariaIBSCBS = "000"
+        registro_tipo4.CodigoIndicadorOperacaoFornecimento = dados_servico.get(
+            "indop", ""
+        ).zfill(6)
+        registro_tipo4.CodigoClassificacaoTributariaIBSCBS = dados_servico.get(
+            "cclass_trib", ""
+        ).zfill(6)
+
+        registro_tipo4.CodigoSituacaoTributariaIBSCBS = dados_servico.get(
+            "cst_trib", ""
+        ).zfill(3)
         registro_tipo4.OperacaoUsoConsumoPessoal = "0"
         registro_tipo4.IndicadorDestinatarioServico = "0"
 
@@ -354,7 +390,7 @@ class Document(models.Model):
 
         return rps
 
-    def serialize_nfse_barueri(self):
+    def serialize_nfse_barueri(self, cancel=False):
         lote_rps = NFeLoteEnviarArquivo(
             InscricaoMunicipal=self.convert_type_nfselib(
                 NFeLoteEnviarArquivo, "InscricaoMunicipal", self.company_inscr_mun
@@ -375,7 +411,7 @@ class Document(models.Model):
             ArquivoRPSBase64=self.convert_type_nfselib(
                 NFeLoteEnviarArquivo,
                 "ArquivoRPSBase64",
-                self._serialize_barueri_lote_rps(),
+                self._serialize_barueri_lote_rps(cancel=cancel),
             ),
         )
         return lote_rps
@@ -608,3 +644,80 @@ class Document(models.Model):
                 vals.pop("return_filename")
             record.write(vals)
         return
+
+    def _cancel_document_barueri(self):
+        for record in self.filtered(filter_oca_nfse).filtered(filter_barueri):
+            processador = record._processador_erpbrasil_nfse()
+            edoc = record.serialize_nfse_barueri(cancel=True)
+            processo_envio = processador.envia_documento(edoc)
+
+            protocolo = processo_envio.resposta.ProtocoloRemessa
+            if not protocolo:
+                return False
+            record.authorization_event_id.write(
+                {
+                    "lot_receipt_number": protocolo,
+                }
+            )
+            processo_consulta = processador.consulta_nfse_rps(
+                rps_number=int(record.rps_number),
+                rps_serie=record.document_serie,
+                rps_type=int(record.rps_type),
+                lot_receipt_number=protocolo,
+            )
+            status, _mensagem = processador.analisa_retorno_consulta(processo_consulta)
+
+            if status in (-1, -2, 0):
+                return False
+
+            nome_arquivo = (
+                processo_consulta.resposta
+                and processo_consulta.resposta.ListaNfeArquivosRPS
+                and processo_consulta.resposta.ListaNfeArquivosRPS.NomeArqRetorno
+            )
+
+            if not nome_arquivo:
+                return False
+
+            processo_retorno = processador.baixar_lote_rps(nome_arquivo)
+            if not processo_retorno.retorno:
+                return False
+
+            arquivo = processo_retorno.retorno.ArquivoRPSBase64.decode("latin1")
+            linhas = arquivo.splitlines()
+            registros = [parse_linha_exporta(l) for l in linhas]
+
+            nfse_status = registros[1].campos[10].valor
+            if nfse_status == "C":
+                event = record.event_ids.create_event_save_xml(
+                    company_id=record.company_id,
+                    environment=(
+                        EVENT_ENV_PROD
+                        if record.nfse_environment == "1"
+                        else EVENT_ENV_HML
+                    ),
+                    event_type="2",
+                    xml_file=processo_envio.envio_xml,
+                    document_id=record,
+                )
+                event.write(
+                    {
+                        "status_code": 2,
+                        "response": _("Processado com Sucesso"),
+                        "protocol_number": protocolo,
+                        "protocol_date": fields.Datetime.now(),
+                        "state": "done",
+                    }
+                )
+                record.cancel_event_id = event
+                record.state_edoc = SITUACAO_EDOC_CANCELADA
+                return True
+            return False
+
+    def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
+        super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
+        return (
+            self.filtered(filter_oca_nfse)
+            .filtered(filter_barueri)
+            ._cancel_document_barueri()
+        )
