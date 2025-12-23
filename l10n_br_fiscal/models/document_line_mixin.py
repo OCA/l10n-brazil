@@ -266,6 +266,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
     )
 
+    operation_indicator_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+        string="Operation Indicator",
+    )
+
     partner_order = fields.Char(string="Partner Order (xPed)", size=15)
 
     partner_order_line = fields.Char(string="Partner Order Line (nItemPed)", size=6)

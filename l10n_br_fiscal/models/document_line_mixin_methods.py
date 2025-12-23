@@ -436,6 +436,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.nbs_id = self.product_id.nbs_id
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
             self.service_type_id = self.product_id.service_type_id
+            self.operation_indicator_id = self.product_id.operation_indicator_id
             self.uot_id = self.product_id.uot_id or self.product_id.uom_id
             if self.product_id.city_taxation_code_id:
                 company_city_id = self.company_id.city_id
@@ -457,6 +458,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.nbs_id = False
             self.fiscal_genre_id = False
             self.service_type_id = False
+            self.operation_indicator_id = False
             self.city_taxation_code_id = False
             self.uot_id = False
 

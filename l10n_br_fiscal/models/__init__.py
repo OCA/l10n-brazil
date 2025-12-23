@@ -59,3 +59,4 @@ from . import document_email
 from . import city_taxation_code
 from . import document_supplement
 from . import tax_classification
+from . import operation_indicator
