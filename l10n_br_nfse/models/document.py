@@ -162,6 +162,7 @@ class Document(models.Model):
         base_calculo = 0
         valor_liquido_nfse = 0
         valor_desconto_incondicionado = 0
+        ibs_cbs_base_calculo = 0
 
         for line in lines:
             result_line.update(line._prepare_line_service())
@@ -185,6 +186,7 @@ class Document(models.Model):
             valor_desconto_incondicionado += result_line.get(
                 "valor_desconto_incondicionado"
             )
+            ibs_cbs_base_calculo += result_line.get("ibs_cbs_base_calculo")
 
         result = {
             "valor_servicos": valor_servicos,
@@ -221,6 +223,15 @@ class Document(models.Model):
             "codigo_cnae": misc.punctuation_rm(self.fiscal_line_ids[0].cnae_id.code)
             or None,
             "valor_desconto_incondicionado": valor_desconto_incondicionado,
+            "codigo_nbs": self.fiscal_line_ids[0].nbs_id.code,
+            "codigo_indicador_operacao": self.fiscal_line_ids[
+                0
+            ].operation_indicator_id.code,
+            "codigo_classificacao_tributaria": self.fiscal_line_ids[
+                0
+            ].tax_classification_id.code,
+            "codigo_situacao_tributaria": self.fiscal_line_ids[0].cbs_cst_code,
+            "ibs_cbs_base_calculo": ibs_cbs_base_calculo,
         }
 
         result.update(self.company_id._prepare_company_service())
