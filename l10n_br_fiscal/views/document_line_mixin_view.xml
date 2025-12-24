@@ -47,6 +47,7 @@
                         readonly="1"
                     />
                     <field name="allow_csll_irpj" force_save="1" invisible="1" />
+                    <field name="cst_code_prefix_like" force_save="1" invisible="1" />
                 </group>
                 <notebook>
                     <field name="product_id" force_save="1" invisible="1" />
@@ -78,7 +79,7 @@
                                         <field
                                             name="cbs_cst_id"
                                             force_save="1"
-                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                            readonly="cbs_tax_id != False"
                                             options="{'no_create': True, 'no_create_edit': True}"
                                         />
                                         <field
@@ -89,29 +90,29 @@
                                         <field
                                             name="cbs_base_type"
                                             force_save="1"
-                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                            readonly="cbs_tax_id != False"
                                         />
                                     </group>
                                     <group>
                                         <field
                                             name="cbs_base"
                                             force_save="1"
-                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                            readonly="cbs_tax_id != False"
                                         />
                                         <field
                                             name="cbs_percent"
                                             force_save="1"
-                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                            readonly="cbs_tax_id != False"
                                         />
                                         <field
                                             name="cbs_reduction"
                                             force_save="1"
-                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                            readonly="cbs_tax_id != False"
                                         />
                                         <field
                                             name="cbs_value"
                                             force_save="1"
-                                            attrs="{'readonly': [('cbs_tax_id', '!=', False)]}"
+                                            readonly="cbs_tax_id != False"
                                         />
                                     </group>
                                 </group>
@@ -124,7 +125,7 @@
                                         <field
                                             name="ibs_cst_id"
                                             force_save="1"
-                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                            readonly="ibs_tax_id != False"
                                             options="{'no_create': True, 'no_create_edit': True}"
                                         />
                                         <field
@@ -135,29 +136,29 @@
                                         <field
                                             name="ibs_base_type"
                                             force_save="1"
-                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                            readonly="ibs_tax_id != False"
                                         />
                                     </group>
                                     <group>
                                         <field
                                             name="ibs_base"
                                             force_save="1"
-                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                            readonly="ibs_tax_id != False"
                                         />
                                         <field
                                             name="ibs_percent"
                                             force_save="1"
-                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                            readonly="ibs_tax_id != False"
                                         />
                                         <field
                                             name="ibs_reduction"
                                             force_save="1"
-                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                            readonly="ibs_tax_id != False"
                                         />
                                         <field
                                             name="ibs_value"
                                             force_save="1"
-                                            attrs="{'readonly': [('ibs_tax_id', '!=', False)]}"
+                                            readonly="ibs_tax_id != False"
                                         />
                                     </group>
                                 </group>
