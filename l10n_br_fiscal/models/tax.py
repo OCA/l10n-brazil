@@ -681,6 +681,54 @@ class Tax(models.Model):
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     @api.model
+    def _compute_ibs(self, tax, taxes_dict, **kwargs):
+        """The IBS (Tax on Goods and Services) must have the
+        following taxes removed from its calculation base:
+        ICMS, PIS, and COFINS."""
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_pis = taxes_dict.get("pis", {})
+        tax_dict_cofins = taxes_dict.get("cofins", {})
+        tax_dict["remove_from_base"] += (
+            tax_dict_icms.get("tax_value", 0.00)
+            + tax_dict_pis.get("tax_value", 0.00)
+            + tax_dict_cofins.get("tax_value", 0.00)
+        )
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_cbs(self, tax, taxes_dict, **kwargs):
+        """The CBS (Contribution on Goods and Services) must have the
+        following taxes removed from its calculation base:
+        ICMS, PIS, and COFINS."""
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_pis = taxes_dict.get("pis", {})
+        tax_dict_cofins = taxes_dict.get("cofins", {})
+        tax_dict["remove_from_base"] += (
+            tax_dict_icms.get("tax_value", 0.00)
+            + tax_dict_pis.get("tax_value", 0.00)
+            + tax_dict_cofins.get("tax_value", 0.00)
+        )
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_is(self, tax, taxes_dict, **kwargs):
+        """The IS tax (Selective Tax) must have the
+        following taxes removed from its calculation base:
+        ICMS, PIS, and COFINS."""
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_pis = taxes_dict.get("pis", {})
+        tax_dict_cofins = taxes_dict.get("cofins", {})
+        tax_dict["remove_from_base"] += (
+            tax_dict_icms.get("tax_value", 0.00)
+            + tax_dict_pis.get("tax_value", 0.00)
+            + tax_dict_cofins.get("tax_value", 0.00)
+        )
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
     def _compute_tax_sequence(self, taxes_dict, **kwargs):
         """
         Method to determine the order in which taxes will be calculated.
