@@ -107,6 +107,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cbs_base
 msgid "CBS Base"
 msgstr ""
 
@@ -122,6 +123,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cbs_value
 msgid "CBS Value"
 msgstr ""
 
@@ -640,6 +642,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ibs_base
 msgid "IBS Base"
 msgstr ""
 
@@ -655,6 +658,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ibs_value
 msgid "IBS Value"
 msgstr ""
 
