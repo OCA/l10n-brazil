@@ -119,6 +119,38 @@ msgid "Buyer Presence"
 msgstr "Presença do Comprador"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_percent
+msgid "CBS %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_reduction
+msgid "CBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cbs_base
+msgid "CBS Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_base_type
+msgid "CBS Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_cst_code
+msgid "CBS CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_cbs_value
+msgid "CBS Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cest_id
 msgid "CEST"
 msgstr "CEST"
@@ -300,6 +332,11 @@ msgid "CSLL Value"
 msgstr "Valor CSLL"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_cst_id
+msgid "CST CBS"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_cst_id
 msgid "CST COFINS"
 msgstr "CST COFINS"
@@ -308,6 +345,11 @@ msgstr "CST COFINS"
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofinsst_cst_id
 msgid "CST COFINS ST"
 msgstr "CST COFINS ST"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_cst_id
+msgid "CST IBS"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_cst_id
@@ -620,6 +662,38 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__has_fiscal_operation
 msgid "Has Fiscal Operation"
 msgstr "Possui Operação Fiscal"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_percent
+msgid "IBS %"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_reduction
+msgid "IBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_base
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ibs_base
+msgid "IBS Base"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_base_type
+msgid "IBS Base Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_cst_code
+msgid "IBS CST Code"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_value
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__amount_ibs_value
+msgid "IBS Value"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_percent
@@ -1260,6 +1334,11 @@ msgid "Operation"
 msgstr "Operação"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__operation_indicator_id
+msgid "Operation Indicator"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_line_id
 msgid "Operation Line"
 msgstr "Linha de Operação"
@@ -1529,6 +1608,11 @@ msgid "Tax Benefit Code"
 msgstr "Código do Benefício Fiscal"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cbs_tax_id
+msgid "Tax CBS"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_tax_id
 msgid "Tax COFINS"
 msgstr "Imposto COFINS"
@@ -1554,9 +1638,19 @@ msgid "Tax CSLL RET"
 msgstr "Imposto CSLL RET"
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_classification_id
+msgid "Tax Classification"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__tax_framework
 msgid "Tax Framework"
 msgstr "Estrutura Tributária"
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ibs_tax_id
+msgid "Tax IBS"
+msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icms_tax_id
