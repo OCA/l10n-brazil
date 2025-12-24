@@ -95,6 +95,7 @@ msgid "CBS % Reduction"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cbs_base
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cbs_base
 msgid "CBS Base"
 msgstr ""
@@ -110,6 +111,7 @@ msgid "CBS CST Code"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_cbs_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cbs_value
 msgid "CBS Value"
 msgstr ""
@@ -598,6 +600,7 @@ msgid "IBS % Reduction"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ibs_base
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ibs_base
 msgid "IBS Base"
 msgstr ""
@@ -613,6 +616,7 @@ msgid "IBS CST Code"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ibs_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ibs_value
 msgid "IBS Value"
 msgstr ""
