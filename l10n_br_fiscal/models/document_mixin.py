@@ -345,6 +345,30 @@ class FiscalDocumentMixin(models.AbstractModel):
         store=True,
     )
 
+    amount_ibs_base = fields.Monetary(
+        string="IBS Base",
+        compute="_compute_fiscal_amount",
+        store=True,
+    )
+
+    amount_ibs_value = fields.Monetary(
+        string="IBS Value",
+        compute="_compute_fiscal_amount",
+        store=True,
+    )
+
+    amount_cbs_base = fields.Monetary(
+        string="CBS Base",
+        compute="_compute_fiscal_amount",
+        store=True,
+    )
+
+    amount_cbs_value = fields.Monetary(
+        string="CBS Value",
+        compute="_compute_fiscal_amount",
+        store=True,
+    )
+
     amount_icms_base = fields.Monetary(
         string="ICMS Base",
         compute="_compute_fiscal_amount",
