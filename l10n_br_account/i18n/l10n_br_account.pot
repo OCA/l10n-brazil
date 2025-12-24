@@ -1057,6 +1057,11 @@ msgid "Correction Reason"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cst_code_prefix_like
+msgid "Cst Code Prefix Like"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte_modal_aereo_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte_modal_aereo_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte_modal_aereo_id
@@ -2845,6 +2850,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__nfe40_infSolicNFF
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__nfe40_infSolicNFF
 msgid "Grupo para informações da solicitação da NFF"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__cst_code_prefix_like
+msgid "Helper field to filter taxes by CST code prefix (3 chars) using LIKE."
 msgstr ""
 
 #. module: l10n_br_account
