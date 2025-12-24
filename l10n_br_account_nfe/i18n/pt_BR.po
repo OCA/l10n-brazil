@@ -172,8 +172,9 @@ msgstr "ID"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Indicador da Forma"
-msgstr ""
+#, fuzzy
+msgid "Indicador da Forma de Pagamento"
+msgstr "Indicador da Forma de Pagamento"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
@@ -249,10 +250,6 @@ msgstr "Ação de Relatório"
 #, fuzzy
 #~ msgid "Forma de Pagamento"
 #~ msgstr "Forma de Pagamento"
-
-#, fuzzy
-#~ msgid "Indicador da Forma de Pagamento"
-#~ msgstr "Indicador da Forma de Pagamento"
 
 #~ msgid "Journal Item"
 #~ msgstr "Item de Diário"
