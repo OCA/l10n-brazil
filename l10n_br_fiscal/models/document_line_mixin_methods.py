@@ -234,6 +234,16 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             else:
                 line.allow_csll_irpj = False  # No tax charges expected
 
+    @api.depends("tax_classification_id")
+    def _compute_cst_code_prefix_like(self):
+        for rec in self:
+            code = rec.tax_classification_id.code if rec.tax_classification_id else ""
+            prefix = (code or "")[:3]
+            # Avoid matching all records when the prefix is not available yet.
+            rec.cst_code_prefix_like = (
+                f"{prefix}%" if len(prefix) == 3 else "__no_match__%"
+            )
+
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
         fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields.keys()
