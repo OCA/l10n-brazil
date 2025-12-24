@@ -584,7 +584,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cbs_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax CBS",
-        domain=[("tax_domain", "=", TAX_DOMAIN_CBS)],
+        domain=(
+            f"[('tax_domain', '=', '{TAX_DOMAIN_CBS}'), '|', "
+            "('cst_in_id.code', 'like', cst_code_prefix_like), "
+            "('cst_out_id.code', 'like', cst_code_prefix_like)]"
+        ),
     )
 
     cbs_cst_id = fields.Many2one(
@@ -623,7 +627,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ibs_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IBS",
-        domain=[("tax_domain", "=", TAX_DOMAIN_IBS)],
+        domain=(
+            f"[('tax_domain', '=', '{TAX_DOMAIN_IBS}'), '|', "
+            "('cst_in_id.code', 'like', cst_code_prefix_like), "
+            "('cst_out_id.code', 'like', cst_code_prefix_like)]"
+        ),
     )
 
     ibs_cst_id = fields.Many2one(
@@ -662,6 +670,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
         string="Tax Classification",
+    )
+
+    cst_code_prefix_like = fields.Char(
+        compute="_compute_cst_code_prefix_like",
+        help="Helper field to filter taxes by CST code prefix (3 chars) using LIKE.",
     )
 
     # II Fields
