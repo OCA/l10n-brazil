@@ -574,6 +574,13 @@ msgid "Copy repair quotation notes in Fiscal documents"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cst_code_prefix_like
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__cst_code_prefix_like
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__cst_code_prefix_like
+msgid "Cst Code Prefix Like"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__currency_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__currency_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__currency_id
@@ -822,6 +829,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_gross
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_gross
 msgid "Gross Amount"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__cst_code_prefix_like
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__cst_code_prefix_like
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_line__cst_code_prefix_like
+msgid "Helper field to filter taxes by CST code prefix (3 chars) using LIKE."
 msgstr ""
 
 #. module: l10n_br_repair
