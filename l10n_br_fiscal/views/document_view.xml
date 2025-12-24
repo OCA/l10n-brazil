@@ -337,6 +337,14 @@
                         <page name="amounts" string="Amounts">
                             <group>
                                 <group>
+                                    <group string="IBS">
+                                        <field name="amount_ibs_base" />
+                                        <field name="amount_ibs_value" />
+                                    </group>
+                                    <group string="CBS">
+                                        <field name="amount_cbs_base" />
+                                        <field name="amount_cbs_value" />
+                                    </group>
                                     <group string="ICMS">
                                         <field name="amount_icms_base" />
                                         <field name="amount_icms_value" />
