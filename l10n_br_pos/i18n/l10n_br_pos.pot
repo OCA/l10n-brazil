@@ -795,6 +795,12 @@ msgid "Crédito Visa"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cst_code_prefix_like
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__cst_code_prefix_like
+msgid "Cst Code Prefix Like"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__fiscal_printer_type__cupsconnection
 msgid "Cups"
 msgstr ""
@@ -1217,6 +1223,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_gross
 msgid "Gross Product/Service Amount"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cst_code_prefix_like
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__cst_code_prefix_like
+msgid "Helper field to filter taxes by CST code prefix (3 chars) using LIKE."
 msgstr ""
 
 #. module: l10n_br_pos
