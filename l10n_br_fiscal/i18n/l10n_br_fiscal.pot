@@ -2489,6 +2489,8 @@ msgid "Credit Reversal"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cst_code_prefix_like
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cst_code_prefix_like
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__cst_code_prefix_like
 msgid "Cst Code Prefix Like"
 msgstr ""
@@ -3866,6 +3868,8 @@ msgid "Has VAT Specification"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cst_code_prefix_like
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cst_code_prefix_like
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_classification__cst_code_prefix_like
 msgid "Helper field to filter taxes by CST code prefix (3 chars) using LIKE."
 msgstr ""
