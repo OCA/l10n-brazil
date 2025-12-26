@@ -103,13 +103,16 @@ class DataAbstract(models.AbstractModel):
 
     @api.depends("name", "code")
     def _compute_display_name(self):
-        def truncate_name(name):
-            if len(name) > 60:
-                name = f"{name[:60]}..."
-            return name
+        def truncate(value, size=64):
+            value = value or ""
+            if len(value) > size:
+                return f"{value[: size - 3]}..."
+            return value
 
         for record in self:
+            code = record.code or ""
+            name = truncate(record.name)
             if self._context.get("show_code_only"):
-                record.display_name = record.code
+                record.display_name = code
             else:
-                record.display_name = f"{record.code} - {truncate_name(record.name)}"
+                record.display_name = f"{code} - {name}" if name else code
