@@ -1251,6 +1251,11 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__nif_motive_absence
+msgid "NIF motive absence"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__name
