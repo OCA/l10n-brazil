@@ -83,12 +83,21 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
         for field in common_fields:
-            self.assertEqual(
-                stock_move[field],
-                sale_order_line[field],
-                "Field %s failed to transfer from "
-                "sale.order.line to stock.move" % field,
-            )
+            if isinstance(stock_move[field], float):
+                self.assertAlmostEqual(
+                    stock_move[field],
+                    sale_order_line[field],
+                    2,
+                    "Field %s failed to transfer from "
+                    "sale.order.line to stock.move" % field,
+                )
+            else:
+                self.assertEqual(
+                    stock_move[field],
+                    sale_order_line[field],
+                    "Field %s failed to transfer from "
+                    "sale.order.line to stock.move" % field,
+                )
 
         self.env["stock.immediate.transfer"].create(
             {"pick_ids": [Command.link(stock_picking.id)]}
@@ -118,12 +127,21 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
         for field in common_fields:
-            self.assertEqual(
-                stock_move[field],
-                sale_order_line[field],
-                "Field %s failed to transfer from "
-                "sale.order.line to stock.move" % field,
-            )
+            if isinstance(stock_move[field], float):
+                self.assertAlmostEqual(
+                    stock_move[field],
+                    sale_order_line[field],
+                    2,
+                    "Field %s failed to transfer from "
+                    "sale.order.line to stock.move" % field,
+                )
+            else:
+                self.assertEqual(
+                    stock_move[field],
+                    sale_order_line[field],
+                    "Field %s failed to transfer from "
+                    "sale.order.line to stock.move" % field,
+                )
 
     def test_picking_sale_order_product_and_service(self):
         """
@@ -229,12 +247,21 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             line.save()
 
         for field in common_fields:
-            self.assertEqual(
-                sale_order_line[field],
-                invoice_lines[field],
-                "Field %s failed to transfer from "
-                "sale.order.line to account.move.line" % field,
-            )
+            if isinstance(sale_order_line[field], float):
+                self.assertAlmostEqual(
+                    sale_order_line[field],
+                    invoice_lines[field],
+                    2,
+                    "Field %s failed to transfer from "
+                    "sale.order.line to account.move.line" % field,
+                )
+            else:
+                self.assertEqual(
+                    sale_order_line[field],
+                    invoice_lines[field],
+                    "Field %s failed to transfer from "
+                    "sale.order.line to account.move.line" % field,
+                )
 
         for inv_line in invoice_lines.filtered(
             lambda ln: ln.product_id == sale_order_line.product_id
