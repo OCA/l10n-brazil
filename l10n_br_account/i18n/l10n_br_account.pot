@@ -110,9 +110,9 @@ msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
-#: code:addons/l10n_br_account/wizards/document_import_wizard_mixin.py:0
+#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
 #, python-format
-msgid "Adjust Importation for document type %s"
+msgid "Adjust Importation"
 msgstr ""
 
 #. module: l10n_br_account
@@ -2336,8 +2336,7 @@ msgid "Financial Gross Amount"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard_mixin__first_imported_move_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_nfe_import_xml__first_imported_move_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard__first_imported_move_id
 msgid "First Imported Move"
 msgstr ""
 
@@ -3589,8 +3588,13 @@ msgid "If empty, uses the journal of the journal entry to be reversed."
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.document_import_wizard_mixin_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.document_import_wizard_form
 msgid "Import Account Move"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_import_wizard
+msgid "Import Document Wizard"
 msgstr ""
 
 #. module: l10n_br_account
@@ -3607,14 +3611,14 @@ msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
-#: code:addons/l10n_br_account/wizards/document_import_wizard_mixin.py:0
+#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
 #, python-format
 msgid "Imported Invoice"
 msgstr ""
 
 #. module: l10n_br_account
 #. odoo-python
-#: code:addons/l10n_br_account/wizards/document_import_wizard_mixin.py:0
+#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
 #, python-format
 msgid "Imported Invoices"
 msgstr ""
@@ -7735,11 +7739,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_veicProd
 msgid "Veículos novos"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_import_wizard_mixin
-msgid "Wizard Import Document Mixin"
 msgstr ""
 
 #. module: l10n_br_account
