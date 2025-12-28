@@ -2602,6 +2602,11 @@ msgid "Identificação do tomador do serviço no CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_import_wizard
+msgid "Import Document Wizard"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_authorize_accountant_download_xml
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_config_settings__cte_authorize_accountant_download_xml
 msgid ""
