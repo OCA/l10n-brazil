@@ -570,22 +570,22 @@
                                         <field
                                             name="icms_effective_reduction"
                                             force_save="1"
-                                            attr="{'invisible': [('icms_cst_code', '!=', '500')]}"
+                                            invisible="icms_cst_code != '500'"
                                         />
                                         <field
                                             name="icms_effective_base"
                                             force_save="1"
-                                            attr="{'invisible': [('icms_cst_code', '!=', '500')]}"
+                                            invisible="icms_cst_code != '500'"
                                         />
                                         <field
                                             name="icms_effective_percent"
                                             force_save="1"
-                                            attr="{'invisible': [('icms_cst_code', '!=', '500')]}"
+                                            invisible="icms_cst_code != '500'"
                                         />
                                         <field
                                             name="icms_effective_value"
                                             force_save="1"
-                                            attr="{'invisible': [('icms_cst_code', '!=', '500')]}"
+                                            invisible="icms_cst_code != '500'"
                                         />
                                     </group>
                                 </group>
