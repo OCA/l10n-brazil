@@ -89,6 +89,9 @@ TAX_DOMAIN_COFINS_ST = "cofinsst"
 TAX_DOMAIN_COFINS_WH = "cofins_wh"
 TAX_DOMAIN_ISSQN = "issqn"
 TAX_DOMAIN_ISSQN_WH = "issqn_wh"
+TAX_DOMAIN_IBS = "ibs"
+TAX_DOMAIN_CBS = "cbs"
+TAX_DOMAIN_IS = "is"
 TAX_DOMAIN_CSLL = "csll"
 TAX_DOMAIN_CSLL_WH = "csll_wh"
 TAX_DOMAIN_IR = "ir"
@@ -121,6 +124,9 @@ TAX_DOMAIN = [
     (TAX_DOMAIN_COFINS_WH, "COFINS WH"),
     (TAX_DOMAIN_ISSQN, "ISSQN"),
     (TAX_DOMAIN_ISSQN_WH, "ISSQN WH"),
+    (TAX_DOMAIN_IBS, "IBS"),
+    (TAX_DOMAIN_CBS, "CBS"),
+    (TAX_DOMAIN_IS, "IS"),
     (TAX_DOMAIN_IR, "IR"),
     (TAX_DOMAIN_IRPJ, "IRPJ"),
     (TAX_DOMAIN_IRPJ_WH, "IRPJ WH"),
@@ -555,4 +561,16 @@ FISCAL_TAX_ID_FIELDS = [
     "pis_tax_id",
     "pis_wh_tax_id",
     "pisst_tax_id",
+    "cbs_tax_id",
+    "ibs_tax_id",
 ]
+
+TAX_RATE_TYPE = [
+    ("1", "1 - Fixa"),
+    ("2", "2 - Padrão"),
+    ("3", "3 - Sem Alíquota"),
+    ("4", "4 - Uniforme Nacional"),
+    ("5", "5 - Uniforme Setorial"),
+]
+
+TAX_RATE_TYPE_DEFAULT = "2"

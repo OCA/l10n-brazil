@@ -96,5 +96,11 @@ class DocumentLine(models.Model):
             "municipio_prestacao_servico": self.issqn_fg_city_id.ibge_code or "",
             "discriminacao": str(self.name[:2000] or ""),
             "codigo_cnae": misc.punctuation_rm(self.cnae_id.code) or None,
+            "codigo_nbs": self.nbs_id.code or "",
+            "codigo_indicador_operacao": self.operation_indicator_id.code or "",
+            "codigo_classificacao_tributaria": self.tax_classification_id.code
+            or "000000",
+            "codigo_situacao_tributaria": self.ibs_cst_code or "000",
+            "ibs_cbs_base_calculo": round(self.issqn_base, 2),
             "valor_desconto_incondicionado": round(self.discount_value, 2),
         }

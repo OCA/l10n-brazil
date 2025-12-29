@@ -46,7 +46,9 @@
         "data/l10n_br_fiscal.tax.ipi.guideline.class.csv",
         "data/l10n_br_fiscal.tax.pis.cofins.base.csv",
         "data/l10n_br_fiscal.tax.pis.cofins.credit.csv",
+        "data/l10n_br_fiscal.tax.classification.csv",
         "data/l10n_br_fiscal.service.type.csv",
+        "data/l10n_br_fiscal.operation.indicator.csv",
         "data/simplified_tax_data.xml",
         "data/operation_data.xml",
         "data/l10n_br_fiscal_tax_icms_data.xml",
@@ -58,6 +60,7 @@
         "data/l10n_br_fiscal.cest.csv",
         "data/l10n_br_fiscal_icms_tax_definition_data.xml",
         # Views
+        "views/tax_classification.xml",
         "views/legal_nature_view.xml",
         "views/cnae_view.xml",
         "views/cfop_view.xml",
@@ -86,6 +89,7 @@
         "views/simplified_tax_range_view.xml",
         "views/operation_view.xml",
         "views/operation_line_view.xml",
+        "views/operation_indicator_view.xml",
         "views/product_template_view.xml",
         "views/product_product_view.xml",
         "views/tax_estimate_view.xml",
@@ -102,7 +106,7 @@
         "views/city_taxation_code.xml",
         "views/operation_dashboard_view.xml",
         # Wizards
-        "wizards/document_import_wizard_mixin.xml",
+        "wizards/document_import_wizard.xml",
         # Actions
         "views/l10n_br_fiscal_action.xml",
         # Menus

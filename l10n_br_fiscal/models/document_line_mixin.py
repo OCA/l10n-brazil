@@ -17,11 +17,13 @@ from ..constants.fiscal import (
     PRODUCT_FISCAL_TYPE,
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
+    TAX_DOMAIN_CBS,
     TAX_DOMAIN_COFINS,
     TAX_DOMAIN_COFINS_ST,
     TAX_DOMAIN_COFINS_WH,
     TAX_DOMAIN_CSLL,
     TAX_DOMAIN_CSLL_WH,
+    TAX_DOMAIN_IBS,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ICMS_FCP,
     TAX_DOMAIN_ICMS_FCP_ST,
@@ -330,6 +332,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 )
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
+                line.tax_classification_id = mapping_result["tax_classification"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
 
                 if line._is_imported():
@@ -440,6 +443,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     "pis_base_type": TAX_BASE_TYPE_PERCENT,
                     "pisst_base_type": TAX_BASE_TYPE_PERCENT,
                     "pis_wh_base_type": TAX_BASE_TYPE_PERCENT,
+                    "cbs_base_type": TAX_BASE_TYPE_PERCENT,
+                    "ibs_base_type": TAX_BASE_TYPE_PERCENT,
                 }
             )
             if line.fiscal_operation_line_id:
@@ -550,6 +555,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.nbs_id = False
                 line.fiscal_genre_id = False
                 line.service_type_id = False
+                line.operation_indicator_id = False
                 continue
             p = line.product_id
             line.fiscal_type = p.fiscal_type
@@ -561,6 +567,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             line.nbs_id = p.nbs_id
             line.fiscal_genre_id = p.fiscal_genre_id
             line.service_type_id = p.service_type_id
+            line.operation_indicator_id = p.operation_indicator_id
 
     @api.depends("product_id")
     def _compute_city_taxation_code_id(self):
@@ -685,6 +692,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         if self.icms_tax_benefit_id:
             self.icms_tax_id = self.icms_tax_benefit_id.tax_id
 
+    @api.onchange("tax_classification_id")
+    def _onchange_tax_classification_id(self):
+        if self.tax_classification_id:
+            self.ibs_tax_id = self.tax_classification_id.tax_ibs_id
+            self.cbs_tax_id = self.tax_classification_id.tax_cbs_id
+
     def _prepare_fields_icmssn(self, tax_dict):
         self.ensure_one()
         cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
@@ -749,6 +762,30 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             "ii_base": tax_dict.get("base", 0.00),
             "ii_percent": tax_dict.get("percent_amount", 0.00),
             "ii_value": tax_dict.get("tax_value", 0.00),
+        }
+
+    def _prepare_fields_cbs(self, tax_dict):
+        self.ensure_one()
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        return {
+            "cbs_cst_id": cst_id,
+            "cbs_base_type": tax_dict.get("base_type", False),
+            "cbs_base": tax_dict.get("base", 0.00),
+            "cbs_percent": tax_dict.get("percent_amount", 0.00),
+            "cbs_reduction": tax_dict.get("percent_reduction", 0.00),
+            "cbs_value": tax_dict.get("tax_value", 0.00),
+        }
+
+    def _prepare_fields_ibs(self, tax_dict):
+        self.ensure_one()
+        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        return {
+            "ibs_cst_id": cst_id,
+            "ibs_base_type": tax_dict.get("base_type", False),
+            "ibs_base": tax_dict.get("base", 0.00),
+            "ibs_percent": tax_dict.get("percent_amount", 0.00),
+            "ibs_reduction": tax_dict.get("percent_reduction", 0.00),
+            "ibs_value": tax_dict.get("tax_value", 0.00),
         }
 
     def _prepare_fields_pis(self, tax_dict):
@@ -1161,6 +1198,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     city_taxation_code_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.city.taxation.code",
         compute="_compute_city_taxation_code_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+
+    operation_indicator_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+        string="Operation Indicator",
+        compute="_compute_product_fiscal_fields",
         store=True,
         readonly=False,
         precompute=True,
@@ -1768,6 +1814,171 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     p_devol = fields.Float(string="Percentual de mercadoria devolvida")
 
     ipi_devol_value = fields.Monetary(string="Valor do IPI devolvido")
+
+    # CBS Fields
+    cbs_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax CBS",
+        domain=(
+            f"[('tax_domain', '=', '{TAX_DOMAIN_CBS}'), '|', "
+            "('cst_in_id.code', 'like', cst_code_prefix_like), "
+            "('cst_out_id.code', 'like', cst_code_prefix_like)]"
+        ),
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    cbs_cst_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cst",
+        string="CST CBS",
+        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'cbs')]",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    cbs_cst_code = fields.Char(
+        related="cbs_cst_id.code", string="CBS CST Code", store=True
+    )
+
+    cbs_base_type = fields.Selection(
+        selection=TAX_BASE_TYPE,
+        string="CBS Base Type",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    cbs_base = fields.Monetary(
+        string="CBS Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    cbs_percent = fields.Float(
+        string="CBS %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    cbs_reduction = fields.Float(
+        string="CBS % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    cbs_value = fields.Monetary(
+        string="CBS Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    # IBS Fields
+    ibs_tax_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax",
+        string="Tax IBS",
+        domain=(
+            f"[('tax_domain', '=', '{TAX_DOMAIN_IBS}'), '|', "
+            "('cst_in_id.code', 'like', cst_code_prefix_like), "
+            "('cst_out_id.code', 'like', cst_code_prefix_like)]"
+        ),
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    ibs_cst_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cst",
+        string="CST IBS",
+        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'ibs')]",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    ibs_cst_code = fields.Char(
+        related="ibs_cst_id.code", string="IBS CST Code", store=True
+    )
+
+    ibs_base_type = fields.Selection(
+        selection=TAX_BASE_TYPE,
+        string="IBS Base Type",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    ibs_base = fields.Monetary(
+        string="IBS Base",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    ibs_percent = fields.Float(
+        string="IBS %",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    ibs_reduction = fields.Float(
+        string="IBS % Reduction",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    ibs_value = fields.Monetary(
+        string="IBS Value",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    # CBS/IBS Tax Classification
+    tax_classification_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.classification",
+        string="Tax Classification",
+        compute="_compute_fiscal_tax_ids",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    cst_code_prefix_like = fields.Char(
+        compute="_compute_cst_code_prefix_like",
+        help="Helper field to filter taxes by CST code prefix (3 chars) using LIKE.",
+    )
+
+    @api.depends("tax_classification_id")
+    def _compute_cst_code_prefix_like(self):
+        for rec in self:
+            code = rec.tax_classification_id.code if rec.tax_classification_id else ""
+            prefix = (code or "")[:3]
+            # Avoid matching all records when the prefix is not available yet.
+            rec.cst_code_prefix_like = (
+                f"{prefix}%" if len(prefix) == 3 else "__no_match__%"
+            )
 
     # II Fields
     ii_tax_id = fields.Many2one(
