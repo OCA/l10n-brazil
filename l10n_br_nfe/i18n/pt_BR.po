@@ -717,11 +717,6 @@ msgid "Cnpj supplier"
 msgstr "CNPJ Fornecedor"
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_type
-msgid "Code"
-msgstr "Código"
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cBarra
 msgid "Codigo de barras diferente"
 msgstr ""
@@ -763,7 +758,6 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__company_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__company_id
 msgid "Company"
 msgstr "Empresa"
@@ -896,14 +890,12 @@ msgid "Country state"
 msgstr "Estado do país"
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__create_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__create_uid
 msgid "Created by"
 msgstr "Criado por"
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__create_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__create_date
 msgid "Created on"
@@ -1591,7 +1583,6 @@ msgid "Digito Verificador da Chave de Acesso da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__display_name
 msgid "Display Name"
@@ -1608,20 +1599,9 @@ msgid "Document Info"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_key
-msgid "Document Key"
-msgstr "Chave do Documento"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_number
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__number
 msgid "Document Number"
 msgstr "Número do Documento"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_serie
-msgid "Document Serie"
-msgstr "Série do Documento"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__document_state
@@ -1638,11 +1618,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__document_value
 msgid "Document Total Value"
 msgstr "Valor Total do Documento"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_type_id
-msgid "Document Type"
-msgstr "Tipo de Documento"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
@@ -1821,7 +1796,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_import_xml_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.document_import_wizard_form
 msgid "Existing Document"
 msgstr "Documento Existente"
 
@@ -1842,11 +1817,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
 msgid "Fatura"
 msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__file
-msgid "File to Import"
-msgstr "Arquivo a Importar"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
@@ -1873,7 +1843,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_det_infNFe_id
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__document_id
 msgid "Fiscal Document"
 msgstr "Documento Fiscal"
@@ -1892,21 +1861,6 @@ msgstr "Documento Fiscal Relacionado"
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_type
 msgid "Fiscal Document Type"
 msgstr "Tipo de Documento Fiscal"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__event_id
-msgid "Fiscal Event"
-msgstr "Evento Fiscal"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__fiscal_operation_id
-msgid "Fiscal Operation"
-msgstr "Operação Fiscal"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__fiscal_operation_type
-msgid "Fiscal Operation Type"
-msgstr "Tipo de Operação Fiscal"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__price_unit_trib
@@ -2254,7 +2208,6 @@ msgid "ICMSST"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__id
 msgid "ID"
@@ -2415,6 +2368,11 @@ msgid "Import"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_import_wizard
+msgid "Import Document Wizard"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_dfe_form
 msgid "Import Documents"
 msgstr ""
@@ -2423,11 +2381,6 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_nfe.nfe_import_document
 msgid "Import NF-e"
 msgstr "Importar NF-e"
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_import_xml
-msgid "Import XML Brazilian Fiscal Document"
-msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_nfe_import_xml_products
@@ -2457,17 +2410,7 @@ msgid "Imported Document"
 msgstr "Documento Importado"
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__xml_partner_cpf_cnpj
-msgid "Imported Partner Identification"
-msgstr "Identificação de Parceiro Importado"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__xml_partner_name
-msgid "Imported Partner Name"
-msgstr "Nome do Parceiro Importado"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__imported_products_ids
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard__imported_products_ids
 msgid "Imported Products"
 msgstr "Produtos Importados"
 
@@ -2891,24 +2834,17 @@ msgid "Item da lista de serviços da LC 116/03 em que se classifica o serviço."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__justification
-msgid "Justification"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_xJust
 msgid "Justificativa da entrada"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__write_uid
 msgid "Last Updated by"
 msgstr "Última Atualização por"
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__write_date
 msgid "Last Updated on"
@@ -3217,7 +3153,7 @@ msgid "NFe Version"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_import_xml_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.document_import_wizard_form
 msgid "NFe XML Products"
 msgstr "Produtos no XML da NFe"
 
@@ -3232,7 +3168,7 @@ msgid "NVE"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__nat_op
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard__nat_op
 msgid "Natureza da Operação"
 msgstr ""
 
@@ -3775,7 +3711,6 @@ msgid "Parcelas"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__partner_id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__imported_partner_id
 msgid "Partner"
 msgstr "Parceiro"
@@ -4248,11 +4183,6 @@ msgid "Right margin in mm for the DANFE layout."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__rps_number
-msgid "Rps Number"
-msgstr "Número do RPS"
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_mde__operation_type__1
 msgid "Saída"
 msgstr ""
@@ -4355,15 +4285,9 @@ msgid "Solicitação do pedido de emissão da NFF"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__state
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_mde_filter
 msgid "State"
 msgstr "Estado"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml__document_status
-msgid "Status"
-msgstr "Situação"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_mde__partner_id
@@ -5440,11 +5364,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_import_wizard_mixin
-msgid "Wizard Import Document Mixin"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__cfop_xml
 msgid "XML CFOP"
 msgstr ""
@@ -6059,6 +5978,42 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_avulsa__nfe40_xOrgao
 msgid "Órgão emitente"
 msgstr ""
+
+#~ msgid "Code"
+#~ msgstr "Código"
+
+#~ msgid "Document Key"
+#~ msgstr "Chave do Documento"
+
+#~ msgid "Document Serie"
+#~ msgstr "Série do Documento"
+
+#~ msgid "Document Type"
+#~ msgstr "Tipo de Documento"
+
+#~ msgid "File to Import"
+#~ msgstr "Arquivo a Importar"
+
+#~ msgid "Fiscal Event"
+#~ msgstr "Evento Fiscal"
+
+#~ msgid "Fiscal Operation"
+#~ msgstr "Operação Fiscal"
+
+#~ msgid "Fiscal Operation Type"
+#~ msgstr "Tipo de Operação Fiscal"
+
+#~ msgid "Imported Partner Identification"
+#~ msgstr "Identificação de Parceiro Importado"
+
+#~ msgid "Imported Partner Name"
+#~ msgstr "Nome do Parceiro Importado"
+
+#~ msgid "Rps Number"
+#~ msgstr "Número do RPS"
+
+#~ msgid "Status"
+#~ msgstr "Situação"
 
 #~ msgid ""
 #~ "<span class=\"o_form_label\">NF-e Default Environment</span>\n"
