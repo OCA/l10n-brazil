@@ -3,7 +3,7 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns="http://www.prefeitura.sp.gov.br/nfe"
 >
-    <Cabecalho xmlns="" Versao="1">
+    <Cabecalho xmlns="" Versao="2">
         <CPFCNPJRemetente>
             <CNPJ>59594315000157</CNPJ>
         </CPFCNPJRemetente>
@@ -11,12 +11,10 @@
         <dtInicio>2020-06-04</dtInicio>
         <dtFim>2020-06-04</dtFim>
         <QtdRPS>1</QtdRPS>
-        <ValorTotalServicos>100</ValorTotalServicos>
-        <ValorTotalDeducoes>0</ValorTotalDeducoes>
     </Cabecalho>
     <RPS xmlns="">
         <Assinatura
-        >00035172001  00000000005020200604TNN0000000000100000000000000000006311900281493979000189</Assinatura>
+        >MDAwMDAwMDM1MTcyMDAxICAwMDAwMDAwMDAwNTAyMDIwMDYwNFROTjAwMDAwMDAwMDAxMDAwMDAwMDAwMDAwMDAwMDAwMDYzMTE5MDAyODE0OTM5NzkwMDAxODk=</Assinatura>
         <ChaveRPS>
             <InscricaoPrestador>35172</InscricaoPrestador>
             <SerieRPS>001</SerieRPS>
@@ -26,7 +24,6 @@
         <DataEmissao>2020-06-04</DataEmissao>
         <StatusRPS>N</StatusRPS>
         <TributacaoRPS>T</TributacaoRPS>
-        <ValorServicos>100</ValorServicos>
         <ValorDeducoes>0</ValorDeducoes>
         <ValorPIS>0</ValorPIS>
         <ValorCOFINS>0</ValorCOFINS>
@@ -52,7 +49,25 @@
         <EmailTomador>cliente1@cliente1.com.br</EmailTomador>
         <Discriminacao
         >[ODOO_DEV] Customized Odoo Development|Documento emitido por: Marc Demo|</Discriminacao>
-        <ValorCargaTributaria>0</ValorCargaTributaria>
-        <FonteCargaTributaria>IBPT</FonteCargaTributaria>
+        <ValorInicialCobrado>100</ValorInicialCobrado>
+        <ValorIPI>0</ValorIPI>
+        <ExigibilidadeSuspensa>0</ExigibilidadeSuspensa>
+        <PagamentoParceladoAntecipado>0</PagamentoParceladoAntecipado>
+        <NBS>124043300</NBS>
+        <cLocPrestacao>3550308</cLocPrestacao>
+        <IBSCBS>
+            <finNFSe>0</finNFSe>
+            <indFinal>0</indFinal>
+            <cIndOp>030101</cIndOp>
+            <tpEnteGov>1</tpEnteGov>
+            <indDest>1</indDest>
+            <valores>
+                <trib>
+                    <gIBSCBS>
+                        <cClassTrib>False</cClassTrib>
+                    </gIBSCBS>
+                </trib>
+            </valores>
+        </IBSCBS>
     </RPS>
 </PedidoEnvioLoteRPS>
