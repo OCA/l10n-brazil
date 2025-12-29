@@ -28,6 +28,7 @@
         "wizards/document_correction_wizard.xml",
         "wizards/document_status_wizard.xml",
         "wizards/invalidate_number_wizard.xml",
+        "wizards/document_import_wizard.xml",
         # Actions
         "views/l10n_br_fiscal_action.xml",
         # Menus

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <!-- Invalidate Number -->
+    <menuitem
+        id="import_document"
+        action="import_document_action"
+        name="Import Document"
+        parent="l10n_br_fiscal.document_sub_menu"
+        sequence="46"
+        groups="l10n_br_fiscal.group_manager"
+    />
+    <menuitem
+        id="imported_document_menu"
+        action="imported_document_action"
+        name="Imported Document"
+        parent="l10n_br_fiscal.document_sub_menu"
+        sequence="20"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+    />
     <menuitem
         id="invalidate_number_menu"
         action="invalidate_number_action"
@@ -8,7 +23,6 @@
         parent="l10n_br_fiscal.document_sub_menu"
         sequence="40"
     />
-    <!-- Fiscal Events -->
     <menuitem
         id="event_menu"
         action="event_action"
