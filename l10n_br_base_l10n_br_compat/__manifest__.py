@@ -10,7 +10,7 @@
     "maintainers": ["rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["l10n_br_base", "l10n_br"],
-    "version": "18.0.1.0.0",
+    "version": "18.0.2.0.0",
     "data": [
         "views/res_partner_views.xml",
         "views/res_company_view.xml",
