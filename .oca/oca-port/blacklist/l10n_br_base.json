@@ -1,0 +1,5 @@
+{
+  "pull_requests": {
+    "OCA/l10n-brazil#4249": "no need to support Python 3.9 for 17.0"
+  }
+}
