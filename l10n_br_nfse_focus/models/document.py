@@ -227,6 +227,20 @@ class FocusnfeNfse(models.AbstractModel):
             ),
             "codigo_situacao_tributaria": service.get("codigo_situacao_tributaria"),
             "ibs_cbs_base_calculo": service.get("ibs_cbs_base_calculo"),
+            "ibs_uf_aliquota": round(service.get("ibs_uf_aliquota", 0), 2)
+            if service.get("ibs_uf_aliquota")
+            else None,
+            "ibs_mun_aliquota": 0.0,
+            "cbs_aliquota": round(service.get("cbs_aliquota", 0), 2)
+            if service.get("cbs_aliquota")
+            else None,
+            "ibs_uf_valor": round(service.get("ibs_uf_valor", 0), 2)
+            if service.get("ibs_uf_valor")
+            else None,
+            "ibs_mun_valor": 0.0,
+            "cbs_valor": round(service.get("cbs_valor", 0), 2)
+            if service.get("cbs_valor")
+            else None,
         }
 
     def _prepare_recipient_data(self, recipient, identification, company):
