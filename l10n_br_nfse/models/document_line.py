@@ -103,4 +103,10 @@ class DocumentLine(models.Model):
             "codigo_situacao_tributaria": self.ibs_cst_code or "000",
             "ibs_cbs_base_calculo": round(self.issqn_base, 2),
             "valor_desconto_incondicionado": round(self.discount_value, 2),
+            "ibs_uf_aliquota": round(self.ibs_percent, 2) if self.ibs_percent else None,
+            "ibs_mun_aliquota": 0.0,
+            "cbs_aliquota": round(self.cbs_percent, 2) if self.cbs_percent else None,
+            "ibs_uf_valor": round(self.ibs_value, 2) if self.ibs_value else None,
+            "ibs_mun_valor": 0.0,
+            "cbs_valor": round(self.cbs_value, 2) if self.cbs_value else None,
         }
