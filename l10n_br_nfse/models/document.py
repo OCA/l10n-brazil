@@ -163,6 +163,10 @@ class Document(models.Model):
         valor_liquido_nfse = 0
         valor_desconto_incondicionado = 0
         ibs_cbs_base_calculo = 0
+        ibs_uf_aliquota = 0
+        cbs_aliquota = 0
+        ibs_uf_valor = 0
+        cbs_valor = 0
 
         for line in lines:
             result_line.update(line._prepare_line_service())
@@ -187,6 +191,10 @@ class Document(models.Model):
                 "valor_desconto_incondicionado"
             )
             ibs_cbs_base_calculo += result_line.get("ibs_cbs_base_calculo")
+            ibs_uf_aliquota += result_line.get("ibs_uf_aliquota") or 0
+            cbs_aliquota += result_line.get("cbs_aliquota") or 0
+            ibs_uf_valor += result_line.get("ibs_uf_valor") or 0
+            cbs_valor += result_line.get("cbs_valor") or 0
 
         result = {
             "valor_servicos": valor_servicos,
@@ -232,6 +240,12 @@ class Document(models.Model):
             ].tax_classification_id.code,
             "codigo_situacao_tributaria": self.fiscal_line_ids[0].cbs_cst_code,
             "ibs_cbs_base_calculo": ibs_cbs_base_calculo,
+            "ibs_uf_aliquota": ibs_uf_aliquota if ibs_uf_aliquota else None,
+            "ibs_mun_aliquota": 0.0,
+            "cbs_aliquota": cbs_aliquota if cbs_aliquota else None,
+            "ibs_uf_valor": ibs_uf_valor if ibs_uf_valor else None,
+            "ibs_mun_valor": 0.0,
+            "cbs_valor": cbs_valor if cbs_valor else None,
         }
 
         result.update(self.company_id._prepare_company_service())
