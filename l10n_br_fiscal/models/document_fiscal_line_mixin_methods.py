@@ -31,6 +31,8 @@ FISCAL_TAX_ID_FIELDS = [
     "pis_tax_id",
     "pis_wh_tax_id",
     "pisst_tax_id",
+    "cbs_tax_id",
+    "ibs_tax_id",
 ]
 
 FISCAL_CST_ID_FIELDS = [
@@ -40,6 +42,8 @@ FISCAL_CST_ID_FIELDS = [
     "pisst_cst_id",
     "cofins_cst_id",
     "cofinsst_cst_id",
+    "cbs_cst_id",
+    "ibs_cst_id",
 ]
 
 
@@ -371,6 +375,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 if city_id:
                     self.city_taxation_code_id = city_id
                     self.issqn_fg_city_id = company_city_id
+            
+            if not self.tax_classification_id and self.company_id.tax_classification_id:
+                self.tax_classification_id = self.company_id.tax_classification_id
         else:
             self.name = False
             self.fiscal_type = False
@@ -816,3 +823,35 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
+
+    def _set_fields_cbs(self, tax_dict):
+        self.ensure_one()
+        if tax_dict:
+            self.cbs_cst_id = tax_dict.get("cst_id")
+            self.cbs_base_type = tax_dict.get("base_type")
+            self.cbs_base = tax_dict.get("base", 0.00)
+            self.cbs_percent = tax_dict.get("percent_amount", 0.00)
+            self.cbs_reduction = tax_dict.get("percent_reduction", 0.00)
+            self.cbs_value = tax_dict.get("tax_value", 0.00)
+
+    @api.onchange(
+        "cbs_base_type", "cbs_base", "cbs_percent", "cbs_reduction", "cbs_value"
+    )
+    def _onchange_cbs_fields(self):
+        pass
+
+    def _set_fields_ibs(self, tax_dict):
+        self.ensure_one()
+        if tax_dict:
+            self.ibs_cst_id = tax_dict.get("cst_id")
+            self.ibs_base_type = tax_dict.get("base_type")
+            self.ibs_base = tax_dict.get("base", 0.00)
+            self.ibs_percent = tax_dict.get("percent_amount", 0.00)
+            self.ibs_reduction = tax_dict.get("percent_reduction", 0.00)
+            self.ibs_value = tax_dict.get("tax_value", 0.00)
+
+    @api.onchange(
+        "ibs_base_type", "ibs_base", "ibs_percent", "ibs_reduction", "ibs_value"
+    )
+    def _onchange_ibs_fields(self):
+        pass
