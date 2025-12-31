@@ -296,6 +296,11 @@ class AccountInvoiceLine(models.Model):
             user_type=user_type
         )
 
+    @api.onchange("tax_classification_id")
+    def _onchange_tax_classification_id(self):
+        if self.fiscal_document_line_id:
+            self.fiscal_document_line_id._onchange_tax_classification_id()
+
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
