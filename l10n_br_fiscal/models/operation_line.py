@@ -212,6 +212,9 @@ class OperationLine(models.Model):
         nbm=None,
         nbs=None,
         cest=None,
+        city_taxation_code=None,
+        service_type=None,
+        ind_final=None,
     ):
         """
         The method aggregates tax definitions from various sources, applying a
