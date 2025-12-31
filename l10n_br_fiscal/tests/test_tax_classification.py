@@ -4,23 +4,22 @@ from odoo.tests.common import Form, tagged
 
 @tagged("post_install", "-at_install")
 class TestTaxClassification(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+    def setUp(self):
+        super(TestTaxClassification, self).setUp()
+        self.env = self.env(context=dict(self.env.context, tracking_disable=True))
 
-        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
-        cls.partner = cls.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        cls.product = cls.env.ref("product.product_product_6")
+        self.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        self.product = self.env.ref("product.product_product_6")
 
         # Use a stable operation line already referenced in existing test suites.
-        cls.operation_line = cls.env.ref("l10n_br_fiscal.fo_venda_venda")
+        self.operation_line = self.env.ref("l10n_br_fiscal.fo_venda_venda")
 
         # Pick classifications with CBS/IBS taxes set in the provided CSV.
-        cls.classification_company = cls.env.ref(
+        self.classification_company = self.env.ref(
             "l10n_br_fiscal.tax_classification_000001"
         )
-        cls.classification_line = cls.env.ref(
+        self.classification_line = self.env.ref(
             "l10n_br_fiscal.tax_classification_200001"
         )
 
@@ -87,7 +86,7 @@ class TestTaxClassification(TransactionCase):
         doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         doc_form.ind_final = "1"
 
-        with doc_form.fiscal_line_ids.new() as line_form:
+        with doc_form.line_ids.new() as line_form:
             line_form.product_id = self.product
             # Ensure we map on a predictable operation line for this assertion.
             line_form.fiscal_operation_line_id = self.operation_line
