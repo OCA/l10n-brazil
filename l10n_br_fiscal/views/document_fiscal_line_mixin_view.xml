@@ -30,6 +30,7 @@
           <field name="fiscal_quantity" force_save="1" invisible="1" />
           <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1" />
           <field name="allow_csll_irpj" force_save="1" invisible="1" />
+          <field name="cst_code_prefix_like" force_save="1" invisible="1" />
         </group>
         <notebook>
           <field name="product_id" force_save="1" invisible="1" />
