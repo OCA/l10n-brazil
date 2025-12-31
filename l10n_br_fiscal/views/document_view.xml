@@ -431,61 +431,69 @@
             <page name="amounts" string="Amounts">
               <group>
                 <group>
-                  <group string="ICMS">
-                    <field name="amount_icms_base" />
-                    <field name="amount_icms_value" />
-                    <field name="amount_icmssn_credit_value" />
-                  </group>
-                  <group string="ICMS DIFAL">
-                    <field name="amount_icms_destination_value" />
-                    <field name="amount_icms_origin_value" />
-                    <field name="amount_icmsfcp_value" />
-                  </group>
-                  <group string="ICMS ST">
-                    <field name="amount_icmsst_base" />
-                    <field name="amount_icmsst_value" />
-                  </group>
-                  <group string="IPI">
-                    <field name="amount_ipi_base" />
-                    <field name="amount_ipi_value" />
-                  </group>
-                  <group string="ISSQN">
-                    <field name="amount_issqn_base" />
-                    <field name="amount_issqn_value" />
-                    <field name="amount_issqn_wh_base" />
-                    <field name="amount_issqn_wh_value" />
-                  </group>
-                  <group string="PIS">
-                    <field name="amount_pis_base" />
-                    <field name="amount_pis_value" />
-                    <field name="amount_pis_wh_base" />
-                    <field name="amount_pis_wh_value" />
-                  </group>
-                  <group string="COFINS">
-                    <field name="amount_cofins_base" />
-                    <field name="amount_cofins_value" />
-                    <field name="amount_cofins_wh_base" />
-                    <field name="amount_cofins_wh_value" />
-                  </group>
-                  <group string="CSLL">
-                    <field name="amount_csll_base" />
-                    <field name="amount_csll_value" />
-                    <field name="amount_csll_wh_base" />
-                    <field name="amount_csll_wh_value" />
-                  </group>
-                  <group string="IRPJ">
-                    <field name="amount_irpj_base" />
-                    <field name="amount_irpj_value" />
-                    <field name="amount_irpj_wh_base" />
-                    <field name="amount_irpj_wh_value" />
-                  </group>
-                  <group string="INSS">
-                    <field name="amount_inss_base" />
-                    <field name="amount_inss_value" />
-                    <field name="amount_inss_wh_base" />
-                    <field name="amount_inss_wh_value" />
-                  </group>
-                </group>
+                                    <group string="IBS">
+                                        <field name="amount_ibs_base" />
+                                        <field name="amount_ibs_value" />
+                                    </group>
+                                    <group string="CBS">
+                                        <field name="amount_cbs_base" />
+                                        <field name="amount_cbs_value" />
+                                    </group>
+                                    <group string="ICMS">
+                                        <field name="amount_icms_base" />
+                                        <field name="amount_icms_value" />
+                                        <field name="amount_icmssn_credit_value" />
+                                    </group>
+                                    <group string="ICMS DIFAL">
+                                        <field name="amount_icms_destination_value" />
+                                        <field name="amount_icms_origin_value" />
+                                        <field name="amount_icmsfcp_value" />
+                                    </group>
+                                    <group string="ICMS ST">
+                                        <field name="amount_icmsst_base" />
+                                        <field name="amount_icmsst_value" />
+                                    </group>
+                                    <group string="IPI">
+                                        <field name="amount_ipi_base" />
+                                        <field name="amount_ipi_value" />
+                                    </group>
+                                    <group string="ISSQN">
+                                        <field name="amount_issqn_base" />
+                                        <field name="amount_issqn_value" />
+                                        <field name="amount_issqn_wh_base" />
+                                        <field name="amount_issqn_wh_value" />
+                                    </group>
+                                    <group string="PIS">
+                                        <field name="amount_pis_base" />
+                                        <field name="amount_pis_value" />
+                                        <field name="amount_pis_wh_base" />
+                                        <field name="amount_pis_wh_value" />
+                                    </group>
+                                    <group string="COFINS">
+                                        <field name="amount_cofins_base" />
+                                        <field name="amount_cofins_value" />
+                                        <field name="amount_cofins_wh_base" />
+                                        <field name="amount_cofins_wh_value" />
+                                    </group>
+                                    <group string="CSLL">
+                                        <field name="amount_csll_base" />
+                                        <field name="amount_csll_value" />
+                                        <field name="amount_csll_wh_base" />
+                                        <field name="amount_csll_wh_value" />
+                                    </group>
+                                    <group string="IRPJ">
+                                        <field name="amount_irpj_base" />
+                                        <field name="amount_irpj_value" />
+                                        <field name="amount_irpj_wh_base" />
+                                        <field name="amount_irpj_wh_value" />
+                                    </group>
+                                    <group string="INSS">
+                                        <field name="amount_inss_base" />
+                                        <field name="amount_inss_value" />
+                                        <field name="amount_inss_wh_base" />
+                                        <field name="amount_inss_wh_value" />
+                                    </group>
+                                </group>
                 <group>
                   <group string="Amounts">
                     <field name="amount_price_gross" />
