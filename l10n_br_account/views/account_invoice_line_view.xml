@@ -54,6 +54,7 @@
                     name="fiscal_operation_line_id"
                     attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}"
                 />
+                <field name="tax_classification_id" invisible="1" />
                 <field
                     name="cfop_id"
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
