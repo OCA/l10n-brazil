@@ -34,7 +34,6 @@ class SpedDeclaration(models.AbstractModel):
         comodel_name="res.company",
         string="Company",
         required=True,
-        states={"done": [("readonly", True)]},
         default=lambda self: self.env.company,
     )
     state = fields.Selection(

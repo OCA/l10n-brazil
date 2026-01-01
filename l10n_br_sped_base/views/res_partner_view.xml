@@ -9,13 +9,10 @@
         <field name="arch" type="xml">
             <group position="inside" name="other_infos">
                 <field name="is_accountant" />
-                <field
-                    name="crc_code"
-                    attrs="{'invisible': [('is_accountant','!=', True)]}"
-                />
+                <field name="crc_code" invisible="is_accountant != True" />
                 <field
                     name="crc_state_id"
-                    attrs="{'invisible': [('is_accountant','!=', True)]}"
+                    invisible="is_accountant != True"
                     domain="[('country_id', '=', %(base.br)d)]"
                 />
                 <field name="rntrc_code" />
