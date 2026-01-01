@@ -1,8 +1,8 @@
 from odoo.tests import TransactionCase
-from odoo.tests.common import Form, tagged
+from odoo.tests.common import Form  # , tagged
 
 
-@tagged("post_install", "-at_install")
+# @tagged("post_install", "-at_install")
 class TestTaxClassification(TransactionCase):
     def setUp(self):
         super(TestTaxClassification, self).setUp()
