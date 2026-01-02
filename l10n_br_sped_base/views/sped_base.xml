@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        name="SPED"
+        id="menu_root"
+        sequence="90"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        web_icon="l10n_br_sped_base,static/description/icon.png"
+    />
+</odoo>
