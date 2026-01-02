@@ -8,8 +8,8 @@ O módulo atende desde a automação na emissão de notas para empresas do Simpl
 
 A arquitetura do módulo se baseia no mecanismo de herança por composição `_inherits` do Odoo para criar uma composição dinâmica entre os modelos fiscais e contábeis:
 
-*   **`account.move`** herda de **`l10n_br_fiscal.document`**
-*   **`account.move.line`** herda de **`l10n_br_fiscal.document.line`**
+*   **account.move** herda de **l10n_br_fiscal.document**
+*   **account.move.line** herda de **l10n_br_fiscal.document.line**
 
 Esta abordagem, análoga ao *Decorator Pattern*, oferece as seguintes vantagens:
 
@@ -59,11 +59,11 @@ Vale a pena mencionar que lançamentos de Custo da Mercadoria Vendida (CMV) e ou
 
 A arquitetura suporta cenários onde um único lançamento financeiro (`account.move`) agrupa múltiplos documentos fiscais, como uma fatura única para pagar vários Conhecimentos de Transporte (CT-e). Esta flexibilidade é garantida por três campos-chave:
 
-*   **`account.move.fiscal_document_id`**: O campo `Many2one` que implementa o `_inherits`. Representa o documento fiscal "principal" ou em edição na interface da fatura.
+*   **account.move.fiscal_document_id**: O campo `Many2one` que implementa o `_inherits`. Representa o documento fiscal "principal" ou em edição na interface da fatura.
 
-*   **`account.move.line.fiscal_document_line_id`**: O pilar da arquitetura. Permite que **cada linha** da fatura aponte para uma linha de um documento fiscal distinto. É isso que possibilita agregar múltiplos documentos em um único `account.move`.
+*   **account.move.line.fiscal_document_line_id**: O pilar da arquitetura. Permite que **cada linha** da fatura aponte para uma linha de um documento fiscal distinto. É isso que possibilita agregar múltiplos documentos em um único `account.move`.
 
-*   **`account.move.fiscal_document_ids`**: Campo `One2many` computado que agrega todos os documentos fiscais vinculados às linhas da fatura, oferecendo uma visão completa e consolidada quando o lançamento tem mais de um documento fiscal.
+*   **account.move.fiscal_document_ids**: Campo `One2many` computado que agrega todos os documentos fiscais vinculados às linhas da fatura, oferecendo uma visão completa e consolidada quando o lançamento tem mais de um documento fiscal.
 
 A flexibilidade do design é bidirecional. O sistema também gerencia nativamente cenários onde **um lançamento contábil (`account.move`) não possui nenhum documento fiscal associado**. Isso é fundamental para operações puramente contábeis ou não fiscais, como:
 *   Lançamentos de folha de pagamento.
@@ -85,106 +85,9 @@ Por outro lado, modelos como `sale.order` e `purchase.order` não são uma repre
 
 # Modelo UML Simplificado
 
-```
-classDiagram
-    direction LR
+![UML account.move](../static/img/account_move.png)
 
-    subgraph l10n_br_fiscal
-        class l10n_br_fiscal.document.mixin {
-            <<Mixin>>
-            + fiscal_operation_id
-            + amount_icms_base
-            + amount_icms_value
-            + ... (fiscal header fields)
-            + _prepare_br_fiscal_dict()
-            + _compute_fiscal_amount()
-        }
-        class l10n_br_fiscal.document {
-            + state_edoc
-            + document_number
-        }
-        l10n_br_fiscal.document --|> l10n_br_fiscal.document.mixin
-    end
-
-    subgraph l10n_br_account
-        class l10n_br_account.decorator.mixin {
-            <<Mixin>>
-            + _add_inherited_fields()
-        }
-        class account.move {
-            + fiscal_document_id
-        }
-        account.move --o l10n_br_fiscal.document : _inherits (Composition)
-        account.move ..|> l10n_br_account.decorator.mixin : _inherit
-    end
-
-    subgraph l10n_br_sale
-        class sale.order
-        sale.order ..|> l10n_br_fiscal.document.mixin : _inherit
-    end
-
-    subgraph l10n_br_purchase
-        class purchase.order
-        purchase.order ..|> l10n_br_fiscal.document.mixin : _inherit
-    end
-
-    subgraph l10n_br_stock_account
-        class stock.picking
-        stock.picking ..|> l10n_br_fiscal.document.mixin : _inherit
-    end
-```
-
-```
-classDiagram
-    direction LR
-
-    subgraph l10n_br_fiscal
-        class l10n_br_fiscal.document.line.mixin {
-            <<Mixin>>
-            + product_id
-            + price_unit
-            + fiscal_operation_line_id
-            + icms_percent
-            + icms_base
-            + icms_value
-            + ... (fiscal fields)
-            + _compute_fiscal_operation_line_id()
-            + _compute_fiscal_tax_ids()
-            + _compute_tax_fields()
-            + _compute_fiscal_amounts()
-        }
-        class l10n_br_fiscal.document.line {
-            + document_id
-        }
-        l10n_br_fiscal.document.line --|> l10n_br_fiscal.document.line.mixin
-    end
-
-    subgraph l10n_br_account
-        class l10n_br_account.decorator.mixin {
-            <<Mixin>>
-        }
-        class account.move.line {
-            + fiscal_document_line_id
-        }
-        account.move.line --o l10n_br_fiscal.document.line : _inherits (Composition)
-        account.move.line ..|> l10n_br_account.decorator.mixin : _inherit
-    end
-
-    subgraph l10n_br_sale
-        class sale.order.line
-        sale.order.line ..|> l10n_br_fiscal.document.line.mixin : _inherit
-    end
-
-    subgraph l10n_br_purchase
-        class purchase.order.line
-        purchase.order.line ..|> l10n_br_fiscal.document.line.mixin : _inherit
-    end
-
-    subgraph l10n_br_stock_account
-        class stock.move
-        stock.move ..|> l10n_br_fiscal.document.line.mixin : _inherit
-    end
-```
+![UML account.move.line](../static/img/account_move_line.png)
 
 # Aviso Importante: Pré-requisitos e Complexidade
 
