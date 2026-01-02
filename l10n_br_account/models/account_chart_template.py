@@ -63,8 +63,9 @@ class AccountChartTemplate(models.Model):
                         ref_name = ref_name.replace(str(company.id) + "_", "")
                         template_source_ref = ".".join(["l10n_br_coa", ref_name])
                         template_source = self.env.ref(template_source_ref)
-                        tax_source_ref = ".".join([ref_module, ref_name])
-                        tax_template = self.env.ref(tax_source_ref)
-                        tax.fiscal_tax_ids = (
-                            tax_template.fiscal_tax_ids
-                        ) = template_source.fiscal_tax_ids
+                        # In Odoo 17.0, account.tax.template no longer exists
+                        # The fiscal_tax_ids are set directly on account.tax records
+                        # The template_source (from l10n_br_coa) should have fiscal_tax_ids
+                        # if it was migrated correctly
+                        if hasattr(template_source, "fiscal_tax_ids"):
+                            tax.fiscal_tax_ids = template_source.fiscal_tax_ids

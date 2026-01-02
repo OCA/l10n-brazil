@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="l10n_br_coa.tax_template_out_ipi" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_ipi" model="account.tax">
         <field
             name="fiscal_tax_ids"
             search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_ipi').id)]"

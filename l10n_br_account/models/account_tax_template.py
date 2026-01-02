@@ -1,28 +1,13 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import Command, fields, models
+from odoo import models
 
 
-class AccountTaxTemplate(models.Model):
-    _inherit = "account.tax.template"
+class AccountTax(models.Model):
+    _inherit = "account.tax"
 
-    fiscal_tax_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.tax",
-        relation="fiscal_account_template_tax_rel",
-        column1="account_tax_template_id",
-        column2="fiscal_tax_id",
-        string="Fiscal Taxes",
-    )
-
-    def _generate_tax(self, company):
-        mapping = super()._generate_tax(company)
-        taxes_template = mapping.get("tax_template_to_tax").keys()
-
-        for tax_template in taxes_template:
-            tax_id = mapping.get("tax_template_to_tax").get(tax_template.id)
-            self.env["account.tax"].browse(tax_id).write(
-                {"fiscal_tax_ids": [Command.set(tax_template.fiscal_tax_ids.ids)]}
-            )
-
-        return mapping
+    # Note: fiscal_tax_ids already exists in account.tax model from l10n_br_account
+    # This file is kept for backward compatibility and to ensure the field exists
+    # The field definition is already in account_tax.py, so this is just a placeholder
+    # to maintain the inheritance chain if needed
