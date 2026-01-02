@@ -3,10 +3,12 @@
 
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.l10n_br_base.tests.tools import load_fixture_files
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     PROCESSADOR_NENHUM,
     PROCESSADOR_OCA,
 )
+from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
 
 from ..models.document import filter_processador_edoc_nfse
 
@@ -16,6 +18,19 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
+        load_fiscal_fixture_files(cls.env)
+        load_fixture_files(
+            cls.env, "l10n_br_fiscal", file_names=["fiscal_document_nfse_demo.xml"]
+        )
+        load_fixture_files(
+            cls.env,
+            "l10n_br_nfse",
+            file_names=[
+                "product_demo.xml",
+                "fiscal_document_demo.xml",
+            ],
+        )
 
         cls.nfse_same_state = cls.env.ref("l10n_br_fiscal.demo_nfse_same_state")
         cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
