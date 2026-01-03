@@ -12,19 +12,19 @@
 
 ## 16.0.5.0.0 (2024-12-16)
 
-- \[REM\] "Foward Port" Removendo Campos, Visões e Objetos obsoletos.
+- \[REM\] "Forward Port" Removendo Campos, Visões e Objetos obsoletos.
 
 ## 16.0.4.0.0 (2024-12-16)
 
-- [IMP] "Foward Port" Possibilidade de informar Códigos de Desconto além do 0 e 1.
+- [IMP] "Forward Port" Possibilidade de informar Códigos de Desconto além do 0 e 1.
 
 ## 16.0.3.0.0 (2024-12-16)
 
-- \[REF\] "Foward-Port" Separando as Configurações do CNAB do Modo de Pagamento.
+- \[REF\] "Forward-Port" Separando as Configurações do CNAB do Modo de Pagamento.
 
 ## 16.0.2.0.0 (2024-12-04)
 
-- \[REF\] "Foward-Port" Unindo os Códigos CNAB em um mesmo objeto.
+- \[REF\] "Forward-Port" Unindo os Códigos CNAB em um mesmo objeto.
 
 ## 16.0.1.0.0 (2024-09-10)
 
