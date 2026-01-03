@@ -19,7 +19,7 @@ class L10nBrCNABChangeMethods(models.Model):
         :param new_date: Nova Data de Vencimento
         :param rebate_value: Valor do Abatimento
         :param discount_value: Valor do Desconto
-        :param reason: Justificatica de alteração
+        :param reason: Justificativa de alteração
         :param kwargs:
         :return:
         """
@@ -251,12 +251,12 @@ class L10nBrCNABChangeMethods(models.Model):
 
     def _create_cnab_not_payment(self, payorder, new_payorder, reason):
         """
-        CNAB - Não Pagamento/Inadimplencia.
+        CNAB - Não Pagamento/Inadimplência.
         :param reason: descrição do motivo da alteração
         :return: deveria retornar algo ? Uma mensagem de confirmação talvez ?
         """
         # Modo de Pagto usado precisa ter a Conta Contabil de
-        # Não Pagamento/Inadimplencia
+        # Não Pagamento/Inadimplência
         cnab_config = self.payment_mode_id.cnab_config_id
         if not cnab_config.not_payment_account_id:
             self._msg_error_cnab_missing(
@@ -264,9 +264,9 @@ class L10nBrCNABChangeMethods(models.Model):
             )
 
         if not cnab_config.write_off_code_id:
-            self._msg_error_cnab_missing(self.payment_mode_id, "Writte Off Code")
+            self._msg_error_cnab_missing(self.payment_mode_id, "Write Off Code")
 
-        # TODO: O codigo usado seria o mesmo do writte off ?
+        # TODO: O codigo usado seria o mesmo do write off ?
         #  Em todos os casos?
         self.instruction_move_code_id = cnab_config.write_off_code_id
 
@@ -394,7 +394,7 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         cnab_config = self.payment_mode_id.cnab_config_id
         if not cnab_config.change_title_value_code_id:
-            self._msg_error_cnab_missing(self.payment_mode_id, "Tittle Value Code")
+            self._msg_error_cnab_missing(self.payment_mode_id, "Title Value Code")
 
         # Checar se existe uma Instrução de CNAB ainda a ser enviada
         self._check_cnab_instruction_to_be_send()
@@ -421,7 +421,7 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         cnab_config = self.payment_mode_id.cnab_config_id
         if not cnab_config.protest_title_code_id:
-            self._msg_error_cnab_missing(self.payment_mode_id, "Protest Tittle Code")
+            self._msg_error_cnab_missing(self.payment_mode_id, "Protest Title Code")
 
         return cnab_config.protest_title_code_id
 
@@ -446,7 +446,7 @@ class L10nBrCNABChangeMethods(models.Model):
         cnab_config = self.payment_mode_id.cnab_config_id
         if not cnab_config.suspend_protest_write_off_code_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id, "Suspend Protest and Writte Off Code"
+                self.payment_mode_id, "Suspend Protest and Write Off Code"
             )
 
         return cnab_config.suspend_protest_write_off_code_id

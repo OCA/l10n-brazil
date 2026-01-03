@@ -233,7 +233,7 @@ COMPLEMENTO_TIPO_SERVICO = [
 ]
 
 # Codigo adotado pelo Banco Central para identificar a
-# finalidade da TED. Utitilizar os
+# finalidade da TED. Utilizar os
 # códigos de finalidade cliente, disponíveis no site do Banco Central do Brasil
 # (www.bcb.gov.br), Sistema de Pagamentos Brasileiro,
 # Transferência de Arquivos,

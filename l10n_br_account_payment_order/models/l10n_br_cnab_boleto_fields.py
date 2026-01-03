@@ -199,7 +199,7 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
 
     rebate_account_id = fields.Many2one(
         comodel_name="account.account",
-        string="Conta Contabil de Abatimanto",
+        string="Conta Contabil de Abatimento",
         help="Conta padrão para Abatimento",
         tracking=True,
     )
@@ -263,15 +263,15 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     # Codigo para Protestar Título
     protest_title_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
-        string="Protest Tittle Instruction Code",
-        help="CNAB Movement Instruction Code for Protest Tittle.",
+        string="Protest Title Instruction Code",
+        help="CNAB Movement Instruction Code for Protest Title.",
         tracking=True,
     )
 
     # Codigo para Suspender Protesto e Manter em Carteira
     suspend_protest_keep_wallet_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
-        string="Suspend Protest an Keep in Wallet Instruction Code",
+        string="Suspend Protest and Keep in Wallet Instruction Code",
         help="CNAB Movement Instruction Code for"
         " Suspend Protest and Keep in Wallet.",
         tracking=True,
@@ -280,8 +280,8 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     # Codigo para Suspender Protesto e Baixar Título
     suspend_protest_write_off_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
-        string="Suspend Protest an Writte Off Instruction Code",
-        help="CNAB Movement Instruction Code for Suspend Protest and Writte Off.",
+        string="Suspend Protest and Write Off Instruction Code",
+        help="CNAB Movement Instruction Code for Suspend Protest and Write Off.",
         tracking=True,
     )
 
