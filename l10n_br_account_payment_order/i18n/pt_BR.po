@@ -1002,7 +1002,7 @@ msgstr "Código de Instrução de Movimento CNAB para Conceder Abatimento."
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_protest_title_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_protest_title_id
-msgid "CNAB Movement Instruction Code for Protest Tittle."
+msgid "CNAB Movement Instruction Code for Protest Title."
 msgstr "Código de Instrução de Movimento CNAB para Protestar Título."
 
 #. module: l10n_br_account_payment_order
@@ -1016,7 +1016,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_suspend_protest_write_off_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_suspend_protest_write_off_id
-msgid "CNAB Movement Instruction Code for Suspend Protest and Writte Off."
+msgid "CNAB Movement Instruction Code for Suspend Protest and Write Off."
 msgstr ""
 "Código de Instrução de Movimento CNAB para Suspender Proteste e Liquidar."
 
@@ -1491,7 +1491,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__rebate_account_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__rebate_account_id
-msgid "Conta Contabil de Abatimanto"
+msgid "Conta Contabil de Abatimento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2696,7 +2696,7 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_protest_title_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_protest_title_id
-msgid "Protest Tittle Instruction Code"
+msgid "Protest Title Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2830,13 +2830,13 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_suspend_protest_keep_wallet_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_suspend_protest_keep_wallet_id
-msgid "Suspend Protest an Keep in Wallet Instruction Code"
+msgid "Suspend Protest and Keep in Wallet Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_suspend_protest_write_off_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_suspend_protest_write_off_id
-msgid "Suspend Protest an Writte Off Instruction Code"
+msgid "Suspend Protest and Write Off Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
