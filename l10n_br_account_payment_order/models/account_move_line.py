@@ -17,11 +17,16 @@ from ..constants import (
 class AccountMoveLine(models.Model):
     _name = "account.move.line"
     _inherit = [_name, "l10n_br_cnab.change.methods"]
+
     # As linhas de cobrança precisam ser criadas conforme sequencia de
     # Data de Vencimentos/date_maturity senão ficam fora de ordem:
     #  ex.: own_number 201 31/12/2020, own_number 202 18/11/2020
     #  Isso causa confusão pois a primeira parcela fica como sendo a segunda.
-    _order = "date desc, date_maturity asc, move_name desc, id"
+    @property
+    def _order(self):
+        if self.env.company.country_id.code == "BR":
+            return "date desc, date_maturity asc, move_name desc, id"
+        return super()._order
 
     cnab_state = fields.Selection(
         selection=ESTADOS_CNAB,
