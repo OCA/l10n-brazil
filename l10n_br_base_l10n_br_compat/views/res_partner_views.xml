@@ -15,4 +15,15 @@
     <record id="base_vat.view_partner_base_vat_form" model="ir.ui.view">
         <field name="active">False</field>
     </record>
+
+    <record id="base_address_extended.address_street_extended_form" model="ir.ui.view">
+        <field name="active">False</field>
+    </record>
+
+    <record
+        id="base_address_extended.address_street_extended_city_form"
+        model="ir.ui.view"
+    >
+        <field name="active">False</field>
+    </record>
 </odoo>
