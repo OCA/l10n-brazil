@@ -62,7 +62,7 @@ class StockRule(models.Model):
         return move_values
 
     def _get_custom_move_fields(self):
-        """The purpose of this method is to be override in order to
+        """The purpose of this method is to be overriden in order to
         easily add fields from procurement 'values' argument to move data.
         """
         custom_move_fields = super()._get_custom_move_fields()
@@ -70,7 +70,10 @@ class StockRule(models.Model):
         # during move creation.
         custom_move_fields += [
             key
-            for key in self.env["l10n_br_fiscal.document.line.mixin"]._fields
+            for key, field in self.env[
+                "l10n_br_fiscal.document.line.mixin"
+            ]._fields.items()
             if key not in {"product_id", "company_id"}
+            and field.type not in ("one2many", "many2many")
         ]
         return custom_move_fields

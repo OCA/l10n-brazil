@@ -21,7 +21,7 @@ class StockPickingType(models.Model):
             ("invoice_wizard", "Invoice Create Wizard"),
         ],
         default="none",
-        string="Pré generate Fiscal Document Number",
+        string="Pre-generate Fiscal Document Number",
         help="Check this box if you want to generate fiscal document for this "
         "operation.",
     )
