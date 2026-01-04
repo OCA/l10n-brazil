@@ -23,3 +23,6 @@ l10n_br_coa.tax_group_inss,INSS
 l10n_br_coa.tax_group_inss_wh,INSS WH
 l10n_br_coa.tax_group_simples,"Simples Nacional"
 l10n_br_coa.tax_group_others,Outros
+l10n_br_coa.tax_group_ibs,IBS
+l10n_br_coa.tax_group_cbs,CBS
+l10n_br_coa.tax_group_is,IS
