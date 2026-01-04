@@ -408,5 +408,4 @@
         <field name="compare_method">pct</field>
         <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
     </record>
-
 </odoo>

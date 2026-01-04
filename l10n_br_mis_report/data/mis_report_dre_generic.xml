@@ -48,7 +48,6 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
-
     </record>
 
     <record id="dre_generic_header_custo_vendas" model="mis.report.kpi">
@@ -58,7 +57,6 @@
         <field name="name">header_custo_vendas</field>
         <field name="type">str</field>
         <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
-
     </record>
 
     <record id="dre_generic_custo_vendas" model="mis.report.kpi">
@@ -81,7 +79,6 @@
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
-
     </record>
 
     <record id="dre_generic_header_despesas_operacionais" model="mis.report.kpi">
