@@ -1,12 +1,15 @@
 # Copyright 2020 KMEE
 # Copyright (C) 2025  Raphaël Valyi - Akretion
+# Copyright 2025 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import csv
 import logging
 
-from odoo import _, models
+from odoo import Command, _, api, models
 from odoo.tools.misc import file_open
+
+from odoo.addons.account.models.chart_template import template
 
 _logger = logging.getLogger(__name__)
 
@@ -35,8 +38,59 @@ for row in _load_csv_data("l10n_br_coa/data/l10n_br_coa_tax_templates_accounts.c
     )
 
 
-class AccountChartTemplate(models.Model):
+class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
+
+    @template("br_oca")
+    def _get_br_oca_template_data(self):
+        return {
+            "name": _("Plano de Contas Base"),
+            "visible": True,  # TODO
+            "code_digits": "2",
+            "use_anglo_saxon": True,
+        }
+
+    @template("br_oca", "account.tax.group")
+    def _get_br_oca_tax_group_data(self):
+        csv_path = "l10n_br_coa/data/template/account.tax.group-br_oca.csv"
+        data = {}
+        for row in _load_csv_data(csv_path):
+            data[row["id"]] = {"name": row["name"]}
+        return data
+
+    @template("br_oca", "account.tax")
+    def _get_br_oca_tax_data(self):
+        csv_path = "l10n_br_coa/data/template/account.tax-br_oca.csv"
+        data = {}
+        for row in _load_csv_data(csv_path):
+            vals = {
+                "name": row["name"],
+                "description": row["description"],
+                "amount": float(row["amount"]),
+                "amount_type": "percent",
+                "type_tax_use": row["type_tax_use"],
+                "price_include": row["price_include"] == "1",
+                "tax_group_id": row["tax_group_id"],
+            }
+            if "deductible" in row:
+                vals["deductible"] = row["deductible"] == "1"
+            if "withholdable" in row:
+                vals["withholdable"] = row["withholdable"] == "1"
+            data[row["id"]] = vals
+        return data
+
+    @template("br_oca", "res.company")
+    def _get_br_oca_res_company(self):
+        return {
+            self.env.company.id: {
+                "account_fiscal_country_id": "base.br",
+                "cash_account_code_prefix": "1.1.1.1.",
+                "bank_account_code_prefix": "1.1.1.2.",
+                "transfer_account_code_prefix": "1.1.1.2.0",
+                "account_sale_tax_id": False,
+                "account_purchase_tax_id": False,
+            },
+        }
 
     def _prepare_all_journals(self, acc_template_ref, company, journals_dict=None):
         self.ensure_one()
@@ -47,12 +101,11 @@ class AccountChartTemplate(models.Model):
             )
         return journal_data
 
-    def _load(self, company):
-        self.ensure_one()
-        result = super()._load(company)
+    def _load(self, template_code, company, install_demo):
+        result = super()._load(template_code, company, install_demo)
         # Remove Company default taxes configuration
-        if self.currency_id == self.env.ref("base.BRL"):
-            self.env.company.write(
+        if company.currency_id == self.env.ref("base.BRL"):
+            company.write(
                 {
                     "account_sale_tax_id": False,
                     "account_purchase_tax_id": False,
@@ -60,96 +113,68 @@ class AccountChartTemplate(models.Model):
             )
         return result
 
-    def _load_template(
-        self, company, code_digits=None, account_ref=None, taxes_ref=None
-    ):
-        """
-        Override to write the proper tax repartion lines with a proper account_id.
+    def _set_tax_group_accs(self, template_code, tax_data):
+        group_to_accounts = self._get_tax_group_accounts(template_code)
+        for tax in tax_data.values():
+            if (
+                tax.get("tax_group_id") not in group_to_accounts
+                or tax.get("type_tax_use") not in ("sale", "purchase", "all")
+                or tax.get("repartition_line_ids")
+            ):
+                continue
+            accs = group_to_accounts[tax["tax_group_id"]]
+            if tax.get("deductible"):
+                account_id = accs.get("ded_account_id", False)
+                refund_account_id = accs.get("ded_refund_account_id", False)
+            elif tax.get("withholdable") and tax["type_tax_use"] != "purchase":
+                account_id = False
+                refund_account_id = False
+            else:
+                account_id = accs.get("account_id", False)
+                refund_account_id = accs.get("refund_account_id", False)
+                if not tax.get("withholdable") and tax["type_tax_use"] == "purchase":
+                    account_id, refund_account_id = refund_account_id, account_id
 
-        It will use the tax_group_id of the account.tax records and read the
-        repartion information from the corresponding
-        l10n_br_coa.account.tax.group.account.template records.
-        """
-
-        self.ensure_one()
-        account_ref, taxes_ref = super()._load_template(
-            company, code_digits, account_ref, taxes_ref
-        )
-
-        if self.parent_id.id == self.env.ref("l10n_br_coa.l10n_br_coa_template").id:
-            self.generate_journals(account_ref, company)
-
-        if self.parent_id and self.parent_id == self.env.ref(
-            "l10n_br_coa.l10n_br_coa_template"
-        ):
-            # for some reason, account_ref keys can be either account ids
-            # either account records. In order to match them later we ensure
-            # here keys are ids:
-            account_ref = {
-                k.id if hasattr(k, "id") else k: v for k, v in account_ref.items()
-            }
-
-            acc_names = {
-                "sale": {
-                    "account_id": "account_id",
-                    "refund_account_id": "refund_account_id",
-                },
-                "purchase": {
-                    "account_id": "refund_account_id",
-                    "refund_account_id": "account_id",
-                },
-                "all": {
-                    "account_id": "account_id",
-                    "refund_account_id": "refund_account_id",
-                },
-            }
-
-            for tax in taxes_ref.values():
-                domain = [
-                    ("tax_group_id", "=", tax.tax_group_id.id),
-                    ("chart_template_id", "=", self.id),
-                ]
-                group_tax_account_template = self.env[
-                    "l10n_br_coa.account.tax.group.account.template"
-                ].search(domain)
-                if group_tax_account_template:
-                    if tax.deductible:
-                        account = group_tax_account_template.ded_account_id
-                        refund_account = (
-                            group_tax_account_template.ded_refund_account_id
-                        )
-                    elif tax.withholdable:
-                        if tax.type_tax_use == "purchase":
-                            account = group_tax_account_template.account_id
-                            refund_account = (
-                                group_tax_account_template.refund_account_id
-                            )
-                        else:
-                            account = False
-                            refund_account = False
-                    else:
-                        account = group_tax_account_template[
-                            acc_names.get(tax.type_tax_use, {}).get("account_id")
-                        ]
-                        refund_account = group_tax_account_template[
-                            acc_names.get(tax.type_tax_use, {}).get("refund_account_id")
-                        ]
-
-                    account_id = account_ref[account.id].id if account else False
-                    refund_account_id = (
-                        account_ref[refund_account.id].id if refund_account else False
+            for fname in (
+                "invoice_repartition_line_ids",
+                "refund_repartition_line_ids",
+            ):
+                if not tax.get(fname):
+                    tax[fname] = [
+                        Command.create({"repartition_type": "base"}),
+                        Command.create({"repartition_type": "tax"}),
+                    ]
+                is_refund = fname == "refund_repartition_line_ids"
+                for _command, _id, repartition in tax[fname]:
+                    repartition["account_id"] = (
+                        refund_account_id if is_refund else account_id
                     )
-                    tax._update_repartition_lines(account_id, refund_account_id)
+                    repartition["factor_percent"] = (
+                        -1 if tax.get("deductible") or tax.get("withholdable") else 1
+                    ) * 100
 
-        return account_ref, taxes_ref
+    def _get_tax_group_accounts(self, template_code):
+        """
+        Default invoice/refund accounts by tax group
+        Data previously populated l10n_br_coa.account.tax.group.account.template
+        until v16, when CoA template models was used
 
+        [tax_group_id xmlid (pseudo)]: {
+            ded_account_id: xmlid
+            ded_refund_account_id: xmlid
+            account_id: xmlid
+            refund_account_id: xmlid
+        }
+        """
+        return dict()
+
+    @api.model
     def _populate_default_br_tax_accounts(
-        self, company, flavor="cfc", review_suffix=".GEN"
+        self, company, flavor="cfc", review_suffix=".GEN", template_module="l10n_br_coa"
     ):
         """
         Populate a default Brazilian tax accounts and configure tax repartition lines.
         """
-        self.ensure_one()
         Account = self.env["account.account"]
         IrModelData = self.env["ir.model.data"].sudo()
         created_accounts_refs = {}
@@ -191,8 +216,9 @@ class AccountChartTemplate(models.Model):
             created_accounts_refs[xml_id_name_part] = account
 
             # Ensure ir.model.data exists for easy reference
-            tpl_ref = self.get_external_id().get(self.id)
-            imd_module = tpl_ref.split(".")[0]
+            imd_module = self._get_chart_template_mapping().get(company.chart_template)[
+                "module"
+            ]  # FIXME sure oca_br and not other code??
             imd_name = f"{company.id}_{xml_id_name_part}"
             imd_domain = [
                 ("module", "=", imd_module),
@@ -230,7 +256,9 @@ class AccountChartTemplate(models.Model):
             tax_template_xmlid,
             acc_mapping_keys,
         ) in DEFAULT_TAX_TEMPLATES_ACCOUNTS.items():
-            tax_xmlid = f"account.{company.id}_{tax_template_xmlid.split('.')[1]}"
+            tax_xmlid = (
+                f"{template_module}.{company.id}_{tax_template_xmlid.split('.')[1]}"
+            )
             company_tax = self.env.ref(tax_xmlid, raise_if_not_found=False)
             if not company_tax:
                 _logger.warning(f"tax {tax_xmlid} not found! Skipping it...")
@@ -245,7 +273,7 @@ class AccountChartTemplate(models.Model):
             )
             company_tax._update_repartition_lines(invoice_account.id, refund_account.id)
 
-        # Set default company accounts
+        # Void default company sale/purchase taxes:
         company.account_sale_tax_id = None
         company.account_purchase_tax_id = None
 
