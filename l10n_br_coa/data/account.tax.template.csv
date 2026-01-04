@@ -67,3 +67,7 @@ l10n_br_coa.tax_template_cbs_out,CBS Saída,CBS,0.00,sale,0,0,0,l10n_br_coa.tax_
 l10n_br_coa.tax_template_cbs_out_deductible,CBS Saída Dedutível,CBS,0.00,sale,0,1,0,l10n_br_coa.tax_group_cbs,l10n_br_coa.l10n_br_coa_template
 l10n_br_coa.tax_template_cbs_in,CBS Entrada,CBS,0.00,purchase,0,0,0,l10n_br_coa.tax_group_cbs,l10n_br_coa.l10n_br_coa_template
 l10n_br_coa.tax_template_cbs_in_deductible,CBS Entrada Dedutível,CBS,0.00,purchase,0,1,0,l10n_br_coa.tax_group_cbs,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_is_out,IS Saída,IS,0.00,sale,0,0,0,l10n_br_coa.tax_group_is,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_is_out_deductible,IS Saída Dedutível,IS,0.00,sale,0,1,0,l10n_br_coa.tax_group_is,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_is_in,IS Entrada,IS,0.00,purchase,0,0,0,l10n_br_coa.tax_group_is,l10n_br_coa.l10n_br_coa_template
+l10n_br_coa.tax_template_is_in_deductible,IS Entrada Dedutível,IS,0.00,purchase,0,1,0,l10n_br_coa.tax_group_is,l10n_br_coa.l10n_br_coa_template
