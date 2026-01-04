@@ -3,9 +3,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import io
 import json
 import logging
-import tempfile
 
 import requests
 
@@ -59,10 +59,8 @@ class AccountMove(models.Model):
 
     def _get_brcobranca_boleto(self, boletos):
         content = json.dumps(boletos)
-        f = open(tempfile.mktemp(), "w")
-        f.write(content)
-        f.close()
-        files = {"data": open(f.name, "rb")}
+        data_file = io.BytesIO(content.encode("utf-8"))
+        files = {"data": ("boleto.json", data_file)}
 
         brcobranca_api_url = get_brcobranca_api_url(self.env)
         brcobranca_service_url = brcobranca_api_url + "/api/boleto/multi"

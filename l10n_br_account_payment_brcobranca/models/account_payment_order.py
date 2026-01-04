@@ -4,9 +4,9 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import io
 import json
 import logging
-import tempfile
 
 import requests
 from erpbrasil.base import misc
@@ -171,10 +171,8 @@ class PaymentOrder(models.Model):
 
     def _get_brcobranca_remessa(self, bank_brcobranca, remessa_values, cnab_type):
         content = json.dumps(remessa_values)
-        f = open(tempfile.mktemp(), "w")
-        f.write(content)
-        f.close()
-        files = {"data": open(f.name, "rb")}
+        data_file = io.BytesIO(content.encode("utf-8"))
+        files = {"data": ("remessa.json", data_file)}
 
         brcobranca_api_url = get_brcobranca_api_url(self.env)
         # EX.: "http://boleto_cnab_api:9292/api/remessa"
