@@ -85,3 +85,20 @@ def get_brcobranca_api_url(env):
         )
 
     return brcobranca_api_url
+
+
+def handle_brcobranca_response(res):
+    if res.ok:
+        return True
+
+    error_msg = res.text
+    if "<html" in error_msg.lower():
+        error_msg = _(
+            "The BRCobranca service returned an HTML error page instead of the "
+            "expected response. This usually indicates a server-side crash, "
+            "a timeout, or a proxy configuration issue.\n\n"
+            "Status Code: %s",
+            res.status_code,
+        )
+
+    raise UserError(_("BRCobranca service error:\n%s") % error_msg)

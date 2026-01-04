@@ -25,6 +25,18 @@ class AccountMoveLine(models.Model):
     #  a ser usado sem a necessidade de criar um novo
     cnab_returned_ref = fields.Char(string="CNAB Returned Reference", copy=False)
 
+    def _get_brcobranca_address(self, partner):
+        address_parts = [
+            f"{partner.street_name or ''} {partner.street_number or ''}".strip(),
+            partner.district,
+            partner.city_id.name,
+            partner.state_id.code,
+        ]
+        address = ", ".join(filter(None, address_parts))
+        if partner.zip:
+            address += f" CEP:{partner.zip}"
+        return address[:100]  # Standard limit for many banks
+
     # see the list of brcobranca boleto fields:
     # https://github.com/kivanio/brcobranca/blob/master/lib/
     # brcobranca/boleto/base.rb
@@ -49,17 +61,9 @@ class AccountMoveLine(models.Model):
                 "bank": bank_name_brcobranca[0],
                 "valor": str("%.2f" % move_line.debit),
                 "cedente": move_line.company_id.partner_id.legal_name,
-                "cedente_endereco": (move_line.company_id.partner_id.street_name or "")
-                + " "
-                + (move_line.company_id.partner_id.street_number or "")
-                + ", "
-                + (move_line.company_id.partner_id.district or "")
-                + ", "
-                + (move_line.company_id.partner_id.city_id.name or "")
-                + " - "
-                + (move_line.company_id.partner_id.state_id.code or "")
-                + " "
-                + ("CEP:" + move_line.company_id.partner_id.zip or ""),
+                "cedente_endereco": self._get_brcobranca_address(
+                    move_line.company_id.partner_id
+                ),
                 "documento_cedente": move_line.company_id.cnpj_cpf,
                 "sacado": move_line.partner_id.legal_name,
                 "sacado_documento": move_line.partner_id.cnpj_cpf,
@@ -79,17 +83,7 @@ class AccountMoveLine(models.Model):
                 ),
                 "moeda": DICT_BRCOBRANCA_CURRENCY["R$"],
                 "aceite": cnab_config.boleto_accept,
-                "sacado_endereco": (move_line.partner_id.street_name or "")
-                + " "
-                + (move_line.partner_id.street_number or "")
-                + ", "
-                + (move_line.partner_id.district or "")
-                + ", "
-                + (move_line.partner_id.city_id.name or "")
-                + " - "
-                + (move_line.partner_id.state_id.code or "")
-                + " "
-                + ("CEP:" + move_line.partner_id.zip or ""),
+                "sacado_endereco": self._get_brcobranca_address(move_line.partner_id),
                 "data_processamento": move_line.move_id.invoice_date.strftime(
                     "%Y/%m/%d"
                 ),

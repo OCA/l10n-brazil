@@ -9,11 +9,13 @@ import logging
 
 import requests
 
-from odoo.exceptions import UserError
-
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
-from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
+from ..constants.br_cobranca import (
+    TIMEOUT,
+    get_brcobranca_api_url,
+    handle_brcobranca_response,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -94,8 +96,7 @@ class CNABFileParser(FileParser):
             timeout=TIMEOUT,
         )
 
-        if res.status_code != 201:
-            raise UserError(res.text)
+        handle_brcobranca_response(res)
 
         string_result = res.json()
         data = json.loads(string_result)
@@ -239,7 +240,10 @@ class CNABFileParser(FileParser):
                     {
                         "occurrences": descricao_ocorrencia,
                         "occurrence_date": data_ocorrencia,
-                        "str_motiv_a": " * - BOLETO NÃO ENCONTRADO.",
+                        "str_motiv_a": (
+                            f" * - BOLETO NÃO ENCONTRADO para o "
+                            f"Nosso Número {linha_cnab['nosso_numero']}."
+                        ),
                         "own_number": linha_cnab["nosso_numero"],
                         "your_number": linha_cnab["documento_numero"],
                         "title_value": valor_titulo,

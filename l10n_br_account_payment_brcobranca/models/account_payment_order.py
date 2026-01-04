@@ -19,6 +19,7 @@ from ..constants.br_cobranca import (
     TIMEOUT,
     get_brcobranca_api_url,
     get_brcobranca_bank,
+    handle_brcobranca_response,
 )
 
 _logger = logging.getLogger(__name__)
@@ -192,6 +193,8 @@ class PaymentOrder(models.Model):
             timeout=TIMEOUT,
         )
 
+        handle_brcobranca_response(res)
+
         if cnab_type == "240" and "R01" in res.text[242:254]:
             #  Todos os header de lote cnab 240 tem conteúdo: R01,
             #  verificar observações G025 e G028 do manual cnab 240 febraban.
@@ -204,7 +207,14 @@ class PaymentOrder(models.Model):
             # https://github.com/kivanio/brcobranca/tree/master/spec/fixtures/remessa
             remessa = res.content
         else:
-            raise ValidationError(res.text)
+            raise ValidationError(
+                _(
+                    "The BRCobranca service returned a success status, but the "
+                    "content of the generated CNAB file is invalid or unexpected.\n\n"
+                    "Response content: %s",
+                    res.text[:500],
+                )
+            )
 
         return remessa
 

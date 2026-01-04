@@ -12,7 +12,11 @@ import requests
 from odoo import _, models
 from odoo.exceptions import UserError
 
-from ..constants.br_cobranca import TIMEOUT, get_brcobranca_api_url
+from ..constants.br_cobranca import (
+    TIMEOUT,
+    get_brcobranca_api_url,
+    handle_brcobranca_response,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -76,10 +80,8 @@ class AccountMove(models.Model):
             timeout=TIMEOUT,
         )
 
-        if str(res.status_code)[0] == "2":
-            pdf_string = res.content
-        else:
-            raise UserError(res.text.encode("utf-8"))
+        handle_brcobranca_response(res)
+        pdf_string = res.content
 
         return pdf_string
 
