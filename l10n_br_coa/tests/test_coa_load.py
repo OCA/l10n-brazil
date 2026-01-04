@@ -1,19 +1,15 @@
 from unittest.mock import patch
 
-from odoo.tests import tagged
+from odoo.tests import TransactionCase, tagged
 
-from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-
-from ..models.account_chart_template import DEFAULT_TAX_ACCOUNTS
+from odoo.addons.l10n_br_coa.models.template_br_oca import DEFAULT_TAX_ACCOUNTS
 
 
 @tagged("post_install", "-at_install")
-class TestCoaLoad(AccountTestInvoicingCommon):
+class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(
-        cls, chart_template_ref="l10n_generic_coa.configurable_chart_template"
-    ):
-        super().setUpClass(chart_template_ref=None)
+    def setUpClass(cls):
+        super().setUpClass()  # chart_template_ref=None)
 
         cls.company = cls.env["res.company"].create(
             {
@@ -24,17 +20,16 @@ class TestCoaLoad(AccountTestInvoicingCommon):
         cls.env.user.company_ids = [(4, cls.company.id)]
         cls.env.user.company_id = cls.company
 
-        cls.chart = cls.env.ref(chart_template_ref)
-        cls.chart.with_context(allowed_company_ids=[cls.company.id]).try_loading(
-            company=cls.company
+        cls.env["account.chart.template"].try_loading(
+            "br_oca", company=cls.company, install_demo=False
         )
 
     def test_load_and_populate_coa(self):
         # Manually call and verify _populate_default_br_tax_accounts
         # This call is normally done from l10n_br_account, so we simulate it here
         # to test the method in isolation within the l10n_br_coa module.
-        self.chart.with_company(self.company)._populate_default_br_tax_accounts(
-            self.company, flavor="cfc", review_suffix=""
+        self.env["account.chart.template"]._populate_default_br_tax_accounts(
+            self.company, flavor="cfc", review_suffix="", template_module="account"
         )
 
         Account = self.env["account.account"]

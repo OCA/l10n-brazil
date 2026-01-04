@@ -1,2 +1,7 @@
-- Gabriel Cardoso de Faria \<<gabriel.cardoso@kmee.com.br>\>
-- Renato Lima \<<renato.lima@akretion.com.br>\>
+- [KMEE](https://www.kmee.com.br):
+  - Gabriel Cardoso de Faria \<<gabriel.cardoso@kmee.com.br>\>
+- [Akretion](https://www.akretion.com/pt-BR):
+  - Renato Lima \<<renato.lima@akretion.com.br>\>
+  - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>
+- [Escodoo](https://escodoo.com.br):
+  - Marcel Savegnago \<<marcel.savegnago@escodoo.com.br>\>

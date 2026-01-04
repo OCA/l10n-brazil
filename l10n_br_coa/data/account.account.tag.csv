@@ -23,6 +23,3 @@ l10n_br_coa.tax_tag_inss,INSS,taxes,base.br
 l10n_br_coa.tax_tag_inss_wh,INSS WH,taxes,base.br
 l10n_br_coa.tax_tag_simples,"Simples Nacional",taxes,base.br
 l10n_br_coa.tax_tag_others,Others,taxes,base.br
-l10n_br_coa.tax_tag_ibs,IBS,taxes,base.br
-l10n_br_coa.tax_tag_cbs,CBS,taxes,base.br
-l10n_br_coa.tax_tag_is,IS,taxes,base.br
