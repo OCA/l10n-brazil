@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+from odoo import Command
 from odoo.tests import TransactionCase, tagged
 
 from odoo.addons.l10n_br_coa.models.template_br_oca import DEFAULT_TAX_ACCOUNTS
@@ -20,9 +21,7 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
         cls.env.user.company_ids = [(4, cls.company.id)]
         cls.env.user.company_id = cls.company
 
-        cls.env["account.chart.template"].try_loading(
-            "br_oca", company=cls.company, install_demo=False
-        )
+        cls.env["account.chart.template"].try_loading("br_oca", cls.company)
 
     def test_load_and_populate_coa(self):
         # Manually call and verify _populate_default_br_tax_accounts
@@ -39,7 +38,7 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
         icms_payable_account = Account.search(
             [
                 ("code", "=", icms_payable_data[0]),
-                ("company_id", "=", self.company.id),
+                ("company_ids", "in", [self.company.id]),
             ]
         )
         self.assertEqual(
@@ -52,7 +51,7 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
         icms_receivable_account = Account.search(
             [
                 ("code", "=", icms_receivable_data[0]),
-                ("company_id", "=", self.company.id),
+                ("company_ids", "in", [self.company.id]),
             ]
         )
         self.assertEqual(
@@ -68,7 +67,7 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                 "name": "Payable",
                 "code": "2.1.0.01.TEST",
                 "account_type": "liability_current",
-                "company_id": self.company.id,
+                "company_ids": [Command.link(self.company.id)],
             }
         )
         account_receivable = self.env["account.account"].create(
@@ -76,7 +75,7 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                 "name": "Receivable",
                 "code": "1.1.0.01.TEST",
                 "account_type": "asset_current",
-                "company_id": self.company.id,
+                "company_ids": [Command.link(self.company.id)],
             }
         )
         account_deductible = self.env["account.account"].create(
@@ -84,7 +83,7 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                 "name": "Deductible",
                 "code": "1.1.0.02.TEST",
                 "account_type": "asset_current",
-                "company_id": self.company.id,
+                "company_ids": [Command.link(self.company.id)],
             }
         )
         account_deductible_refund = self.env["account.account"].create(
@@ -92,7 +91,7 @@ class TestCoaLoad(TransactionCase):  # AccountTestInvoicingCommon):
                 "name": "Deductible Refund",
                 "code": "2.1.0.02.TEST",
                 "account_type": "liability_current",
-                "company_id": self.company.id,
+                "company_ids": [Command.link(self.company.id)],
             }
         )
 
