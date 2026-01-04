@@ -92,17 +92,8 @@ class AccountChartTemplate(models.AbstractModel):
             },
         }
 
-    def _prepare_all_journals(self, acc_template_ref, company, journals_dict=None):
-        self.ensure_one()
-        journal_data = []
-        if not self.id == self.env.ref("l10n_br_coa.l10n_br_coa_template").id:
-            journal_data = super()._prepare_all_journals(
-                acc_template_ref, company, journals_dict
-            )
-        return journal_data
-
-    def _load(self, template_code, company, install_demo):
-        result = super()._load(template_code, company, install_demo)
+    def _load(self, template_code, company, install_demo, force_create=True):
+        result = super()._load(template_code, company, install_demo, force_create)
         # Remove Company default taxes configuration
         if company.currency_id == self.env.ref("base.BRL"):
             company.write(
@@ -196,7 +187,7 @@ class AccountChartTemplate(models.AbstractModel):
             # and if xml_id_name_part is related to a tax template for which the tax
             # repartion_line_ids have accounts already, then skip account creation
             existing_account = Account.search(
-                [("code", "=", code), ("company_id", "=", company.id)], limit=1
+                [("code", "=", code), ("company_ids", "in", [company.id])], limit=1
             )
             if not existing_account:
                 account = Account.create(
@@ -204,7 +195,7 @@ class AccountChartTemplate(models.AbstractModel):
                         "code": code,
                         "name": name,
                         "account_type": acc_type,
-                        "company_id": company.id,
+                        "company_ids": [Command.link(company.id)],
                     }
                 )
             else:
