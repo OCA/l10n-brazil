@@ -605,6 +605,30 @@ class Document(models.Model):
                         )
                         record._change_state(SITUACAO_EDOC_AUTORIZADA)
                         record.make_pdf()
+
+                    if nfse_status == "C":
+                        event = record.event_ids.create_event_save_xml(
+                            company_id=record.company_id,
+                            environment=(
+                                EVENT_ENV_PROD
+                                if record.nfse_environment == "1"
+                                else EVENT_ENV_HML
+                            ),
+                            event_type="2",
+                            xml_file=xml_file,
+                            document_id=record,
+                        )
+                        event.write(
+                            {
+                                "status_code": 2,
+                                "response": _("Processado com Sucesso"),
+                                "protocol_number": protocolo,
+                                "protocol_date": fields.Datetime.now(),
+                                "state": "done",
+                            }
+                        )
+                        record.cancel_event_id = event
+                        record.state_edoc = SITUACAO_EDOC_CANCELADA
         return vals
 
     def _eletronic_document_send(self):
@@ -668,8 +692,12 @@ class Document(models.Model):
                 lot_receipt_number=protocolo,
             )
             status, _mensagem = processador.analisa_retorno_consulta(processo_consulta)
-
-            if status in (-1, -2, 0):
+            if status == 0:
+                return False
+            if status in (-1, -2):
+                record._change_state(SITUACAO_EDOC_ENVIADA)
+                record.status_code = -2
+                record.status_name = _("Cancel batch not yet processed")
                 return False
 
             nome_arquivo = (
