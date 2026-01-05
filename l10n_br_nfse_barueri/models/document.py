@@ -24,7 +24,7 @@ from nfselib.barueri.rps import (
     RegistroTipo9,
 )
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -751,3 +751,22 @@ class Document(models.Model):
             .filtered(filter_barueri)
             ._cancel_document_barueri()
         )
+
+    @api.model
+    def _cron_document_status_barueri(self):
+        """Scheduled method to check the status of sent NFSe documents.
+
+        Parameters:
+            None.
+
+        Returns:
+            None. Updates the status of each document based
+            on the NFSe provider's response.
+        """
+        records = (
+            self.search([("state", "in", ["enviada"])], limit=25)
+            .filtered(filter_oca_nfse)
+            .filtered(filter_barueri)
+        )
+        if records:
+            records._document_status()
