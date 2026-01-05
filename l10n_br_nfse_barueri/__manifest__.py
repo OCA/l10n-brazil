@@ -22,6 +22,7 @@
     },
     "data": [
         "views/document_view.xml",
+        "data/l10n_br_nfse_barueri_cron.xml",
     ],
     "depends": [
         "l10n_br_nfse",
