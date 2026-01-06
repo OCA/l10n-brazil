@@ -1469,18 +1469,13 @@ msgid "Picking Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model,name:l10n_br_stock_account.model_procurement_group
-msgid "Procurement Group"
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
+msgid "Pre-generate Fiscal Document Number"
 msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__product_id
 msgid "Product"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__pre_generate_fiscal_document_number
-msgid "Pré generate Fiscal Document Number"
 msgstr ""
 
 #. module: l10n_br_stock_account
