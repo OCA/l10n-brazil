@@ -60,7 +60,7 @@ class ResPartner(models.Model):
             "descricao_municipio": address_invoice_city_description,
             "uf": address_invoice_state_code,
             "municipio": self.city or None,
-            "cep": int(partner_cep),
+            "cep": partner_cep.zfill(8),
             "nif": nif,
             "nif_motivo_ausencia": nif_motivo_ausencia,
         }
