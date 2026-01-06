@@ -241,8 +241,8 @@ class Tax(models.Model):
 
     @api.model
     def _compute_tax_base(self, tax, tax_dict, **kwargs):
-        company = kwargs.get("company", tax.env.company)
-        currency = kwargs.get("currency", company.currency_id)
+        company = kwargs.get("company") or tax.env.company
+        currency = kwargs.get("currency") or company.currency_id
         fiscal_price = kwargs.get("fiscal_price", 0.00)
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
         compute_reduction = kwargs.get("compute_reduction", True)
@@ -315,8 +315,8 @@ class Tax(models.Model):
     def _compute_tax(self, tax, taxes_dict, **kwargs):
         """Generic calculation of Brazilian taxes"""
 
-        company = kwargs.get("company", tax.env.company)
-        currency = kwargs.get("currency", company.currency_id)
+        company = kwargs.get("company") or tax.env.company
+        currency = kwargs.get("currency") or company.currency_id
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
 
@@ -360,11 +360,11 @@ class Tax(models.Model):
 
     @api.model
     def _compute_estimate_taxes(self, **kwargs):
-        company = kwargs.get("company")
+        company = kwargs.get("company") or self.env.company
         product = kwargs.get("product")
         fiscal_price = kwargs.get("fiscal_price")
         fiscal_quantity = kwargs.get("fiscal_quantity")
-        currency = kwargs.get("currency", company.currency_id)
+        currency = kwargs.get("currency") or company.currency_id
         ncm = kwargs.get("ncm") or product.ncm_id
         nbs = kwargs.get("nbs") or product.nbs_id
         icms_origin = kwargs.get("icms_origin") or product.icms_origin
