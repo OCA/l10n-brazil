@@ -10,11 +10,9 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import FINAL_CUSTOMER_NO
 class AccountTax(models.Model):
     _inherit = "account.tax"
 
-    fiscal_tax_ids = fields.Many2many(
+    fiscal_tax_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax",
-        relation="fiscal_account_tax_rel",
-        column1="account_tax_id",
-        column2="fiscal_tax_id",
+        related="tax_group_id.fiscal_tax_group_id.tax_ids",
         string="Fiscal Taxes",
     )
 
