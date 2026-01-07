@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ================
 NFS-e (FocusNFE)
 ================
@@ -17,7 +13,7 @@ NFS-e (FocusNFE)
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -32,9 +28,15 @@ NFS-e (FocusNFE)
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Esse módulo integra a emissão de Notas Fiscais de Serviços(NFSe) com a
+Esse módulo integra a emissão de Notas Fiscais de Serviços (NFSe) com a
 API da FocusNFE permitindo assim, a criação, transmissão, consulta e
 cancelamento de documentos fiscais do tipo NFSe.
+
+O módulo suporta dois tipos de emissão:
+
+- **NFSe Municipal:** Emissão de NFSe através da API municipal da
+  FocusNFE
+- **NFSe Nacional:** Emissão de NFSe através da API nacional da FocusNFE
 
 Para mais informações, acesse: https://focusnfe.com.br/
 
@@ -68,22 +70,59 @@ para a empresa desejada:
       - **Provedor NFS-e:** Selecione a opção FocusNFE
       - **FocusNFe Token:** Informe o token de acesso da empresa. Obs.
         Este token é obtido através da plataforma da FocusNFE
+
+        - **Token de Produção:** Token para ambiente de produção
+          (visível quando Ambiente NFS-e = Produção)
+        - **Token de Homologação:** Token para ambiente de homologação
+          (visível quando Ambiente NFS-e = Homologação)
+
+      - **Tipo FocusNFe NFSe:** Selecione o tipo de API a ser utilizada:
+
+        - **NFSe:** Para emissão de NFSe Municipal (padrão)
+        - **NFSe Nacional:** Para emissão de NFSe Nacional
+
       - **Valor Tipo de Serviço:** Se necessário configure o campo que
-        deve preencher o valor de tipo de serviço
+        deve preencher o valor de tipo de serviço (Service Type ou City
+        Taxation Code)
       - **Valor Código CNAE:** Se necessário configure o campo que deve
-        preencher o valor do Código CNAE
+        preencher o valor do Código CNAE (CNAE Code ou City Taxation
+        Code)
+      - **Formato Taxa:** Selecione o formato da taxa (Decimal ou
+        Percentage)
+      - **Incluir Documentos Autorizados na Verificação de Status:** Se
+        marcado, documentos autorizados serão incluídos na verificação
+        de status
+      - **Forçar DANFSE Odoo:** Se marcado, o sistema sempre usará o
+        DANFSE do Odoo ao invés do DANFSE da FocusNFE
 
 Usage
 =====
 
 Para usar este módulo:
 
-1. Crie uma fatura com o tipo de documento fiscal 'SE'.
-2. Preencha os detalhes necessários, como o código tributário da cidade,
-   impostos e informações correlatas.
-3. Valide o documento.
-4. Envie o Documento Fiscal.
-5. Acompanhe o status de processamento do documento.
+1. Configure a empresa conforme descrito na seção de Configuração.
+
+2. Crie uma fatura com o tipo de documento fiscal 'SE'.
+
+3. Preencha os detalhes necessários:
+
+   - Para **NFSe Municipal:** Preencha o código tributário municipal,
+     impostos e informações correlatas
+   - Para **NFSe Nacional:** Preencha o código tributário nacional
+     (NBS), código tributário municipal (se aplicável), impostos e
+     informações correlatas
+
+4. Valide o documento fiscal.
+
+5. Envie o Documento Fiscal através do botão "Enviar Documento Fiscal".
+
+6. Acompanhe o status de processamento do documento. O sistema
+   verificará automaticamente o status através de um cron job, ou você
+   pode verificar manualmente através do botão "Verificar Status".
+
+7. Após a autorização, o DANFSE (Documento Auxiliar da Nota Fiscal de
+   Serviço Eletrônica) será gerado automaticamente, a menos que a opção
+   "Forçar DANFSE Odoo" esteja marcada na configuração da empresa.
 
 Bug Tracker
 ===========
