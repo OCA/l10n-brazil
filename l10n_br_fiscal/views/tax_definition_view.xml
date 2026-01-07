@@ -255,6 +255,22 @@
                                 />
                             </group>
                         </page>
+                        <page
+                            name="national_taxation_codes_page"
+                            string="National Taxation Code"
+                        >
+                            <group
+                                name="national_taxation_codes"
+                                string="National Taxation Codes"
+                            >
+                                <field
+                                    name="national_taxation_code_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                />
+                            </group>
+                        </page>
                         <page name="service_types_page" string="Fiscal Service Type">
                             <group name="service_types" string="Fiscal Service Types">
                                 <field

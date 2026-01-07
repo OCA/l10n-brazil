@@ -312,6 +312,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "nbm_id",
         "cest_id",
         "city_taxation_code_id",
+        "national_taxation_code_id",
         "service_type_id",
         "ind_final",
     )
@@ -327,6 +328,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     nbs=line.nbs_id,
                     cest=line.cest_id,
                     city_taxation_code=line.city_taxation_code_id,
+                    national_taxation_code=line.national_taxation_code_id,
                     service_type=line.service_type_id,
                     ind_final=line.ind_final,
                 )
@@ -555,6 +557,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.nbs_id = False
                 line.fiscal_genre_id = False
                 line.service_type_id = False
+                line.national_taxation_code_id = False
                 line.operation_indicator_id = False
                 continue
             p = line.product_id
@@ -567,6 +570,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             line.nbs_id = p.nbs_id
             line.fiscal_genre_id = p.fiscal_genre_id
             line.service_type_id = p.service_type_id
+            line.national_taxation_code_id = p.national_taxation_code_id
             line.operation_indicator_id = p.operation_indicator_id
 
     @api.depends("product_id")
@@ -584,6 +588,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.city_taxation_code_id = city_tax_code
             else:
                 line.city_taxation_code_id = False
+
+    @api.depends("product_id")
+    def _compute_national_taxation_code_id(self):
+        for line in self:
+            if not line.product_id:
+                line.national_taxation_code_id = False
+                continue
+            line.national_taxation_code_id = line.product_id.national_taxation_code_id
 
     @api.depends("city_taxation_code_id")
     def _compute_issqn_fg_city_id(self):
@@ -1207,7 +1219,22 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     city_taxation_code_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.city.taxation.code",
+        string="City Taxation Code",
+        help=(
+            "City Taxation Code for Municipal NFS-e or "
+            "ISS Municipal Taxation Code for National NFS-e."
+        ),
         compute="_compute_city_taxation_code_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
+
+    national_taxation_code_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.national.taxation.code",
+        string="ISS National Taxation Code",
+        help="National Taxation Code for the ISS tax (National NFS-e)",
+        compute="_compute_national_taxation_code_id",
         store=True,
         readonly=False,
         precompute=True,

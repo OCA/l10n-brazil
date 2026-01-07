@@ -203,6 +203,12 @@ class TaxDefinition(models.Model):
         string="City Taxation Codes",
     )
 
+    national_taxation_code_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.national.taxation.code",
+        relation="tax_definition_national_taxation_code_rel",  # (default is too long)
+        string="National Taxation Codes",
+    )
+
     service_type_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.service.type",
         string="Fiscal Service Types",
@@ -411,6 +417,7 @@ class TaxDefinition(models.Model):
         nbs=None,
         cest=None,
         city_taxation_code=None,
+        national_taxation_code=None,
         service_type=None,
     ):
         """
@@ -443,6 +450,8 @@ class TaxDefinition(models.Model):
             defaults to product's CEST.
         :param city_taxation_code: Optional City Taxation Code record
             (l10n_br_fiscal.city.taxation.code).
+        :param national_taxation_code: Optional National Taxation Code record
+            (l10n_br_fiscal.national.taxation.code).
         :param service_type: Optional Service Type record
             (l10n_br_fiscal.service.type).
         :return: A recordset of matching
@@ -476,6 +485,9 @@ class TaxDefinition(models.Model):
             "|",
             ("city_taxation_code_ids", "=", False),
             ("city_taxation_code_ids", "=", city_taxation_code.id),
+            "|",
+            ("national_taxation_code_ids", "=", False),
+            ("national_taxation_code_ids", "=", national_taxation_code.id),
             "|",
             ("service_type_ids", "=", False),
             ("service_type_ids", "=", service_type.id),
