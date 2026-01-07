@@ -14,3 +14,4 @@ from . import account_incoterms
 from . import ir_model_data
 from . import account_journal
 from . import template_br_oca
+from . import ir_rule
