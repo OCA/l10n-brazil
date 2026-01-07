@@ -4886,6 +4886,23 @@ class Total(models.AbstractModel):
         comodel_name="nfe.40.rettrib", string="Retenção de Tributos Federais"
     )
 
+    nfe40_ISTot = fields.Many2one(
+        comodel_name="nfe.40.tistot",
+        string="Valores totais da NF",
+        help="Valores totais da NF com Imposto Seletivo",
+    )
+
+    nfe40_IBSCBSTot = fields.Many2one(
+        comodel_name="nfe.40.tibscbsmonotot",
+        string="Valores totais da NF com IBS / CBS",
+    )
+
+    nfe40_vNFTot = fields.Monetary(
+        string="Valor Total da NF considerando",
+        currency_field="brl_currency_id",
+        help=("Valor Total da NF considerando os impostos por fora IBS, CBS e IS"),
+    )
+
 
 class Icmstot(models.AbstractModel):
     "Totais referentes ao ICMS"
@@ -5208,6 +5225,379 @@ class RetTrib(models.AbstractModel):
         string="Valor da Retenção da Previdêncica Social",
         xsd_type="TDec_1302Opc",
         currency_field="brl_currency_id",
+    )
+
+
+class Tistot(models.AbstractModel):
+    "Grupo de informações de totais do Imposto Seletivo"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tistot"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tistot"
+
+    nfe40_vIS = fields.Char(
+        string="Valor Total do Imposto Seletivo",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+
+class TibscbsmonoTot(models.AbstractModel):
+    "Grupo de informações de totais da CBS/IBS com monofasia"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbsmonotot"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TibscbsmonoTot"
+
+    nfe40_vBCIBSCBS = fields.Char(
+        string="Total Base de Calculo", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_gIBS = fields.Many2one(
+        comodel_name="nfe.40.tibscbsmonotot_gibs", string="Totalização do IBS"
+    )
+
+    nfe40_gCBS = fields.Many2one(
+        comodel_name="nfe.40.tibscbsmonotot_gcbs", string="Totalização da CBS"
+    )
+
+    nfe40_gMono = fields.Many2one(
+        comodel_name="nfe.40.gmono",
+        string="Totais da Monofasia",
+        help=("Totais da Monofasia\nSó deverá ser utilizado para DFe modelos 55 e 65"),
+    )
+
+    nfe40_gEstornoCred = fields.Many2one(
+        comodel_name="nfe.40.tibscbsmonotot_gestornocred",
+        string="Totalização do estorno de crédito",
+    )
+
+
+class TibscbsmonoTotGIbs(models.AbstractModel):
+    "Totalização do IBS"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbsmonotot_gibs"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TibscbsmonoTot.GIbs"
+
+    nfe40_gIBSUF = fields.Many2one(
+        comodel_name="nfe.40.tibscbsmonotot_gibsuf",
+        string="Totalização do IBS de competência da UF",
+        xsd_required=True,
+    )
+
+    nfe40_gIBSMun = fields.Many2one(
+        comodel_name="nfe.40.tibscbsmonotot_gibsmun",
+        string="Totalização do IBS",
+        xsd_required=True,
+        help="Totalização do IBS de competência Municipal",
+    )
+
+    nfe40_vIBS = fields.Char(
+        string="Valor total do IBS", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vCredPres = fields.Char(
+        string="Total do Crédito Presumido", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vCredPresCondSus = fields.Char(
+        string="Total",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help="Total do Crédito Presumido Condição Suspensiva",
+    )
+
+
+class TibscbsmonoTotGIbsuf(models.AbstractModel):
+    "Totalização do IBS de competência da UF"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbsmonotot_gibsuf"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TibscbsmonoTot.GIbs.GIbsuf"
+
+    nfe40_vDif = fields.Char(
+        string="Total do Diferimento", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vDevTrib = fields.Char(
+        string="Total de devoluções de tributos",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+    nfe40_vIBSUF = fields.Char(
+        string="Valor total do IBS Estadual", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+
+class TibscbsmonoTotGIbsmun(models.AbstractModel):
+    "Totalização do IBS de competência Municipal"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbsmonotot_gibsmun"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TibscbsmonoTot.GIbs.GIbsmun"
+
+    nfe40_vDif = fields.Char(
+        string="Total do Diferimento", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vDevTrib = fields.Char(
+        string="Total de devoluções de tributos",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+    nfe40_vIBSMun = fields.Char(
+        string="Valor total do IBS Municipal", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+
+class TibscbsmonoTotGCbs(models.AbstractModel):
+    "Totalização da CBS"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbsmonotot_gcbs"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TibscbsmonoTot.GCbs"
+
+    nfe40_vDif = fields.Char(
+        string="Total do Diferimento", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vDevTrib = fields.Char(
+        string="Total de devoluções de tributos",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+    nfe40_vCBS = fields.Char(
+        string="Valor total da CBS", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vCredPres = fields.Char(
+        string="Total do Crédito Presumido", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vCredPresCondSus = fields.Char(
+        string="Total",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help="Total do Crédito Presumido Condição Suspensiva",
+    )
+
+
+class GMono(models.AbstractModel):
+    """Totais da Monofasia
+    Só deverá ser utilizado para DFe modelos 55 e 65"""
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.gmono"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TibscbsmonoTot.GMono"
+
+    nfe40_vIBSMono = fields.Char(
+        string="Valor total do IBS monofásico",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+    nfe40_vCBSMono = fields.Char(
+        string="Valor total da CBS monofásica",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+    nfe40_vIBSMonoReten = fields.Char(
+        string="Valor total do IBS monofásico sujeito",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help="Valor total do IBS monofásico sujeito a retenção",
+    )
+
+    nfe40_vCBSMonoReten = fields.Char(
+        string="Valor total da CBS monofásica sujeita",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help="Valor total da CBS monofásica sujeita a retenção",
+    )
+
+    nfe40_vIBSMonoRet = fields.Char(
+        string="Valor",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help="Valor do IBS monofásico retido anteriormente",
+    )
+
+    nfe40_vCBSMonoRet = fields.Char(
+        string="Valor (vCBSMonoRet)",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+        help="Valor da CBS monofásica retida anteriormente",
+    )
+
+
+class TibscbsmonoTotGEstornoCred(models.AbstractModel):
+    "Informado conforme indicador no cClassTrib"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbsmonotot_gestornocred"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "TibscbsmonoTot.GEstornoCred"
+
+    nfe40_vIBSEstCred = fields.Char(
+        string="Valor total do IBS estornado", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vCBSEstCred = fields.Char(
+        string="Valor total da CBS estornada", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+
+class TibscbstotGEstornoCred(models.AbstractModel):
+    "Informado conforme indicador no cClassTrib"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbstot_gestornocred"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tibscbstot.GEstornoCred"
+
+    nfe40_vIBSEstCred = fields.Char(
+        string="Valor total do IBS estornado", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vCBSEstCred = fields.Char(
+        string="Valor total da CBS estornada", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+
+class Tibscbstot(models.AbstractModel):
+    "Grupo de informações de totais da CBS/IBS"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbstot"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tibscbstot"
+
+    nfe40_vBCIBSCBS = fields.Char(
+        string="Total Base de Calculo", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_gIBS = fields.Many2one(
+        comodel_name="nfe.40.tibscbstot_gibs",
+        string="Totalização do IBS",
+        xsd_required=True,
+    )
+
+    nfe40_gCBS = fields.Many2one(
+        comodel_name="nfe.40.tibscbstot_gcbs",
+        string="Totalização da CBS",
+        xsd_required=True,
+    )
+
+    nfe40_gEstornoCred = fields.Many2one(
+        comodel_name="nfe.40.tibscbstot_gestornocred",
+        string="Totalização do estorno de crédito",
+    )
+
+
+class TibscbstotGIbs(models.AbstractModel):
+    "Totalização do IBS"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbstot_gibs"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tibscbstot.GIbs"
+
+    nfe40_gIBSUF = fields.Many2one(
+        comodel_name="nfe.40.tibscbstot_gibsuf",
+        string="Totalização do IBS de competência da UF",
+        xsd_required=True,
+    )
+
+    nfe40_gIBSMun = fields.Many2one(
+        comodel_name="nfe.40.tibscbstot_gibsmun",
+        string="Totalização do IBS",
+        xsd_required=True,
+        help="Totalização do IBS de competência Municipal",
+    )
+
+    nfe40_vIBS = fields.Char(
+        string="Valor total do IBS", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+
+class TibscbstotGIbsuf(models.AbstractModel):
+    "Totalização do IBS de competência da UF"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbstot_gibsuf"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tibscbstot.GIbs.GIbsuf"
+
+    nfe40_vDif = fields.Char(
+        string="Total do Diferimento", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vDevTrib = fields.Char(
+        string="Total de devoluções de tributos",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+    nfe40_vIBSUF = fields.Char(
+        string="Valor total do IBS Estadual", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+
+class TibscbstotGIbsmun(models.AbstractModel):
+    "Totalização do IBS de competência Municipal"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbstot_gibsmun"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tibscbstot.GIbs.GIbsmun"
+
+    nfe40_vDif = fields.Char(
+        string="Total do Diferimento", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vDevTrib = fields.Char(
+        string="Total de devoluções de tributos",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+    nfe40_vIBSMun = fields.Char(
+        string="Valor total do IBS Municipal", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+
+class TibscbstotGCbs(models.AbstractModel):
+    "Totalização da CBS"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "nfe.40.tibscbstot_gcbs"
+    _inherit = "spec.mixin.nfe"
+    _binding_type = "Tibscbstot.GCbs"
+
+    nfe40_vDif = fields.Char(
+        string="Total do Diferimento", xsd_required=True, xsd_type="TDec1302RTC"
+    )
+
+    nfe40_vDevTrib = fields.Char(
+        string="Total de devoluções de tributos",
+        xsd_required=True,
+        xsd_type="TDec1302RTC",
+    )
+
+    nfe40_vCBS = fields.Char(
+        string="Valor total da CBS", xsd_required=True, xsd_type="TDec1302RTC"
     )
 
 
