@@ -263,7 +263,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     city_taxation_code_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
+        comodel_name="l10n_br_fiscal.city.taxation.code",
+        string="City Taxation Code",
+        help=(
+            "City Taxation Code for Municipal NFS-e or "
+            "ISS Municipal Taxation Code for National NFS-e."
+        ),
+    )
+
+    national_taxation_code_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.national.taxation.code",
+        string="ISS National Taxation Code",
+        help="National Taxation Code for the ISS tax (National NFS-e)",
     )
 
     operation_indicator_id = fields.Many2one(

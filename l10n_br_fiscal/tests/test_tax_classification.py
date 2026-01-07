@@ -33,6 +33,7 @@ class TestTaxClassification(SavepointCase):
             "nbs": self.env["l10n_br_fiscal.nbs"],
             "cest": self.env["l10n_br_fiscal.cest"],
             "city_taxation_code": self.env["l10n_br_fiscal.city.taxation.code"],
+            "national_taxation_code": self.env["l10n_br_fiscal.national.taxation.code"],
             "service_type": self.env["l10n_br_fiscal.service.type"],
             "ind_final": "1",
         }

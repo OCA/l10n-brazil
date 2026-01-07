@@ -216,6 +216,14 @@ class TaxDefinition(models.Model):
         string="City Taxation Codes",
     )
 
+    national_taxation_code_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.national.taxation.code",
+        relation="tax_definition_national_taxation_code_rel",
+        column1="tax_definition_id",
+        column2="national_taxation_code_id",
+        string="National Taxation Codes",
+    )
+
     service_type_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.service.type",
         relation="tax_definition_service_type_rel",
@@ -431,6 +439,7 @@ class TaxDefinition(models.Model):
         nbs=None,
         cest=None,
         city_taxation_code=None,
+        national_taxation_code=None,
         service_type=None,
     ):
         if not ncm:
@@ -460,6 +469,9 @@ class TaxDefinition(models.Model):
             "|",
             ("city_taxation_code_ids", "=", False),
             ("city_taxation_code_ids", "=", city_taxation_code.id),
+            "|",
+            ("national_taxation_code_ids", "=", False),
+            ("national_taxation_code_ids", "=", national_taxation_code.id),
             "|",
             ("service_type_ids", "=", False),
             ("service_type_ids", "=", service_type.id),

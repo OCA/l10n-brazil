@@ -83,6 +83,12 @@
                                     <field name="city_id" />
                                 </tree>
                             </field>
+                            <field
+                                name="national_taxation_code_id"
+                                attrs="{'invisible': [('fiscal_type', '!=', '09')]}"
+                                context="{'default_service_type_id': service_type_id}"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
                         </group>
                         <group>
                             <field name="fiscal_genre_id" required="1" />
