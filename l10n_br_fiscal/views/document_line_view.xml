@@ -79,12 +79,16 @@
                                     invisible="fiscal_genre_code != '00' and cfop_id"
                                 />
                                 <field
+                                    name="national_taxation_code_id"
+                                    invisible="fiscal_genre_code != '00' and cfop_id"
+                                />
+                                <field
                                     name="cnae_id"
                                     invisible="fiscal_genre_code != '00' and cfop_id"
                                 />
                                 <field
                                     name="operation_indicator_id"
-                                    invisible="fiscal_genre_code != '00' and cfop_id != False"
+                                    invisible="fiscal_genre_code != '00' and cfop_id"
                                 />
                             </group>
                             <group name="l10n_br_fiscal" string="Operation">
