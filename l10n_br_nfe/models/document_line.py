@@ -6,6 +6,7 @@ import sys
 from unicodedata import normalize
 
 # from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs, TtribNfe
+from nfelib.v4_00.retEnviNFe import gIBSUFType, gIBSMunType, gIBSCBSType, IBSCBSType, gCBSType
 
 from odoo import api, fields
 
@@ -169,7 +170,7 @@ class NFeLine(spec_models.StackedModel):
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         """Override to handle IBSCBS field export"""
-        if False:  # xsd_field == "nfe40_IBSCBS":
+        if xsd_field == "nfe40_IBSCBS":
             # TODO adapt for version 12.0 / legacy nfelib 2.0.7
             if not self.ibs_value and not self.cbs_value:
                 return False
@@ -212,25 +213,25 @@ class NFeLine(spec_models.StackedModel):
             v_cbs = self.cbs_value or (v_bc * p_cbs / 100) if p_cbs else 0.0
 
             # Build gIBSUF
-            gibsuf = Tcibs.GIbsuf(
+            gibsuf = gIBSUFType(
                 pIBSUF=f"{p_ibs_uf:.4f}",
                 vIBSUF=f"{v_ibs_uf:.2f}",
             )
 
             # Build gIBSMun
-            gibsmun = Tcibs.GIbsmun(
+            gibsmun = gIBSMunType(
                 pIBSMun=f"{p_ibs_mun:.4f}",
                 vIBSMun=f"{v_ibs_mun:.2f}",
             )
 
             # Build gCBS
-            gcbs = Tcibs.GCbs(
+            gcbs = gCBSType(
                 pCBS=f"{p_cbs:.4f}",
                 vCBS=f"{v_cbs:.2f}",
             )
 
             # Build gIBSCBS (Tcibs)
-            gibscbs = Tcibs(
+            gibscbs = gIBSCBSType(
                 vBC=f"{v_bc:.2f}",
                 gIBSUF=gibsuf,
                 gIBSMun=gibsmun,
@@ -239,7 +240,7 @@ class NFeLine(spec_models.StackedModel):
             )
 
             # Build TtribNfe
-            ibscbs_obj = TtribNfe(
+            ibscbs_obj = IBSCBSType(
                 CST=cst,
                 cClassTrib=c_class_trib,
                 gIBSCBS=gibscbs,
@@ -293,25 +294,25 @@ class NFeLine(spec_models.StackedModel):
             v_cbs = self.cbs_value or (v_bc * p_cbs / 100) if p_cbs else 0.0
 
             # Build gIBSUF
-            gibsuf = Tcibs.GIbsuf(
+            gibsuf = gIBSUFType(
                 pIBSUF=f"{p_ibs_uf:.4f}",
                 vIBSUF=f"{v_ibs_uf:.2f}",
             )
 
             # Build gIBSMun
-            gibsmun = Tcibs.GIbsmun(
+            gibsmun = gIBSUFType(
                 pIBSMun=f"{p_ibs_mun:.4f}",
                 vIBSMun=f"{v_ibs_mun:.2f}",
             )
 
             # Build gCBS
-            gcbs = Tcibs.GCbs(
+            gcbs = gCBSType(
                 pCBS=f"{p_cbs:.4f}",
                 vCBS=f"{v_cbs:.2f}",
             )
 
             # Build gIBSCBS (Tcibs)
-            gibscbs = Tcibs(
+            gibscbs = gIBSCBSType(
                 vBC=f"{v_bc:.2f}",
                 gIBSUF=gibsuf,
                 gIBSMun=gibsmun,
@@ -320,7 +321,7 @@ class NFeLine(spec_models.StackedModel):
             )
 
             # Build TtribNfe
-            ibscbs_obj = TtribNfe(
+            ibscbs_obj = IBSCBSType(
                 CST=cst,
                 cClassTrib=c_class_trib,
                 gIBSCBS=gibscbs,
@@ -509,25 +510,25 @@ class NFeLine(spec_models.StackedModel):
             v_cbs = self.cbs_value or (v_bc * p_cbs / 100) if p_cbs else 0.0
 
             # Build gIBSUF
-            gibsuf = Tcibs.GIbsuf(
+            gibsuf = gIBSUFType(
                 pIBSUF=f"{p_ibs_uf:.4f}",
                 vIBSUF=f"{v_ibs_uf:.2f}",
             )
 
             # Build gIBSMun
-            gibsmun = Tcibs.GIbsmun(
+            gibsmun = gIBSMunType(
                 pIBSMun=f"{p_ibs_mun:.4f}",
                 vIBSMun=f"{v_ibs_mun:.2f}",
             )
 
             # Build gCBS
-            gcbs = Tcibs.GCbs(
+            gcbs = gCBSType(
                 pCBS=f"{p_cbs:.4f}",
                 vCBS=f"{v_cbs:.2f}",
             )
 
             # Build gIBSCBS (Tcibs)
-            gibscbs = Tcibs(
+            gibscbs = gIBSCBSType(
                 vBC=f"{v_bc:.2f}",
                 gIBSUF=gibsuf,
                 gIBSMun=gibsmun,
@@ -536,7 +537,7 @@ class NFeLine(spec_models.StackedModel):
             )
 
             # Build TtribNfe and add to export_dict
-            ibscbs_obj = TtribNfe(
+            ibscbs_obj = IBSCBSType(
                 CST=cst,
                 cClassTrib=c_class_trib,
                 gIBSCBS=gibscbs,

@@ -18,6 +18,8 @@ from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.v4_00 import leiauteNFe_sub as nfe_sub, retEnviNFe as leiauteNFe
+from nfelib.v4_00.retEnviNFe import gCBSTotType, gIBSTotType, gIBSMunTotType, gIBSUFTotType, IBSCBSTotType
+
 from requests import Session
 
 from odoo import _, api, fields
@@ -111,6 +113,7 @@ class NFe(spec_models.StackedModel):
         > <ICMSTot>
         > <ISSQNtot>
         > <retTrib>
+        > <IBSCBSTot>
     > <transp>
         - <transporta> res.partner
         - <retTransp>
@@ -771,6 +774,7 @@ class NFe(spec_models.StackedModel):
     ################################
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+        print("EXPORT FIELD:", xsd_field)
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
             self.env.context.update({"tpAmb": self[xsd_field]})
@@ -786,21 +790,21 @@ class NFe(spec_models.StackedModel):
                 return False
 
             # Build gIBSUF
-            gibsuf = TibscbsmonoTot.GIbs.GIbsuf(
+            gibsuf = gIBSUFTotType(
                 vDif=f"{self.nfe40_vDifIBSUF:.2f}",
                 vDevTrib=f"{self.nfe40_vDevTribIBSUF:.2f}",
                 vIBSUF=f"{self.nfe40_vIBSUF:.2f}",
             )
 
             # Build gIBSMun
-            gibsmun = TibscbsmonoTot.GIbs.GIbsmun(
+            gibsmun = gIBSMunTotType(
                 vDif=f"{self.nfe40_vDifIBSMun:.2f}",
                 vDevTrib=f"{self.nfe40_vDevTribIBSMun:.2f}",
                 vIBSMun=f"{self.nfe40_vIBSMun:.2f}",
             )
 
             # Build gIBS
-            gibs = TibscbsmonoTot.GIbs(
+            gibs = gIBSTotType(
                 gIBSUF=gibsuf,
                 gIBSMun=gibsmun,
                 vIBS=f"{self.nfe40_vIBS:.2f}",
@@ -809,7 +813,7 @@ class NFe(spec_models.StackedModel):
             )
 
             # Build gCBS
-            gcbs = TibscbsmonoTot.GCbs(
+            gcbs = gCBSTotType(
                 vDif=f"{self.nfe40_vDifCBS:.2f}",
                 vDevTrib=f"{self.nfe40_vDevTribCBS:.2f}",
                 vCBS=f"{self.nfe40_vCBS:.2f}",
@@ -818,7 +822,7 @@ class NFe(spec_models.StackedModel):
             )
 
             # Build IBSCBSTot
-            ibscbs_tot = TibscbsmonoTot(
+            ibscbs_tot = IBSCBSTotType(
                 vBCIBSCBS=f"{self.nfe40_vBCIBSCBS:.2f}",
                 gIBS=gibs,
                 gCBS=gcbs,
@@ -830,6 +834,7 @@ class NFe(spec_models.StackedModel):
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         self.ensure_one()
+        print("FIELD name :", field_name)
         if field_name in self._stacking_points.keys():
             if field_name == "nfe40_ISSQNtot" and not any(
                 t == "issqn"
@@ -842,6 +847,47 @@ class NFe(spec_models.StackedModel):
                 total_cbs = sum(self.line_ids.mapped("cbs_value"))
                 if not total_ibs and not total_cbs:
                     return False
+                
+                # Build gIBSUF
+                gibsuf = gIBSUFTotType(
+                    vDif=f"{self.nfe40_vDifIBSUF:.2f}",
+                    vDevTrib=f"{self.nfe40_vDevTribIBSUF:.2f}",
+                    vIBSUF=f"{self.nfe40_vIBSUF:.2f}",
+                )
+
+                # Build gIBSMun
+                gibsmun = gIBSMunTotType(
+                    vDif=f"{self.nfe40_vDifIBSMun:.2f}",
+                    vDevTrib=f"{self.nfe40_vDevTribIBSMun:.2f}",
+                    vIBSMun=f"{self.nfe40_vIBSMun:.2f}",
+                )
+
+                # Build gIBS
+                gibs = gIBSTotType(
+                    gIBSUF=gibsuf,
+                    gIBSMun=gibsmun,
+                    vIBS=f"{self.nfe40_vIBS:.2f}",
+                    vCredPres=f"{self.nfe40_vCredPres:.2f}",
+                    vCredPresCondSus=f"{self.nfe40_vCredPresCondSus:.2f}",
+                )
+
+                # Build gCBS
+                gcbs = gCBSTotType(
+                    vDif=f"{self.nfe40_vDifCBS:.2f}",
+                    vDevTrib=f"{self.nfe40_vDevTribCBS:.2f}",
+                    vCBS=f"{self.nfe40_vCBS:.2f}",
+                    vCredPres=f"{self.nfe40_vCredPresCBS:.2f}",
+                    vCredPresCondSus=f"{self.nfe40_vCredPresCondSusCBS:.2f}",
+                )
+
+                # Build IBSCBSTot
+                ibscbs_tot = IBSCBSTotType(
+                    vBCIBSCBS=f"{self.nfe40_vBCIBSCBS:.2f}",
+                    gIBS=gibs,
+                    gCBS=gcbs,
+                )
+
+                return ibscbs_tot
 
             elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
                 comodel = self.env[self._stacking_points.get(field_name).comodel_name]
