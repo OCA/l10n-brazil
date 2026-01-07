@@ -210,6 +210,7 @@ class OperationLine(models.Model):
         nbs=None,
         cest=None,
         city_taxation_code=None,
+        national_taxation_code=None,
         service_type=None,
         ind_final=None,
     ):
@@ -246,6 +247,8 @@ class OperationLine(models.Model):
             defaults to product's CEST.
         :param city_taxation_code: Optional City Taxation Code record
             (l10n_br_fiscal.city.taxation.code).
+        :param national_taxation_code: Optional National Taxation Code record
+            (l10n_br_fiscal.national.taxation.code).
         :param service_type: Optional Service Type record
             (l10n_br_fiscal.service.type).
         :param ind_final: (Passed to icms_regulation_id.map_tax; not directly
@@ -287,6 +290,7 @@ class OperationLine(models.Model):
             nbs=nbs,
             cest=cest,
             city_taxation_code=city_taxation_code,
+            national_taxation_code=national_taxation_code,
             service_type=service_type,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
@@ -342,6 +346,7 @@ class OperationLine(models.Model):
             nbs=nbs,
             cest=cest,
             city_taxation_code=city_taxation_code,
+            national_taxation_code=national_taxation_code,
             service_type=service_type,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
@@ -358,6 +363,7 @@ class OperationLine(models.Model):
             nbs=nbs,
             cest=cest,
             city_taxation_code=city_taxation_code,
+            national_taxation_code=national_taxation_code,
             service_type=service_type,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
@@ -374,6 +380,7 @@ class OperationLine(models.Model):
             nbs=nbs,
             cest=cest,
             city_taxation_code=city_taxation_code,
+            national_taxation_code=national_taxation_code,
             service_type=service_type,
         ):
             self._build_mapping_result(mapping_result, tax_definition)

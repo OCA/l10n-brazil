@@ -553,6 +553,13 @@
         <field name="res_model">l10n_br_fiscal.city.taxation.code</field>
         <field name="view_mode">list,form</field>
     </record>
+
+    <!-- National Taxation Code -->
+    <record id="national_taxation_code_action" model="ir.actions.act_window">
+        <field name="name">National Taxation Code</field>
+        <field name="res_model">l10n_br_fiscal.national.taxation.code</field>
+        <field name="view_mode">tree,form</field>
+    </record>
     <!-- Operation Indicator -->
 
     <record id="operation_indicator_action" model="ir.actions.act_window">
