@@ -46,5 +46,7 @@ class FiscalDecoratorMixin(models.AbstractModel):
 
     @api.model_create_multi
     def create(self, vals_list):
-        self = self.with_context(create_from_account=True)
-        return super().create(vals_list)
+        return super(
+            FiscalDecoratorMixin,
+            self.with_context(create_from_account=True, allow_fiscal_access=True),
+        ).create(vals_list)
