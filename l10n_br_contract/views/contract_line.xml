@@ -47,6 +47,11 @@
                         options="{'no_create': True}"
                     />
                     <field
+                        name="national_taxation_code_id"
+                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        options="{'no_create': True}"
+                    />
+                    <field
                         name="cnae_id"
                         attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
                         options="{'no_create': True}"
