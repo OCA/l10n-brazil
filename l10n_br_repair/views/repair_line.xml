@@ -101,6 +101,10 @@
                         attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
                     />
                     <field
+                        name="national_taxation_code_id"
+                        attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    />
+                    <field
                         name="lot_id"
                         domain="[('product_id', '=', product_id)]"
                         context="{'default_product_id': product_id}"
