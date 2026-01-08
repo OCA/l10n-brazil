@@ -585,6 +585,16 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             else:
                 line.city_taxation_code_id = False
 
+    @api.depends("city_taxation_code_id")
+    def _compute_issqn_fg_city_id(self):
+        for line in self:
+            if line.city_taxation_code_id and line.city_taxation_code_id.city_id:
+                line.issqn_fg_city_id = line.city_taxation_code_id.city_id
+            elif line.company_id and line.company_id.city_id:
+                line.issqn_fg_city_id = line.company_id.city_id
+            else:
+                line.issqn_fg_city_id = False
+
     def _prepare_fields_issqn(self, tax_dict):
         self.ensure_one()
         return {
@@ -1229,10 +1239,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     issqn_fg_city_id = fields.Many2one(
         comodel_name="res.city",
-        related="city_taxation_code_id.city_id",
+        compute="_compute_issqn_fg_city_id",
         string="ISSQN City",
         store=True,
         precompute=True,
+        readonly=False,
     )
 
     # vDeducao
