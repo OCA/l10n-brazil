@@ -100,6 +100,10 @@
                         name="city_taxation_code_id"
                         attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
                     />
+                    <field
+                        name="national_taxation_code_id"
+                        attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    />
                     <field name="cfop_destination" invisible="1" />
                     <field name="price_total" invisible="1" />
                     <field name="price_subtotal" invisible="1" />
