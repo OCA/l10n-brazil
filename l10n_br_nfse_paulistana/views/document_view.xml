@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2023 Antônio S. P. Neto <neto@engene.one> - Engenere LTDA (https://engenere.one).
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="nfse_paulistana_direct_print_document_form_inherit" model="ir.ui.view">
+        <field
+            name="name"
+        >l10n_br_nfse_paulistana_direct_print.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <button name="view_pdf" position="attributes">
+                <attribute name="attrs">
+                    {'invisible': [
+                        '|',
+                        ('state_edoc', 'not in', ('autorizada', 'cancelada')),
+                        ('is_nfse_paulistana', '=', True)
+                    ]}
+                </attribute>
+            </button>
+            <button name="view_pdf" position="after">
+                <field name="is_nfse_paulistana" invisible="1" />
+                <button
+                    name="action_open_nfse_paulistana"
+                    string="Visualizar NFSe Paulistana"
+                    type="object"
+                    class="btn-primary"
+                    icon="fa-file-text"
+                    attrs="{'invisible': ['|', ('is_nfse_paulistana', '=', False), ('state_edoc', 'not in', ('autorizada', 'cancelada'))]}"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>

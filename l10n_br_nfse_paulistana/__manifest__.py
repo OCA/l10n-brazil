@@ -21,6 +21,9 @@
             "unidecode",
         ],
     },
+    "data": [
+        "views/document_view.xml",
+    ],
     "depends": [
         "l10n_br_nfse",
     ],
