@@ -51,18 +51,22 @@ class DocumentImportWizard(models.TransientModel):
         compute="_compute_fiscal_operation_type",
     )
 
-    issuer_cnpj = fields.Char(string="CNPJ")
-    issuer_legal_name = fields.Char(string="Razão Social")
+    issuer_cnpj = fields.Char(string="Issuer CNPJ")
+    issuer_legal_name = fields.Char()
     issuer_name = fields.Char(string="Fantasia")
-    issuer_partner_id = fields.Many2one(comodel_name="res.partner", string="Parceiro")
-    issuer_type_in_out = fields.Selection(selection=FISCAL_IN_OUT, string="Type")
-
-    destination_cnpj = fields.Char(string="CNPJ")
-    destination_name = fields.Char(string="Razão Social")
-    destination_partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Parceiro"
+    issuer_partner_id = fields.Many2one(
+        comodel_name="res.partner",
     )
-    destination_type_in_out = fields.Selection(selection=FISCAL_IN_OUT, string="Type")
+    issuer_type_in_out = fields.Selection(selection=FISCAL_IN_OUT, string="Issuer Type")
+
+    destination_cnpj = fields.Char(string="Destination CNPJ")
+    destination_name = fields.Char()
+    destination_partner_id = fields.Many2one(
+        comodel_name="res.partner",
+    )
+    destination_type_in_out = fields.Selection(
+        selection=FISCAL_IN_OUT, string="Destination Type"
+    )
 
     @api.depends("issuer_cnpj", "company_id.cnpj_cpf")
     def _compute_fiscal_operation_type(self):
