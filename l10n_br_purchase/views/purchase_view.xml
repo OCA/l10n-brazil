@@ -15,12 +15,10 @@
                 <field name="active_company_country_id" invisible="True" />
                 <field
                     name="fiscal_operation_id"
-                    attrs="{'invisible': [('active_company_country_id', '!=', %(base.br)d)]}"
+                    invisible="active_company_country_id != %(base.br)d"
+                    readonly="state != 'draft'"
                 />
-                <field
-                    name="ind_final"
-                    attrs="{'invisible': [('fiscal_operation_id', '=', False)]}"
-                />
+                <field name="ind_final" invisible="not fiscal_operation_id" />
             </xpath>
             <xpath expr="//field[@name='order_line']" position="attributes">
                 <attribute
@@ -63,8 +61,8 @@
                 position="attributes"
             >
                 <attribute
-                    name="attrs"
-                >{'column_invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+                    name="column_invisible"
+                >parent.fiscal_operation_id</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
@@ -72,11 +70,11 @@
             >
                 <field
                     name="fiscal_operation_line_id"
-                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    column_invisible="not parent.fiscal_operation_id"
                 />
                 <field
                     name="fiscal_tax_ids"
-                    attrs="{'column_invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                    column_invisible="not parent.fiscal_operation_id"
                     widget="many2many_tags"
                 />
             </xpath>
@@ -94,8 +92,9 @@
                 position="attributes"
             >
                 <attribute
-                    name="attrs"
-                >{ 'readonly': [('id', '!=', False),('state', 'in', ('purchase', 'to approve','done', 'cancel'))], 'required': [('display_type', '=', False)], }</attribute>
+                    name="readonly"
+                >id and state in ('purchase', 'to approve','done', 'cancel')</attribute>
+                <attribute name="required">not display_type</attribute>
                 <attribute
                     name="context"
                 >{ 'partner_id':parent.partner_id, 'quantity':product_qty, 'uom':product_uom, 'company_id': parent.company_id }</attribute>
@@ -105,16 +104,15 @@
                 position="attributes"
             >
                 <attribute
-                    name="attrs"
-                >{ 'readonly': [('id', '!=', False),('state', 'in', ('purchase', 'done', 'cancel'))], 'required': [('display_type', '=', False)] }</attribute>
+                    name="readonly"
+                >id and state in ('purchase', 'done', 'cancel')</attribute>
+                <attribute name="required">not display_type</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='taxes_id']"
                 position="attributes"
             >
-                <attribute
-                    name="attrs"
-                >{'invisible': [('fiscal_operation_id', '!=', False)]}</attribute>
+                <attribute name="invisible">fiscal_operation_id</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='taxes_id']"
@@ -123,22 +121,24 @@
                 <field
                     name="fiscal_operation_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)], 'required': [('parent.fiscal_operation_id', '!=', False)]}"
+                    invisible="not parent.fiscal_operation_id"
+                    required="parent.fiscal_operation_id"
                 />
                 <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)], 'required': [('fiscal_operation_id', '!=', False)]}"
+                    invisible="not parent.fiscal_operation_id"
+                    required="fiscal_operation_id"
                 />
                 <field
                     name="cfop_id"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('parent.fiscal_operation_id', '=', False)]}"
+                    invisible="tax_icms_or_issqn == 'issqn' or not parent.fiscal_operation_id"
                     options="{'no_create': True}"
                 />
                 <field
                     name="service_type_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('parent.fiscal_operation_id', '=', False)]}"
+                    invisible="tax_icms_or_issqn == 'icms' or not parent.fiscal_operation_id"
                 />
             </xpath>
             <xpath
@@ -146,52 +146,48 @@
                 position="attributes"
             >
                 <!-- necessario incluir porque o attrs não funciona na tag Page apenas  na Notebook-->
-                <attribute
-                    name="attrs"
-                >{'invisible': [('parent.fiscal_operation_id', '!=', False)]}</attribute>
+                <attribute name="invisible">parent.fiscal_operation_id</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form/field[@name='name']"
                 position="after"
             >
-                <notebook
-                    attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
-                >
+                <notebook invisible="not parent.fiscal_operation_id">
                     <page
                         name="fiscal_taxes"
                         string="Taxes"
-                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                        invisible="not parent.fiscal_operation_id"
                     />
                     <page
                         name="fiscal_line_extra_info"
                         string="Extra Info"
-                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                        invisible="not parent.fiscal_operation_id"
                     />
                     <page
                         name="others"
                         string="Outros Custos"
-                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                        invisible="not parent.fiscal_operation_id"
                     >
                         <group>
                             <field name="delivery_costs" invisible="1" />
                             <field
                                 name="freight_value"
-                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                readonly="delivery_costs == 'total'"
                             />
                             <field
                                 name="insurance_value"
-                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                readonly="delivery_costs == 'total'"
                             />
                             <field
                                 name="other_value"
-                                attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
+                                readonly="delivery_costs == 'total'"
                             />
                         </group>
                     </page>
                     <page
                         name="accounting"
                         string="Accounting"
-                        attrs="{'invisible': [('parent.fiscal_operation_id', '=', False)]}"
+                        invisible="not parent.fiscal_operation_id"
                     >
                         <group>
                             <field
@@ -243,19 +239,22 @@
                     name="amount_freight_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
-                    attrs="{'readonly': [('delivery_costs', '=', 'line')], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                    readonly="delivery_costs == 'line'"
+                    invisible="not fiscal_operation_id"
                 />
                 <field
                     name="amount_insurance_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
-                    attrs="{'readonly': [('delivery_costs', '=', 'line')], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                    readonly="delivery_costs == 'line'"
+                    invisible="not fiscal_operation_id"
                 />
                 <field
                     name="amount_other_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
-                    attrs="{'readonly': [('delivery_costs', '=', 'line')], 'invisible': [('fiscal_operation_id', '=', False)]}"
+                    readonly="delivery_costs == 'line'"
+                    invisible="not fiscal_operation_id"
                 />
             </xpath>
         </field>

@@ -504,7 +504,6 @@ class L10nBrPurchaseBaseTest(TransactionCase):
 
         purchase_form = Form(self.env["purchase.order"])
         purchase_form.partner_id = self.env.ref("l10n_br_base.res_partner_akretion")
-        purchase_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
         with purchase_form.order_line.new() as line:
             line.name = self.env.ref("product.product_product_12").name
             line.product_id = self.env.ref("product.product_product_12")
