@@ -6,8 +6,7 @@ from odoo import SUPERUSER_ID, api
 from odoo.addons.l10n_br_fiscal.tools import set_journal_in_fiscal_operation
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def post_init_hook(env):
     if env.ref("base.module_l10n_br_sale").demo:
         sale_orders = env["sale.order"].search(
             [("company_id", "!=", env.ref("base.main_company").id)]
@@ -24,7 +23,7 @@ def post_init_hook(cr, registry):
             order.write(defaults)
 
         # Load COA Fiscal Operation properties
-        sale_set_journal_in_fiscal_operation(cr)
+        sale_set_journal_in_fiscal_operation(env.cr)
 
 
 def sale_set_journal_in_fiscal_operation(cr):

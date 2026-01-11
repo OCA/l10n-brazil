@@ -7,10 +7,8 @@ from odoo.addons.sale.tests.common import TestSaleCommon
 @tagged("post_install", "-at_install")
 class TestSaleOrderPriceList(TestSaleCommon):
     @classmethod
-    def setUpClass(
-        cls, chart_template_ref="l10n_br_coa_generic.l10n_br_coa_generic_template"
-    ):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass(chart_template_ref="generic_coa")
 
         cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
 

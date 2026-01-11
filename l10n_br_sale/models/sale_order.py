@@ -35,14 +35,12 @@ class SaleOrder(models.Model):
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
     ind_pres = fields.Selection(
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     copy_note = fields.Boolean(
@@ -53,7 +51,6 @@ class SaleOrder(models.Model):
     discount_rate = fields.Float(
         string="Discount",
         readonly=True,
-        states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
     )
 
     comment_ids = fields.Many2many(
@@ -80,7 +77,7 @@ class SaleOrder(models.Model):
         for tax_totals_node in arch.xpath(
             "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
         ):
-            tax_totals_node.set("attrs", "{'invisible': True}")
+            tax_totals_node.set("invisible", "1")
 
         if view_type == "form" and (
             self.user_has_groups("l10n_br_sale.group_line_fiscal_detail")
