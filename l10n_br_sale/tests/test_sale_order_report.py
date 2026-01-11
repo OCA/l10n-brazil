@@ -10,8 +10,8 @@ from odoo.addons.sale.tests.common import TestSaleCommon
 @tagged("post_install", "-at_install")
 class TestSaleReport(TestSaleCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass(chart_template_ref="generic_coa")
 
         sale_form = Form(cls.env["sale.order"])
         sale_form.partner_id = cls.partner_a
