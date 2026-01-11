@@ -36,7 +36,7 @@
             <list>
                 <field name="code" />
                 <field name="name" />
-                <field name="cst_code_prefix_like" invisible="1" />
+                <field name="cst_code_prefix_like" column_invisible="True" />
                 <field name="tax_ibs_id" />
                 <field name="tax_cbs_id" />
                 <field name="regular_taxation" string="Regular Taxation" />
