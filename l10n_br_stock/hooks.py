@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import SUPERUSER_ID, _, api
+from odoo import _
 
 _logger = logging.getLogger(__name__)
 
@@ -79,16 +79,15 @@ def set_stock_warehouse_external_ids(env, company_external_id):
     env["ir.model.data"]._update_xmlids(data_list)
 
 
-def pre_init_hook(cr):
+def pre_init_hook(env):
     """Import XML data to change core data"""
-    env = api.Environment(cr, SUPERUSER_ID, {})
     if env.ref("base.module_stock").demo:
         _logger.info(_("Loading l10n_br_stock warehouse external ids..."))
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
 
 
-def create_locations_quants(cr, locations, products):
+def create_locations_quants(env, locations, products):
     """
     Create Quants for Inventory, use in Test and Demo Data
     :param locations: List of the Stock Locations
@@ -96,7 +95,6 @@ def create_locations_quants(cr, locations, products):
     """
     for location in locations:
         _logger.info(f"Create Quants Inventory in {location.name} for Demo Data ...")
-        env = api.Environment(cr, SUPERUSER_ID, {})
         quants = env["stock.quant"]
         for product in products:
             quants |= (
@@ -113,11 +111,10 @@ def create_locations_quants(cr, locations, products):
         quants.action_apply_inventory()
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def post_init_hook(env):
     if env.ref("base.module_l10n_br_stock").demo:
         create_locations_quants(
-            cr,
+            env,
             [
                 env.ref("l10n_br_stock.wh_empresa_simples_nacional").lot_stock_id,
                 env.ref("l10n_br_stock.wh_empresa_lucro_presumido").lot_stock_id,
