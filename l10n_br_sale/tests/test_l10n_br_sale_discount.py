@@ -11,7 +11,7 @@ class L10nBrSaleDiscount(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.company = cls.env.ref("base.main_company")
+        cls.company = cls.env.ref("l10n_br_base.empresa_simples_nacional")
         cls.group_total_discount_id = cls.env.ref(
             "l10n_br_sale.group_total_discount"
         ).id
@@ -52,9 +52,12 @@ class L10nBrSaleDiscount(TransactionCase):
                 "list_price": 1000,
             }
         )
-        cls.order = Form(cls.env["sale.order"])
+        cls.order = Form(
+            cls.env["sale.order"].with_context(
+                default_company_id=cls.company.id,
+            )
+        )
         cls.order.partner_id = cls.partner
-        cls.order.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
         cls.order = cls.order.save()
 
         cls.order_line = cls.env["sale.order.line"].create(
