@@ -263,6 +263,7 @@ class Document(models.Model):
             or None,
             "valor_desconto_incondicionado": valor_desconto_incondicionado,
             "codigo_nbs": self.fiscal_line_ids[0].nbs_id.code,
+            "codigo_nbs_unmasked": self.fiscal_line_ids[0].nbs_id.code_unmasked,
             "codigo_indicador_operacao": self.fiscal_line_ids[
                 0
             ].operation_indicator_id.code,
