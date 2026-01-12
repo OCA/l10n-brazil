@@ -26,6 +26,7 @@ class ResCompany(models.Model):
         [
             ("item_lista_servico", "Service Type"),
             ("codigo_tributacao_municipio", "City Taxation Code"),
+            ("codigo_tributacao_nacional", "National Taxation Code"),
         ],
         string="NFSE Service Type Value",
         default="item_lista_servico",
