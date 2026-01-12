@@ -167,15 +167,16 @@ class DocumentImportWizard(models.TransientModel):
         if product_id:
             return product_id
 
-        domain = []
+        domains = []
         if hasattr(xml_product, "cProd") and xml_product.cProd:
-            domain = expression.OR([domain, [("default_code", "=", xml_product.cProd)]])
+            domains.append([("default_code", "=", xml_product.cProd)])
 
         if hasattr(xml_product, "cEANTrib") and xml_product.cEANTrib != "SEM GTIN":
-            domain = expression.OR([domain, [("barcode", "=", xml_product.cEANTrib)]])
+            domains.append([("barcode", "=", xml_product.cEANTrib)])
 
         rec_id = False
-        if domain:
+        if domains:
+            domain = expression.OR(domains)
             rec_id = self.env["product.product"].search(domain, limit=1)
         return rec_id
 
