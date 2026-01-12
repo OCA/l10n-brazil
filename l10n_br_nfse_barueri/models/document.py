@@ -256,14 +256,16 @@ class Document(models.Model):
         else:
             registro_tipo2.IndicadorCPFCNPJTomador = "1"
             registro_tipo2.CPFCNPJTomador = "0" * 14
-        registro_tipo2.RazaoSocialNomeTomador = dados_tomador.get("razao_social", "")
-        registro_tipo2.EnderecoLogradouroTomador = (
-            dados_tomador.get("logradouro", "") or "R Pedra Sabao"
+        registro_tipo2.RazaoSocialNomeTomador = self._sem_acento(
+            dados_tomador.get("razao_social", "")
+        )
+        registro_tipo2.EnderecoLogradouroTomador = self._sem_acento(
+            dados_tomador.get("endereco", "") or ""
         )
         registro_tipo2.NumeroLogradouroTomador = str(
             dados_tomador.get("numero", "") or "10"
         )
-        registro_tipo2.ComplementoLogradouroTomador = str(
+        registro_tipo2.ComplementoLogradouroTomador = self._sem_acento(
             dados_tomador.get("complemento", "") or "N/A"
         )
         registro_tipo2.BairroLogradouroTomador = self._sem_acento(
