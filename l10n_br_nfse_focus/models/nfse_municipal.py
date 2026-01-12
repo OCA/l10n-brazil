@@ -156,6 +156,7 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "discriminacao": service.get("discriminacao"),
             "iss_retido": service.get("iss_retido"),
             "codigo_municipio": service.get("municipio_prestacao_servico"),
+            "codigo_municipio_incidencia": service.get("municipio_prestacao_servico"),
             "item_lista_servico": service.get(company.focusnfe_nfse_service_type_value),
             "codigo_cnae": service.get(company.focusnfe_nfse_cnae_code_value),
             "valor_iss": round(service.get("valor_iss", 0), 2),
