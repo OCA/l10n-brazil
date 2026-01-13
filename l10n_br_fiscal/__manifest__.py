@@ -104,6 +104,7 @@
         "views/uom_uom.xml",
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
+        "views/national_taxation_code.xml",
         "views/operation_dashboard_view.xml",
         # Wizards
         "wizards/document_import_wizard.xml",

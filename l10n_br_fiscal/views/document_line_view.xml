@@ -79,6 +79,10 @@
                                     attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"
                                 />
                                 <field
+                                    name="national_taxation_code_id"
+                                    attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"
+                                />
+                                <field
                                     name="cnae_id"
                                     attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"
                                 />
