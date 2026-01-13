@@ -15,7 +15,7 @@ from nfselib.paulistana.v02.PedidoEnvioLoteRPS import (
 )
 from unidecode import unidecode
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -46,6 +46,52 @@ def filter_paulistana(record):
 
 class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
+
+    url_nfse_paulistana = fields.Char(
+        string="URL of NFSe Paulistana",
+        compute="_compute_url_nfse_paulistana",
+        help="URL to access the Nota Fiscal de Serviços Eletrônicos (NFSe)"
+        "from the São Paulo City (Paulistana).",
+    )
+    is_nfse_paulistana = fields.Boolean(
+        string="Is NFSe Paulistana?",
+        compute="_compute_is_nfse_paulistana",
+        help="Technical field to identify if the document is a NFSe Paulistana.",
+    )
+
+    def _compute_url_nfse_paulistana(self):
+        for doc in self:
+            # requeried fields for the url
+            nf = doc.document_number
+            inscricao = doc.company_inscr_mun
+            verificacao = doc.verify_code
+
+            # skip if any of the required fields is empty
+            if not all([nf, inscricao, verificacao]):
+                doc.url_nfse_paulistana = ""
+                continue
+
+            nfse_print_url = (
+                "https://nfe.prefeitura.sp.gov.br/contribuinte/notaprint.aspx?"
+                f"nf={nf}&inscricao={inscricao}&verificacao={verificacao}"
+            )
+            doc.url_nfse_paulistana = nfse_print_url
+
+    def action_open_nfse_paulistana(self):
+        return {
+            "type": "ir.actions.act_url",
+            "url": self.url_nfse_paulistana,
+            "target": "new",
+        }
+
+    def _compute_is_nfse_paulistana(self):
+        for doc in self:
+            is_nfse = doc.document_type == "SE"
+            is_paulistana = doc.company_id.city_id == self.env.ref(
+                "l10n_br_base.city_3550308"
+            )
+            use_city_pdf = doc.company_id.nfse_use_city_pdf
+            doc.is_nfse_paulistana = bool(is_nfse and is_paulistana and use_city_pdf)
 
     def convert_type_nfselib(self, class_object, object_filed, value):
         if value is None:
