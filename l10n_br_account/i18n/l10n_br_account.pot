@@ -902,6 +902,13 @@ msgid "City Taxation Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__city_taxation_code_id
+msgid ""
+"City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
+"National NFS-e."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__civil_construction_art
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__civil_construction_art
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__civil_construction_art
@@ -3342,6 +3349,11 @@ msgid "IRPJ Value"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__national_taxation_code_id
+msgid "ISS National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_percent
 msgid "ISSQN %"
 msgstr ""
@@ -4824,6 +4836,11 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__national_taxation_code_id
+msgid "National Taxation Code for the ISS tax (National NFS-e)"
 msgstr ""
 
 #. module: l10n_br_account
