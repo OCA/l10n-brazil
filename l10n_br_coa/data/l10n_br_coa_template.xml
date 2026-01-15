@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <menuitem
+        id="account_reports_br_statements_menu"
+        name="Brazil"
+        parent="account.menu_finance_reports"
+        sequence="0"
+        groups="account.group_account_user"
+    />
+
+    <record id="l10n_br_coa_template" model="account.chart.template">
+        <field name="name">Plano de Contas Base</field>
+        <field name="code_digits">2</field>
+        <field name="cash_account_code_prefix">1.1.1.1.</field>
+        <field name="bank_account_code_prefix">1.1.1.2.</field>
+        <field name="transfer_account_code_prefix">1.1.1.2.0</field>
+        <field name="currency_id" ref="base.BRL" />
+        <field name="country_id" ref="base.br" />
+        <field name="visible" eval="0" />
+        <field name="use_anglo_saxon" eval="0" />
+    </record>
+
+</odoo>

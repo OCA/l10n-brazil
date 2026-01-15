@@ -1,0 +1,52 @@
+xml_id_name_part,code_cfc,code_itg,name,account_type
+tax_icms_payable,2.1.7.1.03,2.1.3.02,ICMS a Recolher,liability_current
+tax_icms_receivable,1.1.4.1.02,1.1.4.02,ICMS a Compensar,asset_current
+tax_icms_sales_revenue,6.1.1.2.03,3.1.1.04,ICMS s/ Vendas,income_other
+tax_icms_purchase_expense,6.1.1.2.23,3.1.1.04,ICMS s/ Compras,expense
+tax_ipi_payable,2.1.7.1.02,2.1.3.04,IPI a Recolher,liability_current
+tax_ipi_receivable,1.1.4.1.01,1.1.4.02,IPI a Compensar,asset_current
+tax_ipi_sales_revenue,6.1.1.2.08,3.1.1.04,IPI s/ Vendas,income_other
+tax_ipi_purchase_expense,6.1.1.2.28,3.1.1.04,IPI s/ Compras,income_other
+tax_pis_payable,2.1.7.1.05,2.1.3.01,PIS a Recolher,liability_current
+tax_pis_receivable,1.1.4.1.05,1.1.4.02,PIS a Compensar,asset_current
+tax_pis_sales_revenue,6.1.1.2.06,3.1.1.04,PIS s/ Vendas,income_other
+tax_pis_purchase_expense,6.1.1.2.26,3.1.1.04,PIS s/ Compras,income_other
+tax_cofins_payable,2.1.7.1.04,2.1.3.01,COFINS a Recolher,liability_current
+tax_cofins_receivable,1.1.4.1.04,1.1.4.02,COFINS a Compensar,asset_current
+tax_cofins_sales_revenue,6.1.1.2.05,3.1.1.04,COFINS s/ Vendas,income_other
+tax_cofins_purchase_expense,6.1.1.2.25,3.1.1.04,COFINS s/ Compras,income_other
+tax_icmssn_payable,2.1.7.1.01,2.1.3.02,ICMS SN a Recolher,liability_current
+tax_icms_st_payable,2.1.7.1.11,2.1.3.02,ICMS ST a Recolher,liability_current
+tax_icms_st_receivable,1.1.3.1.04,1.1.4.02,ICMS ST s/ Estoque (Mercadorias),asset_current
+tax_pis_st_payable,2.1.7.1.05S,2.1.3.01,PIS ST a Recolher,liability_current
+tax_pis_st_receivable,1.1.4.1.05S,1.1.4.02,PIS ST a Compensar,asset_current
+tax_cofins_st_payable,2.1.7.1.04S,2.1.3.01,COFINS ST a Recolher,liability_current
+tax_cofins_st_receivable,1.1.4.1.04S,1.1.4.02,COFINS ST a Compensar,asset_current
+tax_issqn_payable,2.1.7.1.08,2.1.3.03,ISSQN a Recolher,liability_current
+tax_issqn_receivable,1.1.4.1.09,1.1.4.02,ISSQN a Compensar,asset_current
+tax_issqn_sales_revenue_contra,6.1.1.2.04,3.1.1.04,ISSQN sobre Serviços,income_other
+tax_issqn_credit_note_revenue,6.1.1.2.24,3.1.1.04,ISSQN Devolução Serviços,income_other
+tax_ii_payable,2.1.7.1.13,,II a Recolher,liability_current
+tax_ii_receivable,1.1.4.1.10,1.1.4.02,II a Compensar,asset_current
+tax_ii_sales_revenue_contra,6.1.1.2.11,3.1.1.04,II sobre Vendas,income_other
+tax_ii_credit_note_revenue,6.1.1.2.31,3.1.1.04,II Devolução Venda,income_other
+tax_csll_payable,2.1.7.1.07,3.2.5.01,CSLL a Recolher,liability_current
+tax_csll_receivable,1.1.4.1.07,1.1.4.02,CSLL a Compensar,asset_current
+tax_csll_sales_revenue_contra,6.1.1.2.09,3.1.1.04,CSLL sobre Vendas,income_other
+tax_csll_credit_note_revenue,6.1.1.2.29,3.1.1.04,CSLL Devolução Venda,income_other
+tax_csll_wh_payable,2.1.7.1.07,3.2.5.01,CSLL Retido a Pagar (WH),liability_current
+tax_csll_wh_receivable,1.1.4.1.07,1.1.4.02,CSLL Retido a Compensar (WH),asset_current
+tax_irpj_payable,2.1.7.1.06,3.2.5.02,IRPJ a Recolher,liability_current
+tax_irpj_receivable,1.1.4.1.06,1.1.4.02,IRPJ a Compensar,asset_current
+tax_irpj_sales_revenue_contra,6.1.1.2.10,3.1.1.04,IRPJ sobre Vendas,income_other
+tax_irpj_credit_note_revenue,6.1.1.2.30,3.1.1.04,IRPJ Devolução Venda,income_other
+tax_irpj_wh_payable,2.1.7.1.06,3.2.5.02,IRPJ Retido a Pagar (WH),liability_current
+tax_irpj_wh_receivable,1.1.4.1.06,1.1.4.02,IRPJ Retido a Compensar (WH),asset_current
+tax_inss_payable,2.1.6.1.01,2.1.4.03,INSS a Recolher (Serv/Outros),liability_current
+tax_inss_receivable,1.1.4.1.11,1.1.4.02,INSS a Compensar (Serv/Outros),asset_current
+tax_inss_wh_payable,2.1.6.1.01,2.1.4.03,INSS Retido a Pagar (WH),liability_current
+tax_inss_wh_receivable,1.1.4.1.11,1.1.4.02,INSS Retido a Compensar (WH),asset_current
+tax_icms_fcp_payable,2.1.7.1.03FCP,2.1.3.02,ICMS FCP a Recolher,liability_current
+tax_icms_fcp_receivable,1.1.4.1.02FCP,1.1.4.02,ICMS FCP a Compensar,asset_current
+tax_icms_fcp_st_payable,2.1.7.1.11FCP,2.1.3.02,ICMS FCP ST a Recolher,liability_current
+tax_icms_fcp_st_receivable,1.1.3.1.04FCP,1.1.4.02,ICMS FCP ST s/ Estoque,asset_current

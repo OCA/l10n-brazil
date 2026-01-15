@@ -1,0 +1,247 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_coa
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-05-29 20:35+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
+"translation.odoo-community.org>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Template do Plano de Contas"
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_l10n_br_coa_account_tax_group_account_template
+msgid "Account Tax Group Account Template"
+msgstr "Modelo de Grupo de Impostos"
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_tax_mixin
+msgid "Account Tax Mixin"
+msgstr "Mixin da Conta de Imposto"
+
+#. module: l10n_br_coa
+#: model:ir.ui.menu,name:l10n_br_coa.account_reports_br_statements_menu
+msgid "Brazil"
+msgstr "Brasil"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_cofins
+msgid "COFINS"
+msgstr "COFINS"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_cofinsst
+msgid "COFINS ST"
+msgstr "COFINS ST"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_cofins_wh
+msgid "COFINS WH"
+msgstr "COFINS WH"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_csll
+msgid "CSLL"
+msgstr "CSLL"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_csll_wh
+msgid "CSLL WH"
+msgstr "CSLL WH"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__chart_template_id
+msgid "Chart Template"
+msgstr "Template do Plano de Contas"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__ded_account_id
+msgid "Deductible Tax Account"
+msgstr "Conta de Imposto dedutível"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__ded_refund_account_id
+msgid "Deductible Tax Account on Credit Notes"
+msgstr "Conta de Imposto Dedutível em Notas de Crédito"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__deductible
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__deductible
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__deductible
+msgid "Deductible Tax?"
+msgstr "Imposto dedutível?"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_icms
+msgid "ICMS"
+msgstr "ICMS"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_icmsfcp
+msgid "ICMS FCP"
+msgstr "ICMS FCP"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_icmsfcp_st
+msgid "ICMS FCP ST"
+msgstr "ICMS FCP ST"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_icmssn
+msgid "ICMS SN"
+msgstr "ICMS SN"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_icmsst
+msgid "ICMS ST"
+msgstr "ICMS ST"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_ii
+msgid "II"
+msgstr "II"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_inss
+msgid "INSS"
+msgstr "INSS"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_inss_wh
+msgid "INSS WH"
+msgstr "INSS WH"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_ipi
+msgid "IPI"
+msgstr "IPI"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_ir
+msgid "IR"
+msgstr "IR"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_irpj
+msgid "IRPJ"
+msgstr "IRPJ"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_irpj_wh
+msgid "IRPJ WH"
+msgstr "IRPJ WH"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_issqn
+msgid "ISSQN"
+msgstr "ISSQN"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_issqn_wh
+msgid "ISSQN WH"
+msgstr "ISSQN WH"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_others
+msgid "Outros"
+msgstr "Outros"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_pis
+msgid "PIS"
+msgstr "PIS"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_pisst
+msgid "PIS ST"
+msgstr "PIS ST"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_pis_wh
+msgid "PIS WH"
+msgstr "PIS WH"
+
+#. module: l10n_br_coa
+#: model:account.tax.group,name:l10n_br_coa.tax_group_simples
+msgid "Simples Nacional"
+msgstr "Simples Nacional"
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_tax
+msgid "Tax"
+msgstr "Imposto"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__account_id
+msgid "Tax Account"
+msgstr "Conta de Imposto"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__refund_account_id
+msgid "Tax Account on Credit Notes"
+msgstr "Conta de Imposto em Notas de Crédito"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__tax_group_id
+msgid "Tax Group"
+msgstr "Grupo de Imposto"
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_tax_template
+msgid "Templates for Taxes"
+msgstr "Modelos para Impostos"
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__withholdable
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__withholdable
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__withholdable
+msgid "Withholdable Tax?"
+msgstr "Imposto retido na fonte?"
