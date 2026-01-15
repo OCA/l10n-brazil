@@ -8,6 +8,23 @@ class TestCnpjCommon(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
+        # Create a Brazilian company and switch user to it
+        # This prevents tests from failing if main_company is not Brazilian
+        # (which causes VAT propagation to children, breaking the test)
+        cls.company_br = cls.env["res.company"].create(
+            {
+                "name": "Company BR",
+                "country_id": cls.env.ref("base.br").id,
+            }
+        )
+        cls.env.user.write(
+            {
+                "company_ids": [cls.company_br.id],
+                "company_id": cls.company_br.id,
+            }
+        )
+
         cls.model = cls.env["res.partner"]
         cls.mocked_response_ws_1 = {
             "nome": "Kilian Macedo Melcher 08777131460",
