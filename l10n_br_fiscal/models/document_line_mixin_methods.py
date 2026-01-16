@@ -411,6 +411,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 nbs=self.nbs_id,
                 cest=self.cest_id,
                 city_taxation_code=self.city_taxation_code_id,
+                national_taxation_code=self.national_taxation_code_id,
                 service_type=self.service_type_id,
                 ind_final=self.ind_final,
             )
@@ -456,6 +457,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 if city_id:
                     self.city_taxation_code_id = city_id
                     self.issqn_fg_city_id = company_city_id
+            if self.product_id.national_taxation_code_id:
+                self.national_taxation_code_id = (
+                    self.product_id.national_taxation_code_id
+                )
         else:
             self.name = False
             self.fiscal_type = False
@@ -470,6 +475,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.service_type_id = False
             self.operation_indicator_id = False
             self.city_taxation_code_id = False
+            self.national_taxation_code_id = False
             self.uot_id = False
 
         self._get_product_price()
