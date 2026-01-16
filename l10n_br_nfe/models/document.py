@@ -265,15 +265,21 @@ class NFe(spec_models.StackedModel):
 
     nfe40_finNFe = fields.Selection(related="edoc_purpose")
 
-    nfe40_tpNFDebito = fields.Selection(related="edoc_refund_debit_type")
+    nfe40_tpNFDebito = fields.Selection(
+        related="edoc_refund_debit_type", string="Tipo de NFe de Débito"
+    )
 
-    nfe40_tpNFCredito = fields.Selection(related="edoc_refund_credit_type")
+    nfe40_tpNFCredito = fields.Selection(
+        related="edoc_refund_credit_type", string="Tipo de NFe de Crédito"
+    )
 
     nfe40_indFinal = fields.Selection(related="ind_final")
 
     nfe40_indPres = fields.Selection(related="ind_pres")
 
-    nfe40_tpEnteGov = fields.Selection(related="public_entity_type")
+    nfe40_tpEnteGov = fields.Selection(
+        related="public_entity_type", string="Tipo de Entidade Governamental (NFe)"
+    )
 
     nfe40_procEmi = fields.Selection(default="0")
 
