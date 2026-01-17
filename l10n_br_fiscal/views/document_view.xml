@@ -360,6 +360,11 @@
                                         <field name="amount_icmsst_base" />
                                         <field name="amount_icmsst_value" />
                                     </group>
+                                    <group string="II">
+                                        <field name="amount_ii_base" />
+                                        <field name="amount_ii_value" />
+                                        <field name="amount_ii_customhouse_charges" />
+                                    </group>
                                     <group string="IPI">
                                         <field name="amount_ipi_base" />
                                         <field name="amount_ipi_value" />
