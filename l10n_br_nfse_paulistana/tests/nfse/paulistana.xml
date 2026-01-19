@@ -51,7 +51,7 @@
         </EnderecoTomador>
         <EmailTomador>cliente1@cliente1.com.br</EmailTomador>
         <Discriminacao
-        >[ODOO_DEV] Customized Odoo Development|Documento emitido por: Marc Demo|</Discriminacao>
+        >Customized Odoo Development|Documento emitido por: Marc Demo|</Discriminacao>
         <ValorCargaTributaria>0</ValorCargaTributaria>
         <FonteCargaTributaria>IBPT</FonteCargaTributaria>
     </RPS>

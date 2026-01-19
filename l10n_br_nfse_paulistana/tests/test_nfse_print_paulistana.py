@@ -15,7 +15,8 @@ class TestNFSePaulistana(common.TransactionCase):
             {
                 "name": "Test Company",
                 "city_id": self.env.ref("l10n_br_base.city_3550308").id,
-                "inscr_mun": "1234567890",
+                "l10n_br_im_code": "1234567890",
+                "nfse_use_city_pdf": True,
             }
         )
 

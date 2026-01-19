@@ -63,7 +63,7 @@ class Document(models.Model):
         for doc in self:
             # requeried fields for the url
             nf = doc.document_number
-            inscricao = doc.company_inscr_mun
+            inscricao = doc.company_id.l10n_br_im_code
             verificacao = doc.verify_code
 
             # skip if any of the required fields is empty
