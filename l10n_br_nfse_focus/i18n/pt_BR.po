@@ -29,6 +29,12 @@ msgid "%(code)s - %(status)s"
 msgstr "%(code)s - %(status)s"
 
 #. module: l10n_br_nfse_focus
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "Authorization error"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_cnae_code_value__codigo_cnae
 msgid "CNAE Code"
 msgstr "Código CNAE"
@@ -51,16 +57,18 @@ msgstr ""
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse_base__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse_nacional__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
 #. module: l10n_br_nfse_focus
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#: code:addons/l10n_br_nfse_focus/models/base.py:0
 #, python-format
-msgid "Error communicating with NFSe service: %s"
-msgstr "Erro de comunicação com o serviço NFSe: %s"
+msgid "Error communicating with %(service)s service: %(error)s"
+msgstr ""
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model,name:l10n_br_nfse_focus.model_l10n_br_fiscal_document
@@ -73,6 +81,16 @@ msgid "FocusNFE NFSE"
 msgstr "FocoNFE NFSE"
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse_base
+msgid "FocusNFE NFSE Base"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse_nacional
+msgid "FocusNFE NFSe Nacional"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__provedor_nfse__focusnfe
 msgid "FocusNFe"
 msgstr "FocusNFe"
@@ -81,6 +99,11 @@ msgstr "FocusNFe"
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_homologation_token
 msgid "FocusNFe Homologation Token"
 msgstr "Token de Homologação FocusNFe"
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_type
+msgid "FocusNFe NFSe Type"
+msgstr ""
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_production_token
@@ -98,25 +121,9 @@ msgid "Force Odoo DANFSE"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
-#, python-format
-msgid "HTTP status is 200 or 400 but unable to read error code"
-msgstr "O status HTTP é 200 ou 400, mas não é possível ler o código de erro"
-
-#. module: l10n_br_nfse_focus
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
-#, python-format
-msgid "HTTP status is 200 or 400 but unable to read json['codigo']"
-msgstr "O status HTTP é 200 ou 400, mas não é possível ler json['codigo']"
-
-#. module: l10n_br_nfse_focus
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
-#, python-format
-msgid "HTTP status is 200 or 400 but unable to read json['status']"
-msgstr "O status HTTP é 200 ou 400, mas não é possível ler json['status']"
-
-#. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse__id
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse_base__id
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse_nacional__id
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__id
 msgid "ID"
@@ -145,6 +152,8 @@ msgstr ""
 
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse_base____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_focusnfe_nfse_nacional____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company____last_update
 msgid "Last Modified on"
@@ -161,6 +170,11 @@ msgid "NFSE Service Type Value"
 msgstr "NFSE Valor do Tipo de Serviço"
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_type__nfse
+msgid "NFSe"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.actions.server,name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron_ir_actions_server
 #: model:ir.cron,cron_name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron
 #: model:ir.cron,name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron
@@ -170,13 +184,28 @@ msgstr ""
 "enviados."
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_type__nfse_nacional
+msgid "NFSe Nacional"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__provedor_nfse
 msgid "NFSe Provider"
 msgstr "Provedor de NFSe"
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__codigo_tributacao_nacional
+msgid "National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_tax_rate_format__percentage
 msgid "Percentage"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_type
+msgid "Select whether to use NFSe (municipal) or NFSe Nacional (national) API"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -195,6 +224,22 @@ msgstr ""
 #, python-format
 msgid "status"
 msgstr "situação"
+
+#, python-format
+#~ msgid "Error communicating with NFSe service: %s"
+#~ msgstr "Erro de comunicação com o serviço NFSe: %s"
+
+#, python-format
+#~ msgid "HTTP status is 200 or 400 but unable to read error code"
+#~ msgstr "O status HTTP é 200 ou 400, mas não é possível ler o código de erro"
+
+#, python-format
+#~ msgid "HTTP status is 200 or 400 but unable to read json['codigo']"
+#~ msgstr "O status HTTP é 200 ou 400, mas não é possível ler json['codigo']"
+
+#, python-format
+#~ msgid "HTTP status is 200 or 400 but unable to read json['status']"
+#~ msgstr "O status HTTP é 200 ou 400, mas não é possível ler json['status']"
 
 #, python-format
 #~ msgid "Processado com Sucesso"
