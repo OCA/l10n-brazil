@@ -5,7 +5,7 @@
     "name": "NFS-e (FocusNFE)",
     "summary": """
         NFS-e (FocusNFE)""",
-    "version": "14.0.1.8.0",
+    "version": "14.0.2.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Escodoo, Odoo Community Association (OCA)",
     "maintainers": [
