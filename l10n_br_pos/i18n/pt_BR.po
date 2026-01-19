@@ -708,6 +708,14 @@ msgid "City Taxation Code"
 msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__city_taxation_code_id
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__city_taxation_code_id
+msgid ""
+"City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
+"National NFS-e."
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_type
 msgid "Code"
@@ -1751,6 +1759,12 @@ msgid "IRPJ Value"
 msgstr "Valor do IRPJ"
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__national_taxation_code_id
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__national_taxation_code_id
+msgid "ISS National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_percent
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__issqn_percent
 msgid "ISSQN %"
@@ -2090,6 +2104,12 @@ msgstr "Impostos do Simples Nacional"
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
 msgstr "Impostos do Simples Nacional sem ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__national_taxation_code_id
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__national_taxation_code_id
+msgid "National Taxation Code for the ISS tax (National NFS-e)"
+msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__fiscal_printer_type__networkconnection
