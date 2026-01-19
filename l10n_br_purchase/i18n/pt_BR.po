@@ -383,6 +383,13 @@ msgid "City Taxation Code"
 msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__city_taxation_code_id
+msgid ""
+"City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
+"National NFS-e."
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__comment_ids
 msgid "Comments"
@@ -1068,6 +1075,11 @@ msgid "IRPJ Value"
 msgstr "Valor do IRPJ"
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__national_taxation_code_id
+msgid "ISS National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_percent
 msgid "ISSQN %"
 msgstr "% ISSQN"
@@ -1307,6 +1319,11 @@ msgstr "Impostos do Simples Nacional"
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
 msgstr "Impostos do Simples Nacional sem ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__national_taxation_code_id
+msgid "National Taxation Code for the ISS tax (National NFS-e)"
+msgstr ""
 
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
@@ -1938,8 +1955,8 @@ msgstr ""
 #~ "        % if object.partner_ref:\n"
 #~ "            with reference: ${object.partner_ref}\n"
 #~ "        % endif\n"
-#~ "        amounting in <strong>${format_amount(object.amount_total, object."
-#~ "currency_id)}</strong>\n"
+#~ "        amounting in <strong>${format_amount(object.amount_total, "
+#~ "object.currency_id)}</strong>\n"
 #~ "        from ${object.company_id.name}.\n"
 #~ "        <br/><br/>\n"
 #~ "        If you have any questions, please do not hesitate to contact us.\n"
@@ -1960,8 +1977,8 @@ msgstr ""
 #~ "        % if object.partner_ref:\n"
 #~ "            com a referencia: ${object.partner_ref}\n"
 #~ "        % endif\n"
-#~ "        no valor de <strong>${format_amount(object.amount_total, object."
-#~ "currency_id)}</strong>\n"
+#~ "        no valor de <strong>${format_amount(object.amount_total, "
+#~ "object.currency_id)}</strong>\n"
 #~ "        de ${object.company_id.name}.\n"
 #~ "        <br/><br/>\n"
 #~ "        Se tiver alguma dúvida, não hesite em contactar-nos.\n"
@@ -1978,8 +1995,8 @@ msgstr ""
 #~ "            (${object.partner_id.parent_id.name})\n"
 #~ "        % endif\n"
 #~ "        <br/><br/>\n"
-#~ "        Here is in attachment a request for quotation <strong>${object."
-#~ "name}</strong>\n"
+#~ "        Here is in attachment a request for quotation <strong>$"
+#~ "{object.name}</strong>\n"
 #~ "        % if object.partner_ref:\n"
 #~ "            with reference: ${object.partner_ref}\n"
 #~ "        % endif\n"
@@ -2796,8 +2813,8 @@ msgstr ""
 #~ msgstr "Unidade de Medida referencial"
 
 #~ msgid ""
-#~ "Reference of the document that generated this purchase order request (e."
-#~ "g. a sales order)"
+#~ "Reference of the document that generated this purchase order request "
+#~ "(e.g. a sales order)"
 #~ msgstr ""
 #~ "Referência do documento que gerou o requerimento para essa ordem de "
 #~ "compra (ex.: uma ordem de compra)"
