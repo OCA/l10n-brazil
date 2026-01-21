@@ -179,25 +179,25 @@
     <record id="action_hr_deficiency" model="ir.actions.act_window">
         <field name="name">Deficiency</field>
         <field name="res_model">hr.deficiency</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record id="action_hr_identity_type" model="ir.actions.act_window">
         <field name="name">Identity type</field>
         <field name="res_model">hr.identity.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record id="action_hr_civil_certificate_type" model="ir.actions.act_window">
         <field name="name">Civil certificate type</field>
         <field name="res_model">hr.civil.certificate.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <record id="action_hr_ethnicity" model="ir.actions.act_window">
         <field name="name">Ethnicity</field>
         <field name="res_model">hr.ethnicity</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <menuitem
         id="menu_hr_employee_register"
