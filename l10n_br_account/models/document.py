@@ -9,11 +9,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
-    MODELO_FISCAL_CTE,
-    MODELO_FISCAL_NFE,
-    SITUACAO_EDOC_EM_DIGITACAO,
+    DOCUMENT_STATE_DRAFT,
 )
 
 
@@ -204,7 +201,7 @@ class FiscalDocument(models.Model):
 
     def unlink(self):
         non_draft_documents = self.filtered(
-            lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
+            lambda d: d.state_edoc != DOCUMENT_STATE_DRAFT
         )
 
         if non_draft_documents:
@@ -328,13 +325,3 @@ class FiscalDocument(models.Model):
             action["res_id"] = self.move_ids.id
 
         return action
-
-    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
-        self.ensure_one()
-        models_cancel_on_deny = [MODELO_FISCAL_NFE, MODELO_FISCAL_CTE]
-        if (
-            self.document_type_id.code in models_cancel_on_deny
-            and self.issuer == DOCUMENT_ISSUER_COMPANY
-        ):
-            self._document_deny()
-        return super().exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)

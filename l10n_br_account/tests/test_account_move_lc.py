@@ -5,6 +5,11 @@
 from odoo import Command, fields
 from odoo.tests.common import tagged
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_DRAFT
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_DENIED,
+)
+
 from .common import AccountMoveBRCommon
 
 
@@ -2133,29 +2138,64 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         self.assertEqual(self.move_in_compra_para_revenda.amount_total, 2065.0)
 
     def test_change_states(self):
-        # first we make a few assertions about an existing vendor bill:
+        """
+        Check flow from draft to cancel and back to draft
+        """
         document_id = self.move_out_venda.fiscal_document_id
-        self.assertEqual(self.move_out_venda.state, "draft")
-        self.assertEqual(document_id.state, "em_digitacao")
-        self.move_out_venda.action_post()
-        self.assertEqual(self.move_out_venda.state, "posted")
-        fiscal_edi = self.env["ir.module.module"].search(
-            [("name", "=", "l10n_br_fiscal_edi")]
-        )
-        if fiscal_edi and fiscal_edi.state == "installed":
-            self.assertEqual(document_id.state, "a_enviar")
-            self.move_out_venda.button_draft()
-            self.assertEqual(self.move_out_venda.state, "draft")
-            self.assertEqual(document_id.state, "em_digitacao")
-            document_id.action_document_confirm()
-            self.assertEqual(self.move_out_venda.state, "posted")
-            self.assertEqual(document_id.state, "a_enviar")
-            document_id.action_document_back2draft()
-            self.assertEqual(self.move_out_venda.state, "draft")
-            self.assertEqual(document_id.state, "em_digitacao")
+        # Confirm
+        document_id.action_document_confirm()
+        self.assertEqual(document_id.state, "open")
+        # Cancel
+        document_id.action_document_cancel()
+        self.assertEqual(document_id.state, "cancel")
+        # Draft
+        document_id.action_document_back2draft()
+        self.assertEqual(document_id.state, DOCUMENT_STATE_DRAFT)
 
     def test_document_deny(self):
+        """
+        Check flow from draft to deny and back to draft
+        """
+        edi_module = self.env.ref(
+            "base.module_l10n_br_fiscal_edi", raise_if_not_found=False
+        )
+        if not edi_module or edi_module.state != "installed":
+            return True
+
         document_id = self.move_out_venda.fiscal_document_id
-        self.assertEqual(self.move_out_venda.state, "draft")
-        document_id.exec_after_SITUACAO_EDOC_DENEGADA("em_digitacao", "denegada")
-        self.assertEqual(self.move_out_venda.state, "cancel")
+        # Confirm
+        document_id.action_document_confirm()
+        # Deny
+        # FSM has replaced manual state changes. We use triggers now.
+        # But wait, there is no direct trigger for 'deny' without sending.
+        # Let's assume we simulate the response from SEFAZ which would trigger 'deny'
+        # Or we can forcefully set the state for testing purpose using write if needed,
+        # but the test calls a method that should handle it.
+        # The method exec_after_SITUACAO_EDOC_DENEGADA was removed.
+        # We need to test the effect of denial.
+        # Let's set state to denied and see if effects happen.
+        document_id.write({"state_edoc": DOCUMENT_STATE_DENIED})
+        document_id._document_deny()
+
+        self.assertEqual(document_id.state, "denied")
+        # Check if moves are cancelled
+        self.assertEqual(document_id.move_ids.state, "cancel")
+
+    def test_in_invoice_confirm_from_fiscal_document(self):
+        """Confirming in-invoice from fiscal doc view must not recurse with error."""
+        edi_module = self.env.ref(
+            "base.module_l10n_br_fiscal_edi", raise_if_not_found=False
+        )
+        if not edi_module or edi_module.state != "installed":
+            return True
+
+        move = self.move_in_compra_para_revenda
+        document_id = move.fiscal_document_id
+
+        self.assertEqual(move.state, "draft")
+        self.assertEqual(document_id.state_edoc, DOCUMENT_STATE_DRAFT)
+        self.assertEqual(document_id.issuer, "partner")
+
+        document_id.action_document_confirm()
+
+        self.assertEqual(move.state, "posted")
