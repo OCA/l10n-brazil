@@ -11,22 +11,12 @@
                 <filter
                     name="draft"
                     string="Draft"
-                    domain="[('state_edoc','=','em_digitacao')]"
-                />
-                <filter
-                    name="send"
-                    string="To Send"
-                    domain="[('state_edoc','=','a_enviar')]"
-                />
-                <filter
-                    name="rejected"
-                    string="Rejected"
-                    domain="[('state_edoc','=','rejeitada')]"
+                    domain="[('state_edoc','=','draft')]"
                 />
                 <filter
                     name="cancel"
                     string="Cancelled"
-                    domain="[('state_edoc','=','cancelada')]"
+                    domain="[('state_edoc','=','cancel')]"
                 />
                 <separator />
                 <filter
@@ -74,14 +64,11 @@
                 <field name="fiscal_amount_untaxed" />
                 <field name="fiscal_amount_tax" />
                 <field name="fiscal_amount_total" />
-                <field name="state" invisible="1" />
                 <field
                     name="state_edoc"
                     widget="badge"
-                    decoration-success="state_edoc == 'autorizada'"
-                    decoration-info="state == 'a_enviar'"
-                    decoration-warning="state_edoc == 'cancelada'"
-                    decoration-danger="state_edoc == 'rejeitada'"
+                    decoration-success="state_edoc == 'open'"
+                    decoration-warning="state_edoc == 'cancel'"
                     optional="show"
                 />
                 <field name="state_fiscal" />
@@ -100,87 +87,33 @@
                 <field name="fiscal_operation_type" invisible="1" />
                 <field name="document_type" invisible="1" />
                 <header>
-                    <!-- Please use state_edoc and attrs to maintain compatibility with invoice -->
                     <button
                         name="action_document_confirm"
                         type="object"
-                        string="Confirmar"
+                        string="Confirm"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-primary"
-                        attrs="{'invisible': [('state_edoc', '!=', 'em_digitacao')]}"
-                    />
-                    <button
-                        name="action_document_send"
-                        type="object"
-                        string="Enviar"
-                        groups="l10n_br_fiscal.group_user"
-                        class="btn-primary"
-                        attrs="{'invisible': [('state_edoc','!=','a_enviar')]}"
-                    />
-                    <button
-                        name="action_document_send"
-                        type="object"
-                        string="Consultar Recibo"
-                        groups="l10n_br_fiscal.group_user"
-                        class="btn-primary"
-                        attrs="{'invisible': [('state_edoc','!=','enviada')]}"
+                        attrs="{'invisible': [('state_edoc', '!=', 'draft')]}"
                     />
                     <button
                         name="action_document_back2draft"
                         type="object"
-                        string="Voltar p/ Em Digitação"
+                        string="Set to Draft"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-secondary"
-                        attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'rejeitada', 'enviada')), ('document_electronic', '=', False)]}"
-                    />
-                    <button
-                        name="view_pdf"
-                        type="object"
-                        string="Visualizar PDF"
-                        groups="l10n_br_fiscal.group_user"
-                        class="btn-primary"
-                        attrs="{'invisible': [('state_edoc', '=', 'em_digitacao')]}"
-                    />
-                    <button
-                        name="view_xml"
-                        type="object"
-                        string="Visualizar XML"
-                        groups="l10n_br_fiscal.group_user"
-                        class="btn-primary"
-                        attrs="{'invisible': ['|', ('document_electronic', '=', False), ('state_edoc', '=', 'em_digitacao')]}"
+                        attrs="{'invisible': [('state_edoc', '=', 'draft')]}"
                     />
                     <button
                         name="action_document_cancel"
                         type="object"
-                        string="Cancelar"
+                        string="Cancel"
                         groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False)]}"
-                    />
-                    <button
-                        name="action_document_invalidate"
-                        type="object"
-                        string="Invalidar Numeração"
-                        groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'autorizada', 'cancelada', 'denegada'))]}"
-                    />
-                    <button
-                        name="action_document_correction"
-                        type="object"
-                        string="Carta de correção"
-                        groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
-                    />
-                    <button
-                        name="action_create_return"
-                        type="object"
-                        string="Devolver"
-                        groups="l10n_br_fiscal.group_user"
-                        attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}"
+                        attrs="{'invisible': [('state_edoc', '=', 'cancel')]}"
                     />
                     <field
                         name="state_edoc"
                         widget="statusbar"
-                        statusbar_visible="em_digitacao,autorizada"
+                        statusbar_visible="draft,open"
                     />
                 </header>
                 <div
@@ -192,25 +125,16 @@
                     <field name="xml_error_message" readonly="1" />
                 </div>
                 <div
-                    class="alert alert-danger"
-                    role="alert"
-                    attrs="{'invisible': [('state_edoc','not in',('rejeitada', 'denegada'))]}"
-                >Fiscal Document:
-                <field name="document_type_id" readonly="1" />is
-                <strong>
-                    <field name="state_edoc" readonly="1" />
-                </strong></div>
-                <div
                     class="alert alert-success"
                     role="alert"
-                    attrs="{'invisible': [('state_edoc','!=','autorizada')]}"
+                    attrs="{'invisible': [('state_edoc','!=','open')]}"
                 >Fiscal Document:
                 <field name="document_type_id" readonly="1" />is
-                <strong>Authorized</strong></div>
+                <strong>Open</strong></div>
                 <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('state_edoc','!=','cancelada')]}"
+                    attrs="{'invisible': [('state_edoc','!=','cancel')]}"
                 >Fiscal Document:
                 <field name="document_type_id" readonly="1" />is
                 <strong>Cancelled</strong></div>
