@@ -37,6 +37,22 @@ def filter_processador(record):
     return False
 
 
+class FiscalDocumentWrapper:
+    def __init__(self, document):
+        self._document = document
+
+    def __getattr__(self, name):
+        return getattr(self._document, name)
+
+    @property
+    def state_edoc(self):
+        return self._document.state_edoc
+
+    @state_edoc.setter
+    def state_edoc(self, value):
+        self._document.write({"state_edoc": value})
+
+
 class Document(models.Model):
     """
     Fiscal Document EDI extension implementing State Machine workflow.
@@ -293,21 +309,33 @@ class Document(models.Model):
     def _trigger_fsm(self, trigger):
         for doc in self:
             try:
+                wrapper = FiscalDocumentWrapper(doc)
                 config = doc.get_state_machine_config()
                 machine = Machine(
-                    model=doc,
+                    model=wrapper,
                     states=config["states"],
                     transitions=config["transitions"],
                     initial=config["initial"],
                     after_state_change=config["after_state_change"],
                     model_attribute="state_edoc",  # Bind to state_edoc
                 )
-                getattr(doc, trigger)()
+                getattr(wrapper, trigger)()
             except MachineError as e:
                 raise UserError(
                     _("State transition failed for action '%(action)s': %(error)s")
                     % {"action": trigger, "error": e}
                 )
+
+    def _after_fsm_state_change(self):
+        # Persist the state change to the database immediately
+        # transitions library updates the attribute on the object, but we need to save it.
+        # However, calling self.state_edoc = ... inside might be redundant if we just write.
+        # Actually, 'transitions' modifies the instance attribute. We need to flush it.
+        # But since we are in a loop in _trigger_fsm, we can just write.
+        # Let's trust that 'transitions' updates 'state_edoc' on 'self'.
+        # We need to explicitly write it to DB.
+        # With Wrapper, writing happens in setter! So this might be redundant or just a hook.
+        pass
 
     # -------------------------------------------------------------------------
     # Transition Callbacks
