@@ -1,11 +1,82 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <record id="document_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.search</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_search" />
+        <field name="arch" type="xml">
+            <filter name="draft" position="after">
+                <filter
+                    name="send"
+                    string="Sending"
+                    domain="[('state_edoc','=','sending')]"
+                />
+                <filter
+                    name="rejected"
+                    string="Rejected"
+                    domain="[('state_edoc','=','rejected')]"
+                />
+                <filter
+                    name="authorized"
+                    string="Authorized"
+                    domain="[('state_edoc','=','authorized')]"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <record id="document_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.tree</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_tree" />
+        <field name="arch" type="xml">
+            <field name="state_edoc" position="attributes">
+                <attribute name="decoration-info">state_edoc == 'sending'</attribute>
+                <attribute name="decoration-danger">state_edoc == 'rejected'</attribute>
+                <attribute name="decoration-success">state_edoc == 'authorized'</attribute>
+            </field>
+        </field>
+    </record>
+
     <record id="document_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal_edi.document.form</field>
         <field name="model">l10n_br_fiscal.document</field>
         <field name="priority">5</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
+            <button name="action_document_confirm" position="after">
+                <button
+                    name="action_document_send"
+                    type="object"
+                    string="Send"
+                    groups="l10n_br_fiscal.group_user"
+                    class="btn-primary"
+                    attrs="{'invisible': [('state_edoc','!=','open')]}"
+                />
+            </button>
+            <button name="action_document_back2draft" position="before">
+                <button
+                    name="view_pdf"
+                    type="object"
+                    string="View PDF"
+                    groups="l10n_br_fiscal.group_user"
+                    class="btn-primary"
+                    attrs="{'invisible': [('state_edoc', 'in', ('draft', 'open'))]}"
+                />
+                <button
+                    name="view_xml"
+                    type="object"
+                    string="View XML"
+                    groups="l10n_br_fiscal.group_user"
+                    class="btn-primary"
+                    attrs="{'invisible': [('state_edoc', 'in', ('draft', 'open'))]}"
+                />
+            </button>
+            <field name="state_edoc" position="attributes">
+                <attribute name="statusbar_visible">draft,open,sending,authorized</attribute>
+            </field>
             <xpath expr="//page[@name='delivery']" position="after">
                 <page name="others" string="EDI">
                     <group>
@@ -28,7 +99,7 @@
                             name="cancel"
                             string="Cancellation"
                             colspan="4"
-                            attrs="{'invisible': [('state_edoc', '!=', 'cancelada')]}"
+                            attrs="{'invisible': [('state_edoc', '!=', 'cancel')]}"
                         >
                             <field name="cancel_event_id" />
                             <field name="cancel_date" />
