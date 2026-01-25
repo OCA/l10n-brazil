@@ -5,7 +5,7 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
-from ..constants.fiscal import SITUACAO_EDOC_INUTILIZADA
+from ..constants.fiscal import DOCUMENT_STATE_CANCEL as SITUACAO_EDOC_INUTILIZADA
 
 
 class InvalidateNumber(models.Model):
