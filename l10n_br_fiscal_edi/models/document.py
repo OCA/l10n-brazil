@@ -11,7 +11,6 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
-    DOCUMENT_ISSUER_PARTNER,
     DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
     DOCUMENT_STATE_OPEN,
@@ -22,7 +21,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     PROCESSADOR_NENHUM,
 )
-from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+
+from ..constants.fiscal import (
     DOCUMENT_STATE_AUTHORIZED,
     DOCUMENT_STATE_DENIED,
     DOCUMENT_STATE_REJECTED,
@@ -262,19 +262,19 @@ class Document(models.Model):
                 # Authorize: Sending -> Authorized
                 {
                     "trigger": "action_authorize",
-                    "source": DOCUMENT_STATE_SENDING,
+                    "source": [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN],
                     "dest": DOCUMENT_STATE_AUTHORIZED,
                 },
                 # Reject: Sending -> Rejected
                 {
                     "trigger": "action_reject",
-                    "source": DOCUMENT_STATE_SENDING,
+                    "source": [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN],
                     "dest": DOCUMENT_STATE_REJECTED,
                 },
                 # Deny: Sending -> Denied
                 {
                     "trigger": "action_deny",
-                    "source": DOCUMENT_STATE_SENDING,
+                    "source": [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN],
                     "dest": DOCUMENT_STATE_DENIED,
                 },
                 # Cancel: Authorized -> Cancel
@@ -285,6 +285,7 @@ class Document(models.Model):
                         DOCUMENT_STATE_OPEN,  # Allow canceling if manual/not sent
                         DOCUMENT_STATE_REJECTED,
                         DOCUMENT_STATE_DRAFT,
+                        DOCUMENT_STATE_SENDING,
                     ],
                     "dest": DOCUMENT_STATE_CANCEL,
                     "before": "_before_document_cancel",
@@ -298,6 +299,7 @@ class Document(models.Model):
                         DOCUMENT_STATE_REJECTED,
                         DOCUMENT_STATE_CANCEL,
                         DOCUMENT_STATE_DENIED,
+                        DOCUMENT_STATE_DRAFT,
                     ],
                     "dest": DOCUMENT_STATE_DRAFT,
                     "before": "_before_document_back2draft",
@@ -311,31 +313,25 @@ class Document(models.Model):
             try:
                 wrapper = FiscalDocumentWrapper(doc)
                 config = doc.get_state_machine_config()
-                machine = Machine(
+                Machine(
                     model=wrapper,
                     states=config["states"],
                     transitions=config["transitions"],
                     initial=config["initial"],
-                    after_state_change=config["after_state_change"],
                     model_attribute="state_edoc",  # Bind to state_edoc
+                    ignore_invalid_triggers=False,
                 )
                 getattr(wrapper, trigger)()
             except MachineError as e:
                 raise UserError(
                     _("State transition failed for action '%(action)s': %(error)s")
                     % {"action": trigger, "error": e}
-                )
+                ) from e
 
-    def _after_fsm_state_change(self):
-        # Persist the state change to the database immediately
-        # transitions library updates the attribute on the object, but we need to save it.
-        # However, calling self.state_edoc = ... inside might be redundant if we just write.
-        # Actually, 'transitions' modifies the instance attribute. We need to flush it.
-        # But since we are in a loop in _trigger_fsm, we can just write.
-        # Let's trust that 'transitions' updates 'state_edoc' on 'self'.
-        # We need to explicitly write it to DB.
-        # With Wrapper, writing happens in setter! So this might be redundant or just a hook.
-        pass
+    def _document_cancel(self, justificative=None):
+        if justificative:
+            self.cancel_reason = justificative
+        self._trigger_fsm("action_cancel_fsm")
 
     # -------------------------------------------------------------------------
     # Transition Callbacks
@@ -405,8 +401,8 @@ class Document(models.Model):
                     numero_serie=record.document_serie or "",
                     validar=False,
                 )
-                # record.key_random_code = chave_edoc.codigo_aleatorio
-                # record.key_check_digit = chave_edoc.digito_verificador
+                record.key_random_code = chave_edoc.codigo_aleatorio
+                record.key_check_digit = chave_edoc.digito_verificador
                 record.document_key = chave_edoc.chave
 
     def _document_number(self):
@@ -446,7 +442,8 @@ class Document(models.Model):
         )
         # Non-electronic/Partner issuer docs just go to Authorized immediately
         for doc in no_electronic:
-            # We bypass the FSM trigger loop to avoid recursion if called from transition
+            # We bypass the FSM trigger loop to avoid recursion if called
+            # from transition
             # But wait, we are in 'after_document_send', state is 'sending'.
             # We should move them to 'authorized'.
             doc._trigger_fsm("action_authorize")
@@ -462,33 +459,110 @@ class Document(models.Model):
             # Simulate immediate authorization for 'No Processor'
             record._trigger_fsm("action_authorize")
 
-    def _document_export(self):
+    def _document_export(self, **kwargs):
         pass
+
+    def serialize(self):
+        """
+        Serialize the document to a list of EDocs (objects from erpbrasil.edoc).
+        Modules should override _serialize to add their EDocs.
+        """
+        edocs = []
+        self._serialize(edocs)
+        return edocs
+
+    def _serialize(self, edocs):
+        """
+        Hook for modules to add their serialized EDocs to the list.
+        """
+        return edocs
+
+    def _get_state_to_action_map(self):
+        return {
+            DOCUMENT_STATE_OPEN: "action_validate",
+            DOCUMENT_STATE_SENDING: "action_send",
+            DOCUMENT_STATE_AUTHORIZED: "action_authorize",
+            DOCUMENT_STATE_REJECTED: "action_reject",
+            DOCUMENT_STATE_DENIED: "action_deny",
+            DOCUMENT_STATE_CANCEL: "action_cancel_fsm",
+            DOCUMENT_STATE_DRAFT: "action_draft_fsm",
+        }
+
+    def _change_state(self, state, force_change=False):
+        """
+        Wrapper to trigger state changes via FSM for legacy compatibility.
+        """
+        # Map legacy states to triggers if possible, or just update state_edoc
+        # The FSM manages state_edoc, but 'transitions' allows direct assignment
+        # if not locked. However, to respect the FSM flow, we should try triggers.
+        # But 'state' argument here is the target state (e.g. 'authorized'),
+        # not an action.
+
+        # Mapping target state to action
+        state_to_action = self._get_state_to_action_map()
+
+        trigger = state_to_action.get(state)
+        if trigger:
+            # If we are already in the target state, do nothing unless forced?
+            if self.state_edoc == state and not force_change:
+                return
+
+            # Try to trigger the transition
+            try:
+                self._trigger_fsm(trigger)
+            except UserError as e:
+                # If transition fails (e.g. invalid source state), we might force it
+                # if the legacy code demands it (e.g. synchronization with SEFAZ).
+                # In legacy code, _change_state often just wrote to the field.
+                if force_change:
+                    self.write({"state_edoc": state})
+                else:
+                    raise e
+        else:
+            # If no transition defined, fallback to write (e.g. custom states?)
+            self.write({"state_edoc": state})
 
     # -------------------------------------------------------------------------
     # Actions / Buttons
     # -------------------------------------------------------------------------
 
     def action_document_confirm(self):
-        """Override base button to trigger FSM validation"""
-        if self.document_electronic and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self._trigger_fsm("action_validate")
-        else:
-            return super().action_document_confirm()
+        """Override base button to trigger FSM validation.
+
+        This method must be idempotent because account.move._post() may call it
+        again for already confirmed documents.
+        """
+        electronic_company = self.filtered(
+            lambda d: d.document_electronic and d.issuer == DOCUMENT_ISSUER_COMPANY
+        )
+        to_validate = electronic_company.filtered(
+            lambda d: d.state_edoc == DOCUMENT_STATE_DRAFT
+        )
+        if to_validate:
+            to_validate._trigger_fsm("action_validate")
+
+        others = self - electronic_company
+        if others:
+            return super(Document, others).action_document_confirm()
+
+        return True
 
     def action_document_send(self):
         """Trigger Sending"""
-        self._trigger_fsm("action_send")
+        return self._trigger_fsm("action_send")
 
     def action_document_back2draft(self):
         """Override base button"""
         if self.document_electronic and self.issuer == DOCUMENT_ISSUER_COMPANY:
-            self._trigger_fsm("action_draft_fsm")
+            return self._trigger_fsm("action_draft_fsm")
         else:
             return super().action_document_back2draft()
 
     def action_document_cancel(self):
         """Override base button"""
+        if self.state_edoc in (DOCUMENT_STATE_CANCEL, DOCUMENT_STATE_DENIED):
+            return True
+
         if self.document_electronic and self.issuer == DOCUMENT_ISSUER_COMPANY:
             # For authorized docs, show wizard
             if self.state_edoc == DOCUMENT_STATE_AUTHORIZED:
@@ -496,7 +570,7 @@ class Document(models.Model):
                     "l10n_br_fiscal_edi.document_cancel_wizard_action"
                 )
             # Otherwise trigger FSM cancel
-            self._trigger_fsm("action_cancel_fsm")
+            return self._trigger_fsm("action_cancel_fsm")
         else:
             return super().action_document_cancel()
 

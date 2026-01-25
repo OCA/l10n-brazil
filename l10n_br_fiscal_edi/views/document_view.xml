@@ -35,7 +35,9 @@
             <field name="state_edoc" position="attributes">
                 <attribute name="decoration-info">state_edoc == 'sending'</attribute>
                 <attribute name="decoration-danger">state_edoc == 'rejected'</attribute>
-                <attribute name="decoration-success">state_edoc == 'authorized'</attribute>
+                <attribute
+                    name="decoration-success"
+                >state_edoc == 'authorized'</attribute>
             </field>
         </field>
     </record>
@@ -75,7 +77,9 @@
                 />
             </button>
             <field name="state_edoc" position="attributes">
-                <attribute name="statusbar_visible">draft,open,sending,authorized</attribute>
+                <attribute
+                    name="statusbar_visible"
+                >draft,open,sending,authorized</attribute>
             </field>
             <xpath expr="//page[@name='delivery']" position="after">
                 <page name="others" string="EDI">
