@@ -62,6 +62,7 @@ def filtered_processador_edoc_mdfe(record):
 class MDFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
     _inherit = ["l10n_br_fiscal.document", "mdfe.30.tmdfe_infmdfe"]
+
     _mdfe30_odoo_module = (
         "odoo.addons.l10n_br_mdfe_spec.models.v3_0.mdfe_tipos_basico_v3_00"
     )
