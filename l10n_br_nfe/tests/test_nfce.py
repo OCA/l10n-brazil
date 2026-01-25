@@ -11,16 +11,28 @@ from odoo.fields import Datetime
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_INUTILIZADA,
-    SITUACAO_EDOC_REJEITADA,
+)
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_CANCEL as SITUACAO_EDOC_CANCELADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED as SITUACAO_EDOC_AUTORIZADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_DENIED as SITUACAO_EDOC_DENEGADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_REJECTED as SITUACAO_EDOC_REJEITADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_SENDING as SITUACAO_EDOC_ENVIADA,
 )
 
 from .mock_utils import nfe_mock
 from .test_nfe_serialize import TestNFeExport
+
+# SITUACAO_EDOC_INUTILIZADA was removed, mapping to CANCEL for now
+SITUACAO_EDOC_INUTILIZADA = SITUACAO_EDOC_CANCELADA
 
 
 class TestNFCe(TestNFeExport):
@@ -98,7 +110,7 @@ class TestNFCe(TestNFeExport):
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/servico_paralizado.xml"})
     def test_nfce_contingencia(self):
         self.document_id.action_document_send()
-        self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_A_ENVIAR)
+        self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_ENVIADA)
         self.assertEqual(self.document_id.nfe_transmission, "9")
         self.assertIsNotNone(self.document_id.get_nfce_qrcode())
 

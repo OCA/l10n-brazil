@@ -9,10 +9,16 @@ from unittest import mock
 from odoo.fields import Datetime
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_ENVIADA,
+    DOCUMENT_STATE_CANCEL as SITUACAO_EDOC_CANCELADA,
+)
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_OPEN as SITUACAO_EDOC_A_ENVIAR,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED as SITUACAO_EDOC_AUTORIZADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_SENDING as SITUACAO_EDOC_ENVIADA,
 )
 from odoo.addons.l10n_br_nfe.models.document import NFe
 

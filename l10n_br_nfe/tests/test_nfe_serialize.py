@@ -33,7 +33,7 @@ class TestNFeExport(TransactionCase):
         Performs actions necessary to prepare an NFe of the demo data to
         perform the tests
         """
-        if nfe.state != "em_digitacao":  # 2nd test run
+        if nfe.state != "draft":  # 2nd test run
             nfe.action_document_back2draft()
 
         nfe._register_hook()  # required in v16 for next statement

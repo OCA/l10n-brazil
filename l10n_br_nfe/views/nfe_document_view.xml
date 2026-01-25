@@ -94,32 +94,16 @@
             >
                 <attribute
                     name="attrs"
-                >{'invisible': ['|', ('state_edoc', '!=', 'em_digitacao'), ('imported_document', '=', True)]}</attribute>
+                >{'invisible': ['|', ('state_edoc', '!=', 'draft'), ('imported_document', '=', True)]}</attribute>
             </xpath>
             <!-- Hide buttons for imported documents -->
             <xpath
-                expr="//header/button[@name='action_document_correction']"
+                expr="//header/button[@name='action_document_back2draft']"
                 position="attributes"
             >
                 <attribute
                     name="attrs"
-                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
-            </xpath>
-            <xpath
-                expr="//header/button[@name='action_create_return']"
-                position="attributes"
-            >
-                <attribute
-                    name="attrs"
-                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
-            </xpath>
-            <xpath
-                expr="//header/button[@name='action_document_cancel']"
-                position="attributes"
-            >
-                <attribute
-                    name="attrs"
-                >{'invisible': ['|', '|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False), ('imported_document', '=', True)]}</attribute>
+                >{'invisible': ['|', '|', ('state_edoc', '!=', 'open'), ('document_electronic', '=', False), ('imported_document', '=', True)]}</attribute>
             </xpath>
         </field>
     </record>
