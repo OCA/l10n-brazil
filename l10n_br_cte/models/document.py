@@ -47,16 +47,28 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     LOTE_PROCESSADO,
     MODELO_FISCAL_CTE,
     PROCESSADOR_OCA,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_REJEITADA,
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_CANCEL as SITUACAO_EDOC_CANCELADA,
+)
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_DRAFT as SITUACAO_EDOC_EM_DIGITACAO,
+)
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_OPEN as SITUACAO_EDOC_A_ENVIAR,
+)
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED as SITUACAO_EDOC_AUTORIZADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_DENIED as SITUACAO_EDOC_DENEGADA,
+)
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_REJECTED as SITUACAO_EDOC_REJEITADA,
+)
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.cte import (

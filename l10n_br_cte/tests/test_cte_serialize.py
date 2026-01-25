@@ -33,7 +33,7 @@ class TestCTeSerialize(TransactionCase):
         Performs actions necessary to prepare an CTe of the demo data to
         perform the tests
         """
-        if cte.state != "em_digitacao":  # 2nd test run
+        if cte.state != "draft":  # 2nd test run
             cte.action_document_back2draft()
 
         cte.fiscal_line_ids.name = "Frete"
