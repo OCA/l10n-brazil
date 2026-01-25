@@ -22,6 +22,19 @@ class TestMoveWorkflow(AccountMoveBRCommon):
             fiscal_operation_lines=[cls.env.ref("l10n_br_fiscal.fo_venda_venda")],
         )
 
+        cls.env.ref("l10n_br_fiscal.fo_compras").deductible_taxes = True
+        cls.move_in_compra_para_revenda = cls.init_invoice(
+            "in_invoice",
+            products=[cls.product_a],
+            document_type=cls.env.ref("l10n_br_fiscal.document_55"),
+            fiscal_operation=cls.env.ref("l10n_br_fiscal.fo_compras"),
+            fiscal_operation_lines=[
+                cls.env.ref("l10n_br_fiscal.fo_compras_compras_comercializacao")
+            ],
+            document_serie="1",
+            document_number="42",
+        )
+
     def test_change_states(self):
         document_id = self.move_out_venda.fiscal_document_id
         self.assertEqual(self.move_out_venda.state, "draft")
@@ -48,3 +61,16 @@ class TestMoveWorkflow(AccountMoveBRCommon):
         self.assertEqual(self.move_out_venda.state, "draft")
         document_id.exec_after_SITUACAO_EDOC_DENEGADA("em_digitacao", "denegada")
         self.assertEqual(self.move_out_venda.state, "cancel")
+
+    def test_in_invoice_confirm_from_fiscal_document(self):
+        document_id = self.move_in_compra_para_revenda.fiscal_document_id
+        self.assertEqual(self.move_in_compra_para_revenda.state, "draft")
+        self.assertEqual(document_id.state, "em_digitacao")
+        fiscal_edi = self.env["ir.module.module"].search(
+            [("name", "=", "l10n_br_fiscal_edi")]
+        )
+        if fiscal_edi and fiscal_edi.state == "installed":
+            self.assertEqual(document_id.issuer, "partner")
+            document_id.action_document_confirm()
+            self.assertEqual(document_id.state, "autorizada")
+            self.assertEqual(self.move_in_compra_para_revenda.state, "posted")
