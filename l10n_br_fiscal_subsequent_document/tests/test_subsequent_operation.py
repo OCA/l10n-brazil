@@ -3,6 +3,8 @@
 
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_OPEN
+
 
 class TestSubsequentOperation(TransactionCase):
     @classmethod
@@ -27,7 +29,7 @@ class TestSubsequentOperation(TransactionCase):
         # to a compute so this onchange might need rework here:
         # self.nfe_simples_faturamento._onchange_fiscal_operation_id()
 
-        self.nfe_simples_faturamento.state_edoc = "a_enviar"
+        self.nfe_simples_faturamento.state_edoc = DOCUMENT_STATE_OPEN
         self.nfe_simples_faturamento._generates_subsequent_operations()
 
         subsequent_documents = self.nfe_simples_faturamento.document_subsequent_ids

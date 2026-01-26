@@ -3,8 +3,8 @@
 
 from odoo import _, api, fields, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    SITUACAO_EDOC_AUTORIZADA,
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED,
 )
 
 
@@ -63,7 +63,7 @@ class Document(models.Model):
     def cancel_edoc(self):
         self.ensure_one()
         if any(
-            doc.state_edoc == SITUACAO_EDOC_AUTORIZADA
+            doc.state_edoc == DOCUMENT_STATE_AUTHORIZED
             for doc in self.document_subsequent_ids.mapped("document_subsequent_ids")
         ):
             message = _(
@@ -72,8 +72,8 @@ class Document(models.Model):
             )
             raise UserWarning(message)
 
-    def _after_change_state(self, old_state, new_state):
-        self.ensure_one()
-        result = super()._after_change_state(old_state, new_state)
-        self._generates_subsequent_operations()
+    def write(self, vals):
+        result = super().write(vals)
+        if "state_edoc" in vals:
+            self._generates_subsequent_operations()
         return result
