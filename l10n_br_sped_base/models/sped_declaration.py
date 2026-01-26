@@ -125,7 +125,7 @@ class SpedDeclaration(models.AbstractModel):
                         (
                             "state_edoc",
                             "in",
-                            ("autorizada", "cancelada", "denegada", "inutilizada"),
+                            ("authorized", "cancel", "denied", "inutilizada"),
                         ),
                         ("document_date", ">=", record.DT_INI),
                         ("document_date", "<=", record.DT_FIN),
