@@ -308,6 +308,15 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "telefone_tomador": recipient_data["telefone"],
             "email_tomador": recipient_data["email"],
             "codigo_municipio_prestacao": service_basic["codigo_municipio_prestacao"],
+            **(
+                {
+                    "codigo_municipio_incidencia": service_basic[
+                        "codigo_municipio_prestacao"
+                    ]
+                }
+                if service_basic["tributacao_iss"] == "1"
+                else {}
+            ),
             "codigo_tributacao_nacional_iss": service_basic[
                 "codigo_tributacao_nacional"
             ],
