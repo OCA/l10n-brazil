@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==============================================
 Plano de Contas para empresas do Regime normal
 ==============================================
@@ -17,17 +13,17 @@ Plano de Contas para empresas do Regime normal
 .. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_coa_generic
+    :target: https://github.com/OCA/l10n-brazil/tree/17.0/l10n_br_coa_generic
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_coa_generic
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-17-0/l10n-brazil-17-0-l10n_br_coa_generic
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=17.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -58,11 +54,11 @@ formam eventos contábeis. Por exemplo: cada compra a prazo constitui uma
 transação ou fato contábil; o conjunto das compras a prazo constitui o
 evento contábil “compras a prazo”. Sua contabilização será:
 
-- Data: dd/mm/aaaa
-- Conta e subconta devedoras: ESTOQUE/Compras
-- Conta e subconta credoras: FORNECEDORES/Fornecedor A
-- Histórico: Compra conforme NF XXXX
-- Valor: R$ 1.111,11
+-  Data: dd/mm/aaaa
+-  Conta e subconta devedoras: ESTOQUE/Compras
+-  Conta e subconta credoras: FORNECEDORES/Fornecedor A
+-  Histórico: Compra conforme NF XXXX
+-  Valor: R$ 1.111,11
 
 Os elementos variáveis desse evento são apenas: a data, o nome do
 fornecedor, o número do documento fiscal e o valor da operação.
@@ -74,25 +70,25 @@ outros aplicativos, tais como: compras, produção, fiscal, pessoal, etc.
 
 **O plano de contas foi extraido da seguinte publicação do CFC:**
 
-- Escrituração contábil simplificada para micro e pequena empresa /
-  Paulo Walter Schnorr (coordenador)... [et al.] --Brasília: Conselho
-  Federal de Contabilidade, 2008.;
-- Publicação completa:
-  `Livro_Escrituracao_contabil.pdf </l10n_br_coa_generic/static/pdf/Livro_Escrituracao_contabil.pdf>`__
+-  Escrituração contábil simplificada para micro e pequena empresa /
+   Paulo Walter Schnorr (coordenador)... [et al.] --Brasília: Conselho
+   Federal de Contabilidade, 2008.;
+-  Publicação completa:
+   `Livro_Escrituracao_contabil.pdf </l10n_br_coa_generic/static/pdf/Livro_Escrituracao_contabil.pdf>`__
 
 **Na versão 12.0.3.0.0 realizou-se uma revisão detalhada do plano
 visando uma melhor estruturação das contas tanto sintéticas como
 analíticas:**
 
-- Revisão dos grupos de contas corrigindo o sequenciamento em função da
-  sua liquidez, conforme a publicação citada acima;
-- Exclusão de grupos de contas não previstas nas normas do IFRS e CPC
-  (Diferido/Realizável a Longo Prazo/Ativo Permanente);
-- Atualização de contas analíticas visando uma melhor evidenciação das
-  operações da empresa (Brindes/Venda de Ativo Fixo, etc);
-- Criação do Grupo de Compensação, para o controle de remessas/retornos
-  de itens/bens sem valor financeiro, de acordo com as práticas
-  contábeis brasileiras.
+-  Revisão dos grupos de contas corrigindo o sequenciamento em função da
+   sua liquidez, conforme a publicação citada acima;
+-  Exclusão de grupos de contas não previstas nas normas do IFRS e CPC
+   (Diferido/Realizável a Longo Prazo/Ativo Permanente);
+-  Atualização de contas analíticas visando uma melhor evidenciação das
+   operações da empresa (Brindes/Venda de Ativo Fixo, etc);
+-  Criação do Grupo de Compensação, para o controle de remessas/retornos
+   de itens/bens sem valor financeiro, de acordo com as práticas
+   contábeis brasileiras.
 
 **Table of contents**
 
@@ -125,7 +121,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_coa_generic%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_coa_generic%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -140,10 +136,10 @@ Authors
 Contributors
 ------------
 
-- Luis Felipe Mileo <mileo@kmee.com.br>
-- Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
-- Renato Lima <renato.lima@akretion.com.br>
-- Messias Monteiro <messias.monteiro@kmee.com.br>
+-  Luis Felipe Mileo <mileo@kmee.com.br>
+-  Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+-  Renato Lima <renato.lima@akretion.com.br>
+-  Messias Monteiro <messias.monteiro@kmee.com.br>
 
 Maintainers
 -----------
@@ -166,6 +162,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-mileo| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_coa_generic>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/17.0/l10n_br_coa_generic>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
