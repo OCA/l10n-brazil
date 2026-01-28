@@ -205,6 +205,7 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "percentual_total_tributos_municipais": (
                 f"{round(percentual_total_tributos_municipais, 2):.2f}"
             ),
+            "aliquota_iss": round(service_info.get("aliquota", 0) * 100, 2),
         }
 
     def _prepare_tax_data_nacional(self, service_info, valor_servico):
@@ -349,6 +350,7 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "valor_servico": service_basic["valor"],
             "tributacao_iss": service_basic["tributacao_iss"],
             "tipo_retencao_iss": service_basic["tipo_retencao_iss"],
+            "percentual_aliquota_relativa_municipio": service_basic["aliquota_iss"],
             "percentual_total_tributos_federais": service_basic[
                 "percentual_total_tributos_federais"
             ],
