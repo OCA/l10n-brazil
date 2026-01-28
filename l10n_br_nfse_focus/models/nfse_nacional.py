@@ -185,6 +185,7 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "valor": round(service_info.get("valor_servicos", 0), 2),
             "tributacao_iss": str(tributacao_iss),
             "tipo_retencao_iss": str(tipo_retencao_iss),
+            "aliquota_iss": round(service_info.get("aliquota", 0) * 100, 2),
         }
 
     def _prepare_tax_data_nacional(self, service_info, valor_servico):
@@ -327,6 +328,7 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "valor_servico": service_basic["valor"],
             "tributacao_iss": service_basic["tributacao_iss"],
             "tipo_retencao_iss": service_basic["tipo_retencao_iss"],
+            "percentual_aliquota_relativa_municipio": service_basic["aliquota_iss"],
             **tax_data,
         }
 
