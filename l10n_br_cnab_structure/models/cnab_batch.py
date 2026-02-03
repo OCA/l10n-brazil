@@ -64,14 +64,15 @@ class CNABBatch(models.Model):
         """
         Generates and returns a batch object with the cnab output data.
         """
+        if not bank_lines:
+            return CnabBatch()
+
         pay_order = bank_lines[0].order_id
         payment_way_id = bank_lines[0].cnab_payment_way_id
         type_code = bank_lines[0].service_type
         batch = CnabBatch()
-        # Initialize the counter for seq_record_detail
         seq_record_detail_counter = 0
 
-        # HEADER
         for header_line in self.get_header():
             batch.header.append(
                 header_line.output(
@@ -83,11 +84,8 @@ class CNABBatch(models.Model):
                 )
             )
 
-        # DETAIL RECORDS
-
         for count, bank_line in enumerate(bank_lines, 1):
             detail_record = CnabDetailRecord(name=str(count))
-            # Determine the base seq_record_detail value for this bank_line iteration
             current_record_detail_seq = count
             for segment_t in self.get_segments():
                 if segment_t.is_requerid(payment_way_id):
@@ -98,7 +96,6 @@ class CNABBatch(models.Model):
                         if self.cnab_structure_id.unique_seq_per_segment
                         else current_record_detail_seq
                     )
-
                     segment = segment_t.output(
                         bank_line,
                         RecordType.DETAIL_RECORD,
@@ -108,7 +105,6 @@ class CNABBatch(models.Model):
                     detail_record.segments.append(segment)
             batch.detail_records.append(detail_record)
 
-        # TRAILER
         batch.trailer = self.get_trailer().output(
             pay_order,
             RecordType.TRAILER_BATCH,
