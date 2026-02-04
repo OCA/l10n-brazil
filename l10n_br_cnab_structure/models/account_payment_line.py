@@ -6,6 +6,8 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.l10n_br_account_payment_order.constants import TIPO_SERVICO
+
 
 class AccountPaymentLine(models.Model):
     """
@@ -41,6 +43,12 @@ class AccountPaymentLine(models.Model):
     batch_template_id = fields.Many2one(
         comodel_name="l10n_br_cnab.batch",
         compute="_compute_batch_template_id",
+    )
+
+    service_type = fields.Selection(
+        selection=TIPO_SERVICO,
+        compute="_compute_cnab_payment_way_id",
+        store=True,
     )
 
     @api.depends("partner_pix_id")
@@ -81,36 +89,67 @@ class AccountPaymentLine(models.Model):
                 raise UserError(_("Mapping for batch template not found"))
             bline.batch_template_id = bline.cnab_payment_way_id.batch_id
 
+    @api.depends("payment_mode_id", "partner_id", "partner_bank_id")
+    def _compute_cnab_payment_way_id(self):
+        for line in self:
+            mode = line.order_id.payment_mode_id
+            cnab_structure = line.order_id.cnab_structure_id
+            rule = line._get_matching_rule()
+
+            if rule:
+                line.cnab_payment_way_id = rule.payment_way_id
+                line.service_type = rule.service_type
+            else:
+                ways = mode.cnab_payment_way_ids.filtered(
+                    lambda w, s=cnab_structure: w.cnab_structure_id == s
+                )
+                if ways:
+                    line.cnab_payment_way_id = ways[0]
+                    line.service_type = "20"
+                else:
+                    line.cnab_payment_way_id = False
+                    line.service_type = False
+                    if mode.cnab_structure_ok:
+                        raise UserError(
+                            _(
+                                "CNAB payment way not found.\n"
+                                "Payment Mode: %(payment_mode)s\n"
+                                "CNAB Structure: %(cnab_structure)s"
+                            )
+                            % {
+                                "payment_mode": mode.name,
+                                "cnab_structure": cnab_structure.name,
+                            }
+                        )
+
     def _get_matching_rule(self):
         """Finds the best matching CNAB rule based on bank and partner attributes."""
         self.ensure_one()
         cnab_structure = self.order_id.cnab_structure_id
-
+        if self.partner_bank_id.bank_id == self.order_id.journal_id.bank_id:
+            bank_type = "same"
+        else:
+            bank_type = "other"
+        is_employee = getattr(self.partner_id, "employee", False)
+        if is_employee:
+            partner_type = "employee"
+        else:
+            partner_type = "supplier"
         rules = self.env["l10n_br_cnab.payment.rule"].search(
-            [("cnab_structure_id", "=", cnab_structure.id)], order="sequence, id"
+            [
+                ("cnab_structure_id", "=", cnab_structure.id),
+            ]
         )
-
-        src_bank = self.order_id.journal_id.bank_id
-        dest_bank = self.partner_bank_id.bank_id
-        is_same_bank = src_bank and dest_bank and src_bank == dest_bank
-
-        is_employee = self.partner_id.employee
-        is_supplier = self.partner_id.supplier_rank > 0
-
         for rule in rules:
-            if rule.match_bank_type == "same" and not is_same_bank:
+            if rule.match_bank_type != "any" and rule.match_bank_type != bank_type:
                 continue
-            if rule.match_bank_type == "other" and is_same_bank:
+            if (
+                rule.match_partner_type != "any"
+                and rule.match_partner_type != partner_type
+            ):
                 continue
-
-            if rule.match_partner_type == "employee" and not is_employee:
-                continue
-            if rule.match_partner_type == "supplier" and not is_supplier:
-                continue
-
             return rule
-
-        return self.env["l10n_br_cnab.payment.rule"]
+        return False
 
     def _compute_cnab_payment_way_id(self):
         for line in self:
