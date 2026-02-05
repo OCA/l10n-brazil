@@ -133,13 +133,11 @@ class Company(models.Model):
     )
 
     @api.model
-    def _fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        res = super()._fields_view_get(view_id, view_type, toolbar, submenu)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
         if view_type == "form":
-            res["arch"] = self._view_get_address(res["arch"])
-        return res
+            arch = self._view_get_address(arch)
+        return arch, view
 
     def write(self, values):
         """
