@@ -27,7 +27,7 @@
                 <notebook>
                     <page string="Installments" name="installments">
                         <field name="line_ids" nolabel="1">
-                            <tree string="Installments" editable="bottom">
+                            <tree editable="bottom">
                                 <field name="date_maturity" />
                                 <field name="amount" />
                                 <field name="currency_id" column_invisible="1" />
