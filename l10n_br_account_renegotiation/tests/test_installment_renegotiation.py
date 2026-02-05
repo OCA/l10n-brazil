@@ -124,7 +124,7 @@ class TestInstallmentRenegotiation(TransactionCase):
         self.assertTrue(invoice.can_renegotiate_installments)
 
     def test_cannot_renegotiate_draft_invoice(self):
-        """Test that can_renegotiate_installments is False for draft invoice."""
+        """Test that draft invoices cannot be renegotiated."""
         invoice = self.env["account.move"].create(
             {
                 "move_type": "out_invoice",
@@ -147,6 +147,28 @@ class TestInstallmentRenegotiation(TransactionCase):
             }
         )
         self.assertFalse(invoice.can_renegotiate_installments)
+
+        # Also test that action raises error
+        with self.assertRaises(UserError):
+            invoice.with_user(self.account_manager).action_renegotiate_installments()
+
+    def test_wizard_validates_posted_state(self):
+        """Test wizard validation when invoice is reset to draft."""
+        invoice = self._create_posted_invoice()
+
+        # Create wizard while invoice is posted
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+
+        # Reset invoice to draft
+        invoice.button_draft()
+
+        # Wizard should reject because invoice is no longer posted
+        with self.assertRaises(UserError):
+            wizard.action_apply()
 
     def test_action_opens_wizard(self):
         """Test that action_renegotiate_installments opens the wizard."""
@@ -242,15 +264,12 @@ class TestInstallmentRenegotiation(TransactionCase):
         # Get total
         total = sum(wizard.line_ids.mapped("amount"))
 
-        # Redistribute: 50% on first, 25% on each of the remaining
+        # Redistribute: 50% on first, 25% on each of the remaining two
         lines = wizard.line_ids.sorted("date_maturity")
-        if len(lines) >= 3:
-            lines[0].amount = total / 2
-            lines[1].amount = total / 4
-            lines[2].amount = total / 4
-        elif len(lines) == 2:
-            lines[0].amount = total / 2
-            lines[1].amount = total / 2
+        self.assertEqual(len(lines), 3, "Expected 3 installment lines")
+        lines[0].amount = total / 2
+        lines[1].amount = total / 4
+        lines[2].amount = total / 4
 
         # Apply should succeed
         wizard.action_apply()
@@ -335,12 +354,16 @@ class TestInstallmentRenegotiation(TransactionCase):
             lambda line: line.account_id.account_type == "asset_receivable"
             and not line.reconciled
         )
-        if lines:
-            lines.reconcile()
+        self.assertTrue(lines, "Expected unreconciled receivable lines")
+        lines.reconcile()
 
         # After full reconciliation, should not be able to renegotiate
         invoice.invalidate_recordset()
         self.assertFalse(invoice.can_renegotiate_installments)
+
+        # Also test that action raises error
+        with self.assertRaises(UserError):
+            invoice.with_user(self.account_manager).action_renegotiate_installments()
 
     def test_add_installment(self):
         """Test adding a new installment line."""
@@ -424,3 +447,240 @@ class TestInstallmentRenegotiation(TransactionCase):
             lambda line: line.display_type == "payment_term"
         )
         self.assertEqual(len(payment_term_lines), original_count - 1)
+
+    def test_non_manager_cannot_renegotiate(self):
+        """Test that users without account manager rights cannot renegotiate."""
+        invoice = self._create_posted_invoice()
+
+        # Create a user without account manager rights
+        basic_user = self.env["res.users"].create(
+            {
+                "name": "Basic User",
+                "login": "basic_user",
+                "groups_id": [
+                    (6, 0, [self.env.ref("account.group_account_invoice").id])
+                ],
+            }
+        )
+
+        # Test action validation
+        with self.assertRaises(UserError):
+            invoice.with_user(basic_user).action_renegotiate_installments()
+
+        # Test wizard validation (defensive check)
+        wizard = self.env["account.installment.renegotiation.wizard"].create(
+            {"move_id": invoice.id}
+        )
+        with self.assertRaises(UserError):
+            wizard.with_user(basic_user).action_apply()
+
+    def test_cannot_renegotiate_journal_entry(self):
+        """Test that journal entries cannot be renegotiated."""
+        # Create a journal entry (not an invoice)
+        journal = self.env["account.journal"].search(
+            [("type", "=", "general"), ("company_id", "=", self.company.id)],
+            limit=1,
+        ) or self.env["account.journal"].create(
+            {
+                "name": "Misc Journal",
+                "type": "general",
+                "code": "MISC",
+                "company_id": self.company.id,
+            }
+        )
+
+        entry = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "journal_id": journal.id,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Debit",
+                            "account_id": self.account_receivable.id,
+                            "debit": 100,
+                            "credit": 0,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Credit",
+                            "account_id": self.account_income.id,
+                            "debit": 0,
+                            "credit": 100,
+                        },
+                    ),
+                ],
+            }
+        )
+        entry.action_post()
+
+        # can_renegotiate should be False for journal entries
+        self.assertFalse(entry.can_renegotiate_installments)
+
+        # action should raise error
+        with self.assertRaises(UserError):
+            entry.with_user(self.account_manager).action_renegotiate_installments()
+
+    def test_vendor_bill_renegotiation(self):
+        """Test that vendor bills can also be renegotiated."""
+        account_expense = self.env["account.account"].search(
+            [
+                ("account_type", "=", "expense"),
+                ("company_id", "=", self.company.id),
+            ],
+            limit=1,
+        )
+
+        # Create a vendor bill
+        bill = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.partner.id,
+                "invoice_date": date.today(),
+                "invoice_payment_term_id": self.payment_term.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Test Expense",
+                            "quantity": 1,
+                            "price_unit": 1000.0,
+                            "account_id": account_expense.id,
+                        },
+                    )
+                ],
+            }
+        )
+        bill.action_post()
+
+        # Should be able to renegotiate
+        self.assertTrue(bill.can_renegotiate_installments)
+
+        # Open wizard and change dates
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create(
+                {
+                    "move_id": bill.id,
+                }
+            )
+        )
+
+        new_date = date.today() + timedelta(days=180)
+        for line in wizard.line_ids:
+            line.date_maturity = new_date
+
+        wizard.action_apply()
+
+        # Verify dates changed
+        payment_term_lines = bill.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        )
+        for line in payment_term_lines:
+            self.assertEqual(line.date_maturity, new_date)
+
+    def test_wizard_validates_no_lines(self):
+        """Test that wizard rejects when all lines are removed."""
+        invoice = self._create_posted_invoice()
+
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+
+        # Remove all lines
+        wizard.line_ids.unlink()
+
+        with self.assertRaises(UserError):
+            wizard.action_apply()
+
+    def test_wizard_validates_positive_amounts(self):
+        """Test that wizard rejects zero or negative amounts."""
+        invoice = self._create_posted_invoice()
+
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+
+        # Set one line to zero, redistribute to keep total
+        lines = wizard.line_ids.sorted("date_maturity")
+        zero_amount = lines[0].amount
+        lines[0].amount = 0
+        lines[1].amount = lines[1].amount + zero_amount
+
+        with self.assertRaises(UserError):
+            wizard.action_apply()
+
+    def test_multi_currency_renegotiation(self):
+        """Test renegotiation with invoice in foreign currency."""
+        # Get or create USD currency
+        usd = self.env.ref("base.USD")
+        usd.active = True
+
+        # Create a rate for USD
+        self.env["res.currency.rate"].create(
+            {
+                "currency_id": usd.id,
+                "name": date.today(),
+                "rate": 5.0,  # 1 USD = 5 BRL
+                "company_id": self.company.id,
+            }
+        )
+
+        # Create invoice in USD
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
+                "partner_id": self.partner.id,
+                "invoice_date": date.today(),
+                "currency_id": usd.id,
+                "invoice_payment_term_id": self.payment_term.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Test Line USD",
+                            "product_id": self.product.id,
+                            "quantity": 1,
+                            "price_unit": 1000.0,
+                            "account_id": self.account_income.id,
+                        },
+                    )
+                ],
+            }
+        )
+        invoice.action_post()
+
+        # Verify it's multi-currency
+        self.assertNotEqual(invoice.currency_id, invoice.company_currency_id)
+
+        # Renegotiate
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+
+        new_date = date.today() + timedelta(days=180)
+        for line in wizard.line_ids:
+            line.date_maturity = new_date
+
+        wizard.action_apply()
+
+        # Verify dates changed
+        payment_term_lines = invoice.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        )
+        for line in payment_term_lines:
+            self.assertEqual(line.date_maturity, new_date)
