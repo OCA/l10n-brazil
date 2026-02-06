@@ -17,7 +17,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -37,7 +37,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -57,7 +57,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -77,7 +77,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -97,7 +97,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -117,7 +117,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -137,7 +137,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -157,7 +157,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -178,7 +178,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -198,7 +198,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -219,7 +219,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -240,7 +240,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>
@@ -259,7 +259,7 @@
         <field
             name="invoice_line_ids"
             eval="[
-            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_ci_error')})
         ]"
         />
     </record>

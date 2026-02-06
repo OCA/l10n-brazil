@@ -72,23 +72,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_bradesco_240" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <field name="cnab_company_bank_code">0001222130126</field>
         <field
@@ -151,23 +148,20 @@
         <field name="boleto_discount_perc">1</field>
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <!-- Code de Convenio maximo 10 caracteres -->
         <field name="cnab_company_bank_code">92035760</field>
@@ -226,23 +220,20 @@
         <field name="cnab_company_bank_code">72234050</field>
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <field
             name="liq_return_move_code_ids"
@@ -291,23 +282,20 @@
         <field name="cnab_company_bank_code">101004</field>
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <field
             name="liq_return_move_code_ids"
@@ -343,23 +331,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_itau_240" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <!-- Convenio deve ser menor ou igual a 5 -->
         <field name="cnab_company_bank_code">12345</field>
@@ -392,23 +377,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_itau_400" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <!-- Convenio deve ser menor ou igual a 5 -->
         <field name="cnab_company_bank_code">12345</field>
@@ -448,23 +430,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_cef_240" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <!-- Code de Convenio maximo 6 caracteres -->
         <field name="cnab_company_bank_code">000122</field>
@@ -504,23 +483,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_cef_400" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <!-- Code de Convenio maximo 6 caracteres -->
         <field name="cnab_company_bank_code">000122</field>
@@ -555,23 +531,20 @@
         <field name="boleto_post">1</field>
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <field
             name="liq_return_move_code_ids"
@@ -614,23 +587,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_bb_400" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <!-- O campo do convenio varia de acordo com o tamanho da sequencia own_number_sequence_id -->
         <field name="cnab_company_bank_code">1234</field>
@@ -680,23 +650,20 @@
         <field name="boleto_days_protest">5</field>
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <field name="cnab_company_bank_code">1234567</field>
         <field
@@ -739,23 +706,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_santander_400" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <!-- Codigo de Transmissao maximo 20 caracteres -->
         <field name="cnab_company_bank_code">12345678901234567890</field>
@@ -815,23 +779,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_santander_240" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <!-- Codigo de Transmissao maximo 15 caracteres -->
         <field name="cnab_company_bank_code">123456789012345</field>
@@ -884,23 +845,20 @@
         <field name="own_number_sequence_id" ref="sequence_own_number_nordeste_400" />
         <field
             name="tariff_charge_account_id"
-            ref="1_account_template_32302_avoid_travis_error"
+            ref="1_account_template_32302_avoid_ci_error"
         />
         <field
             name="interest_fee_account_id"
-            ref="1_account_template_31202_avoid_travis_error"
+            ref="1_account_template_31202_avoid_ci_error"
         />
         <field
             name="discount_account_id"
-            ref="1_account_template_32202_avoid_travis_error"
+            ref="1_account_template_32202_avoid_ci_error"
         />
-        <field
-            name="rebate_account_id"
-            ref="1_account_template_32203_avoid_travis_error"
-        />
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_ci_error" />
         <field
             name="not_payment_account_id"
-            ref="1_account_template_32333_avoid_travis_error"
+            ref="1_account_template_32333_avoid_ci_error"
         />
         <field name="cnab_company_bank_code">1234</field>
         <field name="convention_code">7654321</field>
