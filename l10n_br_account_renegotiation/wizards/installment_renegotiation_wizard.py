@@ -259,6 +259,9 @@ class InstallmentRenegotiationWizard(models.TransientModel):
                     }
                 )
 
+        # Update payment term numbering and labels
+        move.with_context(**ctx).update_payment_term_number()
+
         # Capture new state for audit trail
         new_lines = move.line_ids.filtered(
             lambda line: line.display_type == "payment_term" and not line.reconciled
