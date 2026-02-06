@@ -63,7 +63,7 @@
                     colspan="2"
                 >
                     <field name="payment_line_ids" nolabel="1" colspan="2">
-                        <tree>
+                        <list>
                             <field name="communication" />
                             <field name="partner_bank_id" />
                             <field name="ml_maturity_date" />
@@ -73,7 +73,7 @@
                             <field name="name" />
                             <field name="instruction_move_code_id" />
                             <field name="state" />
-                        </tree>
+                        </list>
                     </field>
                 </group>
                 <group
@@ -82,7 +82,7 @@
                     colspan="2"
                 >
                     <field name="cnab_return_line_ids" nolabel="1" colspan="2">
-                        <tree>
+                        <list>
                             <field name="lot_id" />
                             <field name="invoice_id" />
                             <field name="partner_id" />
@@ -95,7 +95,7 @@
                             <field name="tariff_charge" />
                             <field name="occurrences" />
                             <field name="str_motiv_a" />
-                        </tree>
+                        </list>
                     </field>
                 </group>
             </group>

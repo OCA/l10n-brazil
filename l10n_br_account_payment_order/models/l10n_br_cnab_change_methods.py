@@ -558,8 +558,8 @@ class L10nBrCNABChangeMethods(models.Model):
             reason_write_off = (
                 "Movement Instruction Code Updated for"
                 " Request to Write Off, because payment"
-                " of %s done outside CNAB."
-            ) % amount_payment
+                f" of {amount_payment} done outside CNAB."
+            )
             payment_situation = "baixa_liquidacao"
             self.create_cnab_write_off(reason_write_off, payment_situation)
         else:

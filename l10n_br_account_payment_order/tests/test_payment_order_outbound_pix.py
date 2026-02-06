@@ -12,10 +12,13 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref="generic_coa"):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.chart_template = "generic_coa"
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.company = cls.company_data["company"]
+        if hasattr(cls.company, "_localization_use_documents"):
+            cls.env["account.journal"].search([]).l10n_latam_use_documents = False
         cls.env.user.company_id = cls.company.id
         cls.res_partner_bank_model = cls.env["res.partner.bank"]
         cls.payment_mode_model = cls.env["account.payment.mode"]

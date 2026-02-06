@@ -9,11 +9,11 @@
         <field name="name">l10n_br_cnab.config.tree</field>
         <field name="model">l10n_br_cnab.config</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="bank_id" />
                 <field name="payment_method_id" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -316,7 +316,7 @@
     <record id="l10n_br_cnab_config_action" model="ir.actions.act_window">
         <field name="name">CNAB Config</field>
         <field name="res_model">l10n_br_cnab.config</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'group_by':['bank_id', 'payment_method_id']}</field>
     </record>
     <menuitem

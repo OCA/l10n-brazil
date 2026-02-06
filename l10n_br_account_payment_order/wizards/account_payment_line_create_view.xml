@@ -8,7 +8,7 @@
             ref="account_payment_order.account_payment_line_create_form"
         />
         <field name="arch" type="xml">
-            <field name="allow_blocked" position="after">
+            <field name="invoice" position="after">
                 <field name="allow_error" />
                 <field name="allow_rejected" />
             </field>

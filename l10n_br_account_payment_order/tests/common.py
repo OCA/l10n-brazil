@@ -29,8 +29,9 @@ from .tools import (
 @tagged("post_install", "-at_install")
 class CNABTestCommon(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls, chart_template_ref="generic_coa"):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.chart_template = "generic_coa"
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         companies = cls.env["res.company"].search([])
@@ -779,7 +780,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
             .create(
-                {"date_type": "move", "move_date": Date.context_today(self.env.user)}
+                {"date_type": "move", "filter_date": Date.context_today(self.env.user)}
             )
         )
         line_create.payment_mode = "same"
@@ -792,7 +793,7 @@ class CNABTestCommon(AccountTestInvoicingCommon):
                 {
                     "date_type": "due",
                     "target_move": "all",
-                    "due_date": Date.context_today(self.env.user),
+                    "filter_date": Date.context_today(self.env.user),
                 }
             )
         )

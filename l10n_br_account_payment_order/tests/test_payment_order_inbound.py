@@ -161,8 +161,8 @@ class TestPaymentOrderInbound(CNABTestCommon):
         payment = self._make_payment(self.invoice_cef_240, 1000.0)
 
         self.assertAlmostEqual(payment.amount, 1000.0)
-        self.assertEqual(payment.state, "posted")
-        self.assertEqual(self.invoice_cef_240.payment_state, "in_payment")
+        self.assertEqual(payment.state, "paid")
+        self.assertEqual(self.invoice_cef_240.payment_state, "paid")
         # Linhas Apagadas
         self.assertEqual(len(payment_order.payment_line_ids), 0)
 

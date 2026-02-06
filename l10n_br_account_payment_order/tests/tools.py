@@ -2,7 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import Form
+from odoo.tests import Form
 
 # TODO: Seria possível fazer isso de forma abstrata?
 #  Para não precisar de multiplos métodos

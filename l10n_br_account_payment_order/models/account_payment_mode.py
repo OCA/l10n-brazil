@@ -25,12 +25,12 @@ class AccountPaymentMode(models.Model):
     )
 
     PAYMENT_MODE_DOMAIN = [
-        ("dinheiro", _("Dinheiro")),
-        ("cheque", _("Cheque")),
-        ("pix_transfer", _("PIX Transfer")),
-        ("ted", _("TED")),
-        ("doc", _("DOC")),
-        ("boleto", _("Boleto")),
+        ("dinheiro", "Dinheiro"),
+        ("cheque", "Cheque"),
+        ("pix_transfer", "PIX Transfer"),
+        ("ted", "TED"),
+        ("doc", "DOC"),
+        ("boleto", "Boleto"),
     ]
 
     payment_mode_domain = fields.Selection(

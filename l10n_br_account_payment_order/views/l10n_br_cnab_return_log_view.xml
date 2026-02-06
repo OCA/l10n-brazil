@@ -4,7 +4,7 @@
         <field name="name">l10n_br_cnab.return.log.tree</field>
         <field name="model">l10n_br_cnab.return.log</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="filename" />
                 <field name="sequential_file" />
@@ -13,7 +13,7 @@
                 <field name="cnab_date_import" widget="datetime" />
                 <field name="number_lots" />
                 <field name="number_events" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -101,11 +101,7 @@
                         </page>
                     </notebook>
                 </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" />
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
+                <chatter />
             </form>
         </field>
     </record>
@@ -114,7 +110,7 @@
         <field name="name">l10n_br_cnab.return.event.tree</field>
         <field name="model">l10n_br_cnab.return.event</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="is_cnab_lot" column_invisible="True" />
                 <field name="lot_id" optional="show" />
                 <field
@@ -137,7 +133,7 @@
                 <field name="tariff_charge" optional="show" />
                 <field name="occurrences" optional="show" />
                 <field name="str_motiv_a" optional="hide" />
-            </tree>
+            </list>
         </field>
     </record>
 

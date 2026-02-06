@@ -21,10 +21,10 @@ class AccountPaymentLine(models.Model):
     _inherit = "account.payment.line"
 
     PIX_TRANSFER_TYPES = [
-        ("checking", _("Checking Account (Conta Corrente)")),
-        ("saving", _("Saving Account (Conta Poupança)")),
-        ("payment", _("Prepaid Payment Account (Conta Pagamento)")),
-        ("pix_key", _("Instant Payment Key (Chave Pix)")),
+        ("checking", "Checking Account (Conta Corrente)"),
+        ("saving", "Saving Account (Conta Poupança)"),
+        ("payment", "Prepaid Payment Account (Conta Pagamento)"),
+        ("pix_key", "Instant Payment Key (Chave Pix)"),
     ]
 
     digitable_line = fields.Char(
