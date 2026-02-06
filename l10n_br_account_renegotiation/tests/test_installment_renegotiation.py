@@ -282,6 +282,36 @@ class TestInstallmentRenegotiation(TransactionCase):
         new_total = sum(abs(line.amount_currency) for line in payment_term_lines)
         self.assertAlmostEqual(new_total, total, places=2)
 
+        # Verify debit/credit correctness:
+        # customer invoice receivable lines must be debit
+        for line in payment_term_lines:
+            self.assertGreater(
+                line.debit,
+                0,
+                "Customer invoice payment_term lines must have debit>0",
+            )
+            self.assertEqual(
+                line.credit,
+                0,
+                "Customer invoice payment_term lines must have credit=0",
+            )
+            self.assertGreater(
+                line.amount_currency,
+                0,
+                "Customer invoice payment_term lines must have "
+                "positive amount_currency",
+            )
+
+        # Verify the move is still balanced (debits == credits)
+        total_debit = sum(invoice.line_ids.mapped("debit"))
+        total_credit = sum(invoice.line_ids.mapped("credit"))
+        self.assertAlmostEqual(
+            total_debit,
+            total_credit,
+            places=2,
+            msg="Move must be balanced after renegotiation (debits == credits)",
+        )
+
     def test_chatter_message_posted(self):
         """Test that a message is posted to chatter after renegotiation."""
         invoice = self._create_posted_invoice()
@@ -586,6 +616,34 @@ class TestInstallmentRenegotiation(TransactionCase):
         for line in payment_term_lines:
             self.assertEqual(line.date_maturity, new_date)
 
+        # Verify debit/credit correctness: vendor bill payable lines must be credit
+        for line in payment_term_lines:
+            self.assertEqual(
+                line.debit,
+                0,
+                "Vendor bill payment_term lines must have debit=0",
+            )
+            self.assertGreater(
+                line.credit,
+                0,
+                "Vendor bill payment_term lines must have credit>0",
+            )
+            self.assertLess(
+                line.amount_currency,
+                0,
+                "Vendor bill payment_term lines must have negative amount_currency",
+            )
+
+        # Verify the move is still balanced (debits == credits)
+        total_debit = sum(bill.line_ids.mapped("debit"))
+        total_credit = sum(bill.line_ids.mapped("credit"))
+        self.assertAlmostEqual(
+            total_debit,
+            total_credit,
+            places=2,
+            msg="Move must be balanced after renegotiation (debits == credits)",
+        )
+
     def test_wizard_validates_no_lines(self):
         """Test that wizard rejects when all lines are removed."""
         invoice = self._create_posted_invoice()
@@ -623,27 +681,46 @@ class TestInstallmentRenegotiation(TransactionCase):
 
     def test_multi_currency_renegotiation(self):
         """Test renegotiation with invoice in foreign currency."""
-        # Get or create USD currency
-        usd = self.env.ref("base.USD")
-        usd.active = True
+        company_currency = self.company.currency_id
 
-        # Create a rate for USD
-        self.env["res.currency.rate"].create(
-            {
-                "currency_id": usd.id,
-                "name": date.today(),
-                "rate": 5.0,  # 1 USD = 5 BRL
-                "company_id": self.company.id,
-            }
+        # Pick a foreign currency different from the company's currency
+        foreign_currency = self.env["res.currency"].search(
+            [("id", "!=", company_currency.id), ("active", "=", True)],
+            limit=1,
         )
+        if not foreign_currency:
+            foreign_currency = self.env["res.currency"].search(
+                [("id", "!=", company_currency.id)],
+                limit=1,
+            )
+            foreign_currency.active = True
 
-        # Create invoice in USD
+        # Ensure there is a rate for the foreign currency
+        existing_rate = self.env["res.currency.rate"].search(
+            [
+                ("currency_id", "=", foreign_currency.id),
+                ("name", "=", date.today()),
+                ("company_id", "=", self.company.id),
+            ],
+            limit=1,
+        )
+        if not existing_rate:
+            self.env["res.currency.rate"].create(
+                {
+                    "currency_id": foreign_currency.id,
+                    "name": date.today(),
+                    "rate": 5.0,
+                    "company_id": self.company.id,
+                }
+            )
+
+        # Create invoice in foreign currency
         invoice = self.env["account.move"].create(
             {
                 "move_type": "out_invoice",
                 "partner_id": self.partner.id,
                 "invoice_date": date.today(),
-                "currency_id": usd.id,
+                "currency_id": foreign_currency.id,
                 "invoice_payment_term_id": self.payment_term.id,
                 "invoice_line_ids": [
                     (
