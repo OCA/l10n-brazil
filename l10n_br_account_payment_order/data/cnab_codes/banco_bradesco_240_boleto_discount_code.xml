@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Código de Desconto Banco Bradesco -->
     <!-- 240 -->
     <record id="bradesco_240_boleto_discount_code_1" model="l10n_br_cnab.code">
@@ -117,5 +116,4 @@
         >Para o código '7', somente será válido para o código de movimento '31' - Alteração de Dados
         </field>
     </record>
-
 </odoo>

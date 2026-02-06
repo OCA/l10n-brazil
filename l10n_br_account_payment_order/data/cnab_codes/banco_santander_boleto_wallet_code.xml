@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Tipo de Cobrança ou Código da Carteira -->
     <!-- Santander 400 -->
     <record id="santander_400_boleto_wallet_code_1" model="l10n_br_cnab.code">
@@ -241,5 +240,4 @@
         >***Código específico para registrar boletos sem registro (linha com modalidade 102) ou cobrança rápida (101), com o fator de vencimento de valor zerados na linha digitavel/código de barras, Opção válida apenas para a entrada de Boletos, para maiores detalhes vide a vide Nota 46.
         </field>
     </record>
-
 </odoo>

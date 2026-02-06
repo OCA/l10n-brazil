@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Código de Protesto -->
     <record id="unicred_240_400_boleto_protest_code_1" model="l10n_br_cnab.code">
         <field name="name">Protestar Dias Corridos</field>
@@ -51,5 +50,4 @@
             Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
-
 </odoo>

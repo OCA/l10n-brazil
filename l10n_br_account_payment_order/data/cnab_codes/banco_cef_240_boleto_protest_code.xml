@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Código de Protesto Banco Caixa Economica Federal -->
     <record id="cef_240_boleto_protest_code_1" model="l10n_br_cnab.code">
         <field name="name">Protestar</field>
@@ -56,5 +55,4 @@ cobrança), o título será registrado com instrução de devolução, sendo o P
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
-
 </odoo>

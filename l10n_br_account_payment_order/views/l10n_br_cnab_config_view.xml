@@ -264,12 +264,12 @@
                                         name="change_title_value_code_id"
                                         domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
                                     />
-                                <field
+                                    <field
                                         name="change_discount_date_code_id"
                                         domain="['&amp;', ('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
                                     />
-                                <field
+                                    <field
                                         name="change_maturity_date_code_id"
                                         domain="['&amp;', ('payment_method_ids', 'in', payment_method_id), ('bank_ids', 'in', bank_id), ('code_type', '=', 'instruction_move_code')]"
                                     />

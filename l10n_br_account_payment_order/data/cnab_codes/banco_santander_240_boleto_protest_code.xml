@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Código de Protesto Banco Santander 240 -->
     <record id="santander_240_boleto_protest_code_0" model="l10n_br_cnab.code">
         <field name="name">NAO PROTESTAR</field>
@@ -76,5 +75,4 @@
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
-
 </odoo>

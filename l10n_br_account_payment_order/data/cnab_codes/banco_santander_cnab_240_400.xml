@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- CNAB 240 -->
     <!-- Santander CNAB 240 -
     https://cms.santander.com.br/sites/WPS/documentos/arq-cobranca-portugues-out23/23-10-24_142404_h7815layoutcobrancacnab240.pdf -->
@@ -164,12 +163,12 @@
     </record>
 
     <record id="santander_240_instruction_15" model="l10n_br_cnab.code">
-       <field
+        <field
             name="name"
         >Transferência da carteira Simples para a carteira Cessão**</field>
-       <field name="code">15</field>
-       <field name="code_type">instruction_move_code</field>
-       <field
+        <field name="code">15</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
             name="payment_method_ids"
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
@@ -1476,5 +1475,4 @@
             eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
         />
     </record>
-
 </odoo>

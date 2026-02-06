@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="True">
-
     <!-- Conta Contabil - Linha da Fatura -->
     <record
         model="account.account"
@@ -70,5 +69,4 @@
         <field name="company_id" ref="base.main_company" />
         <field name="reconcile" eval="True" />
     </record>
-
 </odoo>

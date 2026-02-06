@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- CNAB 240 -->
     <!-- Caixa Economica Federal
          https://www.caixa.gov.br/Downloads/cobranca-caixa/Manual_de_Leiaute_de_Arquivo_Eletronico_CNAB_240.pdf -->
@@ -786,5 +785,4 @@
             eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
         />
     </record>
-
 </odoo>

@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Código de Desconto Sicredi -->
     <!-- 240 -->
     <record id="sicred_240_boleto_discount_code_1" model="l10n_br_cnab.code">
@@ -82,5 +81,4 @@
 de dados.
         </field>
     </record>
-
 </odoo>

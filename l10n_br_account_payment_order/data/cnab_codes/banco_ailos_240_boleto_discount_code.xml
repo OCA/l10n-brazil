@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Código de Desconto Banco AILOS -->
     <record id="ailos_240_boleto_discount_code_0" model="l10n_br_cnab.code">
         <field name="name">Não assumirá Desconto</field>
@@ -35,7 +34,5 @@
         />
         <field name="comment">Para o código '1' será obrigatório a informação da Data.
         </field>
-
     </record>
-
 </odoo>

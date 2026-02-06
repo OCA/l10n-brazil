@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="True">
-
     <!-- Sequencia dos Arquivos CNAB -->
     <!-- Devem ser únicas por Modo de Pagto para evitar inconsistencias
          de numeração fora da ordem -->
@@ -289,5 +288,4 @@
         <field eval="False" name="company_id" />
         <field eval="10" name="padding" />
     </record>
-
 </odoo>

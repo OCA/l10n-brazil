@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Códigos de Desconto Santader -->
     <!-- 240 -->
     <record id="santander_240_boleto_discount_code_0" model="l10n_br_cnab.code">
@@ -91,5 +90,4 @@
         >Informar o valor no campo “valor de desconto a ser concedido”.
         </field>
     </record>
-
 </odoo>

@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="True">
-
     <!-- Bradesco CNAB 400 -->
     <record id="cnab_config_bradesco_400" model="l10n_br_cnab.config">
         <field name="name">Banco Bradesco - CNAB 400 (inbound)</field>
@@ -55,8 +54,8 @@
         <field name="boleto_wallet">3</field>
         <field name="wallet_code_id" ref="bradesco_240_boleto_wallet_code_1" />
         <field name="boleto_modality">DM</field>
-	<field name="boleto_variation">19</field>
-	<field name="boleto_protest_code_id" ref="bradesco_240_boleto_protest_code_1" />
+        <field name="boleto_variation">19</field>
+        <field name="boleto_protest_code_id" ref="bradesco_240_boleto_protest_code_1" />
         <field name="boleto_days_protest">5</field>
         <field name="boleto_accept">S</field>
         <field
@@ -219,7 +218,10 @@
         <field name="boleto_interest_perc">2</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_unicred_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_unicred_240" />
-	<field name="boleto_protest_code_id" ref="unicred_240_400_boleto_protest_code_2" />
+        <field
+            name="boleto_protest_code_id"
+            ref="unicred_240_400_boleto_protest_code_2"
+        />
         <field name="boleto_days_protest">5</field>
         <field name="cnab_company_bank_code">72234050</field>
         <field
@@ -277,7 +279,7 @@
         <field name="boleto_accept">N</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_ailos_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_ailos_240" />
-	<field name="boleto_protest_code_id" ref="ailos_240_boleto_protest_code_2" />
+        <field name="boleto_protest_code_id" ref="ailos_240_boleto_protest_code_2" />
         <field name="boleto_days_protest">5</field>
         <field name="boleto_discount_code_id" ref="ailos_240_boleto_discount_code_1" />
         <field name="boleto_discount_perc">1</field>
@@ -333,9 +335,9 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
-	<field name="boleto_discount_perc">1</field>
-	<field name="boleto_protest_code_id" ref="itau_240_boleto_protest_code_2" />
-	<field name="boleto_days_protest">5</field>
+        <field name="boleto_discount_perc">1</field>
+        <field name="boleto_protest_code_id" ref="itau_240_boleto_protest_code_2" />
+        <field name="boleto_days_protest">5</field>
         <field name="boleto_interest_perc">2</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_itau_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_itau_240" />
@@ -433,8 +435,8 @@
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
         <field name="boleto_discount_code_id" ref="cef_240_boleto_discount_code_2" />
-	<field name="boleto_discount_perc">1</field>
-	<field name="boleto_protest_code_id" ref="cef_240_boleto_protest_code_1" />
+        <field name="boleto_discount_perc">1</field>
+        <field name="boleto_protest_code_id" ref="cef_240_boleto_protest_code_1" />
         <field name="boleto_days_protest">5</field>
         <field name="boleto_fee_code_id" ref="cef_240_boleto_fee_code_0" />
         <field
@@ -536,9 +538,9 @@
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
         <field name="boleto_discount_code_id" ref="sicred_240_boleto_discount_code_3" />
-	<field name="boleto_discount_perc">1</field>
-	<field name="boleto_protest_code_id" ref="sicred_240_boleto_protest_code_1" />
-	<field name="boleto_days_protest">5</field>
+        <field name="boleto_discount_perc">1</field>
+        <field name="boleto_protest_code_id" ref="sicred_240_boleto_protest_code_1" />
+        <field name="boleto_days_protest">5</field>
         <field
             name="boleto_interest_code_id"
             ref="febrabam_240_boleto_interest_code_2"
@@ -674,7 +676,7 @@
         <field name="boleto_interest_perc">2</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bb_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bb_240" />
-	<field name="boleto_protest_code_id" ref="brasil_240_boleto_protest_code_2" />
+        <field name="boleto_protest_code_id" ref="brasil_240_boleto_protest_code_2" />
         <field name="boleto_days_protest">5</field>
         <field
             name="tariff_charge_account_id"
@@ -858,7 +860,7 @@
         />
         <field name="write_off_devolution_number_of_days">0</field>
         <field name="boleto_fee_code_id" ref="febraban_240_boleto_fee_code_1" />
-	<field name="boleto_fee_perc">0.00</field>
+        <field name="boleto_fee_perc">0.00</field>
         <field
             name="boleto_protest_code_id"
             ref="santander_240_boleto_protest_code_2"
@@ -917,5 +919,4 @@
         />
         <field name="grant_rebate_code_id" ref="nordeste_400_instruction_04" />
     </record>
-
 </odoo>

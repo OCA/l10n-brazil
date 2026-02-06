@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Código de Desconto Banco do Brasil 240 -->
 
     <!-- A Documentação não informa a Descrição dos Códigos
@@ -67,5 +66,4 @@
         >Se for informado desconto tipo 3, os campos 8.3R a 13.3R (Segmento R) não deverão ser preenchidos.
         </field>
     </record>
-
 </odoo>

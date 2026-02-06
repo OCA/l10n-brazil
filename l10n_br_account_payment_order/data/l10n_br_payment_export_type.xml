@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- account.payment.method -->
 
     <!-- INBOUND -->
@@ -42,5 +41,4 @@
         <field name="bank_account_required">False</field>
         <field name="payment_type">outbound</field>
     </record>
-
 </odoo>

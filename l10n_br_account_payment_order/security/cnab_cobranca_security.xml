@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
-
     <record model="ir.module.category" id="module_category_cnab">
         <field name="name">CNAB</field>
         <field name="description">Helps you handle your CNAB needs.</field>
@@ -29,5 +28,4 @@
     <record id="base.group_system" model="res.groups">
         <field name="implied_ids" eval="[Command.link(ref('group_cnab_manager'))]" />
     </record>
-
 </odoo>

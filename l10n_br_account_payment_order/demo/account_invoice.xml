@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="True">
-
     <!-- Faturas/Invoices de Teste -->
 
     <!-- Fatura/Invoice Bradesco 400 -->
@@ -268,5 +267,4 @@
     <function model="account.move" name="action_post">
         <value eval="[ref('demo_invoice_no_payment_mode')]" />
     </function>
-
 </odoo>

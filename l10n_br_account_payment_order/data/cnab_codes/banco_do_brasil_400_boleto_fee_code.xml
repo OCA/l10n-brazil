@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <record id="brasil_400_boleto_fee_code_1" model="l10n_br_cnab.code">
         <field name="name">Valor Fixo</field>
         <field name="code">1</field>
@@ -47,5 +46,4 @@
             eval="[Command.set([ref('payment_mode_type_cnab400')])]"
         />
     </record>
-
 </odoo>

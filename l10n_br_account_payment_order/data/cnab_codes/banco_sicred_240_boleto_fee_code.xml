@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <record id="sicred_240_boleto_fee_code_2" model="l10n_br_cnab.code">
         <field name="name">Percentual</field>
         <field name="code">2</field>
@@ -23,5 +22,4 @@
         >Para o Sicredi a data de cobrança da multa sempre será a data do vencimento.
         </field>
     </record>
-
 </odoo>

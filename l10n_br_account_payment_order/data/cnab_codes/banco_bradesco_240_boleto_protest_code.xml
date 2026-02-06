@@ -5,7 +5,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- Código de Protesto Banco Bradesco -->
     <!-- 240 -->
     <record id="bradesco_240_boleto_protest_code_1" model="l10n_br_cnab.code">
@@ -109,5 +108,4 @@
         >(somente válido p/ CódigoMovimento Remessa = '31' - Descrição C004)
         </field>
     </record>
-
 </odoo>

@@ -7,7 +7,6 @@
   License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo noupdate="1">
-
     <!-- CNAB 240 -->
     <!-- Banco do Brasil - CNAB 240 - https://www.bb.com.br/docs/pub/emp/empl/dwn/CNAB240SegPQRSTY.pdf -->
 
@@ -838,5 +837,4 @@
             eval="[Command.link(ref('payment_mode_type_cnab240'))]"
         />
     </record>
-
 </odoo>
