@@ -761,3 +761,109 @@ class TestInstallmentRenegotiation(TransactionCase):
         )
         for line in payment_term_lines:
             self.assertEqual(line.date_maturity, new_date)
+
+    def test_payment_term_number_after_date_change(self):
+        """Test that payment_term_number is updated after renegotiation."""
+        invoice = self._create_posted_invoice(1000.0)
+
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+
+        # Just change dates
+        for idx, line in enumerate(wizard.line_ids.sorted("date_maturity")):
+            line.date_maturity = date.today() + timedelta(days=30 * (idx + 1))
+
+        wizard.action_apply()
+
+        payment_term_lines = invoice.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        ).sorted("date_maturity")
+
+        self.assertEqual(len(payment_term_lines), 3)
+        expected = ["1-3", "2-3", "3-3"]
+        for line, exp in zip(payment_term_lines, expected, strict=True):
+            self.assertEqual(
+                line.payment_term_number,
+                exp,
+                f"Expected payment_term_number '{exp}', "
+                f"got '{line.payment_term_number}'",
+            )
+
+    def test_payment_term_number_after_add_installment(self):
+        """Test payment_term_number is renumbered after adding installment."""
+        invoice = self._create_posted_invoice(1000.0)
+
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+
+        # Reduce each line by 50 and add a 4th line
+        for line in wizard.line_ids:
+            line.amount = line.amount - 50.0
+
+        self.env["account.installment.renegotiation.wizard.line"].create(
+            {
+                "wizard_id": wizard.id,
+                "date_maturity": date.today() + timedelta(days=120),
+                "amount": 50.0 * len(wizard.line_ids),
+            }
+        )
+
+        wizard.action_apply()
+
+        payment_term_lines = invoice.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        ).sorted("date_maturity")
+
+        self.assertEqual(len(payment_term_lines), 4)
+        expected = ["1-4", "2-4", "3-4", "4-4"]
+        for line, exp in zip(payment_term_lines, expected, strict=True):
+            self.assertEqual(
+                line.payment_term_number,
+                exp,
+                f"Expected payment_term_number '{exp}', "
+                f"got '{line.payment_term_number}'",
+            )
+
+    def test_payment_term_number_after_remove_installment(self):
+        """Test payment_term_number is renumbered after removing installment."""
+        invoice = self._create_posted_invoice(1000.0)
+
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+
+        self.assertEqual(len(wizard.line_ids), 3)
+
+        # Remove last line and redistribute
+        lines = wizard.line_ids.sorted("date_maturity")
+        removed_amount = lines[-1].amount
+        lines[-1].unlink()
+
+        remaining = wizard.line_ids
+        extra = removed_amount / len(remaining)
+        for line in remaining:
+            line.amount = line.amount + extra
+
+        wizard.action_apply()
+
+        payment_term_lines = invoice.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        ).sorted("date_maturity")
+
+        self.assertEqual(len(payment_term_lines), 2)
+        expected = ["1-2", "2-2"]
+        for line, exp in zip(payment_term_lines, expected, strict=True):
+            self.assertEqual(
+                line.payment_term_number,
+                exp,
+                f"Expected payment_term_number '{exp}', "
+                f"got '{line.payment_term_number}'",
+            )
