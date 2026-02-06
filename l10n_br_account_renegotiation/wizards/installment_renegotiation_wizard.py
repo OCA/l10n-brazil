@@ -160,8 +160,8 @@ class InstallmentRenegotiationWizard(models.TransientModel):
             for line in original_lines.sorted("date_maturity")
         ]
 
-        # Determine the sign for amounts (negative for receivable, positive for payable)
-        sign = -1 if move.is_inbound() else 1
+        # Determine the sign for amounts (positive for receivable, negative for payable)
+        sign = 1 if move.is_inbound() else -1
 
         # Prepare context for bypassing readonly restrictions
         ctx = dict(
