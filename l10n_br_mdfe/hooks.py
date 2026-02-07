@@ -6,14 +6,12 @@ import nfelib
 import pkg_resources
 from nfelib.mdfe.bindings.v3_0.mdfe_tipos_basico_v3_00 import Tmdfe
 
-from odoo import SUPERUSER_ID, api
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def post_init_hook(env):
     if env.ref("base.module_l10n_br_mdfe").demo:
         res_items = (
             "mdfe",

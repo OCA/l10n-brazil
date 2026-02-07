@@ -38,21 +38,21 @@ class ResPartner(spec_models.SpecModel):
         return values
 
     mdfe30_CNPJ = fields.Char(
-        compute="_compute_mdfe_data",
+        compute="_compute_mdfe_id_numbers",
         inverse="_inverse_mdfe30_CNPJ",
         store=True,
         compute_sudo=True,
     )
 
     mdfe30_idEstrangeiro = fields.Char(
-        compute="_compute_mdfe_data",
+        compute="_compute_mdfe_id_numbers",
         inverse="_inverse_mdfe30_idEstrangeiro",
         store=True,
         compute_sudo=True,
     )
 
     mdfe30_CPF = fields.Char(
-        compute="_compute_mdfe_data",
+        compute="_compute_mdfe_id_numbers",
         inverse="_inverse_mdfe30_CPF",
         store=True,
         compute_sudo=True,
@@ -206,7 +206,33 @@ class ResPartner(spec_models.SpecModel):
         compute_sudo=True,
     )
 
-    @api.depends("company_type", "l10n_br_ie_code", "cnpj_cpf", "country_id")
+    @api.depends("company_type", "cnpj_cpf", "country_id")
+    def _compute_mdfe_id_numbers(self):
+        """Compute stored identification fields (CNPJ, CPF, idEstrangeiro)"""
+        for rec in self:
+            cnpj_cpf = punctuation_rm(rec.cnpj_cpf)
+            if cnpj_cpf:
+                if rec.country_id.code != "BR":
+                    rec.mdfe30_idEstrangeiro = rec.vat
+                elif rec.is_company:
+                    rec.mdfe30_CNPJ = cnpj_cpf
+                    rec.mdfe30_CPF = None
+                else:
+                    rec.mdfe30_CPF = cnpj_cpf
+                    rec.mdfe30_CNPJ = None
+            else:
+                rec.mdfe30_CNPJ = ""
+                rec.mdfe30_CPF = ""
+                rec.mdfe30_idEstrangeiro = ""
+
+    @api.depends(
+        "company_type",
+        "l10n_br_ie_code",
+        "cnpj_cpf",
+        "country_id",
+        "zip",
+        "phone",
+    )
     def _compute_mdfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
@@ -214,7 +240,6 @@ class ResPartner(spec_models.SpecModel):
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.mdfe30_choice_tcontractor = "mdfe30_idEstrangeiro"
-                    rec.mdfe30_idEstrangeiro = rec.vat
                 elif rec.is_company:
                     rec.mdfe30_choice_emit = "mdfe30_CNPJ"
                     rec.mdfe30_choice_autxml = "mdfe30_CNPJ"
@@ -222,8 +247,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.mdfe30_choice_tcontractor = "mdfe30_CNPJ"
                     rec.mdfe30_choice_contractor = "mdfe30_CNPJ"
                     rec.mdfe30_choice_insurer = "mdfe30_CNPJ"
-                    rec.mdfe30_CNPJ = cnpj_cpf
-                    rec.mdfe30_CPF = None
                 else:
                     rec.mdfe30_choice_emit = "mdfe30_CPF"
                     rec.mdfe30_choice_autxml = "mdfe30_CPF"
@@ -231,8 +254,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.mdfe30_choice_tcontractor = "mdfe30_CPF"
                     rec.mdfe30_choice_contractor = "mdfe30_CPF"
                     rec.mdfe30_choice_insurer = "mdfe30_CPF"
-                    rec.mdfe30_CPF = cnpj_cpf
-                    rec.mdfe30_CNPJ = None
             else:
                 rec.mdfe30_choice_emit = False
                 rec.mdfe30_choice_autxml = False
@@ -240,8 +261,6 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_choice_tcontractor = False
                 rec.mdfe30_choice_contractor = False
                 rec.mdfe30_choice_insurer = False
-                rec.mdfe30_CNPJ = ""
-                rec.mdfe30_CPF = ""
 
             if rec.l10n_br_ie_code:
                 rec.mdfe30_IE = punctuation_rm(rec.l10n_br_ie_code)
