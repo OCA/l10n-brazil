@@ -12,95 +12,62 @@
                 expr="//button[@name='action_document_correction']"
                 position="attributes"
             >
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//page[@name='document_related']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//group[@name='partner_info']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//page[@name='products']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//page[@name='finance']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//page[@name='amounts']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//field[@name='edoc_purpose']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//field[@name='ind_final']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//field[@name='ind_pres']" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
+                <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
             <xpath expr="//field[@name='fiscal_operation_id']" position="after">
-                <field
-                    name="mdfe_emit_type"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                />
-                <field
-                    name="mdfe_transp_type"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                />
+                <field name="mdfe_emit_type" invisible="document_type != '58'" />
+                <field name="mdfe_transp_type" invisible="document_type != '58'" />
             </xpath>
             <xpath expr="//page[@name='delivery']" position="inside">
                 <group>
                     <field
                         name="mdfe_initial_state_id"
-                        attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                        invisible="document_type != '58'"
                     />
                     <field
                         name="mdfe_final_state_id"
-                        attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                        invisible="document_type != '58'"
                     />
                 </group>
                 <separator
                     colspan="4"
                     string="Loading Cities"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                    invisible="document_type != '58'"
                 />
-                <field
-                    name="mdfe_loading_city_ids"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                />
+                <field name="mdfe_loading_city_ids" invisible="document_type != '58'" />
                 <separator
                     colspan="4"
                     string="Route States"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
+                    invisible="document_type != '58'"
                 />
-                <field
-                    name="mdfe_route_state_ids"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                />
+                <field name="mdfe_route_state_ids" invisible="document_type != '58'" />
             </xpath>
             <xpath expr="//field[@name='date_in_out']" position="after">
-                <field
-                    name="mdfe30_prodPred"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                />
+                <field name="mdfe30_prodPred" invisible="document_type != '58'" />
             </xpath>
         </field>
     </record>
@@ -112,10 +79,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
         <field name="arch" type="xml">
             <xpath expr="//page[@name='others']" position="before">
-                <page
-                    string="Related Documents"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                >
+                <page string="Related Documents" invisible="document_type != '58'">
                     <field name="mdfe30_infMunDescarga" nolabel="1">
                         <tree>
                             <field name="state_id" />
@@ -135,19 +99,19 @@
                                         <field
                                             name="nfe_ids"
                                             nolabel="1"
-                                            attrs="{'invisible': [('document_type', '!=', 'nfe')]}"
+                                            invisible="document_type != 'nfe'"
                                             domain="[('document_type_code', '=', '55')]"
                                         />
                                         <field
                                             name="cte_ids"
                                             nolabel="1"
-                                            attrs="{'invisible': [('document_type', '!=', 'cte')]}"
+                                            invisible="document_type != 'cte'"
                                             domain="[('document_type_code', '=', '59')]"
                                         />
                                         <field
                                             name="mdfe_ids"
                                             nolabel="1"
-                                            attrs="{'invisible': [('document_type', '!=', 'mdfe')]}"
+                                            invisible="document_type != 'mdfe'"
                                             domain="[('document_type_code', '=', '58')]"
                                         />
                                     </page>
@@ -156,17 +120,11 @@
                         </form>
                     </field>
                 </page>
-                <page
-                    string="Modal"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                >
+                <page string="Modal" invisible="document_type != '58'">
                     <group>
                         <field name="mdfe_modal" widget="radio" />
                     </group>
-                    <group
-                        attrs="{'invisible': [('mdfe_modal', '!=', '1')]}"
-                        colspan="4"
-                    >
+                    <group invisible="mdfe_modal != '1'" colspan="4">
                         <group>
                             <field name="mdfe30_codAgPorto" />
                             <field name="mdfe30_RNTRC" />
@@ -178,16 +136,16 @@
                                         <field name="mdfe30_cInt" />
                                         <field
                                             name="mdfe30_placa"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                            required="mdfe_modal == '1' and document_type == '58'"
                                         />
                                         <field name="mdfe30_RENAVAM" />
                                         <field
                                             name="mdfe30_tpCar"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                            required="mdfe_modal == '1' and document_type == '58'"
                                         />
                                         <field
                                             name="mdfe30_tpRod"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                            required="mdfe_modal == '1' and document_type == '58'"
                                         />
                                         <field name="rodo_vehicle_state_id" />
                                         <field
@@ -199,7 +157,7 @@
                                     <group>
                                         <field
                                             name="mdfe30_tara"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                            required="mdfe_modal == '1' and document_type == '58'"
                                         />
                                         <field name="mdfe30_capKG" />
                                         <field name="mdfe30_capM3" />
@@ -231,48 +189,21 @@
                             </page>
                         </notebook>
                     </group>
-                    <group
-                        attrs="{'invisible': [('mdfe_modal', '!=', '2')]}"
-                        colspan="4"
-                    >
+                    <group invisible="mdfe_modal != '2'" colspan="4">
                         <group>
-                            <field
-                                name="mdfe30_nac"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
-                            />
-                            <field
-                                name="mdfe30_matr"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
-                            />
-                            <field
-                                name="mdfe30_nVoo"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
-                            />
-                            <field
-                                name="mdfe30_dVoo"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
-                            />
+                            <field name="mdfe30_nac" required="mdfe_modal == '2'" />
+                            <field name="mdfe30_matr" required="mdfe_modal == '2'" />
+                            <field name="mdfe30_nVoo" required="mdfe_modal == '2'" />
+                            <field name="mdfe30_dVoo" required="mdfe_modal == '2'" />
                         </group>
                         <group>
-                            <field
-                                name="mdfe30_cAerEmb"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
-                            />
-                            <field
-                                name="mdfe30_cAerDes"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
-                            />
+                            <field name="mdfe30_cAerEmb" required="mdfe_modal == '2'" />
+                            <field name="mdfe30_cAerDes" required="mdfe_modal == '2'" />
                         </group>
                     </group>
-                    <group
-                        attrs="{'invisible': [('mdfe_modal', '!=', '3')]}"
-                        colspan="4"
-                    >
+                    <group invisible="mdfe_modal != '3'" colspan="4">
                         <group>
-                            <field
-                                name="mdfe30_irin"
-                                attrs="{'required': [('mdfe_modal', '=', '3')]}"
-                            />
+                            <field name="mdfe30_irin" required="mdfe_modal == '3'" />
                             <field name="mdfe30_nViag" />
                         </group>
                         <notebook colspan="4">
@@ -281,26 +212,26 @@
                                     <group>
                                         <field
                                             name="mdfe30_tpEmb"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            required="mdfe_modal == '3'"
                                         />
                                         <field
                                             name="mdfe30_cEmbar"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            required="mdfe_modal == '3'"
                                         />
                                         <field
                                             name="mdfe30_xEmbar"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            required="mdfe_modal == '3'"
                                         />
                                         <field name="mdfe30_tpNav" />
                                     </group>
                                     <group>
                                         <field
                                             name="mdfe30_cPrtEmb"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            required="mdfe_modal == '3'"
                                         />
                                         <field
                                             name="mdfe30_cPrtDest"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            required="mdfe_modal == '3'"
                                         />
                                         <field name="mdfe30_prtTrans" />
                                     </group>
@@ -343,46 +274,28 @@
                             </page>
                         </notebook>
                     </group>
-                    <group
-                        attrs="{'invisible': [('mdfe_modal', '!=', '4')]}"
-                        colspan="4"
-                    >
+                    <group invisible="mdfe_modal != '4'" colspan="4">
                         <group>
-                            <field
-                                name="mdfe30_xPref"
-                                attrs="{'required': [('mdfe_modal', '=', '4')]}"
-                            />
+                            <field name="mdfe30_xPref" required="mdfe_modal == '4'" />
                             <field name="mdfe30_dhTrem" />
-                            <field
-                                name="mdfe30_qVag"
-                                attrs="{'required': [('mdfe_modal', '=', '4')]}"
-                            />
+                            <field name="mdfe30_qVag" required="mdfe_modal == '4'" />
                         </group>
                         <group>
-                            <field
-                                name="mdfe30_xOri"
-                                attrs="{'required': [('mdfe_modal', '=', '4')]}"
-                            />
-                            <field
-                                name="mdfe30_xDest"
-                                attrs="{'required': [('mdfe_modal', '=', '4')]}"
-                            />
+                            <field name="mdfe30_xOri" required="mdfe_modal == '4'" />
+                            <field name="mdfe30_xDest" required="mdfe_modal == '4'" />
                         </group>
                         <notebook colspan="4">
                             <page string="Vagões">
                                 <field
                                     name="mdfe30_vag"
                                     nolabel="1"
-                                    attrs="{'required': [('mdfe_modal', '=', '4')]}"
+                                    required="mdfe_modal == '4'"
                                 />
                             </page>
                         </notebook>
                     </group>
                 </page>
-                <page
-                    string="Seguros da Carga"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                >
+                <page string="Seguros da Carga" invisible="document_type != '58'">
                     <field name="mdfe30_seg" nolabel="1" required="1">
                         <tree>
                             <field name="mdfe30_infResp" />
@@ -402,10 +315,7 @@
                         </form>
                     </field>
                 </page>
-                <page
-                    string="Totais"
-                    attrs="{'invisible': [('document_type', 'not in', ['58'])]}"
-                >
+                <page string="Totais" invisible="document_type != '58'">
                     <!-- <group>
                         <group>
                             <field name="mdfe30_cUnid" />

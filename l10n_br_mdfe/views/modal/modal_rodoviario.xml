@@ -55,17 +55,16 @@
                             <field name="is_company" />
                             <field
                                 name="mdfe30_CNPJ"
-                                attrs="{ 'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)], }"
+                                invisible="not is_company"
+                                required="is_company"
                             />
                             <field
                                 name="mdfe30_CPF"
-                                attrs="{ 'invisible': [('is_company', '=', True)], 'required': [('is_company', '=', False)], }"
+                                invisible="is_company"
+                                required="not is_company"
                             />
                             <field name="legal_name" />
-                            <field
-                                name="l10n_br_ie_code"
-                                attrs="{ 'invisible': [('is_company', '=', False)], }"
-                            />
+                            <field name="l10n_br_ie_code" invisible="not is_company" />
                             <field name="country_id" />
                             <field name="state_id" />
                         </group>
@@ -89,11 +88,13 @@
                         <field name="is_company" />
                         <field
                             name="mdfe30_CNPJ"
-                            attrs="{ 'invisible': [('is_company', '=', False)], 'required': [('is_company', '=', True)], }"
+                            invisible="not is_company"
+                            required="is_company"
                         />
                         <field
                             name="mdfe30_CPF"
-                            attrs="{ 'invisible': [('is_company', '=', True)], 'required': [('is_company', '=', False)], }"
+                            invisible="is_company"
+                            required="not is_company"
                         />
                         <field name="mdfe30_CIOT" />
                     </group>
@@ -200,22 +201,22 @@
                             <field name="mdfe30_vContrato" />
                             <field
                                 name="mdfe30_vAdiant"
-                                attrs="{'invisible': [('mdfe30_indPag', '=', '0')]}"
+                                invisible="mdfe30_indPag == '0'"
                             />
                         </group>
                         <group>
                             <field name="payment_type" />
                             <field
                                 name="mdfe30_codBanco"
-                                attrs="{'invisible': [('payment_type', '!=', 'bank')]}"
+                                invisible="payment_type != 'bank'"
                             />
                             <field
                                 name="mdfe30_codAgencia"
-                                attrs="{'invisible': [('payment_type', '!=', 'bank')]}"
+                                invisible="payment_type != 'bank'"
                             />
                             <field
                                 name="mdfe30_PIX"
-                                attrs="{'invisible': [('payment_type', '!=', 'pix')]}"
+                                invisible="payment_type != 'pix'"
                             />
                         </group>
                     </group>
