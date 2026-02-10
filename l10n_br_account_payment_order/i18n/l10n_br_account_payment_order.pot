@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,6 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32333_avoid_ci_error
+msgid " Não Pagamento/Inadimplencia - AVOID_CI_ERROR"
+msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__movement_type__0
@@ -768,16 +773,54 @@ msgid "Baixa por Não Pagamento/Inadimplência"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.ailos_journal
+msgid "Banco AILOS"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.bradesco_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco Bradesco"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.cef_journal
+msgid "Banco Caixa Economica Federal"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.itau_journal
+msgid "Banco Itau"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.nordeste_journal
+msgid "Banco Nordeste"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.sicredi_journal
+msgid "Banco SICREDI"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.santander_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco Santander"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.sicoob_journal
+msgid "Banco Sicoob"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.unicred_journal
+msgid "Banco Unicred"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.bb_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco do Brasil"
 msgstr ""
@@ -812,10 +855,7 @@ msgid "Barcode"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__boleto
-#, python-format
 msgid "Boleto"
 msgstr ""
 
@@ -838,7 +878,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__file_boleto_pdf_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__file_boleto_pdf_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__file_boleto_pdf_id
 msgid "Boleto PDF"
 msgstr ""
 
@@ -938,7 +977,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__cnab_config_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__cnab_config_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__cnab_config_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__cnab_config_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_config_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__cnab_config_id
 #: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_config
@@ -950,7 +988,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-#, python-format
 msgid ""
 "CNAB Config %(cnab_config_name)s in Payment Mode %(payment_mode_name)s don't"
 " has %(missing)s for making CNAB change, check if should have."
@@ -1059,7 +1096,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment.py:0
-#, python-format
 msgid ""
 "CNAB Payment Method can't be used to make direct Payments, just used in "
 "Payment Orders, choose another one."
@@ -1080,7 +1116,6 @@ msgstr ""
 #: model:ir.model,name:l10n_br_account_payment_order.model_l10n_br_cnab_return_log
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__cnab_return_log_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__cnab_return_log_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__cnab_return_log_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__cnab_return_log_id
 #: model:ir.ui.menu,name:l10n_br_account_payment_order.menu_l10n_br_cnab_return_log
 msgid "CNAB Return Log"
@@ -1255,7 +1290,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
-#, python-format
 msgid "Carteira no banco Itaú é obrigatória"
 msgstr ""
 
@@ -1278,19 +1312,13 @@ msgid "Change Title Value Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__checking
-#, python-format
 msgid "Checking Account (Conta Corrente)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cheque
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__cheque
-#, python-format
 msgid "Cheque"
 msgstr ""
 
@@ -1430,6 +1458,11 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__communication_type
 msgid "Communication Type"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model,name:l10n_br_account_payment_order.model_res_company
+msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1738,10 +1771,7 @@ msgid "DIVERSOS"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__doc
-#, python-format
 msgid "DOC"
 msgstr ""
 
@@ -1807,16 +1837,18 @@ msgid "Desconto de pontualidade"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32202_avoid_ci_error
+msgid "Despesas com Vendas - AVOID_CI_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__write_off_devolution_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__write_off_devolution_code_id
 msgid "Devolution Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__dinheiro
-#, python-format
 msgid "Dinheiro"
 msgstr ""
 
@@ -1835,6 +1867,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.cheque_journal
+msgid "Diário Cheque"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.main_company_bank_journal
+msgid "Diário de Banco - Empresa Principal"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.lucro_presumido_bank_journal
+msgid "Diário de Banco - Lucro Presumido"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.simples_nacional_bank_journal
+msgid "Diário de Banco - Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2045,10 +2097,7 @@ msgid "Inicial"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__pix_key
-#, python-format
 msgid "Instant Payment Key (Chave Pix)"
 msgstr ""
 
@@ -2060,21 +2109,18 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_bank_statement_line__instructions
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move__instructions
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment__instructions
 msgid "Instruções Extras da Ordem de Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_bank_statement_line__eval_payment_mode_instructions
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_move__eval_payment_mode_instructions
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment__eval_payment_mode_instructions
 msgid "Instruções Ordem de Pagamento configuradas na Configuração do CNAB"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__eval_payment_mode_instructions
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__eval_payment_mode_instructions
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__eval_payment_mode_instructions
 msgid "Instruções de Cobrança do Modo de Pagamento"
 msgstr ""
 
@@ -2082,7 +2128,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__instructions
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__instructions
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line__instructions
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__instructions
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__instructions
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__instructions
 msgid "Instruções de cobrança"
@@ -2102,7 +2147,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_bank_statement_line__is_cnab
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__is_cnab
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment__is_cnab
 msgid "Is CNAB?"
 msgstr ""
 
@@ -2144,6 +2188,11 @@ msgid "Journal Payment Mode"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_31202_avoid_ci_error
+msgid "Juros Ativos - AVOID_CI_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__interest_fee_value
 msgid "Juros de Mora/Multa"
 msgstr ""
@@ -2158,18 +2207,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__09
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__09
 msgid "LETRA DE CÂMBIO"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2229,16 +2266,6 @@ msgid "MENSALIDADE ESCOLAR"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_main_attachment_id
-msgid "Main Attachment"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__message
 msgid "Mensagem"
 msgstr ""
@@ -2271,14 +2298,12 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "Missing Bank Journal on payment order %s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "Missing bank account on bank journal '%s'."
 msgstr ""
 
@@ -2362,7 +2387,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-#, python-format
 msgid ""
 "New Date Maturity %(new_date)s is equal to actual Date Maturity "
 "%(date_maturity)s"
@@ -2371,7 +2395,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-#, python-format
 msgid ""
 "New Discount Date %(new_date)s is equal to current Discount Date "
 "%(date_discount)s"
@@ -2513,7 +2536,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
-#, python-format
 msgid "O percentual deve ser um valor entre 0 a 100."
 msgstr ""
 
@@ -2533,6 +2555,16 @@ msgid "Outras Configurações"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32302_avoid_ci_error
+msgid "Outras Despesas Financeiras - AVOID_CI_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32203_avoid_ci_error
+msgid "Outras Despesas Gerais - AVOID_CI_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__other_credits
 msgid "Outros Créditos"
 msgstr ""
@@ -2543,10 +2575,7 @@ msgid "Own Number Without Zfill"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__pix_transfer
-#, python-format
 msgid "PIX Transfer"
 msgstr ""
 
@@ -2639,7 +2668,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-#, python-format
 msgid ""
 "Payment line added to the existing draft order %(order_name)s to send CNAB Instruction %(instruction)s for OWN NUMBER %(own_number)s.\n"
 "Justification: %(reason)s"
@@ -2648,7 +2676,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-#, python-format
 msgid ""
 "Payment line added to the the new draft payment order %(order_name)s which has been automatically created, to send CNAB Instruction %(instruction)s for OWN NUMBER %(own_number)s.\n"
 "Justification: %(reason)s"
@@ -2720,10 +2747,7 @@ msgid "Posto da Cooperativa de Crédito"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__payment
-#, python-format
 msgid "Prepaid Payment Account (Conta Pagamento)"
 msgstr ""
 
@@ -2762,6 +2786,13 @@ msgid "RECIBO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_3010101010200_avoid_ci_error
+msgid ""
+"Receita da Venda no Mercado Interno\n"
+"            de Produtos de Fabricação Própria - AVOID_CI_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__release_form
 msgid "Release Form"
 msgstr ""
@@ -2782,10 +2813,7 @@ msgid "Return Move Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__saving
-#, python-format
 msgid "Saving Account (Conta Poupança)"
 msgstr ""
 
@@ -2856,7 +2884,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/ir_attachment.py:0
-#, python-format
 msgid "Sorry, you are not allowed to delete the attachment."
 msgstr ""
 
@@ -2893,10 +2920,7 @@ msgid "Sustar Protesto e Manter em Carteira"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_mode__payment_mode_domain__ted
-#, python-format
 msgid "TED"
 msgstr ""
 
@@ -2916,9 +2940,13 @@ msgid "Tarifa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_3010101010300_avoid_ci_error
+msgid "Taxa do Boleto - AVOID_CI_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_code.py:0
-#, python-format
 msgid ""
 "The Code %(code)s %(name)s already exists for Bank %(bank)s and CNAB "
 "%(type_code)s type."
@@ -2927,7 +2955,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:0
-#, python-format
 msgid ""
 "The Code %(code)s already exist %(code_name_exist)s for Bank and CNAB type."
 msgstr ""
@@ -2935,7 +2962,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:0
-#, python-format
 msgid ""
 "The Payment Mode can not be used for CNAB with the field %s active. \n"
 " Please uncheck it to continue."
@@ -2944,14 +2970,12 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "The amount for Partner '%(name)s' is negative or null (%(total).2f) !"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_code.py:0
-#, python-format
 msgid ""
 "The field Code in 'Instruction and Return Move Code' should have two "
 "characters."
@@ -2960,7 +2984,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid ""
 "The payment mode '%(payment_mode)s' has the option 'Disallow Debit Before "
 "Maturity Date'. The payment line '%(payline)s' has a maturity date "
@@ -2971,14 +2994,12 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "There are no transactions on payment order %s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-#, python-format
 msgid ""
 "There is a CNAB Payment Order %(order_name)s in status %(order_state)s "
 "related to invoice %(invoice_name)s created, the CNAB file should be sent to"
@@ -3199,13 +3220,11 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "You cannot Cancel CNAB order."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-#, python-format
 msgid "You cannot delete CNAB order."
 msgstr ""
