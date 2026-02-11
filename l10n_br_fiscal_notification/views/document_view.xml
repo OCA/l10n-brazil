@@ -10,7 +10,7 @@
                     type="object"
                     string="Send Email"
                     groups="l10n_br_fiscal.group_user"
-                    attrs="{'invisible': [('state_edoc', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"
+                    invisible="state_edoc not in ['autorizada', 'cancelada', 'denegada']"
                 /></button>
         </field>
     </record>

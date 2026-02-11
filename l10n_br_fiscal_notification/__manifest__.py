@@ -3,13 +3,13 @@
 {
     "name": "Fiscal Document Notifications",
     "summary": "Define fiscal document notifications",
-    "category": "Localisation",
+    "category": "Localization",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "maintainers": ["mileo"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "16.0.1.1.0",
+    "version": "17.0.1.0.0",
     "depends": [
         "l10n_br_fiscal",
     ],
