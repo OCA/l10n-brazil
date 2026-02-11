@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,6 +12,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32333_avoid_travis_error
+msgid " Não Pagamento/Inadimplencia - AVOID_TRAVIS_ERROR"
+msgstr ""
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__movement_type__0
@@ -768,16 +773,54 @@ msgid "Baixa por Não Pagamento/Inadimplência"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.ailos_journal
+msgid "Banco AILOS"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.bradesco_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco Bradesco"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.cef_journal
+msgid "Banco Caixa Economica Federal"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.itau_journal
+msgid "Banco Itau"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.nordeste_journal
+msgid "Banco Nordeste"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.sicredi_journal
+msgid "Banco SICREDI"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.santander_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco Santander"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.sicoob_journal
+msgid "Banco Sicoob"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.unicred_journal
+msgid "Banco Unicred"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.bb_journal
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_cnab_config_form_view
 msgid "Banco do Brasil"
 msgstr ""
@@ -1433,6 +1476,11 @@ msgid "Communication Type"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model,name:l10n_br_account_payment_order.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__company_id
 msgid "Company"
 msgstr ""
@@ -1807,6 +1855,11 @@ msgid "Desconto de pontualidade"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32202_avoid_travis_error
+msgid "Despesas com Vendas - AVOID_TRAVIS_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__write_off_devolution_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__write_off_devolution_code_id
 msgid "Devolution Instruction Code"
@@ -1835,6 +1888,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.cheque_journal
+msgid "Diário Cheque"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.main_company_bank_journal
+msgid "Diário de Banco - Empresa Principal"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.lucro_presumido_bank_journal
+msgid "Diário de Banco - Lucro Presumido"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.journal,name:l10n_br_account_payment_order.simples_nacional_bank_journal
+msgid "Diário de Banco - Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2144,6 +2217,11 @@ msgid "Journal Payment Mode"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_31202_avoid_travis_error
+msgid "Juros Ativos - AVOID_TRAVIS_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__interest_fee_value
 msgid "Juros de Mora/Multa"
 msgstr ""
@@ -2158,18 +2236,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__09
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__09
 msgid "LETRA DE CÂMBIO"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move_line_cnab_change____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_change_methods____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log____last_update
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_lot____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2226,16 +2292,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_boleto_fields__boleto_species__04
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_config__boleto_species__04
 msgid "MENSALIDADE ESCOLAR"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_main_attachment_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_main_attachment_id
-msgid "Main Attachment"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2533,6 +2589,16 @@ msgid "Outras Configurações"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32302_avoid_travis_error
+msgid "Outras Despesas Financeiras - AVOID_TRAVIS_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_32203_avoid_travis_error
+msgid "Outras Despesas Gerais - AVOID_TRAVIS_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__other_credits
 msgid "Outros Créditos"
 msgstr ""
@@ -2762,6 +2828,13 @@ msgid "RECIBO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error
+msgid ""
+"Receita da Venda no Mercado Interno\n"
+"            de Produtos de Fabricação Própria - AVOID_TRAVIS_ERROR"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__l10n_br_cnab_code__code_type__release_form
 msgid "Release Form"
 msgstr ""
@@ -2913,6 +2986,11 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__tariff_charge
 msgid "Tarifa"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:account.account,name:l10n_br_account_payment_order.1_account_template_3010101010300_avoid_travis_error
+msgid "Taxa do Boleto - AVOID_TRAVIS_ERROR"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
