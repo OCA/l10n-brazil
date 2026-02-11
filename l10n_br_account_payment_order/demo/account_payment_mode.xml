@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+
+    <!-- Bradesco CNAB 400 -->
+    <record id="payment_mode_cobranca_bradesco400" model="account.payment.mode">
+        <field name="name">Cobrança Bradesco400</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="bradesco_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_bradesco_400" />
+    </record>
+
+    <!-- Modo de Pagamento cobrança Bradesco 240 -->
+    <record id="payment_mode_cobranca_bradesco240" model="account.payment.mode">
+        <field name="name">Cobrança Bradesco240</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="bradesco_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_bradesco_240" />
+    </record>
+
+    <!-- Payment Mode Cobrança Unicred 400 -->
+    <record id="payment_mode_cobranca_unicred400" model="account.payment.mode">
+        <field name="name">Cobrança Unicred400</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="unicred_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_unicred_400" />
+    </record>
+
+    <!-- Payment Mode Cobrança Unicred 240 -->
+    <record id="payment_mode_cobranca_unicred240" model="account.payment.mode">
+        <field name="name">Cobrança Unicred240</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="unicred_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_unicred_240" />
+    </record>
+
+    <!-- Payment Mode Cobrança AILOS 240 -->
+    <record id="payment_mode_cobranca_ailos240" model="account.payment.mode">
+        <field name="name">Cobrança Ailos240</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="ailos_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_ailos_240" />
+    </record>
+
+    <!-- Modo de Pagamento cobrança Itau 240 -->
+    <record id="payment_mode_cobranca_itau240" model="account.payment.mode">
+        <field name="name">Cobrança Itau240</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="itau_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_itau_240" />
+    </record>
+
+    <!-- Modo de Pagamento cobrança Itau 400 -->
+    <record id="payment_mode_cobranca_itau400" model="account.payment.mode">
+        <field name="name">Cobrança Itau400</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="itau_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_itau_400" />
+    </record>
+
+    <!-- Modo de Pagamento cobrança Caixa Economica Federal 240 -->
+    <record id="payment_mode_cobranca_cef240" model="account.payment.mode">
+        <field name="name">Cobrança Caixa Economica Federal 240</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="cef_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_cef_240" />
+    </record>
+
+    <!-- Modo de Pagamento cobrança Caixa Economica Federal 400 -->
+    <record id="payment_mode_cobranca_cef400" model="account.payment.mode">
+        <field name="name">Cobrança Caixa Economica Federal 400</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="cef_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_cef_400" />
+    </record>
+
+    <!-- Modo de Pagamento Cobrança SICRED 240 -->
+    <record id="payment_mode_cobranca_sicredi240" model="account.payment.mode">
+        <field name="name">Cobrança SICREDI 240</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="sicredi_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_sicredi_240" />
+    </record>
+
+    <!-- Payment Mode Cobrança Banco do Brasil 400 -->
+    <record id="payment_mode_cobranca_bb400" model="account.payment.mode">
+        <field name="name">Cobrança Banco do Brasil 400</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="bb_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_bb_400" />
+    </record>
+
+    <!-- Payment Mode Cobrança Banco do Brasil 240 -->
+    <record id="payment_mode_cobranca_bb240" model="account.payment.mode">
+        <field name="name">Cobrança Banco do Brasil 240</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="bb_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_bb_240" />
+    </record>
+
+    <!-- Banco Santander -->
+    <!-- 400 -->
+    <record id="payment_mode_cobranca_santander_400" model="account.payment.mode">
+        <field name="name">Cobrança Banco Santander 400</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="santander_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_santander_400" />
+    </record>
+
+    <!-- 240 -->
+    <record id="payment_mode_cobranca_santander_240" model="account.payment.mode">
+        <field name="name">Cobrança Banco Santander 240</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="santander_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_santander_240" />
+    </record>
+
+    <!-- Banco Nordeste -->
+    <!-- 400 -->
+    <record id="payment_mode_cobranca_nordeste_400" model="account.payment.mode">
+        <field name="name">Cobrança Banco Nordeste 400</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="nordeste_journal" />
+        <field name="payment_order_ok">True</field>
+        <field name="auto_create_payment_order">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400" />
+        <field name="group_lines">False</field>
+        <field name="cnab_config_id" ref="cnab_config_nordeste_400" />
+    </record>
+
+    <!-- Payment Mode Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
+    <record id="payment_mode_cheque" model="account.payment.mode">
+        <field name="name">Cheque</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="cheque_journal" />
+        <field name="payment_order_ok">False</field>
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+    </record>
+
+    <!-- TED Transferência-->
+    <record id="payment_mode_ted" model="account.payment.mode">
+        <field name="name">TED Transferência</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_out"
+        />
+        <field name="bank_account_link">variable</field>
+        <field name="payment_mode_domain">ted</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+    </record>
+
+    <!-- PIX Transferência -->
+    <record id="payment_mode_pix_transfer" model="account.payment.mode">
+        <field name="name">PIX Transferência</field>
+        <field name="company_id" ref="base.main_company" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_out"
+        />
+        <field name="bank_account_link">variable</field>
+        <field name="payment_mode_domain">pix_transfer</field>
+        <field name="payment_order_ok">True</field>
+        <field name="default_date_prefered">due</field>
+        <field name="group_lines">True</field>
+    </record>
+
+</odoo>

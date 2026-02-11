@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2025-Today - Akretion - Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Códigos de Mora Santader 240 -->
+    <record id="santander_240_boleto_interest_code_1" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Valor por dia - Informar no campo o valor/dia a mora a ser cobrada.</field>
+        <field name="code">1</field>
+        <field name="code_type">interest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.set([ref('l10n_br_base.res_bank_033')])]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_interest_code_2" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Taxa Mensal - Informar no campo taxa mensal o percentual a ser aplicado sobre valor do titulo que será calculado por dia de atraso.</field>
+        <field name="code">2</field>
+        <field name="code_type">interest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.set([ref('l10n_br_base.res_bank_033')])]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_interest_code_3" model="l10n_br_cnab.code">
+        <field name="name">Isento</field>
+        <field name="code">3</field>
+        <field name="code_type">interest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.set([ref('l10n_br_base.res_bank_033')])]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_interest_code_4" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Utilizar comissão permanência do Banco por dia de atraso</field>
+        <field name="code">4</field>
+        <field name="code_type">interest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.set([ref('l10n_br_base.res_bank_033')])]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >* Para o código igual 4, o campo “taxa mensal” não deverá conter informação.
+        </field>
+    </record>
+
+    <record id="santander_240_boleto_interest_code_5" model="l10n_br_cnab.code">
+        <field name="name">Tolerância valor por dia (cobrar juros a partir de)</field>
+        <field name="code">5</field>
+        <field name="code_type">interest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.set([ref('l10n_br_base.res_bank_033')])]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_interest_code_6" model="l10n_br_cnab.code">
+        <field name="name">Tolerância taxa mensal (cobrar juros a partir de)</field>
+        <field name="code">6</field>
+        <field name="code_type">interest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.set([ref('l10n_br_base.res_bank_033')])]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.set([ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+</odoo>

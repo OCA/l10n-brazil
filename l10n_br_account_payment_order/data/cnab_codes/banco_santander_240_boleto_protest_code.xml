@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2025-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Protesto Banco Santander 240 -->
+    <record id="santander_240_boleto_protest_code_0" model="l10n_br_cnab.code">
+        <field name="name">NAO PROTESTAR</field>
+        <field name="code">0</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_protest_code_1" model="l10n_br_cnab.code">
+        <field name="name">PROTESTAR DIAS CORRIDOS</field>
+        <field name="code">1</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_protest_code_2" model="l10n_br_cnab.code">
+        <field name="name">PROTESTAR DIAS UTEIS</field>
+        <field name="code">2</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_protest_code_3" model="l10n_br_cnab.code">
+        <field name="name">UTILIZAR PERFIL BENEFICIÁRIO</field>
+        <field name="code">3</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_protest_code_9" model="l10n_br_cnab.code">
+        <field name="name">CANCELAMENTO DE PROTESTO AUTOMATICO</field>
+        <field name="code">9</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+</odoo>

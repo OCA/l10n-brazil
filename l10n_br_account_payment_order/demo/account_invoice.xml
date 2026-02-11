@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+
+    <!-- Faturas/Invoices de Teste -->
+
+    <!-- Fatura/Invoice Bradesco 400 -->
+    <record id="demo_invoice_payment_order" model="account.move">
+        <field name="name">Test Payment Order</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_bradesco400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Invoice Itau 240 -->
+    <record id="demo_invoice_payment_order_itau_cnab240" model="account.move">
+        <field name="name">Teste Itau CNAB240</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_itau240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Invoice Itau 400 -->
+    <record id="demo_invoice_payment_order_itau_cnab400" model="account.move">
+        <field name="name">Teste Itau CNAB400</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_itau400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Invoice Unicred 400 -->
+    <record id="demo_invoice_payment_order_unicred_cnab400" model="account.move">
+        <field name="name">Teste Unicred CNAB400</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_unicred400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Invoice Caixa Economica Federal 240 -->
+    <record id="demo_invoice_payment_order_cef_cnab240" model="account.move">
+        <field name="name">Teste Caixa Economica Federal CNAB240</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_cef240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Invoice SICRED 240 -->
+    <record id="demo_invoice_payment_order_sicredi_cnab240" model="account.move">
+        <field name="name">Teste SICRED - CNAB 240</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_sicredi240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Invoice Banco do Brasil 400 -->
+    <record id="demo_invoice_payment_order_bb_cnab400" model="account.move">
+        <field name="name">Teste Banco do Brasil CNAB400</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_bb400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Invoice AILOS 240 -->
+    <record id="demo_invoice_payment_order_ailos_cnab240" model="account.move">
+        <field name="name">Teste AILOS CNAB240</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_ailos240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Banco Santander -->
+    <!-- 400 -->
+    <record id="demo_invoice_payment_order_santander_cnab400" model="account.move">
+        <field name="name">Teste Santander CNAB400</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_santander_400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- 240 -->
+    <record id="demo_invoice_payment_order_santander_cnab240" model="account.move">
+        <field name="name">Teste Santander CNAB240</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_santander_240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Banco Nordeste -->
+    <!-- 400 -->
+    <record id="demo_invoice_payment_order_nordeste_cnab400" model="account.move">
+        <field name="name">Teste Nordeste CNAB400</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_nordeste_400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <!-- Invoice Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
+    <record id="demo_invoice_payment_order_cheque" model="account.move">
+        <field
+            name="name"
+        >Teste Cheque - quando o Modo de Pagto não gera Ordem de Pagto</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cheque" />
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <record id="demo_invoice_no_payment_mode" model="account.move">
+        <field name="name">Manual No Payment Mode</field>
+        <field
+            name="invoice_payment_term_id"
+            ref="account.account_payment_term_advance"
+        />
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="move_type">out_invoice</field>
+        <field name="invoice_user_id" ref="base.user_demo" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="payment_mode_id" eval="False" />
+        <field
+            name="invoice_line_ids"
+            eval="[
+            Command.create({'product_id': ref('product.product_product_5'), 'price_unit': 100, 'quantity': 10, 'account_id':ref('1_account_template_3010101010200_avoid_travis_error')})
+        ]"
+        />
+    </record>
+
+    <function model="account.move" name="action_post">
+        <value eval="[ref('demo_invoice_no_payment_mode')]" />
+    </function>
+
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Tipo de Cobrança ou Código da Carteira -->
+    <!-- Bradesco 240
+         https://banco.bradesco/assets/pessoajuridica/pdf/4008-523-0687-layout-multipag.pdf
+    -->
+    <record id="bradesco_240_boleto_wallet_code_1" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Simples</field>
+        <field name="code">1</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="bradesco_240_boleto_wallet_code_2" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Vinculada</field>
+        <field name="code">2</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="bradesco_240_boleto_wallet_code_3" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Caucionada</field>
+        <field name="code">3</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="bradesco_240_boleto_wallet_code_4" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Descontada</field>
+        <field name="code">4</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="bradesco_240_boleto_wallet_code_5" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Vendor</field>
+        <field name="code">5</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_237'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- account.payment.method -->
+
+    <!-- INBOUND -->
+
+    <!-- CNAB 240 -->
+    <record id="payment_mode_type_cnab240" model="account.payment.method">
+        <field name="code">240</field>
+        <field name="name">Cnab240</field>
+        <field name="active">True</field>
+        <field name="bank_account_required">False</field>
+        <field name="payment_type">inbound</field>
+    </record>
+
+    <!-- CNAB 400 -->
+    <record id="payment_mode_type_cnab400" model="account.payment.method">
+        <field name="code">400</field>
+        <field name="name">Cnab400</field>
+        <field name="active">True</field>
+        <field name="bank_account_required">False</field>
+        <field name="payment_type">inbound</field>
+    </record>
+
+    <!-- CNAB 500 -->
+    <record id="payment_mode_type_cnab500" model="account.payment.method">
+        <field name="code">500</field>
+        <field name="name">Cnab500</field>
+        <field name="active">True</field>
+        <field name="bank_account_required">False</field>
+        <field name="payment_type">inbound</field>
+    </record>
+
+    <!-- OUTBOUND -->
+
+    <!-- CNAB 240 -->
+    <record id="payment_mode_type_cnab240_out" model="account.payment.method">
+        <field name="code">240</field>
+        <field name="name">Cnab240</field>
+        <field name="active">True</field>
+        <field name="bank_account_required">False</field>
+        <field name="payment_type">outbound</field>
+    </record>
+
+</odoo>

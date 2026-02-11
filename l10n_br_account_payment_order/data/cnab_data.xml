@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="sequence_cnab_number" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB</field>
+        <field name="code">Sequencia Arquivo CNAB</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
+</odoo>

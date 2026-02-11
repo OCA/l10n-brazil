@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2025-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- CNAB 400 -->
+    <!-- Banco do Nordeste - CNAB 400 - https://github.com/kivanio/brcobranca/blob/master/docs/BNB/Novo%20Manual%20Leiaute%20CNAB400%20v2%200.pdf -->
+
+    <!-- Codigos de Instrução do Movimento -->
+    <record id="nordeste_400_instruction_01" model="l10n_br_cnab.code">
+        <field name="name">Entrada Normal</field>
+        <field name="code">01</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_02" model="l10n_br_cnab.code">
+        <field name="name">Pedido de baixa</field>
+        <field name="code">02</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_04" model="l10n_br_cnab.code">
+        <field name="name">Concessão de Abatimento</field>
+        <field name="code">04</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_06" model="l10n_br_cnab.code">
+        <field name="name">Alteração de Vencimento</field>
+        <field name="code">06</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_07" model="l10n_br_cnab.code">
+        <field name="name">Alteração do Uso da empresa (Número de Controle)</field>
+        <field name="code">07</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_08" model="l10n_br_cnab.code">
+        <field name="name">Alteração de Seu número</field>
+        <field name="code">08</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_09" model="l10n_br_cnab.code">
+        <field name="name">Protestar</field>
+        <field name="code">09</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_10" model="l10n_br_cnab.code">
+        <field name="name">Não Protestar</field>
+        <field name="code">10</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_11" model="l10n_br_cnab.code">
+        <field name="name">Instrução para dispensar juros</field>
+        <field name="code">11</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_12" model="l10n_br_cnab.code">
+        <field name="name">Inclusão de Ocorrência</field>
+        <field name="code">12</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_13" model="l10n_br_cnab.code">
+        <field name="name">Exclusão de ocorrência</field>
+        <field name="code">13</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+	<field name="bank_ids" eval="[Command.link(ref('l10n_br_base.res_bank_004'))]" />
+        <field
+            name="comment"
+        >- Quando utilizar o serviço 13, informar no campo vencimento a data da ocorrência a ser excluída.
+        </field>
+    </record>
+
+    <record id="nordeste_400_instruction_31" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Alteração de Outros Dados (Nome do Sacado, Endereço, CEP, Estado, CGC ou CPF, Data de Emissão, Data de Desconto, Valor do Desconto, Aceite, Instrução de Cobrança e Espécie de Documento)</field>
+        <field name="code">31</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+	<field name="bank_ids" eval="[Command.link(ref('l10n_br_base.res_bank_004'))]" />
+        <field
+            name="comment"
+        >OBS.: - Quando utilizar o serviço 31, informar a identificação do título e os campos que devem ser alterados. Os demais campos devem ficar com espaços.
+        </field>
+    </record>
+
+    <record id="nordeste_400_instruction_32" model="l10n_br_cnab.code">
+        <field name="name">Pedido de Devolução</field>
+        <field name="code">32</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_33" model="l10n_br_cnab.code">
+        <field name="name">Pedido de Devolução (entregue ao Sacado).</field>
+        <field name="code">33</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_instruction_99" model="l10n_br_cnab.code">
+        <field name="name">Pedido dos Títulos em Aberto</field>
+        <field name="code">99</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+    </record>
+
+    <!-- Codigo de Retorno do Movimento -->
+    <record id="nordeste_400_return_02" model="l10n_br_cnab.code">
+        <field name="name">Entrada Confirmada.</field>
+        <field name="code">02</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_04" model="l10n_br_cnab.code">
+        <field name="name">Alteração.</field>
+        <field name="code">04</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_06" model="l10n_br_cnab.code">
+        <field name="name">Liquidação Normal.</field>
+        <field name="code">06</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_07" model="l10n_br_cnab.code">
+        <field name="name">Pagamento por Conta.</field>
+        <field name="code">07</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_08" model="l10n_br_cnab.code">
+        <field name="name">Pagamento por Cartório.</field>
+        <field name="code">08</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_09" model="l10n_br_cnab.code">
+        <field name="name">Baixa Simples.</field>
+        <field name="code">09</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_10" model="l10n_br_cnab.code">
+        <field name="name">Devolvido / Protestado</field>
+        <field name="code">10</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_11" model="l10n_br_cnab.code">
+        <field name="name">Em ser.</field>
+        <field name="code">11</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_12" model="l10n_br_cnab.code">
+        <field name="name">Abatimento Concedido.</field>
+        <field name="code">12</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_13" model="l10n_br_cnab.code">
+        <field name="name">Abatimento Cancelado.</field>
+        <field name="code">13</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_14" model="l10n_br_cnab.code">
+        <field name="name">Vencimento Alterado.</field>
+        <field name="code">14</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_15" model="l10n_br_cnab.code">
+        <field name="name">Baixa Automática</field>
+        <field name="code">15</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_18" model="l10n_br_cnab.code">
+        <field name="name">Alteração Depositária.</field>
+        <field name="code">18</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_19" model="l10n_br_cnab.code">
+        <field name="name">Confirmação de Protesto.</field>
+        <field name="code">19</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_20" model="l10n_br_cnab.code">
+        <field name="name">Confirmação de Sustar Protesto</field>
+        <field name="code">20</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_21" model="l10n_br_cnab.code">
+        <field name="name">Alteração Informações de Controle da Empresa</field>
+        <field name="code">21</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_22" model="l10n_br_cnab.code">
+        <field name="name">Alteração "Seu Número".</field>
+        <field name="code">22</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="nordeste_400_return_51" model="l10n_br_cnab.code">
+        <field name="name">Entrada Rejeitada.</field>
+        <field name="code">51</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_004'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+</odoo>

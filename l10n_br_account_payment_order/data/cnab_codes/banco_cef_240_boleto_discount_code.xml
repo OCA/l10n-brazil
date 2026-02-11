@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2024-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Desconto Banco Caixa Economica Federal -->
+    <record id="cef_240_boleto_discount_code_0" model="l10n_br_cnab.code">
+        <field name="name">Sem Desconto</field>
+        <field name="code">0</field>
+        <field name="code_type">discount_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="cef_240_boleto_discount_code_1" model="l10n_br_cnab.code">
+        <field name="name">Valor Fixo até a data informada</field>
+        <field name="code">1</field>
+        <field name="code_type">discount_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="cef_240_boleto_discount_code_2" model="l10n_br_cnab.code">
+        <field name="name">Percentual até a data informada</field>
+        <field name="code">2</field>
+        <field name="code_type">discount_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+</odoo>

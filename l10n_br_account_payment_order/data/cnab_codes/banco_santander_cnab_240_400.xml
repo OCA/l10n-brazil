@@ -1,0 +1,1480 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- CNAB 240 -->
+    <!-- Santander CNAB 240 -
+    https://cms.santander.com.br/sites/WPS/documentos/arq-cobranca-portugues-out23/23-10-24_142404_h7815layoutcobrancacnab240.pdf -->
+
+    <!-- Codigos de Instrução do Movimento-->
+
+    <record id="santander_240_instruction_01" model="l10n_br_cnab.code">
+        <field name="name">Entrada de boleto</field>
+        <field name="code">01</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_02" model="l10n_br_cnab.code">
+        <field name="name">Pedido de baixa</field>
+        <field name="code">02</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_04" model="l10n_br_cnab.code">
+        <field name="name">Concessão de abatimento</field>
+        <field name="code">04</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_05" model="l10n_br_cnab.code">
+        <field name="name">Cancelamento do abatimento</field>
+        <field name="code">05</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_06" model="l10n_br_cnab.code">
+        <field name="name">Alteração do vencimento</field>
+        <field name="code">06</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_07" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Alteração da identificação do boleto na empresa (Controle Participante)</field>
+        <field name="code">07</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_08" model="l10n_br_cnab.code">
+        <field name="name">Alteração seu Número</field>
+        <field name="code">08</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_09" model="l10n_br_cnab.code">
+        <field name="name">Pedido de Protesto</field>
+        <field name="code">09</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_10" model="l10n_br_cnab.code">
+        <field name="name">Concessão de Desconto</field>
+        <field name="code">10</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_11" model="l10n_br_cnab.code">
+        <field name="name">Cancelamento de Desconto</field>
+        <field name="code">11</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_12" model="l10n_br_cnab.code">
+        <field name="name">Transferência de Titularidade automática</field>
+        <field name="code">12</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_15" model="l10n_br_cnab.code">
+       <field
+            name="name"
+        >Transferência da carteira Simples para a carteira Cessão**</field>
+       <field name="code">15</field>
+       <field name="code_type">instruction_move_code</field>
+       <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >**O código movimento de remessa “15” é utilizado exclusivamente para transferência de boletos da carteira Simples para a carteira de Cessão, mediante a contratação do produto SX Integra que possibilita a cessão eletrônica de recebíveis.
+        </field>
+    </record>
+
+    <record id="santander_240_instruction_16" model="l10n_br_cnab.code">
+        <field name="name">Baixa de Cessão por Descaracterização***</field>
+        <field name="code">16</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >*** Os códigos de movimento de remessa “16” e “17” só podem ser utilizadas para boletos já registrados na carteira de Cessão, mediante regras pré-determinadas na contratação do produto SX Integra.
+        </field>
+    </record>
+
+    <record id="santander_240_instruction_17" model="l10n_br_cnab.code">
+        <field name="name">Baixa de Cessão por Pagamento***</field>
+        <field name="code">17</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >*** Os códigos de movimento de remessa “16” e “17” só podem ser utilizadas para boletos já registrados na carteira de Cessão, mediante regras pré-determinadas na contratação do produto SX Integra.
+        </field>
+    </record>
+
+    <record id="santander_240_instruction_18" model="l10n_br_cnab.code">
+        <field name="name">Pedido de Sustação de Protesto</field>
+        <field name="code">18</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_31" model="l10n_br_cnab.code">
+        <field name="name">Alteração de outros dados*</field>
+        <field name="code">31</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >*O código movimento de remessa “31” – É utilizado para tratamento de Alterações de outros dados “Protesto”. Exemplo:  “31” – Alteração de outros dados, atende apenas alteração dos campos: - Segmento “P” (016 – 017) – Alteração de outros dados - Segmento “P” (221 – 221) – Tipo de prazo para protesto (ex.: De Dias Uteis para Dias Corridos) - Segmento “P” (222 – 223) – Número de dias para protesto (ex.: de 10 dias para 05 dias)
+        </field>
+    </record>
+
+    <record id="santander_240_instruction_47" model="l10n_br_cnab.code">
+        <field name="name">Alteração do valor nominal do boleto</field>
+        <field name="code">47</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_48" model="l10n_br_cnab.code">
+        <field name="name">Alteração do valor mínimo/percentual</field>
+        <field name="code">48</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_49" model="l10n_br_cnab.code">
+        <field name="name">Alteração do valor máximo/percentual</field>
+        <field name="code">49</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_instruction_98" model="l10n_br_cnab.code">
+        <field name="name">Não Protestar (Antes de iniciar o ciclo de protesto)</field>
+        <field name="code">98</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <!-- Codigos de Retorno do Movimento -->
+
+    <record id="santander_240_return_02" model="l10n_br_cnab.code">
+        <field name="name">Entrada confirmada</field>
+        <field name="code">02</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_03" model="l10n_br_cnab.code">
+        <field name="name">Entrada rejeitada</field>
+        <field name="code">03</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_04" model="l10n_br_cnab.code">
+        <field name="name">Transferência para carteira Simples</field>
+        <field name="code">04</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_05" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Transferência para Carteira Desconto/Penhor/Vendor/FIDC/Cessão</field>
+        <field name="code">05</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_06" model="l10n_br_cnab.code">
+        <field name="name">Liquidação</field>
+        <field name="code">06</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_08" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Confirmação do Recebimento do Cancelamento do Desconto</field>
+        <field name="code">08</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_09" model="l10n_br_cnab.code">
+        <field name="name">Baixa</field>
+        <field name="code">09</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_11" model="l10n_br_cnab.code">
+        <field name="name">Boletos em carteira (em ser)</field>
+        <field name="code">11</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_12" model="l10n_br_cnab.code">
+        <field name="name">Confirmação recebimento instrução de abatimento</field>
+        <field name="code">12</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_13" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Confirmação recebimento instrução de cancelamento abatimento</field>
+        <field name="code">13</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_14" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Confirmação recebimento instrução alteração de vencimento</field>
+        <field name="code">14</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_17" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Liquidado após baixa ou liquidação boleto não registrado</field>
+        <field name="code">17</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_19" model="l10n_br_cnab.code">
+        <field name="name">Confirmação recebimento instrução de protesto</field>
+        <field name="code">19</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_20" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Confirmação recebimento instrução de sustação/Não Protestar</field>
+        <field name="code">20</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_23" model="l10n_br_cnab.code">
+        <field name="name">Remessa a cartório (aponte em cartório)</field>
+        <field name="code">23</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_24" model="l10n_br_cnab.code">
+        <field name="name">Retirada de cartório e manutenção em carteira</field>
+        <field name="code">24</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_25" model="l10n_br_cnab.code">
+        <field name="name">Protestado e baixado (baixa por ter sido protestado)</field>
+        <field name="code">25</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_26" model="l10n_br_cnab.code">
+        <field name="name">Instrução rejeitada</field>
+        <field name="code">26</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_27" model="l10n_br_cnab.code">
+        <field name="name">Confirmação do pedido de alteração de outros dados</field>
+        <field name="code">27</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_28" model="l10n_br_cnab.code">
+        <field name="name">Debito de tarifas/custas</field>
+        <field name="code">28</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_29" model="l10n_br_cnab.code">
+        <field name="name">Ocorrências do Pagador</field>
+        <field name="code">29</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_30" model="l10n_br_cnab.code">
+        <field name="name">Alteração de dados rejeitada</field>
+        <field name="code">30</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_32" model="l10n_br_cnab.code">
+        <field name="name">Código de IOF inválido</field>
+        <field name="code">32</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_51" model="l10n_br_cnab.code">
+        <field name="name">Boleto DDA reconhecido pelo Pagador</field>
+        <field name="code">51</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_52" model="l10n_br_cnab.code">
+        <field name="name">Boleto DDA nâo reconhecido pelo Pagador</field>
+        <field name="code">52</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_53" model="l10n_br_cnab.code">
+        <field name="name">Boleto DDA recusado pela CIP</field>
+        <field name="code">53</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_61" model="l10n_br_cnab.code">
+        <field name="name">Confirmação de Alteração do Valor Nominal do Boleto</field>
+        <field name="code">61</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_91" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Confirmação de Alteração do Valor ou Percentual Mínimo</field>
+        <field name="code">91</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_92" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Confirmação de Alteração do Valor ou Percentual Máximo</field>
+        <field name="code">92</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_93" model="l10n_br_cnab.code">
+        <field name="name">Baixa Operacional</field>
+        <field name="code">93</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_94" model="l10n_br_cnab.code">
+        <field name="name">Cancelamento da Baixa Operacional</field>
+        <field name="code">94</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_240_return_a4" model="l10n_br_cnab.code">
+        <field name="name">Pagador DDA</field>
+        <field name="code">A4</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <!-- CNAB 400 -->
+    <!-- Santander CNAB 400 -
+    https://cms.santander.com.br/sites/WPS/documentos/arq-cobranca400-port/23-10-24_142650_h7800layoutdecobranca_4002023.pdf -->
+
+    <!-- Codigos de Instrução do Movimento-->
+
+    <record id="santander_400_instruction_01" model="l10n_br_cnab.code">
+        <field name="name">Entrada de boleto</field>
+        <field name="code">01</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_02" model="l10n_br_cnab.code">
+        <field name="name">Baixa de boleto</field>
+        <field name="code">02</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_04" model="l10n_br_cnab.code">
+        <field name="name">Concessão de abatimento</field>
+        <field name="code">04</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_05" model="l10n_br_cnab.code">
+        <field name="name">Cancelamento do abatimento</field>
+        <field name="code">05</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_06" model="l10n_br_cnab.code">
+        <field name="name">Alteração do vencimento</field>
+        <field name="code">06</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_07" model="l10n_br_cnab.code">
+        <field name="name">Alteração do número controle beneficiário</field>
+        <field name="code">07</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_08" model="l10n_br_cnab.code">
+        <field name="name">Alteração do Seu Número</field>
+        <field name="code">08</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_09" model="l10n_br_cnab.code">
+        <field name="name">Protestar</field>
+        <field name="code">09</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_15" model="l10n_br_cnab.code">
+        <field name="name">Transferência da carteira Simples para Cessão*</field>
+        <field name="code">15</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >*O código movimento de remessa “15” é utilizado exclusivamente para transferência de boletos da carteira Simples para a carteira de Cessão, mediante a contratação do produto SX Integra que possibilita a cessão eletrônica de recebíveis.
+        </field>
+    </record>
+
+    <record id="santander_400_instruction_16" model="l10n_br_cnab.code">
+        <field name="name">Baixa de Cessão por Descaracterização**</field>
+        <field name="code">16</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >**Os códigos de movimento de remessa “16” e “17” só podem ser utilizadas para boletos já registrados na carteira de Cessão, mediante regras pré-determinadas na contratação do produto SX Integra.
+        </field>
+    </record>
+
+    <record id="santander_400_instruction_17" model="l10n_br_cnab.code">
+        <field name="name">Baixa de Cessão por Pagamento**</field>
+        <field name="code">17</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >**Os códigos de movimento de remessa “16” e “17” só podem ser utilizadas para boletos já registrados na carteira de Cessão, mediante regras pré-determinadas na contratação do produto SX Integra.
+        </field>
+    </record>
+
+    <record id="santander_400_instruction_18" model="l10n_br_cnab.code">
+        <field name="name">Sustar o protesto (Após início do ciclo de protesto)</field>
+        <field name="code">18</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_47" model="l10n_br_cnab.code">
+        <field name="name">Alteração do valor nominal do boleto</field>
+        <field name="code">47</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_48" model="l10n_br_cnab.code">
+        <field name="name">Alteração do valor mínimo/percentual</field>
+        <field name="code">48</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_instruction_49" model="l10n_br_cnab.code">
+        <field name="name">Alteração do valor máximo/percentual</field>
+        <field name="code">49</field>
+        <field name="code_type">instruction_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <!-- Codigos de Retorno do Movimento -->
+
+    <record id="santander_400_return_01" model="l10n_br_cnab.code">
+        <field name="name">Boleto não existe</field>
+        <field name="code">01</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_02" model="l10n_br_cnab.code">
+        <field name="name">Entrada boleto confirmada</field>
+        <field name="code">02</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_03" model="l10n_br_cnab.code">
+        <field name="name">Entrada boleto rejeitada</field>
+        <field name="code">03</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_04" model="l10n_br_cnab.code">
+        <field name="name">Transferência para carteira Simples</field>
+        <field name="code">04</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_05" model="l10n_br_cnab.code">
+        <field name="name">Transferência para Carteira Penhor/Desconto/Cessão</field>
+        <field name="code">05</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_06" model="l10n_br_cnab.code">
+        <field name="name">Liquidação</field>
+        <field name="code">06</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_07" model="l10n_br_cnab.code">
+        <field name="name">Liquidação por Conta</field>
+        <field name="code">07</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_08" model="l10n_br_cnab.code">
+        <field name="name">Liquidação por Saldo</field>
+        <field name="code">08</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_09" model="l10n_br_cnab.code">
+        <field name="name">Baixa Automática</field>
+        <field name="code">09</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_10" model="l10n_br_cnab.code">
+        <field name="name">Boleto Baixado Conforme Instrução</field>
+        <field name="code">10</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_11" model="l10n_br_cnab.code">
+        <field name="name">Boletos em carteira (em ser)</field>
+        <field name="code">11</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_12" model="l10n_br_cnab.code">
+        <field name="name">Abatimento Concedido</field>
+        <field name="code">12</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_13" model="l10n_br_cnab.code">
+        <field name="name">Abatimento Cancelado</field>
+        <field name="code">13</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_14" model="l10n_br_cnab.code">
+        <field name="name">Alteração de Vencimento</field>
+        <field name="code">14</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_15" model="l10n_br_cnab.code">
+        <field name="name">Confirmação de Protesto*</field>
+        <field name="code">15</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >O código 15 – Confirmação de Protesto, corresponde ao momento em que o tabelionato recebe o boleto para tratativa (intimação ao Pagador). O boleto ainda não está protestado neste cenário. Quando protestado, o código encaminhado é o 25 - Boleto Protestado.
+        </field>
+    </record>
+
+    <record id="santander_400_return_16" model="l10n_br_cnab.code">
+        <field name="name">Boleto Baixado/Liquidado</field>
+        <field name="code">16</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_17" model="l10n_br_cnab.code">
+        <field name="name">Liquidado em Cartório</field>
+        <field name="code">17</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_21" model="l10n_br_cnab.code">
+        <field name="name">Boleto Enviado a Cartório</field>
+        <field name="code">21</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_22" model="l10n_br_cnab.code">
+        <field name="name">Boleto Retirado do Cartório</field>
+        <field name="code">22</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_24" model="l10n_br_cnab.code">
+        <field name="name">Custas de Cartório</field>
+        <field name="code">24</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_25" model="l10n_br_cnab.code">
+        <field name="name">Boleto Protestado</field>
+        <field name="code">25</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_26" model="l10n_br_cnab.code">
+        <field name="name">Sustar Protesto*</field>
+        <field name="code">26</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="comment"
+        >O código 26 – Sustar Protesto, corresponde ao momento em que o boleto já está confirmado no tabelionato (código 15) e está em processo de intimação, mas não há desejo em prosseguir com o protesto. Diferente do código 38 - Não Protestar, utilizado para o cenário onde o boleto não iniciou o processo de cartório.
+        </field>
+    </record>
+
+    <record id="santander_400_return_27" model="l10n_br_cnab.code">
+        <field name="name">Cancelar Boleto Protestado</field>
+        <field name="code">27</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_35" model="l10n_br_cnab.code">
+        <field name="name">Boleto DDA Reconhecido pelo Pagador</field>
+        <field name="code">35</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_36" model="l10n_br_cnab.code">
+        <field name="name">Boleto DDA Não Reconhecido pelo Pagador</field>
+        <field name="code">36</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_37" model="l10n_br_cnab.code">
+        <field name="name">Boleto DDA Recusado pela CIP</field>
+        <field name="code">37</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_38" model="l10n_br_cnab.code">
+        <field name="name">Não Protestar (antes de iniciar o ciclo de protesto)</field>
+        <field name="code">38</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_39" model="l10n_br_cnab.code">
+        <field name="name">Espécie de Boleto não permite a instrução</field>
+        <field name="code">39</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_61" model="l10n_br_cnab.code">
+        <field name="name">Confirmação de Alteração do Valor Nominal do Boleto</field>
+        <field name="code">61</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_62" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Confirmação de Alteração do Valor ou Percentual mínimo</field>
+        <field name="code">62</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_63" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Confirmação de Alteração do Valor ou Percentual máximo</field>
+        <field name="code">63</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_93" model="l10n_br_cnab.code">
+        <field name="name">Baixa Operacional Enviado pela CIP</field>
+        <field name="code">93</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+    <record id="santander_400_return_94" model="l10n_br_cnab.code">
+        <field name="name">Cancelamento da Baixa Operacional Enviado pela Cip</field>
+        <field name="code">94</field>
+        <field name="code_type">return_move_code</field>
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+    </record>
+
+</odoo>

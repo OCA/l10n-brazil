@@ -1,0 +1,859 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Brazilian Payment Order</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="brazilian-payment-order">
+<h1 class="title">Brazilian Payment Order</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:c6a0318bedd3f4f137f76dd2ce9ab3840f3d86455d71defd77a2a9a4e9a93d39
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/17.0/l10n_br_account_payment_order"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-17-0/l10n-brazil-17-0-l10n_br_account_payment_order"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=17.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>O módulo implementa a parte comum da infra-estrutura necessária para o
+uso do CNAB implementando:</p>
+<ul class="simple">
+<li><strong>Códigos CNAB</strong> - códigos de Instrução, Retorno, Carteira e Desconto.</li>
+<li><strong>Configuração CNAB</strong> - onde serão salvas as informações específicas
+de cada caso como Convênio, Código do Beneficiário, Modalidade,
+Percentual de Multa, códigos de Instrução do Movimento de Liquidação
+de Alteração de Vencimento e etc.</li>
+<li><strong>Modo de Pagamento</strong> - localiza o módulo
+<a class="reference external" href="https://github.com/OCA/bank-payment/tree/16.0/account_payment_mode">account_payment_mode</a>
+para associar o <strong>Diário Contábil</strong> referente a <strong>Conta Bancária</strong> do
+CNAB e informar a <strong>Configuração do CNAB</strong> que será usada, assim ao
+informar o Modo de Pagamento em um Pedido de Venda, Compras ou
+Faturamento o programa identifica como sendo um caso CNAB.</li>
+<li><strong>Ordem de Pagamento</strong> - localiza o módulo
+<a class="reference external" href="https://github.com/OCA/bank-payment/tree/16.0/account_payment_order">account_payment_order</a>
+que usa a <strong>Ordem de Pagamento</strong>, débito ou crédito, para registrar as
+<strong>Instruções de Movimento</strong> e onde será criado o <strong>Arquivo CNAB
+Remessa</strong>.</li>
+<li><strong>Registro do LOG de Eventos</strong> - ao importar um arquivo de retorno
+CNAB.</li>
+<li><strong>Grupos e Permissões de acesso</strong> - CNAB Usuário e Gerente.</li>
+</ul>
+<p>A implementação foi pensada para permitir que seja possível usar
+diferentes Bibliotecas para <strong>Gerar os Boletos, Arquivo CNAB de Remessa
+e tratar o Arquivo de Retorno do CNAB</strong> por isso é preciso instalar um
+segundo módulo que vai ter essa função, portanto a ideia é que nesse
+módulo deverá estar tudo que for comum para a implementação mas o CNAB
+não irá funcionar sem esse segundo módulo.</p>
+<p><strong>IMPORTANTE:</strong> Apesar de muitas Documentações do CNAB acabarem dizendo
+que usam o “Padrão FEBRABAN” na realidade e ao longo dos anos foi visto
+que existem muitas divergências entre os casos incluindo diferentes
+Códigos para a mesma função ou mesmo Termos e nomenclaturas que apesar
+de semelhantes podem acabar confundindo o usuário, por isso essa falta
+de padrão foi considerada na implementação e na arquitetura do módulo e
+também precisa ser considerada em manutenções, melhorias ou no uso de
+outras Bibliotecas, é preciso separar o que é realmente comum do que
+pode variar entre os Bancos e CNAB, nesse sentido foram incluídos nos
+Dados de Demonstração mais de um caso para ficar claro aos
+desenvolvedores essas particularidades e evitar uma arquitetura que
+desconsidere esse aspecto.</p>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-5">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-6">17.0.1.0.0 (2026-02-05)</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-7">16.0.9.0.0 (2025-10-02)</a></li>
+<li><a class="reference internal" href="#section-3" id="toc-entry-8">16.0.8.0.0 (2025-09-02)</a></li>
+<li><a class="reference internal" href="#section-4" id="toc-entry-9">16.0.6.0.0 (2025-03-06)</a></li>
+<li><a class="reference internal" href="#section-5" id="toc-entry-10">16.0.5.0.0 (2024-12-16)</a></li>
+<li><a class="reference internal" href="#section-6" id="toc-entry-11">16.0.4.0.0 (2024-12-16)</a></li>
+<li><a class="reference internal" href="#section-7" id="toc-entry-12">16.0.3.0.0 (2024-12-16)</a></li>
+<li><a class="reference internal" href="#section-8" id="toc-entry-13">16.0.2.0.0 (2024-12-04)</a></li>
+<li><a class="reference internal" href="#section-9" id="toc-entry-14">16.0.1.0.0 (2024-09-10)</a></li>
+<li><a class="reference internal" href="#section-10" id="toc-entry-15">15.0.1.0.0 (2024-07-25)</a></li>
+<li><a class="reference internal" href="#section-11" id="toc-entry-16">14.0.9.0.0 (2024-09-19)</a></li>
+<li><a class="reference internal" href="#section-12" id="toc-entry-17">14.0.8.0.0 (2024-09-18)</a></li>
+<li><a class="reference internal" href="#section-13" id="toc-entry-18">14.0.7.0.0 (2024-09-13)</a></li>
+<li><a class="reference internal" href="#section-14" id="toc-entry-19">14.0.6.0.0 (2024-09-10)</a></li>
+<li><a class="reference internal" href="#section-15" id="toc-entry-20">14.0.1.0.0 (2022-04-29)</a></li>
+<li><a class="reference internal" href="#section-16" id="toc-entry-21">13.0.1.0.0 (2022-01-28)</a></li>
+<li><a class="reference internal" href="#section-17" id="toc-entry-22">12.0.3.0.0 (2021-05-13)</a></li>
+<li><a class="reference internal" href="#section-18" id="toc-entry-23">12.0.1.0.0 (2019-06-06)</a></li>
+<li><a class="reference internal" href="#section-19" id="toc-entry-24">10.0.2.0.0 (2018-05-17)</a></li>
+<li><a class="reference internal" href="#section-20" id="toc-entry-25">10.0.1.0.0 (2018-08-29)</a></li>
+<li><a class="reference internal" href="#section-21" id="toc-entry-26">8.0.1.0.1 (2017-07-14)</a></li>
+<li><a class="reference internal" href="#section-22" id="toc-entry-27">8.0.1.0.0 (2017-07-14)</a></li>
+<li><a class="reference internal" href="#section-23" id="toc-entry-28">8.0.0.0.0 (2016-01-18)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-29">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-30">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-31">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-32">Contributors</a></li>
+<li><a class="reference internal" href="#other-credits" id="toc-entry-33">Other credits</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-34">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h1><a class="toc-backref" href="#toc-entry-1">Installation</a></h1>
+<p>Este módulo depende do:</p>
+<ul class="simple">
+<li>l10n_br_base</li>
+<li>account_payment_order</li>
+<li>account_due_list</li>
+<li>account_cancel</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-2">Configuration</a></h1>
+<p>Verifique se os <strong>Códigos CNAB</strong> do Banco e da versão 240 ou 400 que
+serão usados principalmente os de <strong>Instrução e de Retorno do
+Movimento</strong> do CNAB existem ou se será necessário criar em:</p>
+<p><strong>Faturamento &gt; Configuração &gt; Administração &gt; Códigos CNAB</strong></p>
+<p>Caso seja preciso criar por favor considere fazer um PR nesse módulo
+acrescentando os Códigos em
+<strong>l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml</strong>
+dessa forma nas próximas implementações já não será preciso cadastrar,
+isso ajuda na construção de um banco de conhecimento, salvando tanto
+horas de implementação por não ser necessário rever ou refazer o que foi
+feito como poder usar o que outros fizeram, isso também é importante
+porque permite testar e avaliar as diferenças entre cada caso tornando a
+implementação mais robusta, hoje o que temos são:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="22%" />
+<col width="28%" />
+<col width="22%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Banco</th>
+<th class="head">CNAB</th>
+<th class="head">Instrução</th>
+<th class="head">Retorno</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>AILOS</td>
+<td>240</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr><td>Bradesco</td>
+<td>240/400</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr><td>Brasil</td>
+<td>240/400</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr><td>CEF</td>
+<td>240</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr><td>Itaú</td>
+<td>240/400</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr><td>Santander</td>
+<td>240/400</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr><td>Sicred</td>
+<td>240</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr><td>Unicred</td>
+<td>240/400</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+<p>Crie uma <strong>Configuração CNAB</strong>, é onde será armazenada as informações
+específicas de cada caso como a Carteira, Convênio, Código do
+Beneficiário, Códigos de Instrução e Retorno do Movimento, etc em:</p>
+<p><strong>Faturamento &gt; Configuração &gt; Administração &gt; Configurações do CNAB</strong></p>
+<p>Verifique se a <strong>Conta Bancária</strong> referente ao CNAB já foi cadastrada
+em:</p>
+<p><strong>Configurações &gt; Usuários e Empresas &gt; Empresas</strong></p>
+<p>Clique no Contato associado e na aba <strong>Faturamento</strong> veja <strong>Contas
+Bancárias</strong> se não existir veja de criar informando os dados Número da
+Conta, Agencia, etc.</p>
+<p>Ao cadastrar uma <strong>Conta Bancária</strong> deve ser criado automaticamente um
+<strong>Diário Contábil</strong>, ou se já havia sido cadastrada o Diário já deve
+existir, verifique em:</p>
+<p><strong>Faturamento &gt; Configurações &gt; Financeiro &gt; Diários</strong></p>
+<p>Verifique se as informações estão corretas, campo <strong>Tipo</strong> deve estar
+como Banco, na aba <strong>Lançamentos do Diário</strong> em Número da Conta Bancária
+deve estar preenchido com a <strong>Conta Bancária</strong> e na aba <strong>Configuração
+de Pagamentos</strong> os Metódos que serão usados, 240 ou 400, devem estar
+marcados.</p>
+<p>Crie um <strong>Modo de Pagamento</strong> ou use um existente em:</p>
+<p><strong>Faturamento &gt; Configuração &gt; Administração &gt; Modos de Pagamento</strong></p>
+<p>Informe o Diário Contábil referente ao Banco e a Configuração CNAB que
+deverá ser utilizada.</p>
+<p>A partir disso sempre que for informado o <strong>Modo de Pagamento</strong> tanto em
+um Pedido de Vendas ou na Fatura o programa passa a identificar como um
+caso CNAB, em casos onde um cliente vai sempre usar o mesmo Modo de
+Pagamento também é possível deixar isso como padrão no Cadastro de
+Cliente assim a informação é carregada automaticamente ao informar esse
+Cliente em um novo Pedido de Venda ou Fatura.</p>
+<p>Verifique as permissões de acesso dos usuários que vão utilizar o CNAB,
+existe o <strong>Usuário</strong> e o <strong>Gerente</strong> CNAB.</p>
+<p><strong>IMPORTANTE:</strong> Como o CNAB envolve dinheiro e o caixa da empresa a
+segurança e a rastreabilidade são fundamentais e como as configurações
+especificas de cada CNAB estão na <strong>Configuração
+CNAB/l10n_br_cnab.config</strong> foi incluído nele o objeto <strong>mail.thread</strong>
+que registra alterações feitas em campos importantes, porém campos
+<strong>many2many</strong> não estão sendo registrados pelo <strong>track_visibility</strong> (ver
+detalhes aqui
+l10n_br_account_payment_order/models/l10n_br_cnab_config.py#L75), e um
+campo específico e importante que armazena os <strong>Códigos de Retorno do
+CNAB</strong> que devem gerar <strong>Baixa/Liquidação</strong> é desse tipo, portanto as
+alterações referentes a esse campo não estão sendo registradas. No
+repositório <a class="reference external" href="https://github.com/OCA/social/tree/16.0">https://github.com/OCA/social/tree/16.0</a> da <strong>OCA</strong> existe um
+módulo para corrigir isso o
+<a class="reference external" href="https://github.com/OCA/social/tree/16.0/mail_improved_tracking_value">mail_improved_tracking_value</a>,
+por isso considere e é RECOMENDADO incluir esse módulo na implementação
+para corrigir esse problema. A inclusão da dependência desse módulo aqui
+está pendente de aprovação.</p>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#toc-entry-3">Usage</a></h1>
+<p>Ao criar uma <strong>Fatura Documento Fiscal/account.move</strong> que tem um <strong>Modo
+de Pagamento</strong> com uma <strong>Configuração CNAB</strong> definida e se o campo
+<strong>auto_create_payment_order</strong> estiver marcado as linhas referentes as
+Parcelas serão criadas automaticamente em uma nova <strong>Ordem de
+Pagamento</strong>, débito ou crédito, ou adicionadas em uma já existente que
+esteja no estado <strong>Rascunho</strong>, também é possível incluir manualmente, a
+geração do Boleto, Arquivo de Envio e o tratamento do Arquivo de Retorno
+dependem da instalação de um segundo módulo onde é definida a biblioteca
+a ser utilizada.</p>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-4">Known issues / Roadmap</a></h1>
+<ul class="simple">
+<li>Verificar a questão do campos <strong>many2many</strong> que não estão sendo
+registrados pelo <strong>track_visibility</strong> e se será incluída a dependência
+do módulo
+<a class="reference external" href="https://github.com/OCA/social/tree/16.0/mail_improved_tracking_value">mail_improved_tracking_value</a>.</li>
+<li>Processo de Alteração de Carteira, falta informações sobre o processo.</li>
+<li>Mapear e incluir os Códigos dos Bancos CNAB 240/400, aqui devido a
+quantidade de possibilidades se trata de um “roadmap” constante onde
+contamos com PRs de outros contribuidores que irão implementar um caso
+que ainda não esteja cadastrado, apesar do código permitir que o
+cadastro seja feito na tela nesses casos.</li>
+<li>Processo de “Antecipação do Título junto ao Banco” ou “Venda do Título
+junto a Factoring” ver as alterações feitas na v14 em diante
+<a class="reference external" href="https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592">https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592</a>.</li>
+<li>CNAB de Pagamento, verificar a integração com o PR
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/pull/972">https://github.com/OCA/l10n-brazil/pull/972</a> e a possibilidade de
+múltiplos <strong>Modos de Pagamento</strong> na mesma <strong>Ordem de Pagamento</strong>
+<a class="reference external" href="https://github.com/odoo-brazil/l10n-brazil/pull/112">https://github.com/odoo-brazil/l10n-brazil/pull/112</a></li>
+<li>Verificar a possibilidade na v16 em diante de remoção do
+<strong>ondelete=’restrict’</strong> no campo “move_line_id” e o campo “related”
+“ml_maturity_date” do <strong>account.payment.line</strong> no módulo dependente
+<a class="reference external" href="https://github.com/OCA/bank-payment/blob/16.0/account_payment_order/models/account_payment_line.py#L39">https://github.com/OCA/bank-payment/blob/16.0/account_payment_order/models/account_payment_line.py#L39</a>
+para permitir o processo de <strong>Cancelamento de uma Fatura</strong> quando
+existe uma <strong>Ordem de Pagamento</strong> já Confirmada/Gerada/Enviada
+(detalhes
+l10n_br_account_payment_order/models/account_payment_line.py#L130)</li>
+<li>Confirmar se existem Bancos que usam os mesmos conjuntos de Códigos
+CNAB de Instrução e Retorno para caso não existir remover o
+<strong>many2many</strong> do Banco e deixar apenas o <strong>many2one</strong>.</li>
+<li>Verificar a possibilidade de usar o objeto <strong>account.payment</strong> no caso
+CNAB e o módulo
+<a class="reference external" href="https://github.com/OCA/bank-payment/tree/16.0/account_payment_order_return">https://github.com/OCA/bank-payment/tree/16.0/account_payment_order_return</a>
+para tratar o <strong>LOG de Retorno do CNAB, RFC</strong>
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/2272">https://github.com/OCA/l10n-brazil/issues/2272</a>.</li>
+</ul>
+</div>
+<div class="section" id="changelog">
+<h1><a class="toc-backref" href="#toc-entry-5">Changelog</a></h1>
+<div class="section" id="section-1">
+<h2><a class="toc-backref" href="#toc-entry-6">17.0.1.0.0 (2026-02-05)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 17.0</li>
+</ul>
+</div>
+<div class="section" id="section-2">
+<h2><a class="toc-backref" href="#toc-entry-7">16.0.9.0.0 (2025-10-02)</a></h2>
+<ul class="simple">
+<li>[REF] Alterado o Código de Juros Mora de Char para
+Objeto/l10n_br_cnab.code</li>
+</ul>
+</div>
+<div class="section" id="section-3">
+<h2><a class="toc-backref" href="#toc-entry-8">16.0.8.0.0 (2025-09-02)</a></h2>
+<ul class="simple">
+<li>[REF] Alterado o Código de Multa de Char para Objeto/l10n_br_cnab.code</li>
+</ul>
+</div>
+<div class="section" id="section-4">
+<h2><a class="toc-backref" href="#toc-entry-9">16.0.6.0.0 (2025-03-06)</a></h2>
+<ul class="simple">
+<li>[REF] Alterado o Código de Protesto de Char para
+Objeto/l10n_br_cnab.code</li>
+</ul>
+</div>
+<div class="section" id="section-5">
+<h2><a class="toc-backref" href="#toc-entry-10">16.0.5.0.0 (2024-12-16)</a></h2>
+<ul class="simple">
+<li>[REM] “Forward Port” Removendo Campos, Visões e Objetos obsoletos.</li>
+</ul>
+</div>
+<div class="section" id="section-6">
+<h2><a class="toc-backref" href="#toc-entry-11">16.0.4.0.0 (2024-12-16)</a></h2>
+<ul class="simple">
+<li>[IMP] “Forward Port” Possibilidade de informar Códigos de Desconto
+além do 0 e 1.</li>
+</ul>
+</div>
+<div class="section" id="section-7">
+<h2><a class="toc-backref" href="#toc-entry-12">16.0.3.0.0 (2024-12-16)</a></h2>
+<ul class="simple">
+<li>[REF] “Forward-Port” Separando as Configurações do CNAB do Modo de
+Pagamento.</li>
+</ul>
+</div>
+<div class="section" id="section-8">
+<h2><a class="toc-backref" href="#toc-entry-13">16.0.2.0.0 (2024-12-04)</a></h2>
+<ul class="simple">
+<li>[REF] “Forward-Port” Unindo os Códigos CNAB em um mesmo objeto.</li>
+</ul>
+</div>
+<div class="section" id="section-9">
+<h2><a class="toc-backref" href="#toc-entry-14">16.0.1.0.0 (2024-09-10)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 16.0</li>
+</ul>
+</div>
+<div class="section" id="section-10">
+<h2><a class="toc-backref" href="#toc-entry-15">15.0.1.0.0 (2024-07-25)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 15.0</li>
+</ul>
+</div>
+<div class="section" id="section-11">
+<h2><a class="toc-backref" href="#toc-entry-16">14.0.9.0.0 (2024-09-19)</a></h2>
+<ul class="simple">
+<li>[REM] Removendo Campos, Visões e Objetos obsoletos.</li>
+</ul>
+</div>
+<div class="section" id="section-12">
+<h2><a class="toc-backref" href="#toc-entry-17">14.0.8.0.0 (2024-09-18)</a></h2>
+<ul class="simple">
+<li>[IMP] Possibilidade de informar Códigos de Desconto além do 0 e 1.</li>
+</ul>
+</div>
+<div class="section" id="section-13">
+<h2><a class="toc-backref" href="#toc-entry-18">14.0.7.0.0 (2024-09-13)</a></h2>
+<ul class="simple">
+<li>[REF] Separando as Configurações do CNAB do Modo de Pagamento.</li>
+</ul>
+</div>
+<div class="section" id="section-14">
+<h2><a class="toc-backref" href="#toc-entry-19">14.0.6.0.0 (2024-09-10)</a></h2>
+<ul class="simple">
+<li>[REF] Unindo os Códigos CNAB em um mesmo objeto.</li>
+</ul>
+</div>
+<div class="section" id="section-15">
+<h2><a class="toc-backref" href="#toc-entry-20">14.0.1.0.0 (2022-04-29)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 14.0.</li>
+</ul>
+</div>
+<div class="section" id="section-16">
+<h2><a class="toc-backref" href="#toc-entry-21">13.0.1.0.0 (2022-01-28)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 13.0.</li>
+</ul>
+</div>
+<div class="section" id="section-17">
+<h2><a class="toc-backref" href="#toc-entry-22">12.0.3.0.0 (2021-05-13)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 12.0.</li>
+<li>Incluído a possibilidade de parametrizar o CNAB 240 e 400, devido a
+falta de padrão cada Banco e CNAB podem ter e usar codigos diferentes.</li>
+<li>Incluído os metodos para fazer alterações em CNAB já enviados.</li>
+<li>Incluído dados de demo e testes.</li>
+<li>Separado o objeto que fazia o Retorno do arquivo e registrava as
+informações para ter um objeto especifico que registra o Log e assim
+os modulos que implementam a biblioteca escolhida podem ter um
+metodo/objeto especifico para essa função.</li>
+</ul>
+</div>
+<div class="section" id="section-18">
+<h2><a class="toc-backref" href="#toc-entry-23">12.0.1.0.0 (2019-06-06)</a></h2>
+<ul class="simple">
+<li>[MIG] Inicio da Migração para a versão 12.0.</li>
+</ul>
+</div>
+<div class="section" id="section-19">
+<h2><a class="toc-backref" href="#toc-entry-24">10.0.2.0.0 (2018-05-17)</a></h2>
+<ul class="simple">
+<li>[REF] Modulo unido com o l10n_br_account_payment_mode e renomeado para
+l10n_br_account_payment_order.</li>
+</ul>
+</div>
+<div class="section" id="section-20">
+<h2><a class="toc-backref" href="#toc-entry-25">10.0.1.0.0 (2018-08-29)</a></h2>
+<ul class="simple">
+<li>[MIG] Migração para a versão 10.</li>
+</ul>
+</div>
+<div class="section" id="section-21">
+<h2><a class="toc-backref" href="#toc-entry-26">8.0.1.0.1 (2017-07-14)</a></h2>
+<ul class="simple">
+<li>[NEW] Refatoração e melhorias para suportar a geração de boletos
+através do br-cobranca (ruby)</li>
+</ul>
+</div>
+<div class="section" id="section-22">
+<h2><a class="toc-backref" href="#toc-entry-27">8.0.1.0.0 (2017-07-14)</a></h2>
+<ul class="simple">
+<li>[NEW] Melhorias para suportar a geração de pagamento da folha de
+pagamento;</li>
+</ul>
+</div>
+<div class="section" id="section-23">
+<h2><a class="toc-backref" href="#toc-entry-28">8.0.0.0.0 (2016-01-18)</a></h2>
+<ul class="simple">
+<li>[NEW] Primeira versão</li>
+</ul>
+</div>
+</div>
+<div class="section" id="bug-tracker">
+<h1><a class="toc-backref" href="#toc-entry-29">Bug Tracker</a></h1>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_account_payment_order%0Aversion:%2017.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h1><a class="toc-backref" href="#toc-entry-30">Credits</a></h1>
+<div class="section" id="authors">
+<h2><a class="toc-backref" href="#toc-entry-31">Authors</a></h2>
+<ul class="simple">
+<li>KMEE</li>
+<li>Akretion</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2><a class="toc-backref" href="#toc-entry-32">Contributors</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://www.kmee.com.br">KMEE</a>:<ul>
+<li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
+<li>Fernando Marcato</li>
+<li>Hendrix Costa &lt;<a class="reference external" href="mailto:hendrix.costa&#64;kmee.com.br">hendrix.costa&#64;kmee.com.br</a>&gt;</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://www.akretion.com/pt-BR">Akretion</a>:<ul>
+<li>Magno Costa &lt;<a class="reference external" href="mailto:magno.costa&#64;akretion.com.br">magno.costa&#64;akretion.com.br</a>&gt;</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://engenere.one">Engenere</a>:<ul>
+<li>Antônio S. Pereira Neto &lt;<a class="reference external" href="mailto:neto&#64;engenere.one">neto&#64;engenere.one</a>&gt;</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://www.escodoo.com.br">Escodoo</a>:<ul>
+<li>Marcel Savegnago &lt;<a class="reference external" href="mailto:marcel.savegnago&#64;escodoo.com.br">marcel.savegnago&#64;escodoo.com.br</a>&gt;</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="other-credits">
+<h2><a class="toc-backref" href="#toc-entry-33">Other credits</a></h2>
+<p>The development of this module has been financially supported by:</p>
+<ul class="simple">
+<li>KMEE INFORMATICA LTDA - <a class="reference external" href="http://www.kmee.com.br">www.kmee.com.br</a></li>
+<li>AKRETION LTDA - <a class="reference external" href="http://www.akretion.com">www.akretion.com</a></li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2><a class="toc-backref" href="#toc-entry-34">Maintainers</a></h2>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/mbcosta"><img alt="mbcosta" src="https://github.com/mbcosta.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/17.0/l10n_br_account_payment_order">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

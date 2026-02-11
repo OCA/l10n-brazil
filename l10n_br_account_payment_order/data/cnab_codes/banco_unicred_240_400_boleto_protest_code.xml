@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2025-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Protesto -->
+    <record id="unicred_240_400_boleto_protest_code_1" model="l10n_br_cnab.code">
+        <field name="name">Protestar Dias Corridos</field>
+        <field name="code">1</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_136'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400')),
+            Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="unicred_240_400_boleto_protest_code_2" model="l10n_br_cnab.code">
+        <field name="name">Protestar Dias Úteis</field>
+        <field name="code">2</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_136'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400')),
+            Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="unicred_240_400_boleto_protest_code_3" model="l10n_br_cnab.code">
+        <field name="name">Não Protestar</field>
+        <field name="code">3</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_136'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400')),
+            Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+</odoo>

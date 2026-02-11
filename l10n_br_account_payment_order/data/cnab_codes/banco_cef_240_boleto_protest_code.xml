@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2025-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Código de Protesto Banco Caixa Economica Federal -->
+    <record id="cef_240_boleto_protest_code_1" model="l10n_br_cnab.code">
+        <field name="name">Protestar</field>
+        <field name="code">1</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="comment"
+        >Caso o CEP do Pagador não esteja vinculado a uma agência cobradora de protesto (CEP sem praça de
+cobrança), o título será registrado com instrução de devolução, sendo o Prazo de Devolução igual ao Prazo de Protesto, com prazo mínimo de 5 dias.
+         Se Código para Protesto = ‘1’ – Protestar e Código para Baixa / Devolução = ‘1’ – Baixar / Devolver, será acatada a instrução para protesto.
+        </field>
+    </record>
+
+    <record id="cef_240_boleto_protest_code_3" model="l10n_br_cnab.code">
+        <field name="name">Não Protestar</field>
+        <field name="code">3</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="cef_240_boleto_protest_code_9" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Cancelamento Protesto Automático (Somente válido p/ Código Movimento Remessa = ‘31’ - Alteração de Outros Dados), vide nota C004.</field>
+        <field name="code">2</field>
+        <field name="code_type">protest_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_104'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+</odoo>

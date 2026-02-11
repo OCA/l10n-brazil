@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Tipo de Cobrança ou Código da Carteira -->
+    <!-- Santander 400 -->
+    <record id="santander_400_boleto_wallet_code_1" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Simples (Eletrônica com Registro)</field>
+        <field name="code">1</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="santander_400_boleto_wallet_code_3" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Caucionada (Eletrônica com Registro)</field>
+        <field name="code">3</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="santander_400_boleto_wallet_code_5" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Simples (Rápida com Registro)</field>
+        <field name="code">5</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="santander_400_boleto_wallet_code_6" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Caucionada (Rápida com Registro)</field>
+        <field name="code">6</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="santander_400_boleto_wallet_code_7" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Descontada (Eletrônica com Registro)</field>
+        <field name="code">7</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+    </record>
+
+    <record id="santander_400_boleto_wallet_code_8" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Cessão (Eletrônica com Registro)*</field>
+        <field name="code">8</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab400'))]"
+        />
+        <field
+            name="comment"
+        >*Carteira específica para Cessão de Crédito, deverá ser utilizada somente a partir da contratação do produto SX Integra, que possibilitará a cessão eletrônica de recebíveis.
+        </field>
+    </record>
+
+    <!-- 240 -->
+    <record id="santander_240_boleto_wallet_code_1" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Cobrança Simples (Sem Registro e Eletrônica com Registro)</field>
+        <field name="code">1</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_wallet_code_2" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Cobrança Caucionada (Eletrônica com Registro e Convencional com Registro)</field>
+        <field name="code">3</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_wallet_code_4" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Descontada (Eletrônica com Registro)</field>
+        <field name="code">4</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_wallet_code_5" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Simples (Rápida com Registro)*</field>
+        <field name="code">5</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="comment"
+        >*Carteira específica para registro do Boleto com QR CODE.</field>
+    </record>
+
+    <record id="santander_240_boleto_wallet_code_6" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Caucionada (Rápida com Registro)</field>
+        <field name="code">6</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_wallet_code_7" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Transferência de Titularidade - Sem Devolução (Cobrança Simples - Eletrônica com Registro e Rápida com Registro)**</field>
+        <field name="code">7</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="comment"
+        >**Carteira específica para FIDC (Fundo de Direitos Creditórios)</field>
+    </record>
+
+    <record id="santander_240_boleto_wallet_code_8" model="l10n_br_cnab.code">
+        <field name="name">Cobrança Cessão (Eletrônica com Registro)****</field>
+        <field name="code">8</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="comment"
+        >****Carteira específica para Cessão de Crédito, deverá ser utilizada somente a partir da contratação do produto SX Integra, que possibilitará a cessão eletrônica de recebíveis.
+        </field>
+    </record>
+
+    <record id="santander_240_boleto_wallet_code_9" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Transferência de Titularidade - Com Devolução (Cobrança Simples - Eletrônica com Registro e Rápida com Registro)</field>
+        <field name="code">9</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+    </record>
+
+    <record id="santander_240_boleto_wallet_code_b" model="l10n_br_cnab.code">
+        <field
+            name="name"
+        >Cobrança Simples (Sem Registro sem pré-impresso e com pré-impresso)***</field>
+        <field name="code">B</field>
+        <field name="code_type">wallet_code</field>
+        <field
+            name="bank_ids"
+            eval="[Command.link(ref('l10n_br_base.res_bank_033'))]"
+        />
+        <field
+            name="payment_method_ids"
+            eval="[Command.link(ref('payment_mode_type_cnab240'))]"
+        />
+        <field
+            name="comment"
+        >***Código específico para registrar boletos sem registro (linha com modalidade 102) ou cobrança rápida (101), com o fator de vencimento de valor zerados na linha digitavel/código de barras, Opção válida apenas para a entrada de Boletos, para maiores detalhes vide a vide Nota 46.
+        </field>
+    </record>
+
+</odoo>

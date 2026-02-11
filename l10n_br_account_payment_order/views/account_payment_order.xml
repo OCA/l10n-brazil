@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2020 KMEE (http://www.kmee.com.br/)
+    @author Daniel Sadamo <daniel.sadamo@kmee.com.br>
+    The licence is in the file __openerp__.py
+-->
+<odoo>
+    <record id="l10n_br_account_payment_order_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.payment.order.form</field>
+        <field name="model">account.payment.order</field>
+        <field name="priority">99</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_line_ids" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_payment_type': payment_type}</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
