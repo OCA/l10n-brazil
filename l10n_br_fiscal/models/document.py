@@ -411,6 +411,21 @@ class Document(models.Model):
     def _get_fiscal_lines_field_name(self):
         return "fiscal_line_ids"
 
+    def write(self, vals):
+        old_ind_final = {doc.id: doc.ind_final for doc in self}
+        result = super().write(vals)
+        # ind_final may change directly (manual edit) or indirectly
+        # (partner_id change triggers _compute_ind_final). Flush to
+        # ensure the post-compute value is available, then propagate
+        # to lines when it actually changed.
+        self.flush_recordset(["ind_final"])
+        for doc in self:
+            if doc.ind_final != old_ind_final.get(doc.id):
+                for line in doc.fiscal_line_ids:
+                    if line.ind_final != doc.ind_final:
+                        line.ind_final = doc.ind_final
+        return result
+
     def unlink(self):
         forbidden_states_unlink = [
             SITUACAO_EDOC_AUTORIZADA,
