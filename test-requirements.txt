@@ -2,3 +2,5 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+# TEMP: fix for partner_bank_id cleared on refund (OCA/bank-payment#1555)
+odoo-addon-account_payment_partner @ git+https://github.com/Engenere/bank-payment@16.0-fix-compute-partner-bank-no-payment-mode#subdirectory=setup/account_payment_partner
