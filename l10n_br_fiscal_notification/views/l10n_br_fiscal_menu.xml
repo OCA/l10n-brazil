@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Fiscal Document Email -->
+    <menuitem
+        id="document_email_menu"
+        action="document_email_action"
+        groups="l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.others_config_menu"
+        sequence="30"
+    />
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Fiscal Document Email -->
+
+    <record id="document_email_action" model="ir.actions.act_window">
+        <field name="name">Fiscal Document Email</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document.email</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="document_email_tree" />
+        <field name="help" type="html">
+            <p
+                class="o_view_nocontent_smiling_face"
+            >Add a new Fiscal Document Email Definition</p>
+            <p
+            >All Document Email Definitions supported by the Brazilian Fiscal module for Odoo.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,254 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_fiscal_notification
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_fiscal_notification
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_notification.document_form
+msgid "/&gt;"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:mail.template,body_html:l10n_br_fiscal_notification.fiscal_document_change_state_template
+#: model:mail.template,body_html:l10n_br_fiscal_notification.fiscal_document_change_state_template_nfse
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"            <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"                Hello <t t-out=\"object.partner_id.name\"></t>,\n"
+"                <br><br>\n"
+"                The Fiscal Document <t t-out=\"object.document_number\"></t> has changed:\n"
+"                <br>\n"
+"                Document Number: <t t-out=\"object.document_number\"></t>\n"
+"                <br>\n"
+"                Document Serie: <t t-out=\"object.document_serie\"></t>\n"
+"                <br>\n"
+"                Document Key: <t t-out=\"object.document_key\"></t>\n"
+"                <br>\n"
+"                Document Status: <t t-out=\"dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')\"></t>\n"
+"            </p>\n"
+"        </div>\n"
+"      "
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_notification.document_email_action
+msgid "Add a new Fiscal Document Email Definition"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__a_enviar
+msgid "Aguardando envio"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__enviada
+msgid "Aguardando processamento"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal_notification.document_email_action
+msgid ""
+"All Document Email Definitions supported by the Brazilian Fiscal module for "
+"Odoo."
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_notification.document_email_form
+msgid "Archived"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__autorizada
+msgid "Autorizada"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__cancelada
+msgid "Cancelada"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model,name:l10n_br_fiscal_notification.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__company_id
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__issuer__company
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__denegada
+msgid "Denegada"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__em_digitacao
+msgid "Em digitação"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_type__document_email_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_res_company__document_email_ids
+msgid "Email Template Definition"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_notification.document_type_form
+msgid "Email Templates"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:mail.template,name:l10n_br_fiscal_notification.fiscal_document_change_state_template
+msgid "Fiscal Document Change State Notification Email"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__email_template_id
+msgid "Fiscal Document E-mail Template"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.actions.act_window,name:l10n_br_fiscal_notification.document_email_action
+#: model:ir.model,name:l10n_br_fiscal_notification.model_l10n_br_fiscal_document_email
+#: model:ir.ui.menu,name:l10n_br_fiscal_notification.document_email_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_notification.document_email_form
+msgid "Fiscal Document Email"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model,name:l10n_br_fiscal_notification.model_l10n_br_fiscal_document_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__document_type_id
+msgid "Fiscal Document Type"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model,name:l10n_br_fiscal_notification.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__inutilizada
+msgid "Inutilizada"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__issuer
+msgid "Issuer"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:mail.template,name:l10n_br_fiscal_notification.fiscal_document_change_state_template_nfse
+msgid "NFSe Fiscal Document Change State Notification Email"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__issuer__partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_notification.selection__l10n_br_fiscal_document_email__state_edoc__rejeitada
+msgid "Rejeitada"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,help:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__email_template_id
+msgid ""
+"Select the email template that will be sent when this document state change."
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,help:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__document_type_id
+msgid ""
+"Select the type of document that will be applied to the email templates "
+"definitions."
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_notification.document_form
+msgid "Send Email"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#. odoo-python
+#: code:addons/l10n_br_fiscal_notification/models/document.py:0
+#, python-format
+msgid "Send Fiscal Document Email Notification"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.fields,field_description:l10n_br_fiscal_notification.field_l10n_br_fiscal_document_email__state_edoc
+msgid "Situação e-doc"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:ir.model.constraint,message:l10n_br_fiscal_notification.constraint_l10n_br_fiscal_document_email_name_company_unique
+msgid "This name is already used by another email definition !"
+msgstr ""
+
+#. module: l10n_br_fiscal_notification
+#: model:mail.template,subject:l10n_br_fiscal_notification.fiscal_document_change_state_template
+#: model:mail.template,subject:l10n_br_fiscal_notification.fiscal_document_change_state_template_nfse
+msgid ""
+"{{object.document_type_id.name}}: {{object.document_number}} Serie: "
+"{{object.document_serie}} is: "
+"{{dict(object.fields_get('state').get('state').get('selection')).get(object.state,"
+" '')}}"
+msgstr ""
