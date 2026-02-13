@@ -285,6 +285,68 @@ class TestDocumentEdition(TransactionCase):
             doc_after_total_update.fiscal_amount_total, 2776.48, places=2
         )
 
+    def test_ind_final_propagation_on_manual_change(self):
+        """Changing ind_final on a saved document must propagate to lines."""
+        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        partner.ind_final = "1"
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        doc_form.company_id = self.company
+        doc_form.partner_id = partner
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+
+        product = self.env.ref("product.product_product_6")
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = product
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+
+        doc = doc_form.save()
+        line = doc.fiscal_line_ids[0]
+        self.assertEqual(doc.ind_final, "1")
+        self.assertEqual(line.ind_final, "1")
+
+        # Manually change ind_final on the document
+        doc.write({"ind_final": "0"})
+        self.assertEqual(doc.ind_final, "0")
+        self.assertEqual(line.ind_final, "0")
+
+    def test_ind_final_propagation_on_partner_change(self):
+        """Changing partner_id on a saved document must propagate ind_final
+        to lines when the new partner has a different ind_final."""
+        partner_final = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        partner_final.ind_final = "1"
+        partner_not_final = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
+        partner_not_final.ind_final = "0"
+
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        doc_form.company_id = self.company
+        doc_form.partner_id = partner_final
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+
+        product = self.env.ref("product.product_product_6")
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = product
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+
+        doc = doc_form.save()
+        line = doc.fiscal_line_ids[0]
+        self.assertEqual(doc.ind_final, "1")
+        self.assertEqual(line.ind_final, "1")
+
+        # Change to a partner with ind_final="0"
+        doc.write({"partner_id": partner_not_final.id})
+        self.assertEqual(doc.ind_final, "0")
+        self.assertEqual(line.ind_final, "0")
+
     def test_difal_calculation(self):
         partner = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
         partner.ind_ie_dest = "9"
