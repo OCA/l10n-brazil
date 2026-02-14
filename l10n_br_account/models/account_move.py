@@ -387,6 +387,13 @@ class AccountMove(models.Model):
                 if line.ind_final != move.ind_final:
                     line.ind_final = move.ind_final
 
+    @api.onchange("ind_final")
+    def _onchange_ind_final(self):
+        for move in self:
+            for line in move.invoice_line_ids:
+                if line.ind_final != move.ind_final:
+                    line.ind_final = move.ind_final
+
     @contextmanager
     def _sync_dynamic_lines(self, container):
         with self._disable_recursion(container, "skip_invoice_sync") as disabled:
