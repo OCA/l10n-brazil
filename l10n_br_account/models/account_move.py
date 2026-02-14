@@ -380,6 +380,13 @@ class AccountMove(models.Model):
                 protected.update(self.pool.field_computed.get(field, [field]))
         return [(protected, rec) for rec in records] if protected else []
 
+    @api.onchange("ind_final")
+    def _onchange_ind_final(self):
+        for move in self:
+            for line in move.invoice_line_ids:
+                if line.ind_final != move.ind_final:
+                    line.ind_final = move.ind_final
+
     @contextmanager
     def _sync_dynamic_lines(self, container):
         with self._disable_recursion(container, "skip_invoice_sync") as disabled:
