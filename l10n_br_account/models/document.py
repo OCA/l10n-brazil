@@ -33,50 +33,54 @@ class FiscalDocument(models.Model):
     )
 
     # -------------------------------------------------------------------------
+    # PROXY FIELDS FOR _inherits SHADOWED NAMES
+    # -------------------------------------------------------------------------
+    # When using _inherits (delegation), fields with identical names on both
+    # the child and delegated model may not synchronize correctly. To avoid
+    # ORM sync issues, we define proxy_* fields as plain stored fields. Then
+    # the actual fields point to the proxies via related, ensuring
+    # consistency and editability. Same pattern used in document_line.py.
+
+    proxy_company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company (proxy)",
+        help="Technical Field.",
+        default=lambda self: self.env.company,
+    )
+    proxy_partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Partner (proxy)",
+        help="Technical Field.",
+    )
+    proxy_partner_shipping_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Shipping Partner (proxy)",
+        help="Technical Field.",
+    )
+
+    # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC
     # -------------------------------------------------------------------------
 
     company_id = fields.Many2one(
-        compute="_compute_shadowed_fields",
-        inverse="_inverse_company_id",
+        related="proxy_company_id",
         store=True,
         precompute=True,
         readonly=False,
+        default=None,
     )
     partner_id = fields.Many2one(
-        compute="_compute_shadowed_fields",
-        inverse="_inverse_partner_id",
-        store=True,
-        precompute=True,
-        readonly=False,
-    )
-    user_id = fields.Many2one(
-        compute="_compute_shadowed_fields",
-        inverse="_inverse_user_id",
+        related="proxy_partner_id",
         store=True,
         precompute=True,
         readonly=False,
     )
     partner_shipping_id = fields.Many2one(
-        compute="_compute_shadowed_fields",
-        inverse="_inverse_partner_shipping_id",
+        related="proxy_partner_shipping_id",
         store=True,
         precompute=True,
         readonly=False,
     )
-
-    @api.depends(
-        "move_ids.partner_id",
-        "move_ids.user_id",
-        "move_ids.partner_shipping_id",
-    )
-    def _compute_shadowed_fields(self):
-        for doc in self:
-            if doc.move_ids:
-                doc.partner_id = doc.move_ids.partner_id
-                doc.company_id = doc.move_ids.company_id
-                doc.user_id = doc.move_ids.user_id
-                doc.partner_shipping_id = doc.move_ids.partner_shipping_id
 
     @api.onchange("company_id")
     def _inverse_company_id(self):
@@ -92,19 +96,19 @@ class FiscalDocument(models.Model):
                 if move.partner_id != doc.partner_id:
                     move.partner_id = doc.partner_id
 
-    @api.onchange("user_id")
-    def _inverse_user_id(self):
-        for doc in self:
-            for move in doc.move_ids:
-                if move.user_id != doc.user_id:
-                    move.user_id = doc.user_id
-
     @api.onchange("partner_shipping_id")
     def _inverse_partner_shipping_id(self):
         for doc in self:
             for move in doc.move_ids:
                 if move.partner_shipping_id != doc.partner_shipping_id:
                     move.partner_shipping_id = doc.partner_shipping_id
+
+    @api.onchange("user_id")
+    def _inverse_user_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.user_id != doc.user_id:
+                    move.user_id = doc.user_id
 
     fiscal_line_ids = fields.One2many(
         copy=False,
@@ -138,6 +142,7 @@ class FiscalDocument(models.Model):
         store=True,
         precompute=True,
         readonly=False,
+        default=None,
     )
 
     @api.depends("issuer", "move_ids.invoice_date")
@@ -208,6 +213,17 @@ class FiscalDocument(models.Model):
             )
         return super().unlink()
 
+    @api.model
+    def _sync_shadow_fields(self, vals):
+        if "partner_id" not in vals and "proxy_partner_id" in vals:
+            vals["partner_id"] = vals["proxy_partner_id"]
+        if "partner_shipping_id" not in vals and "proxy_partner_shipping_id" in vals:
+            vals["partner_shipping_id"] = vals["proxy_partner_shipping_id"]
+        if "company_id" not in vals and "proxy_company_id" in vals:
+            vals["company_id"] = vals["proxy_company_id"]
+        if "user_id" not in vals and "proxy_user_id" in vals:
+            vals["user_id"] = vals["proxy_user_id"]
+
     @api.model_create_multi
     def create(self, vals_list):
         """
@@ -217,6 +233,9 @@ class FiscalDocument(models.Model):
         fiscal_document_id despite the _inherits system:
         Odoo will write NULL as the value in this case.
         """
+        for vals in vals_list:
+            self._sync_shadow_fields(vals)
+
         if self._context.get("create_from_account"):
             filtered_vals_list = []
             for values in vals_list:
