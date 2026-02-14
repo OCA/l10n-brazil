@@ -77,10 +77,49 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
-    @api.onchange("user_id")
+    @api.onchange("partner_id")
+    def _inverse_partner_id(self):
+        for move in self:
+            move.proxy_partner_id = move.partner_id
+
+    @api.onchange("partner_shipping_id")
+    def _inverse_partner_shipping_id(self):
+        for move in self:
+            move.proxy_partner_shipping_id = move.partner_shipping_id
+
+    @api.onchange("company_id")
+    def _inverse_company_id(self):
+        for move in self:
+            move.proxy_company_id = move.company_id
+
+    # account.move.user_id is a related field pointing to invoice_user_id,
+    # so it may not be present in create/write vals. We sync from
+    # invoice_user_id directly to ensure proxy_user_id gets the value.
+    @api.onchange("invoice_user_id")
     def _inverse_user_id(self):
-        for line in self:
-            line.proxy_user_id = line.user_id
+        for move in self:
+            move.proxy_user_id = move.invoice_user_id
+
+    @api.model
+    def _sync_proxy_fields_vals(self, vals):
+        if "proxy_partner_id" not in vals and "partner_id" in vals:
+            vals["proxy_partner_id"] = vals["partner_id"]
+        if "proxy_partner_shipping_id" not in vals and "partner_shipping_id" in vals:
+            vals["proxy_partner_shipping_id"] = vals["partner_shipping_id"]
+        if "proxy_company_id" not in vals and "company_id" in vals:
+            vals["proxy_company_id"] = vals["company_id"]
+        if "proxy_user_id" not in vals and "invoice_user_id" in vals:
+            vals["proxy_user_id"] = vals["invoice_user_id"]
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            self._sync_proxy_fields_vals(vals)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        self._sync_proxy_fields_vals(vals)
+        return super().write(vals)
 
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
