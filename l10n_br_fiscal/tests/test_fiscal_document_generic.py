@@ -108,7 +108,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 3.25%",
+                    "IPI 3,25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -225,7 +225,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 3.25%",
+                    "IPI 3,25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -323,7 +323,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 3.25%",
+                    "IPI 3,25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -421,7 +421,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 3.25%",
+                    "IPI 3,25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
@@ -513,7 +513,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             else:
                 self.assertEqual(
                     line.ipi_tax_id.name,
-                    "IPI 3.25%",
+                    "IPI 3,25%",
                     "Error to mapping IPI 5%"
                     " for Venda de Contribuinte Dentro do Estado.",
                 )
