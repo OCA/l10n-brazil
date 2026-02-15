@@ -259,6 +259,18 @@ class FiscalDocumentMixin(models.AbstractModel):
                 if lines:
                     lines[0][line_field_name] = amount_to_distribute
 
+        # Force recompute of document-level fiscal amounts. When called from an
+        # inverse method (e.g. _inverse_amount_freight), the ORM protects all
+        # co-computed _compute_fiscal_amount fields — including fiscal_amount_untaxed.
+        # The line value changes above should trigger recomputation via the trigger
+        # tree, but the ORM protection mechanism blocks it (all co-computed fields are
+        # protected during the write that fires the inverse). We bypass this by
+        # explicitly adding the fields to the recompute queue.
+        for fname in self._get_amount_fields():
+            field = self._fields.get(fname)
+            if field and field.store and field.compute == "_compute_fiscal_amount":
+                self.env.add_to_compute(field, self)
+
     def _inverse_amount_freight(self):
         self._distribute_amount_to_lines("amount_freight_value", "freight_value")
 
