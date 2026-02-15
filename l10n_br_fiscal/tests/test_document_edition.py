@@ -312,6 +312,67 @@ class TestDocumentEdition(TransactionCase):
             doc_after_total_update.fiscal_amount_total, 2776.48, places=2
         )
 
+    def test_fiscal_amount_recompute_on_delivery_cost_write(self):
+        """Verify fiscal_amount_untaxed recomputes after direct delivery cost write.
+
+        When amount_freight_value (or insurance/other) is written on the document,
+        the ORM protects all co-computed _compute_fiscal_amount fields during the
+        inverse call. This means the trigger tree propagation from line field
+        changes back to fiscal_amount_untaxed is blocked by the protection
+        mechanism. Without an explicit env.add_to_compute in
+        _distribute_amount_to_lines, fiscal_amount_untaxed remains stale —
+        especially when the trigger tree has extra hops due to addon-added computed
+        fields on the lines.
+        """
+        self.env.user.groups_id |= self.env.ref("l10n_br_fiscal.group_user")
+        product1 = self.env.ref("product.product_product_6")
+        product2 = self.env.ref("product.product_product_7")
+
+        self.company.delivery_costs = "total"
+        doc_form = Form(self.env["l10n_br_fiscal.document"])
+        doc_form.company_id = self.company
+        doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = product1
+            line_form.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            line_form.price_unit = 1000.0
+            line_form.quantity = 2.0  # price_gross = 2000
+
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = product2
+            line_form.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            line_form.price_unit = 500.0
+            line_form.quantity = 1.0  # price_gross = 500
+
+        doc = doc_form.save()
+        self.assertAlmostEqual(doc.fiscal_amount_untaxed, 2500.0)
+
+        # Write delivery costs directly via write() — triggers inverse methods
+        # inside the ORM's protecting() context. Unlike Form.save(), write()
+        # does not automatically flush pending computations, exposing the
+        # staleness when add_to_compute is missing.
+        doc.write({"amount_freight_value": 50.0})
+
+        # Freight distributed proportionally (80%/20%): line1=40, line2=10
+        # fiscal_amount_untaxed = (2000+40) + (500+10) = 2550
+        self.assertAlmostEqual(doc.fiscal_amount_untaxed, 2550.0)
+
+        doc.write({"amount_insurance_value": 25.0})
+        # Insurance distributed: line1=20, line2=5
+        # fiscal_amount_untaxed = (2000+40+20) + (500+10+5) = 2575
+        self.assertAlmostEqual(doc.fiscal_amount_untaxed, 2575.0)
+
+        doc.write({"amount_other_value": 10.0})
+        # Other distributed: line1=8, line2=2
+        # fiscal_amount_untaxed = (2000+40+20+8) + (500+10+5+2) = 2585
+        self.assertAlmostEqual(doc.fiscal_amount_untaxed, 2585.0)
+
     def test_difal_calculation(self):
         partner = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
         partner.ind_ie_dest = "9"
