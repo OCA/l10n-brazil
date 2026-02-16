@@ -115,24 +115,20 @@ class PosConfig(models.Model):
     # SAT OPTIONS
     # TODO: Rename field
 
-    sat_environment = fields.Selection(
-        string="SAT environment", related="company_id.environment_sat", store=True
-    )
+    sat_environment = fields.Selection(related="company_id.environment_sat", store=True)
 
-    cnpj_homologation = fields.Char(string="CNPJ homologation", size=18)
+    cnpj_homologation = fields.Char(size=18)
 
-    ie_homologation = fields.Char(string="IE homologation", size=16)
+    ie_homologation = fields.Char(size=16)
 
-    cnpj_software_house = fields.Char(string="CNPJ software house", size=18)
+    cnpj_software_house = fields.Char(size=18)
 
-    sat_path = fields.Char(string="SAT path")
+    sat_path = fields.Char()
 
     # TODO: Can we use pos.config ID?
-    cashier_number = fields.Integer(string="Cashier Number", copy=False)
+    cashier_number = fields.Integer(copy=False)
 
-    activation_code = fields.Char(
-        string="Activation code",
-    )
+    activation_code = fields.Char()
 
     signature_sat = fields.Char("Signature in CFe")
 
@@ -194,3 +190,19 @@ class PosConfig(models.Model):
     def update_session_sat(self, config_id):
         config = self.browse(config_id)
         config.session_sat += 1
+
+    def _get_pos_ui_pos_config(self, params):
+        config = super()._get_pos_ui_pos_config(params)
+
+        config.update(
+            {
+                "out_pos_fiscal_operation_id": self.out_pos_fiscal_operation_id.id
+                if self.out_pos_fiscal_operation_id
+                else False,
+                "simplified_document_type_id": self.simplified_document_type_id.id
+                if self.simplified_document_type_id
+                else False,
+                "simplified_document_type": self.simplified_document_type,
+            }
+        )
+        return config

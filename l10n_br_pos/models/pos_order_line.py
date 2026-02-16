@@ -34,3 +34,10 @@ class PosOrderLine(models.Model):
         related="product_uom_id",
         depends=["product_uom_id"],
     )
+
+    document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        related="order_id.document_id",
+        store=True,
+        readonly=True,
+    )

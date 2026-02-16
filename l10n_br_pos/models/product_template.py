@@ -25,7 +25,7 @@ class ProductTemplate(models.Model):
                 if not pos_config_id.partner_id:
                     continue
 
-                pos_fiscal_map_id = record.pos_fiscal_map_ids.create(
+                record.pos_fiscal_map_ids.create(
                     {
                         "pos_config_id": pos_config_id.id,
                         "product_tmpl_id": record.id,
@@ -33,11 +33,6 @@ class ProductTemplate(models.Model):
                         "company_id": self.env.company.id,
                     }
                 )
-
-                pos_fiscal_map_id._onchange_product_id_fiscal()
-                pos_fiscal_map_id._onchange_fiscal_operation_id()
-                pos_fiscal_map_id._onchange_fiscal_operation_line_id()
-                pos_fiscal_map_id._onchange_fiscal_taxes()
 
     @api.model_create_multi
     def create(self, vals_list):

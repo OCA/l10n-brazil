@@ -7,7 +7,7 @@ from . import res_company
 from . import pos_config
 from . import cfop
 from . import document_related
-from . import stock
+from . import stock_picking
 from . import res_partner
 from . import l10n_br_pos_product_fiscal_map
 from . import product_template

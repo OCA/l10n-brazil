@@ -29,7 +29,7 @@
 
     <record id="pos_invoice_journal_presumido" model="account.journal">
         <field name="name">POS Invoice Journal</field>
-        <field name="code">POSS</field>
+        <field name="code">POSI</field>
         <field name="type">sale</field>
         <!-- avoid being selected as default journal -->
         <field name="sequence">20</field>
@@ -53,10 +53,6 @@
         <field name="name">Shop Presumido</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="picking_type_id" ref="picking_type_posout_presumido" />
-        <field
-            name="barcode_nomenclature_id"
-            ref="barcodes.default_barcode_nomenclature"
-        />
         <field name="journal_id" ref="pos_sale_journal_presumido" />
         <field name="invoice_journal_id" ref="pos_sale_journal_presumido" />
         <field name="out_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />

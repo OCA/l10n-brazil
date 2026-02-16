@@ -32,6 +32,10 @@ class PosOrder(models.Model):
         domain = [("state", "=", "approved")]
         return domain
 
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "lines"
+
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
@@ -126,7 +130,7 @@ class PosOrder(models.Model):
 
     document_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
-        domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
+        domain="[('active', '=', True),('document_type_id', '=', document_type_id)]",
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -248,6 +252,13 @@ class PosOrder(models.Model):
     )
 
     additional_data = fields.Text()
+
+    document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Fiscal Document",
+        copy=False,
+        readonly=True,
+    )
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
@@ -415,16 +426,14 @@ class PosOrder(models.Model):
 
         order._populate_cancel_order_fields(result)
 
-        order.with_context(
+        res = order.with_context(
             mail_create_nolog=True,
             tracking_disable=True,
             mail_create_nosubscribe=True,
             mail_notrack=True,
         ).refund()
 
-        refund_order = self.search(
-            [("pos_reference", "=", order.pos_reference), ("amount_total", ">", 0)]
-        )
+        refund_order = self.browse(res["res_id"])
         refund_order.pos_reference = f"{order.pos_reference}-cancelled"
 
     @api.model

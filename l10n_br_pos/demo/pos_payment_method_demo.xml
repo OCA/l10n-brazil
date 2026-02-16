@@ -6,7 +6,7 @@
         <field name="code">1.1.1.1</field>
         <field name="reconcile">1</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="user_type_id" ref="account.data_account_type_receivable" />
+        <field name="account_type">asset_receivable</field>
     </record>
 
     <!--  Crédito  -->
@@ -117,11 +117,6 @@
         <field name="name">Dinheiro</field>
         <field name="is_cash_count">True</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field
-            name="cash_journal_id"
-            model="account.journal"
-            search="[('type', '=', 'cash'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)]"
-        />
         <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
     </record>
 

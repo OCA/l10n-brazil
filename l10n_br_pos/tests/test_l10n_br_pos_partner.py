@@ -1,10 +1,10 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestL10nBrPosPartner(SavepointCase):
+class TestL10nBrPosPartner(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -44,6 +44,7 @@ class TestL10nBrPosPartner(SavepointCase):
             "id": False,
             "vat": "06.870.693/0001-50",
         }
+
         self.env["res.partner"].create_from_ui(company_partner_vals)
 
         partner = self.env["res.partner"].search([("name", "=", "Empresa PDV")])

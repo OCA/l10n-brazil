@@ -6,23 +6,13 @@
         <field name="model">pos.config</field>
         <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
         <field name="arch" type="xml">
-            <xpath
-                expr="//div//label[@for='iface_customer_facing_display']/.."
-                position="after"
-            >
-                <div class="row">
-                    <label
-                        string="Brasil Fiscal"
-                        for="iface_fiscal_via_proxy"
-                        class="col-lg-3 o_light_label"
-                    />
-                    <field name="iface_fiscal_via_proxy" />
-                </div>
-            </xpath>
             <xpath expr="//sheet" position="inside">
                 <notebook>
                     <page name="l10n_br_general" string="Geral">
                         <group>
+                            <group string="Brasil Fiscal">
+                                <field name="iface_fiscal_via_proxy" />
+                            </group>
                             <group string="Simplified">
                                 <field name="simplified_document_type_id" />
                                 <field name="simplified_document_type" />
@@ -71,7 +61,7 @@
                     <page name="l10n_br_sat" string="SAT">
                         <group>
                             <group>
-                                <field name='sat_environment' />
+                                <field name="sat_environment" />
                                 <field
                                     name="cnpj_homologation"
                                     attrs="{'invisible': [('sat_environment', '=', 'production')]}"

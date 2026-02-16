@@ -3,7 +3,7 @@
 
 {
     "name": "Ponto de venda adaptado a legislação Brasileira",
-    "version": "14.0.1.5.4",
+    "version": "16.0.1.0.0",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
@@ -38,8 +38,6 @@
         "views/product_template_view.xml",
         "views/res_company.xml",
         "views/pos_payment_method_view.xml",
-        # Templates
-        "views/pos_template.xml",
         # TODO: Check this files after alpha version
         #   Report
         #   "views/point_of_sale_report.xml",
@@ -49,11 +47,17 @@
         "demo/pos_payment_method_demo.xml",
         "demo/pos_config_demo.xml",
     ],
-    "qweb": [
-        "static/src/xml/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.xml",
-        "static/src/xml/Screens/OrderManagementScreen/OrderList.xml",
-        "static/src/xml/Screens/OrderManagementScreen/OrderRow.xml",
-    ],
+    "assets": {
+        "point_of_sale.assets": [
+            "l10n_br_pos/static/lib/JsBarcode.js",
+            "l10n_br_pos/static/lib/qrcode.js",
+            "l10n_br_pos/static/src/js/util.esm.js",
+            "l10n_br_pos/static/src/js/models.esm.js",
+            "l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.esm.js",
+            "l10n_br_pos/static/src/js/Screens/TicketScreen/TicketScreen.esm.js",
+            "l10n_br_pos/static/src/xml/Screens/TicketScreen/TicketScreen.xml",
+        ],
+    },
     "installable": True,
     "external_dependencies": {
         "python": [

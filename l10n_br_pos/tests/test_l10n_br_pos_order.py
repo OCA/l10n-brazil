@@ -1,13 +1,11 @@
 # Copyright 2022 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from datetime import datetime
-
 from odoo import fields
-from odoo.tests import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestL10nBrPosOrder(SavepointCase):
+class TestL10nBrPosOrder(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -81,7 +79,7 @@ class TestL10nBrPosOrder(SavepointCase):
             },
             "id": "00042-003-0014",
             "to_invoice": False,
-            "authorization_date": datetime.fromisoformat("2022-01-01T12:00:00"),
+            "authorization_date": "2022-01-01T12:00:00",
             "document_number": "123456",
             "document_key": "Cfe35181104113837000100590001128550021551657445",
             "document_type_id": 33,
@@ -97,7 +95,10 @@ class TestL10nBrPosOrder(SavepointCase):
     def test_create_from_ui_l10n_brazil(self):
         orders_exported_to_ui = []
 
-        self.pos_config.open_session_cb(check_coa=False)
+        session = self.env["pos.session"].create(
+            {"config_id": self.pos_config.id, "user_id": self.env.uid}
+        )
+        session.action_pos_session_open()
 
         current_session = self.pos_config.current_session_id
         num_starting_orders = len(current_session.order_ids)
@@ -120,11 +121,16 @@ class TestL10nBrPosOrder(SavepointCase):
         )
 
     def test_cancel_l10n_brazil(self):
-        self.pos_config.open_session_cb(check_coa=False)
+        session = self.env["pos.session"].create(
+            {"config_id": self.pos_config.id, "user_id": self.env.uid}
+        )
+        session.action_pos_session_open()
+
         current_session = self.pos_config.current_session_id
         num_starting_orders = len(current_session.order_ids)
 
         self._generate_order()
+        current_session = self.pos_config.current_session_id
         order = current_session.order_ids[0]
 
         order_data = {
