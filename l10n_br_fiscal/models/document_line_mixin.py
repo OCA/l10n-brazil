@@ -424,7 +424,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "cfop_id",
         "icmssn_range_id",
         "icms_origin",
-        "icms_cst_id",
         "ind_final",
         "icms_relief_id",
     )
@@ -478,7 +477,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     cfop=line.cfop_id,
                     icmssn_range=line.icmssn_range_id,
                     icms_origin=line.icms_origin,
-                    icms_cst_id=line.icms_cst_id,
                     ind_final=line.ind_final,
                     icms_relief_id=line.icms_relief_id,
                 )
