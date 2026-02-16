@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===============================================
 Ponto de venda adaptado a legislação Brasileira
 ===============================================
@@ -17,22 +13,23 @@ Ponto de venda adaptado a legislação Brasileira
 .. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_pos
+    :target: https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_pos
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_pos
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_pos
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=16.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module adds brazilian fields, validations and tax calc to point of sale.
+This module adds brazilian fields, validations and tax calc to point of
+sale.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -49,7 +46,7 @@ Installation
 
 This module depends on:
 
-* l10n_br_account
+- l10n_br_account
 
 Configuration
 =============
@@ -58,35 +55,42 @@ Configurar aba POS do cadastro da empresa.
 
 Configurar o Ponto de venda, prestando atenção nos seguintes campos:
 
-  * A aba Geral, com os detalhes do documento fiscal simplificado e não simplificado;
-  * A aba tributos, com os dados da tributação a ser utilizada, o o cliente anónimo para servir como referência, assim como seus campos de endereço.
-  * Clicar no botão Update Tax no pos config ou no produto;
-  * Validar que a tributação esta correta;
+   - A aba Geral, com os detalhes do documento fiscal simplificado e não
+     simplificado;
+   - A aba tributos, com os dados da tributação a ser utilizada, o o
+     cliente anónimo para servir como referência, assim como seus campos
+     de endereço.
+   - Clicar no botão Update Tax no pos config ou no produto;
+   - Validar que a tributação esta correta;
 
-Configurar e instalar um dos módulos responsáveis pela transmissão do documento fiscal:
+Configurar e instalar um dos módulos responsáveis pela transmissão do
+documento fiscal:
 
-  * l10n_br_pos_cfe
-  * l10n_br_pos_nfce
-  * l10n_br_account_nfe (Somente para emissão de NF-e);
+   - l10n_br_pos_cfe
+   - l10n_br_pos_nfce
+   - l10n_br_account_nfe (Somente para emissão de NF-e);
 
 Changelog
 =========
 
 14.0.1.0.0 (2011)
-~~~~~~~~~~~~~~~~~
+-----------------
 
-O módulo foi reestruturado para atender novos tipos de documentos fiscais: NFC-E / CF-e (SP e Ceará), PAF-ECF e DAF-EFC;
+O módulo foi reestruturado para atender novos tipos de documentos
+fiscais: NFC-E / CF-e (SP e Ceará), PAF-ECF e DAF-EFC;
 
 12.0.1.0.0 (2011)
-~~~~~~~~~~~~~~~~~
+-----------------
 
-A partir da versão 12.0 o módulo foi melhorado para atender um volume maior de transações com maoir confiabilidade e adequação ao modelo de dados atual da localização.
-
+A partir da versão 12.0 o módulo foi melhorado para atender um volume
+maior de transações com maoir confiabilidade e adequação ao modelo de
+dados atual da localização.
 
 8.0.1.0.0 (2016)
-~~~~~~~~~~~~~~~~
+----------------
 
-O módulo do ponto de venda foi criado para atender clientes do estado de São Paulo, com SAT.
+O módulo do ponto de venda foi criado para atender clientes do estado de
+São Paulo, com SAT.
 
 Bug Tracker
 ===========
@@ -94,7 +98,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_pos%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_pos%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -102,31 +106,31 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * KMEE
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `KMEE <https://www.kmee.com.br>`_:
+- `KMEE <https://www.kmee.com.br>`__:
 
-  * Luis Felipe Miléo <mileo@kmee.com.br>
-  * Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
-  * Daniel Sadamo <daniel.sadamo@kmee.com.br>
-  * Luiz Felipe do Divino <luiz.divino@kmee.com.br>
-  * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
-  * Ygor Carvalho <ygor.carvalho@kmee.com.br>
+  - Luis Felipe Miléo <mileo@kmee.com.br>
+  - Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
+  - Daniel Sadamo <daniel.sadamo@kmee.com.br>
+  - Luiz Felipe do Divino <luiz.divino@kmee.com.br>
+  - Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+  - Ygor Carvalho <ygor.carvalho@kmee.com.br>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
 The development of this module has been financially supported by:
 
-KMEE LTDA - www.kmee.com.br
+KMEE LTDA - `www.kmee.com.br <http://www.kmee.com.br>`__
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -155,6 +159,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-mileo| |maintainer-lfdivino| |maintainer-luismalta| |maintainer-ygcarvalh| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_pos>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_pos>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
