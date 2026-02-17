@@ -284,6 +284,66 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             "Error opening invoice !",
         )
 
+    def test_invoice_fiscal_quantity_not_from_po(self):
+        """Test that fiscal_quantity on invoice is computed from invoice qty,
+        not copied from PO line.
+
+        When the received/invoiced quantity differs from the ordered quantity
+        (e.g. weight adjustment on bulk products), fiscal_quantity must match
+        the invoice line quantity, not the PO line quantity.
+        """
+        self._change_user_company(self.company)
+        self._run_purchase_order_onchanges(self.po_products)
+        for line in self.po_products.order_line:
+            self._run_purchase_line_onchanges(line)
+
+        self.po_products.with_context(tracking_disable=True).button_confirm()
+
+        # 1) _prepare_account_move_line must NOT contain fiscal_quantity
+        for po_line in self.po_products.order_line:
+            vals = po_line._prepare_account_move_line(False)
+            self.assertNotIn(
+                "fiscal_quantity",
+                vals,
+                "fiscal_quantity should not be in the prepared invoice line "
+                "values — it must be recomputed from the invoice quantity.",
+            )
+
+        # 2) Create the invoice the same way the existing helper does
+        self._invoice_purchase_order(self.po_products)
+
+        product_lines = self.invoice.invoice_line_ids.filtered(
+            lambda line: line.display_type == "product"
+        )
+        self.assertTrue(product_lines, "Invoice must have product lines")
+
+        for inv_line in product_lines:
+            uot_factor = inv_line.product_id.uot_factor or 1.0
+            expected_fiscal_qty = inv_line.quantity * uot_factor
+            self.assertAlmostEqual(
+                inv_line.fiscal_quantity,
+                expected_fiscal_qty,
+                2,
+                "fiscal_quantity must equal quantity * uot_factor, "
+                "not the PO line fiscal_quantity.",
+            )
+
+        # 3) Simulate a weight adjustment: change invoice qty and verify
+        #    fiscal_quantity follows
+        first_line = product_lines[0]
+        original_qty = first_line.quantity
+        adjusted_qty = original_qty + 1.0
+        first_line.quantity = adjusted_qty
+
+        uot_factor = first_line.product_id.uot_factor or 1.0
+        self.assertAlmostEqual(
+            first_line.fiscal_quantity,
+            adjusted_qty * uot_factor,
+            2,
+            "After quantity adjustment, fiscal_quantity must recompute "
+            "to the new quantity * uot_factor.",
+        )
+
     def test_l10n_br_purchase_products(self):
         """Test brazilian Purchase Order with only Products."""
         self._change_user_company(self.company)
