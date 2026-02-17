@@ -329,6 +329,11 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "tributacao_iss": service_basic["tributacao_iss"],
             "tipo_retencao_iss": service_basic["tipo_retencao_iss"],
             "percentual_aliquota_relativa_municipio": service_basic["aliquota_iss"],
+            "informacoes_complementares": (
+                rps_info.get("customer_additional_data", False)[:2000]
+                if rps_info.get("customer_additional_data")
+                else False
+            ),
             **tax_data,
         }
 
