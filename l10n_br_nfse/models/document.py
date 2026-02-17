@@ -208,6 +208,21 @@ class Document(models.Model):
                 result_line.get("tipo_retencao_pis_cofins") or "2"
             )
 
+        state_id = (
+            self.fiscal_line_ids[0].issqn_fg_city_id.state_id
+            or self.company_id.partner_id.state_id
+        )
+        nbs_id = self.fiscal_line_ids[0].nbs_id
+        tax_estimate = nbs_id.tax_estimate_ids.filtered(
+            lambda x: x.state_id == state_id
+        )
+
+        percentual_total_tributos_federais = tax_estimate.federal_taxes_national
+        if self.partner_id.country_id.code != "BR":
+            percentual_total_tributos_federais = tax_estimate.federal_taxes_import
+        percentual_total_tributos_estaduais = tax_estimate.state_taxes
+        percentual_total_tributos_municipais = tax_estimate.municipal_taxes
+
         result = {
             "valor_servicos": valor_servicos,
             "valor_deducoes": valor_deducoes,
@@ -272,6 +287,11 @@ class Document(models.Model):
             "codigo_tributacao_iss": ISSQN_TO_TRIBUTACAO_ISS[
                 self.fiscal_line_ids[0].issqn_eligibility
             ],
+            "percentual_total_tributos_federais": percentual_total_tributos_federais,
+            "percentual_total_tributos_estaduais": percentual_total_tributos_estaduais,
+            "percentual_total_tributos_municipais": (
+                percentual_total_tributos_municipais
+            ),
         }
 
         result.update(self.company_id._prepare_company_service())

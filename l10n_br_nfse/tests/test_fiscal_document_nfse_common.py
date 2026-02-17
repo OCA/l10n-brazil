@@ -45,6 +45,22 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         ).id
         cls.company.document_type_id = cls.env.ref("l10n_br_fiscal.document_SE")
         cls.nfse_same_state.company_id = cls.company.id
+        cls.nbs_id = cls.env["l10n_br_fiscal.nbs"].create(
+            {
+                "code": "0101",
+                "name": "Desenvolvimento de Software",
+            }
+        )
+        cls.tax_estimate = cls.env["l10n_br_fiscal.tax.estimate"].create(
+            {
+                "nbs_id": cls.nbs_id.id,
+                "state_id": cls.company.partner_id.state_id.id,
+                "federal_taxes_national": 13.45,
+                "federal_taxes_import": 18.20,
+                "state_taxes": 0.0,
+                "municipal_taxes": 2.90,
+            }
+        )
 
     def test_certified_nfse_same_state_(self):
         """Test Certified NFSe same state."""
@@ -165,3 +181,63 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
                 "Error to mappping Fiscal Deductions Value 10.0"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.",
             )
+
+    def test_tax_estimate_by_nbs(self):
+        """Test tax estimate tags for national and foreign partners based on NBS."""
+
+        fiscal_document = self.nfse_same_state
+        service_data = fiscal_document._prepare_dados_servico()
+
+        self.assertFalse(
+            service_data["percentual_total_tributos_federais"],
+            "Should be False when no NBS is defined",
+        )
+        self.assertFalse(
+            service_data["percentual_total_tributos_estaduais"],
+            "Should be False when no NBS is defined",
+        )
+        self.assertFalse(
+            service_data["percentual_total_tributos_municipais"],
+            "Should be False when no NBS is defined",
+        )
+
+        fiscal_line = fiscal_document.fiscal_line_ids[0]
+        fiscal_line.nbs_id = self.nbs_id
+        fiscal_line.issqn_fg_city_id = self.company.partner_id.city_id
+        service_data = fiscal_document._prepare_dados_servico()
+
+        self.assertEqual(
+            self.tax_estimate.federal_taxes_national,
+            service_data["percentual_total_tributos_federais"],
+            "Should be the same as tax_estimate.federal_taxes_national",
+        )
+        self.assertEqual(
+            self.tax_estimate.state_taxes,
+            service_data["percentual_total_tributos_estaduais"],
+            "Should be the same as tax_estimate.state_taxes",
+        )
+        self.assertEqual(
+            self.tax_estimate.municipal_taxes,
+            service_data["percentual_total_tributos_municipais"],
+            "Should be the same as tax_estimate.municipal_taxes",
+        )
+
+        fiscal_document.partner_id = self.env.ref("l10n_br_base.res_partner_exterior")
+        fiscal_line.issqn_fg_city_id = False
+        service_data = fiscal_document._prepare_dados_servico()
+
+        self.assertEqual(
+            self.tax_estimate.federal_taxes_import,
+            service_data["percentual_total_tributos_federais"],
+            "Should be the same as tax_estimate.federal_taxes_import",
+        )
+        self.assertEqual(
+            self.tax_estimate.state_taxes,
+            service_data["percentual_total_tributos_estaduais"],
+            "Should be the same as tax_estimate.state_taxes",
+        )
+        self.assertEqual(
+            self.tax_estimate.municipal_taxes,
+            service_data["percentual_total_tributos_municipais"],
+            "Should be the same as tax_estimate.municipal_taxes",
+        )
