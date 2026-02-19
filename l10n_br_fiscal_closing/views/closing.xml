@@ -28,46 +28,39 @@
                         name="action_export"
                         type="object"
                         class="oe_highlight"
-                        states="draft"
+                        invisible="state != 'draft'"
                     />
                     <button
                         string="Close"
                         name="action_close"
                         type="object"
                         class="oe_highlight"
-                        states="open"
+                        invisible="state != 'open'"
                     />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
                     <group>
                         <group string="Period">
-                            <field
-                                name="export_type"
-                                attrs="{'readonly': [('state', '!=', 'draft')]}"
-                            />
+                            <field name="export_type" readonly="state != 'draft'" />
                             <field
                                 name="month"
-                                attrs="{'invisible': [('export_type', '=', 'all')], 'readonly': [('state', '!=', 'draft')]}"
+                                invisible="export_type == 'all'"
+                                readonly="state != 'draft'"
                             />
                             <field
                                 name="year"
-                                attrs="{'invisible': [('export_type', '=', 'all')], 'readonly': [('state', '!=', 'draft')]}"
+                                invisible="export_type == 'all'"
+                                readonly="state != 'draft'"
                             />
-                            <field
-                                name="company_id"
-                                attrs="{'readonly': [('state', '!=', 'draft')]}"
-                            />
-                            <field
-                                name="group_folder"
-                                attrs="{'readonly': [('state', '!=', 'draft')]}"
-                            />
+                            <field name="company_id" readonly="state != 'draft'" />
+                            <field name="group_folder" readonly="state != 'draft'" />
                             <field
                                 name="include_pdf_file"
-                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                readonly="state != 'draft'"
                             />
                         </group>
-                        <group states="open">
+                        <group invisible="state != 'open'">
                             <field name="file_name" invisible="1" />
                             <h3>Download:
                             <field name="zip_file" filename="file_name" nolabel="1" />
@@ -81,7 +74,7 @@
                                 /></h3>
                         </group>
                     </group>
-                    <group states="open">
+                    <group invisible="state != 'open'">
                         <notebook colspan="4">
                             <page string="Fechamento">
                                 <group>
