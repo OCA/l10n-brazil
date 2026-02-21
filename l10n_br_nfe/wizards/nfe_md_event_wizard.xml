@@ -4,15 +4,21 @@
         <field name="name">nfe_recipient_manifestation_event.wizard.form</field>
         <field name="model">nfe_recipient_manifestation_event.wizard</field>
         <field name="arch" type="xml">
-            <form string="Manifestação do Destinatário da NFe">
+            <form string="NFe Recipient's Manifestation">
                 <group>
-                    <field name="event_type_selection" />
+                    <field name="access_key" readonly="1" />
+                    <field
+                        name="event_type"
+                        string="Manifestation"
+                        widget="radio"
+                        options="{'horizontal': false}"
+                    />
                 </group>
                 <footer>
                     <button
-                        string="Manifestar"
+                        string="Manifest"
                         type="object"
-                        name="action_create_nfe_recipient_manifestation_event"
+                        name="action_create_nfe_md_event"
                         class="btn-primary"
                     />
                     <button string="Close" class="oe_link" special="cancel" />
