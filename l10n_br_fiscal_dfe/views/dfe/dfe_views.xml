@@ -1,52 +1,38 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
-    Copyright 2023 KMEE INFORMATICA LTDA
-    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
--->
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <!--
+        Copyright 2023 KMEE INFORMATICA LTDA
+        License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+    -->
     <record model="ir.ui.view" id="dfe_form">
         <field name="name">l10n_br_fiscal.dfe.form</field>
         <field name="model">l10n_br_fiscal.dfe</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="DF-e Consult" duplicate="false">
-                <header>
-                    <button
-                        name="search_documents"
-                        string="Search Documents"
-                        type="object"
-                        class="btn-primary"
-                    />
-                </header>
-                <sheet>
+            <form string="DF-e Consult">
+                <separator string="Access Key" />
+                <field name="key" select="1" required="1" readonly="1" />
+
+                <separator string="Document Info" />
+                <group>
                     <group>
-                        <group>
-                            <field
-                                name="company_id"
-                                required="1"
-                                domain="[('certificate_nfe_id', '!=', False)]"
-                            />
-                            <field name="last_nsu" required="1" />
-                        </group>
-                        <group>
-                            <field name="last_query" readonly="1" />
-                            <field name="use_cron" />
-                        </group>
+                        <field name="document_number" readonly="1" />
+                        <field name="nsu" readonly="1" />
+                        <field name="vat" readonly="1" />
+                        <field name="ie" readonly="1" />
+                        <field name="document_amount" widget="monetary" readonly="1" />
+                        <field name="document_state" readonly="1" />
                     </group>
-                    <notebook>
-                        <page id="documents" string="Documents">
-                            <field
-                                name="imported_document_ids"
-                                nolabel="1"
-                                context="{'tree_view_ref': 'l10n_br_fiscal.dfe_documents_tree'}"
-                            />
-                        </page>
-                    </notebook>
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="activity_ids" />
-                    <field name="message_ids" />
-                </div>
+                    <field name="cfop_ids" readonly="1" />
+                    <group>
+                        <field name="company_id" readonly="1" />
+                        <field name="document_id" readonly="1" />
+                        <field name="operation_type" readonly="1" />
+                        <field name="inclusion_mode" readonly="1" />
+                        <field name="inclusion_datetime" readonly="1" />
+                        <field name="emission_datetime" readonly="1" />
+                    </group>
+                </group>
             </form>
         </field>
     </record>
@@ -56,10 +42,10 @@
         <field name="model">l10n_br_fiscal.dfe</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree duplicate="false">
-                <field name="company_id" required="1" />
-                <field name="last_nsu" required="1" />
-                <field name="last_query" />
+            <tree create="false">
+                <field name="dfe_nfe_document_type" />
+                <field name="nsu" />
+                <button string="XML" name="action_download_xml" type="object" />
             </tree>
         </field>
     </record>
@@ -70,28 +56,4 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="dfe_form_action">
-        <field eval="2" name="sequence" />
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="dfe_form" />
-        <field name="act_window_id" ref="dfe_action" />
-    </record>
-
-    <record model="ir.actions.act_window.view" id="dfe_tree_action">
-        <field eval="1" name="sequence" />
-        <field name="view_mode">tree</field>
-        <field name="view_id" ref="dfe_tree" />
-        <field name="act_window_id" ref="dfe_action" />
-    </record>
-
-    <record model="ir.ui.view" id="dfe_search">
-        <field name="name">l10n_br_fiscal.dfe.search</field>
-        <field name="model">l10n_br_fiscal.dfe</field>
-        <field name="priority">1</field>
-        <field name="arch" type="xml">
-            <search string="DF-e Consult">
-                <field name="company_id" />
-            </search>
-        </field>
-    </record>
 </odoo>
