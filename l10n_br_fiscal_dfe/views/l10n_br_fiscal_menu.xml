@@ -5,10 +5,10 @@
 -->
 <odoo>
     <menuitem
-        action="dfe_action"
+        action="dfe_monitor_action"
         id="dfe_consult_menu"
         name="DF-e"
-        groups="l10n_br_fiscal.group_manager"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
         parent="l10n_br_fiscal.document_menu"
         sequence="15"
     />
