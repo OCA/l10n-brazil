@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record id="view_dfe_specific_search_wizard_form" model="ir.ui.view">
+        <field name="name">dfe_specific_search_wizard.wizard.form</field>
+        <field name="model">dfe_specific_search_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Specific DFe Search">
+                <group>
+                    <field
+                        name="search_type"
+                        widget="radio"
+                        options="{'horizontal': false}"
+                    />
+                    <field
+                        name="access_key"
+                        attrs="{'invisible': [('search_type', '!=', 'access_key')]}"
+                    />
+                    <field
+                        name="nsu"
+                        attrs="{'invisible': [('search_type', '!=', 'nsu')]}"
+                    />
+                </group>
+                <footer>
+                    <button
+                        string="Search"
+                        type="object"
+                        name="action_confirm_search"
+                        class="btn-primary"
+                    />
+                    <button string="Close" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

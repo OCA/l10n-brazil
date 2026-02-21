@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_dfe_document_form">
+        <field name="name">l10n_br_fiscal_dfe.document.form</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="DF-e Document" create="false" edit="false" delete="false">
+                <header>
+                    <button
+                        string="XML"
+                        name="action_download_xml"
+                        type="object"
+                        icon="fa-file-code-o"
+                    />
+                    <button
+                        string="DANFE"
+                        name="make_pdf"
+                        type="object"
+                        icon="fa-file-pdf-o"
+                    />
+                    <button
+                        name="import_document"
+                        string="Import"
+                        type="object"
+                        icon="fa-file-text-o"
+                    />
+                    <button
+                        string="Manifest"
+                        name="create_nfe_md_action"
+                        type="object"
+                        icon="fa-check-square-o"
+                    />
+                    <button
+                        string="Match Partner"
+                        name="action_match_partner"
+                        type="object"
+                        icon="fa-link"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="access_key" />
+                        <h1>
+                            <field name="access_key" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Document">
+                            <field name="document_number" />
+                            <field name="serie" />
+                            <field name="document_emission_date" />
+                            <field name="document_state" />
+                            <field name="document_amount" widget="monetary" />
+                            <field name="cfop_ids" widget="many2many_tags" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                        <group string="Emitter">
+                            <field name="emitter" />
+                            <field name="vat" />
+                            <field name="partner_id" />
+                        </group>
+                    </group>
+                    <group string="Manifestation">
+                        <field
+                            name="manifestation_status"
+                            widget="badge"
+                            decoration-success="manifestation_status == 'confirmado'"
+                            decoration-info="manifestation_status == 'ciente'"
+                            decoration-warning="manifestation_status == 'desconhecido'"
+                            decoration-danger="manifestation_status == 'nao_realizado'"
+                            decoration-muted="manifestation_status == 'sem_manifestacao'"
+                        />
+                        <field name="manifestations_ids" />
+                    </group>
+                    <notebook>
+                        <page string="DF-e Records" name="dfe_records">
+                            <field name="dfe_ids">
+                                <tree>
+                                    <field name="dfe_nfe_document_type" string="DF-e" />
+                                    <field name="event_type_dfe_label" string="Event" />
+                                    <field name="nsu" />
+                                    <button
+                                        string="XML"
+                                        name="action_download_xml"
+                                        type="object"
+                                        icon="fa-download"
+                                    />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_dfe_document_tree">
+        <field name="name">l10n_br_fiscal_dfe.document.tree</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree
+                create="false"
+                edit="false"
+                delete="false"
+                banner_route="/l10n_br_fiscal_dfe/document_banner"
+                decoration-success="color_status == 'green'"
+                decoration-info="color_status == 'blue'"
+                decoration-muted="color_status == 'muted'"
+            >
+                <field
+                    name="color_status"
+                    widget="badge"
+                    string="Type"
+                    decoration-success="color_status == 'green'"
+                    decoration-info="color_status == 'blue'"
+                    decoration-muted="color_status == 'muted'"
+                />
+                <field name="document_emission_date" string="Date" widget="date" />
+                <field name="access_key" />
+                <field name="emitter" />
+                <field name="vat" />
+                <field name="partner_id" />
+                <field name="document_amount" string="Amount" />
+                <field name="cfop_ids" widget="many2many_tags" string="CFOPs" />
+                <field
+                    name="manifestation_status"
+                    widget="badge"
+                    string="Manifestation"
+                    decoration-success="manifestation_status == 'confirmado'"
+                    decoration-info="manifestation_status == 'ciente'"
+                    decoration-warning="manifestation_status == 'desconhecido'"
+                    decoration-danger="manifestation_status == 'nao_realizado'"
+                    decoration-muted="manifestation_status == 'sem_manifestacao'"
+                />
+                <field name="document_state" string="State" />
+                <button
+                    string="XML"
+                    name="action_download_xml"
+                    type="object"
+                    icon="fa-file-code-o"
+                />
+                <button
+                    string="DANFE"
+                    name="make_pdf"
+                    type="object"
+                    icon="fa-file-pdf-o"
+                />
+                <button
+                    name="import_document"
+                    string="Import"
+                    type="object"
+                    icon="fa-file-text-o"
+                />
+                <button
+                    string="Manifest"
+                    name="create_nfe_md_action"
+                    type="object"
+                    icon="fa-check-square-o"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_dfe_document_search">
+        <field name="name">l10n_br_fiscal_dfe.document.search</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="DF-e Documents">
+                <field name="access_key" />
+                <field name="emitter" />
+                <field name="vat" />
+                <field name="partner_id" />
+                <field name="company_id" />
+                <separator />
+                <filter
+                    name="complete"
+                    string="Complete NF-e"
+                    domain="[('color_status', '=', 'green')]"
+                />
+                <filter
+                    name="summary"
+                    string="Summary"
+                    domain="[('color_status', '=', 'blue')]"
+                />
+                <filter
+                    name="cancelled_denied"
+                    string="Cancelled/Denied"
+                    domain="[('color_status', '=', 'muted')]"
+                />
+                <separator />
+                <filter
+                    name="no_partner"
+                    string="No Partner"
+                    domain="[('partner_id', '=', False)]"
+                />
+                <separator />
+                <filter
+                    name="date"
+                    string="Emission Date"
+                    date="document_emission_date"
+                />
+                <separator />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_partner"
+                        string="Partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        name="group_emission_date"
+                        string="Emission Date"
+                        context="{'group_by': 'document_emission_date:month'}"
+                    />
+                    <filter
+                        name="group_company"
+                        string="Company"
+                        context="{'group_by': 'company_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="dfe_document_action">
+        <field name="name">Third-party NF-e</field>
+        <field name="res_model">l10n_br_fiscal_dfe.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_own_document', '=', False)]</field>
+    </record>
+
+</odoo>
