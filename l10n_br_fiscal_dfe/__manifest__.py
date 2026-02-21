@@ -21,8 +21,6 @@
     ],
     "external_dependencies": {
         "python": [
-            "erpbrasil.edoc",
-            "erpbrasil.transmissao",
             "nfelib",
         ],
     },
