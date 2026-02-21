@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="0">
+    <record id="channel_dfe" model="queue.job.channel">
+        <field name="name">dfe</field>
+        <field name="parent_id" ref="queue_job.channel_root" />
+    </record>
+
+    <record id="job_function_dfe_document_distribution" model="queue.job.function">
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="method">_dfe_document_distribution</field>
+        <field name="channel_id" ref="channel_dfe" />
+    </record>
+
+    <record id="job_function_md_event_action_confirm" model="queue.job.function">
+        <field name="model_id" ref="l10n_br_nfe.model_l10n_br_nfe_md_event" />
+        <field name="method">action_confirm</field>
+        <field name="channel_id" ref="channel_dfe" />
+    </record>
+</odoo>
