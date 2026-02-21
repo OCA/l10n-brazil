@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2023 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record model="ir.ui.view" id="l10n_br_nfe_recipient_manifestation_event_form">
+        <field name="name">l10n_br_nfe_recipient_manifestation_event_form</field>
+        <field name="model">l10n_br_nfe.recipient_manifestation_event</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Manifestation">
+                <header>
+                    <button
+                        name="action_confirm_selection"
+                        string="Transmitir"
+                        type="object"
+                    />
+                    <field
+                        name="status"
+                        statusbar_visible="rascunho,confirmado"
+                        readonly="1"
+                        statusbar_colors='{"rascunho": "gray", "confirmado": "blue"}'
+                        widget="statusbar"
+                        nolabel="1"
+                    />
+                </header>
+
+                <separator string="Manifestation Selection" />
+                <field name="event_type_selection" />
+
+                <separator string="Access Key" />
+                <field name="dfe_access_key_id" readonly="1" />
+
+                <separator string="Document Info" />
+                <group>
+                    <field name="company_id" readonly="1" />
+                    <field name="document_number" readonly="1" />
+                    <field name="serie" readonly="1" />
+                    <field name="mde_document_type" readonly="1" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record
+        id="view_l10n_br_nfe_recipient_manifestation_event_filter"
+        model="ir.ui.view"
+    >
+        <field name="name">l10n_br_nfe_recipient_manifestation_event_select</field>
+        <field name="model">l10n_br_nfe.recipient_manifestation_event</field>
+        <field name="arch" type="xml">
+            <search string="Filter">
+                <field name="company_id" string="Razão Social" />
+                <field name="event_type" />
+                <filter
+                    name="situacao_pendente"
+                    string="Pending"
+                    domain="[('event_type','=','pendente')]"
+                />
+                <filter
+                    name="situacao_confirmado"
+                    string="Confirmed"
+                    domain="[('event_type','=','confirmado')]"
+                />
+                <filter
+                    name="situacao_ciente"
+                    string="Aware"
+                    domain="[('event_type','=','ciente')]"
+                />
+                <filter
+                    name="situacao_desconhecido"
+                    string="Unknown"
+                    domain="[('event_type','=','desconhecido')]"
+                />
+                <filter
+                    name="situacao_nao_realizado"
+                    string="Unrealized"
+                    domain="[('event_type','=','nao_realizado')]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_nfe_recipient_manifestation_event_tree">
+        <field name="name">l10n_br_nfe_recipient_manifestation_event_tree</field>
+        <field name="model">l10n_br_nfe.recipient_manifestation_event</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id" />
+                <field name="event_type" />
+                <field name="mde_document_type" />
+                <field name="dfe_access_key_id" string="Key" />
+            </tree>
+        </field>
+    </record>
+
+    <record
+        model="ir.actions.act_window"
+        id="l10n_br_nfe_recipient_manifestation_event_action"
+    >
+        <field name="name">MD-e</field>
+        <field name="res_model">l10n_br_nfe.recipient_manifestation_event</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
