@@ -17,4 +17,12 @@
         sequence="20"
         groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
     />
+    <menuitem
+        action="l10n_br_nfe_recipient_manifestation_event_action"
+        id="mde_consult_menu"
+        name="MD-e"
+        groups="l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.document_menu"
+        sequence="25"
+    />
 </odoo>
