@@ -11,6 +11,7 @@
                         <group>
                             <field name="dfe_version" required="1" />
                             <field name="dfe_environment" required="1" />
+                            <field name="last_nsu" />
                         </group>
                     </group>
                 </page>

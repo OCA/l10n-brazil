@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="dfe_access_key_form">
+        <field name="name">l10n_br_fiscal.dfe_access_key.form</field>
+        <field name="model">l10n_br_fiscal.dfe_access_key</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="DF-e Access Key">
+                <header>
+                    <button string="XML" name="action_download_xml" type="object" />
+                    <button string="DANFE" name="make_pdf" type="object" />
+                </header>
+                <separator string="Access Key" />
+                <field name="key" select="1" required="1" readonly="1" />
+                <separator string="Document Info" />
+                <group>
+                    <field
+                        name="manifestation_status"
+                        widget="badge"
+                        decoration-success="manifestation_status == 'Confirmação de Operação pelo Destinatário'"
+                        decoration-info="manifestation_status == 'Ciência da Operação pelo Destinatário'"
+                        decoration-warning="manifestation_status == 'Desconhecimento da Operação pelo Destinatário'"
+                        decoration-danger="manifestation_status == 'Operação não Realizada'"
+                        decoration-muted="manifestation_status == 'Evento Desconhecido'"
+                        readonly="1"
+                    />
+                    <field name="document_state" />
+                    <field name="document_number" />
+                    <field name="emitter" readonly="1" />
+                    <field name="vat" readonly="1" />
+                    <field name="document_amount" widget="monetary" readonly="1" />
+                </group>
+                <field name="dfe_ids" />
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dfe_access_key_tree">
+        <field name="name">l10n_br_fiscal.dfe_access_key.tree</field>
+        <field name="model">l10n_br_fiscal.dfe_access_key</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree
+                create="false"
+                decoration-success="color_status == 'green'"
+                decoration-info="color_status == 'blue'"
+                decoration-muted="color_status == 'normal'"
+            >
+                <field name="color_status" invisible="1" />
+                <field name="key" />
+                <field name="emitter" />
+                <field name="vat" />
+                <field name="document_amount" />
+                <field
+                    name="manifestation_status"
+                    widget="badge"
+                    decoration-success="manifestation_status == 'Confirmação de Operação pelo Destinatário'"
+                    decoration-info="manifestation_status == 'Ciência da Operação pelo Destinatário'"
+                    decoration-warning="manifestation_status == 'Desconhecimento da Operação pelo Destinatário'"
+                    decoration-danger="manifestation_status == 'Operação não Realizada'"
+                    decoration-muted="manifestation_status == 'Evento Desconhecido'"
+                />
+                <button string="XML" name="action_download_xml" type="object" />
+                                    <button
+                    string="DANFE"
+                    name="make_pdf"
+                    type="object"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="dfe_access_key_action">
+        <field name="name">DF-e Access Key</field>
+        <field name="res_model">l10n_br_fiscal.dfe_access_key</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
