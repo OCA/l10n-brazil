@@ -1,53 +1,36 @@
-# Copyright (C) 2025-Today - Engenere (<https://engenere.one>).
+# Copyright 2026 Engenere (<https://engenere.one>).
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import base64
+import logging
 
-from odoo import fields, models
+from lxml import etree
 
-from ..constants.dfe import (
-    OPERATION_TYPE,
-    SITUACAO_NFE,
-)
+from odoo import _, api, fields, models
+
+from ..constants.dfe import DFE_DESCRIPTION_MAP, EVENT_TYPE_LABELS, OPERATION_TYPE
+
+_logger = logging.getLogger(__name__)
 
 
 class DFe(models.Model):
-    _name = "l10n_br_fiscal.dfe"
+    _name = "l10n_br_fiscal_dfe.dfe"
     _description = "DF-e"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "id desc"
-    _rec_name = "display_name"
 
-    dfe_access_key_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.dfe_access_key", string="Chave de Acesso"
+    dfe_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal_dfe.document", string="DF-e Document"
     )
 
-    key = fields.Char(string="Access Key", size=44, related="dfe_access_key_id.key")
-
-    serie = fields.Char(size=3, index=True)
-
-    document_number = fields.Float(index=True, digits=(18, 0))
-
-    emitter = fields.Char(size=60)
-
-    vat = fields.Char(string="CNPJ/CPF", size=18)
+    access_key = fields.Char(size=44, index=True)
 
     nsu = fields.Char(string="NSU", size=25, index=True)
 
+    schema_type = fields.Char(
+        help="Type of the DF-e document according to the XML schema.",
+    )
+
     operation_type = fields.Selection(
         selection=OPERATION_TYPE,
-    )
-
-    document_amount = fields.Float(
-        string="Document Total Value",
-        readonly=True,
-        digits=(18, 2),
-    )
-
-    ie = fields.Char(string="Inscrição estadual", size=18)
-
-    partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Supplier (partner)",
     )
 
     company_id = fields.Many2one(
@@ -57,52 +40,39 @@ class DFe(models.Model):
         readonly=True,
     )
 
-    emission_datetime = fields.Datetime(
-        string="Emission Date",
-        index=True,
-        default=fields.Datetime.now,
-    )
-
-    inclusion_datetime = fields.Datetime(
-        string="Inclusion Date",
-        index=True,
-        default=fields.Datetime.now,
-    )
-
-    inclusion_mode = fields.Char(size=255)
-
-    document_state = fields.Selection(
-        selection=SITUACAO_NFE,
-        index=True,
-    )
-
-    cfop_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.cfop",
-        string="CFOPs",
-    )
-
     dfe_nfe_document_type = fields.Selection(
         selection=[
             ("dfe_nfe_complete", "NF-e Completa"),
             ("dfe_nfe_summary", "Resumo da NF-e"),
             ("dfe_nfe_event", "Evento da NF-e"),
         ],
-        string="DFe Document Type",
+        string="DF-e Type (NF-e)",
     )
 
-    dfe_monitor_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.dfe_monitor",
-        string="DFe Monitor",
+    attachment_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        help="XML Attachment stored in Odoo.",
     )
 
-    attachment_id = fields.Many2one(comodel_name="ir.attachment")
+    xml_pretty = fields.Text(string="XML Pretty", compute="_compute_xml_pretty")
 
-    document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document",
+    event_type_dfe = fields.Char(string="Event Type")
+
+    event_type_dfe_label = fields.Char(
+        string="Event",
+        compute="_compute_event_type_dfe_label",
     )
 
-    event_type_dfe = fields.Char()
+    @api.depends("event_type_dfe")
+    def _compute_event_type_dfe_label(self):
+        for rec in self:
+            code = rec.event_type_dfe
+            if not code:
+                rec.event_type_dfe_label = False
+            elif code in EVENT_TYPE_LABELS:
+                rec.event_type_dfe_label = EVENT_TYPE_LABELS[code]
+            else:
+                rec.event_type_dfe_label = _("Other (%(code)s)", code=code)
 
     def name_get(self):
         result = []
@@ -113,41 +83,62 @@ class DFe(models.Model):
             result.append(
                 (
                     rec.id,
-                    f"{rec.key} - {document_type}",
+                    f"{rec.access_key} - {document_type}",
                 )
             )
         return result
 
     def create_xml_attachment(self, xml):
-        file_name = "NFe%s.xml" % self.key
-        self.attachment_id = self.env["ir.attachment"].create(
+        self.sudo().attachment_id = self.env["ir.attachment"].create(
             {
-                "name": file_name,
+                "name": f"{self.schema_type}{self.access_key}.xml",
                 "datas": base64.b64encode(xml),
-                "store_fname": file_name,
-                "description": "NFe via Manifesto",
+                "description": DFE_DESCRIPTION_MAP.get(self.schema_type),
                 "res_model": self._name,
                 "res_id": self.id,
             }
         )
 
     def action_download_xml(self):
-        if len(self) == 1:
-            return self.download_attachment(self.attachment_id)
-
-        compressed_attachment_id = (
-            self.env["l10n_br_fiscal.attachment"]
-            .create([])
-            .build_compressed_attachment(self.mapped("attachment_id"))
-        )
-        return self.download_attachment(compressed_attachment_id)
-
-    def download_attachment(self, attachment_id):
+        self.ensure_one()
         return {
             "type": "ir.actions.act_url",
             "url": (
-                f"/web/content/{attachment_id.id}"
-                f"/{attachment_id.name}?download=true"
+                f"/web/content/{self.attachment_id.id}"
+                f"/{self.attachment_id.name}?download=true"
             ),
             "target": "self",
         }
+
+    def import_document(self):
+        self.ensure_one()
+        try:
+            document = self.company_id._dfe_download_document(self.access_key)
+            self.company_id._dfe_parse_xml_document(document)
+        except Exception as exc:
+            self.company_id._dfe_log(
+                _("Error importing document: \n\n %(error)s", error=exc),
+                log_type="error",
+            )
+
+    def import_document_multi(self):
+        for rec in self:
+            rec.import_document()
+
+    @api.depends("attachment_id")
+    def _compute_xml_pretty(self):
+        for rec in self:
+            rec.xml_pretty = False
+            data = rec.attachment_id.with_context(bin_size=False).datas
+            if not data:
+                continue
+            try:
+                xml_file = base64.b64decode(data)
+                root = etree.fromstring(xml_file)
+                rec.xml_pretty = etree.tostring(
+                    root,
+                    pretty_print=True,
+                    encoding="unicode",
+                )
+            except Exception:
+                _logger.debug("Could not parse XML for DFe %s", rec.id)
