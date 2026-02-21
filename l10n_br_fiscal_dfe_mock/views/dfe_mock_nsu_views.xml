@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <!-- Tree view -->
+    <record id="dfe_mock_nsu_tree" model="ir.ui.view">
+        <field name="name">dfe.mock.nsu.tree</field>
+        <field name="model">dfe.mock.nsu</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="consumed == True">
+                <field name="nsu" />
+                <field name="schema_type" />
+                <field name="access_key" />
+                <field name="consumed" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="dfe_mock_nsu_form" model="ir.ui.view">
+        <field name="name">dfe.mock.nsu.form</field>
+        <field name="model">dfe.mock.nsu</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_reset_consumed"
+                        string="Reset Consumed"
+                        type="object"
+                        attrs="{'invisible': [('consumed', '=', False)]}"
+                        class="btn-secondary"
+                    />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="nsu" />
+                            <field name="schema_type" />
+                            <field name="access_key" />
+                        </group>
+                        <group>
+                            <field name="consumed" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="XML Content">
+                            <field
+                                name="xml_content"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="dfe_mock_nsu_search" model="ir.ui.view">
+        <field name="name">dfe.mock.nsu.search</field>
+        <field name="model">dfe.mock.nsu</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="nsu" />
+                <field name="access_key" />
+                <field name="schema_type" />
+                <filter
+                    name="unconsumed"
+                    string="Unconsumed"
+                    domain="[('consumed', '=', False)]"
+                />
+                <filter
+                    name="consumed"
+                    string="Consumed"
+                    domain="[('consumed', '=', True)]"
+                />
+                <separator />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_schema"
+                        string="Schema Type"
+                        context="{'group_by': 'schema_type'}"
+                    />
+                    <filter
+                        name="group_consumed"
+                        string="Consumed"
+                        context="{'group_by': 'consumed'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="dfe_mock_nsu_action" model="ir.actions.act_window">
+        <field name="name">Mock NSU Pool</field>
+        <field name="res_model">dfe.mock.nsu</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="dfe_mock_nsu_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No mock NSUs yet
+            </p>
+            <p>
+                Use the menu <b>Generate Mock NSU</b> to create fake
+                NSU records for testing DF-e distribution.
+            </p>
+        </field>
+    </record>
+
+    <!-- Generate wizard action -->
+    <record id="action_generate_mock_nsu" model="ir.actions.act_window">
+        <field name="name">Generate Mock NSU</field>
+        <field name="res_model">dfe.mock.generate.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Server action: reset consumed from tree view -->
+    <record id="action_reset_consumed_multi" model="ir.actions.server">
+        <field name="name">Reset Consumed</field>
+        <field name="model_id" ref="model_dfe_mock_nsu" />
+        <field name="binding_model_id" ref="model_dfe_mock_nsu" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">records.action_reset_consumed()</field>
+    </record>
+
+    <!-- Server action: toggle mock mode -->
+    <record id="action_toggle_dfe_mock_mode" model="ir.actions.server">
+        <field name="name">Toggle DF-e Mock Mode</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="state">code</field>
+        <field name="code">env.company.action_toggle_dfe_mock_mode()</field>
+    </record>
+
+    <!-- Server action: reset cooldown -->
+    <record id="action_reset_dfe_cooldown" model="ir.actions.server">
+        <field name="name">Reset Query Cooldown</field>
+        <field name="model_id" ref="base.model_res_company" />
+        <field name="state">code</field>
+        <field name="code">env.company.action_reset_dfe_cooldown()</field>
+    </record>
+
+    <!-- Menu: Mock submenu under DF-e Queries -->
+    <menuitem
+        id="dfe_mock_separator"
+        name="Mock"
+        parent="l10n_br_fiscal_dfe.dfe_queries_menu"
+        sequence="88"
+    />
+    <menuitem
+        id="dfe_mock_toggle_menu"
+        action="action_toggle_dfe_mock_mode"
+        name="Toggle Mock Mode"
+        parent="dfe_mock_separator"
+        sequence="1"
+    />
+    <menuitem
+        id="dfe_mock_nsu_menu"
+        action="dfe_mock_nsu_action"
+        name="Mock NSU Pool"
+        parent="dfe_mock_separator"
+        sequence="2"
+    />
+    <menuitem
+        id="dfe_mock_generate_menu"
+        action="action_generate_mock_nsu"
+        name="Generate Mock NSU"
+        parent="dfe_mock_separator"
+        sequence="3"
+    />
+    <menuitem
+        id="dfe_mock_reset_cooldown_menu"
+        action="action_reset_dfe_cooldown"
+        name="Reset Query Cooldown"
+        parent="dfe_mock_separator"
+        sequence="4"
+    />
+</odoo>
