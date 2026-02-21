@@ -1,18 +1,21 @@
 # Copyright (C) 2023 KMEE Informatica LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
+import gzip
+import logging
 import re
 from datetime import datetime, timedelta
+from io import BytesIO
 
-from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import objectify
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
-from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
-from requests import Session
+from nfelib.nfe.client.v4_0.dfe import DfeClient
 
 from odoo import _, api, fields, models
 
 from ..tools import utils
+
+_logger = logging.getLogger(__name__)
 
 
 class DFeMonitor(models.Model):
@@ -73,14 +76,13 @@ class DFeMonitor(models.Model):
 
     @api.model
     def _get_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
-        session = Session()
-        session.verify = False
-        return edoc_nfe(
-            TransmissaoSOAP(certificado, session),
-            self.company_id.state_id.ibge_code,
-            versao=self.version,
+        return DfeClient(
             ambiente=self.environment,
+            uf=self.company_id.state_id.ibge_code,
+            pkcs12_data=self.company_id.certificate.file,
+            fake_certificate=self.company_id.certificate.file,
+            pkcs12_password=self.company_id.certificate.password,
+            wrap_response=True,
         )
 
     @api.model
@@ -160,13 +162,28 @@ class DFeMonitor(models.Model):
 
     @api.model
     def _parse_xml_document(self, document):
-        schema_type = document.schema.split("_")[0]
-        method = "parse_%s" % schema_type
-        if not hasattr(self, method):
-            return
+        """
+        Parse the content of a DocZip object returned by the nfelib client.
+        'document' is an xsdata dataclass object.
+        """
 
-        xml = utils.parse_gzip_xml(document.valueOf_)
-        return getattr(self, method)(xml)
+        # The xsdata binding for docZip has 'schema_value' and 'value' attributes.
+        schema_type = document.schema_value.split("_")[0]
+        method_name = f"parse_{schema_type}"
+
+        try:
+            # Get the parsing method (e.g., parse_procNFe from l10n_br_nfe)
+            parse_method = getattr(self, method_name)
+        except AttributeError:
+            _logger.info(
+                f"DF-e parsing method '{method_name}' not found. Skipping document."
+            )
+            return None
+
+        # The 'value' attribute contains the RAW gzipped bytes, not base64.
+        # We decompress it directly here.
+        xml_stream = gzip.GzipFile(fileobj=BytesIO(document.value))
+        return parse_method(xml_stream)
 
     @api.model
     def _download_document(self, nfe_key):
@@ -193,21 +210,36 @@ class DFeMonitor(models.Model):
 
     def _process_distribution(self, result):
         for doc in result.resposta.loteDistDFeInt.docZip:
-            xml = utils.parse_gzip_xml(doc.valueOf_).read()
+            payload = getattr(doc, "value", None)
+            if payload is None:
+                payload = getattr(doc, "valueOf_", None)
+            if payload is None:
+                continue
+            # TODO: ve isso depois mais aqui é vier str antigo usa base64
+            # se vier como bytes novo: converte para base 64
+            # (parse_gzip_xml exige base64) verificar isso dps?
+            if isinstance(payload, bytes):
+                from base64 import b64encode
+
+                b64_payload = b64encode(payload).decode()
+            else:
+                b64_payload = payload
+
+            xml = utils.parse_gzip_xml(b64_payload).read()
             root = objectify.fromstring(xml)
-            nsu = utils.format_nsu(doc.NSU)
+            nsu_raw = getattr(doc, "NSU", None) or getattr(doc, "nsu", None)
+            nsu = utils.format_nsu(nsu_raw)
 
             dfe_id = self.env["l10n_br_fiscal.dfe"].search(
-                [
-                    ("nsu", "=", nsu),
-                    ("company_id", "=", self.company_id.id),
-                ],
-                limit=1,
+                [("nsu", "=", nsu), ("company_id", "=", self.company_id.id)], limit=1
             )
             if dfe_id:
                 continue
 
-            schema_type = doc.schema.split("_")[0]
+            schema = (
+                getattr(doc, "schema_value", None) or getattr(doc, "schema", "") or ""
+            )
+            schema_type = schema.split("_")[0]
             if schema_type == "procNFe":
                 dfe_id = self._create_dfe_from_procNFe(root, nsu)
             elif schema_type == "resNFe":
