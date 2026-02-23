@@ -1,7 +1,7 @@
 Módulo para monitoramento de NF-e recebidas via o web service de
 Distribuição de DF-e da SEFAZ (NFeDistribuicaoDFe — Ambiente Nacional),
 implementado conforme a
-`Nota Técnica 2014.002 v1.30 <https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=P0U3lU1Fe40=>`_.
+[Nota Técnica 2014.002 v1.30](https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=P0U3lU1Fe40=).
 
 Permite que empresas consultem automaticamente todos os documentos fiscais
 eletrônicos emitidos contra seu CNPJ, sem necessidade de receber o XML
