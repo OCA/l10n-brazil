@@ -38,7 +38,11 @@ class TestNFeDFe(TransactionCase):
         _mock_post.return_value = _bytes(response_sucesso_individual)
 
         self.company.dfe_search_documents()
-        self.company.dfe_import_documents()
+        dfe_docs = self.env["l10n_br_fiscal_dfe.document"].search(
+            [("company_id", "=", self.company.id)]
+        )
+        for doc in dfe_docs:
+            doc.import_document()
 
         self.assertEqual(len(self._search_dfe()), 1)
         access_key = "35200159594315000157550010000000012062777161"
