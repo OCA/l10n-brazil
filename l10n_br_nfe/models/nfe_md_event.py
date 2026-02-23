@@ -3,7 +3,7 @@
 
 import logging
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
@@ -105,6 +105,8 @@ class NfeRecipientManifestationEvent(models.Model):
                 self.protocol = inf_evento.nProt
                 self.protocol_date = fields.Datetime.to_string(
                     datetime.fromisoformat(inf_evento.dhRegEvento)
+                    .astimezone(timezone.utc)
+                    .replace(tzinfo=None)
                 )
                 self.response_xml = result.retorno._content.decode("utf-8")
                 self.state = "done"
