@@ -309,9 +309,24 @@ class L10nBrFiscalDfeDocument(models.Model):
         }
 
     def import_document(self):
-        complete_dfe_ids = self.dfe_ids.filtered(
+        complete_dfe = self.dfe_ids.filtered(
             lambda dfe: dfe.dfe_nfe_document_type == "dfe_nfe_complete"
+        )[:1]
+        if not complete_dfe or not complete_dfe.attachment_id:
+            raise UserError(
+                _("You can only import the NF-e when the DF-e is completed.")
+            )
+        xml_bytes = base64.b64decode(
+            complete_dfe.attachment_id.with_context(bin_size=False).datas
         )
-        if complete_dfe_ids:
-            return complete_dfe_ids.import_document()
-        raise UserError(_("You can only import the NF-e when the DF-e is completed."))
+        xml_stream = BytesIO(xml_bytes)
+        parse_method_name = f"parse_{complete_dfe.schema_type}"
+        parse_method = getattr(self.company_id, parse_method_name, None)
+        if not parse_method:
+            raise UserError(
+                _(
+                    "No import method available for schema type '%(schema)s'.",
+                    schema=complete_dfe.schema_type,
+                )
+            )
+        return parse_method(xml_stream)
