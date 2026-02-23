@@ -805,16 +805,14 @@ class TestDFe(TransactionCase):
         )
         self.assertTrue(dfe.xml_pretty, "Valid XML should produce pretty output")
 
-        # DFe without attachment
-        dfe_no_attach = self.env["l10n_br_fiscal_dfe.dfe"].search(
-            [
-                ("company_id", "=", self.company.id),
-                ("attachment_id", "=", False),
-            ],
-            limit=1,
+        # DFe without attachment should return False
+        dfe_no_attach = self.env["l10n_br_fiscal_dfe.dfe"].create(
+            {
+                "access_key": "35200199999999999999550010000000019999999991",
+                "company_id": self.company.id,
+            }
         )
-        if dfe_no_attach:
-            self.assertFalse(dfe_no_attach.xml_pretty)
+        self.assertFalse(dfe_no_attach.xml_pretty)
 
     def test_dfe_import_document_no_attachment(self):
         """import_document should raise UserError when no attachment exists."""
@@ -1222,3 +1220,185 @@ class TestDFe(TransactionCase):
         user_self = user.with_user(user)
         user_self.write({"dfe_notification": True})
         self.assertTrue(user.dfe_notification)
+
+    # ── Coverage: _dfe_log branch paths ──────────────────────────────────
+
+    def test_dfe_log_with_string_envio_xml(self):
+        """_dfe_log handles envio_xml as a string (not bytes)."""
+        result = mock.MagicMock()
+        result.envio_xml = "<xml>request</xml>"  # string, not bytes
+        result.retorno = None
+        self.company._dfe_log("Test message", result=result)
+
+        log = self.env["l10n_br_fiscal_dfe.distribution_log"].search(
+            [("company_id", "=", self.company.id)], limit=1
+        )
+        self.assertEqual(log.request_xml, "<xml>request</xml>")
+
+    def test_dfe_log_with_bytes_envio_xml(self):
+        """_dfe_log handles envio_xml as bytes."""
+        result = mock.MagicMock()
+        result.envio_xml = b"<xml>request</xml>"
+        result.retorno = None
+        self.company._dfe_log("Test bytes", result=result)
+
+        log = self.env["l10n_br_fiscal_dfe.distribution_log"].search(
+            [("company_id", "=", self.company.id)], limit=1
+        )
+        self.assertEqual(log.request_xml, "<xml>request</xml>")
+
+    def test_dfe_log_retorno_with_content_attr(self):
+        """_dfe_log reads retorno.content when _content is missing."""
+        result = mock.MagicMock(spec=["retorno"])
+        del result.envio_xml  # no envio_xml attribute
+        retorno = mock.MagicMock(spec=["content"])
+        retorno.content = b"<xml>response via content</xml>"
+        result.retorno = retorno
+        self.company._dfe_log("Test content attr", result=result)
+
+        log = self.env["l10n_br_fiscal_dfe.distribution_log"].search(
+            [("company_id", "=", self.company.id)], limit=1
+        )
+        self.assertEqual(log.response_xml, "<xml>response via content</xml>")
+
+    def test_dfe_log_retorno_content_as_string(self):
+        """_dfe_log handles retorno content as string (not bytes)."""
+        result = mock.MagicMock(spec=["retorno"])
+        del result.envio_xml
+        retorno = mock.MagicMock(spec=["_content"])
+        retorno._content = "<xml>string response</xml>"
+        result.retorno = retorno
+        self.company._dfe_log("Test string content", result=result)
+
+        log = self.env["l10n_br_fiscal_dfe.distribution_log"].search(
+            [("company_id", "=", self.company.id)], limit=1
+        )
+        self.assertEqual(log.response_xml, "<xml>string response</xml>")
+
+    def test_dfe_log_retorno_no_content(self):
+        """_dfe_log handles retorno with no content attributes."""
+        result = mock.MagicMock(spec=["retorno"])
+        del result.envio_xml
+        retorno = mock.MagicMock(spec=[])
+        result.retorno = retorno
+        self.company._dfe_log("Test no content", result=result)
+
+        log = self.env["l10n_br_fiscal_dfe.distribution_log"].search(
+            [("company_id", "=", self.company.id)], limit=1
+        )
+        self.assertFalse(log.response_xml)
+
+    # ── Coverage: _dfe_process_distribution edge cases ───────────────────
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_zero_nsu_unknown_schema_no_dedup(self, mock_post):
+        """Zero NSU with unknown schema (no extractor) creates record."""
+        unknown_xml = '<myDoc xmlns="http://example.com"><data>1</data></myDoc>'
+        response = _build_dfe_response(
+            [("000000000000000", "myDoc_v1.00.xsd", unknown_xml)],
+            ult_nsu="000000000000300",
+            max_nsu="000000000000300",
+        )
+        mock_post.return_value = response.encode("utf-8")
+
+        self.company._dfe_search_specific_document(access_key="any_key")
+
+        dfe_record = self.env["l10n_br_fiscal_dfe.dfe"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("schema_type", "=", "myDoc"),
+            ]
+        )
+        self.assertEqual(len(dfe_record), 1)
+        self.assertFalse(dfe_record.nsu, "NSU should be False for zero-NSU")
+
+    # ── Coverage: _dfe_sync_cron_nextcall without cron ───────────────────
+
+    def test_sync_cron_nextcall_no_cron(self):
+        """_dfe_sync_cron_nextcall returns gracefully when cron ref is missing."""
+        # Temporarily make the ref return False
+        with mock.patch.object(
+            type(self.env),
+            "ref",
+            return_value=False,
+        ):
+            # Should not raise
+            self.company._dfe_sync_cron_nextcall()
+
+    # ── Coverage: _update_metadata skip ──────────────────────────────────
+
+    def test_update_metadata_skip_when_complete_exists(self):
+        """_update_metadata with is_complete=False skips when complete DFe exists."""
+        dfe_doc = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "35200199999999999999550010000000019999999991",
+                "company_id": self.company.id,
+                "emitter": "Original Emitter",
+            }
+        )
+        self.env["l10n_br_fiscal_dfe.dfe"].create(
+            {
+                "access_key": dfe_doc.access_key,
+                "company_id": self.company.id,
+                "dfe_document_id": dfe_doc.id,
+                "dfe_nfe_document_type": "dfe_nfe_complete",
+                "schema_type": "procNFe",
+            }
+        )
+        # Try to update with is_complete=False — should be skipped
+        dfe_doc._update_metadata({"emitter": "New Emitter"}, is_complete=False)
+        self.assertEqual(
+            dfe_doc.emitter,
+            "Original Emitter",
+            "Metadata should not be updated when complete DFe already exists",
+        )
+
+    # ── Coverage: DFe name_get without type ──────────────────────────────
+
+    def test_dfe_name_get_without_type(self):
+        """name_get handles DFe record without dfe_nfe_document_type."""
+        dfe = self.env["l10n_br_fiscal_dfe.dfe"].create(
+            {
+                "access_key": "35200199999999999999550010000000019999999991",
+                "company_id": self.company.id,
+            }
+        )
+        name = dfe.name_get()[0][1]
+        self.assertIn("35200199999999999999550010000000019999999991", name)
+
+    # ── Coverage: notify fallback URL ────────────────────────────────────
+
+    def test_notify_users_fallback_url(self):
+        """_dfe_notify_users uses fallback URL when action ref is missing."""
+        user = self._create_dfe_notification_user("dfe_fb", dfe_notification=True)
+        key = "35200159594315000157550010000000012062777161"
+        doc = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": key,
+                "company_id": self.company.id,
+            }
+        )
+        with mock.patch.object(
+            type(self.env),
+            "ref",
+            return_value=False,
+        ):
+            self.company._dfe_notify_users(doc)
+
+        notifications = self.env["mail.message"].search(
+            [
+                ("message_type", "=", "user_notification"),
+                ("partner_ids", "in", user.partner_id.id),
+                ("body", "ilike", "%DF-e%"),
+            ]
+        )
+        self.assertTrue(notifications)
+
+    # ── Coverage: _dfe_get_or_create_document short key ──────────────────
+
+    def test_get_or_create_document_short_key(self):
+        """_dfe_get_or_create_document with short key skips metadata extraction."""
+        doc = self.company._dfe_get_or_create_document("SHORT_KEY")
+        self.assertTrue(doc)
+        self.assertEqual(doc.access_key, "SHORT_KEY")
+        self.assertFalse(doc.vat, "Short key should not extract CNPJ metadata")
