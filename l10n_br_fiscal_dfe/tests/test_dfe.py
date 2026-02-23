@@ -1402,3 +1402,65 @@ class TestDFe(TransactionCase):
         self.assertTrue(doc)
         self.assertEqual(doc.access_key, "SHORT_KEY")
         self.assertFalse(doc.vat, "Short key should not extract CNPJ metadata")
+
+    # ── Timezone: dhEmi and dhRegEvento must be converted to UTC ─────────
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_resnfe_dhemi_converted_to_utc(self, mock_post):
+        """resNFe dhEmi with -03:00 offset must be stored as UTC."""
+        resnfe_xml = (
+            '<resNFe xmlns="http://www.portalfiscal.inf.br/nfe">'
+            "<chNFe>35200159594315000157550010000000012062777161</chNFe>"
+            "<CNPJ>59594315000157</CNPJ>"
+            "<xNome>Test Emitter TZ</xNome>"
+            "<dhEmi>2026-02-23T12:15:38-03:00</dhEmi>"
+            "<tpNF>1</tpNF>"
+            "<vNF>1000.00</vNF>"
+            "<cSitNFe>1</cSitNFe>"
+            "</resNFe>"
+        )
+        response = _build_dfe_response(
+            [("000000000000400", "resNFe_v1.00.xsd", resnfe_xml)],
+            ult_nsu="000000000000400",
+            max_nsu="000000000000400",
+        )
+        mock_post.return_value = response.encode("utf-8")
+        self.company.dfe_search_documents()
+
+        dfe_doc = self.env["l10n_br_fiscal_dfe.document"].search(
+            [("company_id", "=", self.company.id)], limit=1
+        )
+        self.assertTrue(dfe_doc.document_emission_date)
+        # 12:15:38 BRT (-03:00) = 15:15:38 UTC
+        self.assertEqual(dfe_doc.document_emission_date.hour, 15)
+        self.assertEqual(dfe_doc.document_emission_date.minute, 15)
+        self.assertEqual(dfe_doc.document_emission_date.second, 38)
+
+    def test_mde_protocol_date_converted_to_utc(self):
+        """validate_event_response dhRegEvento with offset must be stored as UTC."""
+        mde = self.env["l10n_br_nfe.md_event"].create(
+            {
+                "access_key": "35200159594315000157550010000000012062777161",
+                "event_type": "ciente",
+                "company_id": self.company.id,
+                "document_type": "nfe",
+                "state": "draft",
+            }
+        )
+
+        result = mock.MagicMock()
+        result.retorno.status_code = 200
+        result.retorno._content = b"<xml>response</xml>"
+        inf_evento = result.resposta.retEvento.__getitem__.return_value.infEvento
+        inf_evento.cStat = "135"
+        inf_evento.xMotivo = "Evento registrado"
+        inf_evento.nProt = "891220000000001"
+        inf_evento.dhRegEvento = "2026-02-23T10:30:00-03:00"
+
+        mde.validate_event_response(result, ["135"])
+
+        self.assertEqual(mde.state, "done")
+        # 10:30:00 BRT (-03:00) = 13:30:00 UTC
+        self.assertEqual(mde.protocol_date.hour, 13)
+        self.assertEqual(mde.protocol_date.minute, 30)
+        self.assertEqual(mde.protocol_date.second, 0)
