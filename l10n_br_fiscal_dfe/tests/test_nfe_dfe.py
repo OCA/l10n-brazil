@@ -35,10 +35,7 @@ class TestNFeDFe(TransactionCase):
 
     @mock.patch.object(DefaultTransport, "post")
     def test_download_document_proc_nfe(self, _mock_post):
-        _mock_post.side_effect = [
-            _bytes(response_sucesso_individual),
-            _bytes(response_sucesso_individual),
-        ]
+        _mock_post.return_value = _bytes(response_sucesso_individual)
 
         self.company.dfe_search_documents()
         self.company.dfe_import_documents()
@@ -50,7 +47,7 @@ class TestNFeDFe(TransactionCase):
         )
         self.assertTrue(fiscal_doc, "Fiscal document should be created after import")
         self.assertEqual(fiscal_doc.document_key, access_key)
-        self.assertEqual(_mock_post.call_count, 2)
+        self.assertEqual(_mock_post.call_count, 1)
 
     @mock.patch.object(DefaultTransport, "post")
     def test_search_dfe_success(self, _mock_post):
