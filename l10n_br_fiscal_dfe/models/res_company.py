@@ -3,7 +3,6 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import base64
-import logging
 import re
 from datetime import datetime
 
@@ -28,8 +27,6 @@ from ..constants.dfe import (
     DFE_VERSIONS,
 )
 from ..tools import utils
-
-_logger = logging.getLogger(__name__)
 
 ACCESS_KEY_EXTRACTORS = {
     "procNFe": lambda root: str(root.protNFe.infProt.chNFe),
@@ -466,15 +463,8 @@ class ResCompany(models.Model):
                     continue
             else:
                 nsu = False
-                access_key = None
                 extractor = ACCESS_KEY_EXTRACTORS.get(schema_type)
-                if extractor:
-                    try:
-                        access_key = extractor(root)
-                    except (AttributeError, IndexError):
-                        _logger.debug(
-                            "Could not extract access key for %s", schema_type
-                        )
+                access_key = extractor(root) if extractor else None
                 if access_key:
                     existing = DfeRecord.search(
                         [
