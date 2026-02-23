@@ -20,7 +20,7 @@ class ResCompany(models.Model):
         selection=DFE_ENVIRONMENTS,
         default=DFE_ENVIRONMENT_DEFAULT,
     )
-    
+
     last_nsu = fields.Char(string="Last NSU", size=25, default="0")
 
     max_nsu = fields.Char(string="Max NSU", readonly=True)
