@@ -660,17 +660,6 @@ class ResCompany(models.Model):
             document = Document.create(vals)
         return document
 
-    def dfe_import_documents(self):
-        DfeRecord = self.env["l10n_br_fiscal_dfe.dfe"]
-        for record in self:
-            dfe_records = DfeRecord.search(
-                [
-                    ("company_id", "=", record.id),
-                    ("dfe_nfe_document_type", "=", "dfe_nfe_complete"),
-                ]
-            )
-            dfe_records.import_document_multi()
-
     @api.model
     def parse_procNFe(self, xml):
         binding = TnfeProc.from_xml(xml.read().decode())
