@@ -2,12 +2,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import base64
 import logging
-from io import BytesIO
 
 from lxml import etree
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
 
 from ..constants.dfe import DFE_DESCRIPTION_MAP, EVENT_TYPE_LABELS, OPERATION_TYPE
 
@@ -111,35 +109,6 @@ class DFe(models.Model):
             ),
             "target": "self",
         }
-
-    def import_document(self):
-        self.ensure_one()
-        if not self.attachment_id:
-            raise UserError(_("No XML attachment found for this DF-e record."))
-        xml_bytes = base64.b64decode(
-            self.attachment_id.with_context(bin_size=False).datas
-        )
-        xml_stream = BytesIO(xml_bytes)
-        parse_method_name = f"parse_{self.schema_type}"
-        parse_method = getattr(self.company_id, parse_method_name, None)
-        if not parse_method:
-            raise UserError(
-                _(
-                    "No import method available for schema type '%(schema)s'.",
-                    schema=self.schema_type,
-                )
-            )
-        return parse_method(xml_stream)
-
-    def import_document_multi(self):
-        for rec in self:
-            try:
-                rec.import_document()
-            except Exception as exc:
-                rec.company_id._dfe_log(
-                    _("Error importing document: \n\n %(error)s", error=exc),
-                    log_type="error",
-                )
 
     @api.depends("attachment_id")
     def _compute_xml_pretty(self):
