@@ -389,6 +389,8 @@ class ResCompany(models.Model):
             self.env["mail.thread"].sudo().message_notify(
                 partner_ids=user.partner_id.ids,
                 body=body,
+                model="res.company",
+                res_id=company.id,
             )
 
     def dfe_search_documents(self):
