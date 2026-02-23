@@ -30,7 +30,7 @@ class NfeRecipientManifestationEvent(models.Model):
         required=True,
     )
 
-    document_number = fields.Float()
+    document_number = fields.Char()
 
     access_key = fields.Char(required=True)
 
@@ -128,11 +128,8 @@ class NfeRecipientManifestationEvent(models.Model):
 
     def action_send_event(self, operation, valid_codes, new_state):
         for record in self:
-            try:
-                record._send_event(operation, valid_codes)
-                record.event_type = new_state
-            except Exception as e:
-                raise e
+            record._send_event(operation, valid_codes)
+            record.event_type = new_state
 
     def action_confirm(self):
         event_mapping = {
