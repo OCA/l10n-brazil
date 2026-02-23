@@ -3,7 +3,7 @@
 
 import logging
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
@@ -66,8 +66,10 @@ class NfeRecipientManifestationEvent(models.Model):
         required=True,
     )
 
-    def name_get(self):
-        return [(rec.id, f"{rec.access_key}") for rec in self]
+    @api.depends("access_key")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record.access_key
 
     def _get_processor(self):
         certificado = self.env.company._get_br_ecertificate()
@@ -105,6 +107,8 @@ class NfeRecipientManifestationEvent(models.Model):
                 self.protocol = inf_evento.nProt
                 self.protocol_date = fields.Datetime.to_string(
                     datetime.fromisoformat(inf_evento.dhRegEvento)
+                    .astimezone(timezone.utc)
+                    .replace(tzinfo=None)
                 )
                 self.response_xml = result.retorno._content.decode("utf-8")
                 self.state = "done"
