@@ -4,7 +4,7 @@
 
 import base64
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 
 from lxml import objectify
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
@@ -523,10 +523,11 @@ class ResCompany(models.Model):
                 "serie": str(root.NFe.infNFe.ide.serie),
                 "document_number": str(int(root.NFe.infNFe.ide.nNF)),
                 "document_amount": float(root.NFe.infNFe.total.ICMSTot.vNF),
-                "document_emission_date": datetime.strptime(
-                    str(root.NFe.infNFe.ide.dhEmi)[:19],
-                    "%Y-%m-%dT%H:%M:%S",
-                ),
+                "document_emission_date": datetime.fromisoformat(
+                    str(root.NFe.infNFe.ide.dhEmi)
+                )
+                .astimezone(timezone.utc)
+                .replace(tzinfo=None),
                 "document_state": "1",
             },
             is_complete=True,
@@ -558,9 +559,9 @@ class ResCompany(models.Model):
                 "emitter": str(root.xNome),
                 "vat": supplier_cnpj,
                 "document_amount": float(root.vNF),
-                "document_emission_date": datetime.strptime(
-                    str(root.dhEmi)[:19], "%Y-%m-%dT%H:%M:%S"
-                ),
+                "document_emission_date": datetime.fromisoformat(str(root.dhEmi))
+                .astimezone(timezone.utc)
+                .replace(tzinfo=None),
                 "document_state": str(root.cSitNFe),
             },
             is_complete=False,
