@@ -816,8 +816,8 @@ class TestDFe(TransactionCase):
         if dfe_no_attach:
             self.assertFalse(dfe_no_attach.xml_pretty)
 
-    def test_dfe_import_document_error(self):
-        """import_document should log errors without raising."""
+    def test_dfe_import_document_no_attachment(self):
+        """import_document should raise UserError when no attachment exists."""
         dfe_doc = self.env["l10n_br_fiscal_dfe.document"].create(
             {
                 "access_key": "35200159594315000157550010000000012062777161",
@@ -833,14 +833,28 @@ class TestDFe(TransactionCase):
                 "schema_type": "procNFe",
             }
         )
-        # import_document calls _dfe_download_document which will fail
-        # because there's no real SEFAZ connection — error should be logged
-        with mock.patch.object(
-            type(self.company),
-            "_dfe_download_document",
-            side_effect=Exception("Mock download error"),
-        ):
+        with self.assertRaises(UserError):
             dfe.import_document()
+
+    def test_dfe_import_document_multi_logs_error(self):
+        """import_document_multi should log errors without raising."""
+        dfe_doc = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "35200159594315000157550010000000012062777161",
+                "company_id": self.company.id,
+            }
+        )
+        dfe = self.env["l10n_br_fiscal_dfe.dfe"].create(
+            {
+                "access_key": dfe_doc.access_key,
+                "company_id": self.company.id,
+                "dfe_document_id": dfe_doc.id,
+                "dfe_nfe_document_type": "dfe_nfe_complete",
+                "schema_type": "procNFe",
+            }
+        )
+        # import_document_multi catches exceptions and logs them
+        dfe.import_document_multi()
 
         log = self.env["l10n_br_fiscal_dfe.distribution_log"].search(
             [
