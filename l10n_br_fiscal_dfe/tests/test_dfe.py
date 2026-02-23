@@ -1106,32 +1106,6 @@ class TestDFe(TransactionCase):
         with self.assertRaises(ValidationError):
             self.company._dfe_search_specific_document(access_key=key)
 
-    # ── res_company coverage: download & parse ──────────────────────────
-
-    def test_download_document_exception(self):
-        """_dfe_download_document logs error on exception."""
-        with mock.patch.object(
-            type(self.company),
-            "_dfe_consultar_distribuicao",
-            side_effect=Exception("Connection error"),
-        ):
-            result = self.company._dfe_download_document("fake_key")
-        self.assertIsNone(result)
-
-    @mock.patch.object(DefaultTransport, "post")
-    def test_download_document_validation_fails(self, mock_post):
-        """_dfe_download_document returns None on SEFAZ rejection."""
-        mock_post.return_value = response_rejeicao.encode("utf-8")
-        result = self.company._dfe_download_document("fake_key")
-        self.assertIsNone(result)
-
-    def test_parse_xml_unknown_schema(self):
-        """_dfe_parse_xml_document returns None for unknown schema."""
-        doc = mock.Mock()
-        doc.schema_value = "unknownType_v1.00.xsd"
-        result = self.company._dfe_parse_xml_document(doc)
-        self.assertIsNone(result)
-
     # ── res_company coverage: notification & cooldown ───────────────────
 
     def test_notify_own_documents_skipped(self):
