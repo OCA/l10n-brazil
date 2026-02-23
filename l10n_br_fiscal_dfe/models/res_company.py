@@ -3,11 +3,9 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import base64
-import gzip
 import logging
 import re
 from datetime import datetime
-from io import BytesIO
 
 from lxml import objectify
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
@@ -661,50 +659,6 @@ class ResCompany(models.Model):
                 vals["document_number"] = key[25:34].lstrip("0") or "0"
             document = Document.create(vals)
         return document
-
-    def _dfe_download_document(self, nfe_key):
-        try:
-            result = self._dfe_consultar_distribuicao(
-                chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.vat)
-            )
-        except Exception as exc:
-            self._dfe_log(
-                _("Error on searching documents.\n%(error)s", error=exc),
-                log_type="error",
-            )
-            return
-
-        if not self._dfe_validate_distribution_response(result):
-            return
-
-        self._dfe_log(
-            _(
-                "Document download OK: %(key)s",
-                key=nfe_key,
-            ),
-            log_type="success",
-            result=result,
-        )
-        return result.resposta.loteDistDFeInt.docZip[0]
-
-    def _dfe_parse_xml_document(self, document):
-        """
-        Parse the content of a DocZip object returned by the nfelib client.
-        'document' is an xsdata dataclass object.
-        """
-        schema_type = document.schema_value.split("_")[0]
-        method_name = f"parse_{schema_type}"
-
-        try:
-            parse_method = getattr(self, method_name)
-        except AttributeError:
-            _logger.info(
-                "DF-e parsing method '%s' not found. Skipping document.", method_name
-            )
-            return None
-
-        xml_stream = gzip.GzipFile(fileobj=BytesIO(document.value))
-        return parse_method(xml_stream)
 
     def dfe_import_documents(self):
         DfeRecord = self.env["l10n_br_fiscal_dfe.dfe"]
