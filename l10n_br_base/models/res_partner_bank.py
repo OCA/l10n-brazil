@@ -3,7 +3,7 @@
 # Copyright (C) 2012 Raphaël Valyi (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 BANK_ACCOUNT_TYPE = [
@@ -83,7 +83,7 @@ class ResPartnerBank(models.Model):
     def _check_bra_number(self):
         for bank in self:
             if bank.bank_id.code_bc and bank.bra_number and len(bank.bra_number) > 4:
-                raise UserError(_("Bank branch code must be four characters."))
+                raise UserError(self.env._("Bank branch code must be four characters."))
 
     @api.constrains(
         "transactional_acc_type",
@@ -97,7 +97,7 @@ class ResPartnerBank(models.Model):
             if rec.transactional_acc_type:
                 if not rec.bank_id or not rec.bank_id.code_bc or not rec.acc_number:
                     raise UserError(
-                        _(
+                        self.env._(
                             "a transactional account must contain the bank "
                             "information (code_bc) and the account number"
                         )
@@ -105,7 +105,7 @@ class ResPartnerBank(models.Model):
             if rec.transactional_acc_type in ["checking", "saving"]:
                 if not rec.bra_number or not rec.acc_number_dig:
                     raise UserError(
-                        _(
+                        self.env._(
                             "A Checking Account or Saving Account transactional account"
                             " must contain the branch number and the account"
                             " verification digit."

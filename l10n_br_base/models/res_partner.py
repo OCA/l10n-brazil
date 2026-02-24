@@ -6,7 +6,7 @@
 
 from erpbrasil.base.fiscal import cnpj_cpf
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..tools import check_cnpj_cpf, check_ie
@@ -141,7 +141,7 @@ class Partner(models.Model):
                                 and record.l10n_br_ie_code
                             ):
                                 raise ValidationError(
-                                    _(
+                                    self.env._(
                                         "There is already a partner %(name)s "
                                         "(ID %(partner_id)s) with this "
                                         "Estadual Inscription %(incr_est)s!",
@@ -152,7 +152,7 @@ class Partner(models.Model):
                                 )
                     else:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "There is already a partner %(name)s "
                                 "(ID %(partner_id)s) with this CNPJ %(vat)s!",
                                 name=matches[0].name,
@@ -162,7 +162,7 @@ class Partner(models.Model):
                         )
                 elif not record.is_company:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "There is already a partner %(name)s (ID %(partner_id)s) "
                             "with this CPF/RG! %(vat)s",
                             name=matches[0].name,
@@ -213,7 +213,7 @@ class Partner(models.Model):
 
                 if l10n_br_ie_code_line.state_id.id == record.state_id.id:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "There can only be one state tax"
                             " number per state for each partner!"
                         )
@@ -227,7 +227,10 @@ class Partner(models.Model):
                 )
                 if duplicate_ie:
                     raise ValidationError(
-                        _("State Tax Number already used {}").format(duplicate_ie.name)
+                        self.env._(
+                            "State Tax Number already used %(name)s",
+                            name=duplicate_ie.name,
+                        )
                     )
 
     @api.model

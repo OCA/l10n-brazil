@@ -5,7 +5,7 @@
 import phonenumbers
 from email_validator import EmailSyntaxError, validate_email
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..tools import check_cnpj_cpf
@@ -62,13 +62,18 @@ class PartnerPix(models.Model):
                 check_deliverability=False,
             )
         except EmailSyntaxError as e:
-            raise ValidationError(_(f"{email.strip()} is an invalid email")) from e
+            raise ValidationError(
+                self.env._(
+                    "%(email_strip)s is an invalid email", email_strip=email.strip()
+                )
+            ) from e
         normalized_email = result.local_part + "@" + result.domain
         if len(normalized_email) > 77:
             raise ValidationError(
-                _(
-                    f"The email is too long, "
-                    f"a maximum of 77 characters is allowed: \n{email.strip()}"
+                self.env._(
+                    "The email is too long, "
+                    "a maximum of 77 characters is allowed: %(email_strip)s",
+                    email_strip=email.strip(),
                 )
             ) from None
         return normalized_email
@@ -77,14 +82,23 @@ class PartnerPix(models.Model):
         try:
             phonenumber = phonenumbers.parse(phone, "BR")
         except phonenumbers.phonenumberutil.NumberParseException as e:
-            raise ValidationError(_(f"Unable to parse {phone}: {str(e)}")) from e
+            raise ValidationError(
+                self.env._(
+                    "Unable to parse %(phone)s: %(str_e)s", phone=phone, str_e=repr(e)
+                )
+            ) from e
         if not phonenumbers.is_possible_number(phonenumber):
             raise ValidationError(
-                _(f"Impossible number {phone}: probably invalid number of digits.")
+                self.env._(
+                    "Impossible number %(phone)s: probably invalid number of digits.",
+                    phone=phone,
+                )
             ) from None
         if not phonenumbers.is_valid_number(phonenumber):
             raise ValidationError(
-                _(f"Invalid number {phone}: probably incorrect prefix.")
+                self.env._(
+                    "Invalid number %(phone)s: probably incorrect prefix.", phone=phone
+                )
             ) from None
         phone = phonenumbers.format_number(
             phonenumber, phonenumbers.PhoneNumberFormat.E164
@@ -101,21 +115,29 @@ class PartnerPix(models.Model):
         key = "".join(key.split())
         if len(key) != 36:
             raise ValidationError(
-                _(f"Invalid Random Key: {key}, cannot be longer than 35 characters")
+                self.env._(
+                    "Invalid Random Key: %(key)s , cannot be longer than 35 characters",
+                    key=key,
+                )
             )
         blocks = key.split("-")
         if len(blocks) != 5:
             raise ValidationError(
-                _(f"Invalid Random Key: {key}, the key must consist of five blocks.")
+                self.env._(
+                    "Invalid Random Key: %(key)s, the key must consist of five blocks.",
+                    key=key,
+                )
             )
         for block in blocks:
             try:
                 int(block, 16)
             except ValueError as e:
                 raise ValidationError(
-                    _(
-                        f"Invalid Random Key: {key} \nthe block {block} "
-                        f"is not a valid hexadecimal format."
+                    self.env._(
+                        "Invalid Random Key: %(key)s \nthe block %(block)s "
+                        "is not a valid hexadecimal format.",
+                        key=key,
+                        block=block,
                     )
                 ) from e
         return key
