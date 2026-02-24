@@ -5955,6 +5955,11 @@ msgid "Tara em KG"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_emit
+msgid "Technical Field."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_fone
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_fone
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_fone
