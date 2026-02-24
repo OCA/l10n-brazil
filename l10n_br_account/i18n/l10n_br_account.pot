@@ -1006,7 +1006,11 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__proxy_company_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__proxy_company_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_company_id
 msgid "Company (proxy)"
 msgstr ""
@@ -5403,7 +5407,11 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__proxy_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__proxy_partner_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__proxy_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_partner_id
 msgid "Partner (proxy)"
 msgstr ""
@@ -5884,6 +5892,14 @@ msgid "Shipping Address"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_shipping_id
+msgid "Shipping Partner (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.account_document_form_inherit
 msgid "Show related invoices"
 msgstr ""
@@ -6280,13 +6296,34 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_enderToma
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__mdfe30_emit
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__proxy_partner_shipping_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__proxy_user_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_enderToma
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__mdfe30_emit
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__proxy_partner_shipping_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__proxy_user_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_company_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_name
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_partner_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_quantity
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_enderToma
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__mdfe30_emit
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__proxy_partner_shipping_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__proxy_user_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__company_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_shipping_id
 #: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__proxy_user_id
 #: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__user_id
 #: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__company_id
