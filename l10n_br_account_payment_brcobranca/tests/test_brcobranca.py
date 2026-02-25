@@ -18,6 +18,10 @@ class TestPaymentOrder(TestBRCobrancaCommon):
         """Teste Boleto e Remessa Banco do Brasil - CNAB 400"""
         self._run_invoice_and_order_brcobranca(self.invoice_brasil_400)
 
+    def test_banco_brasil_cnab_240(self):
+        """Teste Boleto e Remessa Banco do Brasil - CNAB 240"""
+        self._run_invoice_and_order_brcobranca(self.invoice_brasil_240)
+
     def test_banco_itau_cnab_400(self):
         """Teste Boleto e Remessa Banco Itau - CNAB 400"""
         self._run_invoice_and_order_brcobranca(self.invoice_itau_400)
