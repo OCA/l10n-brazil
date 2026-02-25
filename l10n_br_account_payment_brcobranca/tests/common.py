@@ -171,7 +171,7 @@ class TestBRCobrancaCommon(CNABTestCommon):
             },
         )
 
-        cls.cnab_seq_brasil = create_with_form_ir_sequence(
+        cls.cnab_seq_brasil_400 = create_with_form_ir_sequence(
             cls.env,
             cls.common_sequence_values
             | {
@@ -180,11 +180,29 @@ class TestBRCobrancaCommon(CNABTestCommon):
             },
         )
 
-        cls.own_number_seq_brasil = create_with_form_ir_sequence(
+        cls.own_number_seq_brasil_400 = create_with_form_ir_sequence(
             cls.env,
             cls.common_sequence_values
             | {
-                "name": "Nosso número Banco do Brasil",
+                "name": "Nosso número Banco do Brasil 400",
+                "code": "nosso.numero",
+            },
+        )
+
+        cls.cnab_seq_brasil_240 = create_with_form_ir_sequence(
+            cls.env,
+            cls.common_sequence_values
+            | {
+                "name": "Sequencia Arquivo CNAB - Banco do Brasil 240",
+                "code": "Sequencia Arquivo CNAB - Banco do BRasil 240",
+            },
+        )
+
+        cls.own_number_seq_brasil_240 = create_with_form_ir_sequence(
+            cls.env,
+            cls.common_sequence_values
+            | {
+                "name": "Nosso número Banco do Brasil 240",
                 "code": "nosso.numero",
             },
         )
@@ -360,7 +378,7 @@ class TestBRCobrancaCommon(CNABTestCommon):
             }
         )
 
-        cls.cnab_config_brasil = create_with_form_l10n_br_cnab_config(
+        cls.cnab_config_brasil_400 = create_with_form_l10n_br_cnab_config(
             cls.env,
             cls.common_cnab_config_values
             | {
@@ -372,8 +390,8 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "boleto_interest_code_id": cls.env.ref(
                     "l10n_br_account_payment_order.brasil_400_boleto_interest_code_1"
                 ),
-                "cnab_sequence_id": cls.cnab_seq_brasil,
-                "own_number_sequence_id": cls.own_number_seq_brasil,
+                "cnab_sequence_id": cls.cnab_seq_brasil_400,
+                "own_number_sequence_id": cls.own_number_seq_brasil_400,
                 "cnab_company_bank_code": "1234",
                 "convention_code": "7654321",
                 "sending_code_id": cls.env.ref(
@@ -386,6 +404,34 @@ class TestBRCobrancaCommon(CNABTestCommon):
                     "l10n_br_account_payment_order.brasil_400_boleto_fee_code_9"
                 ),
                 "boleto_fee_percent": False,
+            },
+        )
+
+        cls.cnab_config_brasil_240 = create_with_form_l10n_br_cnab_config(
+            cls.env,
+            cls.common_cnab_config_values
+            | {
+                "name": "Banco do Brasil - CNAB 240 (inbound)",
+                "bank_id": cls.env.ref("l10n_br_base.res_bank_001"),
+                "payment_method_id": cls.pay_method_type_240,
+                "boleto_wallet": "17",
+                "boleto_variation": "19",
+                "boleto_interest_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febrabam_240_boleto_interest_code_2"
+                ),
+                "cnab_sequence_id": cls.cnab_seq_brasil_240,
+                "own_number_sequence_id": cls.own_number_seq_brasil_240,
+                "cnab_company_bank_code": "1234567",
+                "sending_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.brasil_240_instruction_01"
+                ),
+                "write_off_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.brasil_240_instruction_02"
+                ),
+                "boleto_fee_code_id": cls.env.ref(
+                    "l10n_br_account_payment_order.febraban_240_boleto_fee_code_1"
+                ),
+                "boleto_fee_percent": "1",
             },
         )
 
@@ -582,7 +628,11 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 {
                     "name": "BB CNAB 400",
                     "payment_method_id": cls.pay_method_type_400,
-                }
+                },
+                {
+                    "name": "BB CNAB 240",
+                    "payment_method_id": cls.pay_method_type_240,
+                },
             ],
         )
         cls.journal_brasil.write(
@@ -737,7 +787,7 @@ class TestBRCobrancaCommon(CNABTestCommon):
             },
         )
 
-        cls.pay_mode_brasil = create_with_form_account_payment_mode(
+        cls.pay_mode_brasil_400 = create_with_form_account_payment_mode(
             cls.env,
             cls.common_pay_mode_values
             | {
@@ -745,7 +795,19 @@ class TestBRCobrancaCommon(CNABTestCommon):
                 "bank_id": cls.env.ref("l10n_br_base.res_bank_001"),
                 "fixed_journal_id": cls.journal_brasil,
                 "payment_method_id": cls.pay_method_type_400,
-                "cnab_config_id": cls.cnab_config_brasil,
+                "cnab_config_id": cls.cnab_config_brasil_400,
+            },
+        )
+
+        cls.pay_mode_brasil_240 = create_with_form_account_payment_mode(
+            cls.env,
+            cls.common_pay_mode_values
+            | {
+                "name": "Cobrança Banco do Brasil 240",
+                "bank_id": cls.env.ref("l10n_br_base.res_bank_001"),
+                "fixed_journal_id": cls.journal_brasil,
+                "payment_method_id": cls.pay_method_type_240,
+                "cnab_config_id": cls.cnab_config_brasil_240,
             },
         )
 
@@ -851,7 +913,17 @@ class TestBRCobrancaCommon(CNABTestCommon):
             cls.inv_common_values
             | {
                 "name": "Banco do Brasil CNAB 400",
-                "payment_mode_id": cls.pay_mode_brasil,
+                "payment_mode_id": cls.pay_mode_brasil_400,
+            },
+            cls.inv_line_common_values,
+        )
+
+        cls.invoice_brasil_240 = create_with_form_account_move(
+            cls.env,
+            cls.inv_common_values
+            | {
+                "name": "Banco do Brasil CNAB 240",
+                "payment_mode_id": cls.pay_mode_brasil_240,
             },
             cls.inv_line_common_values,
         )
