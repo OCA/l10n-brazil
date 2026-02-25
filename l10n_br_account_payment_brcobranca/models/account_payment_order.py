@@ -30,7 +30,7 @@ class PaymentOrder(models.Model):
     def _prepare_remessa_banco_brasil(self, remessa_values, cnab_config):
         remessa_values.update(
             {
-                "convenio": int(cnab_config.cnab_company_bank_code),
+                "convenio": str(cnab_config.cnab_company_bank_code),
                 "carteira": str(cnab_config.boleto_wallet).zfill(2),
             }
         )
@@ -39,6 +39,10 @@ class PaymentOrder(models.Model):
             remessa_values.update(
                 {
                     "variacao": cnab_config.boleto_variation.zfill(3),
+                    "agencia": str(self.journal_id.bank_account_id.bra_number),
+                    "conta_corrente": str(
+                        misc.punctuation_rm(self.journal_id.bank_account_id.acc_number)
+                    ),
                 }
             )
 
