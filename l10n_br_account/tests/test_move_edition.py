@@ -575,3 +575,102 @@ class TestMoveEdition(TransactionCase):
             move_after_total_update.fiscal_amount_total, 2776.48, places=2
         )
         self.assertAlmostEqual(move_after_total_update.amount_total, 2776.48, places=2)
+
+    def _setup_fiscal_user(self):
+        """Grant fiscal groups needed for invoice tests with fiscal documents."""
+        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        nfe_user_group = self.env.ref(
+            "l10n_br_nfe.group_user", raise_if_not_found=False
+        )
+        if nfe_user_group:
+            self.user.groups_id += nfe_user_group
+
+    def _create_fiscal_invoice_form(self, partner):
+        """Create a fiscal invoice Form pre-filled with the given partner."""
+        move_form = Form(
+            self.env["account.move"].with_context(
+                default_move_type="out_invoice",
+            )
+        )
+        move_form.partner_id = partner
+        move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        move_form.document_serie_id = self.env.ref(
+            "l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        )
+        move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        return move_form
+
+    def test_ind_final_propagation_on_manual_change(self):
+        """Changing ind_final directly on a saved invoice must propagate
+        to the fiscal document lines."""
+        self._setup_fiscal_user()
+        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        partner.ind_final = "1"
+
+        move_form = self._create_fiscal_invoice_form(partner)
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_id
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+
+        move = move_form.save()
+        fiscal_line = move.fiscal_line_ids[0]
+        self.assertEqual(move.ind_final, "1")
+        self.assertEqual(fiscal_line.ind_final, "1")
+
+        # Manually change ind_final on the invoice
+        move.write({"ind_final": "0"})
+        self.assertEqual(move.ind_final, "0")
+        self.assertEqual(fiscal_line.ind_final, "0")
+
+    def test_ind_final_propagation_on_partner_change(self):
+        """Changing partner_id on a saved invoice must propagate ind_final
+        to the fiscal document lines when the new partner differs."""
+        self._setup_fiscal_user()
+        partner_final = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        partner_final.ind_final = "1"
+        partner_not_final = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
+        partner_not_final.ind_final = "0"
+
+        move_form = self._create_fiscal_invoice_form(partner_final)
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_id
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+
+        move = move_form.save()
+        fiscal_line = move.fiscal_line_ids[0]
+        self.assertEqual(move.ind_final, "1")
+        self.assertEqual(fiscal_line.ind_final, "1")
+
+        # Change to a partner with ind_final="0"
+        move.write({"partner_id": partner_not_final.id})
+        self.assertEqual(move.ind_final, "0")
+        self.assertEqual(fiscal_line.ind_final, "0")
+
+    def test_ind_final_propagation_on_form_partner_change(self):
+        """Changing partner_id on an unsaved invoice form must propagate
+        ind_final to existing lines both in the form and after saving."""
+        self._setup_fiscal_user()
+        partner_final = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        partner_final.ind_final = "1"
+        partner_not_final = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
+        partner_not_final.ind_final = "0"
+
+        move_form = self._create_fiscal_invoice_form(partner_final)
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_id
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+
+        self.assertEqual(move_form.ind_final, "1")
+
+        # Change partner without saving
+        move_form.partner_id = partner_not_final
+        self.assertEqual(move_form.ind_final, "0")
+
+        # Verify after saving
+        move = move_form.save()
+        fiscal_line = move.fiscal_line_ids[0]
+        self.assertEqual(move.ind_final, "0")
+        self.assertEqual(fiscal_line.ind_final, "0")
