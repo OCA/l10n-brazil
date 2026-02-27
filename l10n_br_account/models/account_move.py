@@ -119,7 +119,10 @@ class AccountMove(models.Model):
 
     def write(self, vals):
         self._sync_proxy_fields_vals(vals)
-        return super().write(vals)
+        res = super().write(vals)
+        if "partner_id" in vals:
+            self._onchange_ind_final()
+        return res
 
     @api.constrains("fiscal_document_id", "document_type_id")
     def _check_fiscal_document_type(self):
@@ -157,6 +160,22 @@ class AccountMove(models.Model):
     @api.model
     def _get_fiscal_lines_field_name(self):
         return "invoice_line_ids"
+
+    @api.onchange("ind_final")
+    def _onchange_ind_final(self):
+        """Propagate ind_final from the invoice header to its lines.
+
+        The document mixin defines the same onchange on
+        l10n_br_fiscal.document, but account.move uses _inherits (not
+        _inherit) to delegate to the fiscal document, so the mixin's
+        @api.onchange never fires in the account.move Form context.
+        We must re-declare it here so the Form triggers it when
+        ind_final changes (e.g. after a partner_id change that
+        recomputes ind_final via _compute_ind_final).
+        """
+        for line in self.invoice_line_ids:
+            if line.ind_final != self.ind_final:
+                line.ind_final = self.ind_final
 
     def ensure_one_doc(self):
         self.ensure_one()
