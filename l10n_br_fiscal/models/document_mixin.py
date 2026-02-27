@@ -217,6 +217,12 @@ class FiscalDocumentMixin(models.AbstractModel):
                 if line.ind_final != doc.ind_final:
                     line.ind_final = doc.ind_final
 
+    def write(self, vals):
+        res = super().write(vals)
+        if "partner_id" in vals:
+            self._inverse_ind_final()
+        return res
+
     @api.depends("fiscal_operation_id")
     def _compute_operation_name(self):
         for doc in self:
