@@ -10,5 +10,7 @@ Features:
 
   - Renegotiate payment installments on posted invoices
   - Modify due dates and amounts while keeping the total unchanged
+  - Re-generate all installments from the payment term if needed
+  - Edit the payment mode on installments (supports heterogenous payment modes)
   - Automatically logs changes in the invoice's chatter
   - Does not affect the fiscal document (NFe)

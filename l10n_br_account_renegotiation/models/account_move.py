@@ -94,13 +94,19 @@ class AccountMove(models.Model):
         :param new_lines_data: list of dicts with new line data
         :return: HTML formatted message
         """
+
+    def _get_installment_renegotiation_message(self, old_lines_data, new_lines_data):
         currency = self.currency_id
 
         def format_line(line_data):
-            return _("%(date)s: %(amount)s") % {
+            base = _("%(date)s: %(amount)s") % {
                 "date": line_data["date_maturity"],
                 "amount": currency.format(abs(line_data["amount_currency"])),
             }
+            # Append payment mode to the log if available
+            if line_data.get("payment_mode"):
+                base += f" ({line_data['payment_mode']})"
+            return base
 
         old_summary = "<br/>".join(format_line(line) for line in old_lines_data)
         new_summary = "<br/>".join(format_line(line) for line in new_lines_data)

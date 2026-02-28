@@ -109,6 +109,9 @@ class InstallmentRenegotiationWizard(models.TransientModel):
                 {
                     "date_maturity": line.get("date"),
                     "amount": line.get("foreign_amount", 0.0),
+                    "payment_mode_id": self.move_id.payment_mode_id.id
+                    if "payment_mode_id" in self.move_id._fields
+                    else False,
                 }
             )
             for line in term_lines
@@ -116,21 +119,25 @@ class InstallmentRenegotiationWizard(models.TransientModel):
 
         self.line_ids = commands
 
-    @api.model
-    def create(self, vals):
-        """Override create to auto-populate installment lines from the invoice."""
-        # Inject defaults before creating the wizard record
-        if "move_id" in vals:
-            move = self.env["account.move"].browse(vals["move_id"])
-            vals.setdefault("payment_term_id", move.invoice_payment_term_id.id)
-            vals.setdefault(
-                "starting_date",
-                move.invoice_date or move.date or fields.Date.context_today(move),
-            )
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Override create to auto-populate fields and installment lines."""
+        for vals in vals_list:
+            if "move_id" in vals:
+                move = self.env["account.move"].browse(vals["move_id"])
+                vals.setdefault("payment_term_id", move.invoice_payment_term_id.id)
+                vals.setdefault(
+                    "starting_date",
+                    move.invoice_date or move.date or fields.Date.context_today(move),
+                )
 
-        wizard = super().create(vals)
-        wizard._populate_lines()
-        return wizard
+        wizards = super().create(vals_list)
+
+        # Iterate to populate lines for each wizard created
+        for wizard in wizards:
+            wizard._populate_lines()
+
+        return wizards
 
     def _populate_lines(self):
         """Populate wizard lines from the invoice's unreconciled payment_term lines."""
@@ -140,16 +147,17 @@ class InstallmentRenegotiationWizard(models.TransientModel):
         payment_lines = self.move_id.line_ids.filtered(
             lambda line: line.display_type == "payment_term" and not line.reconciled
         )
-        self.line_ids = [
-            Command.create(
-                {
-                    "original_line_id": line.id,
-                    "date_maturity": line.date_maturity,
-                    "amount": abs(line.amount_currency),
-                }
-            )
-            for line in payment_lines
-        ]
+        commands = [Command.clear()]
+        for line in payment_lines:
+            vals = {
+                "original_line_id": line.id,
+                "date_maturity": line.date_maturity,
+                "amount": abs(line.amount_currency),
+            }
+            if "payment_mode_id" in line._fields:
+                vals["payment_mode_id"] = line.payment_mode_id.id
+            commands.append(Command.create(vals))
+        self.line_ids = commands
 
     @api.depends("line_ids.amount")
     def _compute_totals(self):
@@ -217,15 +225,25 @@ class InstallmentRenegotiationWizard(models.TransientModel):
         original_lines = move.line_ids.filtered(
             lambda line: line.display_type == "payment_term" and not line.reconciled
         )
-        old_lines_data = [
-            {
+
+        old_lines_data = []
+        for line in original_lines.sorted("date_maturity"):
+            data = {
                 "date_maturity": line.date_maturity,
                 "amount_currency": line.amount_currency,
             }
-            for line in original_lines.sorted("date_maturity")
-        ]
+            if "payment_mode_id" in line._fields and line.payment_mode_id:
+                data["payment_mode"] = line.payment_mode_id.name
+            old_lines_data.append(data)
 
-        # Determine the sign for amounts (positive for receivable, negative for payable)
+        # DUCK TYPING: Handle account_payment_order and CNAB lifecycles safely
+        for line in original_lines:
+            if hasattr(line, "payment_line_ids"):
+                if hasattr(line, "_cnab_already_start") and line._cnab_already_start():
+                    line.update_cnab_for_cancel_invoice()
+                else:
+                    line.payment_line_ids.unlink()
+
         sign = 1 if move.is_inbound() else -1
 
         # Prepare context for bypassing readonly restrictions
@@ -241,7 +259,6 @@ class InstallmentRenegotiationWizard(models.TransientModel):
 
         # Build list of operations: update, create, delete
         wizard_lines = self.line_ids.sorted("date_maturity")
-        original_lines_list = list(original_lines.sorted("date_maturity"))
 
         # Prepare new line values
         new_line_vals = []
@@ -258,86 +275,70 @@ class InstallmentRenegotiationWizard(models.TransientModel):
             else:
                 balance = amount_currency
 
-            new_line_vals.append(
-                {
-                    "date_maturity": wiz_line.date_maturity,
-                    "amount_currency": amount_currency,
-                    "debit": balance if balance > 0 else 0,
-                    "credit": -balance if balance < 0 else 0,
-                    "account_id": account_id,
-                    "original_line_id": wiz_line.original_line_id.id,
-                }
-            )
+            vals = {
+                "date_maturity": wiz_line.date_maturity,
+                "amount_currency": amount_currency,
+                "debit": balance if balance > 0 else 0,
+                "credit": -balance if balance < 0 else 0,
+                "account_id": account_id,
+                "original_line_id": wiz_line.original_line_id.id,
+            }
+            if wiz_line.payment_mode_id:
+                vals["payment_mode_id"] = wiz_line.payment_mode_id.id
 
-        # Apply changes within context
+            new_line_vals.append(vals)
+
         move.with_context(**ctx).sudo()
 
-        # Strategy: Update existing lines where possible, create new ones if needed,
-        # delete excess ones
-        lines_to_keep = []
-        lines_to_create = []
+        if (
+            hasattr(self, "payment_term_id")
+            and self.payment_term_id
+            and move.invoice_payment_term_id != self.payment_term_id
+        ):
+            move.with_context(**ctx).sudo().write(
+                {"invoice_payment_term_id": self.payment_term_id.id}
+            )
 
-        for i, vals in enumerate(new_line_vals):
-            if i < len(original_lines_list):
-                # Update existing line
-                line = original_lines_list[i].with_context(**ctx)
-                line.sudo().write(
-                    {
-                        "date_maturity": vals["date_maturity"],
-                        "amount_currency": vals["amount_currency"],
-                        "debit": vals["debit"],
-                        "credit": vals["credit"],
-                    }
-                )
-                lines_to_keep.append(line.id)
-            else:
-                # Need to create new line
-                lines_to_create.append(vals)
+        original_lines.with_context(
+            **ctx, dynamic_unlink=True, force_delete=True
+        ).sudo().unlink()
 
-        # Delete excess lines (if we reduced the number of installments)
-        lines_to_delete = move.line_ids.filtered(
-            lambda line: line.display_type == "payment_term"
-            and not line.reconciled
-            and line.id not in lines_to_keep
-        )
-        if lines_to_delete:
-            # Use force_delete=True to bypass the posted entry deletion constraint
-            lines_to_delete.with_context(
-                **ctx, dynamic_unlink=True, force_delete=True
-            ).sudo().unlink()
+        for vals in new_line_vals:
+            create_vals = {
+                "move_id": move.id,
+                "display_type": "payment_term",
+                "name": "",
+                "account_id": vals["account_id"],
+                "date_maturity": vals["date_maturity"],
+                "amount_currency": vals["amount_currency"],
+                "debit": vals["debit"],
+                "credit": vals["credit"],
+                "currency_id": move.currency_id.id,
+                "partner_id": move.partner_id.id,
+            }
+            if "payment_mode_id" in vals:
+                create_vals["payment_mode_id"] = vals["payment_mode_id"]
 
-        # Create new lines if needed
-        if lines_to_create:
-            for vals in lines_to_create:
-                self.env["account.move.line"].with_context(**ctx).sudo().create(
-                    {
-                        "move_id": move.id,
-                        "display_type": "payment_term",
-                        "name": "",
-                        "account_id": vals["account_id"],
-                        "date_maturity": vals["date_maturity"],
-                        "amount_currency": vals["amount_currency"],
-                        "debit": vals["debit"],
-                        "credit": vals["credit"],
-                        "currency_id": move.currency_id.id,
-                        "partner_id": move.partner_id.id,
-                    }
-                )
+            self.env["account.move.line"].with_context(**ctx).sudo().create(create_vals)
 
-        # Update payment term numbering and labels
         move.with_context(**ctx).update_payment_term_number()
 
-        # Capture new state for audit trail
+        # DUCK TYPING: Generate New Boletos / CNAB records (Inclusão)
+        if hasattr(move, "load_cnab_info"):
+            move.load_cnab_info()
+
         new_lines = move.line_ids.filtered(
             lambda line: line.display_type == "payment_term" and not line.reconciled
         )
-        new_lines_data = [
-            {
+        new_lines_data = []
+        for line in new_lines.sorted("date_maturity"):
+            data = {
                 "date_maturity": line.date_maturity,
                 "amount_currency": line.amount_currency,
             }
-            for line in new_lines.sorted("date_maturity")
-        ]
+            if hasattr(line, "payment_mode_id") and line.payment_mode_id:
+                data["payment_mode"] = line.payment_mode_id.name
+            new_lines_data.append(data)
 
         # Post message to chatter
         message = move._get_installment_renegotiation_message(
@@ -382,3 +383,11 @@ class InstallmentRenegotiationWizardLine(models.TransientModel):
         related="wizard_id.currency_id",
         readonly=True,
     )
+
+    payment_mode_id = fields.Many2one(
+        comodel_name="account.payment.mode",
+        string="Payment Mode",
+        domain="[('company_id', '=', company_id)]",
+    )
+
+    company_id = fields.Many2one(related="wizard_id.company_id")

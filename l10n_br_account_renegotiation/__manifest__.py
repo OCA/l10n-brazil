@@ -12,7 +12,7 @@
     "maintainers": ["rvalyi"],
     "development_status": "Beta",
     "depends": [
-        "l10n_br_account",
+        "account_payment_partner",
     ],
     "data": [
         "security/ir.model.access.csv",
