@@ -1,7 +1,7 @@
 # Copyright 2026 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_compare
 
@@ -54,9 +54,80 @@ class InstallmentRenegotiationWizard(models.TransientModel):
         string="Installments",
     )
 
+    payment_term_id = fields.Many2one(
+        comodel_name="account.payment.term",
+        string="New Payment Term",
+        help="Select a payment term to automatically regenerate the installments.",
+    )
+
+    starting_date = fields.Date(
+        help="Base date for computing the new payment term. "
+        "Leave as the Invoice Date for corrections, "
+        "or change to today's date for debt renegotiations.",
+    )
+
+    @api.onchange("payment_term_id", "starting_date")
+    def _onchange_payment_term_id(self):
+        """Regenerate the installment lines when a new payment term/date is selected."""
+        if (
+            not self.payment_term_id
+            or not self.starting_date
+            or not self.original_total
+        ):
+            return
+
+        currency = self.currency_id
+        company = self.company_id
+
+        # Calculate amount in company currency in case of multi-currency
+        if currency != company.currency_id:
+            amount_company = currency._convert(
+                self.original_total, company.currency_id, company, self.starting_date
+            )
+        else:
+            amount_company = self.original_total
+
+        # Leverage standard Odoo 16 payment term computation
+        # We pass the full remaining total as the 'untaxed' amount
+        # to simply split the balance
+        term_lines = self.payment_term_id._compute_terms(
+            date_ref=self.starting_date,
+            currency=currency,
+            tax_amount_currency=0.0,
+            tax_amount=0.0,
+            untaxed_amount_currency=self.original_total,
+            untaxed_amount=amount_company,
+            company=company,
+            cash_rounding=self.move_id.invoice_cash_rounding_id,
+            sign=1,  # Wizard lines always display positive amounts
+        )
+
+        # Clear existing lines and create the new ones based on the term computation
+        commands = [Command.clear()]
+        commands += [
+            Command.create(
+                {
+                    "date_maturity": line.get("date"),
+                    "amount": line.get("foreign_amount", 0.0),
+                }
+            )
+            for line in term_lines
+        ]
+
+        self.line_ids = commands
+
     @api.model
     def create(self, vals):
         """Override create to auto-populate installment lines from the invoice."""
+        # Inject defaults before creating the wizard record
+        if "move_id" in vals:
+            move = self.env["account.move"].browse(vals["move_id"])
+            vals.setdefault("payment_term_id", move.invoice_payment_term_id.id)
+            vals.setdefault(
+                "starting_date",
+                move.invoice_date or move.date or fields.Date.context_today(move),
+            )
+
         wizard = super().create(vals)
         wizard._populate_lines()
         return wizard
@@ -69,22 +140,16 @@ class InstallmentRenegotiationWizard(models.TransientModel):
         payment_lines = self.move_id.line_ids.filtered(
             lambda line: line.display_type == "payment_term" and not line.reconciled
         )
-
-        line_vals = []
-        for line in payment_lines:
-            line_vals.append(
-                (
-                    0,
-                    0,
-                    {
-                        "original_line_id": line.id,
-                        "date_maturity": line.date_maturity,
-                        "amount": abs(line.amount_currency),
-                    },
-                )
+        self.line_ids = [
+            Command.create(
+                {
+                    "original_line_id": line.id,
+                    "date_maturity": line.date_maturity,
+                    "amount": abs(line.amount_currency),
+                }
             )
-
-        self.line_ids = line_vals
+            for line in payment_lines
+        ]
 
     @api.depends("line_ids.amount")
     def _compute_totals(self):
