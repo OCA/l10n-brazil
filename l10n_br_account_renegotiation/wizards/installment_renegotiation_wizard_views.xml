@@ -32,6 +32,11 @@
                             <tree editable="bottom">
                                 <field name="date_maturity" />
                                 <field name="amount" />
+                                <field
+                                    name="payment_mode_id"
+                                    options="{'no_create': True}"
+                                />
+                                <field name="company_id" column_invisible="1" />
                                 <field name="currency_id" column_invisible="1" />
                                 <field name="original_line_id" column_invisible="1" />
                             </tree>
