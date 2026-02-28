@@ -23,6 +23,7 @@ class Company(models.Model):
             "state_tax_number_ids",
             "street_number",
             "street_name",
+            "street_number2",
         ]
 
     def _inverse_legal_name(self):
@@ -40,6 +41,10 @@ class Company(models.Model):
     def _inverse_street_number(self):
         for company in self:
             company.partner_id.street_number = company.street_number
+
+    def _inverse_street_number2(self):
+        for company in self:
+            company.partner_id.street_number2 = company.street_number2
 
     def _inverse_cnpj_cpf(self):
         for company in self:
@@ -81,6 +86,10 @@ class Company(models.Model):
         inverse="_inverse_legal_name",
     )
 
+    country_enforce_cities = fields.Boolean(
+        related="partner_id.country_id.enforce_cities", readonly=True
+    )
+
     district = fields.Char(
         compute="_compute_address",
         inverse="_inverse_district",
@@ -94,6 +103,10 @@ class Company(models.Model):
     street_number = fields.Char(
         compute="_compute_address",
         inverse="_inverse_street_number",
+    )
+
+    street_number2 = fields.Char(
+        compute="_compute_address", inverse="_inverse_street_number2"
     )
 
     city_id = fields.Many2one(

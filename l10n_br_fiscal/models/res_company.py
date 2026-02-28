@@ -43,11 +43,7 @@ class ResCompany(models.Model):
 
     def _get_company_address_field_names(self):
         partner_fields = super()._get_company_address_field_names()
-        return partner_fields + [
-            "tax_framework",
-            "legal_nature_id",
-            "cnae_main_id",
-        ]
+        return partner_fields + ["tax_framework", "legal_nature_id", "cnae_main_id"]
 
     def _inverse_legal_nature_id(self):
         """Write the l10n_br specific functional fields."""
@@ -63,6 +59,49 @@ class ResCompany(models.Model):
         """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
+
+    @api.depends("tax_framework")
+    def _compute_tax_domains(self):
+        try:
+            simples_piscofins = self.env.ref(
+                "l10n_br_fiscal.tax_pis_cofins_simples_nacional"
+            ).id
+            ipi_outros = self.env.ref("l10n_br_fiscal.tax_ipi_outros").id
+            group_ipi = self.env.ref("l10n_br_fiscal.tax_group_ipi").id
+            group_icms = self.env.ref("l10n_br_fiscal.tax_group_icms").id
+            group_icmssn = self.env.ref("l10n_br_fiscal.tax_group_icmssn").id
+        except ValueError:
+            simples_piscofins = ipi_outros = group_ipi = False
+            group_icms = group_icmssn = False
+
+        for rec in self:
+            # PIS/COFINS
+            if rec.tax_framework == "3":
+                ps_dom = [
+                    ("piscofins_type", "=", "company"),
+                    ("id", "!=", simples_piscofins),
+                ]
+            else:
+                ps_dom = [
+                    ("piscofins_type", "=", "company"),
+                    ("id", "=", simples_piscofins),
+                ]
+
+            # IPI
+            if rec.tax_framework == "3":
+                ipi_dom = [("tax_group_id", "=", group_ipi), ("id", "!=", ipi_outros)]
+            else:
+                ipi_dom = [("id", "=", ipi_outros)]
+
+            # ICMS
+            if rec.tax_framework == "3":
+                icms_dom = [("tax_group_id", "=", group_icms)]
+            else:
+                icms_dom = [("tax_group_id", "=", group_icmssn)]
+
+            rec.piscofins_domain = str(ps_dom)
+            rec.ipi_domain = str(ipi_dom)
+            rec.icms_domain = str(icms_dom)
 
     @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
     def _compute_simplified_tax(self):
@@ -111,6 +150,10 @@ class ResCompany(models.Model):
                         record.currency_id.decimal_places,
                     )
 
+    piscofins_domain = fields.Char(compute="_compute_tax_domains")
+    ipi_domain = fields.Char(compute="_compute_tax_domains")
+    icms_domain = fields.Char(compute="_compute_tax_domains")
+
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
         string="Legal Nature",
@@ -129,7 +172,7 @@ class ResCompany(models.Model):
 
     cnae_secondary_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.cnae",
-        domain="[('internal_type', '=', 'normal'), " "('id', '!=', cnae_main_id)]",
+        domain="[('internal_type', '=', 'normal'), ('id', '!=', cnae_main_id)]",
         string="Secondary CNAE",
     )
 
