@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_l10n_br_fiscal_dfe_document_form_nfe" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.document.form.nfe</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_fiscal_dfe.view_l10n_br_fiscal_dfe_document_form"
+        />
+        <field name="arch" type="xml">
+            <!-- Add Manifest Button -->
+            <xpath expr="//header" position="inside">
+                <button
+                    name="create_nfe_md_action"
+                    type="object"
+                    string="Manifestar"
+                    attrs="{'invisible': ['|', ('fiscal_type', '!=', 'nfe'), ('manifestation_status', 'in', ('confirmado', 'desconhecido', 'nao_realizado'))]}"
+                />
+            </xpath>
+
+            <!-- Add Status Field -->
+            <xpath expr="//field[@name='document_state']" position="after">
+                <field
+                    name="manifestation_status"
+                    readonly="1"
+                    attrs="{'invisible': [('fiscal_type', '!=', 'nfe')]}"
+                />
+            </xpath>
+
+            <!-- Add Tabs -->
+            <xpath expr="//notebook" position="inside">
+                <page
+                    string="Manifestações"
+                    attrs="{'invisible': [('fiscal_type', '!=', 'nfe')]}"
+                >
+                    <field name="manifestations_ids" readonly="1">
+                        <tree>
+                            <field name="protocol_date" />
+                            <field name="event_type" />
+                            <field name="state" />
+                        </tree>
+                    </field>
+                </page>
+                <page
+                    string="CFOPs"
+                    attrs="{'invisible': [('fiscal_type', '!=', 'nfe')]}"
+                >
+                    <field name="cfop_ids" readonly="1" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

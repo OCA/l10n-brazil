@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_nfe_dfe_document" model="ir.actions.act_window">
+        <field name="name">NF-e de Terceiros</field>
+        <field name="res_model">l10n_br_fiscal_dfe.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('fiscal_type', '=', 'nfe')]</field>
+        <field name="context">{'default_fiscal_type': 'nfe'}</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_br_nfe_dfe_document"
+        name="NF-e de Terceiros"
+        action="action_nfe_dfe_document"
+        parent="l10n_br_fiscal_dfe.menu_l10n_br_fiscal_dfe_root"
+        sequence="10"
+    />
+</odoo>
