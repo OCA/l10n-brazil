@@ -1,119 +1,50 @@
 # Copyright 2026 Engenere (<https://engenere.one>).
-# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import pytz
-
-from odoo import _, fields, http
+from odoo import http
 from odoo.http import request
 
 
 class DfeDocumentBannerController(http.Controller):
-    @http.route("/l10n_br_fiscal_dfe/document_banner", auth="user", type="json")
-    def document_banner(self):
+    @http.route("/l10n_br_fiscal_dfe/banner", type="json", auth="user")
+    def document_banner(self, fiscal_type="nfe", **kwargs):
+        """
+        Generates the HTML for the DF-e Dashboard Banner dynamically
+        based on whether the user is looking at NF-e or CT-e.
+        """
         company = request.env.company
-        DfeDocument = request.env["l10n_br_fiscal_dfe.document"]
 
-        complete_dfe_docs = DfeDocument.search(
+        # Dynamically fetch the fields based on fiscal type (nfe or cte)
+        last_query = getattr(company, f"{fiscal_type}_dfe_last_query", False)
+        next_query = getattr(company, f"{fiscal_type}_dfe_next_query", False)
+        last_nsu = getattr(company, f"{fiscal_type}_last_nsu", "0")
+        max_nsu = getattr(company, f"{fiscal_type}_max_nsu", "0")
+        environment = getattr(company, f"{fiscal_type}_environment", "1")
+        auto_fetch = getattr(company, f"{fiscal_type}_auto_fetch", False)
+
+        # Count documents that have a 'complete' XML payload but aren't processed yet
+        pending_count = request.env["l10n_br_fiscal_dfe.document"].search_count(
             [
                 ("company_id", "=", company.id),
-                ("dfe_ids.dfe_nfe_document_type", "=", "dfe_nfe_complete"),
+                ("fiscal_type", "=", fiscal_type),
+                ("dfe_ids.document_type_dfe", "=", "complete"),
             ]
         )
-        if complete_dfe_docs:
-            FiscalDoc = request.env["l10n_br_fiscal.document"]
-            imported_keys = set(
-                FiscalDoc.search(
-                    [
-                        (
-                            "document_key",
-                            "in",
-                            complete_dfe_docs.mapped("access_key"),
-                        ),
-                    ]
-                ).mapped("document_key")
-            )
-            pending_import_count = len(
-                complete_dfe_docs.filtered(
-                    lambda doc: doc.access_key not in imported_keys
-                )
-            )
-        else:
-            pending_import_count = 0
 
-        today = fields.Date.context_today(DfeDocument)
-        today_domain = [
-            ("company_id", "=", company.id),
-            ("create_date", ">=", today),
-            ("is_own_document", "=", False),
-        ]
-        today_count = DfeDocument.search_count(today_domain)
-
-        user_tz = pytz.timezone(request.env.user.tz or "UTC")
-        last_query = company.dfe_last_query
-        if last_query:
-            last_query_str = (
-                pytz.utc.localize(last_query)
-                .astimezone(user_tz)
-                .strftime("%d/%m/%Y %H:%M")
-            )
-        else:
-            last_query_str = "-"
-
-        next_query = company.dfe_next_query
-        if next_query:
-            next_query_str = (
-                pytz.utc.localize(next_query)
-                .astimezone(user_tz)
-                .strftime("%d/%m/%Y %H:%M")
-            )
-        else:
-            next_query_str = "-"
-
-        nsu_synced = (
-            company.last_nsu and company.max_nsu and company.last_nsu >= company.max_nsu
-        )
-
-        inactivity_warning = False
-        inactivity_message = ""
-        now = fields.Datetime.now()
-        if company.dfe_last_query:
-            inactivity_days = (now - company.dfe_last_query).days
-            if inactivity_days > 30:
-                inactivity_warning = True
-                inactivity_message = _(
-                    "Last DF-e query was %(days)s days ago. After 60 days of "
-                    "inactivity, SEFAZ stops generating NSUs for this CNPJ "
-                    "(no retroactive recovery).",
-                    days=inactivity_days,
-                )
-        else:
-            inactivity_warning = True
-            inactivity_message = _(
-                "DF-e distribution has never been queried. Configure and run "
-                "the first query to start receiving documents."
-            )
-
-        dfe_nsu_action_id = request.env.ref("l10n_br_fiscal_dfe.dfe_action").id
-        dfe_log_action_id = request.env.ref(
-            "l10n_br_fiscal_dfe.dfe_distribution_log_action"
-        ).id
+        values = {
+            "company": company,
+            "fiscal_type": fiscal_type.upper(),
+            "last_query": last_query,
+            "next_query": next_query,
+            "last_nsu": last_nsu,
+            "max_nsu": max_nsu,
+            "auto_fetch": auto_fetch,
+            "is_homologation": environment == "2",
+            "pending_count": pending_count,
+        }
 
         return {
             "html": request.env["ir.qweb"]._render(
-                "l10n_br_fiscal_dfe.dfe_document_banner",
-                {
-                    "company": company,
-                    "last_query_str": last_query_str,
-                    "nsu_synced": nsu_synced,
-                    "pending_import_count": pending_import_count,
-                    "today_count": today_count,
-                    "dfe_nsu_action_id": dfe_nsu_action_id,
-                    "dfe_log_action_id": dfe_log_action_id,
-                    "auto_fetch": company.auto_fetch,
-                    "next_query_str": next_query_str,
-                    "is_homologation": company.dfe_environment == "2",
-                    "inactivity_warning": inactivity_warning,
-                    "inactivity_message": inactivity_message,
-                },
+                "l10n_br_fiscal_dfe.dfe_banner_template", values
             )
         }

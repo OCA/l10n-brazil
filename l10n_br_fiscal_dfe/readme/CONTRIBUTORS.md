@@ -6,3 +6,5 @@
   - Luis Felipe Miléo \<<mileo@kmee.com.br>\>
   - Gabriel Cardoso \<<gabriel.cardoso@kmee.com.br>\>
   - Felipe Zago \<<felipe.zago@kmee.com.br>\>
+- [AKRETION](https://akretion.com/pt-BR/):
+  - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>

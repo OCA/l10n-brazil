@@ -1,29 +1,19 @@
-## Dependências Python
+Este módulo atua como uma infraestrutura base (framework abstrato) e requer os seguintes componentes para funcionar:
 
-Este módulo requer as seguintes bibliotecas:
+1. **Dependências Odoo:**
+    * `l10n_br_fiscal` (Framework Fiscal da OCA)
+    * `queue_job` (Gerenciador de tarefas em background da OCA, necessário para o polling assíncrono)
 
-- `nfelib` — cliente SOAP para o web service NFeDistribuicaoDFe da SEFAZ
-- `brazilfiscalreport` — geração de DANFE em PDF
-- `erpbrasil.base` — validação de chave de acesso (dígito verificador)
+2. **Dependências Python:**
+    * `brazil_fiscal_client`: Cliente SOAP moderno e genérico utilizado para a comunicação direta com os Web Services da SEFAZ.
 
-## queue_job como server wide module
-
-O `queue_job` precisa ser carregado na inicialização do Odoo. Adicione na
-configuração do servidor:
-
-```ini
-[options]
-server_wide_modules = web,queue_job
+Para instalar a biblioteca Python necessária em seu ambiente Odoo, execute o seguinte comando:
+```bash
+pip install brazil-fiscal-client
 ```
 
-Ou via variável de ambiente:
+**Nota Importante:**
+Como este é apenas um módulo de motor abstrato, você raramente precisará instalá-lo diretamente de forma isolada. Ele será instalado de forma automática como dependência quando você for utilizar e instalar um dos módulos de implementação, como:
 
-```
-SERVER_WIDE_MODULES=web,queue_job
-```
-
-Em produção, o Odoo deve rodar com `workers > 0` para que o jobrunner
-inicie como processo dedicado.
-
-Com `--workers=0` (modo threaded / desenvolvimento), o queue_job funciona
-normalmente — ele cria uma thread extra no mesmo processo.
+* `l10n_br_nfe_dfe` (Para o monitoramento de NF-e)
+* `l10n_br_cte_dfe` (Para o monitoramento de CT-e)

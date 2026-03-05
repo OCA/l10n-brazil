@@ -5,18 +5,12 @@
     License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 -->
 <odoo>
+    <!-- Root Menu for DF-e Queries -->
     <menuitem
-        id="dfe_queries_menu"
+        id="menu_l10n_br_fiscal_dfe_root"
         name="DF-e Queries"
         parent="l10n_br_fiscal.fiscal_menu"
         groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
-        sequence="15"
-    />
-    <menuitem
-        id="dfe_document_menu"
-        action="dfe_document_action"
-        name="Third-party NF-e"
-        parent="dfe_queries_menu"
-        sequence="10"
+        sequence="50"
     />
 </odoo>

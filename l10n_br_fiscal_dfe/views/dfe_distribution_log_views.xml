@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-    Copyright 2026 Engenere (<https://engenere.one>)
-    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
--->
 <odoo>
-    <record id="dfe_distribution_log_tree" model="ir.ui.view">
-        <field name="name">dfe.distribution.log.tree</field>
+    <record id="view_l10n_br_fiscal_dfe_distribution_log_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.distribution_log.tree</field>
         <field name="model">l10n_br_fiscal_dfe.distribution_log</field>
         <field name="arch" type="xml">
             <tree
-                create="false"
-                edit="false"
-                decoration-success="log_type == 'success'"
-                decoration-muted="log_type == 'info'"
-                decoration-warning="log_type == 'warning'"
                 decoration-danger="log_type == 'error'"
+                decoration-warning="log_type == 'warning'"
+                decoration-info="log_type == 'info'"
             >
-                <field name="create_date" string="Date" />
+                <field name="create_date" />
                 <field name="log_type" />
                 <field name="message" />
                 <field name="company_id" groups="base.group_multi_company" />
@@ -24,38 +17,36 @@
         </field>
     </record>
 
-    <record id="dfe_distribution_log_form" model="ir.ui.view">
-        <field name="name">dfe.distribution.log.form</field>
+    <record id="view_l10n_br_fiscal_dfe_distribution_log_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.distribution_log.form</field>
         <field name="model">l10n_br_fiscal_dfe.distribution_log</field>
         <field name="arch" type="xml">
-            <form create="false" edit="false">
+            <form>
                 <sheet>
                     <group>
                         <group>
-                            <field name="create_date" string="Date" />
-                            <field name="log_type" />
-                            <field
-                                name="company_id"
-                                groups="base.group_multi_company"
-                            />
+                            <field name="create_date" readonly="1" />
+                            <field name="log_type" readonly="1" />
+                            <field name="company_id" readonly="1" />
                         </group>
                     </group>
-                    <separator string="Message" />
-                    <field name="message" nolabel="1" />
+                    <field name="message" readonly="1" />
                     <notebook>
-                        <page
-                            string="SOAP Request"
-                            name="request"
-                            attrs="{'invisible': [('request_xml', '=', False)]}"
-                        >
-                            <field name="request_xml" nolabel="1" />
+                        <page string="SOAP Request">
+                            <field
+                                name="request_xml"
+                                readonly="1"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                            />
                         </page>
-                        <page
-                            string="SOAP Response"
-                            name="response"
-                            attrs="{'invisible': [('response_xml', '=', False)]}"
-                        >
-                            <field name="response_xml" nolabel="1" />
+                        <page string="SOAP Response">
+                            <field
+                                name="response_xml"
+                                readonly="1"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                            />
                         </page>
                     </notebook>
                 </sheet>
@@ -63,45 +54,11 @@
         </field>
     </record>
 
-    <record id="dfe_distribution_log_search" model="ir.ui.view">
-        <field name="name">dfe.distribution.log.search</field>
-        <field name="model">l10n_br_fiscal_dfe.distribution_log</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="message" />
-                <field name="company_id" groups="base.group_multi_company" />
-                <filter
-                    name="success"
-                    string="Success"
-                    domain="[('log_type', '=', 'success')]"
-                />
-                <filter
-                    name="info"
-                    string="Info"
-                    domain="[('log_type', '=', 'info')]"
-                />
-                <filter
-                    name="warning"
-                    string="Warning"
-                    domain="[('log_type', '=', 'warning')]"
-                />
-                <filter
-                    name="error"
-                    string="Error"
-                    domain="[('log_type', '=', 'error')]"
-                />
-                <separator />
-                <filter
-                    name="has_soap"
-                    string="With SOAP Data"
-                    domain="[('request_xml', '!=', False)]"
-                />
-            </search>
-        </field>
-    </record>
-
-    <record id="dfe_distribution_log_action" model="ir.actions.act_window">
-        <field name="name">Distribution Log</field>
+    <record
+        id="action_l10n_br_fiscal_dfe_distribution_log"
+        model="ir.actions.act_window"
+    >
+        <field name="name">DF-e Logs</field>
         <field name="res_model">l10n_br_fiscal_dfe.distribution_log</field>
         <field name="view_mode">tree,form</field>
     </record>
