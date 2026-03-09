@@ -9,3 +9,4 @@ erpbrasil.transmissao
 nfelib
 num2words
 phonenumbers
+workalendar
