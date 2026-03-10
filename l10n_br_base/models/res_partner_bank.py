@@ -81,10 +81,9 @@ class ResPartnerBank(models.Model):
 
     @api.constrains("bra_number")
     def _check_bra_number(self):
-        for b in self:
-            if b.bank_id.code_bc:
-                if len(b.bra_number) > 4:
-                    raise UserError(_("Bank branch code must be four characters."))
+        for bank in self:
+            if bank.bank_id.code_bc and bank.bra_number and len(bank.bra_number) > 4:
+                raise UserError(_("Bank branch code must be four characters."))
 
     @api.constrains(
         "transactional_acc_type",

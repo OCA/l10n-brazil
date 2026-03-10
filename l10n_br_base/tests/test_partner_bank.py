@@ -48,3 +48,13 @@ class PartnerBankTest(TransactionCase):
             self.partner_bank_model.with_context(tracking_disable=True).create(
                 wrong_bank_vals
             )
+
+    def test_bra_number_empty_does_not_raise(self):
+        bank_vals = {
+            "partner_id": self.partner_id.id,
+            "bank_id": self.bank_id.id,
+        }
+        bank = self.partner_bank_model.with_context(tracking_disable=True).create(
+            bank_vals
+        )
+        self.assertTrue(bank.exists())
