@@ -21,6 +21,11 @@
         "views/hr_job_view.xml",
         "views/inherited_hr_contract.xml",
     ],
+    "demo": [
+        "demo/hr_department_demo.xml",
+        "demo/hr_job_demo.xml",
+        "demo/hr_employee_demo.xml",
+    ],
     "test": [],
     "installable": True,
     "auto_install": False,
