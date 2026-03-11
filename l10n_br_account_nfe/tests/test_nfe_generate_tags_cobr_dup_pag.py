@@ -160,6 +160,10 @@ class TestGeneratePaymentInfo(TransactionCase):
             }
         )
         self.invoice_demo_data.payment_mode_id = self.pay_mode.id
+
+        # Constraint should not fail during draft flush; it must fail on post.
+        self.env.flush_all()
+
         with self.assertRaises(UserError) as captured_exception:
             self.invoice_demo_data.action_post()
         self.assertEqual(
