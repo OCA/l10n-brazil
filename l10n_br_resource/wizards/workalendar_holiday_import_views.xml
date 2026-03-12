@@ -19,11 +19,11 @@
                 </group>
                 <footer>
                 <button
-                        name="holiday_import"
-                        string="Import"
-                        type="object"
-                        class="oe_highlight"
-                    />or
+                    name="holiday_import"
+                    string="Import"
+                    type="object"
+                    class="oe_highlight"
+                />or
                 <button string="Cancel" class="oe_link" special="cancel" /></footer>
             </form>
         </field>

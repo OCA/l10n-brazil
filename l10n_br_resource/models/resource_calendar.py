@@ -5,6 +5,7 @@
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ResourceCalendar(models.Model):
@@ -32,7 +33,7 @@ class ResourceCalendar(models.Model):
         "resource.calendar", "parent_id", string="Child Calendar"
     )
 
-    parent_path = fields.Char(index=True, unaccent=False)
+    parent_path = fields.Char(index=True)
 
     country_id = fields.Many2one("res.country", "País")
     state_id = fields.Many2one(
@@ -47,7 +48,10 @@ class ResourceCalendar(models.Model):
 
     @api.constrains("parent_id")
     def _check_hierarchy(self):
-        self._check_recursion()
+        if self._has_cycle():
+            raise ValidationError(
+                self.env._("Error! You cannot create recursive hierarchies.")
+            )
 
     def get_leave_intervals(
         self, resource_id=None, start_datetime=None, end_datetime=None
