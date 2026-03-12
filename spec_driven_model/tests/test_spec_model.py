@@ -20,11 +20,10 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
     https://docs.microsoft.com/en-us/visualstudio/xml-tools/sample-xsd-file-purchase-order-schema?view=vs-2019
     """
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.loader = FakeModelLoader(cls.env, cls.__module__)
-        cls.loader.backup_registry()
+    def setUp(self):
+        super().setUp()
+        self.loader = FakeModelLoader(self.env, self.__module__)
+        self.loader.backup_registry()
 
         # import a simpilified equivalent of purchase module
         from .fake_mixin import PoXsdMixin
@@ -51,7 +50,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             ResPartner,
         )
 
-        cls.loader.update_registry(
+        self.loader.update_registry(
             (
                 PoXsdMixin,
                 Items,
@@ -71,7 +70,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         from .fake_mixin import PoXsdMixin
         from .spec_poxsd import Item, Items, PurchaseOrderType, Usaddress
 
-        cls.loader.update_registry(
+        self.loader.update_registry(
             (PoXsdMixin, Item, Items, Usaddress, PurchaseOrderType)
         )
 
@@ -84,14 +83,13 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             ResPartner,
         )
 
-        cls.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
+        self.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
         # the binding lib should be loaded in sys.modules:
         from . import purchase_order_lib  # NOQA
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.loader.restore_registry()
-        super().tearDownClass()
+    def tearDown(self):
+        self.loader.restore_registry()
+        super().tearDown()
 
     def test_spec_models(self):
         self.assertTrue(
