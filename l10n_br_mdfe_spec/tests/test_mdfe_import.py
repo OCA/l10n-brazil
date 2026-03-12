@@ -11,7 +11,7 @@ from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
 from odoo_test_helper import FakeModelLoader
 
 from odoo import Command, api, models
-from odoo.tests import TransactionCase
+from odoo.tests import SavepointCase
 
 from odoo.addons.l10n_br_mdfe_spec.models.v3_0 import mdfe_tipos_basico_v3_00
 
@@ -114,7 +114,7 @@ spec_mixin.MdfeSpecMixin.build_attrs_fake = build_attrs_fake
 spec_mixin.MdfeSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
 
 
-class NFeImportTest(TransactionCase):
+class NFeImportTest(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

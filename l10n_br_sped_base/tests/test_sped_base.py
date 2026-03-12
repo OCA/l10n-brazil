@@ -13,12 +13,12 @@ from odoo_test_helper import FakeModelLoader
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests import TransactionCase
+from odoo.tests import SavepointCase
 
 from odoo.addons import l10n_br_sped_base
 
 
-class TestSpedBase(TransactionCase, FakeModelLoader):
+class TestSpedBase(SavepointCase, FakeModelLoader):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

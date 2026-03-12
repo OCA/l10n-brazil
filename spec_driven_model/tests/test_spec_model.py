@@ -9,21 +9,22 @@ from unittest.mock import patch
 from odoo_test_helper import FakeModelLoader
 
 from odoo.models import NewId
-from odoo.tests import TransactionCase
+from odoo.tests import SavepointCase
 
 _logger = logging.getLogger(__name__)
 
 
-class TestSpecModel(TransactionCase, FakeModelLoader):
+class TestSpecModel(SavepointCase, FakeModelLoader):
     """
     A simple usage example using the reference PurchaseOrderSchema.xsd
     https://docs.microsoft.com/en-us/visualstudio/xml-tools/sample-xsd-file-purchase-order-schema?view=vs-2019
     """
 
-    def setUp(self):
-        super().setUp()
-        self.loader = FakeModelLoader(self.env, self.__module__)
-        self.loader.backup_registry()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.loader = FakeModelLoader(cls.env, cls.__module__)
+        cls.loader.backup_registry()
 
         # import a simpilified equivalent of purchase module
         from .fake_mixin import PoXsdMixin
@@ -50,7 +51,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             ResPartner,
         )
 
-        self.loader.update_registry(
+        cls.loader.update_registry(
             (
                 PoXsdMixin,
                 Items,
@@ -70,7 +71,7 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         from .fake_mixin import PoXsdMixin
         from .spec_poxsd import Item, Items, PurchaseOrderType, Usaddress
 
-        self.loader.update_registry(
+        cls.loader.update_registry(
             (PoXsdMixin, Item, Items, Usaddress, PurchaseOrderType)
         )
 
@@ -83,13 +84,14 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             ResPartner,
         )
 
-        self.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
+        cls.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
         # the binding lib should be loaded in sys.modules:
         from . import purchase_order_lib  # NOQA
 
-    def tearDown(self):
-        self.loader.restore_registry()
-        super().tearDown()
+    @classmethod
+    def tearDownClass(cls):
+        cls.loader.restore_registry()
+        super().tearDownClass()
 
     def test_spec_models(self):
         self.assertTrue(
