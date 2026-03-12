@@ -11,7 +11,7 @@ from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
 from odoo_test_helper import FakeModelLoader
 
 from odoo import Command, api, models
-from odoo.tests import SavepointCase
+from odoo.tests.common import SavepointCase
 
 from odoo.addons.l10n_br_mdfe_spec.models.v3_0 import mdfe_tipos_basico_v3_00
 

@@ -11,7 +11,7 @@ from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 from odoo_test_helper import FakeModelLoader
 
 from odoo import Command, api, models
-from odoo.tests import SavepointCase
+from odoo.tests.common import SavepointCase
 
 from odoo.addons.l10n_br_cte_spec.models.v4_0 import cte_tipos_basico_v4_00
 

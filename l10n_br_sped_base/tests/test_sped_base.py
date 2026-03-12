@@ -13,7 +13,7 @@ from odoo_test_helper import FakeModelLoader
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests import SavepointCase
+from odoo.tests.common import SavepointCase
 
 from odoo.addons import l10n_br_sped_base
 

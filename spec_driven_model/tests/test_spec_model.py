@@ -9,7 +9,7 @@ from unittest.mock import patch
 from odoo_test_helper import FakeModelLoader
 
 from odoo.models import NewId
-from odoo.tests import SavepointCase
+from odoo.tests.common import SavepointCase
 
 _logger = logging.getLogger(__name__)
 
