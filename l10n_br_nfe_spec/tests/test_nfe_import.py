@@ -132,7 +132,8 @@ class NFeImportTest(TransactionCase, FakeModelLoader):
 
                 # Replace original class in module
                 modified_classes.append(modified_class)
-                cls.loader.update_registry(modified_classes)
+
+        cls.loader.update_registry(modified_classes)
 
     @classmethod
     def tearDownClass(cls):
