@@ -13,18 +13,17 @@ from odoo_test_helper import FakeModelLoader
 
 from odoo import fields
 from odoo.exceptions import UserError
-from odoo.tests.common import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_sped_base
 
 
-class TestSpedBase(SavepointCase, FakeModelLoader):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.loader = FakeModelLoader(cls.env, cls.__module__)
-        cls.loader.backup_registry()
+class TestSpedBase(TransactionCase, FakeModelLoader):
+    def setUp(self):
+        super().setUp()
+        self.env = self.env(context=dict(self.env.context, tracking_disable=True))
+        self.loader = FakeModelLoader(self.env, self.__module__)
+        self.loader.backup_registry()
 
         # import simpilified equivalent of SPED ECD models:
         from .sped_fake import (
@@ -79,7 +78,7 @@ class TestSpedBase(SavepointCase, FakeModelLoader):
         )
         from .sped_mixin_fake import SpecMixinFAKE
 
-        cls.loader.update_registry(
+        self.loader.update_registry(
             (
                 SpecMixinFAKE,
                 AbstractRegistro0000,
@@ -109,15 +108,14 @@ class TestSpedBase(SavepointCase, FakeModelLoader):
             )
         )
         demo_path = path.join(l10n_br_sped_base.__path__[0], "tests")
-        cls.file_path = path.join(demo_path, "demo_fake.txt")
-        sped_mixin = cls.env["l10n_br_sped.mixin"]
+        self.file_path = path.join(demo_path, "demo_fake.txt")
+        sped_mixin = self.env["l10n_br_sped.mixin"]
         sped_mixin._flush_registers("fake")
-        cls.declaration = sped_mixin._import_file(cls.file_path, "fake")
+        self.declaration = sped_mixin._import_file(self.file_path, "fake")
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.loader.restore_registry()
-        super().tearDownClass()
+    def tearDown(self):
+        self.loader.restore_registry()
+        super().tearDown()
 
     def test_generate_sped(self):
         sped = self.declaration._generate_sped_text()

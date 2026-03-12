@@ -11,7 +11,7 @@ from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 from odoo_test_helper import FakeModelLoader
 
 from odoo import Command, api, models
-from odoo.tests.common import SavepointCase
+from odoo.tests import TransactionCase
 
 from odoo.addons.l10n_br_cte_spec.models.v4_0 import cte_tipos_basico_v4_00
 
@@ -122,13 +122,12 @@ spec_mixin.CteSpecMixin.build_attrs_fake = build_attrs_fake
 spec_mixin.CteSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
 
 
-class NFeImportTest(SavepointCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.loader = FakeModelLoader(cls.env, cls.__module__)
-        cls.loader.backup_registry()
+class NFeImportTest(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        self.env = self.env(context=dict(self.env.context, tracking_disable=True))
+        self.loader = FakeModelLoader(self.env, self.__module__)
+        self.loader.backup_registry()
 
         # Get all classes from the module that inherit from AbstractModel
         modified_classes = []
@@ -143,12 +142,11 @@ class NFeImportTest(SavepointCase):
                 # Replace original class in module
                 modified_classes.append(modified_class)
 
-        cls.loader.update_registry(modified_classes)
+        self.loader.update_registry(modified_classes)
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.loader.restore_registry()
-        super().tearDownClass()
+    def tearDown(self):
+        self.loader.restore_registry()
+        super().tearDown()
 
     def test_import_cte(self):
         file = (
