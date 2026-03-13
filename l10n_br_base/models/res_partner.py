@@ -125,11 +125,13 @@ class Partner(models.Model):
 
             if record.vat:
                 domain += [
+                    "|",
                     ("vat", "=", record.vat),
+                    ("cnpj_cpf_stripped", "=", record.cnpj_cpf_stripped),
                     ("id", "!=", record.id),
                     ("parent_id", "!=", record.id),
                 ]
-                return
+                # return
 
             matches = record.env["res.partner"].search(domain)
             if matches:
