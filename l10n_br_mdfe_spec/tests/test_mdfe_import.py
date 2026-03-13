@@ -5,7 +5,6 @@
 import re
 from datetime import datetime
 from importlib import resources
-from unittest.mock import patch
 
 import nfelib
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
@@ -16,14 +15,12 @@ from odoo.tests import TransactionCase
 
 from odoo.addons.l10n_br_mdfe_spec.models.v3_0 import mdfe_tipos_basico_v3_00
 
-from ..models import spec_mixin
-
 tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
 
 
 @api.model
 def build_fake(self, node, create=False):
-    attrs = self.build_attrs_fake(node, create_m2o=True)
+    attrs = build_attrs_fake(self, node, create_m2o=True)
     return self.new(attrs)
 
 
@@ -74,7 +71,8 @@ def build_attrs_fake(self, node, create_m2o=False):
 
             if not str(fspec.type).startswith("typing.List"):
                 # m2o
-                new_value = comodel.build_attrs_fake(
+                new_value = build_attrs_fake(
+                    comodel,
                     value,
                     create_m2o=create_m2o,
                 )
@@ -83,14 +81,14 @@ def build_attrs_fake(self, node, create_m2o=False):
                 if comodel._name == self._name:  # stacked m2o
                     vals.update(new_value)
                 else:
-                    vals[key] = self.match_or_create_m2o_fake(
-                        comodel, new_value, create_m2o
+                    vals[key] = match_or_create_m2o_fake(
+                        self, comodel, new_value, create_m2o
                     )
             else:  # if attr.get_container() == 1:
                 # o2m
                 lines = []
                 for line in [li for li in value if li]:
-                    line_vals = comodel.build_attrs_fake(line, create_m2o=create_m2o)
+                    line_vals = build_attrs_fake(comodel, line, create_m2o=create_m2o)
                     lines.append(Command.create(line_vals))
                 vals[key] = lines
 
@@ -118,21 +116,6 @@ class NFeImportTest(TransactionCase):
         self.loader = FakeModelLoader(self.env, self.__module__)
         self.loader.backup_registry()
 
-        self._build_fake_patcher = patch.object(
-            spec_mixin.MdfeSpecMixin, "build_fake", build_fake
-        )
-        self._build_attrs_fake_patcher = patch.object(
-            spec_mixin.MdfeSpecMixin, "build_attrs_fake", build_attrs_fake
-        )
-        self._match_or_create_m2o_fake_patcher = patch.object(
-            spec_mixin.MdfeSpecMixin,
-            "match_or_create_m2o_fake",
-            match_or_create_m2o_fake
-        )
-        self._build_fake_patcher.start()
-        self._build_attrs_fake_patcher.start()
-        self._match_or_create_m2o_fake_patcher.start()
-
         # Get all classes from the module that inherit from AbstractModel
         modified_classes = []
         for _name, obj in vars(mdfe_tipos_basico_v3_00).items():
@@ -149,9 +132,6 @@ class NFeImportTest(TransactionCase):
         self.loader.update_registry(modified_classes)
 
     def tearDown(self):
-        self._match_or_create_m2o_fake_patcher.stop()
-        self._build_attrs_fake_patcher.stop()
-        self._build_fake_patcher.stop()
         self.loader.restore_registry()
         super().tearDown()
 
@@ -167,11 +147,10 @@ class NFeImportTest(TransactionCase):
             mdfe_stream = f.read()
 
         binding = Tmdfe.from_xml(mdfe_stream.decode())
-        mdfe = (
-            self.env["mdfe.30.tmdfe_infmdfe"]
-            .with_context(tracking_disable=True, edoc_type="in")
-            .build_fake(binding.infMDFe, create=False)
+        mdfe_model = self.env["mdfe.30.tmdfe_infmdfe"].with_context(
+            tracking_disable=True, edoc_type="in"
         )
+        mdfe = build_fake(mdfe_model, binding.infMDFe, create=False)
         self.assertEqual(mdfe.mdfe30_emit.mdfe30_CNPJ, "76676436000167")
 
     def test_import_mdfe2(self):
@@ -186,9 +165,8 @@ class NFeImportTest(TransactionCase):
             mdfe_stream = f.read()
 
         binding = Tmdfe.from_xml(mdfe_stream.decode())
-        mdfe = (
-            self.env["mdfe.30.tmdfe_infmdfe"]
-            .with_context(tracking_disable=True, edoc_type="in")
-            .build_fake(binding.infMDFe, create=False)
+        mdfe_model = self.env["mdfe.30.tmdfe_infmdfe"].with_context(
+            tracking_disable=True, edoc_type="in"
         )
+        mdfe = build_fake(mdfe_model, binding.infMDFe, create=False)
         self.assertEqual(mdfe.mdfe30_emit.mdfe30_xNome, "TESTE")
