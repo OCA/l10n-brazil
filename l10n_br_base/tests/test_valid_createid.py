@@ -70,6 +70,25 @@ class ValidCreateIdTest(TransactionCase):
             "website": "www.companytest.com.br",
         }
 
+        cls.company_same_cnpj = {
+            "name": "Company Test 4",
+            "legal_name": "Company Testc 4 Ltda",
+            "vat": "86144802000190",
+            "l10n_br_ie_code": "385.611.86-2",
+            "street": "Rod BR-101 Norte Contorno",
+            "street_number": "955",
+            "street2": "Portão 1",
+            "district": "Jardim da Saudade",
+            "state_id": cls.env.ref("base.state_br_es").id,
+            "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
+            "country_id": cls.env.ref("base.br").id,
+            "city": "Serra",
+            "zip": "29161-695",
+            "phone": "+55 27 2916-1695",
+            "email": "contact@companytest.com.br",
+            "website": "www.companytest.com.br",
+        }
+
         cls.partner_valid = {
             "name": "Partner Test 1",
             "legal_name": "Partner Testc 1 Ltda",
@@ -153,6 +172,12 @@ class ValidCreateIdTest(TransactionCase):
         with self.assertRaises(ValidationError):
             self.env["res.company"].with_context(tracking_disable=True).create(
                 self.company_invalid_l10n_br_ie_code
+            )
+
+    def test_comp_same_cnpj(self):
+        with self.assertRaises(ValidationError):
+              self.env["res.company"].with_context(tracking_disable=True).create(
+                self.company_same_cnpj
             )
 
     # Tests on partners
