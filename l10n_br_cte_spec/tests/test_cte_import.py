@@ -5,6 +5,7 @@
 import re
 from datetime import datetime
 from importlib import resources
+from unittest.mock import patch
 
 import nfelib
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
@@ -117,10 +118,6 @@ def match_or_create_m2o_fake(self, comodel, new_value, create_m2o=False):
     return comodel.new(new_value)._ids[0]
 
 
-spec_mixin.CteSpecMixin.build_fake = build_fake
-spec_mixin.CteSpecMixin.build_attrs_fake = build_attrs_fake
-spec_mixin.CteSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
-
 
 class NFeImportTest(TransactionCase):
     def setUp(self):
@@ -128,6 +125,21 @@ class NFeImportTest(TransactionCase):
         self.env = self.env(context=dict(self.env.context, tracking_disable=True))
         self.loader = FakeModelLoader(self.env, self.__module__)
         self.loader.backup_registry()
+
+        self._build_fake_patcher = patch.object(
+            spec_mixin.CteSpecMixin, "build_fake", build_fake
+        )
+        self._build_attrs_fake_patcher = patch.object(
+            spec_mixin.CteSpecMixin, "build_attrs_fake", build_attrs_fake
+        )
+        self._match_or_create_m2o_fake_patcher = patch.object(
+            spec_mixin.CteSpecMixin,
+            "match_or_create_m2o_fake",
+            match_or_create_m2o_fake
+        )
+        self._build_fake_patcher.start()
+        self._build_attrs_fake_patcher.start()
+        self._match_or_create_m2o_fake_patcher.start()
 
         # Get all classes from the module that inherit from AbstractModel
         modified_classes = []
@@ -145,6 +157,9 @@ class NFeImportTest(TransactionCase):
         self.loader.update_registry(modified_classes)
 
     def tearDown(self):
+        self._match_or_create_m2o_fake_patcher.stop()
+        self._build_attrs_fake_patcher.stop()
+        self._build_fake_patcher.stop()
         self.loader.restore_registry()
         super().tearDown()
 
