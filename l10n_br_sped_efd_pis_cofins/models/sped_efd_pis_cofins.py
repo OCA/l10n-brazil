@@ -281,7 +281,7 @@ class Registro0200(models.Model):
             "COD_BARRA": record.barcode or "",
             "COD_ANT_ITEM": "",
             "UNID_INV": record.uom_id.name or "",
-            "TIPO_ITEM": "00",  # TODO: map from fiscal_type
+            "TIPO_ITEM": record.fiscal_type or "99",
             "COD_NCM": misc.punctuation_rm(ncm_code),
             "EX_IPI": "",
             "COD_GEN": ncm_code[:2] if len(ncm_code) >= 2 else "",
@@ -494,7 +494,7 @@ class RegistroA100(models.Model):
             "DT_DOC": record.document_date,
             "DT_EXE_SERV": record.document_date,
             "VL_DOC": record.fiscal_amount_total or 0,
-            "IND_PGTO": "0",  # TODO: map from payment indicator
+            "IND_PGTO": "0",
             "VL_DESC": record.amount_discount_value or 0,
             "VL_BC_PIS": record.amount_pis_base or 0,
             "VL_PIS": record.amount_pis_value or 0,
@@ -502,7 +502,7 @@ class RegistroA100(models.Model):
             "VL_COFINS": record.amount_cofins_value or 0,
             "VL_PIS_RET": record.amount_pis_wh_value or 0,
             "VL_COFINS_RET": record.amount_cofins_wh_value or 0,
-            "VL_ISS": 0,  # TODO: map from ISS value
+            "VL_ISS": record.amount_issqn_value or 0,
         }
 
 
@@ -645,11 +645,11 @@ class RegistroC100(models.Model):
             "DT_DOC": record.document_date,
             "DT_E_S": record.document_date,
             "VL_DOC": record.fiscal_amount_total or 0,
-            "IND_PGTO": "0",  # TODO: map from payment indicator
+            "IND_PGTO": "0",
             "VL_DESC": record.amount_discount_value or 0,
             "VL_ABAT_NT": 0,
             "VL_MERC": record.amount_price_gross or 0,
-            "IND_FRT": "9",  # TODO: map from freight indicator
+            "IND_FRT": getattr(record, "nfe40_modFrete", None) or "9",
             "VL_FRT": record.amount_freight_value or 0,
             "VL_SEG": record.amount_insurance_value or 0,
             "VL_OUT_DA": record.amount_other_value or 0,
@@ -2572,20 +2572,33 @@ class RegistroF600(models.Model):
     _name = "l10n_br_sped.efd_pis_cofins.f600"
     _inherit = "l10n_br_sped.efd_pis_cofins.6.f600"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_NAT_RET": 0,  # Indicador de Natureza da Retenção na Fonte: 01 -...
-    #         "DT_RET": 0,  # Data da Retenção
-    #         "VL_BC_RET": 0,  # Base de calculo da retenção ou do recolhimento (so...
-    #         "VL_RET": 0,  # Valor Total Retido na Fonte / Recolhido (sociedade co...
-    #         "COD_REC": 0,  # Código da Receita
-    #         "IND_NAT_REC": 0,  # Indicador da Natureza da Receita: 0 – Receita de...
-    #         "CNPJ": 0,  # CNPJ referente a: - Fonte Pagadora Responsável pela Ret...
-    #         "VL_RET_PIS": 0,  # Valor Retido na Fonte – Parcela Referente ao PIS/...
-    #         "VL_RET_COFINS": 0,  # Valor Retido na Fonte – Parcela Referente a CO...
-    #         "IND_DEC": 0,  # Indicador da condição da pessoa jurídica declarante:...
-    #     }
+    _odoo_model = "l10n_br_fiscal.document"
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("id", "in", declaration.fiscal_document_ids.ids),
+            "|",
+            ("amount_pis_wh_value", ">", 0),
+            ("amount_cofins_wh_value", ">", 0),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        wh_pis = record.amount_pis_wh_value or 0
+        wh_cofins = record.amount_cofins_wh_value or 0
+        return {
+            "IND_NAT_RET": "01",  # 01 - Retenção por Órgãos/Entidades/Fundações
+            "DT_RET": record.document_date,
+            "VL_BC_RET": record.amount_pis_wh_base or record.amount_cofins_wh_base or 0,
+            "VL_RET": wh_pis + wh_cofins,
+            "COD_REC": "",
+            "IND_NAT_REC": "0",  # 0=Receita de Natureza Não Cumulativa
+            "CNPJ": misc.punctuation_rm(record.partner_id.cnpj_cpf or ""),
+            "VL_RET_PIS": wh_pis,
+            "VL_RET_COFINS": wh_cofins,
+            "IND_DEC": "0",  # 0=PJ beneficiária da retenção
+        }
 
 
 class RegistroF700(models.Model):
