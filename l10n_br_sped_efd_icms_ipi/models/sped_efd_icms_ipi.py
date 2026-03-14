@@ -684,11 +684,11 @@ class RegistroB025(models.Model):
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "VL_CONT_P": 0,  # Parcela correspondente ao “Valor Contábil” referen...
-    #         "VL_BC_ISS_P": 0,  # Parcela correspondente ao “Valor da base de cálc...
+    #         "VL_CONT_P": 0,  # Parcela correspondente ao "Valor Contábil" referen...
+    #         "VL_BC_ISS_P": 0,  # Parcela correspondente ao "Valor da base de cálc...
     #         "ALIQ_ISS": 0,  # Alíquota do ISS
-    #         "VL_ISS_P": 0,  # Parcela correspondente ao “Valor do ISS” referente ...
-    #         "VL_ISNT_ISS_P": 0,  # Parcela correspondente ao “Valor das operações...
+    #         "VL_ISS_P": 0,  # Parcela correspondente ao "Valor do ISS" referente ...
+    #         "VL_ISNT_ISS_P": 0,  # Parcela correspondente ao "Valor das operações...
     #         "COD_SERV": 0,  # Item da lista de serviços, conforme Tabela 4.6.3
     #     }
 
@@ -867,11 +867,12 @@ class RegistroC100(models.Model):
     _inherit = "l10n_br_sped.efd_icms_ipi.19.c100"
     _odoo_model = "l10n_br_fiscal.document"
 
-    # @api.model
-    # def _odoo_domain(self, parent_record, declaration):
-    #     return [
-    #         ("id", "in", declaration.c100_fiscal_document_ids.ids),
-    #     ]
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("id", "in", declaration.fiscal_document_ids.ids),
+            ("document_type_id.code", "in", ("01", "1B", "04", "55", "65")),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1567,21 +1568,29 @@ class RegistroC190(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.c190"
     _inherit = "l10n_br_sped.efd_icms_ipi.19.c190"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação do agrupamento de...
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # Valor da operação na combinação de CST_ICMS, CFOP e a...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS", incluindo...
-    #         "VL_BC_ICMS_ST": 0,  # Parcela correspondente ao "Valor da base de cá...
-    #         "VL_ICMS_ST": 0,  # Parcela correspondente ao valor creditado/debitad...
-    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
-    #         "VL_IPI": 0,  # Parcela correspondente ao "Valor do IPI" referente à ...
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #     }
+    _odoo_model = "l10n_br_fiscal.document.line"
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("document_id", "=", parent_record.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "CST_ICMS": record.icms_cst_code or "",
+            "CFOP": record.cfop_id.code or "",
+            "ALIQ_ICMS": record.icms_percent or 0,
+            "VL_OPR": record.price_gross or 0,
+            "VL_BC_ICMS": record.icms_base or 0,
+            "VL_ICMS": record.icms_value or 0,
+            "VL_BC_ICMS_ST": record.icmsst_base or 0,
+            "VL_ICMS_ST": record.icmsst_value or 0,
+            "VL_RED_BC": record.icms_base_reduction_value or 0
+            if hasattr(record, "icms_base_reduction_value")
+            else 0,
+            "VL_IPI": record.ipi_value or 0,
+            "COD_OBS": "",
+        }
 
 
 class RegistroC191(models.Model):
@@ -2354,8 +2363,8 @@ class RegistroC790(models.Model):
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao “Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao “Valor do ICMS” referente ...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
+    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
     #         "VL_BC_ICMS_ST": 0,  # Valor da base de cálculo do ICMS substituição ...
     #         "VL_ICMS_ST": 0,  # Valor do ICMS retido por substituição tributária
     #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
@@ -2463,9 +2472,9 @@ class RegistroC850(models.Model):
     #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação do agrupamento de...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # “Valor total do CF-e” na combinação de CST_ICMS, CFOP...
+    #         "VL_OPR": 0,  # "Valor total do CF-e" na combinação de CST_ICMS, CFOP...
     #         "VL_BC_ICMS": 0,  # Valor acumulado da base de cálculo do ICMS, refer...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao “Valor do ICMS” referente ...
+    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
     #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
     #     }
 
@@ -2576,7 +2585,7 @@ class RegistroC890(models.Model):
     #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação do agrupamento de...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # “Valor total do CF-e” na combinação de CST_ICMS, CFOP...
+    #         "VL_OPR": 0,  # "Valor total do CF-e" na combinação de CST_ICMS, CFOP...
     #         "VL_BC_ICMS": 0,  # Valor acumulado da base de cálculo do ICMS, refer...
     #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
     #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
@@ -2625,34 +2634,47 @@ class RegistroD100(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.d100"
     _inherit = "l10n_br_sped.efd_icms_ipi.19.d100"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Aquisição; 1 - P...
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
-    #         "SER": 0,  # Série do documento fiscal
-    #         "SUB": 0,  # Subsérie do documento fiscal
-    #         "NUM_DOC": 0,  # Número do documento fiscal
-    #         "CHV_CTE": 0,  # Chave do Conhecimento de Transporte Eletrônico ou do...
-    #         "DT_DOC": 0,  # Data da emissão do documento fiscal
-    #         "DT_A_P": 0,  # Data da aquisição ou da prestação do serviço
-    #         "TP_CT_E": 0,  # Tipo de Conhecimento de Transporte Eletrônico confor...
-    #         "CHV_CTE_REF": 0,  # Chave do Documento Eletrônico Substituído
-    #         "VL_DOC": 0,  # Valor total do documento fiscal
-    #         "VL_DESC": 0,  # Valor total do desconto
-    #         "IND_FRT": 0,  # Indicador do tipo do frete: 0 - Por conta de terceir...
-    #         "VL_SERV": 0,  # Valor total da prestação de serviço
-    #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
-    #         "VL_ICMS": 0,  # Valor do ICMS
-    #         "VL_NT": 0,  # Valor não-tributado
-    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
-    #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
-    #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
-    #     }
+    _odoo_model = "l10n_br_fiscal.document"
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("id", "in", declaration.fiscal_document_ids.ids),
+            (
+                "document_type_id.code",
+                "in",
+                ("07", "08", "8B", "09", "10", "11", "26", "27", "57"),
+            ),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "IND_OPER": "0" if record.fiscal_operation_type == FISCAL_IN else "1",
+            "IND_EMIT": "0" if record.issuer == DOCUMENT_ISSUER_COMPANY else "1",
+            "COD_PART": misc.punctuation_rm(record.partner_id.cnpj_cpf),
+            "COD_MOD": record.document_type_id.code or "",
+            "COD_SIT": record.state_fiscal,
+            "SER": record.document_serie or "",
+            "SUB": "",
+            "NUM_DOC": record.document_number or "",
+            "CHV_CTE": record.document_key or "",
+            "DT_DOC": record.document_date,
+            "DT_A_P": record.document_date,
+            "TP_CT_E": "",
+            "CHV_CTE_REF": "",
+            "VL_DOC": record.fiscal_amount_total or 0,
+            "VL_DESC": record.amount_discount_value or 0,
+            "IND_FRT": "0",
+            "VL_SERV": record.fiscal_amount_total or 0,
+            "VL_BC_ICMS": record.amount_icms_base or 0,
+            "VL_ICMS": record.amount_icms_value or 0,
+            "VL_NT": 0,
+            "COD_INF": "",
+            "COD_CTA": "",
+            "COD_MUN_ORIG": record.partner_id.city_id.ibge_code or "",
+            "COD_MUN_DEST": record.company_id.city_id.ibge_code or "",
+        }
 
 
 class RegistroD101(models.Model):
@@ -2905,18 +2927,24 @@ class RegistroD190(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.d190"
     _inherit = "l10n_br_sped.efd_icms_ipi.19.d190"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
-    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #     }
+    _odoo_model = "l10n_br_fiscal.document.line"
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("document_id", "=", parent_record.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "CST_ICMS": record.icms_cst_code or "",
+            "CFOP": record.cfop_id.code or "",
+            "ALIQ_ICMS": record.icms_percent or 0,
+            "VL_OPR": record.price_gross or 0,
+            "VL_BC_ICMS": record.icms_base or 0,
+            "VL_ICMS": record.icms_value or 0,
+            "VL_RED_BC": 0,
+            "COD_OBS": "",
+        }
 
 
 class RegistroD195(models.Model):
@@ -3395,7 +3423,7 @@ class RegistroD690(models.Model):
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao “Valor da base de cálcu...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
     #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
     #         "VL_BC_ICMS_UF": 0,  # Parcela correspondente ao valor da base de cál...
     #         "VL_ICMS_UF": 0,  # Parcela correspondente ao valor do ICMS de outras...
@@ -3667,24 +3695,35 @@ class RegistroE110(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.e110"
     _inherit = "l10n_br_sped.efd_icms_ipi.19.e110"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "VL_TOT_DEBITOS": 0,  # Valor total dos débitos por "Saídas e prestaç...
-    #         "VL_AJ_DEBITOS": 0,  # Valor total dos ajustes a débito decorrentes d...
-    #         "VL_TOT_AJ_DEBITOS": 0,  # Valor total de "Ajustes a débito"
-    #         "VL_ESTORNOS_CRED": 0,  # Valor total de Ajustes “Estornos de crédito...
-    #         "VL_TOT_CREDITOS": 0,  # Valor total dos créditos por "Entradas e aqu...
-    #         "VL_AJ_CREDITOS": 0,  # Valor total dos ajustes a crédito decorrentes...
-    #         "VL_TOT_AJ_CREDITOS": 0,  # Valor total de "Ajustes a crédito"
-    #         "VL_ESTORNOS_DEB": 0,  # Valor total de Ajustes “Estornos de Débitos”
-    #         "VL_SLD_CREDOR_ANT": 0,  # Valor total de "Saldo credor do período an...
-    #         "VL_SLD_APURADO": 0,  # Valor do saldo devedor apurado
-    #         "VL_TOT_DED": 0,  # Valor total de "Deduções"
-    #         "VL_ICMS_RECOLHER": 0,  # Valor total de "ICMS a recolher (11-12)
-    #         "VL_SLD_CREDOR_TRANSPORTAR": 0,  # Valor total de "Saldo credor a tra...
-    #         "DEB_ESP": 0,  # Valores recolhidos ou a recolher, extra-apuração.
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # Compute ICMS debits (saídas) and credits (entradas) from fiscal documents
+        docs = declaration.fiscal_document_ids.filtered(
+            lambda d: d.document_type_id.code in ("01", "1B", "04", "55", "65")
+        )
+        vl_debitos = sum(
+            d.amount_icms_value for d in docs if d.fiscal_operation_type != FISCAL_IN
+        )
+        vl_creditos = sum(
+            d.amount_icms_value for d in docs if d.fiscal_operation_type == FISCAL_IN
+        )
+        saldo = vl_debitos - vl_creditos
+        return {
+            "VL_TOT_DEBITOS": vl_debitos,
+            "VL_AJ_DEBITOS": 0,
+            "VL_TOT_AJ_DEBITOS": 0,
+            "VL_ESTORNOS_CRED": 0,
+            "VL_TOT_CREDITOS": vl_creditos,
+            "VL_AJ_CREDITOS": 0,
+            "VL_TOT_AJ_CREDITOS": 0,
+            "VL_ESTORNOS_DEB": 0,
+            "VL_SLD_CREDOR_ANT": 0,
+            "VL_SLD_APURADO": saldo if saldo > 0 else 0,
+            "VL_TOT_DED": 0,
+            "VL_ICMS_RECOLHER": saldo if saldo > 0 else 0,
+            "VL_SLD_CREDOR_TRANSPORTAR": abs(saldo) if saldo < 0 else 0,
+            "DEB_ESP": 0,
+        }
 
 
 class RegistroE111(models.Model):
@@ -3776,7 +3815,7 @@ class RegistroE116(models.Model):
     #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher.
-    #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
+    #         "MES_REF": 0,  # Informe o mês de referência no formato "mmaaaa"
     #     }
 
 
@@ -3897,7 +3936,7 @@ class RegistroE250(models.Model):
     #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher
-    #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
+    #         "MES_REF": 0,  # Informe o mês de referência no formato "mmaaaa"
     #     }
 
 
@@ -4025,7 +4064,7 @@ class RegistroE316(models.Model):
     #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar das obrigações recolhidas o...
-    #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
+    #         "MES_REF": 0,  # Informe o mês de referência no formato "mmaaaa"
     #     }
 
 
@@ -5195,17 +5234,17 @@ class Registro1920(models.Model):
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "VL_TOT_TRANSF_DEBITOS_OA": 0,  # Valor total dos débitos por “Saídas...
-    #         "VL_TOT_AJ_DEBITOS_OA": 0,  # Valor total de “Ajustes a débito”
-    #         "VL_ESTORNOS_CRED_OA": 0,  # Valor total de Ajustes “Estornos de créd...
-    #         "VL_TOT_TRANSF_CREDITOS_OA": 0,  # Valor total dos créditos por “Entr...
-    #         "VL_TOT_AJ_CREDITOS_OA": 0,  # Valor total de “Ajustes a crédito”
-    #         "VL_ESTORNOS_DEB_OA": 0,  # Valor total de Ajustes “Estornos de Débit...
-    #         "VL_SLD_CREDOR_ANT_OA": 0,  # Valor total de “Saldo credor do período...
+    #         "VL_TOT_TRANSF_DEBITOS_OA": 0,  # Valor total dos débitos por "Saídas...
+    #         "VL_TOT_AJ_DEBITOS_OA": 0,  # Valor total de "Ajustes a débito"
+    #         "VL_ESTORNOS_CRED_OA": 0,  # Valor total de Ajustes "Estornos de créd...
+    #         "VL_TOT_TRANSF_CREDITOS_OA": 0,  # Valor total dos créditos por "Entr...
+    #         "VL_TOT_AJ_CREDITOS_OA": 0,  # Valor total de "Ajustes a crédito"
+    #         "VL_ESTORNOS_DEB_OA": 0,  # Valor total de Ajustes "Estornos de Débit...
+    #         "VL_SLD_CREDOR_ANT_OA": 0,  # Valor total de "Saldo credor do período...
     #         "VL_SLD_APURADO_OA": 0,  # Valor do saldo devedor apurado
-    #         "VL_TOT_DED": 0,  # Valor total de “Deduções”
+    #         "VL_TOT_DED": 0,  # Valor total de "Deduções"
     #         "VL_ICMS_RECOLHER_OA": 0,  # Valor total de "ICMS a recolher (09-10)
-    #         "VL_SLD_CREDOR_TRANSP_OA": 0,  # Valor total de “Saldo credor a trans...
+    #         "VL_SLD_CREDOR_TRANSP_OA": 0,  # Valor total de "Saldo credor a trans...
     #         "DEB_ESP_OA": 0,  # Valores recolhidos ou a recolher, extra- apuração...
     #     }
 
@@ -5300,7 +5339,7 @@ class Registro1926(models.Model):
     #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher.
-    #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
+    #         "MES_REF": 0,  # Informe o mês de referência no formato "mmaaaa"
     #     }
 
 

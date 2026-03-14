@@ -93,15 +93,19 @@ Authors
 Contributors
 ------------
 
--  `AKRETION <https://akretion.com/pt-BR/>`__:
+- `AKRETION <https://akretion.com/pt-BR/>`__:
 
-   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
-   -  Renato Lima <renato.lima@akretion.com.br>
-   -  Clement Monbereau <clement.mombereau@akretion.com.br>
+  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+  - Renato Lima <renato.lima@akretion.com.br>
+  - Clement Monbereau <clement.mombereau@akretion.com.br>
 
--  `ATS Soluções Empresariais <https://atsti.com.br>`__:
+- `ATS Soluções Empresariais <https://atsti.com.br>`__:
 
-   -  Carlos Silveira <carlos@atsti.com.br>
+  - Carlos Silveira <carlos@atsti.com.br>
+
+- `KMEE <https://www.kmee.com.br>`__:
+
+  - Luis Felipe Mileo <mileo@kmee.com.br>
 
 Maintainers
 -----------
