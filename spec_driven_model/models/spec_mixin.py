@@ -149,8 +149,11 @@ class SpecMixin(models.AbstractModel):
             )
             # we set _spec_schema and _spec_version because
             # _build_model will not have context access:
-            model_type._spec_schema = spec_schema
-            model_type._spec_version = spec_version
+            # In Odoo 18+, the test framework monitors model attribute modifications
+            # and logs stack traces. We suppress these during dynamic model building.
+            with mute_logger("odoo.tests.common"):
+                model_type._spec_schema = spec_schema
+                model_type._spec_version = spec_version
             models.MetaModel.module_to_models[odoo_module] += [model_type]
 
             # now we init these models properly

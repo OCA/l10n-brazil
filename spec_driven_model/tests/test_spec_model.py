@@ -6,6 +6,7 @@ import logging
 
 from unittest.mock import patch
 
+from odoo.tools import mute_logger
 from odoo_test_helper import FakeModelLoader
 
 from odoo.models import NewId
@@ -88,7 +89,8 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         from . import purchase_order_lib  # NOQA
 
     def tearDown(self):
-        self.loader.restore_registry()
+        with mute_logger("odoo.tests.common"):
+            self.loader.restore_registry()
         super().tearDown()
 
     def test_spec_models(self):
