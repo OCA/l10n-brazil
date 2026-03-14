@@ -5,7 +5,7 @@
     "name": "Brazilian Localization CNPJ Search",
     "summary": """
         Integração com os Webservices da ReceitaWS e SerPro""",
-    "version": "17.0.1.1.1",
+    "version": "17.0.1.1.2",
     "license": "AGPL-3",
     "development_status": "Production/Stable",
     "author": "KMEE,Odoo Community Association (OCA)",
