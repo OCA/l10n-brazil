@@ -349,7 +349,10 @@ class StackedModel(SpecModel):
                 f["xsd_required"] or f["xsd_choice_required"] or force_stacked
             ):
                 # then we will STACK the child in the current class
-                child._stack_path = path
+                # In Odoo 18+, the test framework monitors model attribute modifications
+                # and logs stack traces. We suppress these during dynamic model building.
+                with mute_logger("odoo.tests.common"):
+                    child._stack_path = path
                 child_path = f"{path}.{field_path}"
                 stacking_settings["stacking_points"][name] = env[
                     node._name
