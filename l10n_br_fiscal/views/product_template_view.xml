@@ -79,6 +79,11 @@
                                 invisible="fiscal_type != '09'"
                             />
                             <field
+                                name="national_taxation_code_id"
+                                invisible="fiscal_type != '09'"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
+                            <field
                                 name="city_taxation_code_ids"
                                 invisible="fiscal_type != '09'"
                                 context="{'default_service_type_id': service_type_id}"
