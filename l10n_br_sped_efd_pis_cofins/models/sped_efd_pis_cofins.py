@@ -12,6 +12,20 @@ from odoo import api, fields, models
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
 
 
+def _spec(record, spec_field, default=None):
+    """Get a value from a spec field (nfe40_*, cte40_*) if available.
+
+    Use this ONLY for fields that do NOT exist in l10n_br_fiscal base.
+    For fields that already exist (document_key, amount_icms_base, etc.)
+    just use them directly — the spec modules define them as 'related'.
+    """
+    if hasattr(record, spec_field):
+        val = getattr(record, spec_field)
+        if val or val == 0:
+            return val
+    return default
+
+
 class Registro0000(models.Model):
     "Abertura do Arquivo Digital e Identificação da Pessoa Jurídica"
 
@@ -649,7 +663,8 @@ class RegistroC100(models.Model):
             "VL_DESC": record.amount_discount_value or 0,
             "VL_ABAT_NT": 0,
             "VL_MERC": record.amount_price_gross or 0,
-            "IND_FRT": getattr(record, "nfe40_modFrete", None) or "9",
+            # nfe40_modFrete only exists when l10n_br_nfe is installed
+            "IND_FRT": _spec(record, "nfe40_modFrete", "9"),
             "VL_FRT": record.amount_freight_value or 0,
             "VL_SEG": record.amount_insurance_value or 0,
             "VL_OUT_DA": record.amount_other_value or 0,
@@ -1666,7 +1681,8 @@ class RegistroD100(models.Model):
             "CHV_CTE": record.document_key or "",
             "DT_DOC": record.document_date,
             "DT_A_P": record.document_date,
-            "TP_CT_e": "",
+            # cte40_modal only exists when l10n_br_cte is installed
+            "TP_CT_e": _spec(record, "cte40_modal", ""),
             "CHV_CTE_REF": "",
             "VL_DOC": record.fiscal_amount_total or 0,
             "VL_DESC": record.amount_discount_value or 0,
