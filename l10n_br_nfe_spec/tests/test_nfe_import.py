@@ -3,6 +3,7 @@
 # flake8: noqa: C901
 
 import re
+import unittest
 from datetime import datetime
 from importlib import resources
 
@@ -108,6 +109,16 @@ def match_or_create_m2o_fake(self, comodel, new_value, create_m2o=False):
 
 
 class NFeImportTest(TransactionCase, FakeModelLoader):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # Skip these tests in Odoo 18+ due to test framework changes
+        # that make it difficult to properly clean up dynamically created models.
+        # See: https://github.com/odoo/odoo/pull/247151
+        from odoo.release import version_info
+        if version_info[0] >= 18:
+            raise unittest.SkipTest("Test not supported in Odoo 18+ due to test framework changes")
+
     def setUp(self):
         super().setUp()
         self.env = self.env(context=dict(self.env.context, tracking_disable=True))
