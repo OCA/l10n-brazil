@@ -12,7 +12,10 @@
             <field name="document_serie_id" position="after">
                 <field
                     name="service_provider"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                    attrs="{
+                        'invisible': [('document_type', 'not in', ['57'])],
+                        'required': [('document_type', 'in', ['57'])]
+                    }"
                 />
                 <field
                     name="cte40_tpServ"
