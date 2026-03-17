@@ -26,6 +26,7 @@ class ResCompany(models.Model):
         [
             ("item_lista_servico", "Service Type"),
             ("codigo_tributacao_municipio", "City Taxation Code"),
+            ("codigo_tributacao_nacional", "National Taxation Code"),
         ],
         string="NFSE Service Type Value",
         default="item_lista_servico",
@@ -58,6 +59,16 @@ class ResCompany(models.Model):
 
     focusnfe_tax_rate_format = fields.Selection(
         [("decimal", "Decimal"), ("percentage", "Percentage")], default="decimal"
+    )
+
+    focusnfe_nfse_type = fields.Selection(
+        [
+            ("nfse", "NFSe"),
+            ("nfse_nacional", "NFSe Nacional"),
+        ],
+        string="FocusNFe NFSe Type",
+        default="nfse",
+        help="Select whether to use NFSe (municipal) or NFSe Nacional (national) API",
     )
 
     def get_focusnfe_token(self):

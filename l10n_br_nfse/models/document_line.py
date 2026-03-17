@@ -92,7 +92,8 @@ class DocumentLine(models.Model):
             "valor_liquido_nfse": round(self.amount_taxed, 2),
             "item_lista_servico": self.service_type_id.code
             and self.service_type_id.code.replace(".", ""),
-            "codigo_tributacao_municipio": self.city_taxation_code_id.code or "",
+            "codigo_tributacao_nacional": self.national_taxation_code_id.code or None,
+            "codigo_tributacao_municipio": self.city_taxation_code_id.code or None,
             "municipio_prestacao_servico": self.issqn_fg_city_id.ibge_code or "",
             "discriminacao": str(self.name[:2000] or ""),
             "codigo_cnae": misc.punctuation_rm(self.cnae_id.code) or None,
@@ -103,4 +104,21 @@ class DocumentLine(models.Model):
             "codigo_situacao_tributaria": self.ibs_cst_code or "000",
             "ibs_cbs_base_calculo": round(self.issqn_base, 2),
             "valor_desconto_incondicionado": round(self.discount_value, 2),
+            "ibs_uf_aliquota": round(self.ibs_percent, 2) if self.ibs_percent else None,
+            "ibs_mun_aliquota": 0.0,
+            "cbs_aliquota": round(self.cbs_percent, 2) if self.cbs_percent else None,
+            "ibs_uf_valor": round(self.ibs_value, 2) if self.ibs_value else None,
+            "ibs_mun_valor": 0.0,
+            "cbs_valor": round(self.cbs_value, 2) if self.cbs_value else None,
+            "situacao_tributaria_pis": self.pis_cst_code or "",
+            "situacao_tributaria_cofins": self.cofins_cst_code or "",
+            "base_calculo_pis": round(self.pis_base, 2),
+            "base_calculo_cofins": round(self.cofins_base, 2),
+            "aliquota_pis": round(self.pis_percent, 2) if self.pis_percent else 0.0,
+            "aliquota_cofins": (
+                round(self.cofins_percent, 2) if self.cofins_percent else 0.0
+            ),
+            "tipo_retencao_pis_cofins": (
+                "1" if (self.pis_wh_value or self.cofins_wh_value) else "2"
+            ),
         }

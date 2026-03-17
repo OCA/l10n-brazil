@@ -2,8 +2,9 @@
 # Copyright 2023 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+"""Document model for FocusNFE NFSe integration."""
+
 import base64
-import json
 import logging
 from datetime import datetime
 
@@ -24,280 +25,29 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.l10n_br_fiscal_edi.models.document import Document as FiscalDocument
 from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
-NFSE_URL = {
-    "1": "https://api.focusnfe.com.br",
-    "2": "https://homologacao.focusnfe.com.br",
-}
-
-API_ENDPOINT = {
-    "envio": "/v2/nfse?",
-    "status": "/v2/nfse/",
-    "resposta": "/v2/nfse/",
-    "cancelamento": "/v2/nfse/",
-}
-
-TIMEOUT = 60  # 60 seconds
+from .constants import (
+    CODE_NFE_AUTORIZADA,
+    CODE_NFE_CANCELADA,
+    NFSE_URL,
+    STATUS_AUTORIZADO,
+    STATUS_CANCELADO,
+    STATUS_ERRO_AUTORIZACAO,
+    STATUS_PROCESSANDO_AUTORIZACAO,
+    TIMEOUT,
+)
+from .helpers import (
+    _is_valid_pdf,
+    filter_focusnfe,
+    filter_focusnfe_municipal,
+    filter_focusnfe_nacional,
+)
 
 _logger = logging.getLogger(__name__)
 
 
-def filter_focusnfe(record):
-    return record.company_id.provedor_nfse == "focusnfe"
-
-
-class FocusnfeNfse(models.AbstractModel):
-    _name = "focusnfe.nfse"
-    _description = "FocusNFE NFSE"
-
-    def _make_focus_nfse_http_request(self, method, url, token, data=None, params=None):
-        """Perform a generic HTTP request.
-
-        Args:
-            method (str): The HTTP method to use (e.g., 'GET', 'POST').
-            url (str): The URL to which the request is sent.
-            token (str): The authentication token for the service.
-            data (dict, optional): The payload to send in the request body.
-                Defaults to None.
-            params (dict, optional): The URL parameters to append to the URL.
-                Defaults to None.
-
-        Returns:
-            requests.Response: The response object from the requests library.
-
-        Raises:
-            UserError: If the HTTP request fails with a 4xx/5xx response.
-        """
-        auth = (token, "")
-        try:
-            response = requests.request(  # pylint: disable=external-request-timeout
-                method,
-                url,
-                data=data,
-                params=params,
-                auth=auth,
-            )
-            if response.status_code == 422:
-                payload = response.json()
-                msg = payload.get("mensagem") or ""
-                raise UserError(f"Error communicating with NFSe service: {msg}")
-            response.raise_for_status()  # Raises an error for 4xx/5xx responses
-            return response
-        except requests.HTTPError as e:
-            raise UserError(_("Error communicating with NFSe service: %s") % e) from e
-
-    def _identify_service_recipient(self, recipient):
-        """Identify whether the service recipient is a CPF or CNPJ.
-
-        Args:
-            recipient (dict): A dictionary containing either 'cpf' or 'cnpj' keys.
-
-        Returns:
-            dict: A dictionary with either a 'cpf' or 'cnpj' key and its value.
-        """
-        return (
-            {"cpf": recipient.get("cpf")}
-            if recipient.get("cpf")
-            else {"cnpj": recipient.get("cnpj")}
-        )
-
-    @api.model
-    def process_focus_nfse_document(self, edoc, ref, company, environment):
-        """Process the electronic fiscal document.
-
-        Args:
-            edoc (tuple): The electronic document data.
-            ref (str): The document reference.
-            company (recordset): The company record.
-
-        Returns:
-            requests.Response: The response from the NFSe service.
-        """
-        token = company.get_focusnfe_token()
-        data = self._prepare_payload(*edoc, company)
-        payload = json.dumps(data)
-        url = f"{NFSE_URL[environment]}{API_ENDPOINT['envio']}"
-        ref = {"ref": ref}
-        return self._make_focus_nfse_http_request(
-            "POST", url, token, data=payload, params=ref
-        )
-
-    def _prepare_payload(self, rps, service, recipient, company):
-        """Construct the NFSe payload.
-
-        Args:
-            rps (dict): Information about the RPS.
-            service (dict): Details of the service provided.
-            recipient (dict): Information about the service recipient.
-            company (recordset): The company record.
-
-        Returns:
-            dict: The complete payload for the NFSe request.
-        """
-        rps_info = rps.get("rps")
-        service_info = service.get("service")
-        recipient_info = recipient.get("recipient")
-        recipient_identification = self._identify_service_recipient(recipient_info)
-
-        vals = {
-            "prestador": self._prepare_provider_data(rps_info, company),
-            "servico": self._prepare_service_data(service_info, company),
-            "tomador": self._prepare_recipient_data(
-                recipient_info, recipient_identification, company
-            ),
-            "razao_social": company.name,
-            "data_emissao": rps_info.get("data_emissao"),
-            "incentivador_cultural": rps_info.get("incentivador_cultural", False),
-            "natureza_operacao": rps_info.get("natureza_operacao"),
-            "optante_simples_nacional": rps_info.get("optante_simples_nacional", False),
-            "status": rps_info.get("status"),
-            "informacoes_adicionais_contribuinte": (
-                rps_info.get("customer_additional_data", False)[:256]
-                if rps_info.get("customer_additional_data")
-                else False
-            ),
-        }
-        codigo_obra = rps_info.get("codigo_obra", False)
-        art = rps_info.get("art", False)
-
-        if codigo_obra:
-            vals["codigo_obra"] = codigo_obra
-
-        if art:
-            vals["art"] = art
-
-        return vals
-
-    def _prepare_provider_data(self, rps, company):
-        """Construct the provider section of the payload.
-
-        Args:
-            rps (dict): Information about the RPS.
-            company (recordset): The company record.
-
-        Returns:
-            dict: The provider section of the payload.
-        """
-        return {
-            "cnpj": rps.get("cnpj"),
-            "inscricao_municipal": rps.get("inscricao_municipal"),
-            "codigo_municipio": company.city_id.ibge_code,
-        }
-
-    def _prepare_service_data(self, service, company):
-        """Construct the service section of the payload.
-
-        Args:
-            service (dict): Details of the service provided.
-            company (recordset): The company record.
-
-        Returns:
-            dict: The service section of the payload.
-        """
-        return {
-            "aliquota": service.get("aliquota")
-            if company.focusnfe_tax_rate_format == "decimal"
-            else round(service.get("aliquota", 0.0) * 100, 1),
-            "base_calculo": round(service.get("base_calculo", 0), 2),
-            "discriminacao": service.get("discriminacao"),
-            "iss_retido": service.get("iss_retido"),
-            "codigo_municipio": service.get("municipio_prestacao_servico"),
-            "item_lista_servico": service.get(company.focusnfe_nfse_service_type_value),
-            "codigo_cnae": service.get(company.focusnfe_nfse_cnae_code_value),
-            "valor_iss": round(service.get("valor_iss", 0), 2),
-            "valor_iss_retido": round(service.get("valor_iss_retido", 0), 2),
-            "valor_pis": round(service.get("valor_pis_retido", 0), 2),
-            "valor_cofins": round(service.get("valor_cofins_retido", 0), 2),
-            "valor_inss": round(service.get("valor_inss_retido", 0), 2),
-            "valor_ir": round(service.get("valor_ir_retido", 0), 2),
-            "valor_csll": round(service.get("valor_csll_retido", 0), 2),
-            "valor_deducoes": round(service.get("valor_deducoes", 0), 2),
-            "fonte_total_tributos": service.get("fonte_total_tributos", "IBPT"),
-            "desconto_incondicionado": round(
-                service.get("valor_desconto_incondicionado", 0), 2
-            ),
-            "desconto_condicionado": round(service.get("desconto_condicionado", 0), 2),
-            "outras_retencoes": round(service.get("outras_retencoes", 0), 2),
-            "valor_servicos": round(service.get("valor_servicos", 0), 2),
-            "valor_liquido": round(service.get("valor_liquido_nfse", 0), 2),
-            "codigo_tributario_municipio": service.get("codigo_tributacao_municipio"),
-            "codigo_nbs": service.get("codigo_nbs"),
-            "codigo_indicador_operacao": service.get("codigo_indicador_operacao"),
-            "codigo_classificacao_tributaria": service.get(
-                "codigo_classificacao_tributaria"
-            ),
-            "codigo_situacao_tributaria": service.get("codigo_situacao_tributaria"),
-            "ibs_cbs_base_calculo": service.get("ibs_cbs_base_calculo"),
-        }
-
-    def _prepare_recipient_data(self, recipient, identification, company):
-        """Construct the recipient section of the payload.
-
-        Args:
-            recipient (dict): Information about the service recipient.
-            identification (dict): The recipient's identification (CPF or CNPJ).
-            company (recordset): The company record.
-        Returns:
-            dict: The recipient section of the payload.
-        """
-
-        if recipient.get("nif"):
-            recipient["codigo_municipio"] = company.city_id.ibge_code
-
-        return {
-            **identification,
-            "nif": recipient.get("nif"),
-            "nif_motivo_ausencia": recipient.get("nif_motivo_ausencia"),
-            "razao_social": recipient.get("razao_social"),
-            "email": recipient.get("email"),
-            "endereco": {
-                "bairro": recipient.get("bairro"),
-                "cep": recipient.get("cep"),
-                "codigo_municipio": recipient.get("codigo_municipio"),
-                "logradouro": recipient.get("endereco"),
-                "numero": recipient.get("numero"),
-                "uf": recipient.get("uf"),
-            },
-        }
-
-    @api.model
-    def query_focus_nfse_by_rps(self, ref, complete, company, environment):
-        """Query NFSe by RPS.
-
-        Args:
-            ref (str): The RPS reference.
-            complete (bool): Whether to return complete information.
-            company (recordset): The company record.
-
-        Returns:
-            requests.Response: The response from the NFSe service.
-        """
-        token = company.get_focusnfe_token()
-        url = f"{NFSE_URL[environment]}{API_ENDPOINT['status']}{ref}"
-        return self._make_focus_nfse_http_request(
-            "GET", url, token, params={"completa": complete}
-        )
-
-    @api.model
-    def cancel_focus_nfse_document(self, ref, cancel_reason, company, environment):
-        """Cancel an electronic fiscal document.
-
-        Args:
-            ref (str): The document reference.
-            cancel_reason (str): The reason for cancellation.
-            company (recordset): The company record.
-
-        Returns:
-            requests.Response: The response from the NFSe service.
-        """
-        token = company.get_focusnfe_token()
-        data = {"justificativa": cancel_reason}
-        url = f"{NFSE_URL[environment]}{API_ENDPOINT['cancelamento']}{ref}"
-        return self._make_focus_nfse_http_request(
-            "DELETE", url, token, data=json.dumps(data)
-        )
-
-
 class Document(models.Model):
+    """Document model with FocusNFE NFSe integration."""
+
     _inherit = "l10n_br_fiscal.document"
 
     def make_focus_nfse_pdf(self, content):
@@ -341,8 +91,19 @@ class Document(models.Model):
             NFSe-specific information.
         """
         edocs = super()._serialize(edocs)
+        # Handle NFSe Nacional
         for record in self.filtered(filter_processador_edoc_nfse).filtered(
-            filter_focusnfe
+            filter_focusnfe_nacional
+        ):
+            edoc = {
+                "rps": record._prepare_lote_rps(),
+                "service": record._prepare_dados_servico(),
+                "recipient": record._prepare_dados_tomador(),
+            }
+            edocs.append(edoc)
+        # Handle NFSe Municipal (original)
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe_municipal
         ):
             edoc = []
             edoc.append({"rps": record._prepare_lote_rps()})
@@ -380,6 +141,251 @@ class Document(models.Model):
             record.authorization_event_id = event_id
         return result
 
+    def _parse_authorization_datetime(self, json_data):
+        """Parse authorization datetime from JSON data.
+
+        Args:
+            json_data (dict): JSON response data.
+
+        Returns:
+            datetime: Naive datetime in UTC.
+        """
+        aware_datetime = datetime.strptime(
+            json_data["data_emissao"], "%Y-%m-%dT%H:%M:%S%z"
+        )
+        utc_datetime = aware_datetime.astimezone(pytz.utc)
+        return utc_datetime.replace(tzinfo=None)
+
+    def _fetch_xml_from_path(self, record, xml_path):
+        """Fetch XML content from the given path.
+
+        Args:
+            record: The document record.
+            xml_path (str): Path to XML file.
+
+        Returns:
+            str: XML content as string, empty if path is invalid.
+        """
+        if not xml_path:
+            return ""
+        try:
+            return requests.get(
+                NFSE_URL[record.nfse_environment] + xml_path,
+                timeout=TIMEOUT,
+                verify=record.company_id.nfse_ssl_verify,
+            ).content.decode("utf-8")
+        except Exception as e:
+            _logger.warning("Failed to fetch XML from %s: %s", xml_path, e)
+            return ""
+
+    def _fetch_pdf_from_urls(self, record, json_data, use_url_first=False):
+        """Fetch PDF content from URLs in JSON data.
+
+        Args:
+            record: The document record.
+            json_data (dict): JSON response data.
+            use_url_first (bool): If True, try 'url' first, then 'url_danfse'.
+                                 If False, only try 'url_danfse'.
+
+        Returns:
+            bytes: PDF content, or None if not found or invalid.
+        """
+        if record.company_id.focusnfe_nfse_force_odoo_danfse:
+            return None
+
+        pdf_url = None
+        if use_url_first:
+            pdf_url = json_data.get("url")
+            if pdf_url:
+                try:
+                    pdf_content = requests.get(
+                        pdf_url,
+                        timeout=TIMEOUT,
+                        verify=record.company_id.nfse_ssl_verify,
+                    ).content
+                    if _is_valid_pdf(pdf_content):
+                        return pdf_content
+                except Exception as e:
+                    _logger.warning("Failed to fetch PDF from %s: %s", pdf_url, e)
+
+        pdf_url = json_data.get("url_danfse", "")
+        if pdf_url:
+            try:
+                pdf_content = requests.get(
+                    pdf_url,
+                    timeout=TIMEOUT,
+                    verify=record.company_id.nfse_ssl_verify,
+                ).content
+                if _is_valid_pdf(pdf_content):
+                    return pdf_content
+            except Exception as e:
+                _logger.warning("Failed to fetch PDF from %s: %s", pdf_url, e)
+
+        return None
+
+    def _process_authorized_status_base(
+        self,
+        record,
+        json_data,
+        verify_code_key="codigo_verificacao",
+        use_url_first=False,
+        xml_required=True,
+    ):
+        """Base method to process authorized status.
+
+        Args:
+            record: The document record.
+            json_data (dict): JSON response data.
+            verify_code_key (str): Key to get verification code from json_data.
+            use_url_first (bool): Whether to try 'url' first for PDF.
+            xml_required (bool): Whether XML path is required (municipal)
+                or optional (nacional).
+        """
+        naive_datetime = self._parse_authorization_datetime(json_data)
+        verify_code = (
+            json_data.get(verify_code_key, "")
+            if verify_code_key
+            else json_data.get("codigo_verificacao", "")
+        )
+        document_number = json_data.get("numero", "")
+
+        record.write(
+            {
+                "verify_code": verify_code,
+                "document_number": document_number,
+                "authorization_date": naive_datetime,
+            }
+        )
+
+        xml_path = json_data.get("caminho_xml_nota_fiscal", "")
+        if xml_required and not xml_path:
+            # Will raise KeyError if not present
+            xml_path = json_data.get("caminho_xml_nota_fiscal")
+
+        xml = self._fetch_xml_from_path(record, xml_path) if xml_path else ""
+
+        if not record.authorization_event_id:
+            record._document_export()
+
+        if record.authorization_event_id:
+            # For municipal, xml is required; for nacional, only if available
+            if xml_required or xml:
+                record.authorization_event_id.set_done(
+                    status_code=4,
+                    response=_("Successfully Processed"),
+                    protocol_date=record.authorization_date,
+                    protocol_number=record.authorization_protocol,
+                    file_response_xml=xml,
+                )
+                record._change_state(SITUACAO_EDOC_AUTORIZADA)
+
+                if record.company_id.focusnfe_nfse_force_odoo_danfse:
+                    record.make_pdf()
+                else:
+                    pdf_content = self._fetch_pdf_from_urls(
+                        record, json_data, use_url_first
+                    )
+                    if pdf_content:
+                        record.make_focus_nfse_pdf(pdf_content)
+
+    def _process_authorized_status_nacional(self, record, json_data):
+        """Process authorized status for NFSe Nacional."""
+        self._process_authorized_status_base(
+            record,
+            json_data,
+            verify_code_key="codigo_verificacao",
+            use_url_first=False,
+            xml_required=False,
+        )
+
+    def _process_authorized_status_municipal(self, record, json_data):
+        """Process authorized status for NFSe Municipal."""
+        self._process_authorized_status_base(
+            record,
+            json_data,
+            verify_code_key="codigo_verificacao",
+            use_url_first=True,
+            xml_required=True,
+        )
+
+    def _process_error_status(self, record, json_data):
+        """Process error authorization status."""
+        erros = json_data.get("erros", [])
+        error_msg = erros[0]["mensagem"] if erros else _("Authorization error")
+        record.write(
+            {
+                "edoc_error_message": error_msg,
+            }
+        )
+        record._change_state(SITUACAO_EDOC_REJEITADA)
+
+    def _process_status_nacional(self, record):
+        """Process status check for NFSe Nacional."""
+        ref = str(record.rps_number)
+        response = record.env[
+            "focusnfe.nfse.nacional"
+        ].query_focus_nfse_nacional_by_ref(
+            ref, record.company_id, record.nfse_environment
+        )
+
+        json = response.json()
+
+        edoc_states = ["a_enviar", "enviada", "rejeitada"]
+        if record.company_id.focusnfe_nfse_update_authorized_document_status:
+            edoc_states.append("autorizada")
+
+        if response.status_code == 200:
+            if record.state in edoc_states:
+                if (
+                    json["status"] == STATUS_AUTORIZADO
+                    and record.state_edoc != SITUACAO_EDOC_AUTORIZADA
+                ):
+                    self._process_authorized_status_nacional(record, json)
+                elif json["status"] == STATUS_ERRO_AUTORIZACAO:
+                    self._process_error_status(record, json)
+                elif json["status"] == STATUS_CANCELADO:
+                    if record.state_edoc != SITUACAO_EDOC_CANCELADA:
+                        record._document_cancel(record.cancel_reason)
+
+            return _(json["status"])
+
+        return "Unable to retrieve the document status."
+
+    def _process_status_municipal(self, record):
+        """Process status check for NFSe Municipal."""
+        ref = "rps" + record.rps_number
+        response = record.env["focusnfe.nfse"].query_focus_nfse_by_rps(
+            ref, 0, record.company_id, record.nfse_environment
+        )
+
+        json = response.json()
+
+        edoc_states = ["a_enviar", "enviada", "rejeitada"]
+        if record.company_id.focusnfe_nfse_update_authorized_document_status:
+            edoc_states.append("autorizada")
+
+        if response.status_code == 200:
+            if record.state in edoc_states:
+                if (
+                    json["status"] == STATUS_AUTORIZADO
+                    and record.state_edoc != SITUACAO_EDOC_AUTORIZADA
+                ):
+                    self._process_authorized_status_municipal(record, json)
+                elif json["status"] == STATUS_ERRO_AUTORIZACAO:
+                    record.write(
+                        {
+                            "edoc_error_message": json["erros"][0]["mensagem"],
+                        }
+                    )
+                    record._change_state(SITUACAO_EDOC_REJEITADA)
+                elif json["status"] == STATUS_CANCELADO:
+                    if record.state_edoc != SITUACAO_EDOC_CANCELADA:
+                        record._document_cancel(record.cancel_reason)
+
+            return _(json["status"])
+
+        return "Unable to retrieve the document status."
+
     def _document_status(self):
         """Check and update the status of the NFSe document.
 
@@ -390,92 +396,16 @@ class Document(models.Model):
             A string indicating the current status of the document.
         """
         result = super()._document_status()
+        # Handle NFSe Nacional
         for record in self.filtered(filter_processador_edoc_nfse).filtered(
-            filter_focusnfe
+            filter_focusnfe_nacional
         ):
-            ref = "rps" + record.rps_number
-            response = record.env["focusnfe.nfse"].query_focus_nfse_by_rps(
-                ref, 0, record.company_id, record.nfse_environment
-            )
-
-            json = response.json()
-
-            edoc_states = ["a_enviar", "enviada", "rejeitada"]
-            if record.company_id.focusnfe_nfse_update_authorized_document_status:
-                edoc_states.append("autorizada")
-
-            if response.status_code == 200:
-                if record.state in edoc_states:
-                    if (
-                        json["status"] == "autorizado"
-                        and record.state_edoc != SITUACAO_EDOC_AUTORIZADA
-                    ):
-                        aware_datetime = datetime.strptime(
-                            json["data_emissao"], "%Y-%m-%dT%H:%M:%S%z"
-                        )
-                        utc_datetime = aware_datetime.astimezone(pytz.utc)
-                        naive_datetime = utc_datetime.replace(tzinfo=None)
-                        record.write(
-                            {
-                                "verify_code": json["codigo_verificacao"],
-                                "document_number": json["numero"],
-                                "authorization_date": naive_datetime,
-                            }
-                        )
-
-                        xml = requests.get(
-                            NFSE_URL[record.nfse_environment]
-                            + json["caminho_xml_nota_fiscal"],
-                            timeout=TIMEOUT,
-                        ).content.decode("utf-8")
-
-                        if not record.authorization_event_id:
-                            record._document_export()
-
-                        if record.authorization_event_id:
-                            record.authorization_event_id.set_done(
-                                status_code=4,
-                                response=_("Successfully Processed"),
-                                protocol_date=record.authorization_date,
-                                protocol_number=record.authorization_protocol,
-                                file_response_xml=xml,
-                            )
-                            record._change_state(SITUACAO_EDOC_AUTORIZADA)
-                            if record.company_id.focusnfe_nfse_force_odoo_danfse:
-                                record.make_pdf()
-                            else:
-                                pdf_content = requests.get(
-                                    json["url"],
-                                    timeout=TIMEOUT,
-                                    verify=record.company_id.nfse_ssl_verify,
-                                ).content
-                                if not pdf_content.startswith(
-                                    b"%PDF-"
-                                ) and not pdf_content.strip().endswith(b"%%EOF"):
-                                    pdf_content = requests.get(
-                                        json["url_danfse"],
-                                        timeout=TIMEOUT,
-                                        verify=record.company_id.nfse_ssl_verify,
-                                    ).content
-                                if pdf_content.startswith(
-                                    b"%PDF-"
-                                ) and pdf_content.strip().endswith(b"%%EOF"):
-                                    record.make_focus_nfse_pdf(pdf_content)
-
-                    elif json["status"] == "erro_autorizacao":
-                        record.write(
-                            {
-                                "edoc_error_message": json["erros"][0]["mensagem"],
-                            }
-                        )
-                        record._change_state(SITUACAO_EDOC_REJEITADA)
-                    elif json["status"] == "cancelado":
-                        if record.state_edoc != SITUACAO_EDOC_CANCELADA:
-                            record._document_cancel(record.cancel_reason)
-
-                result = _(json["status"])
-            else:
-                result = "Unable to retrieve the document status."
+            result = self._process_status_nacional(record)
+        # Handle NFSe Municipal (original)
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe_municipal
+        ):
+            result = self._process_status_municipal(record)
 
         return result
 
@@ -488,11 +418,14 @@ class Document(models.Model):
         Returns:
             The created event.
         """
-
-        xml = requests.get(
-            NFSE_URL[record.nfse_environment] + status_json["caminho_xml_cancelamento"],
-            timeout=TIMEOUT,
-        ).content.decode("utf-8")
+        xml_path = status_json.get("caminho_xml_cancelamento", "")
+        xml = ""
+        if xml_path:
+            xml = requests.get(
+                NFSE_URL[record.nfse_environment] + xml_path,
+                timeout=TIMEOUT,
+                verify=record.company_id.nfse_ssl_verify,
+            ).content.decode("utf-8")
 
         event = record.event_ids.create_event_save_xml(
             company_id=record.company_id,
@@ -527,16 +460,159 @@ class Document(models.Model):
             timeout=TIMEOUT,
             verify=record.company_id.nfse_ssl_verify,
         ).content
-        if not pdf_content.startswith(b"%PDF-") and not pdf_content.strip().endswith(
-            b"%%EOF"
-        ):
+        if not _is_valid_pdf(pdf_content):
             pdf_content = requests.get(
                 status_json["url_danfse"],
                 timeout=TIMEOUT,
                 verify=record.company_id.nfse_ssl_verify,
             ).content
-        if pdf_content.startswith(b"%PDF-") and pdf_content.strip().endswith(b"%%EOF"):
+        if _is_valid_pdf(pdf_content):
             record.make_focus_nfse_pdf(pdf_content)
+
+    def _handle_cancelled_status(self, record, status_json, use_url_first=False):
+        """Handle already cancelled status.
+
+        Args:
+            record: The document record.
+            status_json (dict): Status JSON response.
+            use_url_first (bool): Whether to try 'url' first for PDF.
+        """
+        record.cancel_event_id = record.create_cancel_event(status_json, record)
+        if record.company_id.focusnfe_nfse_force_odoo_danfse:
+            record.make_pdf()
+        else:
+            if use_url_first:
+                record.fetch_and_verify_pdf_content(status_json, record)
+            else:
+                url_danfse = status_json.get("url_danfse", "")
+                if url_danfse:
+                    pdf_content = requests.get(
+                        url_danfse,
+                        timeout=TIMEOUT,
+                        verify=record.company_id.nfse_ssl_verify,
+                    ).content
+                    if _is_valid_pdf(pdf_content):
+                        record.make_focus_nfse_pdf(pdf_content)
+
+    def _process_cancel_base(
+        self,
+        record,
+        ref,
+        query_method,
+        cancel_method,
+        use_url_first=False,
+        apply_barueri_hack=False,
+    ):
+        """Base method to process cancellation.
+
+        Args:
+            record: The document record.
+            ref (str): Document reference.
+            query_method: Method to query document status.
+            cancel_method: Method to cancel document.
+            use_url_first (bool): Whether to try 'url' first for PDF.
+            apply_barueri_hack (bool): Whether to apply Barueri-specific hack.
+
+        Returns:
+            requests.Response: The cancellation response.
+        """
+        # Check current status
+        status_response = query_method(ref, record.company_id, record.nfse_environment)
+        status_json = status_response.json()
+
+        if status_response.status_code == 200:
+            status = (
+                status_json.get("status", "")
+                if isinstance(status_json, dict)
+                else status_json.get("status", "")
+            )
+            if (
+                status == STATUS_CANCELADO
+                and record.state_edoc != SITUACAO_EDOC_CANCELADA
+            ):
+                self._handle_cancelled_status(record, status_json, use_url_first)
+                return status_response
+
+        # Perform cancellation
+        response = cancel_method(
+            ref, record.cancel_reason, record.company_id, record.nfse_environment
+        )
+        json_data = response.json()
+
+        if response.status_code in [200, 400]:
+            code = json_data.get("codigo", "")
+            status = json_data.get("status", "")
+
+            if not code:
+                code = json_data.get("erros", [{}])[0].get("codigo", "")
+                if code == "OK200" or (not code and status == STATUS_CANCELADO):
+                    code = CODE_NFE_CANCELADA
+
+            if code == CODE_NFE_CANCELADA or status == STATUS_CANCELADO:
+                # Query status again after cancellation
+                status_rps = query_method(
+                    ref, record.company_id, record.nfse_environment
+                )
+                status_json = status_rps.json()
+                self._handle_cancelled_status(record, status_json, use_url_first)
+                return response
+
+            raise UserError(
+                _(
+                    "%(code)s - %(status)s",
+                    code=code or response.status_code,
+                    status=status,
+                )
+            )
+
+        raise UserError(
+            _(
+                "%(code)s - %(msg)s",
+                code=response.status_code,
+                msg=json_data.get("mensagem", ""),
+            )
+        )
+
+    def _process_cancel_nacional(self, record):
+        """Process cancellation for NFSe Nacional."""
+        ref = str(record.rps_number)
+        nfse_nacional = record.env["focusnfe.nfse.nacional"]
+
+        def query_method(ref, company, environment):
+            return nfse_nacional.query_focus_nfse_nacional_by_ref(
+                ref, company, environment
+            )
+
+        def cancel_method(ref, cancel_reason, company, environment):
+            return nfse_nacional.cancel_focus_nfse_nacional_document(
+                ref, cancel_reason, company, environment
+            )
+
+        return self._process_cancel_base(
+            record, ref, query_method, cancel_method, use_url_first=False
+        )
+
+    def _process_cancel_municipal(self, record):
+        """Process cancellation for NFSe Municipal."""
+        ref = "rps" + record.rps_number
+        nfse = record.env["focusnfe.nfse"]
+
+        def query_method(ref, company, environment):
+            return nfse.query_focus_nfse_by_rps(ref, 0, company, environment)
+
+        def cancel_method(ref, cancel_reason, company, environment):
+            return nfse.cancel_focus_nfse_document(
+                ref, cancel_reason, company, environment
+            )
+
+        return self._process_cancel_base(
+            record,
+            ref,
+            query_method,
+            cancel_method,
+            use_url_first=True,
+            apply_barueri_hack=True,
+        )
 
     def cancel_document_focus(self):
         """Cancel a NFSe document with the Focus NFSe provider.
@@ -547,97 +623,74 @@ class Document(models.Model):
         Returns:
             The response regarding the cancellation request.
         """
+        # Handle NFSe Nacional
         for record in self.filtered(filter_processador_edoc_nfse).filtered(
-            filter_focusnfe
+            filter_focusnfe_nacional
         ):
-            ref = "rps" + record.rps_number
+            return self._process_cancel_nacional(record)
+        # Handle NFSe Municipal (original)
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe_municipal
+        ):
+            return self._process_cancel_municipal(record)
 
-            status_response = record.env["focusnfe.nfse"].query_focus_nfse_by_rps(
-                ref, 0, record.company_id, record.nfse_environment
+    def _process_send_nacional(self, record):
+        """Process document send for NFSe Nacional."""
+        for edoc in record.serialize():
+            ref = str(record.rps_number)
+            response = self.env[
+                "focusnfe.nfse.nacional"
+            ].process_focus_nfse_nacional_document(
+                edoc, ref, record.company_id, record.nfse_environment
             )
-            status_json = status_response.json()
-
-            if status_response.status_code == 200:
-                if (
-                    status_json["status"] == "cancelado"
-                    and record.state_edoc != SITUACAO_EDOC_CANCELADA
-                ):
-                    record.cancel_event_id = record.create_cancel_event(
-                        status_json, record
-                    )
-                    if record.company_id.focusnfe_nfse_force_odoo_danfse:
-                        record.make_pdf()
-                    else:
-                        record.fetch_and_verify_pdf_content(status_json, record)
-                    return status_response
-
-            response = record.env["focusnfe.nfse"].cancel_focus_nfse_document(
-                ref, record.cancel_reason, record.company_id, record.nfse_environment
-            )
-
-            code = False
-            status = False
-
             json = response.json()
 
-            if response.status_code in [200, 400]:
-                try:
-                    code = json["codigo"]
-                    response = True
-                except Exception:
-                    _logger.error(
-                        _("HTTP status is 200 or 400 but unable to read json['codigo']")
-                    )
-                try:
-                    status = json["status"]
-                except Exception:
-                    _logger.error(
-                        _("HTTP status is 200 or 400 but unable to read json['status']")
-                    )
-
-                # hack barueri - provisório
-                if not code and record.company_id.city_id.ibge_code == "3505708":
-                    try:
-                        code = json["erros"][0].get("codigo")
-                    except Exception:
-                        _logger.error(
-                            _("HTTP status is 200 or 400 but unable to read error code")
-                        )
-                    if code == "OK200":
-                        code = "nfe_cancelada"
-
-                if code == "nfe_cancelada" or status == "cancelado":
-                    status_rps = record.env["focusnfe.nfse"].query_focus_nfse_by_rps(
-                        ref, 0, record.company_id, record.nfse_environment
-                    )
-                    status_json = status_rps.json()
-
-                    record.cancel_event_id = record.create_cancel_event(
-                        status_json, record
-                    )
-                    if record.company_id.focusnfe_nfse_force_odoo_danfse:
-                        record.make_pdf()
+            if response.status_code == 202:
+                if json["status"] == STATUS_PROCESSANDO_AUTORIZACAO:
+                    if record.state == "rejeitada":
+                        record.state_edoc = SITUACAO_EDOC_ENVIADA
                     else:
-                        record.fetch_and_verify_pdf_content(status_json, record)
-
-                    return response
-
+                        record._change_state(SITUACAO_EDOC_ENVIADA)
+            elif response.status_code == 422:
+                code = json.get("codigo", "")
+                if code == CODE_NFE_AUTORIZADA and record.state in [
+                    "a_enviar",
+                    "enviada",
+                    "rejeitada",
+                ]:
+                    record._document_status()
                 else:
-                    raise UserError(
-                        _(
-                            "%(code)s - %(status)s",
-                            code=response.status_code,
-                            status=status,
-                        )
-                    )
+                    record._change_state(SITUACAO_EDOC_REJEITADA)
             else:
-                raise UserError(
-                    _(
-                        "%(code)s - %(msg)s",
-                        code=response.status_code,
-                        msg=json["mensagem"],
-                    )
-                )
+                record._change_state(SITUACAO_EDOC_REJEITADA)
+
+    def _process_send_municipal(self, record):
+        """Process document send for NFSe Municipal."""
+        for edoc in record.serialize():
+            ref = "rps" + record.rps_number
+            response = self.env["focusnfe.nfse"].process_focus_nfse_document(
+                edoc, ref, record.company_id, record.nfse_environment
+            )
+            json = response.json()
+
+            if response.status_code == 202:
+                if json["status"] == STATUS_PROCESSANDO_AUTORIZACAO:
+                    if record.state == "rejeitada":
+                        record.state_edoc = SITUACAO_EDOC_ENVIADA
+                    else:
+                        record._change_state(SITUACAO_EDOC_ENVIADA)
+            elif response.status_code == 422:
+                code = json.get("codigo", "")
+                if code == CODE_NFE_AUTORIZADA and record.state in [
+                    "a_enviar",
+                    "enviada",
+                    "rejeitada",
+                ]:
+                    record._document_status()
+                else:
+                    record._change_state(SITUACAO_EDOC_REJEITADA)
+            else:
+                record._change_state(SITUACAO_EDOC_REJEITADA)
 
     def _eletronic_document_send(self):
         """Send the electronic document to the NFSe provider.
@@ -649,38 +702,16 @@ class Document(models.Model):
             None. Updates the document's status based on the response.
         """
         res = super()._eletronic_document_send()
+        # Handle NFSe Nacional
         for record in self.filtered(filter_processador_edoc_nfse).filtered(
-            filter_focusnfe
+            filter_focusnfe_nacional
         ):
-            for edoc in record.serialize():
-                ref = "rps" + record.rps_number
-                response = self.env["focusnfe.nfse"].process_focus_nfse_document(
-                    edoc, ref, record.company_id, record.nfse_environment
-                )
-                json = response.json()
-
-                if response.status_code == 202:
-                    if json["status"] == "processando_autorizacao":
-                        if record.state == "rejeitada":
-                            record.state_edoc = SITUACAO_EDOC_ENVIADA
-                        else:
-                            record._change_state(SITUACAO_EDOC_ENVIADA)
-                elif response.status_code == 422:
-                    try:
-                        code = json["codigo"]
-                    except Exception:
-                        code = ""
-
-                    if code == "nfe_autorizada" and record.state in [
-                        "a_enviar",
-                        "enviada",
-                        "rejeitada",
-                    ]:
-                        record._document_status()
-                    else:
-                        record._change_state(SITUACAO_EDOC_REJEITADA)
-                else:
-                    record._change_state(SITUACAO_EDOC_REJEITADA)
+            self._process_send_nacional(record)
+        # Handle NFSe Municipal (original)
+        for record in self.filtered(filter_processador_edoc_nfse).filtered(
+            filter_focusnfe_municipal
+        ):
+            self._process_send_municipal(record)
         return res
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
@@ -712,5 +743,7 @@ class Document(models.Model):
             .filtered(filter_processador_edoc_nfse)
             .filtered(filter_focusnfe)
         )
-        if records:
-            records._document_status()
+        # Iterate over each record individually, as _document_status()
+        # may expect a singleton in some cases
+        for record in records:
+            record._document_status()
