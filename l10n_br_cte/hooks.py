@@ -6,7 +6,6 @@ import logging
 import pkg_resources
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
-from odoo import SUPERUSER_ID, api
 from odoo.exceptions import ValidationError
 
 # pylint: disable=odoo-addons-relative-import
@@ -15,8 +14,7 @@ from odoo.addons import l10n_br_cte
 _logger = logging.getLogger(__name__)
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def post_init_hook(env):
     if env.ref("base.module_l10n_br_cte").demo:
         res_items = (
             "tests",

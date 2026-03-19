@@ -12,45 +12,25 @@
             <field name="document_serie_id" position="after">
                 <field
                     name="service_provider"
-                    attrs="{
-                        'invisible': [('document_type', 'not in', ['57'])],
-                        'required': [('document_type', 'in', ['57'])]
-                    }"
+                    invisible="document_type != '57'"
+                    required="document_type == '57'"
                 />
-                <field
-                    name="cte40_tpServ"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                />
-                <field
-                    name="cte40_tpPer"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                />
-                <field
-                    name="cte40_dProg"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                />
-                <field
-                    name="cte40_tpHor"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                />
+                <field name="cte40_tpServ" invisible="document_type != '57'" />
+                <field name="cte40_tpPer" invisible="document_type != '57'" />
+                <field name="cte40_dProg" invisible="document_type != '57'" />
+                <field name="cte40_tpHor" invisible="document_type != '57'" />
             </field>
             <field name="partner_shipping_id" position="before">
                 <!--cte40_dest-->
-                <field
-                    name="partner_sendering_id"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                />
+                <field name="partner_sendering_id" invisible="document_type != '57'" />
                 <!--cte40_rem-->
-                <field
-                    name="partner_shippering_id"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                />
+                <field name="partner_shippering_id" invisible="document_type != '57'" />
                 <!--cte40_exped-->
             </field>
             <field name="partner_shipping_id" position="after">
                 <field
                     name="partner_receivering_id"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                    invisible="document_type != '57'"
                 />
                 <!--cte40_receb-->
             </field>
@@ -58,12 +38,9 @@
                 <separator
                     name="cargo_infos_sep"
                     string="Cargo Infos"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                    invisible="document_type != '57'"
                 />
-                <group
-                    name="cargo_infos"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                >
+                <group name="cargo_infos" invisible="document_type != '57'">
                     <field name="cte40_vCarga" />
                     <field name="cte40_proPred" />
                     <field name="cte40_xOutCat" />
@@ -89,16 +66,13 @@
                 <separator
                     name="transported_vehicles_infos_sep"
                     string="Transported Vehicles"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                    invisible="document_type != '57'"
                 />
                 <group
                     name="transported_vehicles_infos"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
+                    invisible="document_type != '57'"
                 >
-                    <field
-                        name="cte40_veicNovos"
-                        attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                    >
+                    <field name="cte40_veicNovos" invisible="document_type != '57'">
                         <tree>
                             <field name="cte40_chassi" />
                             <field name="cte40_cCor" />
@@ -121,22 +95,18 @@
                 </group>
             </page>
             <page name="delivery" position="after">
-                <page
-                    string="Modais"
-                    name="modais"
-                    attrs="{'invisible': [('document_type', 'not in', ['57'])]}"
-                >
+                <page string="Modais" name="modais" invisible="document_type != '57'">
                     <group>
                         <field name="transport_modal" widget="radio" />
                     </group>
                     <separator name="modais_sep" string="Campos do Modal" />
-                    <group attrs="{'invisible': [('transport_modal', '!=', '01')]}">
+                    <group invisible="transport_modal != '01'">
                         <group>
                             <field name="cte40_RNTRC" />
                             <field name="cte40_occ" />
                         </group>
                     </group>
-                    <group attrs="{'invisible': [('transport_modal', '!=', '02')]}">
+                    <group invisible="transport_modal != '02'">
                         <group>
                             <field name="cte40_nMinu" />
                             <field name="cte40_nOCA" />
@@ -148,7 +118,7 @@
                             <field name="cte40_peri" />
                         </group>
                     </group>
-                    <group attrs="{'invisible': [('transport_modal', '!=', '03')]}">
+                    <group invisible="transport_modal != '03'">
                         <group>
                             <field name="cte40_vTPrest" />
                             <field name="cte40_vAFRMM" />
@@ -160,7 +130,7 @@
                             <field name="cte40_balsa" />
                         </group>
                     </group>
-                    <group attrs="{'invisible': [('transport_modal', '!=', '04')]}">
+                    <group invisible="transport_modal != '04'">
                         <group>
                             <field name="cte40_tpTraf" />
                             <field name="cte40_fluxo" />
@@ -174,7 +144,7 @@
                             />
                         </group>
                     </group>
-                    <group attrs="{'invisible': [('transport_modal', '!=', '05')]}">
+                    <group invisible="transport_modal != '05'">
                         <group>
                             <field name="cte40_dIni" />
                             <field name="cte40_dFim" />
