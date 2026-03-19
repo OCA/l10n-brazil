@@ -118,6 +118,12 @@ class ResCompany(spec_models.SpecModel):
         default=5, help="Left margin in mm for the DACTE layout."
     )
 
+    dacte_display_ibs_cbs = fields.Boolean(
+        string="IBS/CBS",
+        default=False,
+        help="Select to display the IBS and CBS fields in the generated DACTE.",
+    )
+
     def _compute_cte_data(self):
         # compute because a simple related field makes the match_record fail
         for rec in self:
