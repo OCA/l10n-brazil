@@ -36,11 +36,11 @@
         <field name="name">modal.rodoviario.reboque.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.reboque</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="mdfe30_cInt" />
                 <field name="mdfe30_placa" />
                 <field name="mdfe30_tpCar" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -107,9 +107,9 @@
         <field name="name">modal.rodoviario.ciot.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.ciot</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="mdfe30_CIOT" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -148,11 +148,11 @@
             name="model"
         >l10n_br_mdfe.modal.rodoviario.vale_pedagio.dispositivo</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="mdfe30_nCompra" />
                 <field name="mdfe30_tpValePed" />
                 <field name="mdfe30_vValePed" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -176,10 +176,10 @@
         <field name="name">res.partner.contratante.tree.view (in l10n_br_mdfe)</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="legal_name" required="1" />
                 <field name="vat" required="1" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -239,11 +239,11 @@
         >modal.rodoviario.pagamento.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="partner_id" />
                 <field name="mdfe30_vContrato" />
                 <field name="mdfe30_vAdiant" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -271,11 +271,11 @@
         >modal.rodoviario.pagamento.prazo.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento.prazo</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="mdfe30_nParcela" />
                 <field name="mdfe30_vParcela" />
                 <field name="mdfe30_dVenc" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -303,11 +303,11 @@
         >modal.rodoviario.pagamento.frete.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.pagamento.frete</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="mdfe30_tpComp" />
                 <field name="mdfe30_vComp" />
                 <field name="mdfe30_xComp" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -317,10 +317,10 @@
         >modal.rodoviario.veiculo.condutor.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.veiculo.condutor</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="mdfe30_xNome" />
                 <field name="mdfe30_CPF" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -345,9 +345,9 @@
         <field name="name">modal.rodoviario.lacre.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.lacre</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="mdfe30_nLacre" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -390,12 +390,12 @@
         >modal.rodoviario.contratante.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.rodoviario.contratante</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="partner_id" />
                 <field name="mdfe30_CNPJ" />
                 <field name="mdfe30_CPF" />
                 <field name="mdfe30_idEstrangeiro" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>

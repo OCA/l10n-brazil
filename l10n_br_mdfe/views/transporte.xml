@@ -6,9 +6,9 @@
         <field name="name">transporte.lacre.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.transporte.lacre</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="mdfe30_nLacre" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>
