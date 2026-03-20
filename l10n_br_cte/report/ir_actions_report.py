@@ -78,4 +78,6 @@ class IrActionsReport(models.Model):
             "logo": tmpLogo,
             "margins": margins,
         }
+        if company.dacte_display_ibs_cbs:
+            dacte_config["display_ibs_cbs"] = True
         return DacteConfig(**dacte_config)
