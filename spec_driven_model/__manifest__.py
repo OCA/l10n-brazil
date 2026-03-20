@@ -4,7 +4,7 @@
 {
     "name": "Spec Driven Model",
     "summary": """XML binding for Odoo: XML to Odoo models and models to XML.""",
-    "version": "18.0.1.1.1",
+    "version": "18.0.1.1.2",
     "maintainers": ["rvalyi"],
     "license": "LGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
