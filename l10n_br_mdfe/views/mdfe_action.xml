@@ -6,10 +6,10 @@
         <field name="name">MDF-e</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field
             name="view_ids"
-            eval="[ (5,0,0), ( 0, 0, { 'view_mode': 'tree', 'view_id': ref('l10n_br_fiscal.document_tree') } ), ( 0, 0, { 'view_mode': 'form', 'view_id': ref('l10n_br_mdfe.mdfe_document_form_view') } ), ]"
+            eval="[ (5,0,0), ( 0, 0, { 'view_mode': 'list', 'view_id': ref('l10n_br_fiscal.document_tree') } ), ( 0, 0, { 'view_mode': 'form', 'view_id': ref('l10n_br_mdfe.mdfe_document_form_view') } ), ]"
         />
         <field
             name="domain"

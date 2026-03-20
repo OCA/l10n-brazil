@@ -936,9 +936,7 @@ class MDFe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(lang="pt_BR").filtered(
-            filtered_processador_edoc_mdfe
-        ):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
             inf_mdfe = record._build_binding("mdfe", "30")
 
             inf_mdfe_supl = None
