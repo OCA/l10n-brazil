@@ -75,29 +75,33 @@ class SpecModel(models.Model):
         class as long as the generated spec mixins inherit from some
         spec.mixin.<schema_name> mixin.
         """
-        if hasattr(cls, "_spec_schema"):  # when called via _register_hook
-            schema = cls._spec_schema
-        else:
-            mod = import_module(".".join(cls.__module__.split(".")[:-1]))
-            schema = mod.spec_schema
+        # In Odoo 18+, the test framework monitors model attribute modifications
+        # and logs stack traces. We suppress these during dynamic model building.
+        with mute_logger("odoo.tests.common"):
+            if hasattr(cls, "_spec_schema"):  # when called via _register_hook
+                schema = cls._spec_schema
+            else:
+                mod = import_module(".".join(cls.__module__.split(".")[:-1]))
+                schema = mod.spec_schema
 
-        if schema and "spec.mixin" not in [
-            c._name for c in pool[f"spec.mixin.{schema}"].__bases__
-        ]:
-            spec_mixin = pool[f"spec.mixin.{schema}"]
-            spec_mixin._inherit = list(spec_mixin._inherit) + ["spec.mixin"]
-            spec_mixin._BaseModel__base_classes = (
-                pool["spec.mixin"],
-            ) + spec_mixin._BaseModel__base_classes
-            spec_mixin.__bases__ = (pool["spec.mixin"],) + spec_mixin.__bases__
+            if schema and "spec.mixin" not in [
+                c._name for c in pool[f"spec.mixin.{schema}"].__bases__
+            ]:
+                spec_mixin = pool[f"spec.mixin.{schema}"]
+                spec_mixin._inherit = list(spec_mixin._inherit) + ["spec.mixin"]
+                spec_mixin._BaseModel__base_classes = (
+                    pool["spec.mixin"],
+                ) + spec_mixin._BaseModel__base_classes
+                spec_mixin.__bases__ = (pool["spec.mixin"],) + spec_mixin.__bases__
 
-        parents = [
-            item[0] if isinstance(item, list) else item for item in list(cls._inherit)
-        ]
-        for parent in parents:
-            # this will register that the spec mixins where injected in this class
-            cls._map_concrete(cr.dbname, parent, cls._name)
-        return super()._build_model(pool, cr)
+            parents = [
+                item[0] if isinstance(item, list) else item
+                for item in list(cls._inherit)
+            ]
+            for parent in parents:
+                # this will register that the spec mixins where injected in this class
+                cls._map_concrete(cr.dbname, parent, cls._name)
+            return super()._build_model(pool, cr)
 
     @api.model
     def _setup_base(self):
@@ -119,7 +123,8 @@ class SpecModel(models.Model):
                 continue
             if klass._name != cls._name:
                 cls._map_concrete(self.env.cr.dbname, klass._name, cls._name)
-                klass._table = cls._table
+                with mute_logger("odoo.tests.common"):
+                    klass._table = cls._table
 
         stacked_parents = [getattr(x, "_name", None) for x in cls.mro()]
         for name, field in cls._fields.items():
@@ -186,9 +191,12 @@ class SpecModel(models.Model):
         """
         spec_module_attr = f"_spec_cache_{spec_module.replace('.', '_')}"
         if not hasattr(cls, spec_module_attr):
-            setattr(
-                cls, spec_module_attr, getmembers(sys.modules[spec_module], isclass)
-            )
+            # In Odoo 18+, the test framework monitors model attribute modifications
+            # and logs stack traces. We suppress these during dynamic model building.
+            with mute_logger("odoo.tests.common"):
+                setattr(
+                    cls, spec_module_attr, getmembers(sys.modules[spec_module], isclass)
+                )
         return getattr(cls, spec_module_attr)
 
     @classmethod
@@ -224,15 +232,18 @@ class StackedModel(SpecModel):
 
     @classmethod
     def _build_model(cls, pool, cr):
-        if hasattr(cls, "_spec_schema"):  # when called via _register_hook
-            schema = cls._spec_schema
-            version = cls._spec_version.replace(".", "")[:2]
-        else:
-            mod = import_module(".".join(cls.__module__.split(".")[:-1]))
-            schema = mod.spec_schema
-            version = mod.spec_version.replace(".", "")[:2]
-        spec_prefix = f"{schema}{version}"
-        setattr(cls, f"_{spec_prefix}_stacking_points", {})
+        # In Odoo 18+, the test framework monitors model attribute modifications
+        # and logs stack traces. We suppress these during dynamic model building.
+        with mute_logger("odoo.tests.common"):
+            if hasattr(cls, "_spec_schema"):  # when called via _register_hook
+                schema = cls._spec_schema
+                version = cls._spec_version.replace(".", "")[:2]
+            else:
+                mod = import_module(".".join(cls.__module__.split(".")[:-1]))
+                schema = mod.spec_schema
+                version = mod.spec_version.replace(".", "")[:2]
+            spec_prefix = f"{schema}{version}"
+            setattr(cls, f"_{spec_prefix}_stacking_points", {})
         stacking_settings = {
             "odoo_module": getattr(cls, f"_{spec_prefix}_odoo_module"),  # TODO inherit?
             "stacking_mixin": getattr(cls, f"_{spec_prefix}_stacking_mixin"),
@@ -338,7 +349,8 @@ class StackedModel(SpecModel):
                 f["xsd_required"] or f["xsd_choice_required"] or force_stacked
             ):
                 # then we will STACK the child in the current class
-                child._stack_path = path
+                with mute_logger("odoo.tests.common"):
+                    child._stack_path = path
                 child_path = f"{path}.{field_path}"
                 stacking_settings["stacking_points"][name] = env[
                     node._name
