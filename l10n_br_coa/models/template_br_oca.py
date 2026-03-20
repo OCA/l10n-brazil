@@ -256,9 +256,7 @@ class AccountChartTemplate(models.AbstractModel):
             tax_template_xmlid,
             acc_mapping_keys,
         ) in DEFAULT_TAX_TEMPLATES_ACCOUNTS.items():
-            tax_xmlid = (
-                f"{template_module}.{company.id}_{tax_template_xmlid.split('.')[1]}"
-            )
+            tax_xmlid = f"account.{company.id}_{tax_template_xmlid.split('.')[1]}"
             company_tax = self.env.ref(tax_xmlid, raise_if_not_found=False)
             if not company_tax:
                 _logger.warning(f"tax {tax_xmlid} not found! Skipping it...")
