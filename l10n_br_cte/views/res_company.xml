@@ -25,6 +25,10 @@
                             <field name="dacte_margin_right" string="Margin Right" />
                             <field name="dacte_margin_bottom" string="Margin Bottom" />
                             <field name="dacte_margin_left" string="Margin Left" />
+                            <field
+                                name="dacte_display_ibs_cbs"
+                                string="Display IBS/CBS"
+                            />
                         </group>
                     </group>
                 </page>
