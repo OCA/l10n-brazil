@@ -8,9 +8,9 @@
         >modal.aquaviario.carregamento.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.aquaviario.carregamento</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="loading_harbor" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -20,9 +20,9 @@
         >modal.aquaviario.descarregamento.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.aquaviario.descarregamento</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="unloading_harbor" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -30,10 +30,10 @@
         <field name="name">modal.aquaviario.comboio.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.aquaviario.comboio</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="mdfe30_cEmbComb" />
                 <field name="mdfe30_xBalsa" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -43,10 +43,10 @@
         >modal.aquaviario.carga.vazia.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.aquaviario.carga.vazia</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="mdfe30_idUnidCargaVazia" />
                 <field name="mdfe30_tpUnidCargaVazia" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -56,10 +56,10 @@
         >modal.aquaviario.transporte.vazio.tree.view (in l10n_br_mdfe)</field>
         <field name="model">l10n_br_mdfe.modal.aquaviario.transporte.vazio</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <list editable="bottom">
                 <field name="mdfe30_idUnidTranspVazia" />
                 <field name="mdfe30_tpUnidTranspVazia" />
-            </tree>
+            </list>
         </field>
     </record>
 </odoo>

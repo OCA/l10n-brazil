@@ -6,7 +6,6 @@ import re
 import string
 from unicodedata import normalize
 
-from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -79,7 +78,7 @@ class MDFe(spec_models.StackedModel):
 
     # When dynamic stacking is applied the MDFe structure is:
     INFMDFE_TREE = """
-    > <tmdfe_infmdfe>
+> <tmdfe_infmdfe>
     > <ide>
         ≡ <infMunCarrega>
         ≡ <infPercurso>
@@ -888,18 +887,18 @@ class MDFe(spec_models.StackedModel):
                 value.enderEmit, path=path
             )
             new_value.update(enderEmit_value)
-            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
+            company_vat = self.env.user.company_id.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
-            emit_cnpj = new_value.get("mdfe30_CNPJ", False)
-            if emit_cnpj:
+            emit_cnpj = False
+            if new_value.get("mdfe30_CNPJ"):
                 emit_cnpj = new_value.get("mdfe30_CNPJ").translate(
                     str.maketrans("", "", string.punctuation)
                 )
-                if company_cnpj != emit_cnpj:
+                if company_vat != emit_cnpj:
                     vals["issuer"] = "partner"
                 new_value["is_company"] = True
-                new_value["cnpj_cpf"] = emit_cnpj
+                new_value["vat"] = emit_cnpj
             return super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
@@ -925,8 +924,8 @@ class MDFe(spec_models.StackedModel):
             .build_from_binding("mdfe", "30", binding.infMDFe, dry_run=dry_run)
         )
 
-        if edoc_type == "in" and document.company_id.vat != cnpj_cpf.formata(
-            binding.infMDFe.emit.CNPJ
+        if edoc_type == "in" and document.company_id.vat != punctuation_rm(
+            str(binding.infMDFe.emit.CNPJ)
         ):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
@@ -938,9 +937,7 @@ class MDFe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(lang="pt_BR").filtered(
-            filtered_processador_edoc_mdfe
-        ):
+        for record in self.filtered(filtered_processador_edoc_mdfe):
             inf_mdfe = record._build_binding("mdfe", "30")
 
             inf_mdfe_supl = None
@@ -973,7 +970,7 @@ class MDFe(spec_models.StackedModel):
             return super()._generate_key()
 
         for record in self:
-            cnpj_cpf = record.company_id.cnpj_cpf or record.company_id.vat
+            cnpj_cpf = record.company_id.vat
             if not cnpj_cpf:
                 raise ValidationError(
                     _(

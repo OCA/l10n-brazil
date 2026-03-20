@@ -4,11 +4,11 @@
 {
     "name": "MDFe",
     "summary": """Brazilian Eletronic Invoice MDF-e""",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "KMEE,Escodoo,Odoo Community Association (OCA)",
-    "maintainers": ["mileo", "marcelsavegnago"],
+    "maintainers": ["mileo", "marcelsavegnago", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
     "depends": [

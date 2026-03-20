@@ -74,7 +74,7 @@ class MDFeDocumentTest(TransactionCase):
         self.assertTrue(isinstance(processor, MDFeAdapter))
 
         self.mdfe_id.company_id.certificate_ecnpj_id = False
-        self.mdfe_id.company_id.invalidate_cache()
+        self.mdfe_id.company_id.invalidate_recordset()
         with self.assertRaises(ValidationError):
             processor = self.mdfe_id._edoc_processor()
 
