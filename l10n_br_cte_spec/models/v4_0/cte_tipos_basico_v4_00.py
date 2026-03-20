@@ -102,8 +102,8 @@ TFINCTE = [
 
 "Tipos Finalidade de CT-e Simplificado"
 TFINCTESIMP = [
-    ("4", "4"),
     ("5", "5"),
+    ("6", "6"),
 ]
 
 "Tipo Finalidade da GTV-e"
@@ -176,8 +176,6 @@ IDE_RETIRA = [
 IDE_TPEMIS = [
     ("1", "Normal"),
     ("2", "2"),
-    ("7", "Autorização pela SVC-RS"),
-    ("8", "Autorização pela SVC-SP"),
 ]
 
 "Formato de impressão do DACTE OS"
@@ -642,6 +640,95 @@ class Timp(models.AbstractModel):
     _binding_type = "Timp"
 
 
+class TimpIcmsoutraUf(models.AbstractModel):
+    """ICMS devido à UF de origem da prestação, quando diferente da UF do
+    emitente"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timp_icmsoutrauf"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Timp.IcmsoutraUf"
+
+    cte40_CST = fields.Selection(
+        ICMSOUTRAUF_CST,
+        string="Classificação Tributária do Serviço",
+        xsd_required=True,
+        help="Classificação Tributária do Serviço\n90 - ICMS Outra UF",
+    )
+
+    cte40_pRedBCOutraUF = fields.Float(
+        string="Percentual de redução da BC",
+        xsd_type="TDec_0302Opc",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vBCOutraUF = fields.Monetary(
+        string="Valor da BC do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_pICMSOutraUF = fields.Float(
+        string="Alíquota do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vICMSOutraUF = fields.Monetary(
+        string="Valor do ICMS devido outra UF",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_vICMSDeson = fields.Monetary(
+        string="Valor do ICMS de desoneração",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_cBenef = fields.Char(
+        string="Código de Benefício Fiscal na UF",
+        help=(
+            "Código de Benefício Fiscal na UF\nCódigo de Benefício Fiscal "
+            "utilizado pela UF"
+        ),
+    )
+
+
+class TimpIcmssn(models.AbstractModel):
+    "Simples Nacional"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timp_icmssn"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Timp.Icmssn"
+
+    cte40_CST = fields.Selection(
+        ICMSSN_CST,
+        string="Classificação Tributária do Serviço",
+        xsd_required=True,
+        help=(
+            "Classificação Tributária do Serviço\n90 - ICMS Simples Nacional"
+        ),
+    )
+
+    cte40_indSN = fields.Selection(
+        ICMSSN_INDSN,
+        string="Indica se o contribuinte",
+        xsd_required=True,
+        help="Indica se o contribuinte é Simples Nacional\t\t\t1=Sim",
+    )
+
+
 class TimpOs(models.AbstractModel):
     "Tipo Dados do Imposto para CT-e OS"
 
@@ -649,6 +736,307 @@ class TimpOs(models.AbstractModel):
     _name = "cte.40.timpos"
     _inherit = "spec.mixin.cte"
     _binding_type = "TimpOs"
+
+
+class TimpOsIcms00(models.AbstractModel):
+    "Prestação sujeito à tributação normal do ICMS"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timpos_icms00"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TimpOs.Icms00"
+
+    cte40_CST = fields.Selection(
+        ICMS00_CST,
+        string="classificação Tributária do Serviço",
+        xsd_required=True,
+        help=(
+            "classificação Tributária do Serviço\n00 - tributação normal ICMS"
+        ),
+    )
+
+    cte40_vBC = fields.Monetary(
+        string="Valor da BC do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_pICMS = fields.Float(
+        string="Alíquota do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vICMS = fields.Monetary(
+        string="Valor do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+
+class TimpOsIcms20(models.AbstractModel):
+    "Prestação sujeito à tributação com redução de BC do ICMS"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timpos_icms20"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TimpOs.Icms20"
+
+    cte40_CST = fields.Selection(
+        ICMS20_CST,
+        string="Classificação Tributária do serviço",
+        xsd_required=True,
+        help=(
+            "Classificação Tributária do serviço\n20 - tributação com BC "
+            "reduzida do ICMS"
+        ),
+    )
+
+    cte40_pRedBC = fields.Float(
+        string="Percentual de redução da BC",
+        xsd_required=True,
+        xsd_type="TDec_0302Opc",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vBC = fields.Monetary(
+        string="Valor da BC do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_pICMS = fields.Float(
+        string="Alíquota do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vICMS = fields.Monetary(
+        string="Valor do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_vICMSDeson = fields.Monetary(
+        string="Valor do ICMS de desoneração",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_cBenef = fields.Char(
+        string="Código de Benefício Fiscal na UF",
+        help=(
+            "Código de Benefício Fiscal na UF\nCódigo de Benefício Fiscal "
+            "utilizado pela UF"
+        ),
+    )
+
+
+class TimpOsIcms45(models.AbstractModel):
+    "ICMS Isento, não Tributado ou diferido"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timpos_icms45"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TimpOs.Icms45"
+
+    cte40_CST = fields.Selection(
+        ICMS45_CST,
+        string="Classificação Tributária do Serviço",
+        xsd_required=True,
+        help=(
+            "Classificação Tributária do Serviço\nPreencher "
+            "com:\n\t\t\t\t\t\t\t\t40 - ICMS isenção;\n\t\t\t\t\t\t\t\t41 - "
+            "ICMS não tributada;\n\t\t\t\t\t\t\t\t51 - ICMS diferido"
+        ),
+    )
+
+    cte40_vICMSDeson = fields.Monetary(
+        string="Valor do ICMS de desoneração",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_cBenef = fields.Char(
+        string="Código de Benefício Fiscal na UF",
+        help=(
+            "Código de Benefício Fiscal na UF\nCódigo de Benefício Fiscal "
+            "utilizado pela UF"
+        ),
+    )
+
+
+class TimpOsIcms90(models.AbstractModel):
+    "ICMS Outros"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timpos_icms90"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TimpOs.Icms90"
+
+    cte40_CST = fields.Selection(
+        ICMS90_CST,
+        string="Classificação Tributária do Serviço",
+        xsd_required=True,
+        help="Classificação Tributária do Serviço\n90 - Outros",
+    )
+
+    cte40_pRedBC = fields.Float(
+        string="Percentual de redução da BC",
+        xsd_type="TDec_0302Opc",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vBC = fields.Monetary(
+        string="Valor da BC do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_pICMS = fields.Float(
+        string="Alíquota do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vICMS = fields.Monetary(
+        string="Valor do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_vCred = fields.Monetary(
+        string="Valor do Crédito Outorgado/Presumido",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_vICMSDeson = fields.Monetary(
+        string="Valor do ICMS de desoneração",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_cBenef = fields.Char(
+        string="Código de Benefício Fiscal na UF",
+        help=(
+            "Código de Benefício Fiscal na UF\nCódigo de Benefício Fiscal "
+            "utilizado pela UF"
+        ),
+    )
+
+
+class TimpOsIcmsoutraUf(models.AbstractModel):
+    """ICMS devido à UF de origem da prestação, quando diferente da UF do
+    emitente"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timpos_icmsoutrauf"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TimpOs.IcmsoutraUf"
+
+    cte40_CST = fields.Selection(
+        ICMSOUTRAUF_CST,
+        string="Classificação Tributária do Serviço",
+        xsd_required=True,
+        help="Classificação Tributária do Serviço\n90 - ICMS Outra UF",
+    )
+
+    cte40_pRedBCOutraUF = fields.Float(
+        string="Percentual de redução da BC",
+        xsd_type="TDec_0302Opc",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vBCOutraUF = fields.Monetary(
+        string="Valor da BC do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_pICMSOutraUF = fields.Float(
+        string="Alíquota do ICMS",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+    )
+
+    cte40_vICMSOutraUF = fields.Monetary(
+        string="Valor do ICMS devido outra UF",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_vICMSDeson = fields.Monetary(
+        string="Valor do ICMS de desoneração",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+    )
+
+    cte40_cBenef = fields.Char(
+        string="Código de Benefício Fiscal na UF",
+        help=(
+            "Código de Benefício Fiscal na UF\nCódigo de Benefício Fiscal "
+            "utilizado pela UF"
+        ),
+    )
+
+
+class TimpOsIcmssn(models.AbstractModel):
+    "Simples Nacional"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.timpos_icmssn"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TimpOs.Icmssn"
+
+    cte40_CST = fields.Selection(
+        ICMSSN_CST,
+        string="Classificação Tributária do Serviço",
+        xsd_required=True,
+        help=(
+            "Classificação Tributária do Serviço\n90 - ICMS Simples Nacional"
+        ),
+    )
+
+    cte40_indSN = fields.Selection(
+        ICMSSN_INDSN,
+        string="Indica se o contribuinte",
+        xsd_required=True,
+        help="Indica se o contribuinte é Simples Nacional\t\t\t1=Sim",
+    )
 
 
 class Tlocal(models.AbstractModel):
@@ -1287,7 +1675,7 @@ class TcteOsIde(models.AbstractModel):
         xsd_required=True,
         help=(
             "Tipo do CT-e OS\nPreencher com:\n0 - CT-e Normal; \n1 - CT-e "
-            "Complementar; \n\n3 - CT-e de Substituição."
+            "Complementar; \n3 - CT-e de Substituição."
         ),
     )
 
@@ -1448,6 +1836,10 @@ class TcteOsIde(models.AbstractModel):
 
     cte40_xJust = fields.Char(
         string="Justificativa da entrada em contingência"
+    )
+
+    cte40_gCompraGov = fields.Char(
+        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
     )
 
 
@@ -1767,6 +2159,17 @@ class TcteOsImp(models.AbstractModel):
         ),
     )
 
+    cte40_ICMSUFFim = fields.Many2one(
+        comodel_name="cte.40.tcteos_icmsuffim",
+        string="Informações do ICMS de partilha com a UF",
+        help=(
+            "Informações do ICMS de partilha com a UF de término do serviço de"
+            " transporte na operação interestadual\nGrupo a ser informado nas "
+            "prestações interestaduais para consumidor final, não contribuinte"
+            " do ICMS"
+        ),
+    )
+
     cte40_infTribFed = fields.Many2one(
         comodel_name="cte.40.inftribfed",
         string="Informações dos tributos federais",
@@ -1774,6 +2177,120 @@ class TcteOsImp(models.AbstractModel):
             "Informações dos tributos federais\nGrupo a ser informado nas "
             "prestações interestaduais para consumidor final, não contribuinte"
             " do ICMS"
+        ),
+    )
+
+    cte40_IBSCBS = fields.Char(
+        string="Grupo de informações do IBS e CBS", xsd_type="TTribCTe"
+    )
+
+    cte40_vTotDFe = fields.Monetary(
+        string="Valor total do documento fiscal",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total"
+            " da CBS)"
+        ),
+    )
+
+
+class TcteOsIcmsuffim(models.AbstractModel):
+    """Informações do ICMS de partilha com a UF de término do serviço de
+    transporte na operação interestadual
+    Grupo a ser informado nas prestações interestaduais para consumidor final, não
+    contribuinte do ICMS"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tcteos_icmsuffim"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteOs.InfCte.Imp.Icmsuffim"
+
+    cte40_vBCUFFim = fields.Monetary(
+        string="Valor da BC do ICMS na UF de término",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor da BC do ICMS na UF de término da prestação do serviço de "
+            "transporte"
+        ),
+    )
+
+    cte40_pFCPUFFim = fields.Float(
+        string="Percentual do ICMS relativo ao Fundo",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Percentual do ICMS relativo ao Fundo de Combate à pobreza (FCP) "
+            "na UF de término da prestação do serviço de transporte\nAlíquota "
+            "adotada nas operações internas na UF do destinatário"
+        ),
+    )
+
+    cte40_pICMSUFFim = fields.Float(
+        string="Alíquota interna da UF de término",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Alíquota interna da UF de término da prestação do serviço de "
+            "transporte\nAlíquota adotada nas operações internas na UF do "
+            "destinatário"
+        ),
+    )
+
+    cte40_pICMSInter = fields.Float(
+        string="Alíquota interestadual das UF envolvidas",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Alíquota interestadual das UF envolvidas\nAlíquota interestadual "
+            "das UF envolvidas"
+        ),
+    )
+
+    cte40_vFCPUFFim = fields.Monetary(
+        string="Valor do ICMS relativo ao Fundo",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS relativo ao Fundo de Combate á Pobreza (FCP) da UF "
+            "de término da prestação"
+        ),
+    )
+
+    cte40_vICMSUFFim = fields.Monetary(
+        string="Valor do ICMS de partilha para a UF",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS de partilha para a UF de término da prestação do "
+            "serviço de transporte"
+        ),
+    )
+
+    cte40_vICMSUFIni = fields.Monetary(
+        string="vICMSUFIni",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS de partilha para a UF de início da prestação do "
+            "serviço de transporte"
         ),
     )
 
@@ -2440,9 +2957,8 @@ class TgtveIde(models.AbstractModel):
         string="Forma de emissão da GTV-e",
         xsd_required=True,
         help=(
-            "Forma de emissão da GTV-e\nPreencher com:\n1 - Normal;\n 2- "
-            "Contingencia offline \n7 - Autorização pela SVC-RS;\n 8 - "
-            "Autorização pela SVC-SP"
+            "Forma de emissão da GTV-e\nPreencher com:\n1 - Normal;\n2- "
+            "Contingencia offline"
         ),
     )
 
@@ -3105,9 +3621,7 @@ class TretCte(models.AbstractModel):
     )
 
     cte40_cStat = fields.Char(
-        string="código do status do retorno da consulta",
-        xsd_required=True,
-        xsd_type="TStat",
+        string="código do status do retorno da consulta", xsd_required=True
     )
 
     cte40_xMotivo = fields.Char(
@@ -3847,6 +4361,10 @@ class TcteIde(models.AbstractModel):
 
     cte40_xJust = fields.Char(
         string="Justificativa da entrada em contingência"
+    )
+
+    cte40_gCompraGov = fields.Char(
+        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
     )
 
 
@@ -4713,6 +5231,131 @@ class TcteImp(models.AbstractModel):
         ),
     )
 
+    cte40_ICMSUFFim = fields.Many2one(
+        comodel_name="cte.40.tcte_icmsuffim",
+        string="Informações do ICMS de partilha com a UF",
+        help=(
+            "Informações do ICMS de partilha com a UF de término do serviço de"
+            " transporte na operação interestadual\nGrupo a ser informado nas "
+            "prestações interestaduais para consumidor final, não contribuinte"
+            " do ICMS"
+        ),
+    )
+
+    cte40_IBSCBS = fields.Char(
+        string="Grupo de informações do IBS e CBS", xsd_type="TTribCTe"
+    )
+
+    cte40_vTotDFe = fields.Monetary(
+        string="Valor total do documento fiscal",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total"
+            " da CBS)"
+        ),
+    )
+
+
+class TcteIcmsuffim(models.AbstractModel):
+    """Informações do ICMS de partilha com a UF de término do serviço de
+    transporte na operação interestadual
+    Grupo a ser informado nas prestações interestaduais para consumidor final, não
+    contribuinte do ICMS"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tcte_icmsuffim"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Tcte.InfCte.Imp.Icmsuffim"
+
+    cte40_vBCUFFim = fields.Monetary(
+        string="Valor da BC do ICMS na UF de término",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor da BC do ICMS na UF de término da prestação do serviço de "
+            "transporte"
+        ),
+    )
+
+    cte40_pFCPUFFim = fields.Float(
+        string="Percentual do ICMS relativo ao Fundo",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Percentual do ICMS relativo ao Fundo de Combate à pobreza (FCP) "
+            "na UF de término da prestação do serviço de transporte\nAlíquota "
+            "adotada nas operações internas na UF do destinatário"
+        ),
+    )
+
+    cte40_pICMSUFFim = fields.Float(
+        string="Alíquota interna da UF de término",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Alíquota interna da UF de término da prestação do serviço de "
+            "transporte\nAlíquota adotada nas operações internas na UF do "
+            "destinatário"
+        ),
+    )
+
+    cte40_pICMSInter = fields.Float(
+        string="Alíquota interestadual das UF envolvidas",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Alíquota interestadual das UF envolvidas\nAlíquota interestadual "
+            "das UF envolvidas"
+        ),
+    )
+
+    cte40_vFCPUFFim = fields.Monetary(
+        string="Valor do ICMS relativo ao Fundo",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS relativo ao Fundo de Combate á Pobreza (FCP) da UF "
+            "de término da prestação"
+        ),
+    )
+
+    cte40_vICMSUFFim = fields.Monetary(
+        string="Valor do ICMS de partilha para a UF",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS de partilha para a UF de término da prestação do "
+            "serviço de transporte"
+        ),
+    )
+
+    cte40_vICMSUFIni = fields.Monetary(
+        string="vICMSUFIni",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS de partilha para a UF de início da prestação do "
+            "serviço de transporte"
+        ),
+    )
+
 
 class TcteAutXml(models.AbstractModel):
     """Autorizados para download do XML do DF-e
@@ -5036,6 +5679,14 @@ class TcteInfDoc(models.AbstractModel):
         xsd_choice_required=True,
     )
 
+    cte40_infDCe = fields.One2many(
+        "cte.40.infdce",
+        "cte40_infDCe_infDoc_id",
+        string="Informações das DCe",
+        choice="infdoc",
+        xsd_choice_required=True,
+    )
+
 
 class TcteInfNf(models.AbstractModel):
     """Informações das NF
@@ -5315,6 +5966,24 @@ class InfOutros(models.AbstractModel):
             "(Carreta/Reboque/Vagão)\nDeve ser preenchido com as informações "
             "das unidades de transporte utilizadas."
         ),
+    )
+
+
+class InfDce(models.AbstractModel):
+    "Informações das DCe"
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.infdce"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "Tcte.InfCte.InfCteNorm.InfDoc.InfDce"
+
+    cte40_infDCe_infDoc_id = fields.Many2one(
+        comodel_name="cte.40.tcte_infdoc",
+        xsd_implicit=True,
+        ondelete="cascade",
+    )
+    cte40_chave = fields.Char(
+        string="Chave de acesso da DCe", xsd_required=True, xsd_type="TChDFe"
     )
 
 
@@ -5971,8 +6640,8 @@ class TcteSimpIde(models.AbstractModel):
         string="Tipo do CT-e Simplificado",
         xsd_required=True,
         help=(
-            "Tipo do CT-e Simplificado\nPreencher com:\n4 - CTe "
-            "Simplificado\n5 - Substituição CTe Simplificado"
+            "Tipo do CT-e Simplificado\nPreencher com:\n5 - CTe "
+            "Simplificado\n6 - Substituição CTe Simplificado"
         ),
     )
 
@@ -6092,6 +6761,10 @@ class TcteSimpIde(models.AbstractModel):
 
     cte40_xJust = fields.Char(
         string="Justificativa da entrada em contingência"
+    )
+
+    cte40_gCompraGov = fields.Char(
+        string="Grupo de Compras Governamentais", xsd_type="TCompraGovReduzido"
     )
 
 
@@ -6351,8 +7024,7 @@ class TcteSimpToma(models.AbstractModel):
         help=(
             "Indicador do papel do tomador na prestação do serviço:\n1 – "
             "Contribuinte ICMS;\n2 – Contribuinte isento de inscrição;\n9 – "
-            "Não Contribuinte\nAplica-se ao tomador que for indicado no toma3 "
-            "ou toma4"
+            "Não Contribuinte\nAplica-se ao tomador que for indicado no toma"
         ),
     )
 
@@ -6664,7 +7336,7 @@ class TcteSimpInfNfe(models.AbstractModel):
         comodel_name="cte.40.det", xsd_implicit=True, ondelete="cascade"
     )
     cte40_chNFe = fields.Char(
-        string="Chave de acesso da NF-e", xsd_required=True, xsd_type="TChDFe"
+        string="Chave de acesso da NF-e", xsd_required=True
     )
 
     cte40_PIN = fields.Char(
@@ -6902,6 +7574,121 @@ class TcteSimpImp(models.AbstractModel):
         ),
     )
 
+    cte40_ICMSUFFim = fields.Many2one(
+        comodel_name="cte.40.tctesimp_icmsuffim",
+        string="Informações do ICMS de partilha com a UF",
+        help=(
+            "Informações do ICMS de partilha com a UF de término do serviço de"
+            " transporte na operação interestadual\nGrupo a ser informado nas "
+            "prestações interestaduais para consumidor final, não contribuinte"
+            " do ICMS"
+        ),
+    )
+
+    cte40_IBSCBS = fields.Char(
+        string="Grupo de informações do IBS e CBS", xsd_type="TTribCTe"
+    )
+
+
+class TcteSimpIcmsuffim(models.AbstractModel):
+    """Informações do ICMS de partilha com a UF de término do serviço de
+    transporte na operação interestadual
+    Grupo a ser informado nas prestações interestaduais para consumidor final, não
+    contribuinte do ICMS"""
+
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = "cte.40.tctesimp_icmsuffim"
+    _inherit = "spec.mixin.cte"
+    _binding_type = "TcteSimp.InfCte.Imp.Icmsuffim"
+
+    cte40_vBCUFFim = fields.Monetary(
+        string="Valor da BC do ICMS na UF de término",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor da BC do ICMS na UF de término da prestação do serviço de "
+            "transporte"
+        ),
+    )
+
+    cte40_pFCPUFFim = fields.Float(
+        string="Percentual do ICMS relativo ao Fundo",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Percentual do ICMS relativo ao Fundo de Combate à pobreza (FCP) "
+            "na UF de término da prestação do serviço de transporte\nAlíquota "
+            "adotada nas operações internas na UF do destinatário"
+        ),
+    )
+
+    cte40_pICMSUFFim = fields.Float(
+        string="Alíquota interna da UF de término",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Alíquota interna da UF de término da prestação do serviço de "
+            "transporte\nAlíquota adotada nas operações internas na UF do "
+            "destinatário"
+        ),
+    )
+
+    cte40_pICMSInter = fields.Float(
+        string="Alíquota interestadual das UF envolvidas",
+        xsd_required=True,
+        xsd_type="TDec_0302",
+        digits=(
+            3,
+            2,
+        ),
+        help=(
+            "Alíquota interestadual das UF envolvidas\nAlíquota interestadual "
+            "das UF envolvidas"
+        ),
+    )
+
+    cte40_vFCPUFFim = fields.Monetary(
+        string="Valor do ICMS relativo ao Fundo",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS relativo ao Fundo de Combate á Pobreza (FCP) da UF "
+            "de término da prestação"
+        ),
+    )
+
+    cte40_vICMSUFFim = fields.Monetary(
+        string="Valor do ICMS de partilha para a UF",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS de partilha para a UF de término da prestação do "
+            "serviço de transporte"
+        ),
+    )
+
+    cte40_vICMSUFIni = fields.Monetary(
+        string="vICMSUFIni",
+        xsd_required=True,
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor do ICMS de partilha para a UF de início da prestação do "
+            "serviço de transporte"
+        ),
+    )
+
 
 class Total(models.AbstractModel):
     "Valores Totais do CTe"
@@ -6927,6 +7714,16 @@ class Total(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDec_1302",
         currency_field="brl_currency_id",
+    )
+
+    cte40_vTotDFe = fields.Monetary(
+        string="Valor total do documento fiscal",
+        xsd_type="TDec_1302",
+        currency_field="brl_currency_id",
+        help=(
+            "Valor total do documento fiscal \n(vTPrest + total do IBS + total"
+            " da CBS)"
+        ),
     )
 
 
