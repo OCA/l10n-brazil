@@ -1,7 +1,6 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode
 
 from odoo.tests import TransactionCase
@@ -19,7 +18,7 @@ class TestMDFeResPartner(TransactionCase):
         self.assertEqual(
             self.partner_id.mdfe30_choice_tcontractor, "mdfe30_idEstrangeiro"
         )
-        self.assertEqual(self.partner_id.mdfe30_idEstrangeiro, self.partner_id.cnpj_cpf)
+        self.assertEqual(self.partner_id.mdfe30_idEstrangeiro, self.partner_id.vat)
 
     def test_inverse_fields(self):
         foreign_partner = self.env.ref("base.res_partner_12")
@@ -27,14 +26,10 @@ class TestMDFeResPartner(TransactionCase):
         self.assertEqual(foreign_partner.vat, foreign_partner.mdfe30_idEstrangeiro)
 
         self.partner_id.mdfe30_CNPJ = "97414612000162"
-        self.assertEqual(
-            self.partner_id.cnpj_cpf, cnpj_cpf.formata(self.partner_id.mdfe30_CNPJ)
-        )
+        self.assertEqual(self.partner_id.vat, "97414612000162")
 
         self.partner_id.mdfe30_CPF = "48737433032"
-        self.assertEqual(
-            self.partner_id.cnpj_cpf, cnpj_cpf.formata(self.partner_id.mdfe30_CPF)
-        )
+        self.assertEqual(self.partner_id.vat, "48737433032")
 
         self.partner_id.mdfe30_IE = "630514648079"
         self.assertEqual(self.partner_id.l10n_br_ie_code, self.partner_id.mdfe30_IE)

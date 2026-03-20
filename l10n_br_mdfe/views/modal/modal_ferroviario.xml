@@ -6,11 +6,11 @@
         <field name="name">modal.ferroviario.vagao.tree.view</field>
         <field name="model">l10n_br_mdfe.modal.ferroviario.vagao</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="mdfe30_nVag" />
                 <field name="mdfe30_tpVag" />
                 <field name="mdfe30_serie" />
-            </tree>
+            </list>
         </field>
     </record>
 
