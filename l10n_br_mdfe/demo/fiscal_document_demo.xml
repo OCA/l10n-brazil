@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- MDFe Test - Fiscal Operation - Comment Dummy-->
     <record id="l10n_br_fiscal.fo_manifesto" model="l10n_br_fiscal.operation">
         <field
@@ -15,7 +14,6 @@
         <field name="document_total_weight">10</field>
         <field name="document_total_amount">33.19</field>
     </record>
-
 
     <!-- MDFe Test - Modal Ferroviário - LC -->
     <record id="demo_mdfe_lc_modal_ferroviario" model="l10n_br_fiscal.document">
@@ -78,7 +76,6 @@
         />
     </record>
 
-
     <!-- MDFe Test - Modal Rodoviário - LC -->
     <record id="demo_mdfe_lc_modal_rodoviario" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
@@ -137,7 +134,6 @@
         />
     </record>
 
-
     <!-- MDFe Test - Modal Aéreo - SN -->
     <record id="demo_mdfe_sn_modal_aereo" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_manifesto" />
@@ -192,7 +188,6 @@
             ref="l10n_br_fiscal.fo_manifesto_manifesto"
         />
     </record>
-
 
     <!-- MDFe Test - Modal Aquaviário - SN -->
     <record id="demo_mdfe_sn_modal_aquaviario" model="l10n_br_fiscal.document">
@@ -251,5 +246,4 @@
             ref="l10n_br_fiscal.fo_manifesto_manifesto"
         />
     </record>
-
 </odoo>

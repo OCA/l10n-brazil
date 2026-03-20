@@ -144,8 +144,8 @@ class MDFe(spec_models.StackedModel):
                 and record.document_type_id.prefix
                 and record.document_key
             ):
-                record.mdfe30_Id = "{}{}".format(
-                    record.document_type_id.prefix, record.document_key
+                record.mdfe30_Id = (
+                    f"{record.document_type_id.prefix}{record.document_key}"
                 )
 
     def _inverse_mdfe30_id_tag(self):
