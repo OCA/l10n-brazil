@@ -22,7 +22,9 @@ class AccountMoveLine(models.Model):
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
-        if "document_id" not in defaults and self.env.context.get("default_document_id"):
+        if "document_id" not in defaults and self.env.context.get(
+            "default_document_id"
+        ):
             defaults["document_id"] = self.env.context["default_document_id"]
         return defaults
 
