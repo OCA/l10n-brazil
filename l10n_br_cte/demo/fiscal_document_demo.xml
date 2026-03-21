@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Empresa Lucro Presumido -->
 
     <!-- CTe Test - Modal Rodoviário - LC -->
@@ -46,7 +45,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Rodoviário - LC - Cargo Quantity Infos -->
@@ -147,7 +145,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Aereo - LC - Cargo Quantity Infos -->
@@ -248,7 +245,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Aquaviario - LC - Cargo Quantity Infos -->
@@ -349,7 +345,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Ferroviario - LC - Cargo Quantity Infos -->
@@ -450,7 +445,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Dutoviario - LC - Cargo Quantity Infos -->
@@ -553,7 +547,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Rodoviário - SN - Cargo Quantity Infos -->
@@ -610,5 +603,4 @@
         <field name="document_total_weight">10</field>
         <field name="document_total_amount">33.19</field>
     </record>
-
 </odoo>
