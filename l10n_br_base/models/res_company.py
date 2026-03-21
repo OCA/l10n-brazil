@@ -14,7 +14,6 @@ class Company(models.Model):
         partner_fields = super()._get_company_address_field_names()
         return partner_fields + [
             "legal_name",
-            "cnpj_cpf",
             "l10n_br_ie_code",
             "l10n_br_im_code",
             "district",
@@ -40,10 +39,6 @@ class Company(models.Model):
     def _inverse_street_number(self):
         for company in self:
             company.partner_id.street_number = company.street_number
-
-    def _inverse_cnpj_cpf(self):
-        for company in self:
-            company.partner_id.cnpj_cpf = company.cnpj_cpf
 
     def _inverse_l10n_br_ie_code(self):
         for company in self:
@@ -103,11 +98,6 @@ class Company(models.Model):
     )
 
     country_id = fields.Many2one(default=lambda self: self.env.ref("base.br"))
-
-    cnpj_cpf = fields.Char(
-        compute="_compute_address",
-        inverse="_inverse_cnpj_cpf",
-    )
 
     l10n_br_ie_code = fields.Char(
         compute="_compute_address",
