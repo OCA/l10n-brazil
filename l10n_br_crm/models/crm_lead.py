@@ -4,7 +4,8 @@
 from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_base.tools import check_cnpj_cpf, check_ie
 
@@ -134,14 +135,14 @@ class Lead(models.Model):
             result["country_id"] = self.partner_id.country_id.id
             if self.partner_id.is_company:
                 result["legal_name"] = self.partner_id.legal_name
-                result["cnpj"] = self.partner_id.cnpj_cpf
+                result["cnpj"] = self.partner_id.vat
                 result["l10n_br_ie_code"] = self.partner_id.l10n_br_ie_code
                 result["l10n_br_im_code"] = self.partner_id.l10n_br_im_code
                 result["l10n_br_isuf_code"] = self.partner_id.l10n_br_isuf_code
             else:
                 result["partner_name"] = self.partner_id.parent_id.name or False
                 result["legal_name"] = self.partner_id.parent_id.legal_name or False
-                result["cnpj"] = self.partner_id.parent_id.cnpj_cpf or False
+                result["cnpj"] = self.partner_id.parent_id.vat or False
                 result["l10n_br_ie_code"] = (
                     self.partner_id.parent_id.l10n_br_ie_code or False
                 )
@@ -152,7 +153,7 @@ class Lead(models.Model):
                     self.partner_id.parent_id.l10n_br_isuf_code or False
                 )
                 result["website"] = self.partner_id.parent_id.website or False
-                result["cpf"] = self.partner_id.cnpj_cpf
+                result["cpf"] = self.partner_id.vat
                 result["l10n_br_rg_code"] = self.partner_id.l10n_br_rg_code
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
@@ -178,7 +179,7 @@ class Lead(models.Model):
         if is_company:
             values.update(
                 {
-                    "cnpj_cpf": self.cnpj,
+                    "vat": self.cnpj,
                     "l10n_br_ie_code": self.l10n_br_ie_code,
                     "l10n_br_im_code": self.l10n_br_im_code,
                     "l10n_br_isuf_code": self.l10n_br_isuf_code,
@@ -187,9 +188,40 @@ class Lead(models.Model):
         else:
             values.update(
                 {
-                    "cnpj_cpf": self.cpf,
+                    "vat": self.cpf,
                     "l10n_br_ie_code": self.l10n_br_rg_code,
                     "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
             )
         return values
+
+    def action_open_cnpj_search_wizard(self):
+        """Override to use cnpj field instead of vat for crm.lead."""
+        if not self.cnpj:
+            raise UserError(_("Please enter your CNPJ"))
+        if self.cnpj_validation_disabled():
+            raise UserError(
+                _(
+                    "It is necessary to activate the option to validate de CNPJ to use"
+                    " this functionality."
+                )
+            )
+        context = {
+            "active_model": self._name,
+        }
+        if self._name == "res.partner":
+            context["default_partner_id"] = self.id
+        elif self._name == "crm.lead":
+            context["default_lead_id"] = self.id
+        else:
+            context["default_partner_id"] = self.partner_id.id
+
+        return {
+            "name": "Search Data by CNPJ",
+            "type": "ir.actions.act_window",
+            "res_model": "partner.search.wizard",
+            "view_type": "form",
+            "view_mode": "form",
+            "context": context,
+            "target": "new",
+        }
