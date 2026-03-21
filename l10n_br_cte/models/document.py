@@ -257,25 +257,27 @@ class CTe(spec_models.StackedModel):
 
     cte40_verProc = fields.Char(
         copy=False,
-        default=lambda s: s.env["ir.config_parameter"]
-        .sudo()
-        .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA"),
+        default=lambda s: (
+            s.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA")
+        ),
     )
 
     cte40_cMunEnv = fields.Char(
-        compute="_compute_cte40_data",
+        compute="_compute_cte40_stored_data",
         store=True,
         compute_sudo=True,
     )
 
     cte40_xMunEnv = fields.Char(
-        compute="_compute_cte40_data",
+        compute="_compute_cte40_stored_data",
         store=True,
         compute_sudo=True,
     )
 
     cte40_UFEnv = fields.Char(
-        compute="_compute_cte40_data",
+        compute="_compute_cte40_stored_data",
         store=True,
         compute_sudo=True,
     )
@@ -393,25 +395,43 @@ class CTe(spec_models.StackedModel):
     @api.depends(
         "partner_id",
         "company_id",
+        "cte40_exped",
+        "cte40_rem",
+        "cte40_receb",
+        "cte40_dest",
+    )
+    def _compute_cte40_stored_data(self):
+        """Compute stored CT-e location fields (Envio)."""
+        for doc in self.filtered(filter_processador_edoc_cte):
+            if doc.company_id.partner_id.country_id == doc.partner_id.country_id:
+                if doc.issuer == DOCUMENT_ISSUER_COMPANY:
+                    doc.cte40_xMunEnv = doc.company_id.partner_id.city_id.name
+                else:
+                    doc.cte40_xMunEnv = doc.partner_id.city_id.name
+                doc.cte40_cMunEnv = doc.company_id.partner_id.city_id.ibge_code
+                doc.cte40_UFEnv = doc.company_id.partner_id.state_id.code
+            else:
+                doc.cte40_UFEnv = "EX"
+                doc.cte40_xMunEnv = (
+                    doc.company_id.partner_id.country_id.name
+                    + "/"
+                    + doc.company_id.partner_id.city_id.name
+                )
+                doc.cte40_cMunEnv = "9999999"
+
+    @api.depends(
+        "partner_id",
+        "company_id",
+        "issuer",
         "partner_sendering_id",
         "partner_shippering_id",
         "partner_shipping_id",
         "partner_receivering_id",
     )
     def _compute_cte40_data(self):
+        """Compute non-stored CT-e location fields (Inicio, Fim)."""
         for doc in self.filtered(filter_processador_edoc_cte):
             if doc.company_id.partner_id.country_id == doc.partner_id.country_id:
-                if doc.issuer == DOCUMENT_ISSUER_COMPANY:
-                    doc.cte40_xMunEnv = (
-                        doc.company_id.partner_id.city_id.name
-                    )  # TODO: provavelmente vai depender de quem é o emissor
-                else:
-                    doc.cte40_xMunEnv = (
-                        doc.partner_id.city_id.name
-                    )  # TODO: provavelmente vai depender de quem é o emissor
-
-                doc.cte40_cMunEnv = doc.company_id.partner_id.city_id.ibge_code
-                doc.cte40_UFEnv = doc.company_id.partner_id.state_id.code
                 doc.cte40_xMunIni = (
                     doc.cte40_exped.city_id.name or doc.cte40_rem.city_id.name
                 )
@@ -433,15 +453,8 @@ class CTe(spec_models.StackedModel):
                 )
             else:
                 doc.cte40_UFIni = "EX"
-                doc.cte40_UFEnv = "EX"
                 doc.cte40_xMunIni = "EXTERIOR"
                 doc.cte40_cMunIni = "9999999"
-                doc.cte40_xMunEnv = (
-                    doc.company_id.partner_id.country_id.name
-                    + "/"
-                    + doc.company_id.partner_id.city_id.name
-                )
-                doc.cte40_cMunEnv = "9999999"
                 doc.cte40_cMunFim = "9999999"
                 doc.cte40_xMunFim = "EXTERIOR"
                 doc.cte40_UFFim = "EX"
@@ -709,14 +722,14 @@ class CTe(spec_models.StackedModel):
             icms["vICMSSTRet"] += line.icmsst_wh_value
 
         # Formatar os valores acumulados
-        icms["vBC"] = str("%.02f" % icms["vBC"])
-        icms["vICMS"] = str("%.02f" % icms["vICMS"])
-        icms["vICMSSubstituto"] = str("%.02f" % icms["vICMSSubstituto"])
-        icms["vBCSTRet"] = str("%.02f" % icms["vBCSTRet"])
-        icms["vICMSSTRet"] = str("%.02f" % icms["vICMSSTRet"])
-        icms["pRedBC"] = str("%.04f" % icms["pRedBC"])
-        icms["pICMS"] = str("%.02f" % icms["pICMS"])
-        icms["pICMSSTRet"] = str("%.02f" % icms["pICMSSTRet"])
+        icms["vBC"] = f"{icms['vBC']:.02f}"
+        icms["vICMS"] = f"{icms['vICMS']:.02f}"
+        icms["vICMSSubstituto"] = f"{icms['vICMSSubstituto']:.02f}"
+        icms["vBCSTRet"] = f"{icms['vBCSTRet']:.02f}"
+        icms["vICMSSTRet"] = f"{icms['vICMSSTRet']:.02f}"
+        icms["pRedBC"] = f"{icms['pRedBC']:.04f}"
+        icms["pICMS"] = f"{icms['pICMS']:.02f}"
+        icms["pICMSSTRet"] = f"{icms['pICMSSTRet']:.02f}"
 
         return icms
 
@@ -1451,16 +1464,16 @@ class CTe(spec_models.StackedModel):
                 value.enderEmit, path=path
             )
             new_value.update(enderEmit_value)
-            company_cnpj = self.env.company.cnpj_cpf.translate(
+            company_vat = self.env.company.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
             emit_cnpj = new_value.get("cte40_CNPJ").translate(
                 str.maketrans("", "", string.punctuation)
             )
-            if company_cnpj != emit_cnpj:
+            if company_vat != emit_cnpj:
                 vals["issuer"] = "partner"
             new_value["is_company"] = True
-            new_value["cnpj_cpf"] = emit_cnpj
+            new_value["vat"] = emit_cnpj
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
@@ -1469,16 +1482,16 @@ class CTe(spec_models.StackedModel):
                 value.enderDest, path=path
             )
             new_value.update(enderDest_value)
-            company_cnpj = self.env.company.cnpj_cpf.translate(
+            company_vat = self.env.company.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
             dest_cnpj = new_value.get("cte40_CNPJ").translate(
                 str.maketrans("", "", string.punctuation)
             )
-            if company_cnpj != dest_cnpj:
+            if company_vat != dest_cnpj:
                 vals["issuer"] = "partner"
             new_value["is_company"] = True
-            new_value["cnpj_cpf"] = dest_cnpj
+            new_value["vat"] = dest_cnpj
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
@@ -1525,9 +1538,7 @@ class CTe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(lang="pt_BR").filtered(
-            filter_processador_edoc_cte
-        ):
+        for record in self.filtered(filter_processador_edoc_cte):
             inf_cte = record._build_binding("cte", "40")
 
             inf_cte_supl = None
@@ -1607,7 +1618,7 @@ class CTe(spec_models.StackedModel):
         else:
             state = SITUACAO_EDOC_REJEITADA
         if self.authorization_event_id and infProt.nProt:
-            if type(infProt.dhRecbto) == datetime:
+            if isinstance(infProt.dhRecbto, datetime):
                 protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
             else:
                 protocol_date = fields.Datetime.to_string(
@@ -1934,7 +1945,7 @@ class CTe(spec_models.StackedModel):
             .build_from_binding("cte", "40", binding.infCte, dry_run=dry_run)
         )
 
-        if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
+        if edoc_type == "in" and document.company_id.vat != cnpj_cpf.formata(
             binding.infCte.emit.CNPJ
         ):
             document.fiscal_operation_type = "in"

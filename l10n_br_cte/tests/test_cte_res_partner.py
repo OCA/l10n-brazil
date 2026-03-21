@@ -1,7 +1,6 @@
 # Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode
 
 from odoo.tests import TransactionCase
@@ -24,14 +23,10 @@ class TestCTeResPartner(TransactionCase):
         # self.assertEqual(self.partner_id.vat, self.partner_id.cte40_idEstrangeiro)
 
         self.partner_id.cte40_CNPJ = "97414612000162"
-        self.assertEqual(
-            self.partner_id.cnpj_cpf, cnpj_cpf.formata(self.partner_id.cte40_CNPJ)
-        )
+        self.assertEqual(self.partner_id.vat, self.partner_id.cte40_CNPJ)
 
         self.partner_id.cte40_CPF = "48737433032"
-        self.assertEqual(
-            self.partner_id.cnpj_cpf, cnpj_cpf.formata(self.partner_id.cte40_CPF)
-        )
+        self.assertEqual(self.partner_id.vat, self.partner_id.cte40_CPF)
 
         self.partner_id.cte40_IE = "630514648079"
         self.assertEqual(self.partner_id.l10n_br_ie_code, self.partner_id.cte40_IE)

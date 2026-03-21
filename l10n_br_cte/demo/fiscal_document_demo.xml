@@ -547,7 +547,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Rodoviário - LC - Cargo Quantity Infos -->
@@ -648,7 +647,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Aereo - LC - Cargo Quantity Infos -->
@@ -749,7 +747,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Aquaviario - LC - Cargo Quantity Infos -->
@@ -850,7 +847,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Ferroviario - LC - Cargo Quantity Infos -->
@@ -951,7 +947,6 @@
         <field name="cte40_xOutCat">Other Product Data</field>
         <field name="cte40_vCarga">1000</field>
         <field name="cte40_vCargaAverb">1000</field>
-
     </record>
 
     <!-- CTe Test - Modal Dutoviario - LC - Cargo Quantity Infos -->

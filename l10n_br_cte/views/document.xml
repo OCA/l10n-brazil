@@ -49,11 +49,11 @@
                     <field name="insurance_policy" />
                     <field name="insurance_endorsement" />
                     <field name="cte40_infQ">
-                        <tree>
+                        <list>
                             <field name="cte40_cUnid" />
                             <field name="cte40_tpMed" />
                             <field name="cte40_qCarga" />
-                        </tree>
+                        </list>
                         <form>
                             <group>
                                 <field name="cte40_cUnid" />
@@ -73,14 +73,14 @@
                     invisible="document_type != '57'"
                 >
                     <field name="cte40_veicNovos" invisible="document_type != '57'">
-                        <tree>
+                        <list>
                             <field name="cte40_chassi" />
                             <field name="cte40_cCor" />
                             <field name="cte40_xCor" />
                             <field name="cte40_cMod" />
                             <field name="cte40_vUnit" />
                             <field name="cte40_vFrete" />
-                        </tree>
+                        </list>
                         <form>
                             <group>
                                 <field name="cte40_chassi" />
