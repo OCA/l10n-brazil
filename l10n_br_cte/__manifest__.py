@@ -49,6 +49,7 @@
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
+            "brazilfiscalreport",
         ],
     },
 }
