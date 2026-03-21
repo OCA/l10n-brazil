@@ -1519,9 +1519,7 @@ class CTe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(lang="pt_BR").filtered(
-            filter_processador_edoc_cte
-        ):
+        for record in self.filtered(filter_processador_edoc_cte):
             inf_cte = record._build_binding("cte", "40")
 
             inf_cte_supl = None

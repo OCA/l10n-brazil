@@ -6,7 +6,7 @@
         <field name="name">CT-e</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field
             name="domain"
             eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_57'))]"
