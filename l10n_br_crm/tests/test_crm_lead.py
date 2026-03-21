@@ -56,7 +56,7 @@ class CrmLeadTest(TransactionCase):
             {
                 "name": "Test Lead Partner",
                 "legal_name": "Test Lead Partner",
-                "cnpj_cpf": "22.898.817/0001-61",
+                "vat": "22.898.817/0001-61",
                 "l10n_br_ie_code": "041.092.540.590",
                 "l10n_br_im_code": "99999999",
                 "l10n_br_isuf_code": "99999999",
@@ -115,7 +115,7 @@ class CrmLeadTest(TransactionCase):
         self.assertTrue(
             self.obj_partner.legal_name, "The field Razão Social not was filled."
         )
-        self.assertTrue(self.obj_partner.cnpj_cpf, "The field CNPJ not was filled.")
+        self.assertTrue(self.obj_partner.vat, "The field CNPJ not was filled.")
         self.assertTrue(
             self.obj_partner.l10n_br_ie_code,
             "The field Inscrição Estadual not was filled",
@@ -171,7 +171,7 @@ class CrmLeadTest(TransactionCase):
         self.obj_partner = self.env["res.partner"].browse(self.partner_id.id)
 
         self.assertTrue(self.obj_partner.name, "The field Name was not filled.")
-        self.assertTrue(self.obj_partner.cnpj_cpf, "The field CNPJ was not filled.")
+        self.assertTrue(self.obj_partner.vat, "The field CNPJ was not filled.")
         self.assertTrue(self.obj_partner.l10n_br_ie_code, "The field RG was not filled")
 
     def test_lead_won_contact(self):
@@ -195,7 +195,7 @@ class CrmLeadTest(TransactionCase):
         self.assertTrue(
             self.obj_partner.legal_name, "The field Razão Social not was filled."
         )
-        self.assertTrue(self.obj_partner.cnpj_cpf, "The field CNPJ not was filled.")
+        self.assertTrue(self.obj_partner.vat, "The field CNPJ not was filled.")
         self.assertTrue(
             self.obj_partner.l10n_br_ie_code,
             "The field Inscrição Estadual not was filled",
