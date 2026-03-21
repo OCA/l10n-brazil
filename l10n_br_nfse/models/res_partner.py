@@ -11,11 +11,11 @@ class ResPartner(models.Model):
 
     def _prepare_service_provider(self, country_id):
         if self.is_company:
-            tomador_cnpj = misc.punctuation_rm(self.cnpj_cpf or "")
+            tomador_cnpj = misc.punctuation_rm(self.vat or "")
             tomador_cpf = None
         else:
             tomador_cnpj = None
-            tomador_cpf = misc.punctuation_rm(self.cnpj_cpf or "")
+            tomador_cpf = misc.punctuation_rm(self.vat or "")
         partner_cep = misc.punctuation_rm(self.zip)
 
         if self.country_id.id != country_id:

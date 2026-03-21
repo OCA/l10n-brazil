@@ -105,7 +105,7 @@ class Document(models.Model):
             transmissao=transmissao,
             ambiente=self.nfse_environment,
             cidade_ibge=int(self.company_id.partner_id.city_id.ibge_code),
-            cnpj_prestador=misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf),
+            cnpj_prestador=misc.punctuation_rm(self.company_id.partner_id.vat),
             im_prestador=misc.punctuation_rm(
                 self.company_id.partner_id.l10n_br_im_code or ""
             ),
@@ -250,7 +250,7 @@ class Document(models.Model):
     def _prepare_lote_rps(self):
         num_rps = self.rps_number
         return {
-            "cnpj": misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf),
+            "cnpj": misc.punctuation_rm(self.company_id.partner_id.vat),
             "inscricao_municipal": misc.punctuation_rm(
                 self.company_id.partner_id.l10n_br_im_code or ""
             )
