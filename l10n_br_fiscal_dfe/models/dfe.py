@@ -95,7 +95,7 @@ class DFe(models.Model):
         while maxNSU != self.last_nsu:
             try:
                 result = self._get_processor().consultar_distribuicao(
-                    cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf),
+                    cnpj_cpf=re.sub("[^0-9]", "", self.company_id.vat),
                     ultimo_nsu=utils.format_nsu(self.last_nsu),
                 )
             except Exception as e:
@@ -136,7 +136,7 @@ class DFe(models.Model):
     def _download_document(self, nfe_key):
         try:
             result = self._get_processor().consultar_distribuicao(
-                chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
+                chave=nfe_key, cnpj_cpf=re.sub("[^0-9]", "", self.company_id.vat)
             )
         except Exception as e:
             self.message_post(
