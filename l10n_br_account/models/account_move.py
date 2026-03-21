@@ -4,15 +4,12 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
-import logging
 from contextlib import contextmanager
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tests.common import Form
 from odoo.tools import frozendict
-
-_logger = logging.getLogger(__name__)
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -600,41 +597,28 @@ class AccountMove(models.Model):
                 values["fiscal_operation_id"] = move.fiscal_operation_id.id
             if not values.get("document_type_id"):
                 values["document_type_id"] = move.document_type_id.id
-            _logger.info("DEBUG copy_data values: %s", values)
         return res
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
-        _logger.info("DEBUG _reverse_moves starting")
         new_moves = super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
         )
-        _logger.info("DEBUG _reverse_moves new_moves: %s", new_moves.mapped("name"))
         force_fiscal_operation_id = False
         if self.env.context.get("force_fiscal_operation_id"):
             force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
                 self.env.context.get("force_fiscal_operation_id")
             )
         for record in new_moves:
-            _logger.info(
-                "DEBUG processing record %s document_type_id %s",
-                record.name,
-                record.document_type_id,
-            )
             if not record.document_type_id:
                 continue
 
             source_move = record.reversed_entry_id
-            _logger.info(
-                "DEBUG source_move: %s", source_move.name if source_move else "None"
-            )
             if not source_move:
                 continue
 
             # Fallback to source move's operation if not copied
             source_op = source_move.fiscal_operation_id
-            _logger.info("DEBUG source_op: %s", source_op)
             if not source_op:
-                _logger.info("DEBUG RAISING Document without Fiscal Operation")
                 raise UserError(
                     _("""Document without Fiscal Operation! \n Force one!""")
                 )
@@ -651,9 +635,6 @@ class AccountMove(models.Model):
                 force_fiscal_operation_id or source_op.return_fiscal_operation_id
             )
 
-            _logger.info(
-                "DEBUG record.invoice_line_ids count: %s", len(record.invoice_line_ids)
-            )
             # Match lines between reversed move and source move
             # In reversal, order is usually preserved.
             if len(record.invoice_line_ids) == len(source_move.invoice_line_ids):
@@ -668,11 +649,14 @@ class AccountMove(models.Model):
                 ]
 
             for line, source_line in matched_lines:
-                line_source_op = source_line.fiscal_operation_id
+                # Use the line's fiscal operation if set, otherwise fallback to
+                # the source move's operation (handles Odoo 17 restriction on
+                # modifying posted invoice lines)
+                line_fiscal_op = line.fiscal_operation_id or source_op
 
                 if (
                     not force_fiscal_operation_id
-                    and not line_source_op.return_fiscal_operation_id
+                    and not line_fiscal_op.return_fiscal_operation_id
                 ):
                     raise UserError(
                         _(
@@ -684,7 +668,7 @@ class AccountMove(models.Model):
 
                 line.fiscal_operation_id = (
                     force_fiscal_operation_id
-                    or line_source_op.return_fiscal_operation_id
+                    or line_fiscal_op.return_fiscal_operation_id
                 )
 
             # This method is in l10n_br_fiscal_subsequent_document module, the IF
