@@ -94,7 +94,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             if partner_id:
                 partner_model = self.env["res.partner"]
                 partner = partner_model.browse(partner_id)
-                cnpj_cpf = punctuation_rm(partner.cnpj_cpf)
+                cnpj_cpf = punctuation_rm(partner.vat)
                 misc.punctuation_rm(self.zip)
                 values = self._get_partner_values(cnpj_cpf)
                 res.update(values)

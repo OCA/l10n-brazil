@@ -22,7 +22,7 @@ class TestReceitaWS(TestCnpjCommon):
         kilian = self.model.create(
             {
                 "name": "Kilian",
-                "cnpj_cpf": "44.356.113/0001-08",
+                "vat": "44.356.113/0001-08",
             }
         )
 
@@ -58,10 +58,8 @@ class TestReceitaWS(TestCnpjCommon):
 
     def test_receita_ws_fail(self):
         with self.assertRaises(ValidationError):
-            invalido = self.model.create(
-                {"name": "invalido", "cnpj_cpf": "00000000000000"}
-            )
-            invalido._onchange_cnpj_cpf()
+            invalido = self.model.create({"name": "invalido", "vat": "00000000000000"})
+            invalido._onchange_vat()
             action_wizard = invalido.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
             wizard_context["active_model"] = "res.partner"
@@ -72,8 +70,8 @@ class TestReceitaWS(TestCnpjCommon):
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
             return_value=self.mocked_response_ws_2,
         ):
-            isla = self.model.create({"name": "Isla", "cnpj_cpf": "92.666.056/0001-06"})
-            isla._onchange_cnpj_cpf()
+            isla = self.model.create({"name": "Isla", "vat": "92.666.056/0001-06"})
+            isla._onchange_vat()
 
             action_wizard = isla.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")

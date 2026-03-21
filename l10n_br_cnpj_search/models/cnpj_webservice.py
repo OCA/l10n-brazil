@@ -345,7 +345,7 @@ class CNPJWebservice(models.AbstractModel):
 
             if schema == "empresa":
                 partner_cpf = self.get_data(partner, "cpf")
-                values.update({"cnpj_cpf": partner_cpf})
+                values.update({"vat": partner_cpf})
 
             partner_id = self.env["res.partner"].create(values).id
             child_ids.append(partner_id)
