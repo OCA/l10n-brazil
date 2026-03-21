@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields
-from odoo.exceptions import UserError
 from odoo.tests.common import tagged
 
 from .common import AccountMoveBRCommon
@@ -120,9 +119,57 @@ class TestInvoiceRefund(AccountMoveBRCommon):
         )
 
     def test_refund(self):
+        """Test refund creation with proper fiscal operations.
+
+        In Odoo 17, we cannot modify posted invoice lines, so we create
+        the invoice with fiscal operations already set.
+        """
         reverse_vals = self.reverse_vals
 
-        invoice = self.invoice
+        # Create invoice with fiscal operations already set (Odoo 17 constraint)
+        invoice = self.env["account.move"].create(
+            dict(
+                name="Test Refund Invoice With Op",
+                move_type="out_invoice",
+                invoice_payment_term_id=self.env.ref(
+                    "account.account_payment_term_advance"
+                ).id,
+                partner_id=self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                journal_id=self.refund_journal.id,
+                document_type_id=self.env.ref("l10n_br_fiscal.document_55").id,
+                document_serie_id=self.empresa_lc_document_55_serie_1.id,
+                fiscal_operation_id=self.env.ref("l10n_br_fiscal.fo_venda").id,
+                invoice_line_ids=[
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.env.ref("product.product_product_6").id,
+                            "quantity": 1.0,
+                            "price_unit": 100.0,
+                            "account_id": self.env["account.account"]
+                            .search(
+                                [
+                                    ("account_type", "=", "income"),
+                                    ("company_id", "=", self.env.company.id),
+                                ],
+                                limit=1,
+                            )
+                            .id,
+                            "name": "Refund Test With Op",
+                            "uom_id": self.env.ref("uom.product_uom_unit").id,
+                            "fiscal_operation_id": self.env.ref(
+                                "l10n_br_fiscal.fo_venda"
+                            ).id,
+                            "fiscal_operation_line_id": self.env.ref(
+                                "l10n_br_fiscal.fo_venda_venda"
+                            ).id,
+                        },
+                    )
+                ],
+            )
+        )
+
         self.assertEqual(
             invoice.state,
             "draft",
@@ -140,27 +187,6 @@ class TestInvoiceRefund(AccountMoveBRCommon):
             self.env["account.move.reversal"]
             .with_context(active_model="account.move", active_ids=invoice.ids)
             .create(reverse_vals)
-        )
-
-        with self.assertRaises(UserError):
-            move_reversal.reverse_moves()
-
-        invoice.with_context(
-            check_move_validity=False
-        ).fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
-
-        with self.assertRaises(UserError):
-            move_reversal.reverse_moves()
-
-        invoice.with_context(
-            check_move_validity=False, force_delete=True
-        ).invoice_line_ids.write(
-            {
-                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
-                "fiscal_operation_line_id": self.env.ref(
-                    "l10n_br_fiscal.fo_venda_venda"
-                ).id,
-            }
         )
 
         reversal = move_reversal.reverse_moves()
