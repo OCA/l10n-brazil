@@ -30,9 +30,9 @@ class TestTestSerPro(TestCnpjCommon):
             return_value=self.mocked_response_serpro_1,
         ):
             dummy_basica = self.model.create(
-                {"name": "Dummy Basica", "cnpj_cpf": "34.238.864/0001-68"}
+                {"name": "Dummy Basica", "vat": "34.238.864/0001-68"}
             )
-            dummy_basica._onchange_cnpj_cpf()
+            dummy_basica._onchange_vat()
 
             action_wizard = dummy_basica.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
@@ -63,10 +63,8 @@ class TestTestSerPro(TestCnpjCommon):
 
     def test_serpro_not_found(self):
         # In the Trial version there are only a few registered CNPJ records
-        invalid = self.model.create(
-            {"name": "invalid", "cnpj_cpf": "44.356.113/0001-08"}
-        )
-        invalid._onchange_cnpj_cpf()
+        invalid = self.model.create({"name": "invalid", "vat": "44.356.113/0001-08"})
+        invalid._onchange_vat()
 
         with self.assertRaises(ValidationError):
             action_wizard = invalid.action_open_cnpj_search_wizard()
@@ -77,7 +75,7 @@ class TestTestSerPro(TestCnpjCommon):
     def assert_socios(self, partner, expected_cnpjs):
         socios = self.model.search_read(
             [("id", "in", partner.child_ids.ids)],
-            fields=["name", "cnpj_cpf", "company_type"],
+            fields=["name", "vat", "company_type"],
         )
 
         for s in socios:
@@ -86,27 +84,27 @@ class TestTestSerPro(TestCnpjCommon):
         expected_socios = [
             {
                 "name": "Joana Alves Mundim Pena",
-                "cnpj_cpf": expected_cnpjs["Joana"],
+                "vat": expected_cnpjs["Joana"],
                 "company_type": "person",
             },
             {
                 "name": "Luiza Aldenora",
-                "cnpj_cpf": expected_cnpjs["Aldenora"],
+                "vat": expected_cnpjs["Aldenora"],
                 "company_type": "person",
             },
             {
                 "name": "Luiza Araujo De Oliveira",
-                "cnpj_cpf": expected_cnpjs["Araujo"],
+                "vat": expected_cnpjs["Araujo"],
                 "company_type": "person",
             },
             {
                 "name": "Luiza Barbosa Bezerra",
-                "cnpj_cpf": expected_cnpjs["Barbosa"],
+                "vat": expected_cnpjs["Barbosa"],
                 "company_type": "person",
             },
             {
                 "name": "Marcelo Antonio Barros De Cicco",
-                "cnpj_cpf": expected_cnpjs["Marcelo"],
+                "vat": expected_cnpjs["Marcelo"],
                 "company_type": "person",
             },
         ]
@@ -124,10 +122,10 @@ class TestTestSerPro(TestCnpjCommon):
             self.set_param("serpro_schema", "empresa")
 
             dummy_empresa = self.model.create(
-                {"name": "Dummy Empresa", "cnpj_cpf": "34.238.864/0002-49"}
+                {"name": "Dummy Empresa", "vat": "34.238.864/0002-49"}
             )
 
-            dummy_empresa._onchange_cnpj_cpf()
+            dummy_empresa._onchange_vat()
             action_wizard = dummy_empresa.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
             wizard_context["active_model"] = "res.partner"
@@ -160,10 +158,10 @@ class TestTestSerPro(TestCnpjCommon):
             self.set_param("serpro_schema", "qsa")
 
             dummy_qsa = self.model.create(
-                {"name": "Dummy QSA", "cnpj_cpf": "34.238.864/0001-68"}
+                {"name": "Dummy QSA", "vat": "34.238.864/0001-68"}
             )
 
-            dummy_qsa._onchange_cnpj_cpf()
+            dummy_qsa._onchange_vat()
             action_wizard = dummy_qsa.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
             wizard_context["active_model"] = "res.partner"

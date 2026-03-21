@@ -27,7 +27,7 @@ class PartyMixin(models.AbstractModel):
     )
 
     def action_open_cnpj_search_wizard(self):
-        if not self.cnpj_cpf:
+        if not self.vat:
             raise UserError(_("Please enter your CNPJ"))
         if self.cnpj_validation_disabled():
             raise UserError(
