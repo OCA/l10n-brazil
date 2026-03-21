@@ -608,19 +608,25 @@ class AccountMove(models.Model):
         new_moves = super()._reverse_moves(
             default_values_list=default_values_list, cancel=cancel
         )
-        _logger.info("DEBUG _reverse_moves new_moves: %s", new_moves.mapped('name'))
+        _logger.info("DEBUG _reverse_moves new_moves: %s", new_moves.mapped("name"))
         force_fiscal_operation_id = False
         if self.env.context.get("force_fiscal_operation_id"):
             force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
                 self.env.context.get("force_fiscal_operation_id")
             )
         for record in new_moves:
-            _logger.info("DEBUG processing record %s document_type_id %s", record.name, record.document_type_id)
+            _logger.info(
+                "DEBUG processing record %s document_type_id %s",
+                record.name,
+                record.document_type_id,
+            )
             if not record.document_type_id:
                 continue
 
             source_move = record.reversed_entry_id
-            _logger.info("DEBUG source_move: %s", source_move.name if source_move else 'None')
+            _logger.info(
+                "DEBUG source_move: %s", source_move.name if source_move else "None"
+            )
             if not source_move:
                 continue
 
@@ -633,7 +639,10 @@ class AccountMove(models.Model):
                     _("""Document without Fiscal Operation! \n Force one!""")
                 )
 
-            if not force_fiscal_operation_id and not source_op.return_fiscal_operation_id:
+            if (
+                not force_fiscal_operation_id
+                and not source_op.return_fiscal_operation_id
+            ):
                 raise UserError(
                     _("""Document without Return Fiscal Operation! \n Force one!""")
                 )
@@ -642,7 +651,9 @@ class AccountMove(models.Model):
                 force_fiscal_operation_id or source_op.return_fiscal_operation_id
             )
 
-            _logger.info("DEBUG record.invoice_line_ids count: %s", len(record.invoice_line_ids))
+            _logger.info(
+                "DEBUG record.invoice_line_ids count: %s", len(record.invoice_line_ids)
+            )
             # Match lines between reversed move and source move
             # In reversal, order is usually preserved.
             if len(record.invoice_line_ids) == len(source_move.invoice_line_ids):
@@ -651,7 +662,10 @@ class AccountMove(models.Model):
                 )
             else:
                 # Fallback to empty source lines if count mismatch (unlikely)
-                matched_lines = [(line, self.env["account.move.line"]) for line in record.invoice_line_ids]
+                matched_lines = [
+                    (line, self.env["account.move.line"])
+                    for line in record.invoice_line_ids
+                ]
 
             for line, source_line in matched_lines:
                 line_source_op = source_line.fiscal_operation_id
