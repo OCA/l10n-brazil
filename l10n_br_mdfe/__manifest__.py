@@ -48,6 +48,7 @@
             "nfelib",
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
+            "brazilfiscalreport",
         ]
     },
 }
