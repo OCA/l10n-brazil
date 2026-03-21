@@ -55,7 +55,7 @@ class TestCertificate(TransactionCase):
         company = cls.env["res.company"].create(
             {
                 "name": "Company Test Fiscal BR",
-                "cnpj_cpf": "42.245.642/0001-09",
+                "vat": "42.245.642/0001-09",
                 "country_id": cls.env.ref("base.br").id,
                 "state_id": cls.env.ref("base.state_br_sp").id,
             }
