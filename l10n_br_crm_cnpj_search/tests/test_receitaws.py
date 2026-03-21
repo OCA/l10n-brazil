@@ -48,7 +48,7 @@ class TestCRMReceitaws(TestCnpjCommon):
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
             return_value=mocked_response,
         ):
-            self.crm_lead_1.write({"cnpj_cpf": "31.954.065/0001-08"})
+            self.crm_lead_1.write({"cnpj": "31.954.065/0001-08"})
             action_wizard = self.crm_lead_1.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
             wizard = (

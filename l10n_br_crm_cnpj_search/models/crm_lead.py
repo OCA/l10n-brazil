@@ -4,8 +4,6 @@ from odoo import Command, fields, models
 class Lead(models.Model):
     _inherit = "crm.lead"
 
-    cnpj_cpf = fields.Char(related="cnpj")
-
     cnae_secondary_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.cnae",
         relation="crm_lead_fiscal_cnae_rel",
@@ -28,7 +26,7 @@ class Lead(models.Model):
         if is_company:
             values.update(
                 {
-                    "cnpj_cpf": self.cnpj,
+                    "vat": self.cnpj,
                     "l10n_br_ie_code": self.l10n_br_ie_code,
                     "l10n_br_im_code": self.l10n_br_im_code,
                     "l10n_br_isuf_code": self.l10n_br_isuf_code,
@@ -41,7 +39,7 @@ class Lead(models.Model):
         else:
             values.update(
                 {
-                    "cnpj_cpf": self.cpf,
+                    "vat": self.cpf,
                     "l10n_br_ie_code": self.l10n_br_rg_code,
                     "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
