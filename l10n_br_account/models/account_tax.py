@@ -284,10 +284,10 @@ class AccountTax(models.Model):
                     icms_origin=line.icms_origin,
                     ind_final=line.ind_final,
                 )
-                for tax_res, new_taxes_res in zip(
-                    taxes_res["taxes"], new_taxes_res["taxes"]
+                for tax_res, new_tax_res in zip(
+                    taxes_res["taxes"], new_taxes_res["taxes"], strict=False
                 ):
-                    delta_tax = new_taxes_res["amount"] - tax_res["amount"]
+                    delta_tax = new_tax_res["amount"] - tax_res["amount"]
                     tax_res["amount"] += delta_tax
                     to_update_vals["price_total"] += delta_tax
 
