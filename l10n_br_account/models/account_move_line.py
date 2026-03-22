@@ -171,7 +171,10 @@ class AccountMoveLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        # Track which records have manually set fiscal tax fields
+        has_manual_tax = []
         for values in vals_list:
+            has_manual_tax.append(any(f in values for f in FISCAL_TAX_ID_FIELDS))
             self._sync_proxy_fields_vals(values)
             if values.get("fiscal_document_line_id"):
                 continue
@@ -220,7 +223,13 @@ class AccountMoveLine(models.Model):
 
         # Force recompute of fiscal taxes to ensure they pick up the correct company_id
         # which depends on document_id (linked above)
-        sorted_result.mapped("fiscal_document_line_id")._compute_fiscal_tax_ids()
+        # But preserve manually set individual tax fields
+        for i, line in enumerate(sorted_result):
+            fiscal_line = line.fiscal_document_line_id
+            if not fiscal_line:
+                continue
+            if not has_manual_tax[i]:
+                fiscal_line._compute_fiscal_tax_ids()
 
         return sorted_result
 
