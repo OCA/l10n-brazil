@@ -226,7 +226,7 @@ class AccountMoveLine(models.Model):
 
     def copy_data(self, default=None):
         res = super().copy_data(default=default)
-        for line, values in zip(self, res):
+        for line, values in zip(self, res, strict=False):
             if not values.get("fiscal_operation_id"):
                 values["fiscal_operation_id"] = line.fiscal_operation_id.id
             if not values.get("fiscal_operation_line_id"):
