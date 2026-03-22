@@ -569,30 +569,9 @@ class AccountMove(models.Model):
         self.ensure_one_doc()
         return self.fiscal_document_id.action_send_email()
 
-    def write(self, vals):
-        # Ensure delegate exists if writing delegated fields and not already present.
-        # This can happen when an invoice is created without fiscal info and then
-        # repaired, or in some test scenarios.
-        fiscal_fields = self.env["l10n_br_fiscal.document"]._fields
-        if any(f in vals for f in fiscal_fields):
-            for move in self:
-                if not move.fiscal_document_id and move.document_type_id:
-                    move.fiscal_document_id = (
-                        self.env["l10n_br_fiscal.document"]
-                        .sudo()
-                        .create(
-                            {
-                                "company_id": move.company_id.id,
-                                "partner_id": move.partner_id.id,
-                                "move_type": move.move_type,
-                            }
-                        )
-                    )
-        return super().write(vals)
-
     def copy_data(self, default=None):
         res = super().copy_data(default=default)
-        for move, values in zip(self, res):
+        for move, values in zip(self, res, strict=False):
             if not values.get("fiscal_operation_id"):
                 values["fiscal_operation_id"] = move.fiscal_operation_id.id
             if not values.get("document_type_id"):
@@ -639,7 +618,7 @@ class AccountMove(models.Model):
             # In reversal, order is usually preserved.
             if len(record.invoice_line_ids) == len(source_move.invoice_line_ids):
                 matched_lines = zip(
-                    record.invoice_line_ids, source_move.invoice_line_ids
+                    record.invoice_line_ids, source_move.invoice_line_ids, strict=False
                 )
             else:
                 # Fallback to empty source lines if count mismatch (unlikely)
@@ -648,10 +627,10 @@ class AccountMove(models.Model):
                     for line in record.invoice_line_ids
                 ]
 
-            for line, source_line in matched_lines:
+            for line, _source_line in matched_lines:
                 # Use the line's fiscal operation if set, otherwise fallback to
-                # the source move's operation (handles Odoo 17 restriction on
-                # modifying posted invoice lines)
+                # the source move's operation (handles cases where line fiscal
+                # operation is not set, e.g., when modifying posted moves)
                 line_fiscal_op = line.fiscal_operation_id or source_op
 
                 if (
