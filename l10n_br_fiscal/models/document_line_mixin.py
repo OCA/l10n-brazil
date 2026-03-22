@@ -297,7 +297,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             if line.fiscal_operation_id:
                 line.fiscal_operation_line_id = (
                     line.fiscal_operation_id.line_definition(
-                        company=line.company_id,
+                        company=line._get_company(),
                         partner=line.partner_id,
                         product=line.product_id,
                     )
@@ -320,7 +320,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         for line in self:
             if line.fiscal_operation_line_id:
                 mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=line.company_id,
+                    company=line._get_company(),
                     partner=line._get_fiscal_partner(),
                     product=line.product_id,
                     ncm=line.ncm_id,
@@ -392,6 +392,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             )
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
+    def _get_company(self):
+        self.ensure_one()
+        if self.company_id:
+            return self.company_id
+        if hasattr(self, "account_line_ids") and self.account_line_ids:
+            return self.account_line_ids.move_id.company_id
+        return self.env.company
+
     @api.onchange(*FISCAL_TAX_ID_FIELDS)
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids()
@@ -451,7 +459,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             )
             if line.fiscal_operation_line_id:
                 compute_result = line.fiscal_tax_ids.compute_taxes(
-                    company=line.company_id,
+                    company=line._get_company(),
                     partner=line._get_fiscal_partner(),
                     product=line.product_id,
                     price_unit=line.price_unit,
@@ -579,7 +587,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             if not line.product_id:
                 line.city_taxation_code_id = False
                 continue
-            company_city = line.company_id.city_id
+            company_city = line._get_company().city_id
             city_tax_codes = line.product_id.city_taxation_code_ids
             city_tax_code = city_tax_codes.filtered(
                 lambda r, _city_id=company_city: r.city_id == _city_id
@@ -2750,6 +2758,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.depends("company_id")
     def _compute_currency_id(self):
         for doc_line in self:
-            doc_line.currency_id = doc_line.company_id.currency_id or self.env.ref(
+            doc_line.currency_id = doc_line._get_company().currency_id or self.env.ref(
                 "base.BRL"
             )
