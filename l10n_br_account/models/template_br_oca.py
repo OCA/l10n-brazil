@@ -8,6 +8,12 @@ from odoo import models
 class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
 
+    def _load(self, template_code, company, install_demo):
+        result = super()._load(template_code, company, install_demo)
+        if company.currency_id == self.env.ref("base.BRL"):
+            self.load_fiscal_taxes([company])
+        return result
+
     def load_fiscal_taxes(self, companies=None):
         """
         Create missing account.tax for Brazil.
@@ -33,9 +39,17 @@ class AccountChartTemplate(models.AbstractModel):
                 id_key = f"{company.id}_{key}"
                 existing_group = self.env.ref(
                     f"l10n_br_coa.{id_key}", raise_if_not_found=False
-                )
+                ) or self.env.ref(f"account.{id_key}", raise_if_not_found=False)
                 if existing_group:
+                    if (
+                        not existing_group.fiscal_tax_group_id
+                        and key in tax_group_data_rel
+                    ):
+                        existing_group.fiscal_tax_group_id = self.env.ref(
+                            tax_group_data_rel[key]["fiscal_tax_group_id"]
+                        ).id
                     continue
+
                 else:
                     group_vals = {
                         "name": value["name"],
@@ -61,8 +75,13 @@ class AccountChartTemplate(models.AbstractModel):
                 existing_tax = self.env.ref(
                     f"l10n_br_coa.{id_key}", raise_if_not_found=False
                 )
-                if existing_tax:  # TODO also check record/res_id
+                if existing_tax:
                     continue
+                existing_tax = self.env["account.tax"].search(
+                    [("name", "=", value["name"])], limit=1
+                )
+                if existing_tax:
+                    pass  # adjust ir.model.data ?
                 else:
                     tax_vals = {
                         "name": value["name"],
