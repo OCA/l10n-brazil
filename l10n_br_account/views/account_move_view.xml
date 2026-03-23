@@ -133,7 +133,7 @@
                 <field string="(-) Discount" name="amount_discount_value" />
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
-            <!-- invoice_line_ids tree (Invoice Lines) -->
+            <!-- invoice_line_ids list (Invoice Lines) -->
             <field name="invoice_line_ids" position="attributes">
                 <attribute name="context">
                     {
@@ -152,14 +152,14 @@
                 </attribute>
             </field>
             <xpath
-                expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']"
+                expr="//field[@name='invoice_line_ids']/list/field[@name='product_id']"
                 position="before"
             >
                 <!--widget name="line_view_popup_button" TODO make it work in l10n_br_fiscal
                 /-->
             </xpath>
             <xpath
-                expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
+                expr="//field[@name='invoice_line_ids']/list/field[@name='tax_ids']"
                 position="replace"
             >
                 <control name="fiscal_fields" invisible="1" />
@@ -217,7 +217,7 @@
                     options="{'no_create': True}"
                 />
             </xpath>
-            <!-- line_ids tree (Journal Items) -->
+            <!-- line_ids list (Journal Items) -->
             <!-- repeating fiscal fields in line_ids IS REQUIRED to persist values -->
             <xpath expr="//field[@name='line_ids']" position="attributes">
                 <attribute name="context">
@@ -251,7 +251,7 @@
                 <attribute name="force_save">1</attribute>
             </xpath-->
             <xpath
-                expr="//field[@name='line_ids']/tree/field[@name='tax_ids']"
+                expr="//field[@name='line_ids']/list/field[@name='tax_ids']"
                 position="replace"
             >
                 <control name="fiscal_fields" invisible="1" />
@@ -296,7 +296,7 @@
                 <field name="uot_id" force_save="1" />
                 <field name="fiscal_price" />
                 <field name="discount_value" column_invisible="True" />
-                <!-- TODO adapt these placeholders for tree view for fiscal_form_view -->
+                <!-- TODO adapt these placeholders for list view for fiscal_form_view -->
                 <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
                 <control
                     name="fiscal_line_extra_info_fields"
@@ -371,7 +371,7 @@
             <!-- The next fields are defined in a superficial way in the inherited
                 form that is considered specific for mobile edition by Odoo but not
                 for us in the Brazilian localization. To make it work properly
-                we had to define some extra attributes just like in the editable tree view:
+                we had to define some extra attributes just like in the editable list view:
             -->
             <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='product_id']"
@@ -458,7 +458,7 @@
                     invisible="not document_type_id or tax_icms_or_issqn == 'icms'"
                 />
             </xpath>
-            <xpath
+            <!-- xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/field[@name='name']"
                 position="after"
             >
@@ -510,7 +510,7 @@
                         </group>
                     </page>
                 </notebook>
-            </xpath>
+            </xpath-->
             <field name="fiscal_position_id" position="after">
                 <field
                     name="fiscal_document_id"

@@ -25,7 +25,7 @@ class FiscalDocumentLine(models.Model):
 
     document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document",
+        string="Fiscal Document (Account)",
         compute="_compute_document_id",
         store=True,
         readonly=False,

@@ -51,8 +51,8 @@ class MultiLocalizationsInvoice(TestAccountMoveOutInvoiceOnchanges):
         )
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        res = super().setUpClass(chart_template_ref)
+    def setUpClass(cls):
+        res = super().setUpClass()
         # FIXME the following line should not be required but as for
         # now if we don't add this group, creating a refund will result
         # in an attempt to create a l10n_br_fiscal.subsequent.document record.

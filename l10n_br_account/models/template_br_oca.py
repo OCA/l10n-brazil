@@ -8,8 +8,8 @@ from odoo import models
 class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
 
-    def _load(self, template_code, company, install_demo):
-        result = super()._load(template_code, company, install_demo)
+    def _load(self, template_code, company, install_demo, force_create=True):
+        result = super()._load(template_code, company, install_demo, force_create)
         if company.currency_id == self.env.ref("base.BRL"):
             self.load_fiscal_taxes([company])
         return result
