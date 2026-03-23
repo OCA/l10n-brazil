@@ -4,6 +4,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
+import logging
 from contextlib import contextmanager
 
 from odoo import _, api, fields, models
@@ -24,6 +25,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from .constants import (
     MOVE_TO_OPERATION,
 )
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
@@ -500,7 +503,18 @@ class AccountMove(models.Model):
         return action
 
     def button_draft(self):
+        _logger.info(
+            "DEBUG button_draft called for moves: %s, context skip_button_draft: %s",
+            self.ids,
+            self.env.context.get("skip_button_draft"),
+        )
         for move in self.filtered(lambda d: d.document_type_id):
+            _logger.info(
+                "DEBUG button_draft processing move %s, state: %s, state_edoc: %s",
+                move.id,
+                move.state,
+                move.state_edoc,
+            )
             if (
                 move.state_edoc == SITUACAO_EDOC_CANCELADA
                 and move.document_number
@@ -516,6 +530,7 @@ class AccountMove(models.Model):
             move.fiscal_document_ids.filtered(
                 lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
             ).action_document_back2draft()
+        _logger.info("DEBUG button_draft calling super for moves: %s", self.ids)
         return super().button_draft()
 
     def action_document_send(self):
@@ -546,8 +561,36 @@ class AccountMove(models.Model):
     def action_document_back2draft(self):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
+        _logger.info(
+            "DEBUG action_document_back2draft called for moves: %s, context: %s",
+            self.ids,
+            dict(self.env.context),
+        )
         for move in self.filtered(lambda d: d.document_type_id):
-            move.button_cancel()
+            _logger.info(
+                "DEBUG action_document_back2draft processing move %s, state: %s",
+                move.id,
+                move.state,
+            )
+            # Avoid recursive calls - if we're already in button_cancel flow,
+            # don't call it again
+            if not self.env.context.get("in_button_cancel"):
+                _logger.info(
+                    "DEBUG action_document_back2draft calling button_cancel"
+                    " for move %s",
+                    move.id,
+                )
+                move.with_context(in_button_cancel=True).button_cancel()
+            else:
+                _logger.info(
+                    "DEBUG action_document_back2draft SKIPPING button_cancel for "
+                    "move %s (already in cancel flow)",
+                    move.id,
+                )
+            _logger.info(
+                "DEBUG action_document_back2draft calling button_draft for move %s",
+                move.id,
+            )
             move.button_draft()
 
     def action_view_invoice(self):
