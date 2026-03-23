@@ -24,7 +24,9 @@ def post_init_hook(env):
             if company in br_demo_companies:
                 # fallback to generic_coa to make tests pass
                 # FIXME tests should not depend on demo companies anymore!
-                env["account.chart.template"].try_loading("generic_coa", company)
+                env["account.chart.template"].try_loading(
+                    "generic_coa", company, install_demo=True
+                )
                 env["account.chart.template"].load_fiscal_taxes([company])
                 company.currency_id = env.ref("base.BRL")
 

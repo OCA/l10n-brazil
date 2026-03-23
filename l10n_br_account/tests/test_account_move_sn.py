@@ -13,24 +13,18 @@ _logger = logging.getLogger(__name__)
 
 @tagged("post_install", "-at_install")
 class AccountMoveSimpleNacional(AccountMoveBRCommon):
+    chart_template = "generic_coa"
+
     @classmethod
-    def setUpClass(
-        cls, chart_template_ref="l10n_br_coa_simple.l10n_br_coa_simple_chart_template"
-    ):
-        # try:
-        if False:
-            super().setUpClass(chart_template_ref=chart_template_ref)
-            _logger.info(f"using {chart_template_ref}")
-            # except Exception as e:
-        else:
-            _logger.info(
-                f"it seems {chart_template_ref} is not available, "
-                "falling back to l10n_generic_coa.configurable_chart_template."
-            )
-            super().setUpClass()
-            cls.env["account.chart.template"].load_fiscal_taxes(
-                companies=[cls.company_data["company"]]
-            )
+    def setUpClass(cls):
+        super().setUpClass()
+        _logger.info(
+            "Using generic_coa chart template. "
+            "Loading fiscal taxes for the test company."
+        )
+        cls.env["account.chart.template"].load_fiscal_taxes(
+            companies=[cls.company_data["company"]]
+        )
 
         cls.icms_tax_definition_empresa_simples_nacional = cls.env[
             "l10n_br_fiscal.tax.definition"
@@ -145,7 +139,7 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS SN a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )

@@ -25,13 +25,13 @@
                 >
                     <field name="show_l10n_br" invisible="1" />
                     <field name="pix_key_ids" nolabel="1" colspan="2">
-                        <tree editable="bottom">
+                        <list editable="bottom">
                             <field name="partner_id" column_invisible="True" />
                             <field name="sequence" widget="handle" />
                             <field name="key_type" />
                             <field name="key" />
                             <field name="partner_bank_id" />
-                        </tree>
+                        </list>
                     </field>
                 </group>
             </group>
