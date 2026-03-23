@@ -24,7 +24,7 @@ class TestInvoiceDatesAndDiscount(TransactionCase):
         cls.env.user.company_id = cls.company
         cls.invoice_account_id = cls.env["account.account"].create(
             {
-                "company_id": cls.company.id,
+                "company_ids": [Command.set(cls.company.ids)],
                 "account_type": "asset_receivable",
                 "code": "RECTEST",
                 "name": "Test receivable account",
@@ -41,7 +41,7 @@ class TestInvoiceDatesAndDiscount(TransactionCase):
         )
         cls.invoice_line_account_id = cls.env["account.account"].create(
             {
-                "company_id": cls.company.id,
+                "company_ids": [Command.set(cls.company.ids)],
                 "account_type": "income",
                 "code": "705070",
                 "name": "Product revenue account (test)",
