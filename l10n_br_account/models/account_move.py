@@ -499,6 +499,8 @@ class AccountMove(models.Model):
         return action
 
     def button_draft(self):
+        """Set the move to draft state, handling fiscal documents."""
+        # Process fiscal documents first to sync their state
         for move in self.filtered(lambda d: d.document_type_id):
             if (
                 move.state_edoc == SITUACAO_EDOC_CANCELADA
@@ -512,6 +514,7 @@ class AccountMove(models.Model):
                         "because this document is cancelled in SEFAZ"
                     ).format(move.document_number)
                 )
+            # Sync fiscal document state (this is idempotent)
             move.fiscal_document_ids.filtered(
                 lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
             ).action_document_back2draft()
@@ -546,8 +549,8 @@ class AccountMove(models.Model):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
         for move in self.filtered(lambda d: d.document_type_id):
-            # Avoid recursive calls - if we're already in button_cancel flow,
-            # don't call it again
+            # Avoid recursive calls - skip button_cancel if we're already in
+            # button_cancel flow (in_button_cancel context is set)
             if not self.env.context.get("in_button_cancel"):
                 move.with_context(in_button_cancel=True).button_cancel()
             move.button_draft()
