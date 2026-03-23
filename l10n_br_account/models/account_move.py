@@ -223,19 +223,19 @@ class AccountMove(models.Model):
             tax_totals_node.set("attrs", "{'invisible': True}")
 
         if view_type == "form" and (
-            self.user_has_groups("l10n_br_account.group_line_fiscal_detail")
+            self.env.user.has_group("l10n_br_account.group_line_fiscal_detail")
             or self.env.context.get("force_line_fiscal_detail")
         ):
-            for sub_tree_node in arch.xpath("//field[@name='invoice_line_ids']/tree"):
+            for sub_tree_node in arch.xpath("//field[@name='invoice_line_ids']/list"):
                 sub_tree_node.attrib["editable"] = ""
 
         return arch, view
 
     @api.depends(
-        "line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched",
+        # "line_ids.matched_debit_ids.debit_move_id.move_id.payment_id.is_matched",
         "line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual",
         "line_ids.matched_debit_ids.debit_move_id.move_id.line_ids.amount_residual_currency",
-        "line_ids.matched_credit_ids.credit_move_id.move_id.payment_id.is_matched",
+        # "line_ids.matched_credit_ids.credit_move_id.move_id.payment_id.is_matched",
         "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual",
         "line_ids.matched_credit_ids.credit_move_id.move_id.line_ids.amount_residual_currency",
         "line_ids.balance",
@@ -243,7 +243,7 @@ class AccountMove(models.Model):
         "line_ids.amount_currency",
         "line_ids.amount_residual",
         "line_ids.amount_residual_currency",
-        "line_ids.payment_id.state",
+        # "line_ids.payment_id.state",
         "line_ids.full_reconcile_id",
         "state",
         "direction_sign",
@@ -265,8 +265,10 @@ class AccountMove(models.Model):
         for move in self.filtered(lambda m: m.fiscal_operation_id):
             sign = -move.direction_sign
             inv_line_ids = move.line_ids.filtered(
-                lambda line: line.display_type == "product"
-                and (not line.cfop_id or line.cfop_id.finance_move)
+                lambda line: (
+                    line.display_type == "product"
+                    and (not line.cfop_id or line.cfop_id.finance_move)
+                )
             )
             move.amount_untaxed = sum(inv_line_ids.mapped("fiscal_amount_untaxed"))
             move.amount_tax = sum(inv_line_ids.mapped("fiscal_amount_tax"))
@@ -461,8 +463,9 @@ class AccountMove(models.Model):
     @api.depends("move_type", "fiscal_operation_id")
     def _compute_journal_id(self):
         fisc_operation_driven = self.filtered(
-            lambda move: move.fiscal_operation_id
-            and move.fiscal_operation_id.journal_id
+            lambda move: (
+                move.fiscal_operation_id and move.fiscal_operation_id.journal_id
+            )
         )
         for move in fisc_operation_driven:
             move.journal_id = self.fiscal_operation_id.journal_id
