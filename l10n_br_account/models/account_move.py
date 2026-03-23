@@ -503,18 +503,9 @@ class AccountMove(models.Model):
         return action
 
     def button_draft(self):
-        _logger.info(
-            "DEBUG button_draft called for moves: %s, context skip_button_draft: %s",
-            self.ids,
-            self.env.context.get("skip_button_draft"),
-        )
+        """Set the move to draft state, handling fiscal documents."""
+        # Process fiscal documents first to sync their state
         for move in self.filtered(lambda d: d.document_type_id):
-            _logger.info(
-                "DEBUG button_draft processing move %s, state: %s, state_edoc: %s",
-                move.id,
-                move.state,
-                move.state_edoc,
-            )
             if (
                 move.state_edoc == SITUACAO_EDOC_CANCELADA
                 and move.document_number
@@ -527,10 +518,12 @@ class AccountMove(models.Model):
                         "because this document is cancelled in SEFAZ"
                     ).format(move.document_number)
                 )
+            # Sync fiscal document state (this is idempotent)
             move.fiscal_document_ids.filtered(
                 lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
             ).action_document_back2draft()
-        _logger.info("DEBUG button_draft calling super for moves: %s", self.ids)
+        
+        # Always call super to set the move to draft
         return super().button_draft()
 
     def action_document_send(self):
@@ -561,36 +554,11 @@ class AccountMove(models.Model):
     def action_document_back2draft(self):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
-        _logger.info(
-            "DEBUG action_document_back2draft called for moves: %s, context: %s",
-            self.ids,
-            dict(self.env.context),
-        )
         for move in self.filtered(lambda d: d.document_type_id):
-            _logger.info(
-                "DEBUG action_document_back2draft processing move %s, state: %s",
-                move.id,
-                move.state,
-            )
-            # Avoid recursive calls - if we're already in button_cancel flow,
-            # don't call it again
+            # Avoid recursive calls - skip button_cancel if we're already in
+            # button_cancel flow (in_button_cancel context is set)
             if not self.env.context.get("in_button_cancel"):
-                _logger.info(
-                    "DEBUG action_document_back2draft calling button_cancel"
-                    " for move %s",
-                    move.id,
-                )
                 move.with_context(in_button_cancel=True).button_cancel()
-            else:
-                _logger.info(
-                    "DEBUG action_document_back2draft SKIPPING button_cancel for "
-                    "move %s (already in cancel flow)",
-                    move.id,
-                )
-            _logger.info(
-                "DEBUG action_document_back2draft calling button_draft for move %s",
-                move.id,
-            )
             move.button_draft()
 
     def action_view_invoice(self):
