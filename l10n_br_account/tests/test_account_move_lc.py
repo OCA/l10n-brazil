@@ -2193,6 +2193,8 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
         )
         if fiscal_edi and fiscal_edi.state == "installed":
             self.assertEqual(document_id.state, "a_enviar")
+            # Refresh move from DB to ensure state is current before button_draft
+            self.move_out_venda.invalidate_cache()
             self.move_out_venda.button_draft()
             self.assertEqual(self.move_out_venda.state, "draft")
             self.assertEqual(document_id.state, "em_digitacao")
