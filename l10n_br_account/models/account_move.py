@@ -519,10 +519,12 @@ class AccountMove(models.Model):
                     ).format(move.document_number)
                 )
             # Sync fiscal document state (this is idempotent)
+            # Pass in_button_draft context to prevent document.py from
+            # calling button_draft again (which would cause double super call)
             move.fiscal_document_ids.filtered(
                 lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
-            ).action_document_back2draft()
-        
+            ).with_context(in_button_draft=True).action_document_back2draft()
+
         # Always call super to set the move to draft
         return super().button_draft()
 
