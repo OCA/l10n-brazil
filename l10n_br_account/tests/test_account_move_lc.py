@@ -15,24 +15,18 @@ _logger = logging.getLogger(__name__)
 # flake8: noqa: F841
 @tagged("post_install", "-at_install")
 class AccountMoveLucroPresumido(AccountMoveBRCommon):
+    chart_template = "generic_coa"
+
     @classmethod
-    def setUpClass(
-        cls, chart_template_ref="l10n_br_coa_generic.l10n_br_coa_generic_template"
-    ):
-        # try:
-        if False:
-            super().setUpClass(chart_template_ref=chart_template_ref)
-            _logger.info(f"using {chart_template_ref}")
-            # except ValueError:
-        else:
-            _logger.info(
-                f"it seems {chart_template_ref} is not available, "
-                "falling back to l10n_generic_coa.configurable_chart_template."
-            )
-            super().setUpClass()
-            cls.env["account.chart.template"].load_fiscal_taxes(
-                companies=[cls.company_data["company"]]
-            )
+    def setUpClass(cls):
+        super().setUpClass()
+        _logger.info(
+            "Using generic_coa chart template. "
+            "Loading fiscal taxes for the test company."
+        )
+        cls.env["account.chart.template"].load_fiscal_taxes(
+            companies=[cls.company_data["company"]]
+        )
 
         cls.configure_normal_company_taxes()
 
