@@ -3,7 +3,6 @@
 # Copyright (C) 2020 - TODAY Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-
 from contextlib import contextmanager
 
 from odoo import _, api, fields, models
@@ -547,7 +546,10 @@ class AccountMove(models.Model):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
         for move in self.filtered(lambda d: d.document_type_id):
-            move.button_cancel()
+            # Avoid recursive calls - if we're already in button_cancel flow,
+            # don't call it again
+            if not self.env.context.get("in_button_cancel"):
+                move.with_context(in_button_cancel=True).button_cancel()
             move.button_draft()
 
     def action_view_invoice(self):
