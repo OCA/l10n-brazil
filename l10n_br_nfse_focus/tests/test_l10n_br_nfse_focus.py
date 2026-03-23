@@ -845,8 +845,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertEqual(result, "<xml>test</xml>")
         mock_get.assert_called_once()
 
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document._logger.warning")
     @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
-    def test_fetch_xml_from_path_error(self, mock_get):
+    def test_fetch_xml_from_path_error(self, mock_get, mock_warning):
         """Tests XML fetch from path with error."""
         document = self.nfse_demo
         document.nfse_environment = "1"
@@ -857,6 +858,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertEqual(result, "")
         mock_get.assert_called_once()
+        mock_warning.assert_called_once()
 
     def test_fetch_xml_from_path_empty(self):
         """Tests XML fetch with empty path."""
@@ -915,8 +917,9 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertIsNone(result)
 
+    @patch("odoo.addons.l10n_br_nfse_focus.models.document._logger.warning")
     @patch("odoo.addons.l10n_br_nfse_focus.models.document.requests.get")
-    def test_fetch_pdf_from_urls_error(self, mock_get):
+    def test_fetch_pdf_from_urls_error(self, mock_get, mock_warning):
         """Tests PDF fetch with error."""
         document = self.nfse_demo
         document.company_id.focusnfe_nfse_force_odoo_danfse = False
@@ -927,6 +930,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         result = document._fetch_pdf_from_urls(document, json_data, use_url_first=True)
 
         self.assertIsNone(result)
+        mock_warning.assert_called_once()
 
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.query_focus_nfse_nacional_by_ref"  # noqa: B950
