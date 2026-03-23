@@ -27,7 +27,7 @@ def post_init_hook(env):
         and env.ref("base.module_l10n_br_account").demo
     ):
         todo_companies.append(main_company)
-    env["account.chart.template"].load_fiscal_taxes(todo_companies)
+    # env["account.chart.template"].load_fiscal_taxes(todo_companies)
 
     # now that generic_coa demo data were loaded for main_company,
     # we can set it in Brazil:
