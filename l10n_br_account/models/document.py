@@ -306,8 +306,9 @@ class FiscalDocument(models.Model):
 
     def action_document_back2draft(self):
         result = super().action_document_back2draft()
-        if self.move_ids:
-            self.move_ids.button_draft()
+        # Avoid recursive calls to button_draft by checking context
+        if self.move_ids and not self.env.context.get("skip_button_draft"):
+            self.move_ids.with_context(skip_button_draft=True).button_draft()
         return result
 
     def action_view_invoice(self):
