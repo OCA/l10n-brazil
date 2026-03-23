@@ -501,14 +501,18 @@ class AccountMove(models.Model):
 
     def button_draft(self):
         for move in self.filtered(lambda d: d.document_type_id):
-            if move.state_edoc == SITUACAO_EDOC_CANCELADA:
-                if move.issuer == DOCUMENT_ISSUER_COMPANY:
-                    raise UserError(
-                        _(
-                            "You can't set this document number: {} to draft "
-                            "because this document is cancelled in SEFAZ"
-                        ).format(move.document_number)
-                    )
+            if (
+                move.state_edoc == SITUACAO_EDOC_CANCELADA
+                and move.document_number
+                and move.issuer == DOCUMENT_ISSUER_COMPANY
+                and move.fiscal_document_id.cancel_event_id
+            ):
+                raise UserError(
+                    _(
+                        "You can't set this document number: {} to draft "
+                        "because this document is cancelled in SEFAZ"
+                    ).format(move.document_number)
+                )
             move.fiscal_document_ids.filtered(
                 lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
             ).action_document_back2draft()
@@ -516,7 +520,8 @@ class AccountMove(models.Model):
 
     def action_document_send(self):
         for invoice in self.filtered(lambda d: d.document_type_id):
-            invoice.fiscal_document_ids.action_document_send()
+            if hasattr(invoice.fiscal_document_ids, "action_document_send"):
+                invoice.fiscal_document_ids.action_document_send()
             # FIXME: na migração para a v14 foi permitido o post antes do envio
             #  para destravar a migração, mas poderia ser cogitado de obrigar a
             #  transmissão antes do post novamente como na v12.
@@ -666,7 +671,8 @@ class AccountMove(models.Model):
 
     def button_cancel(self):
         for doc in self.filtered(lambda d: d.document_type_id):
-            doc.fiscal_document_id.action_document_cancel()
+            if hasattr(doc.fiscal_document_id, "action_document_cancel"):
+                doc.fiscal_document_id.action_document_cancel()
         return super().button_cancel()
 
     def button_import_fiscal_document(self):
