@@ -13,9 +13,13 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
     Charts of Accounts and Brazilian data.
     """
 
+    chart_template = "generic_coa"
+
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref="generic_coa")
+    def setUpClass(cls):
+        # Ensure generic_coa is loaded for test companies before parent setup
+        # This is needed for Odoo 18+ where chart_template_ref param was removed
+        super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # Remove default Odoo demo taxes if they conflict or are not needed
@@ -39,32 +43,11 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 "uoe_id": cls.env.ref("uom.product_uom_kgm").id,
             }
         )
-        cls.fiscal_type_product_product_a = cls.env["ir.property"].create(
-            {
-                "name": "fiscal_type",
-                "fields_id": cls.env["ir.model.fields"]
-                .search(
-                    [("model", "=", "product.template"), ("name", "=", "fiscal_type")]
-                )
-                .id,
-                "value": "04",
-                "type": "selection",
-                "res_id": cls.product_a.id,
-            }
-        )
-        cls.fiscal_origin_product_product_a = cls.env["ir.property"].create(
-            {
-                "name": "fiscal_origin",
-                "fields_id": cls.env["ir.model.fields"]
-                .search(
-                    [("model", "=", "product.template"), ("name", "=", "icms_origin")]
-                )
-                .id,
-                "value": "5",
-                "type": "selection",
-                "res_id": cls.product_a.id,
-            }
-        )
+        # Odoo 18 removed ir.property model - company-dependent fields
+        # are handled differently. The product already has fiscal_type and
+        # icms_origin set above, so we skip creating ir.property records.
+        # cls.fiscal_type_product_product_a = ... (removed for Odoo 18)
+        # cls.fiscal_origin_product_product_a = ... (removed for Odoo 18)
 
         cls.product_b.write(
             {
@@ -79,32 +62,11 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 "uoe_id": cls.env.ref("uom.product_uom_kgm").id,
             }
         )
-        cls.fiscal_type_product_product_b = cls.env["ir.property"].create(
-            {
-                "name": "fiscal_type",
-                "fields_id": cls.env["ir.model.fields"]
-                .search(
-                    [("model", "=", "product.template"), ("name", "=", "fiscal_type")]
-                )
-                .id,
-                "value": "00",
-                "type": "selection",
-                "res_id": cls.product_b.id,
-            }
-        )
-        cls.fiscal_origin_product_product_b = cls.env["ir.property"].create(
-            {
-                "name": "fiscal_origin",
-                "fields_id": cls.env["ir.model.fields"]
-                .search(
-                    [("model", "=", "product.template"), ("name", "=", "icms_origin")]
-                )
-                .id,
-                "value": "0",
-                "type": "selection",
-                "res_id": cls.product_b.id,
-            }
-        )
+        # Odoo 18 removed ir.property model - company-dependent fields
+        # are handled differently. The product already has fiscal_type and
+        # icms_origin set above, so we skip creating ir.property records.
+        # cls.fiscal_type_product_product_b = ... (removed for Odoo 18)
+        # cls.fiscal_origin_product_product_b = ... (removed for Odoo 18)
 
         cls.partner_a.write(
             {
