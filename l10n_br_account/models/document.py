@@ -309,9 +309,14 @@ class FiscalDocument(models.Model):
 
     def action_document_back2draft(self):
         result = super().action_document_back2draft()
-        # Note: We don't call button_draft here anymore because account_move.py's
-        # button_draft now always calls super().button_draft() after processing
-        # fiscal documents. This prevents double-calling super().button_draft().
+        # Only call button_draft if we're not already in the button_draft flow.
+        # This prevents double-calling super().button_draft() while still
+        # ensuring button_draft gets called when action_document_back2draft
+        # is invoked directly (e.g., from tests or UI).
+        if not self.env.context.get("in_button_draft"):
+            for move in self.move_ids:
+                if move.state != "draft":
+                    move.button_draft()
         return result
 
     def action_view_invoice(self):
