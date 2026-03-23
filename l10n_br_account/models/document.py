@@ -308,28 +308,10 @@ class FiscalDocument(models.Model):
         return result
 
     def action_document_back2draft(self):
-        _logger.info(
-            "DEBUG document.action_document_back2draft called for documents: %s,"
-            " context skip_button_draft: %s",
-            self.ids,
-            self.env.context.get("skip_button_draft"),
-        )
         result = super().action_document_back2draft()
-        # Avoid recursive calls to button_draft by checking context
-        if self.move_ids and not self.env.context.get("skip_button_draft"):
-            _logger.info(
-                "DEBUG document.action_document_back2draft calling button_draft"
-                " on moves: %s",
-                self.move_ids.ids,
-            )
-            self.move_ids.with_context(skip_button_draft=True).button_draft()
-        else:
-            _logger.info(
-                "DEBUG document.action_document_back2draft skipping button_draft,"
-                " move_ids: %s, context: %s",
-                self.move_ids.ids if self.move_ids else None,
-                self.env.context.get("skip_button_draft"),
-            )
+        # Note: We don't call button_draft here anymore because account_move.py's
+        # button_draft now always calls super().button_draft() after processing
+        # fiscal documents. This prevents double-calling super().button_draft().
         return result
 
     def action_view_invoice(self):
