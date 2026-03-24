@@ -261,7 +261,7 @@ class AccountPaymentLine(models.Model):
             "valor": self.amount_currency,
             "data_vencimento": self.date.strftime("%Y/%m/%d"),
             "nosso_numero": self.own_number,
-            "documento_sacado": misc.punctuation_rm(self.partner_id.cnpj_cpf),
+            "documento_sacado": misc.punctuation_rm(self.partner_id.vat),
             "nome_sacado": self.partner_id.legal_name.strip()[:40],
             "numero": self.document_number,
             "endereco_sacado": str(
