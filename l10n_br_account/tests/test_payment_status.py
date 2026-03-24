@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields
-from odoo.tests.common import Form, tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.mail.tests.common import MailCommon
 
