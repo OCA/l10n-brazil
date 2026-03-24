@@ -28,11 +28,6 @@ msgid "CNPJ"
 msgstr "CNPJ"
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_cpf
-msgid "CNPJ/CPF"
-msgstr "CNPJ/CPF"
-
-#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_cpf_stripped
 msgid "CNPJ/CPF Stripped"
 msgstr "CNPJ/CPF Despojado"
@@ -78,6 +73,14 @@ msgid "Indicates if Brazilian localization fields should be displayed."
 msgstr "Indica se os campos de localização brasileira devem ser exibidos."
 
 #. module: l10n_br_crm
+#. odoo-python
+#: code:addons/l10n_br_crm/models/crm_lead.py:0
+msgid ""
+"It is necessary to activate the option to validate de CNPJ to use this "
+"functionality."
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
 msgid "Lead/Opportunity"
 msgstr "Prospectos/Oportunidades"
@@ -98,11 +101,6 @@ msgid "Municipal Tax Number"
 msgstr "Cod. Municipal"
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_mun
-msgid "Municipal Tax Number alias"
-msgstr ""
-
-#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__name_surname
 msgid "Name and Surname"
 msgstr "Nome e Sobrenome"
@@ -118,6 +116,12 @@ msgid "Others State Tax Number"
 msgstr "Outros Número de Contribuinte Estadual"
 
 #. module: l10n_br_crm
+#. odoo-python
+#: code:addons/l10n_br_crm/models/crm_lead.py:0
+msgid "Please enter your CNPJ"
+msgstr ""
+
+#. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_rg_code
 msgid "RG"
 msgstr "RG"
@@ -131,11 +135,6 @@ msgstr "Exibir L10N Br"
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_ie_code
 msgid "State Tax Number"
 msgstr "Número de inscrição estadual"
-
-#. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__inscr_est
-msgid "State Tax Number alias"
-msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_name
@@ -161,6 +160,9 @@ msgstr "Usado em Documentos Fiscais"
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__vat
 msgid "Vat"
 msgstr ""
+
+#~ msgid "CNPJ/CPF"
+#~ msgstr "CNPJ/CPF"
 
 #~ msgid "Company Currency"
 #~ msgstr "Moeda da Empresa"
