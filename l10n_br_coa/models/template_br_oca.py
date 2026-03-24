@@ -169,6 +169,9 @@ class AccountChartTemplate(models.AbstractModel):
         Account = self.env["account.account"]
         IrModelData = self.env["ir.model.data"].sudo()
         created_accounts_refs = {}
+        # Track codes we've already created in this batch to handle duplicates
+        # (e.g., regular and withholding tax accounts may share the same code)
+        created_accounts_by_code = {}
 
         # 1. Create or find accounts and their XMLIDs
         for xml_id_name_part, (
@@ -181,6 +184,12 @@ class AccountChartTemplate(models.AbstractModel):
             # We assume these codes are specific enough.
             code = code_cfc if flavor == "cfc" else code_itg
             code = f"{code}{review_suffix}"
+
+            # Check if we already created an account with this code in this batch
+            if code in created_accounts_by_code:
+                account = created_accounts_by_code[code]
+                created_accounts_refs[xml_id_name_part] = account
+                continue
 
             # TODO: would be better to 1st search for the taxes related to all templates
             # DEFAULT_TAX_TEMPLATES_ACCOUNTS.items()
@@ -205,6 +214,7 @@ class AccountChartTemplate(models.AbstractModel):
                     account.write({"account_type": acc_type})
 
             created_accounts_refs[xml_id_name_part] = account
+            created_accounts_by_code[code] = account
 
             # Ensure ir.model.data exists for easy reference
             imd_module = self._get_chart_template_mapping().get(company.chart_template)[

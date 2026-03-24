@@ -10,6 +10,18 @@ class AccountTax(models.Model):
 
     def _update_repartition_lines(self, account_id, refund_account_id):
         for tax in self:
+            # Ensure repartition lines are created (trigger computed fields)
+            # In Odoo 18, these are computed fields that may not be triggered yet
+            if not tax.invoice_repartition_line_ids:
+                tax._compute_invoice_repartition_line_ids()
+            if not tax.refund_repartition_line_ids:
+                tax._compute_refund_repartition_line_ids()
+
+            # Flush to ensure repartition lines are persisted before filtering
+            tax.flush_recordset(
+                ["invoice_repartition_line_ids", "refund_repartition_line_ids"]
+            )
+
             invoice_repartion_line = tax.invoice_repartition_line_ids.filtered(
                 lambda line: line.repartition_type == "tax"
             )
@@ -22,7 +34,7 @@ class AccountTax(models.Model):
             refund_repartition_line = tax.refund_repartition_line_ids.filtered(
                 lambda line: line.repartition_type == "tax"
             )
-            if refund_account_id:
+            if refund_repartition_line and refund_account_id:
                 refund_repartition_line.account_id = refund_account_id
                 refund_repartition_line.factor_percent = (
                     -100 if tax.deductible or tax.withholdable else 100
