@@ -3888,14 +3888,6 @@ msgid "Bálsamo"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cnpj_cpf
-msgid "CNPJ/CPF"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf_stripped
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf_stripped
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf_stripped
@@ -15890,11 +15882,8 @@ msgid "Munhoz de Melo"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,help:l10n_br_base.field_res_company__inscr_mun
 #: model:ir.model.fields,help:l10n_br_base.field_res_company__l10n_br_im_code
-#: model:ir.model.fields,help:l10n_br_base.field_res_partner__inscr_mun
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__l10n_br_im_code
-#: model:ir.model.fields,help:l10n_br_base.field_res_users__inscr_mun
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__l10n_br_im_code
 msgid "Municipal Tax Identification Number"
 msgstr ""
@@ -15902,14 +15891,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_im_code
 msgid "Municipal Tax Number"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_mun
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_mun
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_mun
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_mun
-msgid "Municipal Tax Number alias"
 msgstr ""
 
 #. module: l10n_br_base
@@ -23319,11 +23300,8 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,help:l10n_br_base.field_res_company__inscr_est
 #: model:ir.model.fields,help:l10n_br_base.field_res_company__l10n_br_ie_code
-#: model:ir.model.fields,help:l10n_br_base.field_res_partner__inscr_est
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__l10n_br_ie_code
-#: model:ir.model.fields,help:l10n_br_base.field_res_users__inscr_est
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__l10n_br_ie_code
 msgid "State Tax Identification Number. Should contain 9-14 digits."
 msgstr ""
@@ -23332,14 +23310,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__l10n_br_ie_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__l10n_br_ie_code
 msgid "State Tax Number"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
-msgid "State Tax Number alias"
 msgstr ""
 
 #. module: l10n_br_base
