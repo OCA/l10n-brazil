@@ -112,7 +112,7 @@ class MDe(models.Model):
         return [
             (
                 rec.id,
-                f"NFº: {rec.number} ({rec.cnpj_cpf}): {rec.company_id.legal_name}",
+                f"NFº: {rec.number} ({rec.vat}): {rec.company_id.legal_name}",
             )
             for rec in self
         ]
@@ -178,7 +178,7 @@ class MDe(models.Model):
 
     def _send_event(self, method, valid_codes):
         processor = self._get_processor()
-        cnpj_partner = re.sub("[^0-9]", "", self.company_id.cnpj_cpf)
+        cnpj_partner = re.sub("[^0-9]", "", self.company_id.vat)
 
         if hasattr(processor, method):
             result = getattr(processor, method)(self.key, cnpj_partner)

@@ -253,7 +253,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.nfe40_choice_dest = "nfe40_CPF"
                 rec.nfe40_choice_autxml = "nfe40_CPF"
                 rec.nfe40_choice_transporta = "nfe40_CPF"
-                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.nfe40_CNPJ))
+                rec.vat = cnpj_cpf.formata(str(rec.nfe40_CNPJ))
 
     def _inverse_nfe40_CPF(self):
         for rec in self:
@@ -267,7 +267,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_choice_dest = "nfe40_CPF"
                 rec.nfe40_choice_autxml = "nfe40_CNPJ"
                 rec.nfe40_choice_transporta = "nfe40_CNPJ"
-                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.nfe40_CPF))
+                rec.vat = cnpj_cpf.formata(str(rec.nfe40_CPF))
 
     def _inverse_nfe40_IE(self):
         for rec in self:
@@ -328,10 +328,10 @@ class ResPartner(spec_models.SpecModel):
             # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
             # É exportado o CNPJ/CPF do parent_id é importate para o endereço
             # de entrega/retirada
-            if not self.cnpj_cpf and self.parent_id:
-                cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
+            if not self.vat and self.parent_id:
+                cnpj_cpf = punctuation_rm(self.parent_id.vat)
             else:
-                cnpj_cpf = punctuation_rm(self.cnpj_cpf)
+                cnpj_cpf = punctuation_rm(self.vat)
 
             if xsd_field == self.nfe40_choice_tlocal:
                 return cnpj_cpf
@@ -350,7 +350,7 @@ class ResPartner(spec_models.SpecModel):
                 return "EX"
 
             if xsd_field == "nfe40_idEstrangeiro":
-                return self.vat or self.cnpj_cpf or self.l10n_br_rg_code or "EXTERIOR"
+                return self.vat or self.vat or self.l10n_br_rg_code or "EXTERIOR"
 
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
