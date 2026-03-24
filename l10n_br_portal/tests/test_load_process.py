@@ -1,6 +1,7 @@
 # Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl
 
+import pathlib
 from unittest import mock
 
 from odoo.tests import HttpCase, tagged
@@ -11,6 +12,15 @@ _provider_class = _module_ns + ".models.l10n_br_zip" + ".L10nBrZip"
 
 @tagged("post_install", "-at_install")
 class TestUi(HttpCase):
+    def browser_js(self, url_path, code, ready="", **kwargs):
+        # Workaround: some Chrome versions don't create chrome_debug.log and
+        # Odoo reads it eagerly while evaluating JS tour status.
+        self.start_browser()
+        log_path = pathlib.Path(self.browser.user_data_dir, "chrome_debug.log")
+        if not log_path.exists():
+            log_path.touch()
+        return super().browser_js(url_path, code, ready=ready, **kwargs)
+
     def test_01_l10n_br_portal_load_tour(self):
         mocked_response = {
             "zip_code": "37500015",
