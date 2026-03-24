@@ -9,7 +9,6 @@ from contextlib import contextmanager
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tests.common import Form
 from odoo.tools import frozendict
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -743,6 +742,8 @@ class AccountMove(models.Model):
             move = self.env["account.move"].browse(move_id)
         else:
             move = self.env["account.move"]
+        from odoo.tests import Form
+
         move_form = Form(
             move.with_context(
                 default_move_type=move_type,
