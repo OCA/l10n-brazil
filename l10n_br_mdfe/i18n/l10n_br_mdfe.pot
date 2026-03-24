@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1223,6 +1223,7 @@ msgid "Chave de acesso do MDF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_res_city
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga__city_id
 msgid "City"
 msgstr ""
@@ -1779,6 +1780,18 @@ msgid "Data e hora do recebimento, no formato AAAA-MM-DDTHH:MM:SS"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dhIniViagem
+msgid "Data e hora previstos de inicio"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dhIniViagem
+msgid ""
+"Data e hora previstos de inicio da viagem\n"
+"Formato AAAA-MM-DDTHH:MM:DD TZD"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_dhTrem
 msgid "Data/hora de Liberação do Trem"
 msgstr ""
@@ -2136,6 +2149,16 @@ msgid "Final State"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_related
+msgid "Fiscal Document Related"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_type
 msgid "Fiscal Document Type"
 msgstr ""
@@ -2329,11 +2352,6 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__mdfe30_infTermDescarreg
 msgid "Grupo de informações dos terminais de descarregamento."
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_related
-msgid "Grupo do Cupom Fiscal vinculado à NF-e"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2657,6 +2675,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_indCarregaPosterior
+msgid "Indicador de MDF-e com inclusão"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_indCarregaPosterior
+msgid ""
+"Indicador de MDF-e com inclusão da Carga posterior a emissão por evento de "
+"inclusão de DF-e"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__mdfe30_indPrestacaoParcial
 msgid "Indicador de Prestação parcial"
 msgstr ""
@@ -2678,6 +2708,11 @@ msgid ""
 "Indicador de operação de transporte de alto desempenho\n"
 "Operação de transporte com utilização de veículos de frotas dedicadas ou fidelizadas.\n"
 "Preencher com “1” para indicar operação de transporte de alto desempenho, demais casos não informar a tag"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_indCanalVerde
+msgid "Indicador de participação do Canal Verde"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -2856,11 +2891,6 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_mdfe_modal_aquaviario_transporte_vazio
 msgid "Informações de Transporte Vazio no Modal Aquaviário MDFe"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document
-msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -3172,38 +3202,6 @@ msgstr ""
 msgid ""
 "Lacres do MDF-e\n"
 "Preechimento opcional para os modais Rodoviário e Ferroviário"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carregamento____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_comboio____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_descarregamento____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_transporte_vazio____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario_vagao____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_ciot____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_contratante____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_lacre____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento_frete____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_pagamento_prazo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_reboque____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_veiculo_condutor____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_municipio_descarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao_local____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_seguro_carga____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_carga_inf____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_inf____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre____last_update
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_mdfe
