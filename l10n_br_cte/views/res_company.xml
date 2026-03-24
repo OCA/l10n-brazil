@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="cte_res_company_form">
+        <field name="name">cte.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="cte" string="CT-e">
+                    <group name="cte_settings" string="CT-e Default Settings">
+                        <group>
+                            <field name="cte_version" />
+                            <field name="cte_environment" />
+                            <field name="cte_type" />
+                            <field name="cte_transmission" />
+                            <field name="cte_dacte_layout" />
+                            <field name="cte_default_serie_id" />
+                        </group>
+                    </group>
+                    <group name="dacte_settings" string="DACTE Settings">
+                        <group>
+                            <field name="dacte_margin_top" string="Margin Top" />
+                            <field name="dacte_margin_right" string="Margin Right" />
+                            <field name="dacte_margin_bottom" string="Margin Bottom" />
+                            <field name="dacte_margin_left" string="Margin Left" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

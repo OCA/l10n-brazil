@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- CT-e Document -->
+
+    <record id="cte_document_action" model="ir.actions.act_window">
+        <field name="name">CT-e</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document</field>
+        <field name="view_mode">tree,form</field>
+        <field
+            name="domain"
+            eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_57'))]"
+        />
+        <!--        <field name="view_id" ref="nfe_document_tree"/>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a new CTe</p>
+            <p>Here you can create CT-es</p>
+        </field>
+    </record>
+</odoo>

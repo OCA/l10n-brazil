@@ -1,0 +1,16 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+l10n_br_cte_modal_aereo_user,l10n_br_cte_modal_aereo_user,model_l10n_br_cte_modal_aereo,base.group_user,1,1,1,1
+l10n_br_cte_modal_aereo_peri_user,l10n_br_cte_modal_aereo_peri_user,model_l10n_br_cte_modal_aereo_peri,base.group_user,1,1,1,1
+
+l10n_br_cte_modal_rodoviario_user,l10n_br_cte_modal_rodoviario_user,model_l10n_br_cte_modal_rodo,base.group_user,1,1,1,1
+l10n_br_cte_modal_rodoviario_occ_user,l10n_br_cte_modal_rodoviario_occ_user,model_l10n_br_cte_modal_rodo_occ,base.group_user,1,1,1,1
+
+l10n_br_cte_modal_ferrov_user,l10n_br_cte_modal_ferrov_user,model_l10n_br_cte_modal_ferrov,base.group_user,1,1,1,1
+
+l10n_br_cte_modal_aquaviario_user,l10n_br_cte_modal_aquav_user,model_l10n_br_cte_modal_aquav,base.group_user,1,1,1,1
+l10n_br_cte_modal_aquaviario_balsa_user,l10n_br_cte_modal_aquav_balsa_user,model_l10n_br_cte_modal_aquav_balsa,base.group_user,1,1,1,1
+
+l10n_br_cte_modal_duto_user,l10n_br_cte_modal_duto_user,model_l10n_br_cte_modal_duto,base.group_user,1,1,1,1
+
+l10n_br_cte_cargo_quantity_infos_user,l10n_br_cte_cargo_quantity_infos_user,model_l10n_br_cte_cargo_quantity_infos,base.group_user,1,1,1,1
+l10n_br_cte_transported_vehicles_user,l10n_br_cte_transported_vehicles_user,model_l10n_br_cte_transported_vehicles,base.group_user,1,1,1,1

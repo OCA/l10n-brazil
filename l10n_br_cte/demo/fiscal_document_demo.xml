@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Empresa Lucro Presumido -->
+
+    <!-- CTe Test - Modal Rodoviário - LC -->
+    <record id="demo_cte_lc_modal_rodoviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">573</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35240781583054000129570010000057311040645894</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="service_provider">3</field>
+        <field name="transport_modal">01</field>
+
+        <!--Remetente-->
+        <field name="partner_sendering_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+
+        <!--Expedidor-->
+        <field
+            name="partner_shippering_id"
+            ref="l10n_br_base.res_partner_cliente2_sp"
+        />
+
+        <!--Destinatario-->
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_cliente3_am" />
+
+        <!--Recebedor-->
+        <field
+            name="partner_receivering_id"
+            ref="l10n_br_base.res_partner_cliente4_am"
+        />
+
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+
+        <field name="cte40_proPred">XYZ Product</field>
+        <field name="cte40_xOutCat">Other Product Data</field>
+        <field name="cte40_vCarga">1000</field>
+        <field name="cte40_vCargaAverb">1000</field>
+
+    </record>
+
+    <!-- CTe Test - Modal Rodoviário - LC - Cargo Quantity Infos -->
+    <record
+        id="demo_cte_lc_modal_rodoviario_cargo_quantity_info_1"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
+        <field name="cte40_cUnid">00</field>
+        <field name="cte40_tpMed">Volume</field>
+        <field name="cte40_qCarga">1000.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_rodoviario_cargo_quantity_info_2"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
+        <field name="cte40_cUnid">01</field>
+        <field name="cte40_tpMed">Peso Bruto</field>
+        <field name="cte40_qCarga">500.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_rodoviario_cargo_quantity_info_3"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
+        <field name="cte40_cUnid">03</field>
+        <field name="cte40_tpMed">Unidade</field>
+        <field name="cte40_qCarga">2</field>
+    </record>
+
+    <!-- CTe Test - Modal Rodoviário - LC - Document Lines -->
+    <record id="demo_cte_lc_modal_rodoviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
+        <field name="name">Frete</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <!-- CTe Test - Modal Rodoviário - LC - Document Related -->
+    <record
+        id="demo_cte_lc_modal_rodoviario_related_nfe"
+        model="l10n_br_fiscal.document.related"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_rodoviario" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_key">41190806117473000150550010000586251016759484</field>
+        <field name="document_total_weight">10</field>
+        <field name="document_total_amount">33.19</field>
+    </record>
+
+    <!-- CTe Test - Modal Aereo - LC -->
+    <record id="demo_cte_lc_modal_aereo" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">574</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35240781583054000129570010000057411040645890</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="service_provider">3</field>
+        <field name="transport_modal">02</field>
+
+        <!--Remetente-->
+        <field name="partner_sendering_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+
+        <!--Expedidor-->
+        <field
+            name="partner_shippering_id"
+            ref="l10n_br_base.res_partner_cliente2_sp"
+        />
+
+        <!--Destinatario-->
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_cliente3_am" />
+
+        <!--Recebedor-->
+        <field
+            name="partner_receivering_id"
+            ref="l10n_br_base.res_partner_cliente4_am"
+        />
+
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+
+        <field name="cte40_proPred">XYZ Product</field>
+        <field name="cte40_xOutCat">Other Product Data</field>
+        <field name="cte40_vCarga">1000</field>
+        <field name="cte40_vCargaAverb">1000</field>
+
+    </record>
+
+    <!-- CTe Test - Modal Aereo - LC - Cargo Quantity Infos -->
+    <record
+        id="demo_cte_lc_modal_aereo_cargo_quantity_info_1"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_aereo" />
+        <field name="cte40_cUnid">00</field>
+        <field name="cte40_tpMed">Volume</field>
+        <field name="cte40_qCarga">1000.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_aereo_cargo_quantity_info_2"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_aereo" />
+        <field name="cte40_cUnid">01</field>
+        <field name="cte40_tpMed">Peso Bruto</field>
+        <field name="cte40_qCarga">500.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_aereo_cargo_quantity_info_3"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_aereo" />
+        <field name="cte40_cUnid">03</field>
+        <field name="cte40_tpMed">Unidade</field>
+        <field name="cte40_qCarga">2</field>
+    </record>
+
+    <!-- CTe Test - Modal Aereo - LC - Document Lines -->
+    <record id="demo_cte_lc_modal_aereo_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_cte_lc_modal_aereo" />
+        <field name="name">Frete</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <!-- CTe Test - Modal Arere - LC - Document Related -->
+    <record
+        id="demo_cte_lc_modal_aereo_related_nfe"
+        model="l10n_br_fiscal.document.related"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_aereo" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_key">41190806117473000150550010000586251016759484</field>
+        <field name="document_total_weight">10</field>
+        <field name="document_total_amount">33.19</field>
+    </record>
+
+    <!-- CTe Test - Modal Aquaviario - LC -->
+    <record id="demo_cte_lc_modal_aquaviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">575</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35240781583054000129570010000057511040645897</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="service_provider">3</field>
+        <field name="transport_modal">03</field>
+
+        <!--Remetente-->
+        <field name="partner_sendering_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+
+        <!--Expedidor-->
+        <field
+            name="partner_shippering_id"
+            ref="l10n_br_base.res_partner_cliente2_sp"
+        />
+
+        <!--Destinatario-->
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_cliente3_am" />
+
+        <!--Recebedor-->
+        <field
+            name="partner_receivering_id"
+            ref="l10n_br_base.res_partner_cliente4_am"
+        />
+
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+
+        <field name="cte40_proPred">XYZ Product</field>
+        <field name="cte40_xOutCat">Other Product Data</field>
+        <field name="cte40_vCarga">1000</field>
+        <field name="cte40_vCargaAverb">1000</field>
+
+    </record>
+
+    <!-- CTe Test - Modal Aquaviario - LC - Cargo Quantity Infos -->
+    <record
+        id="demo_cte_lc_modal_aquaviario_cargo_quantity_info_1"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_aquaviario" />
+        <field name="cte40_cUnid">00</field>
+        <field name="cte40_tpMed">Volume</field>
+        <field name="cte40_qCarga">1000.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_aquaviario_cargo_quantity_info_2"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_aquaviario" />
+        <field name="cte40_cUnid">01</field>
+        <field name="cte40_tpMed">Peso Bruto</field>
+        <field name="cte40_qCarga">500.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_aquaviario_cargo_quantity_info_3"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_aquaviario" />
+        <field name="cte40_cUnid">03</field>
+        <field name="cte40_tpMed">Unidade</field>
+        <field name="cte40_qCarga">2</field>
+    </record>
+
+    <!-- CTe Test - Modal Aquaviario - LC - Document Lines -->
+    <record id="demo_cte_lc_modal_aquaviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_cte_lc_modal_aquaviario" />
+        <field name="name">Frete</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <!-- CTe Test - Modal Aquaviario - LC - Document Related -->
+    <record
+        id="demo_cte_lc_modal_aquaviario_related_nfe"
+        model="l10n_br_fiscal.document.related"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_aquaviario" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_key">41190806117473000150550010000586251016759484</field>
+        <field name="document_total_weight">10</field>
+        <field name="document_total_amount">33.19</field>
+    </record>
+
+    <!-- CTe Test - Modal Ferroviario - LC -->
+    <record id="demo_cte_lc_modal_ferroviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">576</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35240781583054000129570010000057611040645893</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="service_provider">3</field>
+        <field name="transport_modal">04</field>
+
+        <!--Remetente-->
+        <field name="partner_sendering_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+
+        <!--Expedidor-->
+        <field
+            name="partner_shippering_id"
+            ref="l10n_br_base.res_partner_cliente2_sp"
+        />
+
+        <!--Destinatario-->
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_cliente3_am" />
+
+        <!--Recebedor-->
+        <field
+            name="partner_receivering_id"
+            ref="l10n_br_base.res_partner_cliente4_am"
+        />
+
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+
+        <field name="cte40_proPred">XYZ Product</field>
+        <field name="cte40_xOutCat">Other Product Data</field>
+        <field name="cte40_vCarga">1000</field>
+        <field name="cte40_vCargaAverb">1000</field>
+
+    </record>
+
+    <!-- CTe Test - Modal Ferroviario - LC - Cargo Quantity Infos -->
+    <record
+        id="demo_cte_lc_modal_ferroviario_cargo_quantity_info_1"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_ferroviario" />
+        <field name="cte40_cUnid">00</field>
+        <field name="cte40_tpMed">Volume</field>
+        <field name="cte40_qCarga">1000.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_ferroviario_cargo_quantity_info_2"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_ferroviario" />
+        <field name="cte40_cUnid">01</field>
+        <field name="cte40_tpMed">Peso Bruto</field>
+        <field name="cte40_qCarga">500.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_ferroviario_cargo_quantity_info_3"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_ferroviario" />
+        <field name="cte40_cUnid">03</field>
+        <field name="cte40_tpMed">Unidade</field>
+        <field name="cte40_qCarga">2</field>
+    </record>
+
+    <!-- CTe Test - Modal Ferroviario - LC - Document Lines -->
+    <record id="demo_cte_lc_modal_ferroviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_cte_lc_modal_ferroviario" />
+        <field name="name">Frete</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <!-- CTe Test - Modal Ferroviario - LC - Document Related -->
+    <record
+        id="demo_cte_lc_modal_ferroviario_related_nfe"
+        model="l10n_br_fiscal.document.related"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_ferroviario" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_key">41190806117473000150550010000586251016759484</field>
+        <field name="document_total_weight">10</field>
+        <field name="document_total_amount">33.19</field>
+    </record>
+
+    <!-- CTe Test - Modal Dutoviario - LC -->
+    <record id="demo_cte_lc_modal_dutoviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="document_number">577</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35240781583054000129570010000057711040645890</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="service_provider">3</field>
+        <field name="transport_modal">05</field>
+
+        <!--Remetente-->
+        <field name="partner_sendering_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+
+        <!--Expedidor-->
+        <field
+            name="partner_shippering_id"
+            ref="l10n_br_base.res_partner_cliente2_sp"
+        />
+
+        <!--Destinatario-->
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_cliente3_am" />
+
+        <!--Recebedor-->
+        <field
+            name="partner_receivering_id"
+            ref="l10n_br_base.res_partner_cliente4_am"
+        />
+
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+
+        <field name="cte40_proPred">XYZ Product</field>
+        <field name="cte40_xOutCat">Other Product Data</field>
+        <field name="cte40_vCarga">1000</field>
+        <field name="cte40_vCargaAverb">1000</field>
+
+    </record>
+
+    <!-- CTe Test - Modal Dutoviario - LC - Cargo Quantity Infos -->
+    <record
+        id="demo_cte_lc_modal_dutoviario_cargo_quantity_info_1"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_dutoviario" />
+        <field name="cte40_cUnid">00</field>
+        <field name="cte40_tpMed">Volume</field>
+        <field name="cte40_qCarga">1000.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_dutoviario_cargo_quantity_info_2"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_dutoviario" />
+        <field name="cte40_cUnid">01</field>
+        <field name="cte40_tpMed">Peso Bruto</field>
+        <field name="cte40_qCarga">500.0</field>
+    </record>
+
+    <record
+        id="demo_cte_lc_modal_dutoviario_cargo_quantity_info_3"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_dutoviario" />
+        <field name="cte40_cUnid">03</field>
+        <field name="cte40_tpMed">Unidade</field>
+        <field name="cte40_qCarga">2</field>
+    </record>
+
+    <!-- CTe Test - Modal Dutoviario - LC - Document Lines -->
+    <record id="demo_cte_lc_modal_dutoviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_cte_lc_modal_dutoviario" />
+        <field name="name">Frete</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <!-- CTe Test - Modal Dutoviario - LC - Document Related -->
+    <record
+        id="demo_cte_lc_modal_dutoviario_related_nfe"
+        model="l10n_br_fiscal.document.related"
+    >
+        <field name="document_id" ref="demo_cte_lc_modal_dutoviario" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_key">41190806117473000150550010000586251016759484</field>
+        <field name="document_total_weight">10</field>
+        <field name="document_total_amount">33.19</field>
+    </record>
+
+    <!-- Empresa Simples Nacional -->
+
+    <!-- CTe Test - Modal Rodoviário - SN -->
+    <record id="demo_cte_sn_modal_rodoviario" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_57" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_57_serie_1"
+        />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="document_number">573</field>
+        <field name="document_serie">1</field>
+        <field name="document_key">35240759594315000157570010000057311040445890</field>
+        <field name="cte_environment">2</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
+        <field name="service_provider">3</field>
+        <field name="transport_modal">01</field>
+
+        <!--Remetente-->
+        <field name="partner_sendering_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+
+        <!--Expedidor-->
+        <field
+            name="partner_shippering_id"
+            ref="l10n_br_base.res_partner_cliente2_sp"
+        />
+
+        <!--Destinatario-->
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_cliente3_am" />
+
+        <!--Recebedor-->
+        <field
+            name="partner_receivering_id"
+            ref="l10n_br_base.res_partner_cliente4_am"
+        />
+
+        <field name="user_id" ref="base.user_demo" />
+        <field name="fiscal_operation_type">out</field>
+
+        <field name="cte40_proPred">XYZ Product</field>
+        <field name="cte40_xOutCat">Other Product Data</field>
+        <field name="cte40_vCarga">1000</field>
+        <field name="cte40_vCargaAverb">1000</field>
+
+    </record>
+
+    <!-- CTe Test - Modal Rodoviário - SN - Cargo Quantity Infos -->
+    <record
+        id="demo_cte_sn_modal_rodoviario_cargo_quantity_info_1"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
+        <field name="cte40_cUnid">00</field>
+        <field name="cte40_tpMed">Volume</field>
+        <field name="cte40_qCarga">1000.0</field>
+    </record>
+
+    <record
+        id="demo_cte_sn_modal_rodoviario_cargo_quantity_info_2"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
+        <field name="cte40_cUnid">01</field>
+        <field name="cte40_tpMed">Peso Bruto</field>
+        <field name="cte40_qCarga">500.0</field>
+    </record>
+
+    <record
+        id="demo_cte_sn_modal_rodoviario_cargo_quantity_info_3"
+        model="l10n_br_cte.cargo.quantity.infos"
+    >
+        <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
+        <field name="cte40_cUnid">03</field>
+        <field name="cte40_tpMed">Unidade</field>
+        <field name="cte40_qCarga">2</field>
+    </record>
+
+    <!-- CTe Test - Modal Rodoviário - SN - Document Lines -->
+    <record id="demo_cte_sn_modal_rodoviario_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
+        <field name="name">Frete</field>
+        <field name="product_id" ref="product.product_product_9" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda" />
+    </record>
+
+    <!-- CTe Test - Modal Rodoviario -SN - Document Related -->
+    <record
+        id="demo_cte_sn_modal_rodoviario_related_nfe"
+        model="l10n_br_fiscal.document.related"
+    >
+        <field name="document_id" ref="demo_cte_sn_modal_rodoviario" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_key">41190806117473000150550010000586251016759484</field>
+        <field name="document_total_weight">10</field>
+        <field name="document_total_amount">33.19</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CTe xmlns="http://www.portalfiscal.inf.br/cte">
+  <infCte Id="CTe51160824686092000173570010000000031000000024" versao="3.00">
+    <ide>
+      <cUF>51</cUF>
+      <cCT>570005757</cCT>
+      <CFOP>5353</CFOP>
+      <natOp>PREST. DE SERV. TRANSPORTE A ESTAB. COMERCIAL..</natOp>
+      <mod>57</mod>
+      <serie>1</serie>
+      <nCT>575</nCT>
+      <dhEmi>2016-07-07T17:58:40-02:00</dhEmi>
+      <tpImp>1</tpImp>
+      <tpEmis>1</tpEmis>
+      <cDV>0</cDV>
+      <tpAmb>2</tpAmb>
+      <tpCTe>0</tpCTe>
+      <procEmi>0</procEmi>
+      <verProc>2.0.1</verProc>
+      <cMunEnv>5108402</cMunEnv>
+      <xMunEnv>VARZEA GRANDE</xMunEnv>
+      <UFEnv>MT</UFEnv>
+      <modal>01</modal>
+      <tpServ>0</tpServ>
+      <cMunIni>5101407</cMunIni>
+      <xMunIni>ARIPUANA</xMunIni>
+      <UFIni>MT</UFIni>
+      <cMunFim>5108402</cMunFim>
+      <xMunFim>VARZEA GRANDE</xMunFim>
+      <UFFim>MT</UFFim>
+      <retira>1</retira>
+      <indIEToma>9</indIEToma>
+      <toma3>
+        <toma>0</toma>
+      </toma3>
+    </ide>
+    <compl>
+      <xEmi>MASTER</xEmi>
+      <fluxo />
+      <xObs>NOTA FISCAL DE PRODUTOR RURAL N. 253-254-255</xObs>
+    </compl>
+    <emit>
+      <CNPJ>24686092000173</CNPJ>
+      <IE>136268870</IE>
+      <xNome>P J TOSTA TRANSPORTES ME</xNome>
+      <enderEmit>
+        <xLgr>RUA RENATO JOSE DOS SANTOS</xLgr>
+        <nro>10</nro>
+        <xBairro>COHAB PRIMAVERA</xBairro>
+        <cMun>5108402</cMun>
+        <xMun>VARZEA GRANDE</xMun>
+        <CEP>78132712</CEP>
+        <UF>MT</UF>
+        <fone>6599893021</fone>
+      </enderEmit>
+    </emit>
+    <rem>
+      <CPF>72304553915</CPF>
+      <IE>ISENTO</IE>
+      <xNome>ROGERIO MARCIO TOLARDO</xNome>
+      <fone>6635651335</fone>
+      <enderReme>
+        <xLgr>GLEBA GUARIBA VI LOTE RURAL 38</xLgr>
+        <nro>SN</nro>
+        <xBairro>ZONA RURAL</xBairro>
+        <cMun>5101407</cMun>
+        <xMun>ARIPUANA</xMun>
+        <CEP>78325000</CEP>
+        <UF>MT</UF>
+        <cPais>1058</cPais>
+        <xPais>BRASIL</xPais>
+      </enderReme>
+    </rem>
+    <dest>
+      <CNPJ>03851469000122</CNPJ>
+      <IE>131952927</IE>
+      <xNome>FRICAL FRIGORIFICO LTDA EPP</xNome>
+      <fone>6536342236</fone>
+      <enderDest>
+        <xLgr>ESTRADA SOUZA LIMA</xLgr>
+        <nro>SN</nro>
+        <xBairro>SOUZA LIMA</xBairro>
+        <cMun>5108402</cMun>
+        <xMun>VARZEA GRANDE</xMun>
+        <CEP>78110000</CEP>
+        <UF>MT</UF>
+        <cPais>1058</cPais>
+        <xPais>BRASIL</xPais>
+      </enderDest>
+    </dest>
+    <vPrest>
+      <vTPrest>4000.00</vTPrest>
+      <vRec>4000.00</vRec>
+    </vPrest>
+    <imp>
+      <ICMS>
+        <ICMSSN>
+          <CST>90</CST>
+          <indSN>1</indSN>
+        </ICMSSN>
+      </ICMS>
+    </imp>
+    <infCTeNorm>
+      <infCarga>
+        <vCarga>79400.00</vCarga>
+        <proPred>GADO</proPred>
+        <xOutCat>GADO</xOutCat>
+        <infQ>
+          <cUnid>01</cUnid>
+          <tpMed>KILO</tpMed>
+          <qCarga>50.0000</qCarga>
+        </infQ>
+      </infCarga>
+      <infDoc>
+        <infOutros>
+          <tpDoc>99</tpDoc>
+          <descOutros>NOTA FISCAL MANUAL</descOutros>
+          <nDoc>123456</nDoc>
+          <dEmi>2016-07-05</dEmi>
+          <vDocFisc>79400.00</vDocFisc>
+        </infOutros>
+      </infDoc>
+      <infModal versaoModal="3.00">
+        <rodo>
+          <RNTRC>05277204</RNTRC>
+        </rodo>
+      </infModal>
+    </infCTeNorm>
+  </infCte>
+</CTe>

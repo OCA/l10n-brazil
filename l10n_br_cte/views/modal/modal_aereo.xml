@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="modal_aereo_peri_form_view" model="ir.ui.view">
+        <field name="name">modal.aereo.peri.form.view (in l10n_br_cte)</field>
+        <field name="model">l10n_br_cte.modal.aereo.peri</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="cte40_nONU" />
+                        <field name="cte40_qTotEmb" />
+                        <field name="cte40_qTotProd" />
+                        <field name="cte40_uniAP" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
