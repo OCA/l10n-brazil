@@ -154,14 +154,21 @@ class TestBrazilianTaxComputation(TransactionCase):
 
     def test_03_compute_all_tax_field(self):
         """
-        Test the _compute_all_tax method on account.move.line.
+        Test the _compute_all_tax method on account.move.line (Odoo 17 only).
 
         This method computes taxes and stores them in compute_all_tax field,
         which is used by the dynamic line sync to create tax lines.
 
-        In Odoo 18, this field and method don't exist, so we need to understand
-        what data structure it produces.
+        In Odoo 18, this field and method don't exist, so this test is skipped.
         """
+        # Skip in Odoo 18+ where compute_all_tax field doesn't exist
+        if not hasattr(self.env["account.move.line"], "compute_all_tax"):
+            _logger.info(
+                "Skipping test_03_compute_all_tax_field - "
+                "compute_all_tax field doesn't exist in Odoo 18+"
+            )
+            return
+
         # Create an invoice line
         invoice = self.env["account.move"].create(
             {
@@ -476,10 +483,19 @@ class TestTaxDataStructure(TransactionCase):
 
     def test_02_compute_all_tax_field_structure(self):
         """
-        Document the compute_all_tax field structure.
+        Document the compute_all_tax field structure (Odoo 17 only).
 
         This field contains the computed tax data that drives tax line creation.
+        In Odoo 18+, this field doesn't exist.
         """
+        # Skip in Odoo 18+ where compute_all_tax field doesn't exist
+        if not hasattr(self.env["account.move.line"], "compute_all_tax"):
+            _logger.info(
+                "Skipping test_02_compute_all_tax_field_structure - "
+                "compute_all_tax field doesn't exist in Odoo 18+"
+            )
+            return
+
         invoice = self.env["account.move"].create(
             {
                 "move_type": "out_invoice",

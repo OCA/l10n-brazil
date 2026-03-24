@@ -1,10 +1,14 @@
 # Copyright 2023 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
+
 from odoo import fields
-from odoo.tests.common import Form
+from odoo.tests import Form
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountMoveBRCommon(AccountTestInvoicingCommon):
@@ -70,7 +74,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
 
         cls.partner_a.write(
             {
-                "cnpj_cpf": "49.190.159/0001-05",
+                "vat": "49.190.159/0001-05",
                 "is_company": "1",
                 "ind_ie_dest": "1",
                 "tax_framework": "3",
@@ -86,7 +90,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         )
         cls.partner_b.write(
             {
-                "cnpj_cpf": "42.591.651/0001-43",
+                "vat": "42.591.651/0001-43",
                 "is_company": "0",
                 "legal_name": "partner B",
                 "country_id": cls.env.ref("base.br").id,
@@ -102,7 +106,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         cls.partner_c = cls.partner_a.copy(
             {
                 "name": "partner_c",
-                "cnpj_cpf": "67.405.936/0001-73",
+                "vat": "67.405.936/0001-73",
                 "legal_name": "partner C",
                 "fiscal_profile_id": cls.env.ref(
                     "l10n_br_fiscal.partner_fiscal_profile_ncn"
@@ -126,8 +130,17 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         )
 
     @classmethod
-    def setup_company_data(cls, company_name, chart_template=None, **kwargs):
-        # Determine company specifics for LC vs SN for kwargs
+    def setup_independent_company(cls, **kwargs):
+        """Override to create Brazilian-configured company for tests.
+
+        In Odoo 18+, this is called by BaseCommon.setUpClass to create
+        the independent company. We override it to apply Brazilian fiscal
+        configuration based on the test class needs.
+        """
+        # Get the company name from kwargs or use default
+        company_name = kwargs.get("name", "company_1_data")
+
+        # Apply Brazilian configuration based on company name
         if "Lucro Presumido" in company_name:
             kwargs.update(
                 {
@@ -140,13 +153,20 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                     "icms_regulation_id": cls.env.ref(
                         "l10n_br_fiscal.tax_icms_regulation"
                     ).id,
+                    "country_id": cls.env.ref("base.br").id,
+                    "currency_id": cls.env.ref("base.BRL").id,
+                    "is_industry": True,
+                    "cnae_main_id": cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
+                    "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+                    "vat": "13.339.532/0001-09",
+                    "state_id": cls.env.ref("base.state_br_sp"),
                 }
             )
         elif "Simples Nacional" in company_name:
             kwargs.update(
                 {
                     "tax_framework": "1",
-                    "coefficient_r": False,  # Example
+                    "coefficient_r": False,
                     "ripi": True,
                     "piscofins_id": cls.env.ref(
                         "l10n_br_fiscal.tax_pis_cofins_simples_nacional"
@@ -156,27 +176,34 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                         "l10n_br_fiscal.tax_icms_sn_com_credito"
                     ).id,
                     "annual_revenue": 815000.0,
+                    "country_id": cls.env.ref("base.br").id,
+                    "currency_id": cls.env.ref("base.BRL").id,
+                    "is_industry": True,
+                    "cnae_main_id": cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
+                    "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+                    "vat": "14.572.457/0001-85",
+                    "state_id": cls.env.ref("base.state_br_sp"),
+                }
+            )
+        else:
+            # Default Brazilian configuration
+            kwargs.update(
+                {
+                    "country_id": cls.env.ref("base.br").id,
+                    "currency_id": cls.env.ref("base.BRL").id,
+                    "cnae_main_id": cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
+                    "vat": "14.572.457/0001-85",
+                    "state_id": cls.env.ref("base.state_br_sp"),
                 }
             )
 
-        kwargs.update(
-            {
-                "country_id": cls.env.ref("base.br").id,
-                "currency_id": cls.env.ref("base.BRL").id,
-                "is_industry": True,  # Assuming this for tests
-                "cnae_main_id": cls.env.ref(
-                    "l10n_br_fiscal.cnae_3101200"
-                ).id,  # Example
-                "document_type_id": cls.env.ref(
-                    "l10n_br_fiscal.document_55"
-                ).id,  # Example
-            }
-        )
+        # Call parent to create company with chart template
+        company = super().setup_independent_company(**kwargs)
 
-        company_data_dict = super().setup_company_data(
-            company_name, chart_template=chart_template, **kwargs
-        )
-        return company_data_dict
+        # Load fiscal taxes for the company
+        cls.env["account.chart.template"].load_fiscal_taxes(companies=[company])
+
+        return company
 
     @classmethod
     def configure_normal_company_taxes(cls):
