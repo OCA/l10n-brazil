@@ -22,6 +22,12 @@ msgstr ""
 
 #. module: l10n_br_base
 #. odoo-python
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+msgid "%(email_strip)s is an invalid email"
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/models/res_partner_bank.py:0
 msgid ""
 "A Checking Account or Saving Account transactional account must contain the "
@@ -10803,6 +10809,12 @@ msgid "Imperatriz"
 msgstr ""
 
 #. module: l10n_br_base
+#. odoo-python
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+msgid "Impossible number %(phone)s: probably invalid number of digits."
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5209937
 msgid "Inaciolândia"
 msgstr ""
@@ -10933,6 +10945,32 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5004403
 msgid "Inocência"
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+msgid ""
+"Invalid Random Key: %(key)s \n"
+"the block %(block)s is not a valid hexadecimal format."
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+msgid "Invalid Random Key: %(key)s , cannot be longer than 35 characters"
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+msgid "Invalid Random Key: %(key)s, the key must consist of five blocks."
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+msgid "Invalid number %(phone)s: probably incorrect prefix."
 msgstr ""
 
 #. module: l10n_br_base
@@ -23308,7 +23346,7 @@ msgstr ""
 #. module: l10n_br_base
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
-msgid "State Tax Number already used {}"
+msgid "State Tax Number already used %(name)s"
 msgstr ""
 
 #. module: l10n_br_base
@@ -25660,6 +25698,13 @@ msgstr ""
 
 #. module: l10n_br_base
 #. odoo-python
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+msgid ""
+"The email is too long, a maximum of 77 characters is allowed: %(email_strip)s"
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
 #: code:addons/l10n_br_base/tools.py:0
 msgid ""
 "The size of CPF must have 11 and the CNPJ 14 digits without dot, dash and "
@@ -25684,16 +25729,16 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 msgid ""
-"There is already a partner %(name)s (ID %(partner_id)s) with this CNPJ "
-"%(vat)s!"
+"There is already a partner %(name)s (ID %(partner_id)s) with this CNPJ %"
+"(vat)s!"
 msgstr ""
 
 #. module: l10n_br_base
 #. odoo-python
 #: code:addons/l10n_br_base/models/res_partner.py:0
 msgid ""
-"There is already a partner %(name)s (ID %(partner_id)s) with this CPF/RG! "
-"%(vat)s"
+"There is already a partner %(name)s (ID %(partner_id)s) with this CPF/RG! %"
+"(vat)s"
 msgstr ""
 
 #. module: l10n_br_base
@@ -26436,6 +26481,12 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2932507
 msgid "Una"
+msgstr ""
+
+#. module: l10n_br_base
+#. odoo-python
+#: code:addons/l10n_br_base/models/res_partner_pix.py:0
+msgid "Unable to parse %(phone)s: %(str_e)s"
 msgstr ""
 
 #. module: l10n_br_base
