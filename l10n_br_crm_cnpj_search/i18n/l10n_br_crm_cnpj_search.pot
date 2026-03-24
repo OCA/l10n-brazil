@@ -29,11 +29,6 @@ msgid "CNPJ based search wizard allowing to update partner data."
 msgstr ""
 
 #. module: l10n_br_crm_cnpj_search
-#: model:ir.model.fields,field_description:l10n_br_crm_cnpj_search.field_crm_lead__cnpj_cpf
-msgid "CNPJ/CPF"
-msgstr ""
-
-#. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_fiscal_page_view_form
 msgid "Capital social"
 msgstr ""
