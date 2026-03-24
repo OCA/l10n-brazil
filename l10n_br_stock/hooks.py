@@ -3,8 +3,6 @@
 
 import logging
 
-from odoo import _
-
 _logger = logging.getLogger(__name__)
 
 
@@ -82,7 +80,7 @@ def set_stock_warehouse_external_ids(env, company_external_id):
 def pre_init_hook(env):
     """Import XML data to change core data"""
     if env.ref("base.module_stock").demo:
-        _logger.info(_("Loading l10n_br_stock warehouse external ids..."))
+        _logger.info("Loading l10n_br_stock warehouse external ids...")
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
 
