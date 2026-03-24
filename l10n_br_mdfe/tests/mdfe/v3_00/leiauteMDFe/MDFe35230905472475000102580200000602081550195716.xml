@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MDFe xmlns="http://www.portalfiscal.inf.br/mdfe">
+  <infMDFe versao="3.00" Id="MDFe35230905472475000102580200000602081550195716">
+    <ide>
+      <cUF>35</cUF>
+      <tpAmb>2</tpAmb>
+      <tpEmit>2</tpEmit>
+      <tpTransp>1</tpTransp>
+      <mod>58</mod>
+      <serie>1</serie>
+      <nMDF>4</nMDF>
+      <cMDF>20801844</cMDF>
+      <modal>2</modal>
+      <dhEmi>2020-01-01T12:00:00+01:00</dhEmi>
+      <tpEmis>1</tpEmis>
+      <procEmi>0</procEmi>
+      <verProc>Odoo Brasil OCA v14</verProc>
+      <UFIni>AC</UFIni>
+      <UFFim>AC</UFFim>
+      <infMunCarrega>
+        <cMunCarrega>1200013</cMunCarrega>
+        <xMunCarrega>Acrelândia</xMunCarrega>
+      </infMunCarrega>
+      <infPercurso>
+        <UFPer>PB</UFPer>
+      </infPercurso>
+    </ide>
+    <emit>
+      <CNPJ>59594315000157</CNPJ>
+      <IE>755338250133</IE>
+      <xNome>Empresa Simples Nacional</xNome>
+      <xFant>Empresa Simples Nacional</xFant>
+      <enderEmit>
+        <xLgr>Rua Paulo Dias</xLgr>
+        <nro>586</nro>
+        <xBairro>Vila Santa Luzia</xBairro>
+        <cMun>3501152</cMun>
+        <xMun>Alumínio</xMun>
+        <CEP>18125000</CEP>
+        <UF>SP</UF>
+        <fone>2130109965</fone>
+        <email>info@simplesnacional.example.com</email>
+      </enderEmit>
+    </emit>
+    <infModal versaoModal="3.00">
+      <aereo>
+        <nac>TEST</nac>
+        <matr>TEST</matr>
+        <nVoo>123456789</nVoo>
+        <cAerEmb>OACI</cAerEmb>
+        <cAerDes>OACI</cAerDes>
+        <dVoo>2020-01-01</dVoo>
+      </aereo>
+    </infModal>
+    <infDoc>
+      <infMunDescarga>
+        <cMunDescarga>1200013</cMunDescarga>
+        <xMunDescarga>Acrelândia</xMunDescarga>
+        <infNFe>
+          <chNFe>41190806117473000150550010000586251016759484</chNFe>
+        </infNFe>
+      </infMunDescarga>
+    </infDoc>
+    <tot>
+      <qNFe>1</qNFe>
+      <vCarga>33.19</vCarga>
+      <cUnid>01</cUnid>
+      <qCarga>10.0000</qCarga>
+    </tot>
+    <infAdic>
+      <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
+    </infAdic>
+  </infMDFe>
+</MDFe>
