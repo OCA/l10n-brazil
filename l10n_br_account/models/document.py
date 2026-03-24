@@ -330,7 +330,7 @@ class FiscalDocument(models.Model):
         action = self.env["ir.actions.act_window"]._for_xml_id(xmlid)
 
         if len(self.move_ids) > 1:
-            action["domain"] = "[('id', 'in', %s)]" % self.move_ids.ids
+            action["domain"] = f"[('id', 'in', {self.move_ids.ids})]"
         else:
             form_view = self.env.ref(form_view_name)
             action["views"] = [(form_view.id, "form")]
