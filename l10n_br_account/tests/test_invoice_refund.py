@@ -72,11 +72,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                                         "=",
                                         "income",
                                     ),
-                                    (
-                                        "company_id",
-                                        "=",
-                                        cls.env.company.id,
-                                    ),
+                                    ("company_ids", "in", cls.env.company.id),
                                 ],
                                 limit=1,
                             )
@@ -151,7 +147,7 @@ class TestInvoiceRefund(AccountMoveBRCommon):
                             .search(
                                 [
                                     ("account_type", "=", "income"),
-                                    ("company_id", "=", self.env.company.id),
+                                    ("company_ids", "in", self.env.company.id),
                                 ],
                                 limit=1,
                             )
