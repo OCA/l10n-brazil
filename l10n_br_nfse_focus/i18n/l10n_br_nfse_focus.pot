@@ -26,6 +26,12 @@ msgid "%(code)s - %(status)s"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+msgid "Authorization error"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_cnae_code_value__codigo_cnae
 msgid "CNAE Code"
 msgstr ""
@@ -48,8 +54,8 @@ msgstr ""
 
 #. module: l10n_br_nfse_focus
 #. odoo-python
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
-msgid "Error communicating with NFSe service: %s"
+#: code:addons/l10n_br_nfse_focus/models/base.py:0
+msgid "Error communicating with %(service)s service: %(error)s"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -63,6 +69,16 @@ msgid "FocusNFE NFSE"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse_base
+msgid "FocusNFE NFSE Base"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model,name:l10n_br_nfse_focus.model_focusnfe_nfse_nacional
+msgid "FocusNFE NFSe Nacional"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__provedor_nfse__focusnfe
 msgid "FocusNFe"
 msgstr ""
@@ -70,6 +86,11 @@ msgstr ""
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_homologation_token
 msgid "FocusNFe Homologation Token"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_type
+msgid "FocusNFe NFSe Type"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -85,24 +106,6 @@ msgstr ""
 #. module: l10n_br_nfse_focus
 #: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_force_odoo_danfse
 msgid "Force Odoo DANFSE"
-msgstr ""
-
-#. module: l10n_br_nfse_focus
-#. odoo-python
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
-msgid "HTTP status is 200 or 400 but unable to read error code"
-msgstr ""
-
-#. module: l10n_br_nfse_focus
-#. odoo-python
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
-msgid "HTTP status is 200 or 400 but unable to read json['codigo']"
-msgstr ""
-
-#. module: l10n_br_nfse_focus
-#. odoo-python
-#: code:addons/l10n_br_nfse_focus/models/document.py:0
-msgid "HTTP status is 200 or 400 but unable to read json['status']"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -137,8 +140,18 @@ msgid "NFSE Service Type Value"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_type__nfse
+msgid "NFSe"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.actions.server,name:l10n_br_nfse_focus.l10n_br_nfse_focus_cron_ir_actions_server
 msgid "NFSe FocusNFe: Check status and update status of submitted documents."
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_type__nfse_nacional
+msgid "NFSe Nacional"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
@@ -147,8 +160,18 @@ msgid "NFSe Provider"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__codigo_tributacao_nacional
+msgid "National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_tax_rate_format__percentage
 msgid "Percentage"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
+#: model:ir.model.fields,help:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_type
+msgid "Select whether to use NFSe (municipal) or NFSe Nacional (national) API"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
