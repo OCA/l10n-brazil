@@ -2,7 +2,11 @@
 # Copyright 2025-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo import models
+
+_logger = logging.getLogger(__name__)
 
 
 class AccountChartTemplate(models.AbstractModel):
@@ -21,6 +25,7 @@ class AccountChartTemplate(models.AbstractModel):
         Relate account taxes with fiscal taxes to enable the Brazilian
         tax engine to kick in with the installed chart of account.
         """
+        _logger.info(f"load_fiscal_taxes called for companies: {companies}")
         tax_group_data = self._parse_csv(
             "br_oca", "account.tax.group", module="l10n_br_coa"
         )
@@ -35,6 +40,7 @@ class AccountChartTemplate(models.AbstractModel):
             )
 
         for company in companies:
+            _logger.info(f"Processing company {company.name} (ID: {company.id})")
             for key, value in tax_group_data.items():
                 id_key = f"{company.id}_{key}"
                 existing_group = self.env.ref(
@@ -48,6 +54,7 @@ class AccountChartTemplate(models.AbstractModel):
                         existing_group.fiscal_tax_group_id = self.env.ref(
                             tax_group_data_rel[key]["fiscal_tax_group_id"]
                         ).id
+                    _logger.debug(f"Tax group {id_key} already exists")
                     continue
 
                 else:
@@ -106,6 +113,14 @@ class AccountChartTemplate(models.AbstractModel):
                         }
                     )
 
+            # Flush to ensure repartition lines are created by computed fields
+            self.env.flush_all()
+
+            tax_count = self.env["account.tax"].search_count(
+                [("company_id", "=", company.id)]
+            )
+            _logger.info(f"Created {tax_count} taxes for company {company.name}")
+
             self.env["account.chart.template"]._populate_default_br_tax_accounts(
-                company, flavor="cfc", review_suffix=""
+                company, flavor="cfc", review_suffix=".BR"
             )

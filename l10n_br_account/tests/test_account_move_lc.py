@@ -183,7 +183,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -219,7 +219,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -256,7 +256,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 order="id ASC",
                 limit=1,
@@ -287,7 +287,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -382,7 +382,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -418,7 +418,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -455,7 +455,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 order="id ASC",
                 limit=1,
@@ -486,7 +486,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -603,7 +603,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -639,7 +639,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -676,7 +676,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 order="id ASC",
                 limit=1,
@@ -714,7 +714,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -817,7 +817,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -853,7 +853,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -890,7 +890,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 order="id ASC",
                 limit=1,
@@ -928,7 +928,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1036,7 +1036,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1072,7 +1072,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1109,7 +1109,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1145,7 +1145,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1182,7 +1182,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1219,7 +1219,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1256,7 +1256,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1293,7 +1293,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1412,7 +1412,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1448,7 +1448,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1485,7 +1485,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 order="id ASC",
                 limit=1,
@@ -1523,7 +1523,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1626,7 +1626,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1662,7 +1662,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1699,7 +1699,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 order="id ASC",
                 limit=1,
@@ -1737,7 +1737,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1843,7 +1843,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "COFINS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1879,7 +1879,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1915,7 +1915,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "ICMS s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1952,7 +1952,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI a Compensar"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -1989,7 +1989,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "IPI s/ Vendas"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
@@ -2026,7 +2026,7 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             .search(
                 [
                     ("name", "=", "PIS a Recolher"),
-                    ("company_id", "=", self.company_data["company"].id),
+                    ("company_ids", "in", self.company_data["company"].id),
                 ],
                 limit=1,
             )
