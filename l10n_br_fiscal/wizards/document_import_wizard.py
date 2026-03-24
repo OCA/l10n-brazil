@@ -68,9 +68,9 @@ class DocumentImportWizard(models.TransientModel):
         selection=FISCAL_IN_OUT, string="Destination Type"
     )
 
-    @api.depends("issuer_cnpj", "company_id.cnpj_cpf")
+    @api.depends("issuer_cnpj", "company_id.vat")
     def _compute_fiscal_operation_type(self):
-        if self.issuer_cnpj == self.company_id.cnpj_cpf:
+        if self.issuer_cnpj == self.company_id.vat:
             self.fiscal_operation_type = "out"
         else:
             self.fiscal_operation_type = "in"
