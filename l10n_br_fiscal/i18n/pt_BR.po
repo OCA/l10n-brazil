@@ -522,6 +522,7 @@ msgstr "Ação Necessária"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__active
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__active
@@ -1728,6 +1729,14 @@ msgid "City Taxation Code"
 msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__city_taxation_code_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__city_taxation_code_id
+msgid ""
+"City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
+"National NFS-e."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__city_taxation_code_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "City Taxation Codes"
@@ -1750,6 +1759,7 @@ msgstr "Código Tributário Municipal"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__code
@@ -2035,6 +2045,7 @@ msgstr "Criar novos produtos."
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__create_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__create_uid
@@ -2080,6 +2091,7 @@ msgstr "Criado por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__create_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__create_date
@@ -2415,6 +2427,7 @@ msgstr "Valor do desconto"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__display_name
@@ -4491,6 +4504,7 @@ msgstr "Valor do Crédito de ICMSSN"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__id
@@ -4827,6 +4841,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_range_tree
 msgid "ISS %"
 msgstr "ISS %"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__national_taxation_code_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__national_taxation_code_id
+msgid "ISS National Taxation Code"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__tax_icms_or_issqn__issqn
@@ -5349,6 +5369,7 @@ msgstr "Valor da folha de pagamento do último período"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__write_uid
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__write_uid
@@ -5394,6 +5415,7 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__write_date
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__write_date
@@ -5843,6 +5865,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__name
@@ -5889,6 +5912,28 @@ msgstr "Imposto Nacional Simplificado"
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_simplified_tax_range
 msgid "National Simplified Tax Range"
 msgstr "Faixa Nacional Simplificada de Impostos"
+
+#. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.national_taxation_code_action
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_national_taxation_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__national_taxation_code_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__national_taxation_code_id
+#: model:ir.ui.menu,name:l10n_br_fiscal.national_taxation_code_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
+msgid "National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__national_taxation_code_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__national_taxation_code_id
+msgid "National Taxation Code for the ISS tax (National NFS-e)"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__national_taxation_code_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
+msgid "National Taxation Codes"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_calendar_event_id
@@ -7879,6 +7924,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_definition_ids
@@ -8494,6 +8540,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_relief__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_legal_nature__code_unmasked
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_national_taxation_code__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__code_unmasked
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__code_unmasked
