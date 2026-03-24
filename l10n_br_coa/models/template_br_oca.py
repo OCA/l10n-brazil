@@ -177,6 +177,8 @@ class AccountChartTemplate(models.AbstractModel):
         Account = self.env["account.account"]
         IrModelData = self.env["ir.model.data"].sudo()
         created_accounts_refs = {}
+        # Track codes we've already created in this batch to handle duplicates
+        # (e.g., regular and withholding tax accounts may share the same code)
         created_accounts_by_code = {}
 
         # 1. Create or find accounts and their XMLIDs
