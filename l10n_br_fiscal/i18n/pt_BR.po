@@ -6167,11 +6167,6 @@ msgid "Object"
 msgstr "Objeto"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__oca
-msgid "Odoo Community"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.comment_action
 msgid "Odoo helps you easily track all activities related to a fiscal comment."
 msgstr ""
@@ -8849,6 +8844,11 @@ msgid "done"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__oca
+msgid "erpbrasil.edoc"
+msgstr "erpbrasil.edoc"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_base_wizard_mixin__state__init
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_cancel_wizard__state__init
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_correction_wizard__state__init
@@ -9395,9 +9395,6 @@ msgstr "{} Estimativa de Imposto Atualizada"
 #, python-format
 #~ msgid "You need set a default fiscal document in your company !"
 #~ msgstr "Você precisa definir um documento fiscal padrão em sua empresa !"
-
-#~ msgid "erpbrasil.edoc"
-#~ msgstr "erpbrasil.edoc"
 
 #~ msgid "Document Fiscal Mixin Methods"
 #~ msgstr "Métodos de Mixina Fiscal de Documentos"
