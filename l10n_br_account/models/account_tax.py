@@ -26,6 +26,7 @@ class AccountTax(models.Model):
         is_refund=False,
         handle_price_include=True,
         include_caba_tags=False,
+        rounding_method=None,
         fixed_multiplicator=1,
         fiscal_taxes=None,
         operation_line=False,
@@ -76,7 +77,7 @@ class AccountTax(models.Model):
             is_refund,
             handle_price_include,
             include_caba_tags,
-            fixed_multiplicator,
+            rounding_method,
         )
 
         if not fiscal_taxes:
@@ -324,13 +325,13 @@ class AccountTax(models.Model):
         return to_update_vals, tax_values_list
 
     @api.model
-    def _prepare_tax_totals(
-        self, base_lines, currency, tax_lines=None, is_company_currency_requested=False
+    def _get_tax_totals_summary(
+        self, base_lines, currency, company, cash_rounding=None
     ):
-        res = super()._prepare_tax_totals(
-            base_lines, currency, tax_lines, is_company_currency_requested
+        res = super()._get_tax_totals_summary(
+            base_lines, currency, company, cash_rounding
         )
-        amount_total = res["amount_total"]
+        amount_total = res["total_amount_currency"]
 
         for line in base_lines:
             if line.get("record") and hasattr(
