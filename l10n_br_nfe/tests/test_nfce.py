@@ -218,7 +218,7 @@ class TestNFCe(TestNFeExport):
 
     def test_compute_fiscal_document_fields(self):
         self.document_id.partner_id.is_anonymous_consumer = True
-        self.document_id.partner_id.cnpj_cpf = False
+        self.document_id.partner_id.vat = False
         self.document_id.partner_shipping_id = self.document_id.partner_id
 
         self.document_id._compute_nfe_entrega_data()

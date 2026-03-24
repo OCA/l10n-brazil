@@ -57,9 +57,7 @@ class NFeImportTest(TransactionCase):
         # are now the supplier data (partner_id)
         self.assertEqual(nfe.partner_id.name, "Alimentos Saudaveis")
         # (CNPJ is not formated yet in dry run)
-        self.assertTrue(
-            nfe.partner_id.cnpj_cpf in ("34.128.745/0001-52", "34128745000152")
-        )
+        self.assertTrue(nfe.partner_id.vat in ("34.128.745/0001-52", "34128745000152"))
         # this tests the _extract_related_values method for related values:
         self.assertEqual(nfe.partner_id.legal_name, "Alimentos Ltda.")
 

@@ -40,7 +40,7 @@ class InvalidateNumber(models.Model):
     def _invalidate(self, document_id=False):
         processador = self._edoc_processor()
         evento = processador.inutilizacao(
-            cnpj=punctuation_rm(self.company_id.cnpj_cpf),
+            cnpj=punctuation_rm(self.company_id.vat),
             mod=self.document_type_id.code,
             serie=self.document_serie_id.code,
             num_ini=self.number_start,

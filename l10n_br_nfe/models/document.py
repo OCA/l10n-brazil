@@ -449,7 +449,7 @@ class NFe(spec_models.StackedModel):
         for doc in self:  # TODO if out
             if (
                 doc.partner_id.is_anonymous_consumer
-                and not doc.partner_id.cnpj_cpf
+                and not doc.partner_id.vat
                 and doc.document_type == MODELO_FISCAL_NFCE
             ):
                 doc.nfe40_dest = None
@@ -1587,7 +1587,7 @@ class NFe(spec_models.StackedModel):
             .build_from_binding("nfe", "40", binding.infNFe, dry_run=dry_run)
         )
 
-        if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
+        if edoc_type == "in" and document.company_id.vat != cnpj_cpf.formata(
             binding.infNFe.emit.CNPJ
         ):
             document.fiscal_operation_type = "in"
@@ -1772,7 +1772,7 @@ class NFe(spec_models.StackedModel):
     def _prepare_nfce_danfe_values(self):
         return {
             "company_ie": self.company_id.l10n_br_ie_code,
-            "company_cnpj": self.company_id.cnpj_cpf,
+            "company_cnpj": self.company_id.vat,
             "company_legal_name": self.company_id.legal_name,
             "company_street": self.company_id.street,
             "company_number": self.company_id.street_number,
