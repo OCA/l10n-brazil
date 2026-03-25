@@ -56,14 +56,20 @@ class DocumentEmail(models.Model):
         "this document state change.",
     )
 
-    @api.depends("document_type_id", "state_edoc")
+    @api.depends("document_type_id", "state_edoc", "company_id")
     def _compute_name(self):
         for record in self:
             document_type = record.document_type_id.name
             if not document_type:
                 document_type = "Others Document Types"
-            if record.state_edoc:
-                record.name = document_type + " - " + record.state_edoc
+            if record.state_edoc and record.company_id:
+                record.name = (
+                    document_type
+                    + " - "
+                    + record.state_edoc
+                    + " - "
+                    + record.company_id.name
+                )
 
     _sql_constraints = [
         (
