@@ -177,6 +177,16 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
         # TODO: improve logic to get ISS retention code
         tipo_retencao_iss = "2" if service_info.get("iss_retido") == "1" else "1"
 
+        percentual_total_tributos_federais = service_info.get(
+            "percentual_total_tributos_federais", 0.0
+        )
+        percentual_total_tributos_estaduais = service_info.get(
+            "percentual_total_tributos_estaduais", 0.0
+        )
+        percentual_total_tributos_municipais = service_info.get(
+            "percentual_total_tributos_municipais", 0.0
+        )
+
         return {
             "codigo_municipio_prestacao": str(codigo_municipio_prestacao),
             "codigo_tributacao_nacional": codigo_tributacao_nacional,
@@ -186,6 +196,11 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "tributacao_iss": str(tributacao_iss),
             "tipo_retencao_iss": str(tipo_retencao_iss),
             "aliquota_iss": round(service_info.get("aliquota", 0) * 100, 2),
+            "percentual_total_tributos_federais": percentual_total_tributos_federais,
+            "percentual_total_tributos_estaduais": percentual_total_tributos_estaduais,
+            "percentual_total_tributos_municipais": (
+                percentual_total_tributos_municipais
+            ),
         }
 
     def _prepare_tax_data_nacional(self, service_info, valor_servico):
@@ -328,6 +343,21 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "valor_servico": service_basic["valor"],
             "tributacao_iss": service_basic["tributacao_iss"],
             "tipo_retencao_iss": service_basic["tipo_retencao_iss"],
+            **(
+                {
+                    "percentual_total_tributos_federais": service_basic[
+                        "percentual_total_tributos_federais"
+                    ],
+                    "percentual_total_tributos_estaduais": service_basic[
+                        "percentual_total_tributos_estaduais"
+                    ],
+                    "percentual_total_tributos_municipais": service_basic[
+                        "percentual_total_tributos_municipais"
+                    ],
+                }
+                if provider_data["codigo_opcao_simples_nacional"] == "1"
+                else {}
+            ),
             "percentual_aliquota_relativa_municipio": service_basic["aliquota_iss"],
             **tax_data,
         }
