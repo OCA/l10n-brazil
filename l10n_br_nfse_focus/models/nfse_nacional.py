@@ -358,6 +358,11 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
                 if provider_data["codigo_opcao_simples_nacional"] == "1"
                 else {}
             ),
+            "informacoes_complementares": (
+                rps_info.get("customer_additional_data", False)[:2000]
+                if rps_info.get("customer_additional_data")
+                else False
+            ),
             "percentual_aliquota_relativa_municipio": service_basic["aliquota_iss"],
             **tax_data,
         }
