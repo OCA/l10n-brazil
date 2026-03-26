@@ -431,10 +431,10 @@
                     <label for="discount_rate" />
                     <div>
                     <field
-                            name="discount_rate"
-                            class="oe_inline"
-                            readonly="state not in ['draft', 'sent']"
-                        />%%</div>
+                        name="discount_rate"
+                        class="oe_inline"
+                        readonly="state not in ['draft', 'sent']"
+                    />%%</div>
                 </group>
             </xpath>
         </field>
