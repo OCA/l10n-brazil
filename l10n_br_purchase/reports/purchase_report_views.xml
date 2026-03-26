@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="l10n_br_purchase_report_search" model="ir.ui.view">
         <field name="name">l10n_br_purchase.report.search</field>
         <field name="model">purchase.report</field>
@@ -50,5 +49,4 @@
             </filter>
         </field>
     </record>
-
 </odoo>

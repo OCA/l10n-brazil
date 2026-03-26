@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Main Company Simples Nacional -->
     <!-- Purchase Order with only products test -->
     <record id="main_po_only_products" model="purchase.order">
@@ -380,5 +379,4 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
 </odoo>
