@@ -2,7 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -105,7 +105,7 @@ class L10nBrCNABChangeMethods(models.Model):
         )
         if payment_line_to_be_send:
             raise UserError(
-                _(
+                self.env._(
                     "There is a CNAB Payment Order %(order_name)s in status "
                     "%(order_state)s related to invoice %(invoice_name)s created, "
                     "the CNAB file should be sent to bank, because only after "
@@ -131,7 +131,7 @@ class L10nBrCNABChangeMethods(models.Model):
         )
         if new_payorder:
             self.move_id.message_post(
-                body=_(
+                body=self.env._(
                     "Payment line added to the the new draft payment "
                     "order %(order_name)s which has been automatically created,"
                     " to send CNAB Instruction %(instruction)s for OWN NUMBER "
@@ -144,7 +144,7 @@ class L10nBrCNABChangeMethods(models.Model):
             )
         else:
             self.move_id.message_post(
-                body=_(
+                body=self.env._(
                     "Payment line added to the existing draft "
                     "order %(order_name)s to send CNAB Instruction %(instruction)s "
                     "for OWN NUMBER %(own_number)s.\nJustification: %(reason)s",
@@ -163,7 +163,7 @@ class L10nBrCNABChangeMethods(models.Model):
         :return: Mensagem de Erro
         """
         raise UserError(
-            _(
+            self.env._(
                 "CNAB Config %(cnab_config_name)s in Payment Mode"
                 " %(payment_mode_name)s don't has %(missing)s for"
                 " making CNAB change, check if should have.",
@@ -207,7 +207,7 @@ class L10nBrCNABChangeMethods(models.Model):
 
         if new_date == self.date_maturity:
             raise UserError(
-                _(
+                self.env._(
                     "New Date Maturity %(new_date)s is equal to actual Date "
                     "Maturity %(date_maturity)s",
                     new_date=new_date,
@@ -233,7 +233,7 @@ class L10nBrCNABChangeMethods(models.Model):
 
         if new_date == self.date:
             raise UserError(
-                _(
+                self.env._(
                     "New Discount Date %(new_date)s is equal to current Discount "
                     "Date %(date_discount)s",
                     new_date=new_date,
@@ -344,7 +344,7 @@ class L10nBrCNABChangeMethods(models.Model):
         self.payment_situation = payment_situation
         # TODO criar um state removed ?
         self.cnab_state = "done"
-        self.move_id.message_post(body=_(reason))
+        self.move_id.message_post(body=self.env._(reason))
 
     def create_cnab_write_off(self, reason, payment_situation):
         """

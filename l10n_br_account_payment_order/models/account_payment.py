@@ -5,7 +5,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 from ..constants import BR_CODES_PAYMENT_ORDER
@@ -31,7 +31,7 @@ class AccountPayment(models.Model):
                 #  na tela.
                 #  Testar na migração.
                 raise UserError(
-                    _(
+                    self.env._(
                         "CNAB Payment Method can't be used to make"
                         " direct Payments, just used in Payment Orders,"
                         " choose another one."

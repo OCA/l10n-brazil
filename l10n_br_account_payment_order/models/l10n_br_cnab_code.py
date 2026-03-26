@@ -2,7 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -102,7 +102,7 @@ class L10nBrCNABCode(models.Model):
                     code_already_exist.code + " - " + code_already_exist.name
                 )
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The Code %(code)s %(name)s already exists for Bank %(bank)s "
                         "and CNAB %(type_code)s type.",
                         code=record.code,
@@ -119,7 +119,7 @@ class L10nBrCNABCode(models.Model):
                 "return_move_code",
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The field Code in 'Instruction and Return Move Code'"
                         " should have two characters."
                     )

@@ -2,7 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants import BR_CODES_PAYMENT_ORDER, FORMA_LANCAMENTO, TIPO_SERVICO
@@ -112,14 +112,16 @@ class L10nBRCNABConfig(models.Model):
                 and self.payment_type == "inbound"
                 and not self.boleto_wallet
             ):
-                raise ValidationError(_("Carteira no banco Itaú é obrigatória"))
+                raise ValidationError(
+                    self.env._("The Wallet in Itaú Bank need to be informed.")
+                )
 
     @api.constrains("boleto_discount_perc")
     def _check_discount_perc(self):
         for record in self:
             if record.boleto_discount_perc > 100 or record.boleto_discount_perc < 0:
                 raise ValidationError(
-                    _("O percentual deve ser um valor entre 0 a 100.")
+                    self.env._("The percent value should be between 0 to 100.")
                 )
 
     def _check_sequence_already_in_use(self, field):
@@ -137,9 +139,10 @@ class L10nBRCNABConfig(models.Model):
                 )
                 if already_in_use:
                     raise ValidationError(
-                        _(
-                            f"Sequence {sequence.name} already in"
-                            f" use by {already_in_use.name}!",
+                        self.env._(
+                            "Sequence %s(seq_name) already in use by %(al_name)s!",
+                            seq_name=sequence.name,
+                            al_name=already_in_use.name,
                         )
                     )
 

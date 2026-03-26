@@ -5,7 +5,7 @@
 
 from erpbrasil.base import misc
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants import (
@@ -244,10 +244,11 @@ class AccountPaymentLine(models.Model):
                 and not rec.partner_bank_id.transactional_acc_type
             ):
                 raise UserError(
-                    _(
-                        "When the payment method is pix transfer, a pix key must be "
-                        "informed, or the bank account with the type of account.\n"
-                        f"Payment Line: {rec.name}"
+                    self.env._(
+                        "When the payment method is pix transfer, a pix key must be"
+                        " informed, or the bank account with the type of account.\n"
+                        "Payment Line: %(rec_name)s",
+                        rec_name=rec.name,
                     )
                 )
 

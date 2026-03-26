@@ -10,7 +10,7 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants import (
@@ -97,19 +97,23 @@ class AccountPaymentOrder(models.Model):
 
             if not order.journal_id:
                 raise UserError(
-                    _("Missing Bank Journal on payment order %s.") % order.name
+                    self.env._("Missing Bank Journal on payment order %(name)s."),
+                    name=order.name,
                 )
             if (
                 order.payment_method_id.bank_account_required
                 and not order.journal_id.bank_account_id
             ):
                 raise UserError(
-                    _("Missing bank account on bank journal '%s'.")
-                    % order.journal_id.display_name
+                    self.env._("Missing bank account on bank journal '%(name)s'."),
+                    name=order.journal_id.display_name,
                 )
             if not order.payment_line_ids:
                 raise UserError(
-                    _("There are no transactions on payment order %s.") % order.name
+                    self.env._(
+                        "There are no transactions on payment order %(name)s.",
+                        name=order.name,
+                    )
                 )
             # Unreconcile, cancel and delete existing account payments
             order.payment_ids.action_draft()
@@ -137,7 +141,7 @@ class AccountPaymentOrder(models.Model):
                     and requested_date < payline.ml_maturity_date
                 ):
                     raise UserError(
-                        _(
+                        self.env._(
                             "The payment mode '%(payment_mode)s' has the option "
                             "'Disallow Debit Before Maturity Date'. The payment line "
                             "'%(payline)s' has a maturity date %(maturity_date)s which "
@@ -170,7 +174,7 @@ class AccountPaymentOrder(models.Model):
                 # Block if a bank payment line is <= 0
                 if paydict["total"] <= 0:
                     raise UserError(
-                        _(
+                        self.env._(
                             "The amount for Partner '%(name)s' "
                             "is negative "
                             "or null (%(total).2f) !",
@@ -191,7 +195,7 @@ class AccountPaymentOrder(models.Model):
                 order.payment_method_code in BR_CODES_PAYMENT_ORDER
                 and order.payment_mode_id.payment_method_id.payment_type == "inbound"
             ):
-                raise UserError(_("You cannot delete CNAB order."))
+                raise UserError(self.env._("You cannot delete CNAB order."))
 
     def action_done_cancel(self):
         for order in self:
@@ -201,7 +205,7 @@ class AccountPaymentOrder(models.Model):
                 order.payment_method_code in BR_CODES_PAYMENT_ORDER
                 and order.payment_mode_id.payment_method_id.payment_type == "inbound"
             ):
-                raise UserError(_("You cannot Cancel CNAB order."))
+                raise UserError(self.env._("You cannot Cancel CNAB order."))
         return super().unlink()
 
     def generate_payment_file(self):

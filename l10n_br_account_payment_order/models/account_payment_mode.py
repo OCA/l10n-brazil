@@ -5,7 +5,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants import BR_CODES_PAYMENT_ORDER
@@ -79,7 +79,7 @@ class AccountPaymentMode(models.Model):
 
             for field in fields_forbidden_cnab:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The Payment Mode can not be used for CNAB with the field"
                         " %s active. \n Please uncheck it to continue."
                     )

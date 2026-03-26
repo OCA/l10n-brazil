@@ -2,7 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -44,7 +44,7 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
                     code_already_exist.code + " - " + code_already_exist.name
                 )
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The Code %(code)s already exist %(code_name_exist)s for Bank "
                         "and CNAB type.",
                         code=record.code,
