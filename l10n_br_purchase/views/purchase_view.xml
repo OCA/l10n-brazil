@@ -25,8 +25,8 @@
                     name="context"
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id}</attribute>
             </xpath>
-            <!-- Edit order_line Tree view -->
-            <xpath expr="//field[@name='order_line']/tree" position="inside">
+            <!-- Edit order_line List view -->
+            <xpath expr="//field[@name='order_line']/list" position="inside">
                 <control name="fiscal_fields" invisible="1" />
                 <!-- this is a dynamic fiscal fields placeholder-->
                 <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
@@ -37,27 +37,16 @@
                     domain here that is checked before the dynamic fiscal
                     placeholders kick in.
                 -->
-                <field name="fiscal_operation_type" invisible="1" />
-                <field name="cfop_id" invisible="1" />
-                <field name="tax_framework" invisible="1" />
-                <field name="fiscal_operation_id" invisible="1" />
-                <field name="freight_value" invisible="1" />
-                <field name="insurance_value" invisible="1" />
-                <field name="other_value" invisible="1" />
+                <field name="fiscal_operation_type" column_invisible="1" />
+                <field name="cfop_id" column_invisible="1" />
+                <field name="tax_framework" column_invisible="1" />
+                <field name="fiscal_operation_id" column_invisible="1" />
+                <field name="freight_value" column_invisible="1" />
+                <field name="insurance_value" column_invisible="1" />
+                <field name="other_value" column_invisible="1" />
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/tree/field[@name='product_id']"
-                position="before"
-            >
-                <button
-                    name="dummy_button_for_js"
-                    icon="fa-external-link"
-                    title="Edit in Form"
-                    class="btn-sm btn-link p-0 edit-line-popup"
-                />
-            </xpath>
-            <xpath
-                expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
+                expr="//field[@name='order_line']/list/field[@name='taxes_id']"
                 position="attributes"
             >
                 <attribute
@@ -65,7 +54,7 @@
                 >parent.fiscal_operation_id</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
+                expr="//field[@name='order_line']/list/field[@name='taxes_id']"
                 position="before"
             >
                 <field

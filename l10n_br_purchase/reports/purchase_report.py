@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import fields, models
+from odoo.tools import SQL
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import PRODUCT_FISCAL_TYPE
 
@@ -85,50 +86,38 @@ class PurchaseReport(models.Model):
     )
 
     def _select(self):
-        select_str = super()._select()
-        select_str += """
-            , l.fiscal_operation_id as fiscal_operation_id
-            , l.fiscal_operation_line_id as fiscal_operation_line_id
-            , l.cfop_id
-            , l.fiscal_type
-            , l.ncm_id
-            , l.nbm_id
-            , l.cest_id
-            , SUM(l.icms_value) as icms_value
-            , SUM(l.icmsst_value) as icmsst_value
-            , SUM(l.ipi_value) as ipi_value
-            , SUM(l.pis_value) as pis_value
-            , SUM(l.cofins_value) as cofins_value
-            , SUM(l.ii_value) as ii_value
-            , SUM(l.freight_value) as freight_value
-            , SUM(l.insurance_value) as insurance_value
-            , SUM(l.other_value) as other_value
-            , SUM(l.price_unit / COALESCE(NULLIF(po.currency_rate, 0), 1.0)
-            * l.product_qty
-            )::decimal(16,2)
-             + SUM(CASE WHEN l.ipi_value IS NULL THEN
-              0.00 ELSE l.ipi_value END)
-             + SUM(CASE WHEN l.icmsst_value IS NULL THEN
-              0.00 ELSE l.icmsst_value END)
-             + SUM(CASE WHEN l.freight_value IS NULL THEN
-              0.00 ELSE l.freight_value END)
-             + SUM(CASE WHEN l.insurance_value IS NULL THEN
-              0.00 ELSE l.insurance_value END)
-             + SUM(CASE WHEN l.other_value IS NULL THEN
-              0.00 ELSE l.other_value END)
-            as total_with_taxes
-        """
-        return select_str
+        return SQL(
+            "%s, l.fiscal_operation_id as fiscal_operation_id, "
+            "l.fiscal_operation_line_id as fiscal_operation_line_id, "
+            "l.cfop_id, l.fiscal_type, l.ncm_id, l.nbm_id, l.cest_id, "
+            "SUM(l.icms_value) as icms_value, "
+            "SUM(l.icmsst_value) as icmsst_value, "
+            "SUM(l.ipi_value) as ipi_value, "
+            "SUM(l.pis_value) as pis_value, "
+            "SUM(l.cofins_value) as cofins_value, "
+            "SUM(l.ii_value) as ii_value, "
+            "SUM(l.freight_value) as freight_value, "
+            "SUM(l.insurance_value) as insurance_value, "
+            "SUM(l.other_value) as other_value, "
+            "SUM(l.price_unit / COALESCE(NULLIF(po.currency_rate, 0), 1.0) "
+            "* l.product_qty)::decimal(16,2) "
+            "+ SUM(CASE WHEN l.ipi_value IS NULL THEN "
+            "0.00 ELSE l.ipi_value END) "
+            "+ SUM(CASE WHEN l.icmsst_value IS NULL THEN "
+            "0.00 ELSE l.icmsst_value END) "
+            "+ SUM(CASE WHEN l.freight_value IS NULL THEN "
+            "0.00 ELSE l.freight_value END) "
+            "+ SUM(CASE WHEN l.insurance_value IS NULL THEN "
+            "0.00 ELSE l.insurance_value END) "
+            "+ SUM(CASE WHEN l.other_value IS NULL THEN "
+            "0.00 ELSE l.other_value END) "
+            "as total_with_taxes",
+            super()._select(),
+        )
 
     def _group_by(self):
-        group_by_str = super()._group_by()
-        group_by_str += """
-            , l.fiscal_operation_id
-            , l.fiscal_operation_line_id
-            , l.cfop_id
-            , l.fiscal_type
-            , l.ncm_id
-            , l.nbm_id
-            , l.cest_id
-        """
-        return group_by_str
+        return SQL(
+            "%s, l.fiscal_operation_id, l.fiscal_operation_line_id, "
+            "l.cfop_id, l.fiscal_type, l.ncm_id, l.nbm_id, l.cest_id",
+            super()._group_by(),
+        )

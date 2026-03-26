@@ -39,7 +39,7 @@ def purchase_set_journal_in_fiscal_operation(env):
     ):
         # Load Fiscal Operation Main Company
         set_journal_in_fiscal_operation(
-            env,
+            env.cr,
             env.ref("base.main_company"),
             [
                 {
@@ -59,7 +59,7 @@ def purchase_set_journal_in_fiscal_operation(env):
 
         # Load Fiscal Operation for Simples Nacional
         set_journal_in_fiscal_operation(
-            env,
+            env.cr,
             company,
             [
                 {
@@ -90,7 +90,7 @@ def purchase_set_journal_in_fiscal_operation(env):
     ):
         # Load Fiscal Operation for Lucro Presumido
         set_journal_in_fiscal_operation(
-            env,
+            env.cr,
             company_lc,
             [
                 {
