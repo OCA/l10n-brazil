@@ -50,18 +50,14 @@ class PurchaseOrder(models.Model):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR":
             return arch, view
-        for tax_totals_node in arch.xpath(
-            "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
-        ):
-            tax_totals_node.set("attrs", "{'invisible': True}")
         if view_type == "form" and self.env.company.country_id.code == "BR":
             arch = self.env["purchase.order.line"].inject_fiscal_fields(arch)
 
         if view_type == "form" and (
-            self.user_has_groups("l10n_br_purchase.group_line_fiscal_detail")
+            self.env.user.has_group("l10n_br_purchase.group_line_fiscal_detail")
             or self.env.context.get("force_line_fiscal_detail")
         ):
-            for sub_tree_node in arch.xpath("//field[@name='order_line']/tree"):
+            for sub_tree_node in arch.xpath("//field[@name='order_line']/list"):
                 sub_tree_node.attrib["editable"] = ""
 
         return arch, view
@@ -98,6 +94,28 @@ class PurchaseOrder(models.Model):
                 }
             )
         return invoice_vals
+
+    @api.depends(
+        "order_line.fiscal_amount_untaxed",
+        "order_line.fiscal_amount_tax",
+        "order_line.fiscal_amount_total",
+    )
+    def _amount_all(self):
+        """Override to use fiscal amounts directly for Brazilian POs.
+
+        Odoo 18's _amount_all recomputes taxes via AccountTax utilities
+        from the standard taxes_id field, ignoring Brazilian fiscal taxes.
+        For POs with a fiscal operation, we override the computed amounts
+        with the fiscal line totals instead, mirroring l10n_br_account's
+        _compute_amount override on account.move.
+        """
+        result = super()._amount_all()
+        for order in self.filtered("fiscal_operation_id"):
+            lines = order.order_line
+            order.amount_untaxed = sum(lines.mapped("fiscal_amount_untaxed"))
+            order.amount_tax = sum(lines.mapped("fiscal_amount_tax"))
+            order.amount_total = sum(lines.mapped("fiscal_amount_total"))
+        return result
 
     def _get_fiscal_partner(self):
         self.ensure_one()
