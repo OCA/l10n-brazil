@@ -1,13 +1,26 @@
 # Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import logging
 from importlib import import_module
+
+import psycopg2
 
 from odoo import api, models
 from odoo.models import is_definition_class
 from odoo.tools import mute_logger
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
+
+_logger = logging.getLogger(__name__)
+
+# Fixed keys of the advisory lock that serializes
+# _register_remaining_schema_models_hook across Odoo workers.
+# The two key form pg_advisory_lock(int4, int4) has a lock space of its own,
+# distinct from the single int8 form other addons rely on (queue_job for
+# instance), so these keys cannot collide with theirs.
+_SPEC_HOOK_LOCK_CLASSID = 68_13_20_26
+_SPEC_HOOK_LOCK_OBJID = 1
 
 
 class SpecMixin(models.AbstractModel):
@@ -88,7 +101,77 @@ class SpecMixin(models.AbstractModel):
         self._register_remaining_schema_models_hook()
         return res
 
+    @staticmethod
+    def _release_spec_hook_advisory_lock(cr):
+        """
+        Release the session level advisory lock taken around the hook.
+
+        When the hook raises a database error the transaction is left
+        aborted, so a plain unlock would fail with InFailedSqlTransaction:
+        it would mask the original exception and, since a session level lock
+        survives a rollback, the connection would go back to the Odoo pool
+        still holding the lock and the next registry load would wait on it
+        forever. Roll back first and unlock again in that case.
+        """
+        keys = [_SPEC_HOOK_LOCK_CLASSID, _SPEC_HOOK_LOCK_OBJID]
+        try:
+            cr.execute("SELECT pg_advisory_unlock(%s, %s)", keys)
+        except psycopg2.Error:
+            try:
+                cr.rollback()
+                cr.execute("SELECT pg_advisory_unlock(%s, %s)", keys)
+            except psycopg2.Error:
+                # Never raise from the finally block: the exception raised by
+                # the hook itself is the one worth reporting.
+                _logger.critical(
+                    "Could not release the spec_driven_model advisory lock "
+                    "(%s, %s). The connection returns to the pool still "
+                    "holding it and the next registry load will block.",
+                    *keys,
+                )
+
     def _register_remaining_schema_models_hook(self):
+        """
+        Wrapper that serializes the actual hook logic via a PostgreSQL
+        advisory lock.  Without this, concurrent workers all enter the
+        hook simultaneously and collide on INSERT INTO ir_model_data
+        (SerializationFailure).
+
+        The advisory lock is session-level (pg_advisory_lock / unlock)
+        so it survives across the multiple implicit commits that happen
+        inside ir.model.access.load() and registry.init_models().
+
+        The lock only serializes the workers, it does not let them skip the
+        work: load_key is stored on the registry object, which is per
+        process, so every worker still has to register the schema models in
+        its own in-memory registry. The re-check below only covers the case
+        where the very same registry re-enters the hook.
+        """
+        spec_schema, _ = self._spec_prefix(split=True)
+        if not spec_schema:
+            return
+
+        load_key = f"_{spec_schema}_register_hook_loaded"
+        if hasattr(self.env.registry, load_key):
+            return
+
+        cr = self.env.cr
+        _logger.debug(
+            "Acquiring advisory lock for spec_hook (schema=%s, pid=%s)",
+            spec_schema,
+            cr.connection.info.backend_pid,
+        )
+        cr.execute(
+            "SELECT pg_advisory_lock(%s, %s)",
+            [_SPEC_HOOK_LOCK_CLASSID, _SPEC_HOOK_LOCK_OBJID],
+        )
+        try:
+            if not hasattr(self.env.registry, load_key):
+                self._register_remaining_schema_models_hook_impl()
+        finally:
+            self._release_spec_hook_advisory_lock(cr)
+
+    def _register_remaining_schema_models_hook_impl(self):
         """
         Called once all modules are loaded.
         Here we take all spec models that were not injected into existing concrete
