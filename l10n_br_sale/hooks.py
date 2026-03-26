@@ -1,8 +1,6 @@
 # Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import SUPERUSER_ID, api
-
 from odoo.addons.l10n_br_fiscal.tools import set_journal_in_fiscal_operation
 
 
@@ -23,11 +21,10 @@ def post_init_hook(env):
             order.write(defaults)
 
         # Load COA Fiscal Operation properties
-        sale_set_journal_in_fiscal_operation(env.cr)
+        sale_set_journal_in_fiscal_operation(env)
 
 
-def sale_set_journal_in_fiscal_operation(cr):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def sale_set_journal_in_fiscal_operation(env):
     if env.ref("base.module_l10n_br_sale").demo:
         # Create or Inform Fiscal Operation in Journal for Property of Companies
         # Load COA Fiscal Operation properties
@@ -43,7 +40,7 @@ def sale_set_journal_in_fiscal_operation(cr):
         ):
             # Load Fiscal Operation Main Company
             set_journal_in_fiscal_operation(
-                cr,
+                env.cr,
                 env.ref("base.main_company"),
                 [
                     {
@@ -66,7 +63,7 @@ def sale_set_journal_in_fiscal_operation(cr):
             )
 
             set_journal_in_fiscal_operation(
-                cr,
+                env.cr,
                 company,
                 [
                     {
@@ -100,7 +97,7 @@ def sale_set_journal_in_fiscal_operation(cr):
             ]
         ):
             set_journal_in_fiscal_operation(
-                cr,
+                env.cr,
                 company_lc,
                 [
                     {

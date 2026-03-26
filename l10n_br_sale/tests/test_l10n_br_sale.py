@@ -27,9 +27,31 @@ class L10nBrSaleBaseTest:
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.main_company = cls.env.ref("base.main_company")
         cls.company = cls.env.ref(cls.company_ref)
+
+        # Ensure warehouse exists if stock module is installed
+        if "stock.warehouse" in cls.env:
+            warehouse = cls.env["stock.warehouse"].search(
+                [("company_id", "=", cls.company.id)], limit=1
+            )
+            if not warehouse:
+                warehouse = cls.env["stock.warehouse"].create(
+                    {
+                        "name": cls.company.name,
+                        "code": cls.company.name[:5],
+                        "company_id": cls.company.id,
+                    }
+                )
+            cls.warehouse = warehouse
+
         cls.so_products = cls.env.ref(cls.so_products_ref)
         cls.so_services = cls.env.ref(cls.so_services_ref)
         cls.so_product_service = cls.env.ref(cls.so_product_service_ref)
+
+        # Set warehouse on sale orders if stock is installed
+        if "stock.warehouse" in cls.env:
+            for so in [cls.so_products, cls.so_services, cls.so_product_service]:
+                if not so.warehouse_id:
+                    so.warehouse_id = cls.warehouse.id
         cls.fsc_op_sale = cls.env.ref("l10n_br_fiscal.fo_venda")
         # Testa os Impostos Dedutiveis
         cls.fsc_op_sale.deductible_taxes = True
@@ -153,6 +175,22 @@ class L10nBrSaleBaseTest:
     def _change_user_company(self, company):
         self.env.user.company_ids += company
         self.env.user.company_id = company
+
+    def _ensure_warehouse(self, company):
+        """Create warehouse for company if stock is installed and none exists."""
+        if "stock.warehouse" not in self.env:
+            return
+        warehouse = self.env["stock.warehouse"].search(
+            [("company_id", "=", company.id)], limit=1
+        )
+        if not warehouse:
+            self.env["stock.warehouse"].create(
+                {
+                    "name": company.name,
+                    "code": company.name[:5],
+                    "company_id": company.id,
+                }
+            )
 
     def _run_sale_order_onchanges(self, sale_order):
         sale_order._onchange_fiscal_operation_id()
