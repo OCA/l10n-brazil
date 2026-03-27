@@ -7,7 +7,7 @@ from os.path import dirname
 
 from erpbrasil.base.misc import punctuation_rm
 
-from odoo import Command, _, api, models
+from odoo import Command, api, models
 from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -115,7 +115,7 @@ class CNPJWebservice(models.AbstractModel):
     @api.model
     def _validate(self, response):
         if response.status_code != 200:
-            raise ValidationError(_("%s") % response.reason)
+            raise ValidationError(self.env._("%(reason)s", reason=response.reason))
 
     @api.model
     def _get_legal_nature(self, raw_code):
@@ -160,7 +160,7 @@ class CNPJWebservice(models.AbstractModel):
         self._validate(response)
         data = response.json()
         if data.get("status") == "ERROR":
-            raise ValidationError(_(data.get("message")))
+            raise ValidationError(self.env._(data.get("message")))
 
         return data
 
