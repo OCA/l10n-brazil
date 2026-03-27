@@ -65,11 +65,16 @@ class TaxDefinition(models.Model):
 
     code = fields.Char(
         size=8,
+        readonly=True,
     )
 
-    name = fields.Char()
+    name = fields.Char(
+        readonly=True,
+    )
 
-    description = fields.Text()
+    description = fields.Text(
+        readonly=True,
+    )
 
     type_in_out = fields.Selection(
         selection=FISCAL_IN_OUT,
@@ -136,12 +141,14 @@ class TaxDefinition(models.Model):
         comodel_name="res.country.state",
         string="From State",
         domain=[("country_id.code", "=", "BR")],
+        readonly=True,
     )
 
     state_to_ids = fields.Many2many(
         comodel_name="res.country.state",
         string="To States",
         domain=[("country_id.code", "=", "BR")],
+        readonly=True,
     )
 
     ncms = fields.Text(
@@ -265,6 +272,7 @@ class TaxDefinition(models.Model):
 
     benefit_type = fields.Selection(
         selection=ICMS_TAX_BENEFIT_TYPE,
+        readonly=True,
     )
 
     def _get_search_domain(self, tax_definition):
