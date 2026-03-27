@@ -271,6 +271,48 @@ class FiscalClosing(models.Model):
 
         return domain
 
+    def _prefetch_third_party_attachments(self, documents):
+        """Batch-fetch ir.attachment records for third-party documents.
+
+        Avoids N+1 queries: the original code issued one search() per
+        third-party document inside the _prepare_files loop.  Here we
+        collect all relevant IDs upfront and run at most two queries total.
+
+        Returns a dict mapping document.id -> ir.attachment recordset.
+        """
+        third_party_docs = documents.filtered(
+            lambda d: d.issuer != DOCUMENT_ISSUER_COMPANY
+        )
+        attaches_by_doc = {}
+        if not third_party_docs:
+            return attaches_by_doc
+
+        if hasattr(self.env["l10n_br_fiscal.document"], "move_ids"):
+            all_move_ids = third_party_docs.mapped("move_ids").ids
+            attaches_by_move = {}
+            if all_move_ids:
+                for att in self.env["ir.attachment"].search(
+                    [("res_model", "=", "account.move"), ("res_id", "in", all_move_ids)]
+                ):
+                    attaches_by_move.setdefault(att.res_id, []).append(att)
+            for doc in third_party_docs:
+                atts = self.env["ir.attachment"]
+                for move_id in doc.move_ids.ids:
+                    for att in attaches_by_move.get(move_id, []):
+                        atts |= att
+                attaches_by_doc[doc.id] = atts
+        else:
+            for att in self.env["ir.attachment"].search(
+                [
+                    ("res_model", "=", "l10n_br_fiscal.document"),
+                    ("res_id", "in", third_party_docs.ids),
+                ]
+            ):
+                attaches_by_doc.setdefault(att.res_id, self.env["ir.attachment"])
+                attaches_by_doc[att.res_id] |= att
+
+        return attaches_by_doc
+
     def _prepare_files(self, temp_dir):
         domain = self._document_domain()
         documents = self.env["l10n_br_fiscal.document"].search(domain)
@@ -298,6 +340,8 @@ class FiscalClosing(models.Model):
                     _("Error!"), _("Check write permissions in your system temp folder")
                 ) from e
 
+        attaches_by_doc = self._prefetch_third_party_attachments(documents)
+
         for document in documents:
             if document.issuer == DOCUMENT_ISSUER_COMPANY:
                 attachment_ids = document.authorization_event_id.mapped(
@@ -310,20 +354,9 @@ class FiscalClosing(models.Model):
                 if self.include_pdf_file:
                     attachment_ids |= document.file_report_id
             else:
-                if hasattr(document, "move_ids"):
-                    attachment_ids = self.env["ir.attachment"].search(
-                        [
-                            ("res_model", "=", "account.move"),
-                            ("res_id", "in", document.move_ids.ids),
-                        ]
-                    )
-                else:
-                    attachment_ids = self.env["ir.attachment"].search(
-                        [
-                            ("res_model", "=", "l10n_br_fiscal.document"),
-                            ("res_id", "=", document.id),
-                        ]
-                    )
+                attachment_ids = attaches_by_doc.get(
+                    document.id, self.env["ir.attachment"]
+                )
 
             if self.export_type == "period":
                 document.close_id = self.id
