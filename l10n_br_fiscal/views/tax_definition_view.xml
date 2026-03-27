@@ -9,7 +9,7 @@
                 <field name="tax_group_id" readonly="state != 'draft'" />
                 <field name="is_taxed" readonly="state != 'draft'" />
                 <field name="tax_id" readonly="state != 'draft'" />
-                <field name="cst_code" />
+                <field name="cst_code" readonly="state != 'draft'" />
             </list>
         </field>
     </record>
@@ -31,7 +31,7 @@
                 <field name="state_from_id" />
                 <field name="state_to_ids" />
                 <field name="tax_id" readonly="state != 'draft'" />
-                <field name="cst_code" />
+                <field name="cst_code" readonly="state != 'draft'" />
             </list>
         </field>
     </record>
@@ -268,6 +268,7 @@
                                     force_save="1"
                                     nolabel="1"
                                     colspan="2"
+                                    readonly="state != 'draft'"
                                 />
                             </group>
                         </page>
@@ -295,7 +296,7 @@
                         </page>
                         <page name="fiscal_profile_page" string="Fiscal Profile">
                             <group name="fiscal_profile" string="Fiscal Profile">
-                                <field name="ind_final" />
+                                <field name="ind_final" readonly="state != 'draft'" />
                             </group>
                         </page>
                     </notebook>

@@ -148,7 +148,7 @@
                             </field>
                         </page>
                         <page name="notes" string="Notes">
-                            <field name="comment_ids" />
+                            <field name="comment_ids" readonly="state != 'draft'" />
                         </page>
                     </notebook>
                 </sheet>
