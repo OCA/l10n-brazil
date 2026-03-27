@@ -1,7 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
@@ -155,7 +155,9 @@ class OperationLine(models.Model):
         else:
             if not company.document_type_id:
                 raise UserError(
-                    _("You need to set a default fiscal document in your company!")
+                    self.env._(
+                        "You need to set a default fiscal document in your company!"
+                    )
                 )
 
             document_type = company.document_type_id
@@ -402,7 +404,7 @@ class OperationLine(models.Model):
         lines = self.filtered(lambda line: line.state == "approved")
         if lines:
             raise UserError(
-                _("You cannot delete an Operation Line which is not draft !")
+                self.env._("You cannot delete an Operation Line which is not draft !")
             )
         return super().unlink()
 
@@ -410,7 +412,7 @@ class OperationLine(models.Model):
     def _onchange_fiscal_operation_id(self):
         if not self.fiscal_operation_id.fiscal_operation_type:
             warning = {
-                "title": _("Warning!"),
-                "message": _("You must first select a operation type."),
+                "title": self.env._("Warning!"),
+                "message": self.env._("You must first select a operation type."),
             }
             return {"warning": warning}

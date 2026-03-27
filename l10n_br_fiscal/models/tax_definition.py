@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from .. import tools
@@ -319,7 +319,7 @@ class TaxDefinition(models.Model):
         operations = self.filtered(lambda line: line.state == "approved")
         if operations:
             raise UserError(
-                _("You cannot delete an Tax Definition which is not draft !")
+                self.env._("You cannot delete an Tax Definition which is not draft !")
             )
         return super().unlink()
 
@@ -537,7 +537,7 @@ class TaxDefinition(models.Model):
 
                 if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Tax Definition already exists "
                             "for this Partner Profile and Tax Group !"
                         )
@@ -560,7 +560,7 @@ class TaxDefinition(models.Model):
 
                 if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Tax Definition already exists "
                             "for this Operation Line and Tax Group !"
                         )
@@ -573,7 +573,7 @@ class TaxDefinition(models.Model):
                 domain = self._get_search_domain(record)
                 if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Tax Definition already exists "
                             "for this ICMS and Tax Group !"
                         )
@@ -592,7 +592,7 @@ class TaxDefinition(models.Model):
 
                 if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Tax Definition already exists "
                             "for this Company and Tax Group !"
                         )
@@ -611,7 +611,7 @@ class TaxDefinition(models.Model):
 
                 if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Tax Definition already exists "
                             "for this CFOP and Tax Group !"
                         )
@@ -624,17 +624,19 @@ class TaxDefinition(models.Model):
                 if record.code:
                     if len(record.code) != 8:
                         raise ValidationError(
-                            _("Tax benefit code must be 8 characters!")
+                            self.env._("Tax benefit code must be 8 characters!")
                         )
 
                     if record.code[:2].upper() != record.state_from_id.code.upper():
                         raise ValidationError(
-                            _("Tax benefit code must be start with state code!")
+                            self.env._(
+                                "Tax benefit code must be start with state code!"
+                            )
                         )
 
                     if record.code[3:4] != record.benefit_type:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "The tax benefit code must contain "
                                 "the type of benefit!"
                             )

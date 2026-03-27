@@ -2,7 +2,7 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
@@ -70,7 +70,7 @@ class DocumentSerie(models.Model):
         """Create new no_gap entry sequence for every
         new document serie"""
         sequence = {
-            "name": values.get("name", _("Document Serie Sequence")),
+            "name": values.get("name", self.env._("Document Serie Sequence")),
             "implementation": "no_gap",
             "padding": 1,
             "number_increment": 1,
@@ -95,7 +95,9 @@ class DocumentSerie(models.Model):
 
     def write(self, vals):
         if "internal_sequence_id" in vals:
-            raise ValidationError(_("You cannot change the internal sequence."))
+            raise ValidationError(
+                self.env._("You cannot change the internal sequence.")
+            )
         if "code" in vals:
             for serie in self:
                 if serie.code == vals["code"]:
@@ -108,7 +110,7 @@ class DocumentSerie(models.Model):
                     limit=1,
                 ):
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "You cannot change the code of a document "
                             "serie %(name)s that is already in use.",
                             name=serie.name,

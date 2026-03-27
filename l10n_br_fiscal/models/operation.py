@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
@@ -192,7 +192,9 @@ class Operation(models.Model):
     def unlink(self):
         operations = self.filtered(lambda line: line.state == "approved")
         if operations:
-            raise UserError(_("You cannot delete an Operation which is not draft !"))
+            raise UserError(
+                self.env._("You cannot delete an Operation which is not draft !")
+            )
         return super().unlink()
 
     def get_document_serie(self, company, document_type):
@@ -302,7 +304,7 @@ class Operation(models.Model):
         if default is None:
             default = {}
         if self.code:
-            default["code"] = self.code + _(" (Copy)")
+            default["code"] = self.code + self.env._(" (Copy)")
 
         res = super().copy(default)
         return res
