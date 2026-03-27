@@ -6,7 +6,7 @@
 import csv
 import logging
 
-from odoo import Command, _, api, models
+from odoo import Command, api, models
 from odoo.tools.misc import file_open
 
 from odoo.addons.account.models.chart_template import template
@@ -44,7 +44,7 @@ class AccountChartTemplate(models.AbstractModel):
     @template("br_oca")
     def _get_br_oca_template_data(self):
         return {
-            "name": _("Plano de Contas Base"),
+            "name": self.env._("Basic Chart of Accounts"),
             "visible": True,  # TODO
             "code_digits": "2",
             "use_anglo_saxon": True,
@@ -269,7 +269,7 @@ class AccountChartTemplate(models.AbstractModel):
         company.account_purchase_tax_id = None
 
         _logger.info(
-            _(
+            self.env._(
                 "Company %(company_name)s: created tax accounts: %(refs)s",
                 company_name=company.name,
                 refs=created_accounts_refs,
