@@ -35,6 +35,10 @@ class Lead(models.Model):
         help="Indicates if Brazilian localization fields should be displayed.",
     )
 
+    country_enforce_cities = fields.Boolean(
+        related="partner_id.country_id.enforce_cities",
+    )
+
     @api.depends("country_id")
     def _compute_show_l10n_br(self):
         """
