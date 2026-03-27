@@ -2,7 +2,7 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
@@ -101,9 +101,9 @@ class PartnerProfile(models.Model):
                 > 1
             ):
                 raise ValidationError(
-                    _(
-                        "Mantenha apenas um tipo fiscal padrão"
-                        " para Pessoa Física ou para Pessoa Jurídica!"
+                    self.env._(
+                        "Maintain only one standard tax type for"
+                        " Individuals or for Legal Entities!"
                     )
                 )
             return True

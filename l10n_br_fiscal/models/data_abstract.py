@@ -6,7 +6,7 @@ import json
 from erpbrasil.base import misc
 from lxml import etree
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import AccessError
 
 
@@ -44,12 +44,16 @@ class DataAbstract(models.AbstractModel):
 
     def action_archive(self):
         if not self.env.user.has_group("l10n_br_fiscal.group_manager"):
-            raise AccessError(_("You don't have permission to archive records."))
+            raise AccessError(
+                self.env._("You don't have permission to archive records.")
+            )
         return super().action_archive()
 
     def action_unarchive(self):
         if not self.env.user.has_group("l10n_br_fiscal.group_manager"):
-            raise AccessError(_("You don't have permission to unarchive records."))
+            raise AccessError(
+                self.env._("You don't have permission to unarchive records.")
+            )
         return super().action_unarchive()
 
     @api.depends("code")

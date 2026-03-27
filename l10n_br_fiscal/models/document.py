@@ -6,7 +6,7 @@ from ast import literal_eval
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
@@ -295,8 +295,9 @@ class Document(models.Model):
 
             if documents:
                 raise ValidationError(
-                    _("There is already a fiscal document with this key: {} !").format(
-                        record.document_key
+                    self.env._(
+                        "There is already a fiscal document with this key: %(doc_key)s",
+                        doc_key=record.document_key,
                     )
                 )
             else:
@@ -330,7 +331,7 @@ class Document(models.Model):
 
             if documents or invalid_number:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "There is already a fiscal document with this "
                         "Serie: %(serie)s, Number: %(number)s!",
                         serie=record.document_serie,
@@ -371,7 +372,7 @@ class Document(models.Model):
             if self.document_date:
                 name += " - " + self.document_date.strftime("%d/%m/%Y")
             if not self.partner_id.vat:
-                name += " - " + _("Unidentified Consumer")
+                name += " - " + self.env._("Unidentified Consumer")
             elif self.partner_id.legal_name:
                 name += " - " + self.partner_id.legal_name
                 name += " - " + self.partner_id.vat
@@ -418,7 +419,7 @@ class Document(models.Model):
 
         for record in self.filtered(lambda d: d.state_edoc in forbidden_states_unlink):
             raise ValidationError(
-                _(
+                self.env._(
                     "You cannot delete fiscal document number %(number)s with "
                     "the status: %(state)s!",
                     number=record.document_number,
@@ -434,9 +435,11 @@ class Document(models.Model):
             fsc_op = record.fiscal_operation_id.return_fiscal_operation_id
             if not fsc_op:
                 raise ValidationError(
-                    _(
-                        "The fiscal operation {} has no return Fiscal Operation defined"
-                    ).format(record.fiscal_operation_id)
+                    self.env._(
+                        "The fiscal operation %(fiscal_op)s has no"
+                        " return Fiscal Operation defined",
+                        fiscal_op=record.fiscal_operation_id,
+                    )
                 )
 
             new_doc = record.copy()
@@ -446,7 +449,7 @@ class Document(models.Model):
                 fsc_op_line = line.fiscal_operation_id.return_fiscal_operation_id
                 if not fsc_op_line:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "The fiscal operation {} has no return Fiscal "
                             "Operation defined"
                         ).format(line.fiscal_operation_id)

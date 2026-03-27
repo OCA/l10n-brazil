@@ -2,7 +2,7 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import SITUACAO_EDOC_INUTILIZADA
@@ -93,7 +93,9 @@ class InvalidateNumber(models.Model):
                 ]
 
                 if self.search_count(domain):
-                    raise ValidationError(_("Number range overlap is not allowed."))
+                    raise ValidationError(
+                        self.env._("Number range overlap is not allowed.")
+                    )
         return True
 
     @api.depends("document_type_id", "document_serie_id", "number_start", "number_end")
@@ -107,7 +109,9 @@ class InvalidateNumber(models.Model):
 
     def unlink(self):
         if self.filtered(lambda n: not n.state == "draft"):
-            raise UserError(_("You can delete only draft Invalidate Number Range !"))
+            raise UserError(
+                self.env._("You can delete only draft Invalidate Number Range !")
+            )
         return super().unlink()
 
     def action_invalidate(self):

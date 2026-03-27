@@ -6,7 +6,7 @@ from collections import namedtuple
 
 import requests
 
-from odoo import _
+import odoo
 from odoo.exceptions import UserError
 
 WS_SERVICOS = 0
@@ -33,7 +33,7 @@ def _request(ws_url, params, ibpt_request_timeout=30):
             )
         elif response.status_code == requests.codes.forbidden:
             raise UserError(
-                _(
+                odoo.api.Environment._(
                     "IBPT Forbidden - token=%(token)s, cnpj=%(cnpj)s, UF=%(uf)s",
                     token=params.get("token"),
                     cnpj=params.get("cnpj"),
@@ -41,11 +41,25 @@ def _request(ws_url, params, ibpt_request_timeout=30):
                 )
             )
         elif response.status_code == requests.codes.not_found:
-            raise UserError(_("IBPT URL not found - {!r}").format(ws_url))
+            raise UserError(
+                odoo.api.Environment._(
+                    "IBPT URL not found - %(url)s",
+                    url=ws_url,
+                )
+            )
         elif response.status_code == requests.codes.service_unavailable:
-            raise UserError(_("IBPT Service Unavailable - {!r}").format(ws_url))
-    except Exception as e:
-        raise UserError(f"Error in the request: {e}") from e
+            raise UserError(
+                odoo.api.Environment._(
+                    "IBPT Service Unavailable - %s(url)s", url=ws_url
+                )
+            )
+    except Exception as err:
+        raise UserError(
+            odoo.api.Environment._(
+                "Error in the request: %(error)s",
+                error=str(err),
+            )
+        ) from err
 
 
 def get_ibpt_product(

@@ -8,7 +8,7 @@ from datetime import timedelta
 from erpbrasil.base import misc
 from lxml import etree
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.tools import config as odooconfig
 
 from .ibpt import DeOlhoNoImposto
@@ -113,13 +113,19 @@ class DataNcmNbsAbstract(models.AbstractModel):
                     self.env["l10n_br_fiscal.tax.estimate"].create(values)
 
                     record.message_post(
-                        body=_("{} Tax Estimate Updated").format(object_name),
-                        subject=_("{} Tax Estimate Updated").format(object_name),
+                        body=self.env._(
+                            "%(name)s Tax Estimate Updated",
+                            name=object_name,
+                        ),
+                        subject=self.env._(
+                            "%(name)s Tax Estimate Updated",
+                            name=object_name,
+                        ),
                     )
 
             except Exception as e:
                 _logger.warning(
-                    _(
+                    self.env._(
                         "%(name)s Tax Estimate Failure: %(error)s",
                         name=object_name,
                         error=e,
@@ -127,7 +133,9 @@ class DataNcmNbsAbstract(models.AbstractModel):
                 )
                 record.message_post(
                     body=str(e),
-                    subject=_("%(name)s Tax Estimate Failure", name=object_name),
+                    subject=self.env._(
+                        "%(name)s Tax Estimate Failure", name=object_name
+                    ),
                 )
                 continue
 
@@ -135,7 +143,9 @@ class DataNcmNbsAbstract(models.AbstractModel):
     def _scheduled_update(self):
         object_name = OBJECT_NAMES.get(self._name)
 
-        _logger.info(_("Scheduled {} estimate taxes update...").format(object_name))
+        _logger.info(
+            self.env._("Scheduled %(name)s estimate taxes update...", name=object_name)
+        )
 
         config_date = self.env.company.ibpt_update_days
         today = fields.date.today()
@@ -176,7 +186,10 @@ class DataNcmNbsAbstract(models.AbstractModel):
                 continue
 
         _logger.info(
-            _("Scheduled {} estimate taxes update complete.").format(object_name)
+            self.env._(
+                "Scheduled %(name)s estimate taxes update complete.",
+                name=object_name,
+            )
         )
 
     @api.model

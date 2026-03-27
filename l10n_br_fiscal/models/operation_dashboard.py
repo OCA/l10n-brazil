@@ -3,7 +3,7 @@
 
 import json
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 from ..constants.fiscal import (
     SITUACAO_EDOC_A_ENVIAR,
@@ -53,9 +53,9 @@ class Operation(models.Model):
         title = ""
         if self.fiscal_type in ("sale", "purchase"):
             title = (
-                _("Bills to pay")
+                self.env._("Bills to pay")
                 if self.fiscal_type == "purchase"
-                else _("Invoices owed to you")
+                else self.env._("Invoices owed to you")
             )
 
         number_2confirm = self._get_number_2confirm_documents()
@@ -117,7 +117,7 @@ class Operation(models.Model):
                 }
             )
         return {
-            "name": _("Create invoice/bill"),
+            "name": self.env._("Create invoice/bill"),
             "type": "ir.actions.act_window",
             "view_type": "form",
             "view_mode": "form",
