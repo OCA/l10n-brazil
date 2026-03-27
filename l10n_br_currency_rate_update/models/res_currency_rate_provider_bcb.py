@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import requests
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
@@ -50,7 +50,7 @@ class ResCurrencyRateProviderBCB(models.Model):
         if self.service == "BCB":
             if base_currency != "BRL":
                 raise UserError(
-                    _(
+                    self.env._(
                         "Brazilian Central Bank is suitable only for companies"
                         " with BRL as base currency!"
                     )
