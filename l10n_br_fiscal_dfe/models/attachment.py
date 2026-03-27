@@ -100,9 +100,11 @@ class Attachment(models.TransientModel):
             attachment_ids = attachs
 
         if attachment_ids._name != "ir.attachment":
-            ids = attachment_obj
-            for record in attachment_ids:
-                ids += attachment_obj.search([("res_id", "=", record.id)])
-            attachment_ids = ids
+            attachment_ids = attachment_obj.search(
+                [
+                    ("res_model", "=", attachment_ids._name),
+                    ("res_id", "in", attachment_ids.ids),
+                ]
+            )
 
         return attachment_ids
