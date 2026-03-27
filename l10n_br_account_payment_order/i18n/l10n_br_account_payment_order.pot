@@ -1288,12 +1288,6 @@ msgid "Carteira"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
-msgid "Carteira no banco Itaú é obrigatória"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__change_discount_date_code_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__change_discount_date_code_id
 msgid "Change Discount Date Movement Instruction Code"
@@ -2298,13 +2292,13 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-msgid "Missing Bank Journal on payment order %s."
+msgid "Missing Bank Journal on payment order %(name)s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-msgid "Missing bank account on bank journal '%s'."
+msgid "Missing bank account on bank journal '%(name)s'."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2531,12 +2525,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__file_number
 msgid "Número sequencial do arquivo"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#. odoo-python
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
-msgid "O percentual deve ser um valor entre 0 a 100."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2845,6 +2833,12 @@ msgid "Sending Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
+msgid "Sequence %s(seq_name) already in use by %(al_name)s!"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__cnab_sequence_id
 msgid "Sequencia do Arquivo CNAB"
 msgstr ""
@@ -2969,6 +2963,12 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
+msgid "The Wallet in Itaú Bank need to be informed."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
 msgid "The amount for Partner '%(name)s' is negative or null (%(total).2f) !"
 msgstr ""
@@ -2993,8 +2993,14 @@ msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_config.py:0
+msgid "The percent value should be between 0 to 100."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:0
-msgid "There are no transactions on payment order %s."
+msgid "There are no transactions on payment order %(name)s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -3197,6 +3203,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__website_message_ids
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/account_payment_line.py:0
+msgid ""
+"When the payment method is pix transfer, a pix key must be informed, or the bank account with the type of account.\n"
+"Payment Line: %(rec_name)s"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
