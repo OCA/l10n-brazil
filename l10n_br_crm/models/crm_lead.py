@@ -4,7 +4,7 @@
 from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_base.tools import check_cnpj_cpf, check_ie
@@ -198,10 +198,10 @@ class Lead(models.Model):
     def action_open_cnpj_search_wizard(self):
         """Override to use cnpj field instead of vat for crm.lead."""
         if not self.cnpj:
-            raise UserError(_("Please enter your CNPJ"))
+            raise UserError(self.env._("Please enter your CNPJ"))
         if self.cnpj_validation_disabled():
             raise UserError(
-                _(
+                self.env._(
                     "It is necessary to activate the option to validate de CNPJ to use"
                     " this functionality."
                 )
