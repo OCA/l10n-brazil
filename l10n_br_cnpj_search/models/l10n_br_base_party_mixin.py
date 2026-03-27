@@ -3,7 +3,7 @@
 # Copyright (C) 2024-Today - Engenere (<https://engenere.one>).
 # @author Cristiano Mafra Junior
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -28,10 +28,10 @@ class PartyMixin(models.AbstractModel):
 
     def action_open_cnpj_search_wizard(self):
         if not self.vat:
-            raise UserError(_("Please enter your CNPJ"))
+            raise UserError(self.env._("Please enter your CNPJ"))
         if self.cnpj_validation_disabled():
             raise UserError(
-                _(
+                self.env._(
                     "It is necessary to activate the option to validate de CNPJ to use"
                     " this functionality."
                 )
