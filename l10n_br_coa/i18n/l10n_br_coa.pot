@@ -24,6 +24,12 @@ msgid "Account Tax Mixin"
 msgstr ""
 
 #. module: l10n_br_coa
+#. odoo-python
+#: code:addons/l10n_br_coa/models/template_br_oca.py:0
+msgid "Basic Chart of Accounts"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins
 msgid "COFINS"
 msgstr ""
@@ -148,12 +154,6 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pis_wh
 msgid "PIS WH"
-msgstr ""
-
-#. module: l10n_br_coa
-#. odoo-python
-#: code:addons/l10n_br_coa/models/template_br_oca.py:0
-msgid "Plano de Contas Base"
 msgstr ""
 
 #. module: l10n_br_coa
