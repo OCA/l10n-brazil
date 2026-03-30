@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="base.main_company" model="res.company">
+        <field name="name">Sua Empresa (São Paulo)</field>
+    </record>
+
+    <record id="stock.res_company_1" model="res.company">
+        <field name="name">Sua Empresa (Chicago)</field>
+    </record>
+</odoo>
