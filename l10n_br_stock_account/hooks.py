@@ -1,17 +1,14 @@
 # Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import SUPERUSER_ID, api
-
 from odoo.addons.l10n_br_fiscal.tools import set_journal_in_fiscal_operation
 from odoo.addons.l10n_br_stock.hooks import create_locations_quants
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def post_init_hook(env):
     if env.ref("base.module_l10n_br_stock_account").demo:
         create_locations_quants(
-            cr,
+            env,
             [
                 env.ref("stock.warehouse0").lot_stock_id,
                 env.ref("l10n_br_stock.wh_empresa_simples_nacional").lot_stock_id,
@@ -24,15 +21,14 @@ def post_init_hook(cr, registry):
         )
 
         # Load COA Fiscal Operation properties
-        stock_account_set_journal_in_fiscal_operation(cr)
+        stock_account_set_journal_in_fiscal_operation(env)
 
 
-def stock_account_set_journal_in_fiscal_operation(cr):
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def stock_account_set_journal_in_fiscal_operation(env):
     if env.ref("base.module_l10n_br_stock_account").demo:
         # Load Fiscal Operation Main Company
         set_journal_in_fiscal_operation(
-            cr,
+            env.cr,
             env.ref("base.main_company"),
             [
                 {
@@ -53,7 +49,7 @@ def stock_account_set_journal_in_fiscal_operation(cr):
         )
 
         set_journal_in_fiscal_operation(
-            cr,
+            env.cr,
             company_sn,
             [
                 {
@@ -74,7 +70,7 @@ def stock_account_set_journal_in_fiscal_operation(cr):
         )
 
         set_journal_in_fiscal_operation(
-            cr,
+            env.cr,
             company_lc,
             [
                 {

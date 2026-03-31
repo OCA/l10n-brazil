@@ -30,7 +30,6 @@ class StockMove(models.Model):
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain(),
     )
@@ -42,10 +41,6 @@ class StockMove(models.Model):
         column1="document_id",
         column2="fiscal_tax_id",
         string="Fiscal Taxes",
-    )
-
-    quantity = fields.Float(
-        related="product_uom_qty",
     )
 
     uom_id = fields.Many2one(
@@ -251,6 +246,11 @@ class StockMove(models.Model):
             taxes = self.tax_ids
 
         return taxes
+
+    def _get_document(self):
+        """Override to return picking as the fiscal document."""
+        self.ensure_one()
+        return self.picking_id
 
     def _get_fiscal_partner(self):
         """
