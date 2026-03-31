@@ -285,7 +285,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
         for move in picking2.move_ids_without_package:
             # Force Split
-            move.quantity_done = 1
+            move.quantity = 1
 
         # Return Wizard
         backorder = self.create_backorder_wizard(picking2)
@@ -416,7 +416,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             line.freight_value = 10.0
             line.insurance_value = 10.0
             line.other_value = 10.0
-            line.quantity_done = line.product_uom_qty
+            line.quantity = line.product_uom_qty
 
         self.picking_move_state(picking)
         self.assertEqual(picking.state, "done", "Change state fail.")
@@ -519,8 +519,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             self._run_line_onchanges(move)
             # test split
             move.product_uom_qty = 2
-            move.quantity_done = 1
-
+            move.quantity = 1
         # Return Wizard
         backorder = self.create_backorder_wizard(picking)
         self.assertEqual(backorder.invoice_state, "2binvoiced")
@@ -558,7 +557,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         for line in picking.move_ids:
             self._run_line_onchanges(line)
             # Force Split
-            line.quantity_done = 10
+            line.quantity = 10
 
         picking.button_validate()
 
@@ -629,7 +628,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.action_assign()
         for move in picking.move_ids_without_package:
             self._run_line_onchanges(move)
-            move.quantity_done = move.product_uom_qty
+            move.quantity = move.product_uom_qty
         for line in picking.move_ids:
             line.price_unit = 100
 

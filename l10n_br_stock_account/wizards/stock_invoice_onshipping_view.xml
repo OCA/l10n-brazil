@@ -12,18 +12,16 @@
                 <field name="has_fiscal_operation" invisible="True" />
                 <field
                     name="fiscal_operation_journal"
-                    attrs="{'invisible': [('has_fiscal_operation', '=', False)]}"
+                    invisible="not has_fiscal_operation"
                 />
             </field>
             <field name="sale_journal" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'required': [('fiscal_operation_journal', '=', False)], 'invisible': [('fiscal_operation_journal', '=', True)]}</attribute>
+                <attribute name="invisible">fiscal_operation_journal</attribute>
+                <attribute name="required">not fiscal_operation_journal</attribute>
             </field>
             <field name="purchase_journal" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'required': [('fiscal_operation_journal', '=', False)], 'invisible': [('fiscal_operation_journal', '=', True)]}</attribute>
+                <attribute name="invisible">fiscal_operation_journal</attribute>
+                <attribute name="required">not fiscal_operation_journal</attribute>
             </field>
         </field>
     </record>
