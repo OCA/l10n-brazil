@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,56 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "$ 3.12"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "$ 4.40"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "$ 4.50"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "$ 8.50"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "<span class=\"pos-change_amount\">$ 0.86</span>"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "<span class=\"pos-change_title\">Change</span>"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "<span class=\"total-amount-formatting\">TOTAL</span>"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "<span id=\"total-amount\" class=\"pos_total-amount\">$ 469.14</span>"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "<span>$ 470.00</span>"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "<span>Cash (USD):</span>"
-msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_needaction
@@ -75,7 +25,7 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__activation_code
-msgid "Activation code"
+msgid "Activation Code"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -99,9 +49,7 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__additional_data
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__additional_data
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__additional_data
 msgid "Additional Data"
 msgstr ""
 
@@ -181,12 +129,6 @@ msgid "Amount Gross"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax
-msgid "Amount Tax"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_included
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_tax_included
 msgid "Amount Tax Included"
@@ -202,19 +144,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_taxed
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_taxed
 msgid "Amount Taxed"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_total
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_total
-msgid "Amount Total"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_untaxed
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_untaxed
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__amount_untaxed
-msgid "Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -255,6 +184,14 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__state_edoc__autorizada
 msgid "Autorizada"
+msgstr ""
+
+#. module: l10n_br_pos
+#. odoo-javascript
+#: code:addons/l10n_br_pos/static/src/xml/Screens/TicketScreen/TicketScreen.xml:0
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
+#, python-format
+msgid "Ações"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -341,12 +278,14 @@ msgid "CNAE Code"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cnpj_homologation
-msgid "CNPJ homologation"
+#. odoo-javascript
+#: code:addons/l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.esm.js:0
+#: code:addons/l10n_br_pos/static/src/js/models.esm.js:0
+#, python-format
+msgid "CNPJ / CPF Inválido !"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cnpj_software_house
 #: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__cnpj_software_house
 msgid "CNPJ software house"
 msgstr ""
@@ -358,7 +297,7 @@ msgid "CNPJ/CPF"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
@@ -367,7 +306,7 @@ msgid "CNPJ/CPF na nota?"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
+#. odoo-javascript
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #, python-format
 msgid "CNPJ/CPF:"
@@ -502,8 +441,8 @@ msgid "COFINS WH Base Type"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
+#. odoo-javascript
+#: code:addons/l10n_br_pos/static/src/xml/Screens/TicketScreen/TicketScreen.xml:0
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #, python-format
@@ -619,13 +558,6 @@ msgid "CST PIS ST"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.xml:0
-#, python-format
-msgid "Cancel"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__cancel_date
 msgid "Cancel Date"
 msgstr ""
@@ -661,21 +593,6 @@ msgid "Cancelada"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
-#, python-format
-msgid "Cancelado"
-msgstr ""
-
-#. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
-#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
-#, python-format
-msgid "Cancelar"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_pos_form
 msgid "Cancellation"
 msgstr ""
@@ -686,7 +603,8 @@ msgid "Cashier Number"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
+#. odoo-javascript
+#: code:addons/l10n_br_pos/static/src/xml/Screens/TicketScreen/TicketScreen.xml:0
 #: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
 #, python-format
 msgid "Chave"
@@ -713,6 +631,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cnpj_homologation
+msgid "Cnpj Homologation"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cnpj_software_house
+msgid "Cnpj Software House"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_code
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_type
 msgid "Code"
@@ -733,6 +661,7 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__company_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__company_id
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__company_id
 msgid "Company"
 msgstr ""
 
@@ -745,6 +674,12 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__edoc_purpose__2
 msgid "Complementary"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ind_final
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ind_final
+msgid "Consumidor final"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -826,11 +761,6 @@ msgid "Customer"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__customer_additional_data
-msgid "Customer Additional Data"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__manual_customer_additional_data
 msgid "Customer Additional data manually entered by user"
 msgstr ""
@@ -893,11 +823,6 @@ msgid "Denegada"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "Desk Organizer"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_customhouse_charges
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__ii_customhouse_charges
 msgid "Despesas Aduaneiras"
@@ -935,19 +860,7 @@ msgid "Discount Value"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_cfop__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_document_related__display_name
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_mail_thread__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_product_product__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_product_template__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_res_partner__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_stock_picking__display_name
-#: model:ir.model.fields,field_description:l10n_br_pos.field_stock_return_picking__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -978,8 +891,8 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/Screens/OrderManagementScreen/OrderList.xml:0
+#. odoo-javascript
+#: code:addons/l10n_br_pos/static/src/js/Screens/TicketScreen/TicketScreen.esm.js:0
 #, python-format
 msgid "Documento Fiscal"
 msgstr ""
@@ -1030,26 +943,6 @@ msgid "Email Thread"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_order__state_edoc__encerrada
-msgid "Encerrada"
-msgstr ""
-
-#. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.js:0
-#: code:addons/l10n_br_pos/static/src/js/models.js:0
-#, python-format
-msgid "Enter a valid CNPJ / CPF number"
-msgstr ""
-
-#. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.js:0
-#, python-format
-msgid "Enter reason for cancellation!"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields.selection,name:l10n_br_pos.selection__pos_config__printer__epson-tm-t20
 msgid "Epson TM-T20"
 msgstr ""
@@ -1089,7 +982,6 @@ msgid "File"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ind_final
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__ind_final
 msgid "Final Consumption Operation"
 msgstr ""
@@ -1108,13 +1000,29 @@ msgid "Financial Gross Amount"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_additional_data
-msgid "Fiscal Additional Data"
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order__manual_fiscal_additional_data
+msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,help:l10n_br_pos.field_pos_order__manual_fiscal_additional_data
-msgid "Fiscal Additional data manually entered by user"
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_amount_untaxed
+msgid "Fiscal Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -1123,13 +1031,9 @@ msgid "Fiscal Data"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model,name:l10n_br_pos.model_l10n_br_fiscal_document_related
-msgid "Fiscal Document Related"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_operation_type
-msgid "Fiscal Operation Type"
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_id
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__document_id
+msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -1169,9 +1073,7 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__operation_fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__operation_fiscal_type
 msgid "Fiscal Type"
 msgstr ""
 
@@ -1183,11 +1085,6 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_follower_ids
 msgid "Followers"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_channel_ids
-msgid "Followers (Channels)"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -1231,6 +1128,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_gross
 msgid "Gross Product/Service Amount"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_l10n_br_fiscal_document_related
+msgid "Grupo do Cupom Fiscal vinculado à NF-e"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__has_message
+msgid "Has Message"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -1541,25 +1448,8 @@ msgid "ICMSSN Credit Value"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_cfop__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_document_related__id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_mail_thread__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_product_product__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_product_template__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_res_partner__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_stock_picking__id
-#: model:ir.model.fields,field_description:l10n_br_pos.field_stock_return_picking__id
 msgid "ID"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__ie_homologation
-msgid "IE homologation"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -1877,8 +1767,12 @@ msgid "Identifies the operation destination."
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__ie_homologation
+msgid "Ie Homologation"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_needaction
-#: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -1901,6 +1795,20 @@ msgid ""
 "government-related entity. It encompasses a range of entities such as "
 "municipal governments, state-owned enterprises (where the government is the "
 "largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_pos
+#. odoo-javascript
+#: code:addons/l10n_br_pos/static/src/js/models.esm.js:0
+#, python-format
+msgid "Insira um número de CNPJ / CPF válido"
+msgstr ""
+
+#. module: l10n_br_pos
+#. odoo-javascript
+#: code:addons/l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.esm.js:0
+#, python-format
+msgid "Insira um número de CNPJ / CPF válido para o cliente."
 msgstr ""
 
 #. module: l10n_br_pos
@@ -1931,16 +1839,13 @@ msgid "Inutilizada"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/js/Screens/PaymentScreen/PaymentScreen.js:0
-#: code:addons/l10n_br_pos/static/src/js/models.js:0
-#, python-format
-msgid "Invalid CNPJ / CPF !"
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_is_follower
+msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_is_follower
-msgid "Is Follower"
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__issuer
+msgid "Issuer"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -1954,19 +1859,7 @@ msgid "L10n_br_pos Product_fiscal_map"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_cfop____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_document_related____last_update
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_mail_thread____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_product_product____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_product_template____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_res_partner____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_stock_picking____last_update
-#: model:ir.model.fields,field_description:l10n_br_pos.field_stock_return_picking____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -1983,11 +1876,6 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "Led Lamp"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2027,20 +1915,8 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "Monitor Stand"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
-
-#. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
-#, python-format
-msgid "N/A"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2107,10 +1983,8 @@ msgid "Network"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/js/models.js:0
-#, python-format
-msgid "Network Error"
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2150,7 +2024,7 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2159,20 +2033,16 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,help:l10n_br_pos.field_pos_order__message_unread_counter
-msgid "Number of unread messages"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "Odoo Logo"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_operation_id
 msgid "Operation"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__operation_fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__operation_fiscal_type
+msgid "Operation Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2190,6 +2060,12 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__operation_name
 msgid "Operation Name"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_operation_type
+msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2435,11 +2311,6 @@ msgid "Pos Refund Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "Price"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_unit
 msgid "Price Unit"
 msgstr ""
@@ -2455,15 +2326,10 @@ msgid "Printer parameters"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model,name:l10n_br_pos.model_product_product
+#: model:ir.model,name:l10n_br_pos.model_product_template
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__product_id
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__product_id
 msgid "Product"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model,name:l10n_br_pos.model_product_template
-msgid "Product Template"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2474,6 +2340,11 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__quantity
 msgid "Product Uom Quantity"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_product_product
+msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2499,15 +2370,7 @@ msgstr ""
 
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__quantity
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
 msgid "Quantity"
-msgstr ""
-
-#. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.js:0
-#, python-format
-msgid "Reason for Cancellation?"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2516,9 +2379,8 @@ msgid "Receiver Address"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
-#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
+#. odoo-javascript
+#: code:addons/l10n_br_pos/static/src/xml/Screens/TicketScreen/TicketScreen.xml:0
 #, python-format
 msgid "Reimprimir"
 msgstr ""
@@ -2550,11 +2412,6 @@ msgid "SAT environment"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__sat_path
-msgid "SAT path"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
 msgid "Sale"
 msgstr ""
@@ -2562,6 +2419,11 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__out_pos_fiscal_operation_line_ids
 msgid "Sales Operation Lines"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__sat_path
+msgid "Sat Path"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2637,13 +2499,6 @@ msgid "Simplified document type"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/Screens/OrderManagementScreen/OrderList.xml:0
-#, python-format
-msgid "Situação"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__sign_software_house
 msgid "Software House Signature"
 msgstr ""
@@ -2656,13 +2511,6 @@ msgstr ""
 #. module: l10n_br_pos
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_search
 msgid "State registration"
-msgstr ""
-
-#. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/xml/pos.xml:0
-#, python-format
-msgid "Status"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2683,13 +2531,6 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
-msgstr ""
-
-#. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/js/models.js:0
-#, python-format
-msgid "Status documento fiscal"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -2884,7 +2725,6 @@ msgid "Taxation"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_tax
 #: model_terms:ir.ui.view,arch_db:l10n_br_pos.l10n_br_pos_product_fiscal_map_form_view
 msgid "Taxes"
 msgstr ""
@@ -2934,11 +2774,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__amount_total
-msgid "Total"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__total_weight
 msgid "Total Weight"
 msgstr ""
@@ -2963,8 +2798,7 @@ msgid "Transfer"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__fiscal_operation_type
 msgid "Type"
 msgstr ""
 
@@ -2985,13 +2819,6 @@ msgid "USB"
 msgstr ""
 
 #. module: l10n_br_pos
-#. openerp-web
-#: code:addons/l10n_br_pos/static/src/js/models.js:0
-#, python-format
-msgid "Unable to update values in backend if offline."
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__price_unit
 msgid "Unit Price"
 msgstr ""
@@ -2999,16 +2826,6 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_code
 msgid "Unmasked Code"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__message_unread_counter
-msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: l10n_br_pos
@@ -3067,11 +2884,6 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order__website_message_ids
 msgid "Website communication history"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model_terms:pos.config,customer_facing_display_html:l10n_br_pos.pos_config_presumido
-msgid "Whiteboard Pen"
 msgstr ""
 
 #. module: l10n_br_pos
