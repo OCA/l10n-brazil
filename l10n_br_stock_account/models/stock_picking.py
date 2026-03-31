@@ -17,7 +17,6 @@ class StockPicking(models.Model):
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
@@ -54,7 +53,7 @@ class StockPicking(models.Model):
         return arch, view
 
     def _put_in_pack(self, move_line_ids, create_package_level=True):
-        package = super()._put_in_pack(move_line_ids, create_package_level)
+        package = super()._put_in_pack(move_line_ids)
         if (
             package
             and self.picking_type_id.pre_generate_fiscal_document_number == "pack"
