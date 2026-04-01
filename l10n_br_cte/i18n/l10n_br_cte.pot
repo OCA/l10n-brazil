@@ -2254,6 +2254,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
+msgid "Display IBS/CBS"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infdoc__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnf__display_name
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_aquav_infnfe__display_name
@@ -2886,6 +2891,11 @@ msgstr ""
 msgid ""
 "Hora programada\n"
 "Formato HH:MM:SS"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__dacte_display_ibs_cbs
+msgid "IBS/CBS"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5611,6 +5621,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_cte_modal_rodo_occ__cte40_UF__sp
 msgid "SP"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_display_ibs_cbs
+msgid "Select to display the IBS and CBS fields in the generated DACTE."
 msgstr ""
 
 #. module: l10n_br_cte
