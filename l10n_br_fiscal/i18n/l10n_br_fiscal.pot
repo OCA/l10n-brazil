@@ -32,6 +32,12 @@ msgid "%(name)s Tax Estimate Failure: %(error)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
+msgid "%(name)s Tax Estimate Updated"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation_line__icms_origin__0
@@ -2643,6 +2649,12 @@ msgid "Enviar"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/ibpt.py:0
+msgid "Error in the request: %(error)s"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__public_entity_type__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_partner_profile__public_entity_type__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__public_entity_type__2
@@ -3342,7 +3354,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
-msgid "IBPT Service Unavailable - {!r}"
+msgid "IBPT Service Unavailable - %s(url)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3358,7 +3370,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/ibpt.py:0
-msgid "IBPT URL not found - {!r}"
+msgid "IBPT URL not found - %(url)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5506,8 +5518,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/partner_profile.py:0
 msgid ""
-"Mantenha apenas um tipo fiscal padrão para Pessoa Física ou para Pessoa "
-"Jurídica!"
+"Maintain only one standard tax type for Individuals or for Legal Entities!"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7288,13 +7299,13 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
-msgid "Scheduled {} estimate taxes update complete."
+msgid "Scheduled %(name)s estimate taxes update complete."
 msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
-msgid "Scheduled {} estimate taxes update..."
+msgid "Scheduled %(name)s estimate taxes update..."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8266,6 +8277,13 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document.py:0
+msgid ""
+"The fiscal operation %(fiscal_op)s has no return Fiscal Operation defined"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
 
@@ -8309,7 +8327,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document.py:0
-msgid "There is already a fiscal document with this key: {} !"
+msgid "There is already a fiscal document with this key: %(doc_key)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8836,10 +8854,4 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__pis_wh
 msgid "pis_wh"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:0
-msgid "{} Tax Estimate Updated"
 msgstr ""
