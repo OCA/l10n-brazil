@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_cnpj_search
+#. odoo-python
+#: code:addons/l10n_br_cnpj_search/models/cnpj_webservice.py:0
+msgid "%(reason)s"
+msgstr ""
+
+#. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
 msgid "<span class=\"o_form_label\">Brazilian CNPJ service API</span>"
 msgstr ""
