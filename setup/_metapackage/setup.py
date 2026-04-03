@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_account_nfe>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_account_payment_brcobranca>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_account_payment_order>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_br_account_renegotiation>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_account_withholding>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_base>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_cnab_structure>=16.0dev,<16.1dev',
