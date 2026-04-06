@@ -149,13 +149,14 @@ TAX_FRAMEWORK = [
     ("1", "1 - Simples Nacional"),
     ("2", "2 - Simples Nacional – excesso de sublimite da receita bruta"),
     ("3", "3 - Regime Normal"),
+    ("4", "4 - Simples Nacional - Microempreendedor Individual (MEI)"),
 ]
 
 
 TAX_FRAMEWORK_SIMPLES = "1"
 TAX_FRAMEWORK_SIMPLES_EX = "2"
 TAX_FRAMEWORK_NORMAL = "3"
-TAX_FRAMEWORK_SIMPLES_ALL = ("1", "2")
+TAX_FRAMEWORK_SIMPLES_ALL = ("1", "2", "4")
 
 
 PROFIT_CALCULATION = [
