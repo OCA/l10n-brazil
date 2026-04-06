@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.00">
+  <infDPS Id="DPS420240420000000000000000007000000000000002">
+    <tpAmb>2</tpAmb>
+    <dhEmi>2023-09-09T09:42:06-03:00</dhEmi>
+    <verAplic>20220719</verAplic>
+    <serie>00007</serie>
+    <nDPS>2</nDPS>
+    <dCompet>2023-09-09</dCompet>
+    <tpEmit>1</tpEmit>
+    <cLocEmi>4202404</cLocEmi>
+    <prest>
+      <CNPJ>00000000000000</CNPJ>
+      <IM>152422</IM>
+      <regTrib>
+        <opSimpNac>2</opSimpNac>
+        <regEspTrib>0</regEspTrib>
+      </regTrib>
+    </prest>
+    <toma>
+      <CNPJ>00000000000000</CNPJ>
+      <IM>00000</IM>
+      <xNome>XXXXXXX XXXXXXXXXXX LTDA ME</xNome>
+      <end>
+        <xLgr>ARY XXXXXXX XXXXX</xLgr>
+        <nro>79</nro>
+        <xBairro>XXXXXXXX XXXXX</xBairro>
+      </end>
+    </toma>
+    <serv>
+      <locPrest>
+        <cLocPrestacao>4202404</cLocPrestacao>
+      </locPrest>
+      <cServ>
+        <cTribNac>010101</cTribNac>
+        <xDescServ>Teste de NF Nacional com imposto</xDescServ>
+        <cNBS>111111111</cNBS>
+      </cServ>
+    </serv>
+    <valores>
+      <vServPrest>
+        <vServ>20.00</vServ>
+      </vServPrest>
+      <trib>
+        <tribMun>
+          <tribISSQN>1</tribISSQN>
+          <tpRetISSQN>1</tpRetISSQN>
+        </tribMun>
+        <tribFed>
+          <vRetCP>0.40</vRetCP>
+          <vRetIRRF>0.00</vRetIRRF>
+          <vRetCSLL>0.00</vRetCSLL>
+        </tribFed>
+        <totTrib>
+          <indTotTrib>0</indTotTrib>
+        </totTrib>
+      </trib>
+    </valores>
+  </infDPS>
+</DPS>
