@@ -1,0 +1,119 @@
+Este módulo é a fundação para a emissão do Manifesto Eletrônico de Documentos
+Fiscais (`MDF-e`, `modelo 58`) no Odoo, fornecendo uma estrutura de dados
+completa e fiel ao leiaute oficial 3.00 da SEFAZ.
+
+É importante entender que este módulo atua como uma biblioteca de modelos
+abstratos (mixins) e não realiza a emissão do MDF-e por si só. Sua finalidade é
+ser a base para um módulo de implementação, como o `l10n_br_mdfe`, que é
+responsável por mapear esses modelos nos documentos fiscais do Odoo
+(`l10n_br_fiscal.document`) e comunicar-se com os web services da SEFAZ. Esta
+arquitetura, que separa a estrutura de dados da lógica de emissão, é a mesma
+utilizada com sucesso nos módulos da Nota Fiscal Eletrônica (`l10n_br_nfe_spec`
+e `l10n_br_nfe`).
+
+O MDF-e é um documento fiscal que agrega e vincula múltiplos documentos (como
+NF-e e CT-e) que acobertam uma carga transportada em um único veículo,
+simplificando a fiscalização durante o percurso.
+
+## Principais Conceitos e Estrutura do MDF-e
+
+O módulo `l10n_br_mdfe_spec` mapeia com precisão a estrutura hierárquica do
+manifesto. Os conceitos mais importantes implementados são:
+
+- Agrupamento por Município de Descarregamento (`infMunDescarga`): Esta é a
+  principal lógica organizacional de um MDF-e. O módulo permite agrupar todos os
+  documentos fiscais (NF-e e CT-e) que serão entregues em um mesmo município,
+  garantindo a correta montagem do XML.
+- Documentos Vinculados: Dentro de cada município de descarregamento, é possível
+  vincular:
+  - Conhecimentos de Transporte (`infCte`): Para operações onde o emitente é um
+    prestador de serviço de transporte.
+  - Notas Fiscais (`infNFe`): Para operações de transporte de carga própria ou
+    por transportadoras que realizarão a emissão de CT-e Globalizado
+    posteriormente.
+  - Manifestos Anteriores (`infMDFeTransp`): Utilizado em operações específicas
+    do modal aquaviário.
+- Totalizadores (`tot`): O módulo contém modelos para totalizar a carga,
+  incluindo a quantidade de documentos, o valor total da carga e o peso bruto
+  total.
+- Seguro da Carga (`seg`): Estruturas para informar os dados do seguro, o
+  responsável (emitente ou contratante), a seguradora e os números de apólice e
+  averbação.
+
+## Estrutura por Modal de Transporte
+
+O MDF-e exige informações distintas para cada modalidade de transporte. O
+`l10n_br_mdfe_spec` oferece modelos de dados específicos para cada um deles:
+
+- Rodoviário (`mdfe.30.rodo`): É o mais detalhado, incluindo:
+  - `infANTT`: Informações para a Agência Nacional de Transportes Terrestres,
+    como o RNTRC.
+  - `infCIOT`: Para o Código Identificador da Operação de Transporte.
+  - `valePed`: Para o Vale-Pedágio obrigatório.
+  - `infContratante` e `infPag`: Para identificar os contratantes e detalhar as
+    informações de pagamento do frete.
+  - `veicTracao`, `veicReboque`, `condutor`: Modelos para detalhar os veículos
+    da composição e seus respectivos condutores.
+- Aéreo (`mdfe.30.aereo`): Contempla campos para o número do voo (`nVoo`), e os
+  códigos IATA/OACI dos aeródromos de embarque (`cAerEmb`) e destino
+  (`cAerDes`).
+- Aquaviário (`mdfe.30.aquav`): Aborda dados como o IRIN, o número da viagem
+  (`nViag`), os portos e terminais de embarque, descarregamento e transbordo,
+  além de informações do comboio.
+- Ferroviário (`mdfe.30.ferrov`): Permite detalhar as informações do trem
+  (prefixo, origem, destino) e de cada vagão da composição.
+
+## Geração de Código Automatizada
+
+A principal característica deste módulo é que 100% dos seus modelos de dados
+Odoo são gerados automaticamente a partir dos esquemas XSD oficiais, publicados
+pelo Portal do MDF-e. Essa geração pelo xsdata-odoo garante máxima fidelidade 
+aos leiautes fiscais e agilidade na atualização para novas versões.
+
+Embora os esquemas XSD oficiais do MDF-e sejam publicados e mantidos no Portal
+da SEFAZ, a arquitetura deste projeto se apoia na biblioteca `nfelib` para a
+tarefa de serialização dos dados em XML. Para facilitar o processo de
+desenvolvimento e garantir a consistência, a própria nfelib armazena em seu
+repositório uma cópia atualizada desses esquemas oficiais.
+
+Portanto, a prática recomendada para (re)gerar os modelos deste módulo é
+utilizar um clone local do repositório da `nfelib` como fonte para os arquivos
+de esquema (.xsd), direcionando o comando do `xsdata-odoo` para o diretório
+correspondente.
+
+Links:
+
+- [GitHub - akretion/xsdata-odoo: Odoo abstract model generator from xsd schemas
+  using xsdata](https://github.com/akretion/xsdata-odoo)
+- [GitHub - akretion/nfelib: nfelib - bindings Python para e ler e gerir XML de
+  NF-e, NFS-e nacional, CT-e, MDF-e, BP-e](https://github.com/akretion/nfelib)
+
+O comando utilizado para gerar os modelos da versão 3.0 do MDF-e foi:
+
+```bash
+git clone https://github.com/akretion/nfelib
+cd nfelib
+export XSDATA_SCHEMA=mdfe
+export XSDATA_VERSION=30
+export XSDATA_LANG="portuguese"
+
+xsdata generate nfelib/mdfe/schemas/v3_0 \
+  --package nfelib.mdfe.odoo.v3_0 \
+  --output=odoo
+```
+
+## Prefixo dos campos e versão
+
+Com mais de 500 campos fiscais apenas no MDF-e, com uma meia dúzia de documentos
+fiscais complexos, com 3000 módulos OCA, existiria um risco real de conflito
+com os nomes de campos vindo dos esquemas. Além disso, temos várias versões do
+MDF-e, a 2.0, a 3.0...
+
+Nisso foi decidido que cada campo tem um prefixo composto do nome do schema e
+de alguns dígitos da versão do esquema. No caso mdfe30_. A escolha de 2
+dígitos permite que uma atualização menor do esquema use os mesmos campos (e
+dados no banco então) e que um simples update Odoo (--update=...) consiga
+resolver a migração. Enquanto que para uma mudança maior como de 3.0 para 4.0,
+seria assumido de usar novos campos e novas tabelas (para os objetos não Odoo)
+e que a lib nfelib iria trabalhar com os campos da versão maior do documento
+fiscal considerado.
