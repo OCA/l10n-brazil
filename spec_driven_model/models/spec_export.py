@@ -15,13 +15,26 @@ class SpecMixinExport(models.AbstractModel):
     _description = "A mixin providing serialization features."
 
     @api.model
-    def _get_binding_class(self, odoo_class) -> type:
+    def _get_binding_class(self, odoo_class, field_name=None) -> type:
         """
         Use (_spec_prefix)_binding_type of odoo_class and its binding_module to get
         the Python binding type for export.
         """
         binding_module = sys.modules[self._get_spec_property("binding_module")]
         binding_type = odoo_class._get_spec_property("binding_type")
+        if not binding_type and field_name:
+            if field_name in odoo_class._fields and hasattr(
+                odoo_class._fields[field_name], "xsd_type"
+            ):
+                binding_type = odoo_class._fields[field_name].xsd_type
+                # Camel Case it:
+                binding_type = self.fix_camel_case(binding_type)
+            if not binding_type:
+                # TODO fix these pathologic cases
+                print("TODO fix these cases", field_name, self, odoo_class)
+                binding_type = odoo_class._get_spec_property(
+                    f"binding_type_{field_name.split('_')[1]}"
+                )
         if not binding_type:
             binding_types = set(
                 map(
@@ -37,13 +50,30 @@ class SpecMixinExport(models.AbstractModel):
             assert len(binding_types) == 1, (
                 f"Found several (or no) _binding_type attributes in {odoo_class} "
                 f"ancestors: {binding_types}. You can define a "
-                f"_{self._spec_prefix()}_binding_type in {odoo_class} "
+                f"_{self._spec_prefix()}_binding_type{'_' + field_name.split('_')[1] if field_name else ''} in {odoo_class} "
                 "to avoid ambiguities."
             )
             binding_type = binding_types.pop()
         for attr in binding_type.split("."):  # this will dive into nested classes
             binding_module = getattr(binding_module, attr)
         return binding_module
+
+    @api.model
+    def fix_camel_case(self, word: str) -> str:
+        if not word:
+            return word
+
+        # Initialize a list with the first character (since it never changes case based on this rule)
+        result = [word[0]]
+
+        for i in range(1, len(word)):
+            # If current char is uppercase AND the previous char is uppercase
+            if word[i].isupper() and word[i - 1].isupper():
+                result.append(word[i].lower())
+            else:
+                result.append(word[i])
+
+        return "".join(result)
 
     @api.model
     def _get_model_classes(self):
@@ -67,7 +97,7 @@ class SpecMixinExport(models.AbstractModel):
             spec_classes.append(c)
         return spec_classes
 
-    def _export_fields(self, xsd_fields, class_obj, export_dict):
+    def _export_fields(self, xsd_fields, class_obj, export_dict, field_name=None):
         """
         Iterate over the record fields and map them in an dict of values
         that will later be injected as **kwargs in the proper XML Python
@@ -81,7 +111,7 @@ class SpecMixinExport(models.AbstractModel):
         field export.
         """
         self.ensure_one()
-        binding_class = self._get_binding_class(class_obj)
+        binding_class = self._get_binding_class(class_obj, field_name=field_name)
         binding_class_spec = binding_class.__dataclass_fields__
 
         class_name = class_obj._name.replace(".", "_")
@@ -174,7 +204,8 @@ class SpecMixinExport(models.AbstractModel):
             )
         else:
             return (self[field_name] or self)._build_binding(
-                class_name=class_obj._fields[field_name].comodel_name
+                field_name=field_name,
+                class_name=class_obj._fields[field_name].comodel_name,
             )
 
     def _export_one2many(self, field_name, class_obj=None):
@@ -214,7 +245,9 @@ class SpecMixinExport(models.AbstractModel):
             ).isoformat("T")
         )
 
-    def _build_binding(self, spec_schema=None, spec_version=None, class_name=None):
+    def _build_binding(
+        self, spec_schema=None, spec_version=None, class_name=None, field_name=None
+    ):
         """
         Iterate over an Odoo record and its m2o and o2m sub-records
         using a pre-order tree traversal and map the Odoo record values
@@ -241,8 +274,10 @@ class SpecMixinExport(models.AbstractModel):
         )
 
         kwargs = {}
-        binding_class = self._get_binding_class(class_obj)
-        self._export_fields(xsd_fields, class_obj, export_dict=kwargs)
+        binding_class = self._get_binding_class(class_obj, field_name=field_name)
+        self._export_fields(
+            xsd_fields, class_obj, export_dict=kwargs, field_name=field_name
+        )
         sliced_kwargs = {
             key: kwargs.get(key)
             for key in binding_class.__dataclass_fields__.keys()
