@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2024-05-29 16:37+0000\n"
-"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@users.noreply."
-"translation.odoo-community.org>\n"
+"Last-Translator: Rodrigo Macedo "
+"<sottomaiormacedotec@users.noreply.translation.odoo-community.org>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -89,11 +89,6 @@ msgstr "0 - Nenhum"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "0,00"
-msgstr "0,00"
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "1 - Sim"
 msgstr "1 - Sim"
 
@@ -144,8 +139,10 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "<span>Número da NFS-e</span><br/>"
-msgstr "<span>Número da NFS-e</span><br/>"
+msgid ""
+"<span>Número da NFS-e</span>\n"
+"                        <br/>"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -176,11 +173,6 @@ msgstr "CSLL"
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
 msgid "City Settings"
 msgstr "Configurações da Cidade"
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__city_taxation_code_id
-msgid "City Taxation Code"
-msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__civil_construction_art
@@ -402,6 +394,11 @@ msgid "NFSe Provider"
 msgstr "Provedor NFSe"
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_ssl_verify
+msgid "NFSe SSL Verify"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_website
 msgid "NFSe Website"
 msgstr "Website NFSe"
@@ -546,6 +543,15 @@ msgstr "Código de Verificação"
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "com a utilização do Código de Verificação.<br/>"
 msgstr "com a utilização do Código de Verificação.<br/>"
+
+#~ msgid "0,00"
+#~ msgstr "0,00"
+
+#~ msgid "<span>Número da NFS-e</span><br/>"
+#~ msgstr "<span>Número da NFS-e</span><br/>"
+
+#~ msgid "City Taxation Code"
+#~ msgstr "Código de Tributação da Cidade"
 
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
