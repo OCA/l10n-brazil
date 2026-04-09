@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_fiscal_dfe
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__res_company__dfe_version__1_01
-msgid "1.01"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_needaction
 msgid "Action Needed"
 msgstr ""
