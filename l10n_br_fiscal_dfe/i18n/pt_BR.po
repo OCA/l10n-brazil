@@ -17,11 +17,6 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_fiscal_dfe
-#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__res_company__dfe_version__1_01
-msgid "1.01"
-msgstr "1.01"
-
-#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__message_needaction
 msgid "Action Needed"
 msgstr "Ação Necessária"
@@ -368,6 +363,9 @@ msgstr "Mensagens do Website"
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe__website_message_ids
 msgid "Website communication history"
 msgstr "Histórico de comunicação do website"
+
+#~ msgid "1.01"
+#~ msgstr "1.01"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Última Modificação em"
