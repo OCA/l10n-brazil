@@ -24,17 +24,6 @@ msgid "'%s' % (object.document_key)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_qrcode_version__1
-msgid "1.00"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__1_10
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__1_10
-msgid "1.10"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe_transmission
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_config_settings__nfe_transmission
 msgid ""
@@ -48,25 +37,6 @@ msgid ""
 "9=Contingência off-line da NFC-e;\n"
 "Observação: Para a NFC-e somente é válida a opção de contingência:\n"
 "9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT 2015/002)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__2_00
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_qrcode_version__2
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__2_00
-msgid "2.00"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__3_10
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__3_10
-msgid "3.10"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__4_00
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__4_00
-msgid "4.00"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -5637,6 +5607,11 @@ msgid ""
 "please ensure that the SEFAZ in your state supports synchronous processing "
 "for NFe submissions. Failure to verify compatibility may result in "
 "transmission errors or rejections."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "X"
 msgstr ""
 
 #. module: l10n_br_nfe
