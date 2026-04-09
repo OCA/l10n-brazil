@@ -14,6 +14,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__a+
+msgid "A+"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__a-
+msgid "A-"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__ab+
 msgid "AB+"
 msgstr ""
@@ -42,6 +52,16 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_hr.hr_employee_autonomo_action
 #: model:ir.ui.menu,name:l10n_br_hr.hr_menu_employee_autonomo
 msgid "Autônomos"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__b+
+msgid "B+"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__b-
+msgid "B-"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -446,6 +466,16 @@ msgstr ""
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Number"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__o+
+msgid "O+"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__o-
+msgid "O-"
 msgstr ""
 
 #. module: l10n_br_hr
