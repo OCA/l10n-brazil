@@ -27,17 +27,6 @@ msgid "'%s' % (object.document_key)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_qrcode_version__1
-msgid "1.00"
-msgstr "1.00"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__1_10
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__1_10
-msgid "1.10"
-msgstr "1.10"
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe_transmission
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_config_settings__nfe_transmission
 msgid ""
@@ -70,25 +59,6 @@ msgstr ""
 "Observação: Para a NFC-e somente é válida a opção de contingência:\n"
 "9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT "
 "2015/002)"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__2_00
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_qrcode_version__2
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__2_00
-msgid "2.00"
-msgstr "2.00"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__3_10
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__3_10
-msgid "3.10"
-msgstr "3.10"
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__4_00
-#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__4_00
-msgid "4.00"
-msgstr "4.00"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
@@ -1133,8 +1103,8 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_comb__nfe40_cProdANP
 msgid ""
-"Código de produto da ANP. codificação de produtos do SIMP (http://www.anp."
-"gov.br)"
+"Código de produto da ANP. codificação de produtos do SIMP (http://"
+"www.anp.gov.br)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1507,8 +1477,8 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dhSaiEnt
 msgid ""
-"Data e Hora da saída ou de entrada da mercadoria / produto (AAAA-MM-DDTHH:mm:"
-"ssTZD)"
+"Data e Hora da saída ou de entrada da mercadoria / produto (AAAA-MM-"
+"DDTHH:mm:ssTZD)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1629,8 +1599,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_comb__nfe40_descANP
 msgid ""
 "Descrição do Produto conforme ANP. Utilizar a descrição de produtos do "
-"Sistema de Informações de Movimentação de Produtos - SIMP (http://www.anp."
-"gov.br/simp/)."
+"Sistema de Informações de Movimentação de Produtos - SIMP (http://"
+"www.anp.gov.br/simp/)."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1842,7 +1812,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #. odoo-python
 #: code:addons/l10n_br_nfe/models/mde.py:0
-#, python-format
 msgid ""
 "Error importing document: \n"
 "\n"
@@ -1852,7 +1821,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #. odoo-python
 #: code:addons/l10n_br_nfe/models/mde.py:0
-#, python-format
 msgid "Error on validating event: %(code)s - %(msg)s"
 msgstr ""
 
@@ -3508,7 +3476,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #. odoo-python
 #: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
-#, python-format
 msgid "No xml file was found."
 msgstr ""
 
@@ -4677,7 +4644,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpEnteGov
-msgid "Tipo de Entidade Governamental"
+msgid "Tipo de Entidade Governamental (NFe)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4703,12 +4670,12 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpNFCredito
-msgid "Tipo de Nota de Crédito"
+msgid "Tipo de NFe de Crédito"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpNFDebito
-msgid "Tipo de Nota de Débito"
+msgid "Tipo de NFe de Débito"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -5742,6 +5709,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
+msgid "X"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__cfop_xml
 msgid "XML CFOP"
 msgstr ""
@@ -5759,7 +5731,6 @@ msgstr "Código do Produto no XML"
 #. module: l10n_br_nfe
 #. odoo-python
 #: code:addons/l10n_br_nfe/report/ir_actions_report.py:0
-#, python-format
 msgid "You can only print a DANFE of a NFe(55)."
 msgstr ""
 
@@ -6187,6 +6158,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_avulsa__nfe40_xOrgao
 msgid "Órgão emitente"
 msgstr ""
+
+#~ msgid "1.00"
+#~ msgstr "1.00"
+
+#~ msgid "1.10"
+#~ msgstr "1.10"
+
+#~ msgid "2.00"
+#~ msgstr "2.00"
+
+#~ msgid "3.10"
+#~ msgstr "3.10"
+
+#~ msgid "4.00"
+#~ msgstr "4.00"
 
 #~ msgid "Code"
 #~ msgstr "Código"
