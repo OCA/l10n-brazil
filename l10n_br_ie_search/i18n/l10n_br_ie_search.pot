@@ -14,6 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_ie_search
+#. odoo-python
+#: code:addons/l10n_br_ie_search/models/sefaz_webservice.py:0
+#, python-format
+msgid "%s"
+msgstr ""
+
+#. module: l10n_br_ie_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_ie_search.l10n_br_sintegraws_res_config_settings_form
 msgid ""
 "<span class=\"o_form_label\">Brazilian State Subscription service API</span>"
