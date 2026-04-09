@@ -17,518 +17,6 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_semdata__cte40_tpPer__0
-msgid " Sem data definida"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_semhora__cte40_tpHor__0
-msgid " Sem hora definida"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__5
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__5
-msgid ""
-" Unidades (apenas para artigos perigosos medidos em unidades que não se "
-"enquadram nos itens acima. Exemplo: baterias, celulares, equipamentos, "
-"veículos, dentre outros)"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_modal__01
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infnf__cte40_mod__01
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_modal__01
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_modal__01
-msgid "01"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_modal__02
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_modal__02
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_modal__02
-msgid "02"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_modal__03
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_modal__03
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_modal__03
-msgid "03"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_modal__04
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infnf__cte40_mod__04
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_modal__04
-msgid "04"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_modal__05
-msgid "05"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_modal__06
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_modal__06
-msgid "06"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_iddocantpap__cte40_tpDoc__07
-msgid "07"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_iddocantpap__cte40_tpDoc__08
-msgid "08"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_iddocantpap__cte40_tpDoc__09
-msgid "09"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_iddocantpap__cte40_tpDoc__10
-msgid "10"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_iddocantpap__cte40_tpDoc__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__11
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__11
-msgid "11"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_iddocantpap__cte40_tpDoc__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__12
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__12
-msgid "12"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_iddocantpap__cte40_tpDoc__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__13
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__13
-msgid "13"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__14
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__14
-msgid "14"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__15
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__15
-msgid "15"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__16
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__16
-msgid "16"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__17
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__17
-msgid "17"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__21
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__21
-msgid "21"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__22
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__22
-msgid "22"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__23
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__23
-msgid "23"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__24
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__24
-msgid "24"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__25
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__25
-msgid "25"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__26
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__26
-msgid "26"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__27
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__27
-msgid "27"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__28
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__28
-msgid "28"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__29
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__29
-msgid "29"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__31
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__31
-msgid "31"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__32
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__32
-msgid "32"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__33
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__33
-msgid "33"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__35
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__35
-msgid "35"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__41
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__41
-msgid "41"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__42
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__42
-msgid "42"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__43
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__43
-msgid "43"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__50
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__50
-msgid "50"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__51
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__51
-msgid "51"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__52
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__52
-msgid "52"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_cUF__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_cUF__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_cUF__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_cUF__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcte__cte40_cUF__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretcteos__cte40_cUF__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretctesimp__cte40_cUF__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__53
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretgtve__cte40_cUF__53
-msgid "53"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_mod__57
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_mod__57
-msgid "57"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_mod__64
-msgid "64"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_mod__67
-msgid "67"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__90
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__90
-msgid "90"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__91
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__91
-msgid "91"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__93
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__93
-msgid "93"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__94
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__94
-msgid "94"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__95
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__95
-msgid "95"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tevento_infevento__cte40_cOrgao__96
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tretevento_infevento__cte40_cOrgao__96
-msgid "96"
-msgstr ""
-
-#. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_comdata__cte40_tpPer__3
 msgid "A partir da data"
 msgstr ""
@@ -736,7 +224,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_tpEmis__7
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_tpEmis__7
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_tpEmis__7
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_tpEmis__7
 msgid "Autorização pela SVC-RS"
 msgstr ""
 
@@ -744,7 +231,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_tpEmis__8
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_tpEmis__8
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_ide__cte40_tpEmis__8
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_ide__cte40_tpEmis__8
 msgid "Autorização pela SVC-SP"
 msgstr ""
 
@@ -1018,6 +504,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_tpContratacao__1
+msgid "Capacidade de Entrada"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_tpContratacao__2
+msgid "Capacidade de Saida"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_compl__cte40_xCaracSer
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_compl__cte40_xCaracSer
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_compl__cte40_xCaracSer
@@ -1062,13 +558,6 @@ msgid "Chassi do veículo"
 msgstr ""
 
 #. module: l10n_br_cte_spec
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_paasignature__cte40_RSAKeyValue
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_paasignature__cte40_RSAKeyValue
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_paasignature__cte40_RSAKeyValue
-msgid "Chave Publica no padrão XML RSA Key"
-msgstr ""
-
-#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento_infevento__cte40_chCTe
 msgid "Chave de Acesso CT-e vinculado"
 msgstr ""
@@ -1081,6 +570,11 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tevento_infevento__cte40_chCTe
 msgid "Chave de Acesso do CT-e vinculado ao evento"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdce__cte40_chave
+msgid "Chave de acesso da DCe"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -1171,11 +665,6 @@ msgid "Chaves de acesso da CT-e"
 msgstr ""
 
 #. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_infespecie__cte40_tpEspecie__2
-msgid "Cheque"
-msgstr ""
-
-#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tarifa__cte40_CL
 msgid "Classe"
 msgstr ""
@@ -1188,6 +677,18 @@ msgid ""
 "\t\t\t\t\t\t\t\t\tM - Tarifa Mínima;\n"
 "\t\t\t\t\t\t\t\t\tG - Tarifa Geral;\n"
 "\t\t\t\t\t\t\t\t\tE - Tarifa Específica"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto__cte40_classDuto
+msgid "Classificação do Dutoviário"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_duto__cte40_classDuto
+msgid ""
+"Classificação do Dutoviário\n"
+"Informar: 1 - Gasoduto 2 - Mineroduto 3 - Oleoduto"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -1231,6 +732,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obscont__cte40_xTexto
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obsfisco__cte40_xTexto
 msgid "Conteúdo do campo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_ide__cte40_tpEmis__5
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_tpEmis__5
+msgid "Contingência FSDA"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -1346,6 +853,11 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infctemultimodal__cte40_infCTeMultimodal_infServVinc_id
 msgid "Cte40 Infctemultimodal Infservvinc"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdce__cte40_infDCe_infDoc_id
+msgid "Cte40 Infdce Infdoc"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -1674,6 +1186,16 @@ msgstr ""
 msgid ""
 "Código do Município de término da prestação\n"
 "Utilizar a tabela do IBGE. Informar 9999999 para operações com o exterior."
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto__cte40_codPontoEntrada
+msgid "Código do Ponto de Entrada"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto__cte40_codPontoSaida
+msgid "Código do Ponto de Saída"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -2288,6 +1810,7 @@ msgid "Descrição literal do status do registro do Evento"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_toma__cte40_toma__3
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_toma3__cte40_toma__3
 msgid "Destinatário"
 msgstr ""
@@ -2414,199 +1937,6 @@ msgid ""
 "Direção\n"
 "Preencher com: N-Norte, L-Leste, S-Sul, O-Oeste"
 msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aereo__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infdoc__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infnf__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infnfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_balsa__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_comdata__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_comhora__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_det__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detcont__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detevento__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detgtv__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_docant__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_emidocant__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_emiocc__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_entrega__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_exped__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ferroenv__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ferrov__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocant__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantele__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantpap__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infctemultimodal__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdocant__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdocref__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inffretamento__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infglobalizado__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infgtve__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infnfetranspparcial__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infoutros__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infpercurso__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infseg__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infservico__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infservvinc__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftotap__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftribfed__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infveiculo__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacre__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacunidcarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacunidtransp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_multimodal__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_multimodal_seg__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_natcarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_nointer__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_noperiodo__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_occ__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_peri__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_prop__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_receb__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_rodo__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_rodoos__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_semdata__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_semhora__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tarifa__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_autxml__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_cobr__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_compl__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_dest__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_dup__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_emit__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fat__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fluxo__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_ide__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_imp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcte__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctecomp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctenorm__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctesub__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctesupl__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infdoc__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infmodal__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnf__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infpaa__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infq__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infsolicnff__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_obscont__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_obsfisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_paasignature__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_pass__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_rem__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_toma4__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_vprest__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_vprest_comp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_autxml__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_cobr__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_compl__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_dup__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_emit__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_fat__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_ide__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_imp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infcte__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctecomp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctenorm__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctenorm_comp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctesub__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctesupl__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infmodal__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infq__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_obscont__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_obsfisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_seg__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_toma__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_vprest__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_vprest_comp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_autxml__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_cobr__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_compl__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_det_comp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_dup__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_emit__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fat__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fluxo__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_ide__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_imp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infcarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infcte__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infctesub__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infctesupl__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infmodal__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infnfe__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infpaa__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infq__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infsolicnff__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_obscont__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_obsfisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_paasignature__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_pass__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_toma__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendeemi__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendereco__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tenderfer__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendernac__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendorg__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendreent__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infevento__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infpaa__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infsolicnff__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_paasignature__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_autxml__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_compl__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_dest__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_emit__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_ide__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infcte__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infctesupl__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infespecie__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obscont__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obsfisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_rem__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_toma__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tlocal__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_toma3__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tomaterceiro__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_total__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprocevento__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte_inffisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte_infprot__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos_inffisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos_infprot__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve_inffisco__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve_infprot__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trafmut__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tresptec__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcte__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcteos__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretctesimp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento_infevento__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretgtve__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trsakeyvaluetype__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidadetransp__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidcarga__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veic__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veicnovos__display_name
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_spec_mixin_cte__display_name
-msgid "Display Name"
-msgstr "Nome Exibido"
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocant__cte40_idDocAntEle
@@ -2797,16 +2127,16 @@ msgid "Eventual 2 - Continuo"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_tpServ__8
+msgid "Excesso de Bagagem."
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_toma__cte40_toma__1
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_toma__cte40_toma__1
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_toma3__cte40_toma__1
 msgid "Expedidor"
 msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trsakeyvaluetype__cte40_Exponent
-msgid "Exponent"
-msgstr "Expoente"
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trafmut__cte40_ferrEmi
@@ -2857,9 +2187,7 @@ msgid ""
 "Forma de emissão da GTV-e\n"
 "Preencher com:\n"
 "1 - Normal;\n"
-" 2- Contingencia offline \n"
-"7 - Autorização pela SVC-RS;\n"
-" 8 - Autorização pela SVC-SP"
+"2- Contingencia offline"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -2975,6 +2303,18 @@ msgid "GO"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_classDuto__1
+msgid "Gasoduto 2 - Mineroduto 3 - Oleoduto"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_ide__cte40_gCompraGov
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_ide__cte40_gCompraGov
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_ide__cte40_gCompraGov
+msgid "Grupo de Compras Governamentais"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcte__cte40_infPAA
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infcte__cte40_infPAA
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infevento__cte40_infPAA
@@ -3060,6 +2400,13 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infcte__cte40_infCTeNorm
 msgid "Grupo de informações do CT-e OS Normal"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_imp__cte40_IBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_imp__cte40_IBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_imp__cte40_IBSCBS
+msgid "Grupo de informações do IBS e CBS"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -3158,199 +2505,6 @@ msgid ""
 "Hora programada\n"
 "Formato HH:MM:SS"
 msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aereo__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infdoc__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infnf__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infnfe__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_balsa__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_comdata__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_comhora__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_det__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detcont__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detevento__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detgtv__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_docant__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_emidocant__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_emiocc__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_entrega__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_exped__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ferroenv__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ferrov__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocant__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantele__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantpap__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infctemultimodal__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdocant__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdocref__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inffretamento__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infglobalizado__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infgtve__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infnfetranspparcial__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infoutros__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infpercurso__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infseg__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infservico__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infservvinc__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftotap__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftribfed__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infveiculo__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacre__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacunidcarga__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacunidtransp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_multimodal__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_multimodal_seg__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_natcarga__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_nointer__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_noperiodo__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_occ__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_peri__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_prop__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_receb__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_rodo__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_rodoos__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_semdata__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_semhora__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tarifa__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_autxml__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_cobr__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_compl__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_dest__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_dup__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_emit__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fat__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fluxo__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_ide__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_imp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcarga__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcte__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctecomp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctenorm__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctesub__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctesupl__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infdoc__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infmodal__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnf__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnfe__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infpaa__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infq__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infsolicnff__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_obscont__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_obsfisco__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_paasignature__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_pass__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_rem__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_toma4__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_vprest__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_vprest_comp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_autxml__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_cobr__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_compl__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_dup__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_emit__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_fat__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_ide__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_imp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infcte__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctecomp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctenorm__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctenorm_comp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctesub__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctesupl__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infmodal__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infq__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_obscont__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_obsfisco__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_seg__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_toma__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_vprest__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_vprest_comp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_autxml__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_cobr__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_compl__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_det_comp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_dup__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_emit__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fat__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fluxo__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_ide__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_imp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infcarga__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infcte__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infctesub__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infctesupl__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infmodal__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infnfe__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infpaa__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infq__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infsolicnff__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_obscont__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_obsfisco__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_paasignature__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_pass__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_toma__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendeemi__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendereco__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tenderfer__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendernac__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendorg__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendreent__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infevento__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infpaa__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infsolicnff__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_paasignature__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_autxml__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_compl__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_dest__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_emit__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_ide__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infcte__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infctesupl__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infespecie__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obscont__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obsfisco__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_rem__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_toma__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tlocal__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_toma3__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tomaterceiro__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_total__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprocevento__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte_inffisco__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte_infprot__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos_inffisco__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos_infprot__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve_inffisco__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve_infprot__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trafmut__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tresptec__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcte__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcteos__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretctesimp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento_infevento__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretgtve__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trsakeyvaluetype__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidadetransp__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidcarga__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veic__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veicnovos__id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_spec_mixin_cte__id
-msgid "ID"
-msgstr "ID"
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprocevento__cte40_ipTransmissor
@@ -3687,8 +2841,17 @@ msgid "Indicador do papel do tomador"
 msgstr ""
 
 #. module: l10n_br_cte_spec
-#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_ide__cte40_indIEToma
 #: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_toma__cte40_indIEToma
+msgid ""
+"Indicador do papel do tomador na prestação do serviço:\n"
+"1 – Contribuinte ICMS;\n"
+"2 – Contribuinte isento de inscrição;\n"
+"9 – Não Contribuinte\n"
+"Aplica-se ao tomador que for indicado no toma"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_ide__cte40_indIEToma
 msgid ""
 "Indicador do papel do tomador na prestação do serviço:\n"
 "1 – Contribuinte ICMS;\n"
@@ -3746,6 +2909,12 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_infseg
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_multimodal_seg__cte40_infSeg
 msgid "Informações da seguradora"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_infdce
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infdoc__cte40_infDCe
+msgid "Informações das DCe"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -4399,14 +3568,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__1
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__01
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__01
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__01
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__1
 msgid "KG"
 msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__2
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__2
 msgid "KG G (quilograma bruto)"
 msgstr ""
 
@@ -4414,8 +3580,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__3
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__04
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__04
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__04
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__3
 msgid "LITROS"
 msgstr ""
 
@@ -4435,199 +3599,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidadetransp__cte40_lacUnidTransp
 msgid "Lacres das Unidades de Transporte"
 msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aereo____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infdoc____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infnf____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infnfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_balsa____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_comdata____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_comhora____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_det____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detcont____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detevento____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detgtv____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_docant____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_emidocant____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_emiocc____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_entrega____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_exped____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ferroenv____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ferrov____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocant____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantele____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantpap____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infctemultimodal____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdocant____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdocref____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inffretamento____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infglobalizado____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infgtve____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infnfetranspparcial____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infoutros____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infpercurso____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infseg____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infservico____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infservvinc____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftotap____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftribfed____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infveiculo____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacre____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacunidcarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_lacunidtransp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_multimodal____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_multimodal_seg____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_natcarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_nointer____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_noperiodo____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_occ____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_peri____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_prop____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_receb____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_rodo____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_rodoos____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_semdata____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_semhora____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tarifa____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_autxml____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_cobr____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_compl____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_dest____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_dup____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_emit____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fat____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fluxo____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_ide____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_imp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcte____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctecomp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctenorm____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctesub____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infctesupl____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infdoc____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infmodal____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnf____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infpaa____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infq____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infsolicnff____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_obscont____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_obsfisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_paasignature____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_pass____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_rem____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_toma4____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_vprest____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_vprest_comp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_autxml____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_cobr____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_compl____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_dup____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_emit____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_fat____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_ide____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_imp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infcte____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctecomp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctenorm____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctenorm_comp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctesub____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infctesupl____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infmodal____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infq____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_obscont____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_obsfisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_seg____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_toma____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_vprest____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_vprest_comp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_autxml____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_cobr____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_compl____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_det_comp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_dup____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_emit____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fat____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fluxo____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_ide____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_imp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infcarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infcte____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infctesub____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infctesupl____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infmodal____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infnfe____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infpaa____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infq____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infsolicnff____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_obscont____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_obsfisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_paasignature____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_pass____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_toma____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendeemi____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendereco____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tenderfer____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendernac____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendorg____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendreent____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infevento____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infpaa____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infsolicnff____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_paasignature____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_autxml____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_compl____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_dest____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_emit____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_ide____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infcte____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infctesupl____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infespecie____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obscont____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obsfisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_rem____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_toma____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tlocal____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_toma3____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tomaterceiro____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_total____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprocevento____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte_inffisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcte_infprot____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos_inffisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotcteos_infprot____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve_inffisco____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve_infprot____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trafmut____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tresptec____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcte____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcteos____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretctesimp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento_infevento____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretgtve____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trsakeyvaluetype____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidadetransp____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidcarga____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veic____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veicnovos____last_update
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_spec_mixin_cte____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_tpMed__13
@@ -4657,7 +3628,6 @@ msgstr "Logradouro"
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__00
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__00
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__00
 msgid "M3"
 msgstr ""
 
@@ -4718,7 +3688,6 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__05
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__05
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__05
 msgid "MMBTU"
 msgstr ""
 
@@ -4797,6 +3766,11 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_tpMed__15
 msgid "Milhão de BTU (British Thermal Units)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_classDuto__2
+msgid "Mineroduto 3 - Oleoduto"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -4901,11 +3875,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trsakeyvaluetype__cte40_Modulus
-msgid "Modulus"
-msgstr ""
-
-#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aereo__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_aquav_infdoc__brl_currency_id
@@ -4930,6 +3899,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantele__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantpap__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infctemultimodal__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdce__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdocant__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infdocref__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inffretamento__brl_currency_id
@@ -5089,13 +4059,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento_infevento__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretgtve__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trsakeyvaluetype__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidadetransp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidcarga__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veic__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veicnovos__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_spec_mixin_cte__brl_currency_id
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_infespecie__cte40_tpEspecie__3
 msgid "Moeda"
 msgstr ""
 
@@ -5361,11 +4329,6 @@ msgstr "Normal"
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_aquav__cte40_direc__n
 msgid "Norte, L-Leste, S-Sul, O-Oeste"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_infespecie__cte40_tpEspecie__1
-msgid "Numerário"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -5636,6 +4599,11 @@ msgid "Número do Certificado do Operador de Transporte Multimodal"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto__cte40_nContrato
+msgid "Número do Contrato de Capacidade"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantpap__cte40_nDoc
 msgid "Número do Documento Fiscal"
 msgstr ""
@@ -5731,6 +4699,11 @@ msgid "Oeste"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_classDuto__3
+msgid "Oleoduto"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_occ
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_rodo__cte40_occ
 msgid "Ordens de Coleta associados"
@@ -5755,7 +4728,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_toma4__cte40_toma__4
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_infctenorm_comp__cte40_tpComp__6
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_tpMed__99
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tgtve_infespecie__cte40_tpEspecie__4
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tomaterceiro__cte40_toma__4
 msgid "Outros"
 msgstr ""
@@ -5968,6 +4940,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infveiculo__cte40_placa
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veic__cte40_placa
 msgid "Placa do veículo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_duto__cte40_tpContratacao__0
+msgid "Ponta a ponto"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6295,6 +5272,7 @@ msgid "Razão social ou nome do tomador"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_toma__cte40_toma__2
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_toma3__cte40_toma__2
 msgid "Recebedor"
 msgstr ""
@@ -6470,6 +5448,16 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_tpMed__09
 msgid "Sacas"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_semdata__cte40_tpPer__0
+msgid "Sem data definida"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_semhora__cte40_tpHor__0
+msgid "Sem hora definida"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6715,7 +5703,6 @@ msgstr ""
 
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__4
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_modal_aereo_peri__cte40_uniAP__4
 msgid "TI (índice de transporte para radioativos)"
 msgstr ""
 
@@ -6749,7 +5736,6 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__02
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__02
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__02
 msgid "TON"
 msgstr ""
 
@@ -6785,6 +5771,11 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_infctenorm_comp__cte40_tpComp__3
 msgid "Tempo de espera"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_toma__cte40_toma__4
+msgid "Terceiro"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6959,21 +5950,6 @@ msgid "Tipo Retorno do Pedido de Autorização de GTV-e (Modelo 64)"
 msgstr ""
 
 #. module: l10n_br_cte_spec
-#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infespecie__cte40_tpEspecie
-msgid "Tipo da Espécie"
-msgstr ""
-
-#. module: l10n_br_cte_spec
-#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tgtve_infespecie__cte40_tpEspecie
-msgid ""
-"Tipo da Espécie\n"
-"1 - Cédula\n"
-"2 - Cheque\n"
-"3 - Moeda\n"
-"4 - Outros"
-msgstr ""
-
-#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_ide__cte40_tpCTe
 msgid "Tipo da GTV-e"
 msgstr ""
@@ -7086,6 +6062,21 @@ msgid ""
 "\t\t\t\t\t\t1-Mútuo;\n"
 "\t\t\t\t\t\t2-Rodoferroviário;\n"
 "\t\t\t\t\t\t3-Rodoviário."
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto__cte40_tpContratacao
+msgid "Tipo de contratação do serviço"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_duto__cte40_tpContratacao
+msgid ""
+"Tipo de contratação do serviço de transporte (apenas para gasoduto)\n"
+"Informar:\n"
+"0 - Ponta a ponto\n"
+"1 - Capacidade de Entrada \n"
+"2 - Capacidade de Saida"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -7213,7 +6204,6 @@ msgid ""
 "Preencher com:\n"
 "0 - CT-e Normal; \n"
 "1 - CT-e Complementar; \n"
-"\n"
 "3 - CT-e de Substituição."
 msgstr ""
 
@@ -7227,8 +6217,8 @@ msgstr ""
 msgid ""
 "Tipo do CT-e Simplificado\n"
 "Preencher com:\n"
-"4 - CTe Simplificado\n"
-"5 - Substituição CTe Simplificado"
+"5 - CTe Simplificado\n"
+"6 - Substituição CTe Simplificado"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -7344,11 +6334,6 @@ msgid "Tipo procEvento"
 msgstr ""
 
 #. module: l10n_br_cte_spec
-#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_trsakeyvaluetype
-msgid "Tipo que representa uma chave publica padrão RSA"
-msgstr ""
-
-#. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tretevento
 msgid "Tipo retorno do Evento"
 msgstr ""
@@ -7418,6 +6403,16 @@ msgid "Total"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_tpServ__6
+msgid "Transporte de Pessoas"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcteos_ide__cte40_tpServ__7
+msgid "Transporte de Valores"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_prop__cte40_UF
 msgid "UF"
 msgstr ""
@@ -7471,7 +6466,6 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tcte_infq__cte40_cUnid__03
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_tctesimp_infq__cte40_cUnid__03
-#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__l10n_br_cte_cargo_quantity_infos__cte40_cUnid__03
 msgid "UNIDADE"
 msgstr ""
 
@@ -7502,6 +6496,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_aquav_infnf__cte40_unidRat
 #: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_aquav_infnfe__cte40_unidRat
 msgid "Unidade de medida rateada (Peso,Volume)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_inftotap__cte40_uniAP__5
+msgid ""
+"Unidades (apenas para artigos perigosos medidos em unidades que não se "
+"enquadram nos itens acima. Exemplo: baterias, celulares, equipamentos, "
+"veículos, dentre outros)"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -7710,6 +6712,22 @@ msgstr ""
 msgid ""
 "Valor total da carga\n"
 "Dever ser informado para todos os modais, com exceção para o Dutoviário."
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_imp__cte40_vTotDFe
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_imp__cte40_vTotDFe
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_total__cte40_vTotDFe
+msgid "Valor total do documento fiscal"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_imp__cte40_vTotDFe
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_imp__cte40_vTotDFe
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_total__cte40_vTotDFe
+msgid ""
+"Valor total do documento fiscal \n"
+"(vTPrest + total do IBS + total da CBS)"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -7960,3 +6978,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detevento__cte40_versaoEvento
 msgid "versaoEvento"
 msgstr ""
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "Exponent"
+#~ msgstr "Expoente"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
