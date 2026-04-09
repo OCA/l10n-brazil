@@ -19,59 +19,9 @@ msgid "'%s' % (object.document_key)"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__02
-msgid "02"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__04
-msgid "04"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__06
-msgid "06"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__07
-msgid "07"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__08
-msgid "08"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_emit_type__1
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe_emit_type__1
 msgid "1 - Prestador de serviço de transporte"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__10
-msgid "10"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__11
-msgid "11"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__12
-msgid "12"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__13
-msgid "13"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_categCombVeic__14
-msgid "14"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -84,11 +34,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_emit_type__3
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe_emit_type__3
 msgid "3 - Prestador de serviço de transporte que emitirá CT-e Globalizado"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe_version__3_00
-msgid "3.00"
 msgstr ""
 
 #. module: l10n_br_mdfe
