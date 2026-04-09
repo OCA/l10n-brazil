@@ -43,11 +43,6 @@ msgid "20 - Tributação com BC reduzida do ICMS"
 msgstr ""
 
 #. module: l10n_br_cte
-#: model:ir.model.fields.selection,name:l10n_br_cte.selection__res_company__cte_version__4_00
-msgid "4.00"
-msgstr ""
-
-#. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_CST__45
 msgid "45 - ICMS Isento, não Tributado ou diferido"
 msgstr ""
