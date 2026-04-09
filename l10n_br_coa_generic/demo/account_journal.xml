@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- oca-hooks:disable=file-not-used -->
 <odoo>
-
     <!-- Account Journal xml ref -->
     <function model="ir.model.data" name="_update_xmlids">
         <value
@@ -23,5 +22,4 @@
             },]"
         />
     </function>
-
 </odoo>
