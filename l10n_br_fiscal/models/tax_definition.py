@@ -633,11 +633,3 @@ class TaxDefinition(models.Model):
                                 "Tax benefit code must be start with state code!"
                             )
                         )
-
-                    if record.code[3:4] != record.benefit_type:
-                        raise ValidationError(
-                            self.env._(
-                                "The tax benefit code must contain "
-                                "the type of benefit!"
-                            )
-                        )
