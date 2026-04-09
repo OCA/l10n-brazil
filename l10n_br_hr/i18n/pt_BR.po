@@ -18,23 +18,14 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__meeting_count
-msgid "# Meetings"
-msgstr "# Reuniões"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_invoice_count
-msgid "# Vendor Bills"
-msgstr "# Contas de Fornecedores"
-
-#. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:0
-#, python-format
-msgid ""
-"A dependent with the same level of relatedness already exists for dependent "
-"%s"
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__a+
+msgid "A+"
 msgstr ""
-"Já existe um dependente com o mesmo nível de parentesco para o dependente %s"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__a-
+msgid "A-"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__ab+
@@ -47,75 +38,6 @@ msgid "AB-"
 msgstr "AB-"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_account_payable_id
-msgid "Account Payable"
-msgstr "Conta a Pagar"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_account_receivable_id
-msgid "Account Receivable"
-msgstr "Conta a Receber"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_needaction
-msgid "Action Needed"
-msgstr "Ação Necessária"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__active
-msgid "Active"
-msgstr "Ativo"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__active_lang_count
-msgid "Active Lang Count"
-msgstr "Contagem de Idiomas Ativos"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_ids
-msgid "Activities"
-msgstr "Atividades"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_exception_decoration
-msgid "Activity Exception Decoration"
-msgstr "Decoração de Exceção de Atividade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_state
-msgid "Activity State"
-msgstr "Estado da Atividade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_type_icon
-msgid "Activity Type Icon"
-msgstr "Ícone do Tipo de Atividade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__type
-msgid "Address Type"
-msgstr "Tipo de Endereço"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_ids
-msgid "Agents"
-msgstr "Agentes"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__lang
-msgid ""
-"All the emails and documents sent to this contact will be translated in this "
-"language."
-msgstr ""
-"Todos os e-mails e documentos enviados para esse contato serão traduzidos "
-"para este idioma."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pension_benefits
-msgid "Allowance value"
-msgstr "Valor da provisão"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_email
 msgid "Alternate Email"
 msgstr "E-mail alternativo"
@@ -126,26 +48,7 @@ msgid "Alternate Phone"
 msgstr "Telefone Alternativo"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inc_trab_inss_file
-msgid "Atestado de incapacidade INSS"
-msgstr "Atestado de incapacidade INSS"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_attachment_count
-msgid "Attachment Count"
-msgstr "Contagem de Anexos"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__receipt_reminder_email
-msgid ""
-"Automatically send a confirmation email to the vendor X days before the "
-"expected receipt date, asking him to confirm the exact date."
-msgstr ""
-"Enviar automaticamente um e-mail de confirmação ao fornecedor X dias antes "
-"da data prevista de recebimento, solicitando a confirmação da data exata."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__tipo__autonomo
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__employee_relationship_type__autonomo
 msgid "Autônomo"
 msgstr "Autônomo"
 
@@ -156,44 +59,24 @@ msgid "Autônomos"
 msgstr "Autônomos"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_account_count
-msgid "Bank"
-msgstr "Banco"
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__b+
+msgid "B+"
+msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
-msgid "Bank Statement Label"
-msgstr "Etiqueta de Extrato Bancário"
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__b-
+msgid "B-"
+msgstr ""
 
 #. module: l10n_br_hr
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
-msgid "Bank account for alimony"
-msgstr "Conta bancária para pensão alimentícia"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_ids
-msgid "Banks"
-msgstr "Bancos"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__barcode
-msgid "Barcode"
-msgstr "Código de barras"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_blacklisted
-msgid "Blacklist"
-msgstr "Lista negra"
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__birth_city_id
+msgid "Birth City"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
 msgid "Blood Type"
 msgstr "Tipo sanguíneo"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_bounce
-msgid "Bounce"
-msgstr "Rejeitado"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_cbo
@@ -207,36 +90,19 @@ msgid "CBO"
 msgstr "CBO"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cei_code
-msgid "CEI Code"
-msgstr "Código CEI"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__cnpj_cei
 msgid "CNPJ/CEI Tomadora/Obra"
 msgstr "CNPJ / CEI Tomadora / Obra"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cnpj_cpf
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cnpj_cpf
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cpf
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "CPF"
 msgstr "CPF"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_code
-msgid "CRC Code"
-msgstr "Código CRC"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_state_id
-msgid "CRC State"
-msgstr "Estado CRC"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps
@@ -265,58 +131,9 @@ msgid "CTPS series"
 msgstr "Série CTPS"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__can_publish
-msgid "Can Publish"
-msgstr "Pode Publicar"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__relative_file
-msgid "Certidão de Nascimento / Casamento / etc"
-msgstr "Certidão de Nascimento / Casamento / etc"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__channel_ids
-msgid "Channels"
-msgstr "Canais"
-
-#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Characteristics"
 msgstr "Características"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_company
-msgid "Check if the contact is a company, otherwise it is a person"
-msgstr "Marque se o contato é uma empresa, caso contrário ele é uma pessoa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__employee
-msgid "Check this box if this contact is an Employee."
-msgstr "Marque a opção se este contato for um Funcionário."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__country_enforce_cities
-msgid ""
-"Check this box to ensure every address created in that country has a 'City' "
-"chosen in the list of the country's cities."
-msgstr ""
-"Marque essa caixa para garantir que todo endereço criado para aquele país "
-"possui uma 'Cidade' selecionada na lista de cidades daquele país."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__agent
-msgid "Check this field if the partner is a creditor or an agent."
-msgstr "Marque este campo se o parceiro for um credor ou um agente."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__city
-msgid "City"
-msgstr "Cidade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__city_id
-msgid "City of Address"
-msgstr "Cidade do Endereço"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_civil_certificate_type
@@ -338,8 +155,6 @@ msgstr "Tipo de certificado civil"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__code
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__code
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__code
@@ -352,22 +167,8 @@ msgid "Colaboradores"
 msgstr "Colaboradores"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__color
-msgid "Color Index"
-msgstr "Índice de Cores"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__commercial_partner_id
-msgid "Commercial Entity"
-msgstr "Entidade Comercial"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__commission_id
-msgid "Commission"
-msgstr "Comissão"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__common_law_marriage
+#. odoo-python
+#: code:addons/l10n_br_hr/models/hr_employee.py:0
 msgid "Common law marriage"
 msgstr "União estável"
 
@@ -377,72 +178,18 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ref_company_ids
-msgid "Companies that refers to partner"
-msgstr "Empresas que se referem ao parceiro"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__company_id
-msgid "Company"
-msgstr "Empresa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__company_name
-msgid "Company Name"
-msgstr "Nome da Empresa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__commercial_company_name
-msgid "Company Name Entity"
-msgstr "Entidade Nome da Empresa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__company_type
-msgid "Company Type"
-msgstr "Tipo de Empresa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contact_address
-msgid "Complete Address"
-msgstr "Endereço Completo"
-
-#. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_res_partner
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__child_ids
 msgid "Contact"
 msgstr "Contato"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contract_ids
-msgid "Contracts"
-msgstr "Contratos"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_ie_dest
-msgid "Contribuinte do ICMS"
-msgstr "Contribuinte do ICMS"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_count
-msgid "Count Payment Token"
-msgstr "Contagem de Tokens de Pagamento"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_bounce
-msgid "Counter of the number of bounced emails for this contact"
-msgstr "Contador do número de emails devolvidos para este contato"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__country_id
-msgid "Country"
-msgstr "País"
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
+msgid "Contact Phone"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__create_uid
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__create_uid
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__create_uid
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__create_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__create_uid
@@ -452,49 +199,11 @@ msgstr "Criado por"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__create_date
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__create_date
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__create_date
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__create_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__create_date
 msgid "Created on"
 msgstr "Criado em"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__credit_limit
-msgid "Credit Limit"
-msgstr "Limite de Crédito"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent
-msgid "Creditor/Agent"
-msgstr "Credor/Agente"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__currency_id
-msgid "Currency"
-msgstr "Moeda"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_customer
-msgid "Customer Location"
-msgstr "Localização do Cliente"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
-msgid "Customer Payment Mode"
-msgstr "Modo de Pagamento do Cliente"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_payment_term_id
-msgid "Customer Payment Terms"
-msgstr "Condições de Pagamento do Cliente"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__customer_rank
-msgid "Customer Rank"
-msgstr "Classificação do Cliente"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_filter
@@ -510,26 +219,6 @@ msgstr "Código Brasileiro de Ocupação"
 #: model:ir.actions.act_window,name:l10n_br_hr.action_l10n_br_hr_cbo
 msgid "Código Brasileiro de Ocupações"
 msgstr "Código Brasileiro de Ocupações"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__date
-msgid "Date"
-msgstr "Data"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_dob
-msgid "Date of birth"
-msgstr "Data de nascimento"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__reminder_date_before_receipt
-msgid "Days Before Receipt"
-msgstr "Dias antes do recebimento"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
-msgid "Default delivery method used in sales orders."
-msgstr "Método de entrega padrão usado nos pedidos de venda."
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_deficiency
@@ -549,31 +238,6 @@ msgid "Deficiency Description"
 msgstr "Descrição da Deficiência"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__trust
-msgid "Degree of trust you have in this debtor"
-msgstr "Grau de confiança que você tem neste devedor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
-msgid "Delivery Method"
-msgstr "Método de Entrega"
-
-#. module: l10n_br_hr
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
-msgid "Dependent Infos"
-msgstr "Informações dependentes"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__dependent_ids
-msgid "Dependents"
-msgstr "Dependentes"
-
-#. module: l10n_br_hr
-#: model:ir.model,name:l10n_br_hr.model_hr_dependent_type
-msgid "Dependents Type"
-msgstr "Tipos de Dependentes"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__organ_exp
 msgid "Dispatcher organ"
 msgstr "Órgão despachante"
@@ -581,39 +245,16 @@ msgstr "Órgão despachante"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__district
-msgid "District"
-msgstr "Bairro"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__relative_file
-msgid "Documento comprobatório da relação"
-msgstr "Documento comprobatório da relação"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Documents"
 msgstr "Documentos"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__street_number2
-msgid "Door"
-msgstr "Porta"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -631,39 +272,6 @@ msgid "Driver license number"
 msgstr "Número da carteira de motorista"
 
 #. module: l10n_br_hr
-#: model:ir.actions.act_window,name:l10n_br_hr.action_hr_educational_attainment
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__educational_attainment
-#: model:ir.ui.menu,name:l10n_br_hr.menu_hr_educational_attainment
-msgid "Educational Attainment"
-msgstr "Realização educacional"
-
-#. module: l10n_br_hr
-#: model:ir.model,name:l10n_br_hr.model_hr_educational_attainment
-msgid "Educational Attainments"
-msgstr "Realizações Educacionais"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__partner_share
-msgid ""
-"Either customer (not a user), either shared user. Indicated the current "
-"partner is a customer without access or with a limited access created for "
-"sharing data."
-msgstr ""
-"Cliente (não usuário), usuário compartilhado. Indicou que o parceiro atual é "
-"um cliente sem acesso ou com um acesso limitado criado para o "
-"compartilhamento de dados."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__email
-msgid "Email"
-msgstr "E-mail"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
-msgid "Emergency Phone"
-msgstr "Telefone de emergência"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__talk_to
 msgid "Emergency contact name"
 msgstr "Nome de contato de emergência"
@@ -675,14 +283,8 @@ msgstr "Data de emissão"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_employee
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__employee
 msgid "Employee"
 msgstr "Funcionário"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__employee_id
-msgid "Employee ID"
-msgstr "ID do Funcionário"
 
 #. module: l10n_br_hr
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_employee_register
@@ -690,37 +292,9 @@ msgid "Employee register"
 msgstr "Cadastro de funcionários"
 
 #. module: l10n_br_hr
-#: model:ir.model,name:l10n_br_hr.model_hr_employee_dependent
-msgid "Employee's Dependents"
-msgstr "Dependentes dos funcionários"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__employee_ids
 msgid "Employees"
 msgstr "Funcionários"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__country_enforce_cities
-msgid "Enforce Cities"
-msgstr "Impor cidades"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
-msgid ""
-"Enter the various label found on your bank statement separated by a ; If one "
-"of this label is include in the bank statement line, the partner will be "
-"automatically filled (as long as you use this method/rules in your statement "
-"profile)."
-msgstr ""
-"Digite os vários rótulos encontrados em seu extrato bancário separados por ; "
-"Se uma desses rótulos for incluída na linha do extrato bancário, o parceiro "
-"será preenchido automaticamente (desde que você use este método/regras em "
-"seu perfil de extrato)."
-
-#. module: l10n_br_hr
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_educational_attainment_form
-msgid "Escolaridade"
-msgstr "Escolaridade"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_ethnicity
@@ -745,84 +319,19 @@ msgid "Father Name"
 msgstr "Nome do pai"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee_dependent__dependent_gender__f
-msgid "Female"
-msgstr "Fêmea"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_final
-msgid "Final Consumption Operation"
-msgstr "Operação de Consumo Final"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__cresv_categ__1
 msgid "First Category"
 msgstr "Primeira Categoria"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__fiscal_profile_id
-msgid "Fiscal Partner Profile"
-msgstr "Perfil de Sócio Fiscal"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_account_position_id
-msgid "Fiscal Position"
-msgstr "Posição Fiscal"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_follower_ids
-msgid "Followers"
-msgstr "Seguidores"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguidores (Canais)"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_partner_ids
-msgid "Followers (Partners)"
-msgstr "Seguidores (Parceiros)"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_type_icon
-msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Ícone do font awesome ex. fa-task"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__email_formatted
-msgid "Format email address \"Name <email@domain>\""
-msgstr "Formato de endereço de email \"Nome <email@provedor>\""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__email_formatted
-msgid "Formatted Email"
-msgstr "Email Formatado"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__tipo__funcionario
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__employee_relationship_type__funcionario
 msgid "Funcionário"
 msgstr "Funcionário"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__tipo__cedido
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__employee_relationship_type__cedido
 msgid "Funcionário Cedido"
 msgstr "Funcionário Cedido"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_gender
-msgid "Gender"
-msgstr "Sexo"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_latitude
-msgid "Geo Latitude"
-msgstr "Latitude Geográfica"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_longitude
-msgid "Geo Longitude"
-msgstr "Longitude Geográfica"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_data_abstract
@@ -830,44 +339,16 @@ msgid "HR Data Abstract"
 msgstr "Resumo de Dados do RH"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__has_unreconciled_entries
-msgid "Has Unreconciled Entries"
-msgstr "Têm Entradas Não Reconciliadas"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__have_dependent
-msgid "Has dependents"
-msgstr "Tem dependentes"
-
-#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Health"
 msgstr "Saúde"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__health_verification
-msgid "Healthcare plan"
-msgstr "Plano de saúde"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__street_number
-msgid "House"
-msgstr "Casa"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__id
 msgid "ID"
 msgstr "ID"
 
@@ -892,24 +373,14 @@ msgid "ID type"
 msgstr "Tipo de identificação"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__im_status
-msgid "IM Status"
-msgstr "Status do mensageiro"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_exception_icon
-msgid "Icon"
-msgstr "Ícone"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_exception_icon
-msgid "Icon to indicate an exception activity."
-msgstr "Ícone para indicar uma atividade excepcional."
-
-#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Identidade"
 msgstr "Identidade"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
+msgid "Identification Number for selected type"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_identity_type
@@ -924,209 +395,24 @@ msgid "Identity type"
 msgstr "Tipo de Identidade"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_needaction
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_unread
-msgid "If checked, new messages require your attention."
-msgstr "Se marcado, novas mensagens solicitarão sua atenção."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_has_error
-msgid "If checked, some messages have a delivery error."
-msgstr "Se marcado, algumas mensagens tem erro de entrega."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__team_id
-msgid ""
-"If set, this Sales Team will be used for sales and assignments related to "
-"this partner"
-msgstr ""
-"Se definido, esta Equipe de Vendas será usada para vendas e atribuições "
-"relacionadas a este parceiro"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_blacklisted
-msgid ""
-"If the email address is on the blacklist, the contact won't receive mass "
-"mailing anymore, from any list"
-msgstr ""
-"Se o endereço de email estiver na lista negra, o contato não receberá mais "
-"emails em massa, de qualquer lista"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_1920
-msgid "Image"
-msgstr "Imagem"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_1024
-msgid "Image 1024"
-msgstr "Imagem 1024"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_128
-msgid "Image 128"
-msgstr "Imagem 128"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_256
-msgid "Image 256"
-msgstr "Imagem 256"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__image_512
-msgid "Image 512"
-msgstr "Imagem 512"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inc_trab
-msgid "Incapacidade Física ou Mental?"
-msgstr "Incapacidade física ou mental?"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
-msgid "Indicates if Brazilian localization fields should be displayed."
-msgstr "Indica se os campos de localização brasileira devem ser exibidos."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_public_entity
-msgid ""
-"Indicates whether the entity in question is a public organization or "
-"government-related entity. It encompasses a range of entities such as "
-"municipal governments, state-owned enterprises (where the government is the "
-"largest shareholder), and other government-controlled organizations."
-msgstr ""
-"Indica se a entidade em questão é uma organização pública ou uma entidade "
-"relacionada ao governo. Abrange uma gama de entidades, como governos "
-"municipais, empresas estatais (onde o governo é o maior acionista) e outras "
-"organizações controladas pelo governo."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__industry_id
-msgid "Industry"
-msgstr "Industria"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_id_bank_ids
-msgid "Info Bank"
-msgstr "Banco de Informações"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__initials
 msgid "Initials"
 msgstr "Iniciais"
 
 #. module: l10n_br_hr
+#. odoo-python
 #: code:addons/l10n_br_hr/models/hr_employee.py:0
-#, python-format
 msgid "Invalid PIS/PASEP"
 msgstr "PIS / PASEP inválido"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:0
-#, python-format
-msgid "Invalid birth date for dependent %s"
-msgstr "Data de nascimento inválida para %s dependente"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_warn
-msgid "Invoice"
-msgstr "Fatura"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__type
-msgid ""
-"Invoice & Delivery addresses are used in sales orders. Private addresses are "
-"only visible by authorized users."
-msgstr ""
-"Endereços de fatura e entrega são usados em pedidos de vendas. Endereços "
-"privados são visíveis apenas por usuários autorizados."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_ids
-msgid "Invoices"
-msgstr "Pedidos"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_is_follower
-msgid "Is Follower"
-msgstr "É Seguidor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_published
-msgid "Is Published"
-msgstr "Está publicado"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_company
-msgid "Is a Company"
-msgstr "É uma Empresa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_accountant
-msgid "Is accountant?"
-msgstr "É contador?"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_employee_dependent
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__is_employee_dependent
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_users__is_employee_dependent
-msgid "Is an employee dependent"
-msgstr "Um funcionário depende"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_verification
-msgid "Is dependent"
-msgstr "É dependente"
-
-#. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_job
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__function
 msgid "Job Position"
 msgstr "Cargo"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__journal_item_count
-msgid "Journal Items"
-msgstr "Itens de Diário"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
-msgid "Keys for Brazilian instant payment (pix)"
-msgstr "Chaves para pagamento instantâneo brasileiro (pix)"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__lang
-msgid "Language"
-msgstr "Idioma"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_company____last_update
-#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_website_so_id
-msgid "Last Online Sales Order"
-msgstr "Último Pedido de Vendas Online"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__write_uid
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__write_uid
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__write_uid
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__write_uid
@@ -1136,9 +422,6 @@ msgstr "Última Atualização por"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__write_date
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__write_date
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__write_date
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__write_date
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__write_date
@@ -1146,86 +429,9 @@ msgid "Last Updated on"
 msgstr "Última Atualização em"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__calendar_last_notif_ack
-msgid "Last notification marked as read from base Calendar"
-msgstr "Última notificação marcada como lida a partir do Calendário Base"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__last_time_entries_checked
-msgid ""
-"Last time the invoices & payments matching was performed for this partner. "
-"It is set either if there's not at least an unreconciled debit and an "
-"unreconciled credit or if you click the \"Done\" button."
-msgstr ""
-"A última vez que a correspondência de faturas e pagamentos foi realizada "
-"para este parceiro. Ele é definido se não houver pelo menos um débito não "
-"reconciliado e um crédito não reconciliado ou se você clicar no botão "
-"\"Concluído\"."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_time_entries_checked
-msgid "Latest Invoices & Payments Matching Date"
-msgstr "Últimas Faturas e Pagamentos por Data"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__legal_name
-msgid "Legal Name"
-msgstr "Razão Social"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Anexo Principal"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cnae_main_id
-msgid "Main CNAE"
-msgstr "CNAE Principal"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee_dependent__dependent_gender__m
-msgid "Male"
-msgstr "Masculino"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__marital
 msgid "Marital Status"
 msgstr "Estado civil"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__meeting_ids
-msgid "Meetings"
-msgstr "Reuniões"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_error
-msgid "Message Delivery error"
-msgstr "Erro de Entrega da Mensagem"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_warn_msg
-msgid "Message for Invoice"
-msgstr "Mensagem para Fatura"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn_msg
-msgid "Message for Purchase Order"
-msgstr "Mensagem para Pedido de Compra"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn_msg
-msgid "Message for Sales Order"
-msgstr "Mensagem para o Pedido de Vendas"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn_msg
-msgid "Message for Stock Picking"
-msgstr "Mensagem para o picking de estoque"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_ids
-msgid "Messages"
-msgstr "Mensagens"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cresv_categ
@@ -1238,31 +444,13 @@ msgid "Military service status certificate"
 msgstr "Certificado de status de serviço militar"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__mobile
-msgid "Mobile"
-msgstr "Celular"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__mother_name
 msgid "Mother Name"
 msgstr "Nome da mãe"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_mun
-msgid "Municipal Tax Number"
-msgstr "Número da Inscrição Municipal"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__my_activity_date_deadline
-msgid "My Activity Deadline"
-msgstr "Prazo Final das Minhas Atividades"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_educational_attainment__name
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__name
@@ -1270,7 +458,7 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__rg
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__l10n_br_rg_code
 msgid "National ID number"
 msgstr "Número de Identificação Nacional"
 
@@ -1280,107 +468,24 @@ msgid "Nationality (Country)"
 msgstr "Nacionalidade (País)"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__naturalidade
-msgid "Naturalidade"
-msgstr "Naturalidade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_date_deadline
-msgid "Next Activity Deadline"
-msgstr "Prazo Final da Próxima Atividade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_summary
-msgid "Next Activity Summary"
-msgstr "Resumo da Próxima Atividade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_type_id
-msgid "Next Activity Type"
-msgstr "Tipo da Próxima Atividade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__email_normalized
-msgid "Normalized Email"
-msgstr "Email Normalizado"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__comment
-msgid "Notes"
-msgstr "Observações"
-
-#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Number"
 msgstr "Número"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_needaction_counter
-msgid "Number of Actions"
-msgstr "Número de Ações"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__reminder_date_before_receipt
-msgid "Number of days to send reminder email before the promised receipt date"
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__o+
+msgid "O+"
 msgstr ""
-"Número de dias para enviar e-mail de lembrete antes da data de recebimento "
-"prometida"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_error_counter
-msgid "Number of errors"
-msgstr "Número de erros"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Número de mensagens que requer uma ação"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_has_error_counter
-msgid "Number of messages with delivery error"
-msgstr "Número de mensagens com erro de entrega"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Quantidade de mensagens não lidas"
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__o-
+msgid "O-"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_filter
 msgid "Ocupação"
 msgstr "Ocupação"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__on_time_rate
-msgid "On-Time Delivery Rate"
-msgstr "Taxa de Entrega no prazo"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__opportunity_ids
-msgid "Opportunities"
-msgstr "Oportunidades"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__opportunity_count
-msgid "Opportunity"
-msgstr "Oportunidade"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__state_tax_number_ids
-msgid "Others State Tax Number"
-msgstr "Número de Outras Inscrição Estaduais"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__on_time_rate
-msgid ""
-"Over the past x days; the number of products received on time divided by the "
-"number of ordered products.x is either the System Parameter purchase_stock."
-"on_time_delivery_days or the default 365"
-msgstr ""
-"Nos últimos x dias; o número de produtos recebidos no prazo dividido pelo "
-"número de produtos pedidos.x é o parâmetro do sistema "
-"purchase_stock.on_time_delivery_days ou o padrão 365"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep
@@ -1394,118 +499,14 @@ msgid "PIS/PASEP emission date"
 msgstr "Data de Emissão PIS/PASEP"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__partner_id
-msgid "Parceiro que contem as informações de banco do dependente."
-msgstr "Parceiro que contemple as informações de banco do dependente."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__parent_name
-msgid "Parent name"
-msgstr "Nome do pai"
-
-#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Parents names"
 msgstr "Nome dos pais"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_id
-msgid "Partner"
-msgstr "Parceiro"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__same_vat_partner_id
-msgid "Partner with same Tax ID"
-msgstr "Parceiro com o mesmo CNPJ/CPF"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__debit_limit
-msgid "Payable Limit"
-msgstr "Limite de Pagamento"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_payment_method_id
-msgid "Payment Method"
-msgstr "Método de Pagamento"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_ids
-msgid "Payment Tokens"
-msgstr "Token de Pagamento"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone
-msgid "Phone"
-msgstr "Telefone"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
-msgid "Pix Keys"
-msgstr "Chaves PIX"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_ids
-msgid "Pos Order"
-msgstr "Pedidos de pós-venda"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pos_order_count
-msgid "Pos Order Count"
-msgstr "Contagem de pedidos de pós-venda"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_payment_method_id
-msgid ""
-"Preferred payment method when paying this vendor. This is used to filter "
-"vendor bills by preferred payment method to register payments in mass. Use "
-"cases: create bank files for batch wires, check runs."
-msgstr ""
-"Método de pagamento preferido ao pagar este fornecedor. Isto é usado para "
-"filtrar contas de fornecedores por método de pagamento preferido para "
-"registrar pagamentos em massa. Casos de uso: criar arquivos bancários para "
-"transferências em lote, execuções de cheques."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_product_pricelist
-msgid "Pricelist"
-msgstr "Lista de Preços"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_public_entity
-msgid "Public Entity"
-msgstr "Entidade Pública"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_contract_count
-msgid "Purchase Contracts"
-msgstr "Contratos de Compra"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_line_ids
-msgid "Purchase Lines"
-msgstr "Linhas de Compra"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn
-msgid "Purchase Order"
-msgstr "Pedido de Compra"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_order_count
-msgid "Purchase Order Count"
-msgstr "Contagem de Pedidos de Compra"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__rg
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__l10n_br_rg_code
 msgid "RG"
 msgstr "RG"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__rntrc_code
-msgid "RNTRC Code"
-msgstr "Código RNTRC"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_ethnicity_form
@@ -1513,31 +514,9 @@ msgid "Raça/Cor"
 msgstr "Raça / Cor"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__receipt_reminder_email
-msgid "Receipt Reminder"
-msgstr "Lembrete de recebimento"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ref
-msgid "Reference"
-msgstr "Referência"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__registration
 msgid "Registration number"
 msgstr "Número de registro"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__parent_id
-msgid "Related Company"
-msgstr "Empresa Relacionada"
-
-#. module: l10n_br_hr
-#: model:ir.actions.act_window,name:l10n_br_hr.action_hr_dependent_type
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_type_id
-#: model:ir.ui.menu,name:l10n_br_hr.menu_hr_dependent_type
-msgid "Relatedness"
-msgstr "Parentesco"
 
 #. module: l10n_br_hr
 #: model:ir.ui.menu,name:l10n_br_hr.menu_l10n_br_hr_relatorios_root
@@ -1550,224 +529,18 @@ msgid "Reservist"
 msgstr "Reservista"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_user_id
-msgid "Responsible User"
-msgstr "Usuário Responsável"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_id
-msgid "Restrict publishing to this website."
-msgstr "Restrinja a publicação a este site."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_contract_count
-msgid "Sale Contracts"
-msgstr "Contratos de Venda"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_count
-msgid "Sale Order Count"
-msgstr "Contagem de Pedido de Venda"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_ids
-msgid "Sales Order"
-msgstr "Pedidos de Venda"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__team_id
-msgid "Sales Team"
-msgstr "Time de Vendas"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn
-msgid "Sales Warnings"
-msgstr "Avisos de Vendas"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__user_id
-msgid "Salesperson"
-msgstr "Vendedor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dep_sf
-msgid "Salário Família?"
-msgstr "Salário Família?"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__cresv_categ__2
 msgid "Second Category"
 msgstr "Segunda categoria"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
-msgid "Select the default payment mode for this customer."
-msgstr "Selecione o modo de pagamento padrão para este cliente."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
-msgid "Select the default payment mode for this supplier."
-msgstr "Selecione o modo de pagamento padrão para este fornecedor."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__purchase_warn
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__sale_warn
-msgid ""
-"Selecting the \"Warning\" option will notify user with the message, "
-"Selecting \"Blocking Message\" will throw an exception with the message and "
-"block the flow. The Message has to be written in the next field."
-msgstr ""
-"Selecionando a opção \"Aviso\" notificará o usuário com a mensagem, "
-"Selecionando \"Mensagem de Bloqueio\" lançará uma exceção com a mensagem e "
-"bloqueará o fluxo. A mensagem deve ser escrita no próximo campo."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__self
-msgid "Self"
-msgstr "Mesmo"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__marital__separated
+#. odoo-python
+#: code:addons/l10n_br_hr/models/hr_employee.py:0
 msgid "Separated"
 msgstr "Separado"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement_ids
-msgid "Settlement"
-msgstr "Liquidação"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__settlement
-msgid "Settlement period"
-msgstr "Período de liquidação"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_share
-msgid "Share Partner"
-msgstr "Partilhar Parceiro"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__show_l10n_br
-msgid "Show L10N Br"
-msgstr "Exibir L10N Br"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__signup_expiration
-msgid "Signup Expiration"
-msgstr "Expiração de Inscrição"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__signup_token
-msgid "Signup Token"
-msgstr "Token de Inscrição"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__signup_type
-msgid "Signup Token Type"
-msgstr "Tipo de token para Inscrição"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__signup_valid
-msgid "Signup Token is Valid"
-msgstr "Token de Inscrição é Válido"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__signup_url
-msgid "Signup URL"
-msgstr "URL de inscrição"
-
-#. module: l10n_br_hr
-#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
-msgid "Spouse and Dependents"
-msgstr "Cônjuge e Dependentes"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__state_id
-msgid "State"
-msgstr "Estado"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__l10n_br_ie_code
-msgid "State Tax Number"
-msgstr "Número da Inscrição Estadual"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_state
-msgid ""
-"Status based on activities\n"
-"Overdue: Due date is already passed\n"
-"Today: Activity date is today\n"
-"Planned: Future activities."
-msgstr ""
-"Status baseado em atividades\n"
-"Atrasado: Data definida já passou\n"
-"Hoje: Data de atividade é hoje\n"
-"Planejado: Atividades futuras."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn
-msgid "Stock Picking"
-msgstr "Separação de Estoque"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__street
-msgid "Street"
-msgstr "Endereço"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__street_name
-msgid "Street Name"
-msgstr "Nome da Rua"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__street2
-msgid "Street2"
-msgstr "Complemento"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__l10n_br_isuf_code
-msgid "Suframa"
-msgstr "Suframa"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_purchase_currency_id
-msgid "Supplier Currency"
-msgstr "Moeda do Fornecedor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
-msgid "Supplier Payment Mode"
-msgstr "Modo de Pagamento do Fornecedor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_rank
-msgid "Supplier Rank"
-msgstr "Classificação do Fornecedor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__category_id
-msgid "Tags"
-msgstr "Marcadores"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__tax_framework
-msgid "Tax Framework"
-msgstr "Estrutura Tributária"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__vat
-msgid "Tax ID"
-msgstr "ID do Imposto"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__have_alimony
-msgid "Tem Pensão?"
-msgstr "Tem Pensão?"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__tipo__terceirizado
+#: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__employee_relationship_type__terceirizado
 msgid "Terceirizado"
 msgstr "Terceirizado"
 
@@ -1778,243 +551,20 @@ msgid "Terceirizados"
 msgstr "Terceirizados"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__vat
-msgid ""
-"The Tax Identification Number. Complete it if the contact is subjected to "
-"government taxes. Used in some legal statements."
-msgstr ""
-"O número de identificação fiscal. Preencha-o se o contato estiver sujeito a "
-"impostos governamentais. Usado em algumas declarações legais."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_account_position_id
-msgid ""
-"The fiscal position determines the taxes/accounts used for this contact."
-msgstr ""
-"A posição fiscal determina os impostos / contas usados para esse contato."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_url
-msgid "The full URL to access the document through the website."
-msgstr "URL completa para acessar o documento através do site."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__user_id
-msgid "The internal user in charge of this contact."
-msgstr "O usuário interno responsável por este contato."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__pos_order_count
-msgid "The number of point of sales orders related to this customer"
-msgstr "O número de pedidos de ponto de venda relacionados a este cliente"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__has_unreconciled_entries
-msgid ""
-"The partner has at least one unreconciled debit and credit since last time "
-"the invoices & payments matching was performed."
-msgstr ""
-"O parceiro tem pelo menos um débito e crédito não reconciliados desde a "
-"última vez em que a correspondência de faturas e pagamentos foi realizada."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_stock_customer
-msgid ""
-"The stock location used as destination when sending goods to this contact."
-msgstr ""
-"O local do estoque usado como destino ao enviar mercadorias para este "
-"contato."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_stock_supplier
-msgid ""
-"The stock location used as source when receiving goods from this contact."
-msgstr ""
-"O local do estoque usado como fonte ao receber mercadorias desse contato."
-
-#. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__cresv_categ__3
 msgid "Third Category"
 msgstr "Terceira categoria"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_account_payable_id
-msgid ""
-"This account will be used instead of the default one as the payable account "
-"for the current partner"
-msgstr ""
-"Essa conta a pagar será usada para o parceiro atual, substituindo a padrão"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_account_receivable_id
-msgid ""
-"This account will be used instead of the default one as the receivable "
-"account for the current partner"
-msgstr ""
-"Essa conta a receber será usada para o parceiro atual, substituindo a padrão"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_purchase_currency_id
-msgid ""
-"This currency will be used, instead of the default one, for purchases from "
-"the current partner"
-msgstr ""
-"Esta moeda será usada, em vez da moeda padrão, para compras do parceiro atual"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__email_normalized
-msgid ""
-"This field is used to search on email address as the primary email field can "
-"contain more than strictly an email address."
-msgstr ""
-"Este campo é usado para pesquisar por endereço de e-mail, pois o campo de e-"
-"mail principal pode conter mais do que apenas um endereço de e-mail."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__commission_id
-msgid ""
-"This is the default commission used in the sales where this agent is "
-"assigned. It can be changed on each operation if needed."
-msgstr ""
-"Esta é a comissão padrão usada nas vendas onde este agente é designado. Ela "
-"pode ser alterada em cada operação, se necessário."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_supplier_payment_term_id
-msgid ""
-"This payment term will be used instead of the default one for purchase "
-"orders and vendor bills"
-msgstr ""
-"Esse prazo de pagamento será usado para pedidos e faturas de fornecedores, "
-"substituindo o padrão"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_payment_term_id
-msgid ""
-"This payment term will be used instead of the default one for sales orders "
-"and customer invoices"
-msgstr ""
-"Esse prazo de pagamento será usado para pedidos de vendas e faturas de "
-"clientes, substituindo o padrão"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_product_pricelist
-msgid ""
-"This pricelist will be used, instead of the default one, for sales to the "
-"current partner"
-msgstr ""
-"Essa lista de preços será usada, em vez da padrão, para vendas ao parceiro "
-"atual"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__tz
-msgid "Timezone"
-msgstr "Fuso horário"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__tz_offset
-msgid "Timezone offset"
-msgstr "Deslocamento de Fuso Horário"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__tipo
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__employee_relationship_type
 msgid "Tipo de Colaborador"
 msgstr "Tipo de Colaborador"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__title
-msgid "Title"
-msgstr "Título"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__total_invoiced
-msgid "Total Invoiced"
-msgstr "Total da Fatura"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__debit
-msgid "Total Payable"
-msgstr "Total a Pagar"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__credit
-msgid "Total Receivable"
-msgstr "Total a Receber"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__credit
-msgid "Total amount this customer owes you."
-msgstr "Valor total que este cliente lhe deve."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__debit
-msgid "Total amount you have to pay to this vendor."
-msgstr "Valor total que você deve pagar a este fornecedor."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__agent_type
-msgid "Type"
-msgstr "Tipo"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_exception_decoration
-msgid "Type of the exception activity on record."
-msgstr "Tipo da atividade de exceção no registro."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__union_entity_code
+#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__union_entity_code
+#: model:ir.model.fields,field_description:l10n_br_hr.field_res_users__union_entity_code
 msgid "Union Entity code"
 msgstr "Código do Sindicato"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_unread
-msgid "Unread Messages"
-msgstr "Mensagens não lidas"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Contador de Mensagens Não Lidas"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__barcode
-msgid "Use a barcode to identify this contact."
-msgstr "Use um código de barras para identificar este contato."
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__legal_name
-msgid "Used in fiscal documents"
-msgstr "Usado em documentos fiscais"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__user_ids
-msgid "Users"
-msgstr "Usuários"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__currency_id
-msgid "Utility field to express amount currency"
-msgstr "Campo utilitário para expressar o valor da moeda"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_supplier
-msgid "Vendor Location"
-msgstr "Localização de Fornecedor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_supplier_payment_term_id
-msgid "Vendor Payment Terms"
-msgstr "Condições de Pagamento do Fornecedor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_published
-msgid "Visible on current website"
-msgstr "Visível no site atual"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__visitor_ids
-msgid "Visitors"
-msgstr "Visitantes"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -2037,55 +587,960 @@ msgid "Voter Zone"
 msgstr "Zona Eleitoral"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
-msgid "Website"
-msgstr "Site"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website
-msgid "Website Link"
-msgstr "Link do site"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_message_ids
-msgid "Website Messages"
-msgstr "Mensagens do Website"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_url
-msgid "Website URL"
-msgstr "URL do site"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_message_ids
-msgid "Website communication history"
-msgstr "Histórico de comunicação do website"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__tz
-msgid ""
-"When printing documents and exporting/importing data, time values are "
-"computed according to this timezone.\n"
-"If the timezone is not set, UTC (Coordinated Universal Time) is used.\n"
-"Anywhere else, time values are computed according to the time offset of your "
-"web client."
-msgstr ""
-"Ao imprimir documentos e exportar/importar dados, os valores de tempo são "
-"computados de acordo com este fuso horário.\n"
-"Se o fuso horário não estiver definido, UTC (Tempo Universal Coordenado) é "
-"usado.\n"
-"Em qualquer outro lugar, os valores de tempo são computados de acordo com o "
-"deslocamento de tempo do seu cliente web."
-
-#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "XXX.XXXXX.XX-X"
 msgstr "XXX.XXXXX.XX-X"
 
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
-msgid "Zip"
-msgstr "CEP"
+#~ msgid "# Meetings"
+#~ msgstr "# Reuniões"
+
+#~ msgid "# Vendor Bills"
+#~ msgstr "# Contas de Fornecedores"
+
+#, python-format
+#~ msgid ""
+#~ "A dependent with the same level of relatedness already exists for "
+#~ "dependent %s"
+#~ msgstr ""
+#~ "Já existe um dependente com o mesmo nível de parentesco para o dependente "
+#~ "%s"
+
+#~ msgid "Account Payable"
+#~ msgstr "Conta a Pagar"
+
+#~ msgid "Account Receivable"
+#~ msgstr "Conta a Receber"
+
+#~ msgid "Action Needed"
+#~ msgstr "Ação Necessária"
+
+#~ msgid "Active"
+#~ msgstr "Ativo"
+
+#~ msgid "Active Lang Count"
+#~ msgstr "Contagem de Idiomas Ativos"
+
+#~ msgid "Activities"
+#~ msgstr "Atividades"
+
+#~ msgid "Activity Exception Decoration"
+#~ msgstr "Decoração de Exceção de Atividade"
+
+#~ msgid "Activity State"
+#~ msgstr "Estado da Atividade"
+
+#~ msgid "Activity Type Icon"
+#~ msgstr "Ícone do Tipo de Atividade"
+
+#~ msgid "Address Type"
+#~ msgstr "Tipo de Endereço"
+
+#~ msgid "Agents"
+#~ msgstr "Agentes"
+
+#~ msgid ""
+#~ "All the emails and documents sent to this contact will be translated in "
+#~ "this language."
+#~ msgstr ""
+#~ "Todos os e-mails e documentos enviados para esse contato serão traduzidos "
+#~ "para este idioma."
+
+#~ msgid "Allowance value"
+#~ msgstr "Valor da provisão"
+
+#~ msgid "Atestado de incapacidade INSS"
+#~ msgstr "Atestado de incapacidade INSS"
+
+#~ msgid "Attachment Count"
+#~ msgstr "Contagem de Anexos"
+
+#~ msgid ""
+#~ "Automatically send a confirmation email to the vendor X days before the "
+#~ "expected receipt date, asking him to confirm the exact date."
+#~ msgstr ""
+#~ "Enviar automaticamente um e-mail de confirmação ao fornecedor X dias "
+#~ "antes da data prevista de recebimento, solicitando a confirmação da data "
+#~ "exata."
+
+#~ msgid "Bank"
+#~ msgstr "Banco"
+
+#~ msgid "Bank Statement Label"
+#~ msgstr "Etiqueta de Extrato Bancário"
+
+#~ msgid "Bank account for alimony"
+#~ msgstr "Conta bancária para pensão alimentícia"
+
+#~ msgid "Banks"
+#~ msgstr "Bancos"
+
+#~ msgid "Barcode"
+#~ msgstr "Código de barras"
+
+#~ msgid "Blacklist"
+#~ msgstr "Lista negra"
+
+#~ msgid "Bounce"
+#~ msgstr "Rejeitado"
+
+#~ msgid "CEI Code"
+#~ msgstr "Código CEI"
+
+#~ msgid "CRC Code"
+#~ msgstr "Código CRC"
+
+#~ msgid "CRC State"
+#~ msgstr "Estado CRC"
+
+#~ msgid "Can Publish"
+#~ msgstr "Pode Publicar"
+
+#~ msgid "Certidão de Nascimento / Casamento / etc"
+#~ msgstr "Certidão de Nascimento / Casamento / etc"
+
+#~ msgid "Channels"
+#~ msgstr "Canais"
+
+#~ msgid "Check if the contact is a company, otherwise it is a person"
+#~ msgstr "Marque se o contato é uma empresa, caso contrário ele é uma pessoa"
+
+#~ msgid "Check this box if this contact is an Employee."
+#~ msgstr "Marque a opção se este contato for um Funcionário."
+
+#~ msgid ""
+#~ "Check this box to ensure every address created in that country has a "
+#~ "'City' chosen in the list of the country's cities."
+#~ msgstr ""
+#~ "Marque essa caixa para garantir que todo endereço criado para aquele país "
+#~ "possui uma 'Cidade' selecionada na lista de cidades daquele país."
+
+#~ msgid "Check this field if the partner is a creditor or an agent."
+#~ msgstr "Marque este campo se o parceiro for um credor ou um agente."
+
+#~ msgid "City"
+#~ msgstr "Cidade"
+
+#~ msgid "City of Address"
+#~ msgstr "Cidade do Endereço"
+
+#~ msgid "Color Index"
+#~ msgstr "Índice de Cores"
+
+#~ msgid "Commercial Entity"
+#~ msgstr "Entidade Comercial"
+
+#~ msgid "Commission"
+#~ msgstr "Comissão"
+
+#~ msgid "Companies that refers to partner"
+#~ msgstr "Empresas que se referem ao parceiro"
+
+#~ msgid "Company"
+#~ msgstr "Empresa"
+
+#~ msgid "Company Name"
+#~ msgstr "Nome da Empresa"
+
+#~ msgid "Company Name Entity"
+#~ msgstr "Entidade Nome da Empresa"
+
+#~ msgid "Company Type"
+#~ msgstr "Tipo de Empresa"
+
+#~ msgid "Complete Address"
+#~ msgstr "Endereço Completo"
+
+#~ msgid "Contracts"
+#~ msgstr "Contratos"
+
+#~ msgid "Contribuinte do ICMS"
+#~ msgstr "Contribuinte do ICMS"
+
+#~ msgid "Count Payment Token"
+#~ msgstr "Contagem de Tokens de Pagamento"
+
+#~ msgid "Counter of the number of bounced emails for this contact"
+#~ msgstr "Contador do número de emails devolvidos para este contato"
+
+#~ msgid "Country"
+#~ msgstr "País"
+
+#~ msgid "Credit Limit"
+#~ msgstr "Limite de Crédito"
+
+#~ msgid "Creditor/Agent"
+#~ msgstr "Credor/Agente"
+
+#~ msgid "Currency"
+#~ msgstr "Moeda"
+
+#~ msgid "Customer Location"
+#~ msgstr "Localização do Cliente"
+
+#~ msgid "Customer Payment Mode"
+#~ msgstr "Modo de Pagamento do Cliente"
+
+#~ msgid "Customer Payment Terms"
+#~ msgstr "Condições de Pagamento do Cliente"
+
+#~ msgid "Customer Rank"
+#~ msgstr "Classificação do Cliente"
+
+#~ msgid "Date"
+#~ msgstr "Data"
+
+#~ msgid "Date of birth"
+#~ msgstr "Data de nascimento"
+
+#~ msgid "Days Before Receipt"
+#~ msgstr "Dias antes do recebimento"
+
+#~ msgid "Default delivery method used in sales orders."
+#~ msgstr "Método de entrega padrão usado nos pedidos de venda."
+
+#~ msgid "Degree of trust you have in this debtor"
+#~ msgstr "Grau de confiança que você tem neste devedor"
+
+#~ msgid "Delivery Method"
+#~ msgstr "Método de Entrega"
+
+#~ msgid "Dependent Infos"
+#~ msgstr "Informações dependentes"
+
+#~ msgid "Dependents"
+#~ msgstr "Dependentes"
+
+#~ msgid "Dependents Type"
+#~ msgstr "Tipos de Dependentes"
+
+#~ msgid "District"
+#~ msgstr "Bairro"
+
+#~ msgid "Documento comprobatório da relação"
+#~ msgstr "Documento comprobatório da relação"
+
+#~ msgid "Door"
+#~ msgstr "Porta"
+
+#~ msgid "Educational Attainment"
+#~ msgstr "Realização educacional"
+
+#~ msgid "Educational Attainments"
+#~ msgstr "Realizações Educacionais"
+
+#~ msgid ""
+#~ "Either customer (not a user), either shared user. Indicated the current "
+#~ "partner is a customer without access or with a limited access created for "
+#~ "sharing data."
+#~ msgstr ""
+#~ "Cliente (não usuário), usuário compartilhado. Indicou que o parceiro "
+#~ "atual é um cliente sem acesso ou com um acesso limitado criado para o "
+#~ "compartilhamento de dados."
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Emergency Phone"
+#~ msgstr "Telefone de emergência"
+
+#~ msgid "Employee ID"
+#~ msgstr "ID do Funcionário"
+
+#~ msgid "Employee's Dependents"
+#~ msgstr "Dependentes dos funcionários"
+
+#~ msgid "Enforce Cities"
+#~ msgstr "Impor cidades"
+
+#~ msgid ""
+#~ "Enter the various label found on your bank statement separated by a ; If "
+#~ "one of this label is include in the bank statement line, the partner will "
+#~ "be automatically filled (as long as you use this method/rules in your "
+#~ "statement profile)."
+#~ msgstr ""
+#~ "Digite os vários rótulos encontrados em seu extrato bancário separados "
+#~ "por ; Se uma desses rótulos for incluída na linha do extrato bancário, o "
+#~ "parceiro será preenchido automaticamente (desde que você use este método/"
+#~ "regras em seu perfil de extrato)."
+
+#~ msgid "Escolaridade"
+#~ msgstr "Escolaridade"
+
+#~ msgid "Female"
+#~ msgstr "Fêmea"
+
+#~ msgid "Final Consumption Operation"
+#~ msgstr "Operação de Consumo Final"
+
+#~ msgid "Fiscal Partner Profile"
+#~ msgstr "Perfil de Sócio Fiscal"
+
+#~ msgid "Fiscal Position"
+#~ msgstr "Posição Fiscal"
+
+#~ msgid "Followers"
+#~ msgstr "Seguidores"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canais)"
+
+#~ msgid "Followers (Partners)"
+#~ msgstr "Seguidores (Parceiros)"
+
+#~ msgid "Font awesome icon e.g. fa-tasks"
+#~ msgstr "Ícone do font awesome ex. fa-task"
+
+#~ msgid "Format email address \"Name <email@domain>\""
+#~ msgstr "Formato de endereço de email \"Nome <email@provedor>\""
+
+#~ msgid "Formatted Email"
+#~ msgstr "Email Formatado"
+
+#~ msgid "Gender"
+#~ msgstr "Sexo"
+
+#~ msgid "Geo Latitude"
+#~ msgstr "Latitude Geográfica"
+
+#~ msgid "Geo Longitude"
+#~ msgstr "Longitude Geográfica"
+
+#~ msgid "Has Unreconciled Entries"
+#~ msgstr "Têm Entradas Não Reconciliadas"
+
+#~ msgid "Has dependents"
+#~ msgstr "Tem dependentes"
+
+#~ msgid "Healthcare plan"
+#~ msgstr "Plano de saúde"
+
+#~ msgid "House"
+#~ msgstr "Casa"
+
+#~ msgid "IM Status"
+#~ msgstr "Status do mensageiro"
+
+#~ msgid "Icon"
+#~ msgstr "Ícone"
+
+#~ msgid "Icon to indicate an exception activity."
+#~ msgstr "Ícone para indicar uma atividade excepcional."
+
+#~ msgid "If checked, new messages require your attention."
+#~ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
+
+#~ msgid "If checked, some messages have a delivery error."
+#~ msgstr "Se marcado, algumas mensagens tem erro de entrega."
+
+#~ msgid ""
+#~ "If set, this Sales Team will be used for sales and assignments related to "
+#~ "this partner"
+#~ msgstr ""
+#~ "Se definido, esta Equipe de Vendas será usada para vendas e atribuições "
+#~ "relacionadas a este parceiro"
+
+#~ msgid ""
+#~ "If the email address is on the blacklist, the contact won't receive mass "
+#~ "mailing anymore, from any list"
+#~ msgstr ""
+#~ "Se o endereço de email estiver na lista negra, o contato não receberá "
+#~ "mais emails em massa, de qualquer lista"
+
+#~ msgid "Image"
+#~ msgstr "Imagem"
+
+#~ msgid "Image 1024"
+#~ msgstr "Imagem 1024"
+
+#~ msgid "Image 128"
+#~ msgstr "Imagem 128"
+
+#~ msgid "Image 256"
+#~ msgstr "Imagem 256"
+
+#~ msgid "Image 512"
+#~ msgstr "Imagem 512"
+
+#~ msgid "Incapacidade Física ou Mental?"
+#~ msgstr "Incapacidade física ou mental?"
+
+#~ msgid "Indicates if Brazilian localization fields should be displayed."
+#~ msgstr "Indica se os campos de localização brasileira devem ser exibidos."
+
+#~ msgid ""
+#~ "Indicates whether the entity in question is a public organization or "
+#~ "government-related entity. It encompasses a range of entities such as "
+#~ "municipal governments, state-owned enterprises (where the government is "
+#~ "the largest shareholder), and other government-controlled organizations."
+#~ msgstr ""
+#~ "Indica se a entidade em questão é uma organização pública ou uma entidade "
+#~ "relacionada ao governo. Abrange uma gama de entidades, como governos "
+#~ "municipais, empresas estatais (onde o governo é o maior acionista) e "
+#~ "outras organizações controladas pelo governo."
+
+#~ msgid "Industry"
+#~ msgstr "Industria"
+
+#~ msgid "Info Bank"
+#~ msgstr "Banco de Informações"
+
+#, python-format
+#~ msgid "Invalid birth date for dependent %s"
+#~ msgstr "Data de nascimento inválida para %s dependente"
+
+#~ msgid "Invoice"
+#~ msgstr "Fatura"
+
+#~ msgid ""
+#~ "Invoice & Delivery addresses are used in sales orders. Private addresses "
+#~ "are only visible by authorized users."
+#~ msgstr ""
+#~ "Endereços de fatura e entrega são usados em pedidos de vendas. Endereços "
+#~ "privados são visíveis apenas por usuários autorizados."
+
+#~ msgid "Invoices"
+#~ msgstr "Pedidos"
+
+#~ msgid "Is Follower"
+#~ msgstr "É Seguidor"
+
+#~ msgid "Is Published"
+#~ msgstr "Está publicado"
+
+#~ msgid "Is a Company"
+#~ msgstr "É uma Empresa"
+
+#~ msgid "Is accountant?"
+#~ msgstr "É contador?"
+
+#~ msgid "Is an employee dependent"
+#~ msgstr "Um funcionário depende"
+
+#~ msgid "Is dependent"
+#~ msgstr "É dependente"
+
+#~ msgid "Journal Items"
+#~ msgstr "Itens de Diário"
+
+#~ msgid "Keys for Brazilian instant payment (pix)"
+#~ msgstr "Chaves para pagamento instantâneo brasileiro (pix)"
+
+#~ msgid "Language"
+#~ msgstr "Idioma"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Last Online Sales Order"
+#~ msgstr "Último Pedido de Vendas Online"
+
+#~ msgid "Last notification marked as read from base Calendar"
+#~ msgstr "Última notificação marcada como lida a partir do Calendário Base"
+
+#~ msgid ""
+#~ "Last time the invoices & payments matching was performed for this "
+#~ "partner. It is set either if there's not at least an unreconciled debit "
+#~ "and an unreconciled credit or if you click the \"Done\" button."
+#~ msgstr ""
+#~ "A última vez que a correspondência de faturas e pagamentos foi realizada "
+#~ "para este parceiro. Ele é definido se não houver pelo menos um débito não "
+#~ "reconciliado e um crédito não reconciliado ou se você clicar no botão "
+#~ "\"Concluído\"."
+
+#~ msgid "Latest Invoices & Payments Matching Date"
+#~ msgstr "Últimas Faturas e Pagamentos por Data"
+
+#~ msgid "Legal Name"
+#~ msgstr "Razão Social"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
+
+#~ msgid "Main CNAE"
+#~ msgstr "CNAE Principal"
+
+#~ msgid "Male"
+#~ msgstr "Masculino"
+
+#~ msgid "Meetings"
+#~ msgstr "Reuniões"
+
+#~ msgid "Message Delivery error"
+#~ msgstr "Erro de Entrega da Mensagem"
+
+#~ msgid "Message for Invoice"
+#~ msgstr "Mensagem para Fatura"
+
+#~ msgid "Message for Purchase Order"
+#~ msgstr "Mensagem para Pedido de Compra"
+
+#~ msgid "Message for Sales Order"
+#~ msgstr "Mensagem para o Pedido de Vendas"
+
+#~ msgid "Message for Stock Picking"
+#~ msgstr "Mensagem para o picking de estoque"
+
+#~ msgid "Messages"
+#~ msgstr "Mensagens"
+
+#~ msgid "Mobile"
+#~ msgstr "Celular"
+
+#~ msgid "Municipal Tax Number"
+#~ msgstr "Número da Inscrição Municipal"
+
+#~ msgid "My Activity Deadline"
+#~ msgstr "Prazo Final das Minhas Atividades"
+
+#~ msgid "Naturalidade"
+#~ msgstr "Naturalidade"
+
+#~ msgid "Next Activity Deadline"
+#~ msgstr "Prazo Final da Próxima Atividade"
+
+#~ msgid "Next Activity Summary"
+#~ msgstr "Resumo da Próxima Atividade"
+
+#~ msgid "Next Activity Type"
+#~ msgstr "Tipo da Próxima Atividade"
+
+#~ msgid "Normalized Email"
+#~ msgstr "Email Normalizado"
+
+#~ msgid "Notes"
+#~ msgstr "Observações"
+
+#~ msgid "Number of Actions"
+#~ msgstr "Número de Ações"
+
+#~ msgid ""
+#~ "Number of days to send reminder email before the promised receipt date"
+#~ msgstr ""
+#~ "Número de dias para enviar e-mail de lembrete antes da data de "
+#~ "recebimento prometida"
+
+#~ msgid "Number of errors"
+#~ msgstr "Número de erros"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Número de mensagens que requer uma ação"
+
+#~ msgid "Number of messages with delivery error"
+#~ msgstr "Número de mensagens com erro de entrega"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Quantidade de mensagens não lidas"
+
+#~ msgid "On-Time Delivery Rate"
+#~ msgstr "Taxa de Entrega no prazo"
+
+#~ msgid "Opportunities"
+#~ msgstr "Oportunidades"
+
+#~ msgid "Opportunity"
+#~ msgstr "Oportunidade"
+
+#~ msgid "Others State Tax Number"
+#~ msgstr "Número de Outras Inscrição Estaduais"
+
+#~ msgid ""
+#~ "Over the past x days; the number of products received on time divided by "
+#~ "the number of ordered products.x is either the System Parameter "
+#~ "purchase_stock.on_time_delivery_days or the default 365"
+#~ msgstr ""
+#~ "Nos últimos x dias; o número de produtos recebidos no prazo dividido pelo "
+#~ "número de produtos pedidos.x é o parâmetro do sistema "
+#~ "purchase_stock.on_time_delivery_days ou o padrão 365"
+
+#~ msgid "Parceiro que contem as informações de banco do dependente."
+#~ msgstr "Parceiro que contemple as informações de banco do dependente."
+
+#~ msgid "Parent name"
+#~ msgstr "Nome do pai"
+
+#~ msgid "Partner"
+#~ msgstr "Parceiro"
+
+#~ msgid "Partner with same Tax ID"
+#~ msgstr "Parceiro com o mesmo CNPJ/CPF"
+
+#~ msgid "Payable Limit"
+#~ msgstr "Limite de Pagamento"
+
+#~ msgid "Payment Method"
+#~ msgstr "Método de Pagamento"
+
+#~ msgid "Payment Tokens"
+#~ msgstr "Token de Pagamento"
+
+#~ msgid "Phone"
+#~ msgstr "Telefone"
+
+#~ msgid "Pix Keys"
+#~ msgstr "Chaves PIX"
+
+#~ msgid "Pos Order"
+#~ msgstr "Pedidos de pós-venda"
+
+#~ msgid "Pos Order Count"
+#~ msgstr "Contagem de pedidos de pós-venda"
+
+#~ msgid ""
+#~ "Preferred payment method when paying this vendor. This is used to filter "
+#~ "vendor bills by preferred payment method to register payments in mass. "
+#~ "Use cases: create bank files for batch wires, check runs."
+#~ msgstr ""
+#~ "Método de pagamento preferido ao pagar este fornecedor. Isto é usado para "
+#~ "filtrar contas de fornecedores por método de pagamento preferido para "
+#~ "registrar pagamentos em massa. Casos de uso: criar arquivos bancários "
+#~ "para transferências em lote, execuções de cheques."
+
+#~ msgid "Pricelist"
+#~ msgstr "Lista de Preços"
+
+#~ msgid "Public Entity"
+#~ msgstr "Entidade Pública"
+
+#~ msgid "Purchase Contracts"
+#~ msgstr "Contratos de Compra"
+
+#~ msgid "Purchase Lines"
+#~ msgstr "Linhas de Compra"
+
+#~ msgid "Purchase Order"
+#~ msgstr "Pedido de Compra"
+
+#~ msgid "Purchase Order Count"
+#~ msgstr "Contagem de Pedidos de Compra"
+
+#~ msgid "RNTRC Code"
+#~ msgstr "Código RNTRC"
+
+#~ msgid "Receipt Reminder"
+#~ msgstr "Lembrete de recebimento"
+
+#~ msgid "Reference"
+#~ msgstr "Referência"
+
+#~ msgid "Related Company"
+#~ msgstr "Empresa Relacionada"
+
+#~ msgid "Relatedness"
+#~ msgstr "Parentesco"
+
+#~ msgid "Responsible User"
+#~ msgstr "Usuário Responsável"
+
+#~ msgid "Restrict publishing to this website."
+#~ msgstr "Restrinja a publicação a este site."
+
+#~ msgid "Sale Contracts"
+#~ msgstr "Contratos de Venda"
+
+#~ msgid "Sale Order Count"
+#~ msgstr "Contagem de Pedido de Venda"
+
+#~ msgid "Sales Order"
+#~ msgstr "Pedidos de Venda"
+
+#~ msgid "Sales Team"
+#~ msgstr "Time de Vendas"
+
+#~ msgid "Sales Warnings"
+#~ msgstr "Avisos de Vendas"
+
+#~ msgid "Salesperson"
+#~ msgstr "Vendedor"
+
+#~ msgid "Salário Família?"
+#~ msgstr "Salário Família?"
+
+#~ msgid "Select the default payment mode for this customer."
+#~ msgstr "Selecione o modo de pagamento padrão para este cliente."
+
+#~ msgid "Select the default payment mode for this supplier."
+#~ msgstr "Selecione o modo de pagamento padrão para este fornecedor."
+
+#~ msgid ""
+#~ "Selecting the \"Warning\" option will notify user with the message, "
+#~ "Selecting \"Blocking Message\" will throw an exception with the message "
+#~ "and block the flow. The Message has to be written in the next field."
+#~ msgstr ""
+#~ "Selecionando a opção \"Aviso\" notificará o usuário com a mensagem, "
+#~ "Selecionando \"Mensagem de Bloqueio\" lançará uma exceção com a mensagem "
+#~ "e bloqueará o fluxo. A mensagem deve ser escrita no próximo campo."
+
+#~ msgid "Self"
+#~ msgstr "Mesmo"
+
+#~ msgid "Settlement"
+#~ msgstr "Liquidação"
+
+#~ msgid "Settlement period"
+#~ msgstr "Período de liquidação"
+
+#~ msgid "Share Partner"
+#~ msgstr "Partilhar Parceiro"
+
+#~ msgid "Show L10N Br"
+#~ msgstr "Exibir L10N Br"
+
+#~ msgid "Signup Expiration"
+#~ msgstr "Expiração de Inscrição"
+
+#~ msgid "Signup Token"
+#~ msgstr "Token de Inscrição"
+
+#~ msgid "Signup Token Type"
+#~ msgstr "Tipo de token para Inscrição"
+
+#~ msgid "Signup Token is Valid"
+#~ msgstr "Token de Inscrição é Válido"
+
+#~ msgid "Signup URL"
+#~ msgstr "URL de inscrição"
+
+#~ msgid "Spouse and Dependents"
+#~ msgstr "Cônjuge e Dependentes"
+
+#~ msgid "State"
+#~ msgstr "Estado"
+
+#~ msgid "State Tax Number"
+#~ msgstr "Número da Inscrição Estadual"
+
+#~ msgid ""
+#~ "Status based on activities\n"
+#~ "Overdue: Due date is already passed\n"
+#~ "Today: Activity date is today\n"
+#~ "Planned: Future activities."
+#~ msgstr ""
+#~ "Status baseado em atividades\n"
+#~ "Atrasado: Data definida já passou\n"
+#~ "Hoje: Data de atividade é hoje\n"
+#~ "Planejado: Atividades futuras."
+
+#~ msgid "Stock Picking"
+#~ msgstr "Separação de Estoque"
+
+#~ msgid "Street"
+#~ msgstr "Endereço"
+
+#~ msgid "Street Name"
+#~ msgstr "Nome da Rua"
+
+#~ msgid "Street2"
+#~ msgstr "Complemento"
+
+#~ msgid "Suframa"
+#~ msgstr "Suframa"
+
+#~ msgid "Supplier Currency"
+#~ msgstr "Moeda do Fornecedor"
+
+#~ msgid "Supplier Payment Mode"
+#~ msgstr "Modo de Pagamento do Fornecedor"
+
+#~ msgid "Supplier Rank"
+#~ msgstr "Classificação do Fornecedor"
+
+#~ msgid "Tags"
+#~ msgstr "Marcadores"
+
+#~ msgid "Tax Framework"
+#~ msgstr "Estrutura Tributária"
+
+#~ msgid "Tax ID"
+#~ msgstr "ID do Imposto"
+
+#~ msgid "Tem Pensão?"
+#~ msgstr "Tem Pensão?"
+
+#~ msgid ""
+#~ "The Tax Identification Number. Complete it if the contact is subjected to "
+#~ "government taxes. Used in some legal statements."
+#~ msgstr ""
+#~ "O número de identificação fiscal. Preencha-o se o contato estiver sujeito "
+#~ "a impostos governamentais. Usado em algumas declarações legais."
+
+#~ msgid ""
+#~ "The fiscal position determines the taxes/accounts used for this contact."
+#~ msgstr ""
+#~ "A posição fiscal determina os impostos / contas usados para esse contato."
+
+#~ msgid "The full URL to access the document through the website."
+#~ msgstr "URL completa para acessar o documento através do site."
+
+#~ msgid "The internal user in charge of this contact."
+#~ msgstr "O usuário interno responsável por este contato."
+
+#~ msgid "The number of point of sales orders related to this customer"
+#~ msgstr "O número de pedidos de ponto de venda relacionados a este cliente"
+
+#~ msgid ""
+#~ "The partner has at least one unreconciled debit and credit since last "
+#~ "time the invoices & payments matching was performed."
+#~ msgstr ""
+#~ "O parceiro tem pelo menos um débito e crédito não reconciliados desde a "
+#~ "última vez em que a correspondência de faturas e pagamentos foi realizada."
+
+#~ msgid ""
+#~ "The stock location used as destination when sending goods to this contact."
+#~ msgstr ""
+#~ "O local do estoque usado como destino ao enviar mercadorias para este "
+#~ "contato."
+
+#~ msgid ""
+#~ "The stock location used as source when receiving goods from this contact."
+#~ msgstr ""
+#~ "O local do estoque usado como fonte ao receber mercadorias desse contato."
+
+#~ msgid ""
+#~ "This account will be used instead of the default one as the payable "
+#~ "account for the current partner"
+#~ msgstr ""
+#~ "Essa conta a pagar será usada para o parceiro atual, substituindo a padrão"
+
+#~ msgid ""
+#~ "This account will be used instead of the default one as the receivable "
+#~ "account for the current partner"
+#~ msgstr ""
+#~ "Essa conta a receber será usada para o parceiro atual, substituindo a "
+#~ "padrão"
+
+#~ msgid ""
+#~ "This currency will be used, instead of the default one, for purchases "
+#~ "from the current partner"
+#~ msgstr ""
+#~ "Esta moeda será usada, em vez da moeda padrão, para compras do parceiro "
+#~ "atual"
+
+#~ msgid ""
+#~ "This field is used to search on email address as the primary email field "
+#~ "can contain more than strictly an email address."
+#~ msgstr ""
+#~ "Este campo é usado para pesquisar por endereço de e-mail, pois o campo de "
+#~ "e-mail principal pode conter mais do que apenas um endereço de e-mail."
+
+#~ msgid ""
+#~ "This is the default commission used in the sales where this agent is "
+#~ "assigned. It can be changed on each operation if needed."
+#~ msgstr ""
+#~ "Esta é a comissão padrão usada nas vendas onde este agente é designado. "
+#~ "Ela pode ser alterada em cada operação, se necessário."
+
+#~ msgid ""
+#~ "This payment term will be used instead of the default one for purchase "
+#~ "orders and vendor bills"
+#~ msgstr ""
+#~ "Esse prazo de pagamento será usado para pedidos e faturas de "
+#~ "fornecedores, substituindo o padrão"
+
+#~ msgid ""
+#~ "This payment term will be used instead of the default one for sales "
+#~ "orders and customer invoices"
+#~ msgstr ""
+#~ "Esse prazo de pagamento será usado para pedidos de vendas e faturas de "
+#~ "clientes, substituindo o padrão"
+
+#~ msgid ""
+#~ "This pricelist will be used, instead of the default one, for sales to the "
+#~ "current partner"
+#~ msgstr ""
+#~ "Essa lista de preços será usada, em vez da padrão, para vendas ao "
+#~ "parceiro atual"
+
+#~ msgid "Timezone"
+#~ msgstr "Fuso horário"
+
+#~ msgid "Timezone offset"
+#~ msgstr "Deslocamento de Fuso Horário"
+
+#~ msgid "Title"
+#~ msgstr "Título"
+
+#~ msgid "Total Invoiced"
+#~ msgstr "Total da Fatura"
+
+#~ msgid "Total Payable"
+#~ msgstr "Total a Pagar"
+
+#~ msgid "Total Receivable"
+#~ msgstr "Total a Receber"
+
+#~ msgid "Total amount this customer owes you."
+#~ msgstr "Valor total que este cliente lhe deve."
+
+#~ msgid "Total amount you have to pay to this vendor."
+#~ msgstr "Valor total que você deve pagar a este fornecedor."
+
+#~ msgid "Type"
+#~ msgstr "Tipo"
+
+#~ msgid "Type of the exception activity on record."
+#~ msgstr "Tipo da atividade de exceção no registro."
+
+#~ msgid "Unread Messages"
+#~ msgstr "Mensagens não lidas"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Contador de Mensagens Não Lidas"
+
+#~ msgid "Use a barcode to identify this contact."
+#~ msgstr "Use um código de barras para identificar este contato."
+
+#~ msgid "Used in fiscal documents"
+#~ msgstr "Usado em documentos fiscais"
+
+#~ msgid "Users"
+#~ msgstr "Usuários"
+
+#~ msgid "Utility field to express amount currency"
+#~ msgstr "Campo utilitário para expressar o valor da moeda"
+
+#~ msgid "Vendor Location"
+#~ msgstr "Localização de Fornecedor"
+
+#~ msgid "Vendor Payment Terms"
+#~ msgstr "Condições de Pagamento do Fornecedor"
+
+#~ msgid "Visible on current website"
+#~ msgstr "Visível no site atual"
+
+#~ msgid "Visitors"
+#~ msgstr "Visitantes"
+
+#~ msgid "Website"
+#~ msgstr "Site"
+
+#~ msgid "Website Link"
+#~ msgstr "Link do site"
+
+#~ msgid "Website Messages"
+#~ msgstr "Mensagens do Website"
+
+#~ msgid "Website URL"
+#~ msgstr "URL do site"
+
+#~ msgid "Website communication history"
+#~ msgstr "Histórico de comunicação do website"
+
+#~ msgid ""
+#~ "When printing documents and exporting/importing data, time values are "
+#~ "computed according to this timezone.\n"
+#~ "If the timezone is not set, UTC (Coordinated Universal Time) is used.\n"
+#~ "Anywhere else, time values are computed according to the time offset of "
+#~ "your web client."
+#~ msgstr ""
+#~ "Ao imprimir documentos e exportar/importar dados, os valores de tempo são "
+#~ "computados de acordo com este fuso horário.\n"
+#~ "Se o fuso horário não estiver definido, UTC (Tempo Universal Coordenado) "
+#~ "é usado.\n"
+#~ "Em qualquer outro lugar, os valores de tempo são computados de acordo com "
+#~ "o deslocamento de tempo do seu cliente web."
+
+#~ msgid "Zip"
+#~ msgstr "CEP"
 
 #~ msgid "Additional info"
 #~ msgstr "Informações Adicionais"
