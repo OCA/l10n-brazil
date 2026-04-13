@@ -778,8 +778,14 @@ class CTe(spec_models.StackedModel):
         digits=(3, 2),
         compute="_compute_cte40_ibscbs_fields",
     )
+    cte40_vTotDFe = fields.Monetary(
+        string="Valor total do documento fiscal",
+        compute="_compute_cte40_ibscbs_fields",
+        currency_field="brl_currency_id",
+    )
 
     @api.depends(
+        "fiscal_amount_total",
         "fiscal_line_ids.ibs_base",
         "fiscal_line_ids.cbs_base",
         "fiscal_line_ids.price_gross",
@@ -801,6 +807,7 @@ class CTe(spec_models.StackedModel):
                 record.cte40_pIBSUF = 0.0
                 record.cte40_pIBSMun = 0.0
                 record.cte40_pCBS = 0.0
+                record.cte40_vTotDFe = 0.0
                 continue
 
             first = lines[0]
@@ -828,6 +835,20 @@ class CTe(spec_models.StackedModel):
             record.cte40_pIBSUF = p_ibs_uf
             record.cte40_pIBSMun = p_ibs_mun
             record.cte40_pCBS = p_cbs
+
+            year = datetime.now().year
+            if record.cte40_vIBS or record.cte40_vCBS:
+                if year <= 2026:
+                    # Exceção: em 2026 não soma IBS e CBS
+                    record.cte40_vTotDFe = record.fiscal_amount_total or 0.0
+                else:
+                    record.cte40_vTotDFe = (
+                        (record.fiscal_amount_total or 0.0)
+                        + record.cte40_vIBS
+                        + record.cte40_vCBS
+                    )
+            else:
+                record.cte40_vTotDFe = 0.0
 
     # ##########################
     # # CT-e tag: ICMSUFFim
