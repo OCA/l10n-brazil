@@ -3,3 +3,4 @@ from . import test_nfce_contingency
 from . import test_nfe_with_ipi
 from . import test_nfe_danfe_account
 from . import test_invoice_refund
+from . import test_nfe_import
