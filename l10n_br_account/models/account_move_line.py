@@ -4,7 +4,9 @@
 
 from contextlib import contextmanager
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.fields import Command
+from odoo.tools import frozendict
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_TAX_ID_FIELDS
 
