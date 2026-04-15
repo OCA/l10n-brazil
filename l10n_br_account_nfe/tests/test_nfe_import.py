@@ -41,7 +41,12 @@ class NFeImportTest(TransactionCase):
         )
 
         cls.env = cls.env(
-            user=cls.user, context=dict(cls.env.context, tracking_disable=True)
+            user=cls.user,
+            context=dict(
+                cls.env.context,
+                tracking_disable=True,
+                allowed_company_ids=[cls.company.id],
+            ),
         )
 
     def test_import_in_nfe(self):
