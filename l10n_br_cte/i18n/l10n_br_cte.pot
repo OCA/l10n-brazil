@@ -5699,12 +5699,14 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_imp__cte40_vTotDFe
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_total__cte40_vTotDFe
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTotDFe
 msgid "Valor total do documento fiscal"
 msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_imp__cte40_vTotDFe
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_total__cte40_vTotDFe
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTotDFe
 msgid ""
 "Valor total do documento fiscal \n"
 "(vTPrest + total do IBS + total da CBS)"
