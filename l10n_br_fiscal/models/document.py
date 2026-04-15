@@ -202,7 +202,7 @@ class Document(models.Model):
         store=True,
     )
 
-    imported_document = fields.Boolean(string="Imported", default=False)
+    imported_document = fields.Boolean(string="Imported", copy=False)
 
     xml_error_message = fields.Text(
         readonly=True,
