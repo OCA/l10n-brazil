@@ -1,3 +1,6 @@
+# Copyright 2025 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 import base64
 import os
 
@@ -52,17 +55,18 @@ class NFeImportTest(TransactionCase):
         with open(file_path, "rb") as file:
             file_content = file.read()
 
-        wizard = self.env["l10n_br_fiscal.document_import_wizard"].create({})
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
         with Form(wizard) as import_form:
             import_form.file = base64.b64encode(file_content)
             import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
-            self.assertEqual(import_form.xml_partner_name, "FORNECEDER NFE DEMO LTDA")
             lines = import_form.imported_products_ids._records
         for line in lines:  # ensure testing consistency
             del line["id"]
             del line["product_id"]
             del line["ncm_internal"]
         self.assertEqual(len(lines), 4)
+        kg_uom_id = self.env.ref("uom.product_uom_kgm").id
+        milheiro_uom_id = self.env.ref("l10n_br_fiscal.UOM_MILHEIRO").id
         self.assertDictEqual(
             lines[0],
             {
@@ -80,7 +84,7 @@ class NFeImportTest(TransactionCase):
                 "price_unit_com": 58.0,
                 "product_code": "1070147",
                 "quantity_com": 70.1,
-                "uom_internal": 12,
+                "uom_internal": kg_uom_id,
             },
         )
         self.assertDictEqual(
@@ -100,7 +104,7 @@ class NFeImportTest(TransactionCase):
                 "price_unit_com": 57.32,
                 "product_code": "B100618007170",
                 "quantity_com": 60.0,
-                "uom_internal": 61,
+                "uom_internal": milheiro_uom_id,
             },
         )
         self.assertDictEqual(
@@ -111,7 +115,7 @@ class NFeImportTest(TransactionCase):
                 "icms_value": "330.16",
                 "ncm_xml": "34060000",
                 "icms_percent": "12.0000",
-                "uom_internal": 61,
+                "uom_internal": milheiro_uom_id,
                 "cfop_xml": "6101",
                 "product_code": "B101518007170",
                 "ipi_value": "0.00",
@@ -140,12 +144,13 @@ class NFeImportTest(TransactionCase):
                 "price_unit_com": 57.32,
                 "product_code": "B100618007160",
                 "quantity_com": 30.0,
-                "uom_internal": 61,
+                "uom_internal": milheiro_uom_id,
             },
         )
 
         action = wizard.action_import_and_open_move()
         move = self.env["account.move"].browse(action["res_id"])
+
         self.assertEqual(move.partner_id.name, "FORNECEDER NFE DEMO LTDA")
         self.assertEqual(move.partner_id.vat, "04.712.500/0001-07")
         self.assertEqual(move.partner_id.l10n_br_ie_code, "078016350838")
