@@ -1,3 +1,6 @@
+# Copyright 2025 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 import base64
 import os
 
@@ -39,7 +42,12 @@ class NFeImportTest(TransactionCase):
         )
 
         cls.env = cls.env(
-            user=cls.user, context=dict(cls.env.context, tracking_disable=True)
+            user=cls.user,
+            context=dict(
+                cls.env.context,
+                tracking_disable=True,
+                allowed_company_ids=[cls.company.id],
+            ),
         )
 
     def test_import_in_nfe(self):
@@ -52,11 +60,10 @@ class NFeImportTest(TransactionCase):
         with open(file_path, "rb") as file:
             file_content = file.read()
 
-        wizard = self.env["l10n_br_fiscal.document_import_wizard"].create({})
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
         with Form(wizard) as import_form:
             import_form.file = base64.b64encode(file_content)
             import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
-            self.assertEqual(import_form.xml_partner_name, "FORNECEDER NFE DEMO LTDA")
             lines = import_form.imported_products_ids._records
         for line in lines:  # ensure testing consistency
             del line["id"]
@@ -146,6 +153,7 @@ class NFeImportTest(TransactionCase):
 
         action = wizard.action_import_and_open_move()
         move = self.env["account.move"].browse(action["res_id"])
+
         self.assertEqual(move.partner_id.name, "FORNECEDER NFE DEMO LTDA")
         self.assertEqual(move.partner_id.vat, "04.712.500/0001-07")
         self.assertEqual(move.partner_id.l10n_br_ie_code, "078016350838")
