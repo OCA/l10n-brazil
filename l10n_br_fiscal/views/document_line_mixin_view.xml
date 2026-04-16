@@ -308,6 +308,7 @@
                                         readonly="icms_tax_id or icmssn_tax_id"
                                     />
                                     <field name="icms_tax_benefit_id" force_save="1" />
+                                    <field name="icms_tax_benefit_code" />
                                 </group>
                                 <group>
                                     <group>
