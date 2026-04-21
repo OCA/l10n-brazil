@@ -37,6 +37,7 @@ class AccountMoveLine(models.Model):
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
         related="move_id.document_type_id",
+        string="Fiscal Document Type",
     )
 
     discount = fields.Float(
