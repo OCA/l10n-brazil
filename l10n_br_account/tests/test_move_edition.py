@@ -124,6 +124,19 @@ class TestMoveEdition(TransactionCase):
         )
         move_form.partner_id = self.non_br_partner
         move_form.ref = "some_ref"
+        # Set l10n_latam_document_type_id to avoid required field error
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
+            move_form.l10n_latam_document_number = "00000001"
         with move_form.invoice_line_ids.new() as line_form:
             line_form.name = "some line label"
             line_form.price_unit = 42
@@ -164,12 +177,27 @@ class TestMoveEdition(TransactionCase):
         )
         move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        # Set l10n_latam_document_type_id to avoid required field error
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         with self.assertRaises(AssertionError):  # missing fiscal fields
             move_form.save()
 
         move_form.document_serie_id = self.env.ref(
             "l10n_br_fiscal.empresa_lc_document_55_serie_1"
         )
+        # Re-set l10n_latam_document_type_id after setting document_serie_id
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         with self.assertRaises(AssertionError):  # missing fiscal fields
             move_form.save()
 
@@ -260,6 +288,9 @@ class TestMoveEdition(TransactionCase):
             line_form.icmsfcp_value = 3  # ensure manually setting FCP value works
             self.assertEqual(line_form.icmsfcp_value, 3)
 
+        # Re-set l10n_latam_document_type_id before saving
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move = move_form.save()
 
         self.assertEqual(move.state, "draft")
@@ -334,6 +365,19 @@ class TestMoveEdition(TransactionCase):
         move_form.partner_id = self.non_br_partner
         move_form.ref = "some_ref"
         move_form.invoice_date = fields.Date.from_string("2025-01-01")
+        # Set l10n_latam_document_type_id to avoid required field error
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
+            move_form.l10n_latam_document_number = "00000001"
         with move_form.invoice_line_ids.new() as line_form:
             line_form.name = "some line label"
             line_form.price_unit = 42
@@ -367,6 +411,18 @@ class TestMoveEdition(TransactionCase):
         )
         move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        # Set l10n_latam_document_type_id to avoid required field error
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         with self.assertRaises(AssertionError):  # missing fiscal fields
             move_form.save()
 
@@ -389,6 +445,10 @@ class TestMoveEdition(TransactionCase):
             line_form.price_unit = 42
             line_form.quantity = 42
 
+        # Re-set l10n_latam_document_type_id before saving
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
+            move_form.l10n_latam_document_number = "00000001"
         move = move_form.save()
 
         self.assertEqual(move.state, "draft")
@@ -441,6 +501,18 @@ class TestMoveEdition(TransactionCase):
         move_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        # Set l10n_latam_document_type_id to avoid required field error
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.document_serie_id = self.env.ref(
             "l10n_br_fiscal.empresa_lc_document_55_serie_1"
         )
@@ -455,6 +527,9 @@ class TestMoveEdition(TransactionCase):
             line_form.fiscal_price = 112
             line_form.fiscal_quantity = 5
 
+        # Re-set l10n_latam_document_type_id before saving
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move = move_form.save()
         self.assertEqual(move.fiscal_line_ids[0].price_unit, 110)
         self.assertEqual(move.fiscal_line_ids[0].fiscal_price, 112)
@@ -477,6 +552,18 @@ class TestMoveEdition(TransactionCase):
         move_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        # Set l10n_latam_document_type_id to avoid required field error
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.document_serie_id = self.env.ref(
             "l10n_br_fiscal.empresa_lc_document_55_serie_1"
         )
@@ -488,6 +575,9 @@ class TestMoveEdition(TransactionCase):
             line_form.price_unit = 100
             line_form.quantity = 10
 
+        # Re-set l10n_latam_document_type_id before saving
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         doc = move_form.save()
         self.assertEqual(doc.fiscal_line_ids[0].price_unit, 100)
         self.assertEqual(doc.fiscal_line_ids[0].fiscal_price, 50)
@@ -514,6 +604,18 @@ class TestMoveEdition(TransactionCase):
         move_form.company_id = self.company
         move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        # Set l10n_latam_document_type_id to avoid required field error
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.document_serie_id = self.env.ref(
             "l10n_br_fiscal.empresa_lc_document_55_serie_1"
         )
@@ -541,6 +643,9 @@ class TestMoveEdition(TransactionCase):
             line2.insurance_value = 6.0
             line2.other_value = 2.0
 
+        # Re-set l10n_latam_document_type_id before saving
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move = move_form.save()
 
         self.assertEqual(move.company_id.delivery_costs, "line")
@@ -598,6 +703,18 @@ class TestMoveEdition(TransactionCase):
         )
         move_form.partner_id = partner
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        # Set l10n_latam_document_type_id to avoid required field error
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.document_serie_id = self.env.ref(
             "l10n_br_fiscal.empresa_lc_document_55_serie_1"
         )
@@ -617,6 +734,18 @@ class TestMoveEdition(TransactionCase):
             line_form.price_unit = 100.0
             line_form.quantity = 1.0
 
+        # Re-set l10n_latam_document_type_id before saving
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move = move_form.save()
         fiscal_line = move.fiscal_line_ids[0]
         self.assertEqual(move.ind_final, "1")
@@ -642,6 +771,18 @@ class TestMoveEdition(TransactionCase):
             line_form.price_unit = 100.0
             line_form.quantity = 1.0
 
+        # Re-set l10n_latam_document_type_id before saving
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move = move_form.save()
         fiscal_line = move.fiscal_line_ids[0]
         self.assertEqual(move.ind_final, "1")
@@ -674,6 +815,18 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(move_form.ind_final, "0")
 
         # Verify after saving
+        # Re-set l10n_latam_document_type_id before saving
+        latam_doc_type = "l10n_latam.document.type" in self.env and self.env[
+            "l10n_latam.document.type"
+        ].search(
+            [
+                ("code", "=", "55"),
+                ("country_id", "=", self.env.ref("base.br").id),
+            ],
+            limit=1,
+        )
+        if latam_doc_type:
+            move_form.l10n_latam_document_type_id = latam_doc_type
         move = move_form.save()
         fiscal_line = move.fiscal_line_ids[0]
         self.assertEqual(move.ind_final, "0")
