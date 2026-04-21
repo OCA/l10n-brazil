@@ -34,6 +34,7 @@ class AccountInvoiceReport(models.Model):
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
+        string="Fiscal Document Type",
     )
 
     document_serie_id = fields.Many2one(
