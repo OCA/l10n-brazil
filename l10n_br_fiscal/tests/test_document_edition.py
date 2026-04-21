@@ -167,6 +167,7 @@ class TestDocumentEdition(TransactionCase):
                 default_fiscal_operation_type="out",
             )
         )
+        doc_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         doc_form.ind_final = "1"
@@ -189,6 +190,7 @@ class TestDocumentEdition(TransactionCase):
                 default_fiscal_operation_type="out",
             )
         )
+        doc_form.company_id = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
         doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         doc_form.ind_final = "1"
