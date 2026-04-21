@@ -218,13 +218,17 @@ class TestInstallmentRenegotiation(TransactionCase):
         AccountMoveModel = type(self.env["account.move"])
         AccountMoveLineModel = type(self.env["account.move.line"])
 
-        with patch.object(
-            AccountMoveLineModel, "_cnab_already_start", mock_cnab_already_start
-        ), patch.object(
-            AccountMoveLineModel,
-            "update_cnab_for_cancel_invoice",
-            mock_update_cnab_for_cancel_invoice,
-        ), patch.object(AccountMoveModel, "load_cnab_info", mock_load_cnab_info):
+        with (
+            patch.object(
+                AccountMoveLineModel, "_cnab_already_start", mock_cnab_already_start
+            ),
+            patch.object(
+                AccountMoveLineModel,
+                "update_cnab_for_cancel_invoice",
+                mock_update_cnab_for_cancel_invoice,
+            ),
+            patch.object(AccountMoveModel, "load_cnab_info", mock_load_cnab_info),
+        ):
             # Run renegotiation
             wizard = (
                 self.env["account.installment.renegotiation.wizard"]

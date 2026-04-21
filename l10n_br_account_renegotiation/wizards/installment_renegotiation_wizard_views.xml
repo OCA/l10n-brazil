@@ -2,7 +2,6 @@
 <!-- Copyright 2026 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="view_installment_renegotiation_wizard_form" model="ir.ui.view">
         <field name="name">account.installment.renegotiation.wizard.form</field>
         <field name="model">account.installment.renegotiation.wizard</field>
@@ -70,5 +69,4 @@
             </form>
         </field>
     </record>
-
 </odoo>

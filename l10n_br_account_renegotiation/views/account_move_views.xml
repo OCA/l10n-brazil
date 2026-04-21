@@ -2,7 +2,6 @@
 <!-- Copyright 2025 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record id="view_move_form_renegotiation" model="ir.ui.view">
         <field name="name">account.move.form.renegotiation</field>
         <field name="model">account.move</field>
@@ -22,5 +21,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
