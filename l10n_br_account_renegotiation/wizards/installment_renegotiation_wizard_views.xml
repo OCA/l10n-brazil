@@ -28,7 +28,7 @@
                 <notebook>
                     <page string="Installments" name="installments">
                         <field name="line_ids" nolabel="1">
-                            <tree editable="bottom">
+                            <list editable="bottom">
                                 <field name="date_maturity" />
                                 <field name="amount" />
                                 <field
@@ -38,14 +38,14 @@
                                 <field name="company_id" column_invisible="1" />
                                 <field name="currency_id" column_invisible="1" />
                                 <field name="original_line_id" column_invisible="1" />
-                            </tree>
+                            </list>
                         </field>
                     </page>
                 </notebook>
                 <div
                     class="alert alert-warning"
                     role="alert"
-                    attrs="{'invisible': [('difference', '=', 0)]}"
+                    invisible="difference == 0"
                 >
                     <strong>Warning:</strong> The total amount must remain unchanged.
                     Please adjust the installment amounts so the difference is zero.
@@ -62,7 +62,7 @@
                         string="Apply"
                         type="object"
                         class="btn-primary"
-                        attrs="{'invisible': [('difference', '!=', 0)]}"
+                        invisible="difference != 0"
                     />
                     <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>

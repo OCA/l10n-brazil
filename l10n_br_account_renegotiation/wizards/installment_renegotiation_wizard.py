@@ -87,10 +87,10 @@ class InstallmentRenegotiationWizard(models.TransientModel):
         else:
             amount_company = self.original_total
 
-        # Leverage standard Odoo 16 payment term computation
+        # Leverage standard Odoo 18 payment term computation
         # We pass the full remaining total as the 'untaxed' amount
         # to simply split the balance
-        term_lines = self.payment_term_id._compute_terms(
+        pay_term = self.payment_term_id._compute_terms(
             date_ref=self.starting_date,
             currency=currency,
             tax_amount_currency=0.0,
@@ -114,7 +114,7 @@ class InstallmentRenegotiationWizard(models.TransientModel):
                     else False,
                 }
             )
-            for line in term_lines
+            for line in pay_term.get("line_ids", [])
         ]
 
         self.line_ids = commands
@@ -320,8 +320,6 @@ class InstallmentRenegotiationWizard(models.TransientModel):
                 create_vals["payment_mode_id"] = vals["payment_mode_id"]
 
             self.env["account.move.line"].with_context(**ctx).sudo().create(create_vals)
-
-        move.with_context(**ctx).update_payment_term_number()
 
         # DUCK TYPING: Generate New Boletos / CNAB records (Inclusão)
         if hasattr(move, "load_cnab_info"):

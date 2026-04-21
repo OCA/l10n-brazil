@@ -28,7 +28,6 @@ class TestInstallmentRenegotiation(TransactionCase):
         cls.account_receivable = cls.env["account.account"].search(
             [
                 ("account_type", "=", "asset_receivable"),
-                ("company_id", "=", cls.company.id),
             ],
             limit=1,
         )
@@ -37,7 +36,6 @@ class TestInstallmentRenegotiation(TransactionCase):
         cls.account_income = cls.env["account.account"].search(
             [
                 ("account_type", "=", "income"),
-                ("company_id", "=", cls.company.id),
             ],
             limit=1,
         )
@@ -62,7 +60,7 @@ class TestInstallmentRenegotiation(TransactionCase):
                         {
                             "value": "percent",
                             "value_amount": 33.33,
-                            "days": 30,
+                            "nb_days": 30,
                         },
                     ),
                     (
@@ -71,15 +69,16 @@ class TestInstallmentRenegotiation(TransactionCase):
                         {
                             "value": "percent",
                             "value_amount": 33.33,
-                            "days": 60,
+                            "nb_days": 60,
                         },
                     ),
                     (
                         0,
                         0,
                         {
-                            "value": "balance",
-                            "days": 90,
+                            "value": "percent",
+                            "value_amount": 33.34,
+                            "nb_days": 90,
                         },
                     ),
                 ],

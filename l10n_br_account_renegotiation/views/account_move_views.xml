@@ -16,7 +16,7 @@
                     type="object"
                     class="oe_highlight"
                     groups="account.group_account_manager"
-                    attrs="{'invisible': [('can_renegotiate_installments', '=', False)]}"
+                    invisible="not can_renegotiate_installments"
                 />
             </xpath>
         </field>

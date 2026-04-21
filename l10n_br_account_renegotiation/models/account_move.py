@@ -1,7 +1,7 @@
 # Copyright 2026 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -41,7 +41,7 @@ class AccountMove(models.Model):
         # Security check
         if not self.env.user.has_group("account.group_account_manager"):
             raise UserError(
-                _(
+                self.env._(
                     "Only users with 'Billing Administrator' rights can "
                     "renegotiate installments."
                 )
@@ -49,12 +49,15 @@ class AccountMove(models.Model):
 
         if self.state != "posted":
             raise UserError(
-                _("You can only renegotiate installments on posted invoices.")
+                self.env._("You can only renegotiate installments on posted invoices.")
             )
 
         if not self.is_invoice(include_receipts=True):
             raise UserError(
-                _("Installment renegotiation is only available for invoices and bills.")
+                self.env._(
+                    "Installment renegotiation is only available for "
+                    "invoices and bills."
+                )
             )
 
         unreconciled_payment_lines = self.line_ids.filtered(
@@ -63,7 +66,7 @@ class AccountMove(models.Model):
 
         if not unreconciled_payment_lines:
             raise UserError(
-                _(
+                self.env._(
                     "There are no unreconciled payment term lines to renegotiate. "
                     "All installments have been paid or reconciled."
                 )
@@ -77,7 +80,7 @@ class AccountMove(models.Model):
         )
 
         return {
-            "name": _("Renegotiate Installments"),
+            "name": self.env._("Renegotiate Installments"),
             "type": "ir.actions.act_window",
             "res_model": "account.installment.renegotiation.wizard",
             "view_mode": "form",
@@ -96,10 +99,11 @@ class AccountMove(models.Model):
         """
 
     def _get_installment_renegotiation_message(self, old_lines_data, new_lines_data):
+        self.ensure_one()
         currency = self.currency_id
 
         def format_line(line_data):
-            base = _("%(date)s: %(amount)s") % {
+            base = self.env._("%(date)s: %(amount)s") % {
                 "date": line_data["date_maturity"],
                 "amount": currency.format(abs(line_data["amount_currency"])),
             }
@@ -111,7 +115,7 @@ class AccountMove(models.Model):
         old_summary = "<br/>".join(format_line(line) for line in old_lines_data)
         new_summary = "<br/>".join(format_line(line) for line in new_lines_data)
 
-        message = _(
+        message = self.env._(
             "<p><strong>Payment Installments Renegotiated</strong></p>"
             "<p><strong>Previous installments:</strong><br/>%(old)s</p>"
             "<p><strong>New installments:</strong><br/>%(new)s</p>"
