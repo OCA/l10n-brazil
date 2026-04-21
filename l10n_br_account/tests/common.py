@@ -330,6 +330,26 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         if document_serie is not None:
             move_form.document_serie = document_serie
 
+        # Ensure l10n_latam_document_type_id is set if using documents
+        if (
+            "l10n_latam.document.type" in cls.env
+            and move_form.l10n_latam_use_documents
+            and not move_form.l10n_latam_document_type_id
+        ):
+            if document_type:
+                # Map fiscal document type to l10n_latam document type
+                latam_doc_type = "l10n_latam.document.type" in cls.env and cls.env[
+                    "l10n_latam.document.type"
+                ].search(
+                    [
+                        ("code", "=", document_type.code),
+                        ("country_id", "=", cls.env.ref("base.br").id),
+                    ],
+                    limit=1,
+                )
+                if latam_doc_type:
+                    move_form.l10n_latam_document_type_id = latam_doc_type
+
         for index, product in enumerate(products):
             with move_form.invoice_line_ids.new() as line_form:
                 line_form.product_id = product
