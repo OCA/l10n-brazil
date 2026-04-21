@@ -730,6 +730,7 @@ class FiscalDocumentMixin(models.AbstractModel):
         store=True,
         precompute=True,
         readonly=False,
+        string="Fiscal Document Type",
     )
 
     document_serie_id = fields.Many2one(
@@ -746,6 +747,7 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     document_number = fields.Char(
+        string="Fiscal Document Number",
         copy=False,
         index=True,
     )
