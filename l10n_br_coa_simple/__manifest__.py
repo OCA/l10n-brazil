@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 {
-    "name": "Plano de Contas do Simples ITG 1000",
+    "name": "Plano de Contas para Pequena Empresa (ITG 1000)",
     "summary": "Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte",
     "category": "Accounting",
     "license": "AGPL-3",
