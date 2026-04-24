@@ -217,6 +217,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "icms_value",
         "ii_value",
         "ii_customhouse_charges",
+        "ipi_value",
     )
     def _compute_fiscal_amounts(self):
         for record in self:
@@ -916,6 +917,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             fields_to_amount.append("icms_value")
             fields_to_amount.append("ii_value")
             fields_to_amount.append("ii_customhouse_charges")
+            fields_to_amount.append("ipi_value")
         return fields_to_amount
 
     @api.model
