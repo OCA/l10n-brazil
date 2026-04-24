@@ -78,6 +78,11 @@
             >
                 <field name="fiscal_operation_id" options="{'no_create': True}" />
                 <field
+                    name="fiscal_operation_line_id"
+                    column_invisible="1"
+                    options="{'no_create': True}"
+                />
+                <field
                     name="fiscal_tax_ids"
                     widget="many2many_tags"
                     options="{'no_create': True}"
