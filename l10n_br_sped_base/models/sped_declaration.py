@@ -260,7 +260,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_populate_sped_from_odoo",
                 type="object",
-                states="draft",
+                invisible="state != 'draft'",
                 string="Pull Registers from Odoo",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -270,7 +270,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_flush_registers",
                 type="object",
-                states="draft",
+                invisible="state != 'draft'",
                 string="Flush Registers",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -280,7 +280,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_done",
                 type="object",
-                states="draft",
+                invisible="state != 'draft'",
                 string="Set to Done",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -290,7 +290,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_draft",
                 type="object",
-                states="done",
+                invisible="state != 'done'",
                 string="Reset to Draft",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
@@ -300,7 +300,7 @@ class SpedDeclaration(models.AbstractModel):
             E.button(
                 name="button_create_sped_files",
                 type="object",
-                states="done",
+                invisible="state != 'done'",
                 string="Generate SPED File",
                 #            class="oe_highlight",
                 groups="l10n_br_fiscal.group_manager",
