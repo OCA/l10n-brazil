@@ -1,0 +1,5 @@
+{
+  "pull_requests": {
+    "w/o PR - commit 0492347": "Should not be ported to 18.0 until l10n_br_mdfe is ported, as it would kill test coverage"
+  }
+}
