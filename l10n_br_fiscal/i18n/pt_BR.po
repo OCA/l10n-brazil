@@ -8341,12 +8341,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/tax_definition.py:0
-msgid "The tax benefit code must contain the type of benefit!"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__withholding_at_place
 msgid ""
 "The tax is due at the location of the provider establishment, except in the "
