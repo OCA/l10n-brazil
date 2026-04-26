@@ -17,7 +17,7 @@ _logger = logging.getLogger(__name__)
 LAYOUT_VERSIONS = {
     "ecd": "9",
     "ecf": "9",
-    "efd_icms_ipi": "19",
+    "efd_icms_ipi": "20",
     "efd_pis_cofins": "6",
     "fake": "9",  # tests; similar to ecd
 }
