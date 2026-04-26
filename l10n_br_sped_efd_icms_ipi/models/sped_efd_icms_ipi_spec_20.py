@@ -349,7 +349,7 @@ class Registro0000(models.AbstractModel):
     "Abertura do Arquivo Digital e Identificação da entidade"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0000"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0000"
     _inherit = "l10n_br_sped.declaration"
     _sped_level = 0
 
@@ -452,7 +452,7 @@ class Registro0002(models.AbstractModel):
     Industrial"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0002"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0002"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -469,7 +469,7 @@ class Registro0005(models.AbstractModel):
     "Dados Complementares da entidade"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0005"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0005"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -509,7 +509,7 @@ class Registro0015(models.AbstractModel):
     "Dados do Contribuinte Substituto ou Responsável pelo ICMS Destino"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0015"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0015"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -539,7 +539,7 @@ class Registro0100(models.AbstractModel):
     "Dados do Contabilista"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0100"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0100"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -601,7 +601,7 @@ class Registro0150(models.AbstractModel):
     "Tabela de Cadastro do Participante"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0150"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0150"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -669,7 +669,7 @@ class Registro0175(models.AbstractModel):
     "Alteração da Tabela de Cadastro de Participante"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0175"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0175"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -700,7 +700,7 @@ class Registro0190(models.AbstractModel):
     "Identificação das unidades de medida"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0190"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0190"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -715,7 +715,7 @@ class Registro0200(models.AbstractModel):
     "Tabela de Identificação do Item (Produtos e Serviços)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0200"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0200"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -835,7 +835,7 @@ class Registro0205(models.AbstractModel):
     "Alteração do Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0205"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0205"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -872,7 +872,7 @@ class Registro0206(models.AbstractModel):
     "Código de produto conforme Tabela ANP"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0206"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0206"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -895,7 +895,7 @@ class Registro0210(models.AbstractModel):
     "Consumo Específico Padronizado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0210"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0210"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -947,7 +947,7 @@ class Registro0220(models.AbstractModel):
     "Fatores de Conversão de Unidades"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0220"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0220"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -996,7 +996,7 @@ class Registro0221(models.AbstractModel):
     "Correlação entre códigos de itens comercializados"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0221"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0221"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -1034,7 +1034,7 @@ class Registro0300(models.AbstractModel):
     "Cadastro de bens ou componentes do Ativo Imobilizado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0300"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0300"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1105,7 +1105,7 @@ class Registro0305(models.AbstractModel):
     "Informação sobre a Utilização do Bem"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0305"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0305"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -1145,7 +1145,7 @@ class Registro0400(models.AbstractModel):
     "Tabela de Natureza da Operação/ Prestação"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0400"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0400"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1164,7 +1164,7 @@ class Registro0450(models.AbstractModel):
     "Tabela de Informação Complementar do documento fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0450"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0450"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1191,7 +1191,7 @@ class Registro0460(models.AbstractModel):
     "Tabela de Observações do Lançamento Fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0460"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0460"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1212,7 +1212,7 @@ class Registro0500(models.AbstractModel):
     "Plano de contas contábeis"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0500"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0500"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1263,7 +1263,7 @@ class Registro0600(models.AbstractModel):
     "Centro de custos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.0600"
+    _name = "l10n_br_sped.efd_icms_ipi.20.0600"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1286,7 +1286,7 @@ class RegistroB020(models.AbstractModel):
     04), Conhecimento de Transporte Rodoviário de"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b020"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b020"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1452,7 +1452,7 @@ class RegistroB025(models.AbstractModel):
     Lei Complementar nº 116/2003"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b025"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b025"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -1534,7 +1534,7 @@ class RegistroB030(models.AbstractModel):
     "Nota fiscal de Serviços Simplificada (código 3A)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b030"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b030"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1612,7 +1612,7 @@ class RegistroB350(models.AbstractModel):
     "Serviços prestados por insituições financeiras"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b350"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b350"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1690,7 +1690,7 @@ class RegistroB420(models.AbstractModel):
     e item da lista de serviços da Lei Complementar nº 116/2003"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b420"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b420"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1758,7 +1758,7 @@ class RegistroB440(models.AbstractModel):
     "Totalização dos valores retidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b440"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b440"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1815,7 +1815,7 @@ class RegistroB460(models.AbstractModel):
     "Deduções do ISS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b460"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b460"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -1875,7 +1875,7 @@ class RegistroB470(models.AbstractModel):
     "Apuração do ISS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b470"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b470"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -2005,7 +2005,7 @@ class RegistroB500(models.AbstractModel):
     "Apuração do ISS sociedade uniprofissional"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b500"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b500"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -2040,7 +2040,7 @@ class RegistroB510(models.AbstractModel):
     "Uniprofissional – empregados e sócios"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.b510"
+    _name = "l10n_br_sped.efd_icms_ipi.20.b510"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -2091,7 +2091,7 @@ class RegistroC100(models.AbstractModel):
     e Nota Fiscal Eletrônica para Consumidor Final (código 65)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c100"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c100"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -2421,7 +2421,7 @@ class RegistroC101(models.AbstractModel):
     87/15"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c101"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c101"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -2469,7 +2469,7 @@ class RegistroC105(models.AbstractModel):
     documento fiscal (Código 55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c105"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c105"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -2507,7 +2507,7 @@ class RegistroC110(models.AbstractModel):
     (código 01, 1B, 55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c110"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c110"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -2588,7 +2588,7 @@ class RegistroC111(models.AbstractModel):
     "Complemento de Documento - Processo referenciado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c111"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c111"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -2624,7 +2624,7 @@ class RegistroC112(models.AbstractModel):
     "Complemento de Documento - Documento de Arrecadação Referenciado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c112"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c112"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -2691,7 +2691,7 @@ class RegistroC113(models.AbstractModel):
     "Complemento de Documento - Documento Fiscal Referenciado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c113"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c113"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -2767,7 +2767,7 @@ class RegistroC114(models.AbstractModel):
     "Complemento de Documento - Cupom Fiscal Referenciado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c114"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c114"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -2821,7 +2821,7 @@ class RegistroC115(models.AbstractModel):
     "Local de coleta e/ou entrega (CÓDIGOS 01, 1B e 04)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c115"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c115"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -2901,7 +2901,7 @@ class RegistroC116(models.AbstractModel):
     "Cupom Fiscal Eletrônico - CF-e referenciado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c116"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c116"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -2953,7 +2953,7 @@ class RegistroC120(models.AbstractModel):
     "Complemento de Documento - Operações de Importação (código 01 e 55)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c120"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c120"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -3010,7 +3010,7 @@ class RegistroC130(models.AbstractModel):
     "Complemento de Documento - ISSQN, IRRF e Previdência Social"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c130"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c130"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -3078,7 +3078,7 @@ class RegistroC140(models.AbstractModel):
     "Complemento de Documento - Fatura (código 01)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c140"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c140"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -3146,7 +3146,7 @@ class RegistroC141(models.AbstractModel):
     "Complemento de Documento - Vencimento da Fatura (código 01)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c141"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c141"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -3182,7 +3182,7 @@ class RegistroC160(models.AbstractModel):
     Combustíveis"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c160"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c160"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -3244,7 +3244,7 @@ class RegistroC165(models.AbstractModel):
     "Complemento de Documento - Operações com combustíveis (código 01)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c165"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c165"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -3340,7 +3340,7 @@ class RegistroC170(models.AbstractModel):
     55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c170"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c170"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -3739,7 +3739,7 @@ class RegistroC171(models.AbstractModel):
     "Complemento de Item - Armazenamento de Combustíveis (código 01,55)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c171"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c171"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -3772,7 +3772,7 @@ class RegistroC172(models.AbstractModel):
     "Complemento de Item - Operações com ISSQN (código 01)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c172"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c172"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -3814,7 +3814,7 @@ class RegistroC173(models.AbstractModel):
     "Complemento de Item - Operações com Medicamentos (código 01,55)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c173"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c173"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -3880,7 +3880,7 @@ class RegistroC174(models.AbstractModel):
     "Complemento de Item - Operações com Armas de Fogo (código 01)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c174"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c174"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -3919,7 +3919,7 @@ class RegistroC175(models.AbstractModel):
     "Complemento de Item - Operações com Veículos Novos (código 01,55)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c175"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c175"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -3960,7 +3960,7 @@ class RegistroC176(models.AbstractModel):
     Tributária (código 01,55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c176"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c176"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -4227,7 +4227,7 @@ class RegistroC177(models.AbstractModel):
     partir de 01/01/2019)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c177"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c177"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -4259,7 +4259,7 @@ class RegistroC178(models.AbstractModel):
     IPI por Unidade ou Quantidade de produto"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c178"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c178"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -4301,7 +4301,7 @@ class RegistroC179(models.AbstractModel):
     "Complemento de Item - Informações Complementares ST (código 01)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c179"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c179"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -4377,7 +4377,7 @@ class RegistroC180(models.AbstractModel):
     sujeitas à substituição tributária (código 01, 1B, 04 e 55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c180"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c180"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -4509,7 +4509,7 @@ class RegistroC181(models.AbstractModel):
     55)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c181"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c181"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -4611,7 +4611,7 @@ class RegistroC185(models.AbstractModel):
     sujeitas à substituição tributária (código 01, 1B, 04 e 55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c185"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c185"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -4760,7 +4760,7 @@ class RegistroC186(models.AbstractModel):
     55)."""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c186"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c186"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -4907,7 +4907,7 @@ class RegistroC190(models.AbstractModel):
     "Registro Analítico do Documento (código 01, 1B, 04, 55 e 65)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c190"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c190"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -5051,7 +5051,7 @@ class RegistroC191(models.AbstractModel):
     """Informações do Fundo de Combate à Pobreza – FCP – na NF-e (código 55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c191"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c191"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -5101,7 +5101,7 @@ class RegistroC195(models.AbstractModel):
     (código 01, 1B, 04 e 55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c195"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c195"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -5143,7 +5143,7 @@ class RegistroC197(models.AbstractModel):
     Documento Fiscal"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c197"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c197"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -5211,7 +5211,7 @@ class RegistroC300(models.AbstractModel):
     (código 02)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c300"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c300"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -5299,7 +5299,7 @@ class RegistroC310(models.AbstractModel):
     02)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c310"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c310"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -5324,7 +5324,7 @@ class RegistroC320(models.AbstractModel):
     02)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c320"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c320"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -5430,7 +5430,7 @@ class RegistroC321(models.AbstractModel):
     "Itens dos Resumos Diários dos Documentos (código 02)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c321"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c321"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -5520,7 +5520,7 @@ class RegistroC330(models.AbstractModel):
     sujeitas à substituição tributária (código 02)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c330"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c330"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -5635,7 +5635,7 @@ class RegistroC350(models.AbstractModel):
     "Nota Fiscal de venda a consumidor (código 02)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c350"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c350"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -5720,7 +5720,7 @@ class RegistroC370(models.AbstractModel):
     "Itens do documento (código 02)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c370"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c370"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -5793,7 +5793,7 @@ class RegistroC380(models.AbstractModel):
     sujeitas à substituição tributária (código 02)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c380"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c380"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -5908,7 +5908,7 @@ class RegistroC390(models.AbstractModel):
     02)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c390"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c390"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -6000,7 +6000,7 @@ class RegistroC400(models.AbstractModel):
     "Equipamento ECF (código 02, 2D e 60)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c400"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c400"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -6040,7 +6040,7 @@ class RegistroC405(models.AbstractModel):
     "Redução Z (código 02, 2D e 60)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c405"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c405"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -6138,7 +6138,7 @@ class RegistroC410(models.AbstractModel):
     "PIS e COFINS Totalizados no Dia (código 02 e 2D)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c410"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c410"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -6166,7 +6166,7 @@ class RegistroC420(models.AbstractModel):
     """Registro dos Totalizadores Parciais da Redução Z (código 02, 2D e 60)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c420"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c420"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -6226,7 +6226,7 @@ class RegistroC425(models.AbstractModel):
     "Resumo de itens do movimento diário (código 02 e 2D)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c425"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c425"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -6294,7 +6294,7 @@ class RegistroC430(models.AbstractModel):
     sujeitas à substituição tributária (código 02, 2D e 60)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c430"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c430"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 6
 
@@ -6405,7 +6405,7 @@ class RegistroC460(models.AbstractModel):
     "Documento Fiscal Emitido por ECF (código 02, 2D e 60)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c460"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c460"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -6490,7 +6490,7 @@ class RegistroC465(models.AbstractModel):
     (código 60)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c465"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c465"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -6521,7 +6521,7 @@ class RegistroC470(models.AbstractModel):
     "Itens do Documento Fiscal Emitido por ECF (código 02 e 2D)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c470"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c470"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -6627,7 +6627,7 @@ class RegistroC480(models.AbstractModel):
     sujeitas à substituição tributária (código 02, 2D e 60)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c480"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c480"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 6
 
@@ -6742,7 +6742,7 @@ class RegistroC490(models.AbstractModel):
     "Registro Analítico do movimento diário (código 02, 2D e 60)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c490"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c490"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -6825,7 +6825,7 @@ class RegistroC495(models.AbstractModel):
     2E)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c495"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c495"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -6943,7 +6943,7 @@ class RegistroC500(models.AbstractModel):
     Fornecimento de Gás (Código 28)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c500"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c500"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -7259,7 +7259,7 @@ class RegistroC510(models.AbstractModel):
     Fiscal/Conta Fornecimento de Gás (Código 28)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c510"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c510"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -7432,7 +7432,7 @@ class RegistroC590(models.AbstractModel):
     Fiscal/Conta Fornecimento de Gás (Código 28)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c590"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c590"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -7565,7 +7565,7 @@ class RegistroC591(models.AbstractModel):
     "Informações do Fundo de Combate à Pobreza – FCP na NF3e (código 66)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c591"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c591"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -7608,7 +7608,7 @@ class RegistroC595(models.AbstractModel):
     "Observações do Lançamento Fiscal (códigos 06, 28, 29 e 66)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c595"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c595"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -7651,7 +7651,7 @@ class RegistroC597(models.AbstractModel):
     provenientes de documento fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c597"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c597"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -7718,7 +7718,7 @@ class RegistroC600(models.AbstractModel):
     obrigadas ao Convênio ICMS 115/03)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c600"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c600"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -7892,7 +7892,7 @@ class RegistroC601(models.AbstractModel):
     (código 29) e nota fiscal/conta de fornecimento de gás (código 28)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c601"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c601"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -7924,7 +7924,7 @@ class RegistroC610(models.AbstractModel):
     não obrigadas ao Convênio ICMS 115/03)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c610"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c610"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -8062,7 +8062,7 @@ class RegistroC690(models.AbstractModel):
     29) e Nota Fiscal/Conta de Fornecimento de Gás (Código 28)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c690"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c690"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -8184,7 +8184,7 @@ class RegistroC700(models.AbstractModel):
     (código 66)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c700"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c700"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -8253,7 +8253,7 @@ class RegistroC790(models.AbstractModel):
     "Registro Analítico dos Documentos (Códigos 06, 28 e 66)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c790"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c790"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -8380,7 +8380,7 @@ class RegistroC791(models.AbstractModel):
     "Registro de Informações de ICMS ST por UF (Código 06 e 66)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c791"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c791"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -8419,7 +8419,7 @@ class RegistroC800(models.AbstractModel):
     "Registro Cupom Fiscal Eletrônico - CF-e (Código 59)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c800"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c800"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -8566,7 +8566,7 @@ class RegistroC810(models.AbstractModel):
     59)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c810"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c810"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -8648,7 +8648,7 @@ class RegistroC815(models.AbstractModel):
     sujeitas à substituição tributária (CF-E-SAT) (código 59)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c815"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c815"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -8765,7 +8765,7 @@ class RegistroC850(models.AbstractModel):
     "Registro Analítico do CF-e (Código 59)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c850"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c850"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -8849,7 +8849,7 @@ class RegistroC855(models.AbstractModel):
     "Observações do lançamento fiscal (Código 59)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c855"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c855"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -8887,7 +8887,7 @@ class RegistroC857(models.AbstractModel):
     provenientes de documento fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c857"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c857"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -8951,7 +8951,7 @@ class RegistroC860(models.AbstractModel):
     "Identificação do equipamento SAT-CF-e (Código 59)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c860"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c860"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -9022,7 +9022,7 @@ class RegistroC870(models.AbstractModel):
     59)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c870"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c870"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -9089,7 +9089,7 @@ class RegistroC880(models.AbstractModel):
     sujeitas à substituição tributária (CF-E-SAT) (código 59)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c880"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c880"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -9206,7 +9206,7 @@ class RegistroC890(models.AbstractModel):
     "Resumo diário de CF-e (Código 59) por equipamento SAT-CF-e"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c890"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c890"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -9290,7 +9290,7 @@ class RegistroC895(models.AbstractModel):
     "Observações do lançamento fiscal (Código 59)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c895"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c895"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -9328,7 +9328,7 @@ class RegistroC897(models.AbstractModel):
     provenientes de documento fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.c897"
+    _name = "l10n_br_sped.efd_icms_ipi.20.c897"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -9399,7 +9399,7 @@ class RegistroD100(models.AbstractModel):
     (código 67) e Bilhete de Passagem Eletrônico (código 63)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d100"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d100"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -9676,7 +9676,7 @@ class RegistroD101(models.AbstractModel):
     87/15"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d101"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d101"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -9729,7 +9729,7 @@ class RegistroD110(models.AbstractModel):
     07)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d110"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d110"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -9788,7 +9788,7 @@ class RegistroD120(models.AbstractModel):
     "Complemento da Nota Fiscal de Serviços de Transporte (código 07)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d120"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d120"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -9832,7 +9832,7 @@ class RegistroD130(models.AbstractModel):
     Conhecimento de Transporte de Cargas Avulso (Código 8B)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d130"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d130"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -9952,7 +9952,7 @@ class RegistroD140(models.AbstractModel):
     "Complemento do Conhecimento Aquaviário de Cargas (código 09)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d140"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d140"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -10070,7 +10070,7 @@ class RegistroD150(models.AbstractModel):
     "Complemento do Conhecimento Aéreo de Cargas (código 10)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d150"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d150"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -10160,7 +10160,7 @@ class RegistroD160(models.AbstractModel):
     "Carga Transportada (CÓDIGO 08, 8B, 09, 10, 11, 26 E 27)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d160"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d160"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -10262,7 +10262,7 @@ class RegistroD161(models.AbstractModel):
     "Local de Coleta e Entrega (códigos 08, 8B, 09, 10, 11 e 26)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d161"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d161"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -10333,7 +10333,7 @@ class RegistroD162(models.AbstractModel):
     """Identificação dos documentos fiscais (código 08,8B, 09,10,11,26 e 27)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d162"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d162"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -10404,7 +10404,7 @@ class RegistroD170(models.AbstractModel):
     "Complemento do Conhecimento Multimodal de Cargas (código 26)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d170"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d170"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -10516,7 +10516,7 @@ class RegistroD180(models.AbstractModel):
     "Modais (código 26)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d180"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d180"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -10654,7 +10654,7 @@ class RegistroD190(models.AbstractModel):
     27, 57 e 67)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d190"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d190"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -10762,7 +10762,7 @@ class RegistroD195(models.AbstractModel):
     67)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d195"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d195"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -10807,7 +10807,7 @@ class RegistroD197(models.AbstractModel):
     provenientes do documento fiscal."""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d197"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d197"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -10875,7 +10875,7 @@ class RegistroD300(models.AbstractModel):
     Bagagem (código 15) e de Passagem Ferroviário (código 16)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d300"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d300"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -11050,7 +11050,7 @@ class RegistroD301(models.AbstractModel):
     (código 15) e de Passagem Ferroviário (código 16)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d301"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d301"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -11076,7 +11076,7 @@ class RegistroD310(models.AbstractModel):
     16)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d310"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d310"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -11124,7 +11124,7 @@ class RegistroD350(models.AbstractModel):
     "Equipamento ECF (Códigos 2E, 13, 14, 15 e 16)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d350"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d350"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -11165,7 +11165,7 @@ class RegistroD355(models.AbstractModel):
     "Redução Z (Códigos 2E, 13, 14, 15 e 16)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d355"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d355"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -11259,7 +11259,7 @@ class RegistroD360(models.AbstractModel):
     "PIS E COFINS totalizados no dia (Códigos 2E, 13, 14, 15 e 16)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d360"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d360"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -11289,7 +11289,7 @@ class RegistroD365(models.AbstractModel):
     e 16)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d365"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d365"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -11352,7 +11352,7 @@ class RegistroD370(models.AbstractModel):
     "Complemento dos documentos informados (Códigos 13, 14, 15, 16 E 2E)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d370"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d370"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -11403,7 +11403,7 @@ class RegistroD390(models.AbstractModel):
     """Registro analítico do movimento diário (Códigos 13, 14, 15, 16 E 2E)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d390"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d390"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -11500,7 +11500,7 @@ class RegistroD400(models.AbstractModel):
     "Resumo do Movimento Diário (código 18)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d400"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d400"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -11613,7 +11613,7 @@ class RegistroD410(models.AbstractModel):
     "Documentos Informados (Códigos 13, 14, 15 e 16)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d410"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d410"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -11741,7 +11741,7 @@ class RegistroD411(models.AbstractModel):
     16)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d411"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d411"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -11762,7 +11762,7 @@ class RegistroD420(models.AbstractModel):
     "Complemento dos Documentos Informados (Códigos 13, 14, 15 e 16)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d420"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d420"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -11807,7 +11807,7 @@ class RegistroD500(models.AbstractModel):
     Telecomunicação (código 22)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d500"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d500"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -11988,7 +11988,7 @@ class RegistroD510(models.AbstractModel):
     Serviço de Telecomunicação (código 22)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d510"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d510"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -12148,7 +12148,7 @@ class RegistroD530(models.AbstractModel):
     "Terminal Faturado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d530"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d530"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -12199,7 +12199,7 @@ class RegistroD590(models.AbstractModel):
     "Registro Analítico do Documento (códigos 21 e 22)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d590"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d590"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -12323,7 +12323,7 @@ class RegistroD600(models.AbstractModel):
     (código 21) e de Serviço de Telecomunicação (código 22)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d600"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d600"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -12452,7 +12452,7 @@ class RegistroD610(models.AbstractModel):
     "Itens do Documento Consolidado (códigos 21 e 22)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d610"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d610"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -12601,7 +12601,7 @@ class RegistroD690(models.AbstractModel):
     "Registro Analítico dos Documentos (códigos 21 e 22)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d690"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d690"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -12725,7 +12725,7 @@ class RegistroD695(models.AbstractModel):
     (código 21) e de Serviço de Telecomunicação (código 22)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d695"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d695"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -12799,7 +12799,7 @@ class RegistroD696(models.AbstractModel):
     "Registro Analítico dos Documentos (códigos 21 e 22)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d696"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d696"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -12934,7 +12934,7 @@ class RegistroD697(models.AbstractModel):
     medidos” de televisão por assinatura via satélite"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d697"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d697"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -12970,7 +12970,7 @@ class RegistroD700(models.AbstractModel):
     62)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d700"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d700"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -13217,7 +13217,7 @@ class RegistroD730(models.AbstractModel):
     Comunicação – NFCom (Código 62)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d730"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d730"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -13326,7 +13326,7 @@ class RegistroD731(models.AbstractModel):
     "Informações do fundo de combate à pobreza – FCP – (Código 62)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d731"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d731"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -13357,7 +13357,7 @@ class RegistroD735(models.AbstractModel):
     "Observações do lançamento fiscal (Código 62)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d735"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d735"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -13398,7 +13398,7 @@ class RegistroD737(models.AbstractModel):
     proveniente de documento fiscal"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d737"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d737"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -13461,7 +13461,7 @@ class RegistroD750(models.AbstractModel):
     Comunicação – NFCom (Código 62)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d750"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d750"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -13592,7 +13592,7 @@ class RegistroD760(models.AbstractModel):
     Eletrônica de Serviços de Comunicação – NFCom (Código 62)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d760"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d760"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -13700,7 +13700,7 @@ class RegistroD761(models.AbstractModel):
     "Informações do fundo de combate à pobreza FCP – (Código 62)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.d761"
+    _name = "l10n_br_sped.efd_icms_ipi.20.d761"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -13731,7 +13731,7 @@ class RegistroE100(models.AbstractModel):
     "Período de Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e100"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e100"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -13758,7 +13758,7 @@ class RegistroE110(models.AbstractModel):
     "Apuração do ICMS - Operações Próprias"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e110"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e110"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -13913,7 +13913,7 @@ class RegistroE111(models.AbstractModel):
     "Ajuste/Benefício/Incentivo da Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e111"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e111"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -13968,7 +13968,7 @@ class RegistroE112(models.AbstractModel):
     "Informações Adicionais dos Ajustes da Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e112"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e112"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -14012,7 +14012,7 @@ class RegistroE113(models.AbstractModel):
     dos documentos fiscais"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e113"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e113"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -14081,7 +14081,7 @@ class RegistroE115(models.AbstractModel):
     "Informações Adicionais da Apuração do ICMS - Valores Declaratórios"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e115"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e115"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -14117,7 +14117,7 @@ class RegistroE116(models.AbstractModel):
     "Obrigações do ICMS Recolhido ou a Recolher - Obrigações Próprias"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e116"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e116"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -14190,7 +14190,7 @@ class RegistroE200(models.AbstractModel):
     "Período de Apuração do ICMS - Substituição Tributária"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e200"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e200"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -14224,7 +14224,7 @@ class RegistroE210(models.AbstractModel):
     "Apuração do ICMS - Substituição Tributária"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e210"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e210"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -14372,7 +14372,7 @@ class RegistroE220(models.AbstractModel):
     Tributária"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e220"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e220"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -14431,7 +14431,7 @@ class RegistroE230(models.AbstractModel):
     Tributária"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e230"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e230"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -14476,7 +14476,7 @@ class RegistroE240(models.AbstractModel):
     Tributária - Identificação dos documentos fiscais"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e240"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e240"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -14549,7 +14549,7 @@ class RegistroE250(models.AbstractModel):
     "Obrigações do ICMS a Recolher - Substituição Tributária"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e250"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e250"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -14626,7 +14626,7 @@ class RegistroE300(models.AbstractModel):
     EC 87/15"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e300"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e300"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -14665,7 +14665,7 @@ class RegistroE310(models.AbstractModel):
     """Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e310"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e310"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -14915,7 +14915,7 @@ class RegistroE311(models.AbstractModel):
     UF Origem/Destino EC 87/15"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e311"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e311"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -14974,7 +14974,7 @@ class RegistroE312(models.AbstractModel):
     Alíquota – UF Origem/Destino EC 87/15"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e312"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e312"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -15023,7 +15023,7 @@ class RegistroE313(models.AbstractModel):
     Origem/Destino EC 87/15 Identificação dos Documentos Fiscais"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e313"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e313"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -15093,7 +15093,7 @@ class RegistroE316(models.AbstractModel):
     UF Origem/Destino EC 87/15"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e316"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e316"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -15172,7 +15172,7 @@ class RegistroE500(models.AbstractModel):
     "Período de Apuração do IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e500"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e500"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -15212,7 +15212,7 @@ class RegistroE510(models.AbstractModel):
     "Consolidação dos Valores de IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e510"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e510"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -15279,7 +15279,7 @@ class RegistroE520(models.AbstractModel):
     "Apuração do IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e520"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e520"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -15360,7 +15360,7 @@ class RegistroE530(models.AbstractModel):
     "Ajustes da Apuração do IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e530"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e530"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -15436,7 +15436,7 @@ class RegistroE531(models.AbstractModel):
     dos documentos fiscais (01 e 55)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.e531"
+    _name = "l10n_br_sped.efd_icms_ipi.20.e531"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -15506,7 +15506,7 @@ class RegistroG110(models.AbstractModel):
     "ICMS – Ativo Permanente – CIAP"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.g110"
+    _name = "l10n_br_sped.efd_icms_ipi.20.g110"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -15616,7 +15616,7 @@ class RegistroG125(models.AbstractModel):
     "Movimentação de bem ou componente do Ativo Imobilizado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.g125"
+    _name = "l10n_br_sped.efd_icms_ipi.20.g125"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -15727,7 +15727,7 @@ class RegistroG126(models.AbstractModel):
     "Outros créditos CIAP"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.g126"
+    _name = "l10n_br_sped.efd_icms_ipi.20.g126"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -15812,7 +15812,7 @@ class RegistroG130(models.AbstractModel):
     "Identificação do documento fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.g130"
+    _name = "l10n_br_sped.efd_icms_ipi.20.g130"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -15887,7 +15887,7 @@ class RegistroG140(models.AbstractModel):
     "Identificação do item do documento fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.g140"
+    _name = "l10n_br_sped.efd_icms_ipi.20.g140"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -15981,7 +15981,7 @@ class RegistroH005(models.AbstractModel):
     "Totais do Inventário"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.h005"
+    _name = "l10n_br_sped.efd_icms_ipi.20.h005"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -16020,7 +16020,7 @@ class RegistroH010(models.AbstractModel):
     "Inventário"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.h010"
+    _name = "l10n_br_sped.efd_icms_ipi.20.h010"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -16122,7 +16122,7 @@ class RegistroH020(models.AbstractModel):
     "Informação complementar do Inventário"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.h020"
+    _name = "l10n_br_sped.efd_icms_ipi.20.h020"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -16168,7 +16168,7 @@ class RegistroH030(models.AbstractModel):
     regime de substituição tributária"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.h030"
+    _name = "l10n_br_sped.efd_icms_ipi.20.h030"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -16224,7 +16224,7 @@ class RegistroK010(models.AbstractModel):
     "Informação sobre o tipo de leiaute (simplificado / completo)"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k010"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k010"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -16243,7 +16243,7 @@ class RegistroK100(models.AbstractModel):
     "Período de Apuração do ICMS/IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k100"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k100"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -16336,7 +16336,7 @@ class RegistroK200(models.AbstractModel):
     "Estoque Escriturado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k200"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k200"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -16390,7 +16390,7 @@ class RegistroK210(models.AbstractModel):
     "Desmontagem de mercadorias – Item de Origem"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k210"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k210"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -16442,7 +16442,7 @@ class RegistroK215(models.AbstractModel):
     "Desmontagem de mercadorias – Item de Destino"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k215"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k215"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -16475,7 +16475,7 @@ class RegistroK220(models.AbstractModel):
     "Outras Movimentações Internas entre Mercadorias"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k220"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k220"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -16529,7 +16529,7 @@ class RegistroK230(models.AbstractModel):
     "Itens Produzidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k230"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k230"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -16581,7 +16581,7 @@ class RegistroK235(models.AbstractModel):
     "Insumos Consumidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k235"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k235"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -16629,7 +16629,7 @@ class RegistroK250(models.AbstractModel):
     "Industrialização Efetuada por Terceiros – Itens Produzidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k250"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k250"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -16677,7 +16677,7 @@ class RegistroK255(models.AbstractModel):
     "Industrialização em Terceiros – Insumos Consumidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k255"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k255"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -16730,7 +16730,7 @@ class RegistroK260(models.AbstractModel):
     "Reprocessamento/Reparo de Produto/Insumo"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k260"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k260"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -16801,7 +16801,7 @@ class RegistroK265(models.AbstractModel):
     "Reprocessamento/Reparo – Mercadorias Consumidas e/ou Retornadas"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k265"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k265"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -16842,7 +16842,7 @@ class RegistroK270(models.AbstractModel):
     "Correção de Apontamento dos Registros K210, K220, K230, K250 e K260"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k270"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k270"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -16950,7 +16950,7 @@ class RegistroK275(models.AbstractModel):
     K235, K255 e K265"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k275"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k275"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -17009,7 +17009,7 @@ class RegistroK280(models.AbstractModel):
     "Correção de Apontamento – Estoque Escriturado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k280"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k280"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -17086,7 +17086,7 @@ class RegistroK290(models.AbstractModel):
     "Produção Conjunta – Ordem de Produção"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k290"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k290"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -17128,7 +17128,7 @@ class RegistroK291(models.AbstractModel):
     "Produção Conjunta – Itens Produzidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k291"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k291"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -17161,7 +17161,7 @@ class RegistroK292(models.AbstractModel):
     "Produção Conjunta – insumos Consumidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k292"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k292"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -17194,7 +17194,7 @@ class RegistroK300(models.AbstractModel):
     "Produção Conjunta – Industrialização efetuada por terceiros"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k300"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k300"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -17240,7 +17240,7 @@ class RegistroK301(models.AbstractModel):
     Produzidos"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k301"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k301"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -17275,7 +17275,7 @@ class RegistroK302(models.AbstractModel):
     Consumidos"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.k302"
+    _name = "l10n_br_sped.efd_icms_ipi.20.k302"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -17309,7 +17309,7 @@ class Registro1010(models.AbstractModel):
     "Obrigatoriedade de registros do Bloco 1"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1010"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1010"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -17441,7 +17441,7 @@ class Registro1100(models.AbstractModel):
     "Registro de Informações sobre Exportação"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1100"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1100"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -17531,7 +17531,7 @@ class Registro1105(models.AbstractModel):
     "Documentos Fiscais de Exportação"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1105"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1105"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -17582,7 +17582,7 @@ class Registro1110(models.AbstractModel):
     "Operações de Exportação Indireta - Mercadorias de terceiros"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1110"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1110"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -17615,7 +17615,7 @@ class Registro1200(models.AbstractModel):
     "Controle de Créditos Fiscais - ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1200"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1200"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -17692,7 +17692,7 @@ class Registro1210(models.AbstractModel):
     "Utilização de Créditos Fiscais - ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1210"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1210"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -17731,7 +17731,7 @@ class Registro1250(models.AbstractModel):
     complementação do ICMS"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1250"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1250"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -17809,7 +17809,7 @@ class Registro1255(models.AbstractModel):
     complementação do ICMS por motivo"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1255"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1255"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -17892,7 +17892,7 @@ class Registro1300(models.AbstractModel):
     "Movimentação diária de combustíveis"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1300"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1300"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -18001,7 +18001,7 @@ class Registro1310(models.AbstractModel):
     "Movimentação diária de combustíveis por tanque"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1310"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1310"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -18113,7 +18113,7 @@ class Registro1320(models.AbstractModel):
     "Volume de vendas"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1320"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1320"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -18191,7 +18191,7 @@ class Registro1350(models.AbstractModel):
     "Bombas"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1350"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1350"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -18229,7 +18229,7 @@ class Registro1360(models.AbstractModel):
     "Lacres das bombas"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1360"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1360"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -18253,7 +18253,7 @@ class Registro1370(models.AbstractModel):
     "Bicos da bomba"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1370"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1370"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -18287,7 +18287,7 @@ class Registro1390(models.AbstractModel):
     "Controle de produção de Usina"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1390"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1390"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -18311,7 +18311,7 @@ class Registro1391(models.AbstractModel):
     "Produção diária da usina"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1391"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1391"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -18535,7 +18535,7 @@ class Registro1400(models.AbstractModel):
     "Informação sobre Valor Agregado"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1400"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1400"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -18570,7 +18570,7 @@ class Registro1500(models.AbstractModel):
     Interestaduais"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1500"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1500"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -18751,7 +18751,7 @@ class Registro1510(models.AbstractModel):
     """Itens do documento Nota fiscal/Conta de energia elétrica (código 06)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1510"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1510"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -18919,7 +18919,7 @@ class Registro1600(models.AbstractModel):
     "Total das operações com cartão de crédito e/ou débito"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1600"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1600"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -18960,7 +18960,7 @@ class Registro1601(models.AbstractModel):
     "Operações com instrumentos de pagamentos eletrônicos"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1601"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1601"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -19028,7 +19028,7 @@ class Registro1700(models.AbstractModel):
     "Documentos fiscais utilizados"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1700"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1700"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -19091,7 +19091,7 @@ class Registro1710(models.AbstractModel):
     "Documentos fiscais cancelados/inutilizados"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1710"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1710"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -19123,7 +19123,7 @@ class Registro1800(models.AbstractModel):
     "DCTA - Demonstrativo de crédito do ICMS sobre transporte aéreo"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1800"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1800"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -19202,7 +19202,7 @@ class Registro1900(models.AbstractModel):
     "Indicador de Sub-apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1900"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1900"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -19232,7 +19232,7 @@ class Registro1910(models.AbstractModel):
     "Período da Sub-apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1910"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1910"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -19263,7 +19263,7 @@ class Registro1920(models.AbstractModel):
     "Sub-apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1920"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1920"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 4
 
@@ -19402,7 +19402,7 @@ class Registro1921(models.AbstractModel):
     "Ajuste/Benefício/Incentivo da Sub- apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1921"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1921"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -19456,7 +19456,7 @@ class Registro1922(models.AbstractModel):
     "Informações Adicionais dos Ajustes da Sub-apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1922"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1922"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 6
 
@@ -19501,7 +19501,7 @@ class Registro1923(models.AbstractModel):
     Identificação dos Documentos Fiscais"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1923"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1923"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 6
 
@@ -19572,7 +19572,7 @@ class Registro1925(models.AbstractModel):
     "Informações Adicionais da Sub- apuração – Valores Declaratórios"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1925"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1925"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -19607,7 +19607,7 @@ class Registro1926(models.AbstractModel):
     "Obrigações do ICMS A Recolher – Operações referentes à Sub-apuração"
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1926"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1926"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 5
 
@@ -19683,7 +19683,7 @@ class Registro1960(models.AbstractModel):
     financeiros: indústria (crédito presumido)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1960"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1960"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -19822,7 +19822,7 @@ class Registro1970(models.AbstractModel):
     saída subsequente)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1970"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1970"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
@@ -19957,7 +19957,7 @@ class Registro1975(models.AbstractModel):
     financeiros: importação (saídas internas por faixa de alíquota)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1975"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1975"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 3
 
@@ -20019,7 +20019,7 @@ class Registro1980(models.AbstractModel):
     financeiros: central de distribuição (entradas/saídas)"""
 
     _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.19.1980"
+    _name = "l10n_br_sped.efd_icms_ipi.20.1980"
     _inherit = "l10n_br_sped.mixin.efd_icms_ipi"
     _sped_level = 2
 
