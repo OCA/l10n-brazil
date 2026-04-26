@@ -152,6 +152,188 @@ msgid "Ad Valorem"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tred__cte40_pAliqEfet
+msgid "Aliquota Efetiva que será aplicada"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tred__cte40_pAliqEfet
+msgid "Aliquota Efetiva que será aplicada a Base de Calculo (em percentual)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gcbs__cte40_pCBS
+msgid "Aliquota da CBS (em percentual)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsmun__cte40_pIBSMun
+msgid "Aliquota do IBS Municipal"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcibs_gibsmun__cte40_pIBSMun
+msgid "Aliquota do IBS Municipal (em percentual)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsuf__cte40_pIBSUF
+msgid "Aliquota do IBS de competência das UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcibs_gibsuf__cte40_pIBSUF
+msgid "Aliquota do IBS de competência das UF (em percentual)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoret__cte40_adRemIBSRet
+msgid "Alíquota ad rem"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoret__cte40_adRemCBSRet
+msgid "Alíquota ad rem (adRemCBSRet)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonopadrao__cte40_adRemCBS
+msgid "Alíquota ad rem da CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonoret__cte40_adRemCBSRet
+msgid "Alíquota ad rem da CBS retida anteriormente"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_adRemCBSReten
+msgid "Alíquota ad rem da CBS sujeita"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_adRemCBSReten
+msgid "Alíquota ad rem da CBS sujeita a retenção"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonopadrao__cte40_adRemIBS
+msgid "Alíquota ad rem do IBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonoret__cte40_adRemIBSRet
+msgid "Alíquota ad rem do IBS retido anteriormente"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_adRemIBSReten
+msgid "Alíquota ad rem do IBS sujeito"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_adRemIBSReten
+msgid "Alíquota ad rem do IBS sujeito a retenção"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_pAliqEfetRegCBS
+msgid "Alíquota da CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_pAliqEfetRegCBS
+msgid ""
+"Alíquota da CBS\n"
+"Informar como seria a Alíquota caso não cumprida a condição resolutória/suspensiva"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_pAliqEfetRegIBSUF
+msgid "Alíquota do IBS da UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_pAliqEfetRegIBSUF
+msgid ""
+"Alíquota do IBS da UF\n"
+"Informar como seria a Alíquota caso não cumprida a condição resolutória/suspensiva"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_pAliqEfetRegIBSMun
+msgid "Alíquota do IBS do Município"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_pAliqEfetRegIBSMun
+msgid ""
+"Alíquota do IBS do Município\n"
+"Informar como seria a Alíquota caso não cumprida a condição resolutória/suspensiva"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_pICMSOutraUF
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms00__cte40_pICMS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_pICMS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_pICMS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_pICMSOutraUF
+msgid "Alíquota do ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__cte40_pIS
+msgid "Alíquota do Imposto Seletivo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__cte40_pISEspec
+msgid "Alíquota do Imposto Seletivo (pISEspec)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tis__cte40_pIS
+msgid "Alíquota do Imposto Seletivo (percentual)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tis__cte40_pISEspec
+msgid "Alíquota do Imposto Seletivo (por valor)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_pICMSInter
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_pICMSInter
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_pICMSInter
+msgid "Alíquota interestadual das UF envolvidas"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_pICMSInter
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_pICMSInter
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_pICMSInter
+msgid ""
+"Alíquota interestadual das UF envolvidas\n"
+"Alíquota interestadual das UF envolvidas"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_pICMSUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_pICMSUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_pICMSUFFim
+msgid "Alíquota interna da UF de término"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_pICMSUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_pICMSUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_pICMSUFFim
+msgid ""
+"Alíquota interna da UF de término da prestação do serviço de transporte\n"
+"Alíquota adotada nas operações internas na UF do destinatário"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infpaa__cte40_PAASignature
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infpaa__cte40_PAASignature
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infpaa__cte40_PAASignature
@@ -669,6 +851,86 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmssn__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms45__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmssn__cte40_CST
+msgid "Classificação Tributária do Serviço"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_CST
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_CST
+msgid ""
+"Classificação Tributária do Serviço\n"
+"90 - ICMS Outra UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timp_icmssn__cte40_CST
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icmssn__cte40_CST
+msgid ""
+"Classificação Tributária do Serviço\n"
+"90 - ICMS Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_CST
+msgid ""
+"Classificação Tributária do Serviço\n"
+"90 - Outros"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icms45__cte40_CST
+msgid ""
+"Classificação Tributária do Serviço\n"
+"Preencher com:\n"
+"\t\t\t\t\t\t\t\t40 - ICMS isenção;\n"
+"\t\t\t\t\t\t\t\t41 - ICMS não tributada;\n"
+"\t\t\t\t\t\t\t\t51 - ICMS diferido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_CST
+msgid "Classificação Tributária do serviço"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_CST
+msgid ""
+"Classificação Tributária do serviço\n"
+"20 - tributação com BC reduzida do ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpresibszfm__cte40_tpCredPresIBSZFM
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gCredPresIBSZFM
+msgid "Classificação de acordo com o art"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcredpresibszfm__cte40_tpCredPresIBSZFM
+msgid ""
+"Classificação de acordo com o art. 450, § 1º, da LC 214/25 para o cálculo do crédito presumido na ZFM\n"
+"0 - Sem crédito presumido;\n"
+"1 - Bens de consumo final (55%);\n"
+"2 - Bens de capital (75%);\n"
+"3 - Bens intermediários (90,25%);\n"
+"4 - Bens de informática e outros definidos em legislação (100%).\n"
+"OBS: Percentuais definidos no art. 450, § 1º, da LC 214/25 para o cálculo do crédito presumido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gCredPresIBSZFM
+msgid ""
+"Classificação de acordo com o art. 450, § 1º, da LC 214/25 para o cálculo do"
+" crédito presumido na ZFM. Informado conforme indicador no cClassTrib."
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_duto__cte40_classDuto
 msgid "Classificação do Dutoviário"
 msgstr ""
@@ -760,6 +1022,17 @@ msgstr ""
 msgid ""
 "Cor do veículo\n"
 "Código de cada montadora"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gCredPresOper
+msgid "Crédito Presumido da Operação"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gCredPresOper
+msgid ""
+"Crédito Presumido da Operação. Informado conforme indicador no cClassTrib."
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -1040,9 +1313,43 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__cte40_CSTIS
+msgid "Código Situação Tributária"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribbpe__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcte__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnf3e__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfag__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfce__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfcom__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfgas__cte40_CST
+msgid "Código Situação Tributária do IBS/CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tis__cte40_CSTIS
+msgid "Código Situação Tributária do Imposto Seletivo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fluxo__cte40_xRota
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fluxo__cte40_xRota
 msgid "Código da Rota de Entrega"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_CSTReg
+msgid "Código da Situação Tributária do IBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_CSTReg
+msgid ""
+"Código da Situação Tributária do IBS e CBS\n"
+"Informar qual seria o CST caso não cumprida a condição resolutória/suspensiva"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -1115,6 +1422,36 @@ msgid ""
 "03-UNIDADE;\n"
 "04-LITROS;\n"
 "05-MMBTU"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_cBenef
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_cBenef
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms45__cte40_cBenef
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_cBenef
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_cBenef
+msgid "Código de Benefício Fiscal na UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_cBenef
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_cBenef
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icms45__cte40_cBenef
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_cBenef
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_cBenef
+msgid ""
+"Código de Benefício Fiscal na UF\n"
+"Código de Benefício Fiscal utilizado pela UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpresoper__cte40_cCredPres
+msgid "Código de Classificação"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcredpresoper__cte40_cCredPres
+msgid "Código de Classificação do Crédito Presumido do IBS e da CBS"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -2313,9 +2650,161 @@ msgid "Grupo de Informação do Provedor de Assinatura e Autorização"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpresoper__cte40_gIBSCredPres
+msgid "Grupo de Informações"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpresoper__cte40_gCBSCredPres
+msgid "Grupo de Informações (gCBSCredPres)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gcbs__cte40_gDevTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsmun__cte40_gDevTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsuf__cte40_gDevTrib
+msgid "Grupo de Informações da devolução"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcibs_gcbs__cte40_gDevTrib
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcibs_gibsmun__cte40_gDevTrib
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcibs_gibsuf__cte40_gDevTrib
+msgid "Grupo de Informações da devolução de tributos"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcredpresoper__cte40_gCBSCredPres
+msgid ""
+"Grupo de Informações do Crédito Presumido referente a CBS, quando "
+"aproveitado pelo emitente do documento."
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcredpresoper__cte40_gIBSCredPres
+msgid ""
+"Grupo de Informações do Crédito Presumido referente ao IBS, quando "
+"aproveitado pelo emitente do documento."
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs__cte40_gIBSMun
+msgid "Grupo de Informações do IBS no Município"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs__cte40_gCBS
+msgid "Grupo de Tributação da CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gcbs__cte40_gRed
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsmun__cte40_gRed
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsuf__cte40_gRed
+msgid "Grupo de campos da redução de aliquota"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gcbs__cte40_gDif
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsmun__cte40_gDif
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsuf__cte40_gDif
+msgid "Grupo de campos do Diferimento"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detgtv__cte40_infVeiculo
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_peri__cte40_infTotAP
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs__cte40_gTribRegular
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_gMonoPadrao
 msgid "Grupo de informações"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_gMonoRet
+msgid "Grupo de informações (gMonoRet)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_gMonoReten
+msgid "Grupo de informações (gMonoReten)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_gmonopadrao
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_gMonoPadrao
+msgid "Grupo de informações da Tributação Monofásica padrão"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_gmonoret
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_gMonoRet
+msgid "Grupo de informações da Tributação Monofásica retida anteriormente"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_gmonoreten
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_gMonoReten
+msgid "Grupo de informações da Tributação Monofásica sujeita a retenção"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcibs__cte40_gTribRegular
+msgid ""
+"Grupo de informações da Tributação Regular. Informar como seria a tributação"
+" caso não cumprida a condição resolutória/suspensiva. Exemplo 1: Art. 442, "
+"§4. Operações com ZFM e ALC. Exemplo 2: Operações com suspensão do tributo."
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribnf3e
+msgid "Grupo de informações da Tributação da NF3e"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribnfag
+msgid "Grupo de informações da Tributação da NFAg"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribnfce
+msgid "Grupo de informações da Tributação da NFCe"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribnfcom
+msgid "Grupo de informações da Tributação da NFCom"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribnfgas
+msgid "Grupo de informações da Tributação da NFGas"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribnfe
+msgid "Grupo de informações da Tributação da NFe"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribbpe
+msgid "Grupo de informações da Tributação do BPe"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribcte
+msgid "Grupo de informações da Tributação do CTe"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs__cte40_gTribCompraGov
+msgid "Grupo de informações da composição"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcibs__cte40_gTribCompraGov
+msgid ""
+"Grupo de informações da composição do valor do IBS e da CBS em compras "
+"governamental"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -2359,6 +2848,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbstot
+msgid "Grupo de informações de totais da CBS/IBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbsmonotot
+msgid "Grupo de informações de totais da CBS/IBS com monofasia"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tistot
+msgid "Grupo de informações de totais do Imposto Seletivo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_detgtv
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_infcte__cte40_detGTV
 msgid "Grupo de informações detalhadas da GTV-e"
@@ -2386,6 +2890,27 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_imp__cte40_IBSCBS
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_imp__cte40_IBSCBS
 msgid "Grupo de informações do IBS e CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs__cte40_gIBSUF
+msgid "Grupo de informações do IBS na UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tis
+msgid "Grupo de informações do Imposto Seletivo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_gMonoDif
+msgid "Grupo de informações do diferimento"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_gmonodif
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_gMonoDif
+msgid "Grupo de informações do diferimento da Tributação Monofásica"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -2481,6 +3006,56 @@ msgstr ""
 msgid ""
 "Hora programada\n"
 "Formato HH:MM:SS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_timpos_icms45
+msgid "ICMS Isento, não Tributado ou diferido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timp_icmsoutrauf__cte40_CST__90
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timpos_icmsoutrauf__cte40_CST__90
+msgid "ICMS Outra UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_timpos_icms90
+msgid "ICMS Outros"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timp_icmssn__cte40_CST__90
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timpos_icmssn__cte40_CST__90
+msgid "ICMS Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_timp_icmsoutrauf
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_timpos_icmsoutrauf
+msgid ""
+"ICMS devido à UF de origem da prestação, quando diferente da UF do\n"
+"emitente"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timpos_icms45__cte40_CST__51
+msgid "ICMS diferido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timpos_icms45__cte40_CST__40
+msgid "ICMS isenção"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timpos_icms45__cte40_CST__41
+msgid "ICMS não tributada"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timpos_icms90__cte40_CST__90
+msgid "ICMS outros"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -2715,6 +3290,26 @@ msgid "Identificação do tomador do serviço no CT-e"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnf3e__cte40_indDoacao
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfce__cte40_indDoacao
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfcom__cte40_indDoacao
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_indDoacao
+msgid "Indica se a operação é de doação"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmssn__cte40_indSN
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmssn__cte40_indSN
+msgid "Indica se o contribuinte"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timp_icmssn__cte40_indSN
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icmssn__cte40_indSN
+msgid "Indica se o contribuinte é Simples Nacional\t\t\t1=Sim"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_multimodal__cte40_indNegociavel
 msgid "Indicador Negociável"
 msgstr ""
@@ -2844,6 +3439,68 @@ msgstr ""
 msgid ""
 "Indicador se o Recebedor retira no Aeroporto, Filial, Porto ou Estação de Destino?\n"
 "Preencher com: 0 - sim; 1 - não"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribbpe__cte40_gEstornoCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcte__cte40_gEstornoCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnf3e__cte40_gEstornoCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfag__cte40_gEstornoCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfcom__cte40_gEstornoCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gEstornoCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfgas__cte40_gEstornoCred
+msgid "Informado conforme indicador"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbsmonotot_gestornocred
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbstot_gestornocred
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribbpe__cte40_gEstornoCred
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribcte__cte40_gEstornoCred
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnf3e__cte40_gEstornoCred
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfag__cte40_gEstornoCred
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfcom__cte40_gEstornoCred
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gEstornoCred
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfgas__cte40_gEstornoCred
+msgid "Informado conforme indicador no cClassTrib"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gIBSCBSMono
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfgas__cte40_gIBSCBSMono
+msgid "Informar essa opção da Choice"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfgas__cte40_gIBSCBSMono
+msgid "Informar essa opção da Choice para Monofasia"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gIBSCBSMono
+msgid "Informar essa opção da Choice para Monofasia (CST 620)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gTransfCred
+msgid "Informar essa opção da Choice para o CST 800"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gAjusteCompet
+msgid "Informar essa opção da Choice para o CST 811"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_cClassTribReg
+msgid "Informar qual seria o cClassTrib caso"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_cClassTribReg
+msgid ""
+"Informar qual seria o cClassTrib caso não cumprida a condição "
+"resolutória/suspensiva"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -3121,6 +3778,33 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_exped
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcte__cte40_exped
 msgid "Informações do Expedidor da Carga"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_imp__cte40_ICMSUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_imp__cte40_ICMSUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_imp__cte40_ICMSUFFim
+msgid "Informações do ICMS de partilha com a UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcte_icmsuffim
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcteos_icmsuffim
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tctesimp_icmsuffim
+msgid ""
+"Informações do ICMS de partilha com a UF de término do serviço de\n"
+"transporte na operação interestadual\n"
+"Grupo a ser informado nas prestações interestaduais para consumidor final, não\n"
+"contribuinte do ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_imp__cte40_ICMSUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_imp__cte40_ICMSUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_imp__cte40_ICMSUFFim
+msgid ""
+"Informações do ICMS de partilha com a UF de término do serviço de transporte na operação interestadual\n"
+"Grupo a ser informado nas prestações interestaduais para consumidor final, não contribuinte do ICMS"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -3838,6 +4522,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_exped__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ferroenv__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ferrov__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmono__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonodif__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonopadrao__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoret__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoreten__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocant__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantele__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_iddocantpap__brl_currency_id
@@ -3873,7 +4562,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_rodoos__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_semdata__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_semhora__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tajustecompet__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tarifa__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gcbs__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsmun__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsuf__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcompragov__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcompragovreduzido__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpres__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpresibszfm__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpresoper__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_autxml__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_cobr__brl_currency_id
@@ -3883,6 +4582,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_emit__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fat__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fluxo__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_ide__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_imp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infcarga__brl_currency_id
@@ -3913,6 +4613,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_dup__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_emit__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_fat__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_ide__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_imp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_infcte__brl_currency_id
@@ -3938,6 +4639,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_emit__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fat__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fluxo__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_ide__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_imp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infcarga__brl_currency_id
@@ -3954,12 +4656,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_paasignature__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_pass__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_toma__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tdevtrib__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tdif__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendeemi__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendereco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tenderfer__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendernac__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendorg__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tendreent__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_testornocred__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infevento__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tevento_infpaa__brl_currency_id
@@ -3978,9 +4683,32 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_obsfisco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_rem__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_toma__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gcbs__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gestornocred__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibs__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibsmun__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibsuf__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gcbs__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gestornocred__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibs__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibsmun__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibsuf__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmssn__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms00__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms20__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms45__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmssn__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tistot__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tlocal__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tmonofasia__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_toma3__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tomaterceiro__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_total__brl_currency_id
@@ -3995,6 +4723,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve_inffisco__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprotgtve_infprot__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_trafmut__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tred__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tresptec__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcte__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcteos__brl_currency_id
@@ -4002,6 +4731,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretevento_infevento__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretgtve__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttransfcred__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribbpe__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcompragov__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcte__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnf3e__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfag__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfce__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfcom__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfgas__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidadetransp__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tunidcarga__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_veic__brl_currency_id
@@ -4827,8 +5567,89 @@ msgid "Paletes"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcompragov__cte40_tpEnteGov
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcompragovreduzido__cte40_tpEnteGov
+msgid "Para administração pública direta"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcompragov__cte40_tpEnteGov
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcompragovreduzido__cte40_tpEnteGov
+msgid ""
+"Para administração pública direta e suas autarquias e fundações:\n"
+"1=União\n"
+"2=Estados\n"
+"3=Distrito Federal\n"
+"4=Municípios"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_infdocant__cte40_tpPrest__2
 msgid "Parcial"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_pRedBCOutraUF
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_pRedBC
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_pRedBC
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_pRedBCOutraUF
+msgid "Percentual de redução da BC"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcompragov__cte40_pRedutor
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcompragovreduzido__cte40_pRedutor
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tred__cte40_pRedAliq
+msgid "Percentual de redução de aliquota"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tred__cte40_pRedAliq
+msgid "Percentual de redução de aliquota do cClassTrib"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcompragov__cte40_pRedutor
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcompragovreduzido__cte40_pRedutor
+msgid "Percentual de redução de aliquota em compra governamental"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpres__cte40_pCredPres
+msgid "Percentual do Crédito Presumido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_pFCPUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_pFCPUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_pFCPUFFim
+msgid "Percentual do ICMS relativo ao Fundo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_pFCPUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_pFCPUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_pFCPUFFim
+msgid ""
+"Percentual do ICMS relativo ao Fundo de Combate à pobreza (FCP) na UF de término da prestação do serviço de transporte\n"
+"Alíquota adotada nas operações internas na UF do destinatário"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonodif__cte40_pDifIBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tdif__cte40_pDif
+msgid "Percentual do diferimento"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonodif__cte40_pDifCBS
+msgid "Percentual do diferimento (pDifCBS)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonodif__cte40_pDifCBS
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonodif__cte40_pDifIBS
+msgid "Percentual do diferimento do imposto monofásico"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -4904,6 +5725,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_timpos_icms20
+msgid "Prestação sujeito à tributação com redução de BC do ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_timpos_icms00
+msgid "Prestação sujeito à tributação normal do ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_compl__cte40_fluxo
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_compl__cte40_fluxo
 msgid "Previsão do fluxo da carga"
@@ -4959,6 +5790,16 @@ msgid "Quantidade"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__cte40_qTrib
+msgid "Quantidade com abse"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tis__cte40_qTrib
+msgid "Quantidade com abse no campo uTrib informado"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_detgtv__cte40_qCarga
 msgid "Quantidade de volumes/malotes"
 msgstr ""
@@ -4992,6 +5833,21 @@ msgstr ""
 msgid ""
 "Quantidade total de volumes contendo artigos perigosos\n"
 "Preencher com o número de volumes (unidades) de artigos perigosos, ou seja, cada embalagem devidamente marcada e etiquetada (por ex.: número de caixas, de tambores, de bombonas, dentre outros). Não deve ser preenchido com o número de ULD, pallets ou containers."
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonopadrao__cte40_qBCMono
+msgid "Quantidade tributada na monofasia"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonoret__cte40_qBCMonoRet
+msgid "Quantidade tributada retida anteriormente"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_qBCMonoReten
+msgid "Quantidade tributada sujeita a retenção"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -5500,6 +6356,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_timp_icmssn
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_timpos_icmssn
+msgid "Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infsolicnff__cte40_xSolic
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_infsolicnff__cte40_xSolic
 msgid "Solicitação do pedido de emissão da NFF"
@@ -5711,6 +6573,24 @@ msgid "Texto com o QR-Code impresso no DACTE"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tajustecompet
+msgid "Tipo Ajuste de Competência"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcibs
+msgid "Tipo CBS IBS Completo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcompragov
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcompragovreduzido
+msgid ""
+"Tipo Compras Governamentais\n"
+"Cada DFe que utilizar deverá utilizar esses tipo no grupo ide"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcte
 msgid "Tipo Conhecimento de Transporte Eletrônico (Modelo 57)"
 msgstr ""
@@ -5727,6 +6607,16 @@ msgstr ""
 msgid ""
 "Tipo Conhecimento de Transporte Eletrônico Outros Serviços (Modelo\n"
 "67)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcredpres
+msgid "Tipo Crédito Presumido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcredpresoper
+msgid "Tipo Crédito Presumido da Operação"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -5774,6 +6664,21 @@ msgid "Tipo Dados do Local de Retirada ou Entrega"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tdevtrib
+msgid "Tipo Devolução Tributo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tdif
+msgid "Tipo Diferimento"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_testornocred
+msgid "Tipo Estorno de Crédito"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tevento
 msgid "Tipo Evento"
 msgstr ""
@@ -5794,6 +6699,18 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tgtve
 msgid "Tipo Guia de Transporte de Valores Eletrônica (Modelo 64)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcredpresibszfm
+msgid ""
+"Tipo Informações do crédito presumido de IBS para fornecimentos a partir\n"
+"da ZFM"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tmonofasia
+msgid "Tipo Monofasia"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -5831,6 +6748,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tred
+msgid "Tipo Redução Base de Cálculo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tretcte
 msgid "Tipo Retorno do Pedido de Autorização de CT-e (Modelo 57)"
 msgstr ""
@@ -5850,6 +6772,21 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tretgtve
 msgid "Tipo Retorno do Pedido de Autorização de GTV-e (Modelo 64)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttransfcred
+msgid "Tipo Transferência de Crédito"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribcompragov
+msgid "Tipo Tributação Compra Governamental"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_ttribregular
+msgid "Tipo Tributação Regular"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -5934,6 +6871,19 @@ msgid ""
 "5 - Aeronave\n"
 "6 - Vagão\n"
 "7 - Outros"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcompragov__cte40_tpOperGov
+msgid "Tipo da operação com ente governamental"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcompragov__cte40_tpOperGov
+msgid ""
+"Tipo da operação com ente governamental:\n"
+"1 - Fornecimento\n"
+"2 - Recebimento do Pagamento"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6299,8 +7249,114 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot__cte40_gMono
+msgid "Totais da Monofasia"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_gmono
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tibscbsmonotot__cte40_gMono
+msgid ""
+"Totais da Monofasia\n"
+"Só deverá ser utilizado para DFe modelos 55 e 65"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gcbs__cte40_vCredPresCondSus
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibs__cte40_vCredPresCondSus
 #: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_infdocant__cte40_tpPrest__1
 msgid "Total"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot__cte40_vBCIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot__cte40_vBCIBSCBS
+msgid "Total Base de Calculo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_vTotCBSMonoItem
+msgid "Total da CBS monofásica do item"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tmonofasia__cte40_vTotIBSMonoItem
+msgid "Total de IBS monofásico do item"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gcbs__cte40_vDevTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibsmun__cte40_vDevTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibsuf__cte40_vDevTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gcbs__cte40_vDevTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibsmun__cte40_vDevTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibsuf__cte40_vDevTrib
+msgid "Total de devoluções de tributos"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gcbs__cte40_vCredPres
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibs__cte40_vCredPres
+msgid "Total do Crédito Presumido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gcbs__cte40_vCredPresCondSus
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibs__cte40_vCredPresCondSus
+msgid "Total do Crédito Presumido Condição Suspensiva"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gcbs__cte40_vDif
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibsmun__cte40_vDif
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibsuf__cte40_vDif
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gcbs__cte40_vDif
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibsmun__cte40_vDif
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibsuf__cte40_vDif
+msgid "Total do Diferimento"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcibs_gcbs
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbsmonotot_gcbs
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbstot_gcbs
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot__cte40_gCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot__cte40_gCBS
+msgid "Totalização da CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbsmonotot_gibs
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbstot_gibs
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot__cte40_gIBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibs__cte40_gIBSMun
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot__cte40_gIBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibs__cte40_gIBSMun
+msgid "Totalização do IBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcibs_gibsmun
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbsmonotot_gibsmun
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbstot_gibsmun
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibs__cte40_gIBSMun
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tibscbstot_gibs__cte40_gIBSMun
+msgid "Totalização do IBS de competência Municipal"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcibs_gibsuf
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbsmonotot_gibsuf
+#: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tibscbstot_gibsuf
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibs__cte40_gIBSUF
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibs__cte40_gIBSUF
+msgid "Totalização do IBS de competência da UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot__cte40_gEstornoCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot__cte40_gEstornoCred
+msgid "Totalização do estorno de crédito"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6371,6 +7427,11 @@ msgid "UNIDADE"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__cte40_uTrib
+msgid "Unidade"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftotap__cte40_uniAP
 msgid "Unidade de medida"
 msgstr ""
@@ -6383,6 +7444,13 @@ msgid ""
 "2 – KG G (quilograma bruto);\n"
 "3 – LITROS;\n"
 "4 – TI (índice de transporte para radioativos); 5- Unidades (apenas para artigos perigosos medidos em unidades que não se enquadram nos itens acima. Exemplo: baterias, celulares, equipamentos, veículos, dentre outros)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tis__cte40_uTrib
+msgid ""
+"Unidade de medida apropriada especificada em Lei Ordinaria para fins de "
+"apuração do Imposto Seletivo"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6403,6 +7471,18 @@ msgid ""
 "Unidades (apenas para artigos perigosos medidos em unidades que não se "
 "enquadram nos itens acima. Exemplo: baterias, celulares, equipamentos, "
 "veículos, dentre outros)"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmono__cte40_vIBSMonoRet
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpres__cte40_vCredPresCondSus
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpresibszfm__cte40_vCredPresIBSZFM
+msgid "Valor"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmono__cte40_vCBSMonoRet
+msgid "Valor (vCBSMonoRet)"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6442,6 +7522,11 @@ msgid "Valor Total do ICMS ST"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tistot__cte40_vIS
+msgid "Valor Total do Imposto Seletivo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnf__cte40_vProd
 msgid "Valor Total dos Produtos"
 msgstr ""
@@ -6476,6 +7561,40 @@ msgid "Valor a Receber"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_vBCOutraUF
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms00__cte40_vBC
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_vBC
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_vBC
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_vBCOutraUF
+msgid "Valor da BC do ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_vBCUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_vBCUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_vBCUFFim
+msgid "Valor da BC do ICMS na UF de término"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_vBCUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_vBCUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_vBCUFFim
+msgid ""
+"Valor da BC do ICMS na UF de término da prestação do serviço de transporte"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpresoper__cte40_vBCCredPres
+msgid "Valor da Base de Cálculo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcredpresoper__cte40_vBCCredPres
+msgid "Valor da Base de Cálculo do Crédito Presumido da Operação"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnf__cte40_vBC
 msgid "Valor da Base de Cálculo do ICMS"
 msgstr ""
@@ -6483,6 +7602,60 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_infnf__cte40_vBCST
 msgid "Valor da Base de Cálculo do ICMS ST"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tajustecompet__cte40_vCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gcbs__cte40_vCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_vTribRegCBS
+msgid "Valor da CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_vTribRegCBS
+msgid ""
+"Valor da CBS\n"
+"Informar como seria o valor do Tributo caso não cumprida a condição resolutória/suspensiva"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_testornocred__cte40_vCBSEstCred
+msgid "Valor da CBS a ser estornada"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttransfcred__cte40_vCBS
+msgid "Valor da CBS a ser transferida"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonopadrao__cte40_vCBSMono
+msgid "Valor da CBS monofásica"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonodif__cte40_vCBSMonoDif
+msgid "Valor da CBS monofásica diferida"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmono__cte40_vCBSMonoRet
+msgid "Valor da CBS monofásica retida anteriormente"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_vCBSMonoReten
+msgid "Valor da CBS monofásica sujeita"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_vCBSMonoReten
+msgid "Valor da CBS monofásica sujeita a retenção"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoret__cte40_vCBSMonoRet
+msgid "Valor da CBS retida anteriormente"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6539,8 +7712,31 @@ msgid "Valor de Imposto de Renda"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs__cte40_vBC
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__cte40_vBCIS
+msgid "Valor do BC"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftribfed__cte40_vCSLL
 msgid "Valor do CSLL"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_vCred
+msgid "Valor do Crédito Outorgado/Presumido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcredpres__cte40_vCredPres
+msgid "Valor do Crédito Presumido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcredpres__cte40_vCredPresCondSus
+msgid ""
+"Valor do Crédito Presumido Condição Suspensiva, preencher apenas para "
+"cCredPres que possui indicação de Condição Suspensiva"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6549,8 +7745,156 @@ msgid "Valor do Frete do Tráfego Mútuo"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tajustecompet__cte40_vIBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs__cte40_vIBS
+msgid "Valor do IBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsmun__cte40_vIBSMun
+msgid "Valor do IBS Municipal"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_testornocred__cte40_vIBSEstCred
+msgid "Valor do IBS a ser estornado"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttransfcred__cte40_vIBS
+msgid "Valor do IBS a ser transferido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_vTribRegIBSUF
+msgid "Valor do IBS da UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_vTribRegIBSUF
+msgid ""
+"Valor do IBS da UF\n"
+"Informar como seria o valor do Tributo caso não cumprida a condição resolutória/suspensiva"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcibs_gibsuf__cte40_vIBSUF
+msgid "Valor do IBS de competência das UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_vTribRegIBSMun
+msgid "Valor do IBS do Município"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribregular__cte40_vTribRegIBSMun
+msgid ""
+"Valor do IBS do Município\n"
+"Informar como seria o valor do Tributo caso não cumprida a condição resolutória/suspensiva"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonopadrao__cte40_vIBSMono
+msgid "Valor do IBS monofásico"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonodif__cte40_vIBSMonoDif
+msgid "Valor do IBS monofásico diferido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmono__cte40_vIBSMonoRet
+msgid "Valor do IBS monofásico retido anteriormente"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_vIBSMonoReten
+msgid "Valor do IBS monofásico sujeito"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmonoreten__cte40_vIBSMonoReten
+msgid "Valor do IBS monofásico sujeito a retenção"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoret__cte40_vIBSMonoRet
+msgid "Valor do IBS retido anteriormente"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms00__cte40_vICMS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_vICMS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_vICMS
+msgid "Valor do ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_vICMSDeson
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms20__cte40_vICMSDeson
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms45__cte40_vICMSDeson
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms90__cte40_vICMSDeson
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_vICMSDeson
+msgid "Valor do ICMS de desoneração"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_vICMSUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_vICMSUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_vICMSUFFim
+msgid "Valor do ICMS de partilha para a UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_vICMSUFIni
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_vICMSUFIni
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_vICMSUFIni
+msgid ""
+"Valor do ICMS de partilha para a UF de início da prestação do serviço de "
+"transporte"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_vICMSUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_vICMSUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_vICMSUFFim
+msgid ""
+"Valor do ICMS de partilha para a UF de término da prestação do serviço de "
+"transporte"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timp_icmsoutrauf__cte40_vICMSOutraUF
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icmsoutrauf__cte40_vICMSOutraUF
+msgid "Valor do ICMS devido outra UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_vFCPUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_vFCPUFFim
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_vFCPUFFim
+msgid "Valor do ICMS relativo ao Fundo"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_vFCPUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_vFCPUFFim
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_vFCPUFFim
+msgid ""
+"Valor do ICMS relativo ao Fundo de Combate á Pobreza (FCP) da UF de término "
+"da prestação"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_inftribfed__cte40_vINSS
 msgid "Valor do INSS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__cte40_vIS
+msgid "Valor do Imposto Seletivo calculado"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6567,6 +7911,11 @@ msgid "Valor do componente"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tcredpresibszfm__cte40_vCredPresIBSZFM
+msgid "Valor do crédito presumido calculado sobre o saldo devedor apurado"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fat__cte40_vDesc
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_fat__cte40_vDesc
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fat__cte40_vDesc
@@ -6574,8 +7923,25 @@ msgid "Valor do desconto da fatura"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tdif__cte40_vDif
+msgid "Valor do diferimento"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_infoutros__cte40_vDocFisc
 msgid "Valor do documento"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tdevtrib__cte40_vDevTrib
+msgid "Valor do tributo devolvido"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_tdevtrib__cte40_vDevTrib
+msgid ""
+"Valor do tributo devolvido. No fornecimento de energia elétrica, água, esgoto e\n"
+"gás natural e em outras hipóteses definidas no regulamento"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6593,8 +7959,68 @@ msgid "Valor original da fatura"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_vTribCBS
+msgid "Valor que seria devido a CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_vTribCBS
+msgid ""
+"Valor que seria devido a CBS, sem aplicação do Art. 473. da LC 214/2025"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_vTribIBSUF
+msgid "Valor que seria devido a UF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_vTribIBSUF
+msgid "Valor que seria devido a UF, sem aplicação do Art. 473. da LC 214/2025"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_vTribIBSMun
+msgid "Valor que seria devido ao município"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_vTribIBSMun
+msgid ""
+"Valor que seria devido ao município, sem aplicação do Art. 473. da LC "
+"214/2025"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_total__cte40_vTRec
 msgid "Valor total a Receber"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gcbs__cte40_vCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gcbs__cte40_vCBS
+msgid "Valor total da CBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gestornocred__cte40_vCBSEstCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gestornocred__cte40_vCBSEstCred
+msgid "Valor total da CBS estornada"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmono__cte40_vCBSMono
+msgid "Valor total da CBS monofásica"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmono__cte40_vCBSMonoReten
+msgid "Valor total da CBS monofásica sujeita"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmono__cte40_vCBSMonoReten
+msgid "Valor total da CBS monofásica sujeita a retenção"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6608,6 +8034,45 @@ msgstr ""
 msgid ""
 "Valor total da carga\n"
 "Dever ser informado para todos os modais, com exceção para o Dutoviário."
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibs__cte40_vIBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibs__cte40_vIBS
+msgid "Valor total do IBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibsuf__cte40_vIBSUF
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibsuf__cte40_vIBSUF
+msgid "Valor total do IBS Estadual"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gibsmun__cte40_vIBSMun
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gibsmun__cte40_vIBSMun
+msgid "Valor total do IBS Municipal"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbsmonotot_gestornocred__cte40_vIBSEstCred
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tibscbstot_gestornocred__cte40_vIBSEstCred
+msgid "Valor total do IBS estornado"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmono__cte40_vIBSMono
+msgid "Valor total do IBS monofásico"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmono__cte40_vIBSMonoReten
+msgid "Valor total do IBS monofásico sujeito"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_gmono__cte40_vIBSMonoReten
+msgid "Valor total do IBS monofásico sujeito a retenção"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6751,6 +8216,35 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribbpe__cte40_cClassTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcte__cte40_cClassTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnf3e__cte40_cClassTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfag__cte40_cClassTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfce__cte40_cClassTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfcom__cte40_cClassTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_cClassTrib
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfgas__cte40_cClassTrib
+msgid "cClassTrib"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tis__cte40_cClassTribIS
+msgid "cClassTribIS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_timpos_icms00__cte40_CST
+msgid "classificação Tributária do Serviço"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,help:l10n_br_cte_spec.field_cte_40_timpos_icms00__cte40_CST
+msgid ""
+"classificação Tributária do Serviço\n"
+"00 - tributação normal ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcte__cte40_cStat
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretcteos__cte40_cStat
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tretctesimp__cte40_cStat
@@ -6767,6 +8261,41 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tprocevento__cte40_eventoCTe
 msgid "eventoCTe"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gAjusteCompet
+msgid "gAjusteCompet"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribbpe__cte40_gIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcte__cte40_gIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnf3e__cte40_gIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfag__cte40_gIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfce__cte40_gIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfcom__cte40_gIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfgas__cte40_gIBSCBS
+msgid "gIBSCBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfce__cte40_gIBSCBSMono
+msgid "gIBSCBSMono"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfe__cte40_gTransfCred
+msgid "gTransfCred"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribbpe__cte40_indDoacao
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcte__cte40_indDoacao
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfag__cte40_indDoacao
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribnfgas__cte40_indDoacao
+msgid "indDoacao"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6832,11 +8361,31 @@ msgid "não"
 msgstr ""
 
 #. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_pAliqCBS
+msgid "pAliqCBS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_pAliqIBSMun
+msgid "pAliqIBSMun"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_ttribcompragov__cte40_pAliqIBSUF
+msgid "pAliqIBSUF"
+msgstr ""
+
+#. module: l10n_br_cte_spec
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tcte_pass
 #: model:ir.model,name:l10n_br_cte_spec.model_cte_40_tctesimp_pass
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_fluxo__cte40_pass
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_fluxo__cte40_pass
 msgid "pass"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_gmonoret__cte40_qBCMonoRet
+msgid "qBCMonoRet"
 msgstr ""
 
 #. module: l10n_br_cte_spec
@@ -6853,6 +8402,23 @@ msgstr ""
 #. module: l10n_br_cte_spec
 #: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tgtve_ide__cte40_tomaTerceiro
 msgid "tomaTerceiro"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timpos_icms20__cte40_CST__20
+msgid "tributação com BC reduzida do ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields.selection,name:l10n_br_cte_spec.selection__cte_40_timpos_icms00__cte40_CST__00
+msgid "tributação normal ICMS"
+msgstr ""
+
+#. module: l10n_br_cte_spec
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcte_icmsuffim__cte40_vICMSUFIni
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tcteos_icmsuffim__cte40_vICMSUFIni
+#: model:ir.model.fields,field_description:l10n_br_cte_spec.field_cte_40_tctesimp_icmsuffim__cte40_vICMSUFIni
+msgid "vICMSUFIni"
 msgstr ""
 
 #. module: l10n_br_cte_spec
