@@ -23,7 +23,7 @@ SPED_ENCODING = "iso-8859-1"
 LAYOUT_VERSIONS = {
     "ecd": "9",
     "ecf": "9",
-    "efd_icms_ipi": "19",
+    "efd_icms_ipi": "20",
     "efd_pis_cofins": "6",
     "fake": "9",  # tests; similar to ecd
 }
