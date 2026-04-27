@@ -467,38 +467,38 @@ class Registro0220(models.Model):
 
     @api.model
     def _odoo_query(self, parent_record, declaration):
-        return {
-            """
-                select distinct
-                    uom.code as unid_conv
-                    ,uom.factor as fat_conv
-                from
-                    l10n_br_fiscal_document as fd,
-                    l10n_br_fiscal_document_line as fdl,
-                    uom_uom as uom
-                where
-                    fd.id = fdl.document_id
-                    and uom.id = fdl.uot_id
-                    and document_date between %s and %s
-                    and (document_type in ('01', '1B', '04', '55', '65'))
-                    and (state_edoc = 'autorizada')
-                    and uom.id <> fdl.uot_id
-                order by 1
-            """,
+        # We query the DB to find if this product was sold/bought in a UoM
+        # different from its Inventory UoM during the period.
+        query = """
+            SELECT DISTINCT uom.name AS unid_conv, uom.id as uom_id
+            FROM l10n_br_fiscal_document_line fdl
+            JOIN l10n_br_fiscal_document fd ON fd.id = fdl.document_id
+            JOIN uom_uom uom ON uom.id = fdl.uom_id
+            WHERE fdl.product_id = %s
+              AND fdl.uom_id != %s
+              AND fd.document_date >= %s
+              AND fd.document_date <= %s
+              AND fd.state_edoc IN ('autorizada', 'enviada')
+        """
+        return query, [
+            parent_record.id,
+            parent_record.uom_id.id,
             declaration.DT_INI,
             declaration.DT_FIN,
-        }
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        commercial_uom = self.env["uom.uom"].browse(record["uom_id"])
+        inventory_uom = parent_record.uom_id
+
+        # Odoo's native UoM conversion ratio math
+        factor = commercial_uom._compute_quantity(1.0, inventory_uom)
+
         return {
-            "UNID_CONV": record.get(
-                "unid_conv"
-            ),  # Unidade comercial a ser convertida na unidade de e...
-            "FAT_CONV": record.get(
-                "fat_conv"
-            ),  # Fator de conversão: fator utilizado para converter ...
-            "COD_BARRA": 0,  # Representação alfanumérica do código de barra da u...
+            "UNID_CONV": record.get("unid_conv") or "",
+            "FAT_CONV": factor,
+            "COD_BARRA": "",
         }
 
 
