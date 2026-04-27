@@ -1021,13 +1021,19 @@ class RegistroC110(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c110"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c110"
+    _odoo_model = "l10n_br_fiscal.document.related"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
-    #         "TXT_COMPL": 0,  # Descrição complementar do código de referência
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # Generate a C110 block for each related document found in C100
+        return [("document_id", "=", parent_record.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "COD_INF": "",
+            "TXT_COMPL": "Documento Referenciado",
+        }
 
 
 class RegistroC111(models.Model):
