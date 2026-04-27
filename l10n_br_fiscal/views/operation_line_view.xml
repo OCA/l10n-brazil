@@ -48,6 +48,7 @@
                             <field name="product_type" />
                             <field name="tax_icms_or_issqn" />
                             <field name="icms_origin" />
+                            <field name="requires_st" />
                         </group>
                     </group>
                     <notebook>

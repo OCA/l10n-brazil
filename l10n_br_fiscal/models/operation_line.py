@@ -112,6 +112,17 @@ class OperationLine(models.Model):
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)
 
+    requires_st = fields.Boolean(
+        string="Requires ICMS-ST",
+        help=(
+            "When enabled, this operation line is selected automatically only "
+            "for products subject to ICMS Substituição Tributária (products "
+            "with a CEST configured). Useful to differentiate fiscal lines "
+            "such as 'Revenda' from 'Revenda com ST' without manual "
+            "intervention on the document."
+        ),
+    )
+
     icms_origin = fields.Selection(selection=ICMS_ORIGIN, string="Origin")
 
     tax_definition_ids = fields.One2many(

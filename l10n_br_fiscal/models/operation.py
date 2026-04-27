@@ -275,7 +275,13 @@ class Operation(models.Model):
             ("icms_origin", "=", False),
         ]
 
+        if not self._product_requires_st(product):
+            domain += [("requires_st", "=", False)]
+
         return domain
+
+    def _product_requires_st(self, product):
+        return bool(product and product.cest_id)
 
     def line_definition(self, company, partner, product):
         self.ensure_one()
@@ -298,6 +304,7 @@ class Operation(models.Model):
                 "product_type",
                 "tax_icms_or_issqn",
                 "icms_origin",
+                "requires_st",
             ]
             return sum(1 for field in fields if getattr(line, field))
 
