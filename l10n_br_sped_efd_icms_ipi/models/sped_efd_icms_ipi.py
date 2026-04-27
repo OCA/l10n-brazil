@@ -885,11 +885,12 @@ class RegistroC100(models.Model):
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c100"
     _odoo_model = "l10n_br_fiscal.document"
 
-    # @api.model
-    # def _odoo_domain(self, parent_record, declaration):
-    #     return [
-    #         ("id", "in", declaration.c100_fiscal_document_ids.ids),
-    #     ]
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("id", "in", declaration.fiscal_document_ids.ids),
+            ("document_type_id.code", "in", ("01", "1B", "04", "55", "65")),
+        ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2676,35 +2677,46 @@ class RegistroD100(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d100"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.d100"
+    _odoo_model = "l10n_br_fiscal.document"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0- Aquisição 1- Pres...
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0- Emiss...
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a t...
-    #         "SER": 0,  # Série do documento fiscal
-    #         "SUB": 0,  # Subsérie do documento fiscal
-    #         "NUM_DOC": 0,  # Número do documento fiscal
-    #         "CHV_CTE": 0,  # Chave do Conhecimento de Transporte Eletrônico ou do...
-    #         "DT_DOC": 0,  # Data da emissão do documento fiscal
-    #         "DT_A_P": 0,  # Data da aquisição ou da prestação do serviço
-    #         "TP_CT_E": 0,  # Tipo de Conhecimento de Transporte Eletrônico confor...
-    #         "CHV_CTE_REF": 0,  # Chave do Documento Eletrônico Substituído
-    #         "VL_DOC": 0,  # Valor total do documento fiscal
-    #         "VL_DESC": 0,  # Valor total do desconto
-    #         "IND_FRT": 0,  # Indicador do tipo do frete: 0- Por conta do emitente...
-    #         "VL_SERV": 0,  # Valor total da prestação de serviço
-    #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
-    #         "VL_ICMS": 0,  # Valor do ICMS
-    #         "VL_NT": 0,  # Valor não-tributado
-    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
-    #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
-    #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("id", "in", declaration.fiscal_document_ids.ids),
+            (
+                "document_type_id.code",
+                "in",
+                ("07", "08", "8B", "09", "10", "11", "26", "27", "57"),
+            ),
+        ]
+
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "IND_OPER": "0" if record.fiscal_operation_type == FISCAL_IN else "1",
+            "IND_EMIT": "0" if record.issuer == DOCUMENT_ISSUER_COMPANY else "1",
+            "COD_PART": misc.punctuation_rm(record.partner_id.cnpj_cpf),
+            "COD_MOD": record.document_type_id.code or "",
+            "COD_SIT": record.state_fiscal,
+            "SER": record.document_serie or "",
+            "SUB": "",
+            "NUM_DOC": record.document_number or "",
+            "CHV_CTE": record.document_key or "",
+            "DT_DOC": record.document_date,
+            "DT_A_P": record.document_date,
+            "TP_CT_E": "",
+            "CHV_CTE_REF": "",
+            "VL_DOC": record.fiscal_amount_total or 0,
+            "VL_DESC": record.amount_discount_value or 0,
+            "IND_FRT": "0",
+            "VL_SERV": record.fiscal_amount_total or 0,
+            "VL_BC_ICMS": record.amount_icms_base or 0,
+            "VL_ICMS": record.amount_icms_value or 0,
+            "VL_NT": 0,
+            "COD_INF": "",
+            "COD_CTA": "",
+            "COD_MUN_ORIG": record.partner_id.city_id.ibge_code or "",
+            "COD_MUN_DEST": record.company_id.city_id.ibge_code or "",
+        }
 
 
 class RegistroD110(models.Model):
