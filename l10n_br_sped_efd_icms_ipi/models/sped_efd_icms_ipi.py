@@ -1295,16 +1295,19 @@ class RegistroC170(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # Format the 3-digit CST (Origin + CST code)
+        cst_icms = f"{record.icms_origin or '0'}{record.icms_cst_code or '00'}"
+
         return {
             "NUM_ITEM": index + 1,
             "COD_ITEM": record.nfe40_cProd if hasattr(record, "nfe40_pag") else "",
             "DESCR_COMPL": record.name,
             "QTD": record.fiscal_quantity,
             "UNID": record.nfe40_uCom if hasattr(record, "nfe40_uCom") else "",
-            "VL_ITEM": record.fiscal_price * record.fiscal_quantity,
+            "VL_ITEM": record.price_gross or 0.0,
             "VL_DESC": record.discount_value,
             "IND_MOV": "0" if record.cfop_id.stock_move else "1",
-            "CST_ICMS": "",
+            "CST_ICMS": cst_icms,
             "CFOP": str(record.cfop_id.code),
             "COD_NAT": str(record.fiscal_operation_id.code),
             "VL_BC_ICMS": record.icms_base,
