@@ -1077,20 +1077,30 @@ class RegistroC113(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c113"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c113"
+    _odoo_model = "l10n_br_fiscal.document.related"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0- Entrada/aquisição...
-    #         "IND_EMIT": 0,  # Indicador do emitente do título: 0- Emissão própria...
-    #         "COD_PART": 0,  # Código do participante emitente (campo 02 do Regist...
-    #         "COD_MOD": 0,  # Código do documento fiscal, conforme a tabela 4.1.1
-    #         "SER": 0,  # Série do documento fiscal
-    #         "SUB": 0,  # Subsérie do documento fiscal
-    #         "NUM_DOC": 0,  # Número do documento fiscal
-    #         "DT_DOC": 0,  # Data da emissão do documento fiscal
-    #         "CHV_DOCE": 0,  # Chave do Documento Eletrônico
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # parent_record here is from C110 (which is the exact document.related record)
+        return [("id", "=", parent_record.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # Origin doc properties
+        ind_oper = "0" if record.document_id.fiscal_operation_type == "in" else "1"
+        ind_emit = "0" if record.document_id.issuer == "company" else "1"
+
+        return {
+            "IND_OPER": ind_oper,
+            "IND_EMIT": ind_emit,
+            "COD_PART": misc.punctuation_rm(record.cnpj_cpf) if record.cnpj_cpf else "",
+            "COD_MOD": record.document_type_code or "",
+            "SER": record.document_serie or "",
+            "SUB": "",
+            "NUM_DOC": record.document_number or "",
+            "DT_DOC": record.document_date,
+            "CHV_DOCE": record.document_key or "",
+        }
 
 
 class RegistroC114(models.Model):
