@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -31,13 +31,6 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_stock
-#. odoo-python
-#: code:addons/l10n_br_stock/hooks.py:0
-#, python-format
-msgid "Loading l10n_br_stock warehouse external ids..."
-msgstr ""
-
-#. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_pack_type_internal
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_pack_type_internal
 msgid "Pack"
@@ -53,6 +46,11 @@ msgstr ""
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_in
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_in
 msgid "Receipts"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,help:l10n_br_stock.field_stock_picking__l10n_br_ie_code
+msgid "State Tax Identification Number. Should contain 9-14 digits."
 msgstr ""
 
 #. module: l10n_br_stock
