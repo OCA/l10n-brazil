@@ -1627,21 +1627,43 @@ class RegistroC190(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.c190"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c190"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação do agrupamento de...
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # Valor da operação na combinação de CST_ICMS, CFOP e a...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS", incluindo...
-    #         "VL_BC_ICMS_ST": 0,  # Parcela correspondente ao "Valor da base de cá...
-    #         "VL_ICMS_ST": 0,  # Parcela correspondente ao valor creditado/debitad...
-    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
-    #         "VL_IPI": 0,  # Parcela correspondente ao "Valor do IPI" referente à ...
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #     }
+    @api.model
+    def _odoo_query(self, parent_record, declaration):
+        # SPED requires grouping by CST, CFOP, and ICMS Aliquot
+        query = """
+            SELECT
+                cst.code AS cst_icms,
+                cfop.code AS cfop,
+                fdl.icms_percent AS aliq_icms,
+                SUM(fdl.price_gross) AS vl_opr,
+                SUM(fdl.icms_base) AS vl_bc_icms,
+                SUM(fdl.icms_value) AS vl_icms,
+                SUM(fdl.icmsst_base) AS vl_bc_icms_st,
+                SUM(fdl.icmsst_value) AS vl_icms_st,
+                SUM(fdl.ipi_value) AS vl_ipi
+            FROM l10n_br_fiscal_document_line fdl
+            LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
+            LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
+            WHERE fdl.document_id = %s
+            GROUP BY cst.code, cfop.code, fdl.icms_percent
+        """
+        return query, [parent_record.id]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "CST_ICMS": record.get("cst_icms") or "",
+            "CFOP": record.get("cfop") or "",
+            "ALIQ_ICMS": record.get("aliq_icms") or 0.0,
+            "VL_OPR": record.get("vl_opr") or 0.0,
+            "VL_BC_ICMS": record.get("vl_bc_icms") or 0.0,
+            "VL_ICMS": record.get("vl_icms") or 0.0,
+            "VL_BC_ICMS_ST": record.get("vl_bc_icms_st") or 0.0,
+            "VL_ICMS_ST": record.get("vl_icms_st") or 0.0,
+            "VL_RED_BC": 0.0,  # Can also be aggregated in SQL if needed
+            "VL_IPI": record.get("vl_ipi") or 0.0,
+            "COD_OBS": "",
+        }
 
 
 class RegistroC191(models.Model):
