@@ -379,10 +379,20 @@ class Registro0200(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # TODO: Buscar tax definition do Produto e preencher o campo ALIQ_ICMS
-        fiscal_document_line = declaration.fiscal_document_line_ids.filtered(
-            lambda x: x.product_id.id == record.id
+        # Get only the lines for this product from INTERNAL operations (CFOP Destination == '1')
+        internal_lines = declaration.fiscal_document_line_ids.filtered(
+            lambda x: x.product_id.id == record.id and x.cfop_destination == "1"
         )
+
+        aliq_icms = 0.0
+        if internal_lines:
+            # We take the first internal line found to get the standard internal state rate
+            first_line = internal_lines[0]
+            # SPED requires ICMS Aliquot + FCP Aliquot
+            aliq_icms = (first_line.icms_percent or 0.0) + (
+                first_line.icmsfcp_percent or 0.0
+            )
+
         return {
             "COD_ITEM": record.default_code or record.id,
             "DESCR_ITEM": record.name,
@@ -394,7 +404,7 @@ class Registro0200(models.Model):
             "EX_IPI": record.ncm_id.exception,
             "COD_GEN": record.fiscal_genre_id.code,
             "COD_LST": record.service_type_id.code,
-            "ALIQ_ICMS": fiscal_document_line.icms_percent,  # Alíquota de ICMS aplicável ao item nas operações i...
+            "ALIQ_ICMS": aliq_icms,
             "CEST": record.cest_id.code,
         }
 
