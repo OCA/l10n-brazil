@@ -195,7 +195,27 @@ class SaleOrderLine(models.Model):
         result = {}
         if not self.display_type and self.fiscal_operation_id:
             result = self._prepare_br_fiscal_dict()
-            result.pop("fiscal_quantity", None)
+            # Drop stored compute fields populated by _compute_tax_fields so
+            # the ORM recomputes them with the actual invoiced quantity rather
+            # than reusing values frozen on the SO line. Passing an explicit
+            # value for a `compute=..., store=True, readonly=False` field at
+            # create() makes the ORM accept the value and skip the compute,
+            # even when its `depends` (e.g. `quantity`) would otherwise trigger
+            # it. fiscal_quantity / fiscal_price are co-computed and follow the
+            # same rule.
+            fdl = self.env["l10n_br_fiscal.document.line"]
+            for fname, field in fdl._fields.items():
+                if not field.store or not field.compute:
+                    continue
+                compute = field.compute
+                name = compute if isinstance(compute, str) else compute.__name__
+                if name in (
+                    "_compute_tax_fields",
+                    "_compute_fiscal_quantity",
+                    "_compute_fiscal_price",
+                    "_compute_uot_id",
+                ):
+                    result.pop(fname, None)
         result.update(super()._prepare_invoice_line(**optional_values))
         return result
 
