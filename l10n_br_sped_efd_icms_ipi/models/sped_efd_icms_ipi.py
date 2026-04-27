@@ -176,7 +176,8 @@ class Registro0000(models.Model):
             "IE": misc.punctuation_rm(record.inscr_est),
             "COD_MUN": misc.punctuation_rm(record.city_id.ibge_code),
             "IM": misc.punctuation_rm(record.inscr_mun or ""),
-            "SUFRAMA": record.suframa or "",  # Inscrição da entidade na SUFRAMA
+            "SUFRAMA": record.l10n_br_isuf_code
+            or "",  # Inscrição da entidade na SUFRAMA
             "IND_PERFIL": "A",  # Perfil de apresentação do arquivo fiscal; A – Per...
             # "IND_ATIV": (will use declaration field directly),
         }
@@ -302,7 +303,7 @@ class Registro0150(models.Model):
             "NOME": record.legal_name or record.name,
             "COD_PAIS": record.country_id.bc_code,
             "IE": misc.punctuation_rm(record.inscr_est),
-            "SUFRAMA": record.suframa or "",
+            "SUFRAMA": record.l10n_br_isuf_code or "",
             "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
