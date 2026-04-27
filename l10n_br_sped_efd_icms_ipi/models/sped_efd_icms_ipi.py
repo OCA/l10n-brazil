@@ -980,13 +980,23 @@ class RegistroC101(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.c101"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c101"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "VL_FCP_UF_DEST": 0,  # Valor total relativo ao Fundo de Combate à Po...
-    #         "VL_ICMS_UF_DEST": 0,  # Valor total do ICMS Interestadual para a UF ...
-    #         "VL_ICMS_UF_REM": 0,  # Valor total do ICMS Interestadual para a UF d...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # Only output C101 if there is actually DIFAL or FCP
+        return [
+            ("id", "=", parent_record.id),
+            "|",
+            ("amount_icms_destination_value", ">", 0),
+            ("amount_icmsfcp_value", ">", 0),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "VL_FCP_UF_DEST": record.amount_icmsfcp_value or 0.0,
+            "VL_ICMS_UF_DEST": record.amount_icms_destination_value or 0.0,
+            "VL_ICMS_UF_REM": record.amount_icms_origin_value or 0.0,
+        }
 
 
 class RegistroC105(models.Model):
