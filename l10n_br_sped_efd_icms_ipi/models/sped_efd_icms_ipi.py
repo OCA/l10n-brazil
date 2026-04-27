@@ -3010,18 +3010,37 @@ class RegistroD190(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.d190"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.d190"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
-    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #     }
+    @api.model
+    def _odoo_query(self, parent_record, declaration):
+        # SPED requires grouping by CST, CFOP, and ICMS Aliquot for the analytical register
+        query = """
+            SELECT
+                cst.code AS cst_icms,
+                cfop.code AS cfop,
+                fdl.icms_percent AS aliq_icms,
+                SUM(fdl.price_gross) AS vl_opr,
+                SUM(fdl.icms_base) AS vl_bc_icms,
+                SUM(fdl.icms_value) AS vl_icms
+            FROM l10n_br_fiscal_document_line fdl
+            LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
+            LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
+            WHERE fdl.document_id = %s
+            GROUP BY cst.code, cfop.code, fdl.icms_percent
+        """
+        return query, [parent_record.id]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "CST_ICMS": record.get("cst_icms") or "",
+            "CFOP": record.get("cfop") or "",
+            "ALIQ_ICMS": record.get("aliq_icms") or 0.0,
+            "VL_OPR": record.get("vl_opr") or 0.0,
+            "VL_BC_ICMS": record.get("vl_bc_icms") or 0.0,
+            "VL_ICMS": record.get("vl_icms") or 0.0,
+            "VL_RED_BC": 0.0,  # Un-taxed value due to base reduction (can be aggregated in SQL if needed)
+            "COD_OBS": "",
+        }
 
 
 class RegistroD195(models.Model):
