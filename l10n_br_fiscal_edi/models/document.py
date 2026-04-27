@@ -180,7 +180,7 @@ class Document(models.Model):
         return self._action_document_back2draft()
 
     def action_document_cancel(self):
-        super().action_document_confirm()
+        super().action_document_cancel()
         return self._action_document_cancel()
 
     def action_document_invalidate(self):
