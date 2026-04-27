@@ -193,10 +193,21 @@ class SaleOrderLine(models.Model):
     def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
         result = {}
+        super_result = super()._prepare_invoice_line(**optional_values)
         if not self.display_type and self.fiscal_operation_id:
             result = self._prepare_br_fiscal_dict()
-            result.pop("fiscal_quantity", None)
-        result.update(super()._prepare_invoice_line(**optional_values))
+            invoice_qty = super_result["quantity"]
+            if invoice_qty != result["quantity"]:
+                # Tax fields must be recomputed for the invoiced quantity.
+                virtual = self.env["l10n_br_fiscal.document.line"].new(result)
+                virtual.quantity = invoice_qty
+                result = {
+                    fname: virtual._fields[fname].convert_to_write(
+                        virtual[fname], virtual
+                    )
+                    for fname in result
+                }
+        result.update(super_result)
         return result
 
     @api.depends(
