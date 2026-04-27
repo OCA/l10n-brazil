@@ -130,6 +130,27 @@ msgid "Aeródromo de Embarque"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_pCBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_pCBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_pCBS
+msgid "Aliquota CBS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_pIBSMun
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_pIBSMun
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_pIBSMun
+msgid "Aliquota IBS Municipal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_pIBSUF
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_pIBSUF
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_pIBSUF
+msgid "Aliquota IBS UF"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nfe40_pST
 msgid "Aliquota suportada pelo consumidor final"
 msgstr ""
@@ -4023,6 +4044,22 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_ICMSUFFim
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_ICMSUFFim
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_ICMSUFFim
+msgid "Informações do ICMS de partilha com a UF"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__cte40_ICMSUFFim
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__cte40_ICMSUFFim
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__cte40_ICMSUFFim
+msgid ""
+"Informações do ICMS de partilha com a UF de término do serviço de transporte na operação interestadual\n"
+"Grupo a ser informado nas prestações interestaduais para consumidor final, não contribuinte do ICMS"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_infPercurso
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_infPercurso
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_infPercurso
@@ -6720,8 +6757,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_vBCIBSCBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vBCIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_vBCIBSCBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vBCIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_vBCIBSCBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vBCIBSCBS
 msgid "Total Base de Calculo IBS/CBS"
 msgstr ""
@@ -7489,8 +7529,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_vCBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vCBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_vCBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vCBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_vCBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vCBS
 msgid "Valor total da CBS"
 msgstr ""
@@ -7542,22 +7585,31 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_vIBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vIBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_vIBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vIBS
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_vIBS
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vIBS
 msgid "Valor total do IBS"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_vIBSUF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vIBSUF
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_vIBSUF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vIBSUF
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_vIBSUF
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vIBSUF
 msgid "Valor total do IBS Estadual"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_vIBSMun
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__nfe40_vIBSMun
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_vIBSMun
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__nfe40_vIBSMun
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_vIBSMun
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__nfe40_vIBSMun
 msgid "Valor total do IBS Municipal"
 msgstr ""

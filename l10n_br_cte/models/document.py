@@ -16,6 +16,8 @@ from erpbrasil.base.fiscal.edoc import ChaveEdoc
 # TODO: precisa tratar
 from lxml import etree
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Cte
+from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs as CTeTcibs
+from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import TtribCte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
 
 # TODO: precisa tratar nfelib
@@ -741,6 +743,113 @@ class CTe(spec_models.StackedModel):
             }
             export_dict[icms_tag.upper()] = icms_binding(**sliced_icms_dict)
 
+    cte40_vBCIBSCBS = fields.Monetary(
+        string="Total Base de Calculo IBS/CBS",
+        compute="_compute_cte40_ibscbs_fields",
+    )
+    cte40_vIBS = fields.Monetary(
+        string="Valor total do IBS",
+        compute="_compute_cte40_ibscbs_fields",
+    )
+    cte40_vIBSUF = fields.Monetary(
+        string="Valor total do IBS Estadual",
+        compute="_compute_cte40_ibscbs_fields",
+    )
+    cte40_vIBSMun = fields.Monetary(
+        string="Valor total do IBS Municipal",
+        compute="_compute_cte40_ibscbs_fields",
+    )
+    cte40_vCBS = fields.Monetary(
+        string="Valor total da CBS",
+        compute="_compute_cte40_ibscbs_fields",
+    )
+    cte40_pIBSUF = fields.Float(
+        string="Aliquota IBS UF",
+        digits=(3, 2),
+        compute="_compute_cte40_ibscbs_fields",
+    )
+    cte40_pIBSMun = fields.Float(
+        string="Aliquota IBS Municipal",
+        digits=(3, 2),
+        compute="_compute_cte40_ibscbs_fields",
+    )
+    cte40_pCBS = fields.Float(
+        string="Aliquota CBS",
+        digits=(3, 2),
+        compute="_compute_cte40_ibscbs_fields",
+    )
+    cte40_vTotDFe = fields.Monetary(
+        string="Valor total do documento fiscal",
+        compute="_compute_cte40_ibscbs_fields",
+        currency_field="brl_currency_id",
+    )
+
+    @api.depends(
+        "fiscal_amount_total",
+        "fiscal_line_ids.ibs_base",
+        "fiscal_line_ids.cbs_base",
+        "fiscal_line_ids.price_gross",
+        "fiscal_line_ids.ibs_value",
+        "fiscal_line_ids.cbs_value",
+        "fiscal_line_ids.ibs_percent",
+        "fiscal_line_ids.cbs_percent",
+    )
+    def _compute_cte40_ibscbs_fields(self):
+        """Compute CT-e IBS/CBS totals from fiscal lines."""
+        for record in self:
+            lines = record.fiscal_line_ids
+            if not lines:
+                record.cte40_vBCIBSCBS = 0.0
+                record.cte40_vIBS = 0.0
+                record.cte40_vIBSUF = 0.0
+                record.cte40_vIBSMun = 0.0
+                record.cte40_vCBS = 0.0
+                record.cte40_pIBSUF = 0.0
+                record.cte40_pIBSMun = 0.0
+                record.cte40_pCBS = 0.0
+                record.cte40_vTotDFe = 0.0
+                continue
+
+            first = lines[0]
+            total_ibs = sum(lines.mapped("ibs_value"))
+            total_cbs = sum(lines.mapped("cbs_value"))
+            v_bc = sum(
+                (line.ibs_base or line.cbs_base or line.price_gross or 0.0)
+                for line in lines
+            )
+            p_ibs_uf = first.ibs_percent or 0.0
+            p_ibs_mun = 0.0
+            p_cbs = first.cbs_percent or 0.0
+
+            v_ibs_uf = total_ibs or (
+                v_bc * p_ibs_uf / 100 if p_ibs_uf and v_bc else 0.0
+            )
+            v_ibs_mun = 0.0
+            v_cbs = total_cbs or (v_bc * p_cbs / 100 if p_cbs and v_bc else 0.0)
+
+            record.cte40_vBCIBSCBS = v_bc
+            record.cte40_vIBSUF = v_ibs_uf
+            record.cte40_vIBSMun = v_ibs_mun
+            record.cte40_vIBS = v_ibs_uf + v_ibs_mun
+            record.cte40_vCBS = v_cbs
+            record.cte40_pIBSUF = p_ibs_uf
+            record.cte40_pIBSMun = p_ibs_mun
+            record.cte40_pCBS = p_cbs
+
+            year = datetime.now().year
+            if record.cte40_vIBS or record.cte40_vCBS:
+                if year <= 2026:
+                    # Exceção: em 2026 não soma IBS e CBS
+                    record.cte40_vTotDFe = record.fiscal_amount_total or 0.0
+                else:
+                    record.cte40_vTotDFe = (
+                        (record.fiscal_amount_total or 0.0)
+                        + record.cte40_vIBS
+                        + record.cte40_vCBS
+                    )
+            else:
+                record.cte40_vTotDFe = 0.0
+
     # ##########################
     # # CT-e tag: ICMSUFFim
     # ##########################
@@ -1222,6 +1331,45 @@ class CTe(spec_models.StackedModel):
             return False
         elif xsd_field == "cte40_toma3" and self.cte40_choice_toma == "cte40_toma4":
             return False
+        if xsd_field == "cte40_IBSCBS":
+            if not (self.cte40_vIBS or self.cte40_vCBS):
+                return False
+            lines = self.fiscal_line_ids
+            first = lines[0]
+            c_class_trib = (
+                first.tax_classification_id.code.zfill(6)
+                if first.tax_classification_id and first.tax_classification_id.code
+                else "000001"
+            )
+            cst = (
+                first.ibs_cst_id.code
+                if first.ibs_cst_id and first.ibs_cst_id.code
+                else (
+                    first.cbs_cst_id.code
+                    if first.cbs_cst_id and first.cbs_cst_id.code
+                    else "000"
+                )
+            )
+            return TtribCte(
+                CST=cst,
+                cClassTrib=c_class_trib,
+                gIBSCBS=CTeTcibs(
+                    vBC=f"{self.cte40_vBCIBSCBS:.2f}",
+                    gIBSUF=CTeTcibs.GIbsuf(
+                        pIBSUF=f"{self.cte40_pIBSUF:.4f}",
+                        vIBSUF=f"{self.cte40_vIBSUF:.2f}",
+                    ),
+                    gIBSMun=CTeTcibs.GIbsmun(
+                        pIBSMun=f"{self.cte40_pIBSMun:.4f}",
+                        vIBSMun=f"{self.cte40_vIBSMun:.2f}",
+                    ),
+                    vIBS=f"{self.cte40_vIBS:.2f}",
+                    gCBS=CTeTcibs.GCbs(
+                        pCBS=f"{self.cte40_pCBS:.4f}",
+                        vCBS=f"{self.cte40_vCBS:.2f}",
+                    ),
+                ),
+            )
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
@@ -1234,6 +1382,10 @@ class CTe(spec_models.StackedModel):
             if field_name == "cte40_ISSQNtot" and not any(
                 t == "issqn"
                 for t in self.cte40_det.mapped("product_id.tax_icms_or_issqn")
+            ):
+                return False
+            if field_name == "cte40_IBSCBS" and not (
+                self.cte40_vIBS or self.cte40_vCBS
             ):
                 return False
 
