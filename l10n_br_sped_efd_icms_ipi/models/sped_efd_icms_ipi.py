@@ -950,7 +950,7 @@ class RegistroC100(models.Model):
             "CHV_NFE": record.document_key,
             "DT_DOC": record.document_date,
             "DT_E_S": record.date_in_out,
-            "VL_DOC": record.amount_total,
+            "VL_DOC": record.fiscal_amount_total,
             "IND_PGTO": ind_pgto,
             "VL_DESC": record.amount_discount_value,
             "VL_ABAT_NT": record.amount_financial_discount_value,
