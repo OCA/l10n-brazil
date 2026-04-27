@@ -4,6 +4,7 @@
 # ruff: noqa: E501
 
 import textwrap
+from datetime import datetime, time
 
 from erpbrasil.base import misc
 from lxml.builder import E
@@ -4412,12 +4413,12 @@ class RegistroK100(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.k100"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k100"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_INI": 0,  # Data inicial a que a apuração se refere
-    #         "DT_FIN": 0,  # Data final a que a apuração se refere
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "DT_INI": declaration.DT_INI,
+            "DT_FIN": declaration.DT_FIN,
+        }
 
 
 class RegistroK200(models.Model):
@@ -4426,16 +4427,40 @@ class RegistroK200(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k200"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k200"
+    _odoo_model = "product.product"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_EST": 0,  # Data do estoque final
-    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
-    #         "QTD": 0,  # Quantidade em estoque
-    #         "IND_EST": 0,  # Indicador do tipo de estoque: 0 = Estoque de proprie...
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):
-    #     }
+    @api.model
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        # Injecting the to_date context for Odoo 16 historical stock computation
+        declaration = self._context.get("declaration")
+        if declaration and declaration.DT_FIN:
+            dt_fin_end = datetime.combine(declaration.DT_FIN, time(23, 59, 59))
+            # Using only to_date (and implicitly the current company)
+            self = self.with_context(to_date=fields.Datetime.to_string(dt_fin_end))
+
+        return super()._pull_records_from_odoo(
+            kind, level, parent_register, parent_record, log_msg
+        )
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("type", "=", "product"),
+            ("ncm_id", "!=", False),
+            ("qty_available", ">", 0.0),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "DT_EST": declaration.DT_FIN,
+            "COD_ITEM": record.default_code or str(record.id),
+            "QTD": record.qty_available,
+            "IND_EST": "0",  # 0 = Estoque de propriedade do informante e em seu poder
+            "COD_PART": "",
+        }
 
 
 class RegistroK210(models.Model):
