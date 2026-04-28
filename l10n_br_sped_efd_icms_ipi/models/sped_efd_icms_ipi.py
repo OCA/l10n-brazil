@@ -119,6 +119,16 @@ class Registro0000(models.Model):
         default="0",
     )
 
+    ind_tp_leiaute = fields.Selection(
+        [
+            ("0", "Leiaute Simplificado"),
+            ("1", "Leiaute Completo (K200, K230, etc.)"),
+            ("2", "Leiaute Restrito aos Saldos de Estoque (K200)"),
+        ],
+        string="Tipo de Leiaute (Bloco K)",
+        default="2",  # Defaulting to 2 is the safest for most standard companies
+    )
+
     IND_ATIV = fields.Selection(
         [
             ("0", "Industrial ou equiparado a industrial"),
@@ -156,6 +166,9 @@ class Registro0000(models.Model):
         group.append(E.field(name="ind_apur", required="1", attrs=EDITABLE_ON_DRAFT))
         group.append(
             E.field(name="CLAS_ESTAB_IND", required="1", attrs=EDITABLE_ON_DRAFT)
+        )
+        group.append(
+            E.field(name="ind_tp_leiaute", required="1", attrs=EDITABLE_ON_DRAFT)
         )
         return res
 
@@ -4429,11 +4442,11 @@ class RegistroK010(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.k010"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k010"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_TP_LEIAUTE": 0,  # Indicador de tipo de leiaute adotado: 0- Leia...
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "IND_TP_LEIAUTE": declaration.ind_tp_leiaute or "2",
+        }
 
 
 class RegistroK100(models.Model):
