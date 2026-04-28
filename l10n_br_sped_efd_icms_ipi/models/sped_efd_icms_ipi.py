@@ -4345,21 +4345,48 @@ class RegistroH010(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h010"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.h010"
+    _odoo_model = "product.product"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
-    #         "UNID": 0,  # Unidade do item
-    #         "QTD": 0,  # Quantidade do item
-    #         "VL_UNIT": 0,  # Valor unitário do item
-    #         "VL_ITEM": 0,  # Valor do item
-    #         "IND_PROP": 0,  # Indicador de propriedade/posse do item: 0- Item de ...
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "TXT_COMPL": 0,  # Descrição complementar
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
-    #         "VL_ITEM_IR": 0,  # Valor do item pare efeitos do Imposto de Renda
-    #     }
+    @api.model
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        # Injecting the historical date into the context, just like for K200
+        declaration = self._context.get("declaration")
+        if declaration and declaration.DT_FIN:
+            dt_fin_end = datetime.combine(declaration.DT_FIN, time(23, 59, 59))
+            self = self.with_context(to_date=fields.Datetime.to_string(dt_fin_end))
+
+        return super()._pull_records_from_odoo(
+            kind, level, parent_register, parent_record, log_msg
+        )
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("type", "=", "product"), ("qty_available", ">", 0.0)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # Quantity is perfectly accurate due to the `to_date` context
+        qty = record.qty_available or 0.0
+
+        # CAVEAT: record.standard_price returns the CURRENT cost, not the historical cost.
+        # FIXME we might need to use stock.valuation.layer here instead...
+        vl_unit = record.standard_price or 0.0
+        vl_item = qty * vl_unit
+
+        return {
+            "COD_ITEM": record.default_code or str(record.id),
+            "UNID": record.uom_id.name or "",
+            "QTD": qty,
+            "VL_UNIT": vl_unit,
+            "VL_ITEM": vl_item,
+            "IND_PROP": "0",  # 0 = Property of the informant and in their possession
+            "COD_PART": "",  # Blank because IND_PROP is 0
+            "TXT_COMPL": "",
+            "COD_CTA": "",  # Usually mapped by the accountant's software
+            "VL_ITEM_IR": vl_item,  # Usually equal to VL_ITEM
+        }
 
 
 class RegistroH020(models.Model):
