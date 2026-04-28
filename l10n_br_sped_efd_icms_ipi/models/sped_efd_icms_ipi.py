@@ -4550,16 +4550,27 @@ class RegistroK230(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k230"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k230"
+    _odoo_model = "mrp.production"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_INI_OP": 0,  # Data de início da ordem de produção
-    #         "DT_FIN_OP": 0,  # Data de conclusão da ordem de produção
-    #         "COD_DOC_OP": 0,  # Código de identificação da ordem de produção
-    #         "COD_ITEM": 0,  # Código do item produzido (campo 02 do Registro 0200...
-    #         "QTD_ENC": 0,  # Quantidade de produção acabada
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # We fetch Manufacturing Orders (MOs) FINISHED within the SPED period.
+        # Ensure we only fetch MOs that actually produced something.
+        return [
+            ("state", "=", "done"),
+            ("date_finished", ">=", declaration.DT_INI),
+            ("date_finished", "<=", declaration.DT_FIN),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "DT_INI_OP": record.date_start or record.date_planned_start,
+            "DT_FIN_OP": record.date_finished,
+            "COD_DOC_OP": record.name,
+            "COD_ITEM": record.product_id.default_code or str(record.product_id.id),
+            "QTD_ENC": record.qty_producing,  # The actual finished quantity
+        }
 
 
 class RegistroK235(models.Model):
@@ -4568,15 +4579,30 @@ class RegistroK235(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k235"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.k235"
+    _odoo_model = "stock.move"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_SAIDA": 0,  # Data de saída do estoque para alocação ao produto
-    #         "COD_ITEM": 0,  # Código do item componente/insumo (campo 02 do Regis...
-    #         "QTD": 0,  # Quantidade consumida do item
-    #         "COD_INS_SUBST": 0,  # Código do insumo que foi substituído, caso oco...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        # parent_record is the `mrp.production` from K230.
+        # We look for all done stock moves that were raw materials for this MO.
+        # We only report storable products (type='product'), ignoring consumables/services.
+        return [
+            ("raw_material_production_id", "=", parent_record.id),
+            ("state", "=", "done"),
+            ("product_id.type", "=", "product"),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # If the move has an exact date, use it; otherwise fallback to the MO's finished date.
+        dt_saida = record.date or parent_record.date_finished
+
+        return {
+            "DT_SAIDA": dt_saida,
+            "COD_ITEM": record.product_id.default_code or str(record.product_id.id),
+            "QTD": record.quantity_done,  # The actual consumed quantity, NOT the BOM theoretical qty
+            "COD_INS_SUBST": "",  # Odoo doesn't natively tag substitute items explicitly without custom mods
+        }
 
 
 class RegistroK250(models.Model):
