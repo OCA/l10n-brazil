@@ -629,9 +629,12 @@ class SpedMixin(models.AbstractModel):
             ][0]
 
         if self._odoo_model and hasattr(self, "_odoo_domain"):
-            records = self.env[self._odoo_model].search(
-                self._odoo_domain(parent_record, declaration)
-            )
+            if self._odoo_model in self.env:
+                records = self.env[self._odoo_model].search(
+                    self._odoo_domain(parent_record, declaration)
+                )
+            else:  # mapping might be for a module that is uninstalled
+                records = []
 
         elif hasattr(self, "_odoo_query"):
             self._cr.execute(*self._odoo_query(parent_record, declaration))
