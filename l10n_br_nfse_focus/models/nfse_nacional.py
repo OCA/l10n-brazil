@@ -191,7 +191,9 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "codigo_municipio_prestacao": int(codigo_municipio_prestacao),
             "codigo_tributacao_nacional": codigo_tributacao_nacional,
             "codigo_tributacao_municipio": codigo_tributacao_municipio,
-            "codigo_nbs": service_info.get("codigo_nbs", ""),
+            "codigo_nbs": ""
+            if self.env.company.city_id.ibge_code == "3516200"
+            else service_info.get("codigo_nbs", ""),
             "descricao": service_info.get("discriminacao", ""),
             "valor": round(service_info.get("valor_servicos", 0), 2),
             "tributacao_iss": int(tributacao_iss),
@@ -361,6 +363,11 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
                 "percentual_total_tributos_municipais"
             ],
             "indicador_total_tributacao": 0,
+            "informacoes_complementares": (
+                rps_info.get("customer_additional_data", False)[:2000]
+                if rps_info.get("customer_additional_data")
+                else False
+            ),
             **tax_data,
         }
 
