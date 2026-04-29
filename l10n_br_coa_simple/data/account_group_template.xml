@@ -600,27 +600,6 @@
         <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
     </record>
 
-    <record id="account_group_template_3320301" model="account.group.template">
-        <field name="code_prefix_start">3.3.2.03.01</field>
-        <field name="name">Taxas e Tributos Municipais</field>
-        <field name="parent_id" ref="account_group_template_33203" />
-        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
-    </record>
-
-    <record id="account_group_template_3320302" model="account.group.template">
-        <field name="code_prefix_start">3.3.2.03.02</field>
-        <field name="name">PIS s/ Outras Receitas</field>
-        <field name="parent_id" ref="account_group_template_33203" />
-        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
-    </record>
-
-    <record id="account_group_template_3320303" model="account.group.template">
-        <field name="code_prefix_start">3.3.2.03.03</field>
-        <field name="name">COFINS s/ Outras Receitas</field>
-        <field name="parent_id" ref="account_group_template_33203" />
-        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
-    </record>
-
     <record id="account_group_template_339" model="account.group.template">
         <field name="code_prefix_start">3.3.9</field>
         <field name="name">Outros Resultados Operacionais</field>
