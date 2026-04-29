@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =============================
 Brazilian Localization Repair
 =============================
@@ -17,22 +13,25 @@ Brazilian Localization Repair
 .. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_repair
+    :target: https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_repair
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-14-0/l10n-brazil-14-0-l10n_br_repair
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_repair
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=14.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-This module extends the Odoo Repair module to adapt it to the Brazilian needs, with this module you have tax data for collection and generation of fiscal documents (NF-e, NFS-e, CF-e, NFC-e and others), calculation Brazilian taxes and contributions (municipal, state and federal).
+This module extends the Odoo Repair module to adapt it to the Brazilian
+needs, with this module you have tax data for collection and generation
+of fiscal documents (NF-e, NFS-e, CF-e, NFC-e and others), calculation
+Brazilian taxes and contributions (municipal, state and federal).
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -49,35 +48,40 @@ Installation
 
 This module depends on:
 
-* repair
-* l10n_br_stock_account
+- repair
+- l10n_br_stock_account
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-#. Go to Settings -> Users & Companies -> Companies
-#. Select or create a company and go to Taxes -> Repair
-#. Set the default Tax Operation for repairs.
+1. Go to Settings -> Users & Companies -> Companies
+2. Select or create a company and go to Taxes -> Repair
+3. Set the default Tax Operation for repairs.
 
 Usage
 =====
 
 To use this module, you need to:
 
-#. Go to Repair
-#. Create or select a Repair Order
-#. Set Invoice Method (After or Before Repair)
-#. Confirm the Repair
-#. Create Invoice
+1. Go to Repair
+2. Create or select a Repair Order
+3. Set Invoice Method (After or Before Repair)
+4. Confirm the Repair
+5. Create Invoice
 
 Known issues / Roadmap
 ======================
 
-* This module hasn't been tested with *repair_discount* module installed, so maybe it's incompatible with it.
+- This module hasn't been tested with *repair_discount* module
+  installed, so maybe it's incompatible with it.
+- Add Fiscal Position Resource
 
-* Add Fiscal Position Resource
+Changelog
+=========
+
+
 
 Bug Tracker
 ===========
@@ -85,7 +89,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_repair%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_repair%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -93,35 +97,35 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Escodoo
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* `Escodoo <https://www.escodoo.com.br>`_:
+- `Escodoo <https://www.escodoo.com.br>`__:
 
-  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
-* `Akretion <https://akretion.com/pt-BR>`_:
+- `Akretion <https://akretion.com/pt-BR>`__:
 
-  * Raphaël Valyi <raphael.valyi@akretion.com.br>
-  * Renato Lima <renato.lima@akretion.com.br>
+  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+  - Renato Lima <renato.lima@akretion.com.br>
 
-* `KMEE <https://www.kmee.com.br>`_:
+- `KMEE <https://www.kmee.com.br>`__:
 
-  * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+  - Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
 The development of this module has been financially supported by:
 
-* Escodoo - https://www.escodoo.com.br
+- Escodoo - https://www.escodoo.com.br
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -141,6 +145,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-marcelsavegnago| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/14.0/l10n_br_repair>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_repair>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

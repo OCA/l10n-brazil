@@ -2,7 +2,6 @@
 <!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo noupdate="0">
-
     <!-- Empresa Principal -->
     <!-- Repair Order with only products test -->
     <record id="main_so_only_products" model="repair.order">
@@ -587,5 +586,4 @@
             search="[('repair_id', '=', ref('sn_so_product_service'))]"
         />
     </function>
-
 </odoo>

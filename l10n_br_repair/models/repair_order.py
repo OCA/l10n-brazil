@@ -295,9 +295,9 @@ class RepairOrder(models.Model):
         }
 
         if partner_invoice.property_payment_term_id:
-            invoice_vals[
-                "invoice_payment_term_id"
-            ] = partner_invoice.property_payment_term_id.id
+            invoice_vals["invoice_payment_term_id"] = (
+                partner_invoice.property_payment_term_id.id
+            )
 
         invoice_vals.update(self._prepare_br_fiscal_dict())
 

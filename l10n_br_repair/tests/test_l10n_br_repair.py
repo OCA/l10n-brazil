@@ -236,7 +236,7 @@ class L10nBrRepairBaseTest(SavepointCase):
             self.assertEqual(
                 line.cfop_id.code,
                 cfop.code,
-                "Error to mapping CFOP {} for {}.".format(cfop.code, cfop.name),
+                f"Error to mapping CFOP {cfop.code} for {cfop.name}.",
             )
 
             if line.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
@@ -595,7 +595,7 @@ class L10nBrRepairBaseTest(SavepointCase):
             self.assertEqual(
                 line.cfop_id.code,
                 cfop.code,
-                "Error to mapping CFOP {} for {}.".format(cfop.code, cfop.name),
+                f"Error to mapping CFOP {cfop.code} for {cfop.name}.",
             )
 
             if line.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:

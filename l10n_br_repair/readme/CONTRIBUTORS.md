@@ -1,0 +1,7 @@
+- [Escodoo](https://www.escodoo.com.br):
+  - Marcel Savegnago \<marcel.savegnago@escodoo.com.br\>
+- [Akretion](https://akretion.com/pt-BR):
+  - Raphaël Valyi \<raphael.valyi@akretion.com.br\>
+  - Renato Lima \<renato.lima@akretion.com.br\>
+- [KMEE](https://www.kmee.com.br):
+  - Luis Otavio Malta Conceição \<luis.malta@kmee.com.br\>

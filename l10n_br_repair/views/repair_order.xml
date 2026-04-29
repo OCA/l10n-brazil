@@ -2,7 +2,6 @@
 <!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="repair_order_form_view">
         <field name="name">repair.order.form (in l10n_br_repair)</field>
         <field name="model">repair.order</field>
@@ -33,22 +32,22 @@
                 />
             </field>
             <field name="amount_untaxed" position="after">
-                 <field
+                <field
                     name="amount_freight_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
                 />
-                 <field
+                <field
                     name="amount_insurance_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
                 />
-                 <field
+                <field
                     name="amount_other_value"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
                 />
-             </field>
+            </field>
             <field name="invoice_method" position="after">
                 <field
                     name="fiscal_operation_id"
@@ -66,8 +65,6 @@
                     <field name="manual_fiscal_additional_data" />
                 </group>
             </field>
-
         </field>
     </record>
-
 </odoo>

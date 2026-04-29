@@ -2,7 +2,6 @@
 <!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="repair_fee_form_view">
         <field name="name">repair.fee.form (in l10n_br_repair)</field>
         <field name="model">repair.order</field>
@@ -142,9 +141,6 @@
                     </page>
                 </notebook>
             </xpath>
-
         </field>
     </record>
-
-
 </odoo>
