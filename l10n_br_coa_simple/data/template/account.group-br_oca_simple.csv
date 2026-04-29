@@ -85,9 +85,6 @@ coa_simple_332,3.3.2,Despesas Administrativas,coa_simple_33
 coa_simple_33201,3.3.2.01,Despesas com Pessoal,coa_simple_332
 coa_simple_33202,3.3.2.02,Despesas Gerais,coa_simple_332
 coa_simple_33203,3.3.2.03,Tributos e Contribuições,coa_simple_332
-coa_simple_3320301,3.3.2.03.01,Taxas e Tributos Municipais,coa_simple_33203
-coa_simple_3320302,3.3.2.03.02,PIS s/ Outras Receitas,coa_simple_33203
-coa_simple_3320303,3.3.2.03.03,COFINS s/ Outras Receitas,coa_simple_33203
 coa_simple_339,3.3.9,Outros Resultados Operacionais,coa_simple_33
 coa_simple_33901,3.3.9.01,Ganhos e Perdas de Capital,coa_simple_339
 coa_simple_33902,3.3.9.02,Perdas,coa_simple_339
