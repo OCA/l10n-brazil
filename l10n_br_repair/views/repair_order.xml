@@ -8,63 +8,53 @@
         <field name="inherit_id" ref="repair.view_repair_order_form" />
         <field name="priority">99</field>
         <field name="arch" type="xml">
-            <button name="action_created_invoice" position="replace">
-                <button
-                    name="action_created_invoice"
-                    type="object"
-                    class="oe_stat_button"
-                    icon="fa-pencil-square-o"
-                    attrs="{'invisible': [('invoice_count', '=', 0)]}"
-                >
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="fiscal_operation_id" />
+                <field name="ind_pres" />
+                <field name="client_order_ref" />
+                <field name="operation_name" />
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="cnpj_cpf" />
+                <field name="legal_name" />
+                <field name="ie" />
+            </xpath>
+            <xpath expr="//page[@name='repair_notes']" position="after">
+                <page name="page_fiscal" string="Fiscal">
+                    <group>
+                        <field name="copy_repair_quotation_notes" />
+                        <field name="manual_customer_additional_data" />
+                        <field name="manual_fiscal_additional_data" />
+                    </group>
+                    <group>
+                        <field
+                            name="amount_price_gross"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                        />
+                        <field
+                            name="amount_freight_value"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                        />
+                        <field
+                            name="amount_insurance_value"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                        />
+                        <field
+                            name="amount_other_value"
+                            widget="monetary"
+                            options="{'currency_field': 'currency_id'}"
+                        />
+                    </group>
                     <field
-                        name="invoice_count"
-                        widget="statinfo"
-                        string="Invoices"
-                        modifiers="{'readonly':true}"
+                        name="comment_ids"
+                        widget="many2many_tags"
+                        options="{'no_create_edit': True}"
                     />
-                </button>
-            </button>
-            <field name="amount_untaxed" position="before">
-                <field
-                    name="amount_price_gross"
-                    widget='monetary'
-                    options="{'currency_field': 'currency_id'}"
-                />
-            </field>
-            <field name="amount_untaxed" position="after">
-                <field
-                    name="amount_freight_value"
-                    widget='monetary'
-                    options="{'currency_field': 'currency_id'}"
-                />
-                <field
-                    name="amount_insurance_value"
-                    widget='monetary'
-                    options="{'currency_field': 'currency_id'}"
-                />
-                <field
-                    name="amount_other_value"
-                    widget='monetary'
-                    options="{'currency_field': 'currency_id'}"
-                />
-            </field>
-            <field name="invoice_method" position="after">
-                <field
-                    name="fiscal_operation_id"
-                    attrs="{'invisible': [('invoice_method', '==', 'none')]}"
-                />
-                <field
-                    name="ind_pres"
-                    attrs="{'invisible': [('invoice_method', '==', 'none')]}"
-                />
-            </field>
-            <field name="quotation_notes" position="after">
-                <group>
-                    <field name="copy_repair_quotation_notes" />
-                    <field name="manual_customer_additional_data" />
-                    <field name="manual_fiscal_additional_data" />
-                </group>
-            </field>
+                </page>
+            </xpath>
         </field>
     </record>
 </odoo>
