@@ -23,13 +23,10 @@ class Nbs(models.Model):
 
     product_tmpl_ids = fields.One2many(inverse_name="nbs_id")
 
-    _sql_constraints = [
-        (
-            "fiscal_nbs_code_uniq",
-            "unique (code)",
-            "NBS already exists with this code!",
-        )
-    ]
+    _fiscal_nbs_code_uniq = models.Constraint(
+        "unique (code)",
+        "NBS already exists with this code!",
+    )
 
     def _get_ibpt(self, config, code_unmasked):
         return get_ibpt_service(config, code_unmasked)

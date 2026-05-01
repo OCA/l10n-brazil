@@ -30,10 +30,7 @@ class Cnae(models.Model):
         default="normal",
     )
 
-    _sql_constraints = [
-        (
-            "fiscal_cnae_code_uniq",
-            "unique (code)",
-            "CNAE already exists with this code!",
-        )
-    ]
+    _fiscal_cnae_code_uniq = models.Constraint(
+        "unique (code)",
+        "CNAE already exists with this code!",
+    )

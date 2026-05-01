@@ -7,14 +7,12 @@
             <search string="CNAE">
                 <field name="code" />
                 <field name="name" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Parent"
-                        name="parent_id"
-                        domain="[]"
-                        context="{'group_by' : 'parent_id'}"
-                    />
-                </group>
+                <filter
+                    string="Parent"
+                    name="parent_id"
+                    domain="[]"
+                    context="{'group_by' : 'parent_id'}"
+                />
             </search>
         </field>
     </record>

@@ -57,13 +57,10 @@ class DocumentSerie(models.Model):
         string="Invalidate Number Range",
     )
 
-    _sql_constraints = [
-        (
-            "document_serie_unique",
-            "unique(code, document_type_id, company_id)",
-            "A Fiscal Document Serie already exists for this document type.",
-        )
-    ]
+    _document_serie_unique = models.Constraint(
+        "unique(code, document_type_id, company_id)",
+        "A Fiscal Document Serie already exists for this document type.",
+    )
 
     @api.model
     def _create_sequence(self, values):

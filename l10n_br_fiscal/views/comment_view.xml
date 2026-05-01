@@ -6,14 +6,12 @@
         <field name="arch" type="xml">
             <search string="Comment">
                 <field name="name" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Comment Type"
-                        name="comment_type"
-                        domain="[]"
-                        context="{'group_by' : 'comment_type'}"
-                    />
-                </group>
+                <filter
+                    string="Comment Type"
+                    name="comment_type"
+                    domain="[]"
+                    context="{'group_by' : 'comment_type'}"
+                />
             </search>
         </field>
     </record>

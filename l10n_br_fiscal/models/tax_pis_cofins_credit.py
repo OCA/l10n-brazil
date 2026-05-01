@@ -11,10 +11,7 @@ class TaxPisCofinsCredit(models.Model):
 
     code = fields.Char(size=3)
 
-    _sql_constraints = [
-        (
-            "code_unique",
-            "unique (code)",
-            "Already exists with this code!",
-        )
-    ]
+    _code_unique = models.Constraint(
+        "unique (code)",
+        "Already exists with this code!",
+    )

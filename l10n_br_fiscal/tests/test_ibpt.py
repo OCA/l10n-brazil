@@ -5,8 +5,12 @@ import logging
 from datetime import datetime
 from os import environ
 
-from decorator import decorate
 from erpbrasil.base import misc
+
+try:
+    from decorator import decorate
+except ImportError:
+    decorate = None
 
 from odoo import Command
 from odoo.tests import TransactionCase
@@ -38,6 +42,8 @@ def not_every_day_test(method):
     to crash the entire l10n-brazil test suite because of this.
     the CI_FORCE_IBPT env var can be set to force the test anyhow.
     """
+    if decorate is None:
+        return method
     return decorate(method, _not_every_day_test)
 
 

@@ -8,20 +8,18 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="exception" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="IPI"
-                        name="tax_ipi_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_ipi_id'}"
-                    />
-                    <filter
-                        string="II"
-                        name="tax_ii_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_ii_id'}"
-                    />
-                </group>
+                <filter
+                    string="IPI"
+                    name="tax_ipi_id"
+                    domain="[]"
+                    context="{'group_by' : 'tax_ipi_id'}"
+                />
+                <filter
+                    string="II"
+                    name="tax_ii_id"
+                    domain="[]"
+                    context="{'group_by' : 'tax_ii_id'}"
+                />
             </search>
         </field>
     </record>

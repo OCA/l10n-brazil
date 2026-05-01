@@ -16,7 +16,7 @@ class TestDocumentEdition(TransactionCase):
         super().setUpClass()
         load_fiscal_fixture_files(cls.env)
         groups = [
-            Command.set(cls.env.user.groups_id.ids),
+            Command.set(cls.env.user.group_ids.ids),
             Command.link(cls.env.ref("l10n_br_fiscal.group_user").id),
             Command.link(cls.env.ref("base.group_multi_company").id),
         ]
@@ -32,7 +32,7 @@ class TestDocumentEdition(TransactionCase):
                 "name": "Fiscal User",
                 "login": "fiscaluser",
                 "password": "fiscaluser",
-                "groups_id": groups,
+                "group_ids": groups,
             }
         )
         cls.user.partner_id.email = "accountman@test.com"
@@ -217,7 +217,7 @@ class TestDocumentEdition(TransactionCase):
         1. By Line: Enters costs on lines and verifies the header totals.
         2. By Total: Enters costs on the header and verifies lines distribution.
         """
-        self.env.user.groups_id |= self.env.ref("l10n_br_fiscal.group_user")
+        self.env.user.group_ids |= self.env.ref("l10n_br_fiscal.group_user")
         product1 = self.env.ref("product.product_product_6")
         product2 = self.env.ref("product.product_product_7")
 
@@ -332,7 +332,7 @@ class TestDocumentEdition(TransactionCase):
         especially when the trigger tree has extra hops due to addon-added computed
         fields on the lines.
         """
-        self.env.user.groups_id |= self.env.ref("l10n_br_fiscal.group_user")
+        self.env.user.group_ids |= self.env.ref("l10n_br_fiscal.group_user")
         product1 = self.env.ref("product.product_product_6")
         product2 = self.env.ref("product.product_product_7")
 

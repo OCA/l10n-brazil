@@ -7,14 +7,12 @@
             <search string="Fiscal Partner Profile">
                 <field name="code" />
                 <field name="name" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Is Company?"
-                        name="is_company"
-                        domain="[]"
-                        context="{'group_by' : 'is_company'}"
-                    />
-                </group>
+                <filter
+                    string="Is Company?"
+                    name="is_company"
+                    domain="[]"
+                    context="{'group_by' : 'is_company'}"
+                />
             </search>
         </field>
     </record>

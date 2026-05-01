@@ -190,10 +190,7 @@ class Cfop(models.Model):
             else:
                 cfop.destination = False
 
-    _sql_constraints = [
-        (
-            "fiscal_cfop_code_uniq",
-            "unique (code)",
-            "CFOP already exists with this code!",
-        )
-    ]
+    _fiscal_cfop_code_uniq = models.Constraint(
+        "unique (code)",
+        "CFOP already exists with this code!",
+    )

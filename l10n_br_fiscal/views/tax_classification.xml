@@ -8,24 +8,22 @@
             <search string="Tax Classification">
                 <field name="code" />
                 <field name="name" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Rate Type"
-                        name="rate_type"
-                        domain="[]"
-                        context="{'group_by': 'rate_type'}"
-                    />
-                    <filter
-                        string="Regular Taxation"
-                        name="regular_taxation"
-                        domain="[('regular_taxation', '=', True)]"
-                    />
-                    <filter
-                        string="Presumed Credit"
-                        name="presumed_credit"
-                        domain="[('presumed_credit', '=', True)]"
-                    />
-                </group>
+                <filter
+                    string="Rate Type"
+                    name="rate_type"
+                    domain="[]"
+                    context="{'group_by': 'rate_type'}"
+                />
+                <filter
+                    string="Regular Taxation"
+                    name="regular_taxation"
+                    domain="[('regular_taxation', '=', True)]"
+                />
+                <filter
+                    string="Presumed Credit"
+                    name="presumed_credit"
+                    domain="[('presumed_credit', '=', True)]"
+                />
             </search>
         </field>
     </record>

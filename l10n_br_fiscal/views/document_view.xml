@@ -35,26 +35,24 @@
                     date="document_date"
                 />
                 <filter name="date_in_out" string="Date In/Out" date="date_in_out" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Month"
-                        name="date_in_out"
-                        domain="[]"
-                        context="{'group_by' : 'date_in_out'}"
-                    />
-                    <filter
-                        string="Document Type"
-                        name="document_type_id"
-                        domain="[]"
-                        context="{'group_by' : 'document_type_id'}"
-                    />
-                    <filter
-                        string="Situation"
-                        name="state_edoc"
-                        domain="[]"
-                        context="{'group_by' : 'state_edoc'}"
-                    />
-                </group>
+                <filter
+                    string="Month"
+                    name="date_in_out"
+                    domain="[]"
+                    context="{'group_by' : 'date_in_out'}"
+                />
+                <filter
+                    string="Document Type"
+                    name="document_type_id"
+                    domain="[]"
+                    context="{'group_by' : 'document_type_id'}"
+                />
+                <filter
+                    string="Situation"
+                    name="state_edoc"
+                    domain="[]"
+                    context="{'group_by' : 'state_edoc'}"
+                />
             </search>
         </field>
     </record>

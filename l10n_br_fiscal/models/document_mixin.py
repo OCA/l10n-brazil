@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from odoo.orm.identifiers import NewId
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from ..constants.fiscal import (
@@ -234,6 +235,12 @@ class FiscalDocumentMixin(models.AbstractModel):
     @api.depends("fiscal_operation_id")
     def _compute_comment_ids(self):
         for doc in self:
+            if not doc.ids:
+                continue
+            # Skip during record creation to avoid FK violations
+            # when the record hasn't been flushed to DB yet
+            if isinstance(doc.id, NewId):
+                continue
             if doc.fiscal_operation_id:
                 doc.comment_ids = doc.fiscal_operation_id.comment_ids
             elif doc.comment_ids is None:

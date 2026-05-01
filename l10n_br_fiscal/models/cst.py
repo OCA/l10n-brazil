@@ -30,10 +30,7 @@ class CST(models.Model):
         store=True,
     )
 
-    _sql_constraints = [
-        (
-            "l10n_br_fiscal_cst_code_tax_group_id_uniq",
-            "unique (code, tax_group_id)",
-            "CST already exists with this code!",
-        )
-    ]
+    _l10n_br_fiscal_cst_code_tax_group_id_uniq = models.Constraint(
+        "unique (code, tax_group_id)",
+        "CST already exists with this code!",
+    )

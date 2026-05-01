@@ -109,7 +109,7 @@ class DocumentLine(models.Model):
     def _compute_uom_id(self):
         for line in self:
             if line.fiscal_operation_type == "in":
-                line.uom_id = line.product_id.uom_po_id
+                line.uom_id = line.product_id.uom_id
             else:
                 line.uom_id = line.product_id.uom_id
 

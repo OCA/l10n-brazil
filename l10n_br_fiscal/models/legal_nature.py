@@ -11,10 +11,7 @@ class LegalNature(models.Model):
 
     code = fields.Char(size=5)
 
-    _sql_constraints = [
-        (
-            "fiscal_legal_nature_code_uniq",
-            "unique (code)",
-            "Legal Nature already exists with this code!",
-        )
-    ]
+    _fiscal_legal_nature_code_uniq = models.Constraint(
+        "unique (code)",
+        "Legal Nature already exists with this code!",
+    )
