@@ -38,6 +38,11 @@ repos:
         entry: found a en.po file
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
+      - id: obsolete dotfiles
+        name: obsolete dotfiles
+        entry: found obsolete files; remove them
+        files: '^(\.travis\.yml|\.t2d\.yml|CONTRIBUTING\.md|\.prettierrc\.yml|\.eslintrc\.yml)$'
+        language: fail
   - repo: https://github.com/sbidoul/whool
     rev: v1.3
     hooks:
@@ -60,7 +65,7 @@ repos:
           - --convert-fragments-to-markdown
       - id: oca-gen-external-dependencies
   - repo: https://github.com/OCA/odoo-pre-commit-hooks
-    rev: v0.1.6
+    rev: v0.1.7
     hooks:
       - id: oca-checks-odoo-module
       - id: oca-checks-po
