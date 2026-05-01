@@ -190,15 +190,13 @@ class Tax(models.Model):
     cst_in_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST In",
-        domain="[('cst_type', 'in', ('in', 'all')), "
-        "('tax_domain', '=', tax_domain)]",
+        domain="[('cst_type', 'in', ('in', 'all')), ('tax_domain', '=', tax_domain)]",
     )
 
     cst_out_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST Out",
-        domain="[('cst_type', 'in', ('out', 'all')), "
-        "('tax_domain', '=', tax_domain)]",
+        domain="[('cst_type', 'in', ('out', 'all')), ('tax_domain', '=', tax_domain)]",
     )
 
     # ICMS Fields

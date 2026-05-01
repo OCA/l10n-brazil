@@ -34,8 +34,7 @@ class OperationIndicator(models.Model):
 
     operation_type = fields.Text(
         required=True,
-        help="Type of operation according to Art. 11 of Complementary Law "
-        "No. 214/2025",
+        help="Type of operation according to Art. 11 of Complementary Law No. 214/2025",
     )
 
     operation_location = fields.Text(

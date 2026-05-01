@@ -131,7 +131,7 @@ class ResCompany(models.Model):
 
     cnae_secondary_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.cnae",
-        domain="[('internal_type', '=', 'normal'), " "('id', '!=', cnae_main_id)]",
+        domain="[('internal_type', '=', 'normal'), ('id', '!=', cnae_main_id)]",
         string="Secondary CNAE",
     )
 

@@ -734,7 +734,7 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     document_serie_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.serie",
-        domain="[('active', '=', True)," "('document_type_id', '=', document_type_id)]",
+        domain="[('active', '=', True),('document_type_id', '=', document_type_id)]",
         compute="_compute_document_serie_id",
         store=True,
     )

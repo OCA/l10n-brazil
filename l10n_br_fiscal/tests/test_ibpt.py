@@ -137,8 +137,7 @@ class TestIbpt(TransactionCase):
                 "ibpt_api": True,
                 "ibpt_update_days": 0,
                 "ibpt_token": (
-                    "dsaaodNP5i6RCu007nPQjiOPe5XIefnx"
-                    "StS2PzOV3LlDRVNGdVJ5OOUlwWZhjFZk"
+                    "dsaaodNP5i6RCu007nPQjiOPe5XIefnxStS2PzOV3LlDRVNGdVJ5OOUlwWZhjFZk"
                 ),
             }
         )
