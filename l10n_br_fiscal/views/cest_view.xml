@@ -9,14 +9,12 @@
                 <field name="name" />
                 <field name="item" />
                 <field name="segment" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Segment"
-                        name="segment"
-                        domain="[]"
-                        context="{'group_by' : 'segment'}"
-                    />
-                </group>
+                <filter
+                    string="Segment"
+                    name="segment"
+                    domain="[]"
+                    context="{'group_by' : 'segment'}"
+                />
             </search>
         </field>
     </record>

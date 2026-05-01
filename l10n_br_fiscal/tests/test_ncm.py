@@ -17,7 +17,7 @@ class TestNcm(TransactionCase):
             {
                 "name": "Test User Manager",
                 "login": "test_user_manager",
-                "groups_id": [
+                "group_ids": [
                     Command.set([cls.env.ref("l10n_br_fiscal.group_manager").id])
                 ],
             }

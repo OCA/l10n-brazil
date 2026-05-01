@@ -7,14 +7,12 @@
             <search string="Fiscal Operation">
                 <field name="code" />
                 <field name="name" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Fiscal Operation Type"
-                        name="fiscal_operation_type"
-                        domain="[]"
-                        context="{'group_by' : 'fiscal_operation_type'}"
-                    />
-                </group>
+                <filter
+                    string="Fiscal Operation Type"
+                    name="fiscal_operation_type"
+                    domain="[]"
+                    context="{'group_by' : 'fiscal_operation_type'}"
+                />
             </search>
         </field>
     </record>

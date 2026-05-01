@@ -148,7 +148,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
         )
 
         config_date = self.env.company.ibpt_update_days
-        today = fields.date.today()
+        today = fields.Date.today()
         data_max = today - timedelta(days=config_date)
 
         all_records = self.env[self._name].search([])

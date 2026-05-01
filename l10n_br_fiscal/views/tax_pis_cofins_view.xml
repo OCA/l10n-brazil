@@ -8,32 +8,30 @@
                 <field name="code" />
                 <field name="name" />
                 <separator />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Tax PIS"
-                        name="tax_pis_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_pis_id'}"
-                    />
-                    <filter
-                        string="Tax PIS ST"
-                        name="tax_pis_st_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_pis_st_id'}"
-                    />
-                    <filter
-                        string="Tax COFNS"
-                        name="tax_cofins_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_cofins_id'}"
-                    />
-                    <filter
-                        string="Tax COFNS ST"
-                        name="tax_cofins_st_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_cofins_st_id'}"
-                    />
-                </group>
+                <filter
+                    string="Tax PIS"
+                    name="tax_pis_id"
+                    domain="[]"
+                    context="{'group_by' : 'tax_pis_id'}"
+                />
+                <filter
+                    string="Tax PIS ST"
+                    name="tax_pis_st_id"
+                    domain="[]"
+                    context="{'group_by' : 'tax_pis_st_id'}"
+                />
+                <filter
+                    string="Tax COFNS"
+                    name="tax_cofins_id"
+                    domain="[]"
+                    context="{'group_by' : 'tax_cofins_id'}"
+                />
+                <filter
+                    string="Tax COFNS ST"
+                    name="tax_cofins_st_id"
+                    domain="[]"
+                    context="{'group_by' : 'tax_cofins_st_id'}"
+                />
             </search>
         </field>
     </record>

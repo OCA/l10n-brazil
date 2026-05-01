@@ -140,13 +140,10 @@ class OperationLine(models.Model):
 
     date_end = fields.Datetime(string="End Date")
 
-    _sql_constraints = [
-        (
-            "fiscal_operation_name_uniq",
-            "unique (name, fiscal_operation_id)",
-            "Fiscal Operation Line already exists with this name!",
-        )
-    ]
+    _fiscal_operation_name_uniq = models.Constraint(
+        "unique (name, fiscal_operation_id)",
+        "Fiscal Operation Line already exists with this name!",
+    )
 
     def get_document_type(self, company):
         self.ensure_one()

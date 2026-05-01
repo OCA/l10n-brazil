@@ -5,6 +5,7 @@
         <field name="model">l10n_br_fiscal.operation</field>
         <field name="arch" type="xml">
             <kanban
+                highlight_color="color"
                 class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban"
                 create="false"
             >
@@ -12,8 +13,7 @@
                 <field name="kanban_dashboard" />
                 <field name="color" />
                 <templates>
-                    <!-- Novo: kanban-menu separado -->
-                    <t t-name="kanban-menu">
+                    <t t-name="menu">
                         <div class="o_kanban_card_manage_section">
                             <div role="menuitem" class="o_kanban_manage_reports">
                                 <div class="o_kanban_card_manage_title ps-4 pb-1">
@@ -27,19 +27,12 @@
                                     name="open_action"
                                 >Ver Todos</a>
                                 <div role="separator" class="dropdown-divider" />
-                                <ul
-                                    t-if="widget.editable"
-                                    class="oe_kanban_colorpicker"
-                                    data-field="color"
-                                />
+                                <field name="color" widget="kanban_color_picker" />
                             </div>
                         </div>
                     </t>
                     <t t-name="card">
-                        <div
-                            t-attf-class="#{kanban_color(record.color.raw_value)}"
-                            name="operation_dashboard"
-                        >
+                        <div name="operation_dashboard">
                             <t
                                 t-value="JSON.parse(record.kanban_dashboard.raw_value)"
                                 t-set="dashboard"

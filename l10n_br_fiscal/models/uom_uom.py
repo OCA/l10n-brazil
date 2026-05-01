@@ -19,6 +19,6 @@ class Uom(models.Model):
         help="Full unit description. e.g. 'Unit', 'Kilogram', 'Box of 12 Units'.",
     )
 
-    _sql_constraints = [
-        ("unique_code", "UNIQUE(code)", "Unit of Measure code must be unique!")
-    ]
+    _unique_code = models.Constraint(
+        "UNIQUE(code)", "Unit of Measure code must be unique!"
+    )

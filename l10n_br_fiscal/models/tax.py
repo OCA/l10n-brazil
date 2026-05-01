@@ -223,13 +223,10 @@ class Tax(models.Model):
         string="PFC Value", digits="Fiscal Tax Value", required=True
     )
 
-    _sql_constraints = [
-        (
-            "fiscal_tax_code_uniq",
-            "unique (name)",
-            "Tax already exists with this name!",
-        )
-    ]
+    _fiscal_tax_code_uniq = models.Constraint(
+        "unique (name)",
+        "Tax already exists with this name!",
+    )
 
     @api.model
     def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):

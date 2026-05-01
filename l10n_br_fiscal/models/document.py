@@ -364,7 +364,7 @@ class Document(models.Model):
         if self.document_number or self.rps_number:
             type_serie_number += "/" + (self.document_number or self.rps_number)
 
-        if self._context.get("fiscal_document_complete_name"):
+        if self.env.context.get("fiscal_document_complete_name"):
             name += DOCUMENT_ISSUER_DICT.get(self.issuer, "")
             if self.issuer == DOCUMENT_ISSUER_COMPANY and self.fiscal_operation_type:
                 name += "/" + FISCAL_IN_OUT_DICT.get(self.fiscal_operation_type, "")
@@ -379,7 +379,7 @@ class Document(models.Model):
             else:
                 name += " - " + self.partner_id.name
                 name += " - " + self.partner_id.vat
-        elif self._context.get("fiscal_document_no_company"):
+        elif self.env.context.get("fiscal_document_no_company"):
             name += type_serie_number
         else:
             name += "{name}/{type_serie_number}".format(

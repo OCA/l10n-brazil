@@ -29,24 +29,4 @@
             </field>
         </field>
     </record>
-
-    <record model="ir.ui.view" id="uom_category_form_inherit_code_desc">
-        <field name="name">uom.category.form (in l10n_br_fiscal)</field>
-        <field name="model">uom.category</field>
-        <field name="inherit_id" ref="uom.product_uom_categ_form_view" />
-        <field name="arch" type="xml">
-            <xpath
-                expr="//field[@name='uom_ids']/list/field[@name='name']"
-                position="before"
-            >
-                <field name="code" />
-            </xpath>
-            <xpath
-                expr="//field[@name='uom_ids']/list/field[@name='name']"
-                position="after"
-            >
-                <field name="description" />
-            </xpath>
-        </field>
-    </record>
 </odoo>

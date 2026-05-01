@@ -116,7 +116,7 @@ class DataAbstract(models.AbstractModel):
         for record in self:
             code = record.code or ""
             name = truncate(record.name)
-            if self._context.get("show_code_only"):
+            if self.env.context.get("show_code_only"):
                 record.display_name = code
             else:
                 record.display_name = f"{code} - {name}" if name else code

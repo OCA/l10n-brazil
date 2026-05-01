@@ -9,14 +9,12 @@
                 <field name="name" />
                 <field name="tax_group_id" />
                 <field name="tax_domain" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Tax Group"
-                        name="tax_group_id"
-                        domain="[]"
-                        context="{'group_by' : 'tax_group_id'}"
-                    />
-                </group>
+                <filter
+                    string="Tax Group"
+                    name="tax_group_id"
+                    domain="[]"
+                    context="{'group_by' : 'tax_group_id'}"
+                />
             </search>
         </field>
     </record>

@@ -71,10 +71,7 @@ class TaxGroup(models.Model):
         string="Due Day",
     )
 
-    _sql_constraints = [
-        (
-            "fiscal_tax_group_code_uniq",
-            "unique (name)",
-            "Tax Group already exists with this name!",
-        )
-    ]
+    _fiscal_tax_group_code_uniq = models.Constraint(
+        "unique (name)",
+        "Tax Group already exists with this name!",
+    )

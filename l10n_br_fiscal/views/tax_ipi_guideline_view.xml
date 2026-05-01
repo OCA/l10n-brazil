@@ -9,14 +9,12 @@
                 <field name="name" />
                 <field name="cst_in_id" />
                 <field name="cst_out_id" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Group"
-                        name="cst_group"
-                        domain="[]"
-                        context="{'group_by' : 'cst_group'}"
-                    />
-                </group>
+                <filter
+                    string="Group"
+                    name="cst_group"
+                    domain="[]"
+                    context="{'group_by' : 'cst_group'}"
+                />
             </search>
         </field>
     </record>

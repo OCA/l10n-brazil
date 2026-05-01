@@ -169,13 +169,10 @@ class Operation(models.Model):
         string="Comment",
     )
 
-    _sql_constraints = [
-        (
-            "fiscal_operation_code_uniq",
-            "unique (code)",
-            "Fiscal Operation already exists with this code!",
-        )
-    ]
+    _fiscal_operation_code_uniq = models.Constraint(
+        "unique (code)",
+        "Fiscal Operation already exists with this code!",
+    )
 
     def action_review(self):
         self.write({"state": "review"})

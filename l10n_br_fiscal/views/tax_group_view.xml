@@ -7,13 +7,11 @@
             <search string="Tax">
                 <field name="name" />
                 <field name="tax_domain" />
-                <group expand="0" string="Group By">
-                    <filter
-                        name="group_by_tax_scope"
-                        string="Tax Scope"
-                        context="{'group_by':'tax_scope'}"
-                    />
-                </group>
+                <filter
+                    name="group_by_tax_scope"
+                    string="Tax Scope"
+                    context="{'group_by':'tax_scope'}"
+                />
             </search>
         </field>
     </record>

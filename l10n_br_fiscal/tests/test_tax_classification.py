@@ -9,9 +9,32 @@ class TestTaxClassification(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
-        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
-        cls.partner = cls.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        cls.product = cls.env.ref("product.product_product_6")
+        # Create company with required fields
+        cls.company = cls.env["res.company"].create(
+            {
+                "name": "Test Company Tax Classification",
+                "vat": "97.231.608/0001-69",
+                "l10n_br_ie_code": "454.504.604.553",
+                "state_id": cls.env.ref("base.state_br_sp").id,
+                "city_id": cls.env.ref("l10n_br_base.city_3550308").id,
+            }
+        )
+        cls.partner = cls.env["res.partner"].create(
+            {
+                "name": "Test Partner Tax Classification",
+                "vat": "81.583.054/0001-29",
+                "l10n_br_ie_code": "078.016.350.838",
+                "state_id": cls.env.ref("base.state_br_sp").id,
+                "city_id": cls.env.ref("l10n_br_base.city_3550308").id,
+            }
+        )
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Test Product Tax Classification",
+                "type": "consu",
+                "ncm_id": cls.env.ref("l10n_br_fiscal.ncm_85030010").id,
+            }
+        )
 
         # Use a stable operation line already referenced in existing test suites.
         cls.operation_line = cls.env.ref("l10n_br_fiscal.fo_venda_venda")

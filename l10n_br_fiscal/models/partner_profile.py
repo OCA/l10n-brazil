@@ -65,13 +65,10 @@ class PartnerProfile(models.Model):
         string="Tax Definition",
     )
 
-    _sql_constraints = [
-        (
-            "fiscal_partner_profile_code_uniq",
-            "unique (code)",
-            "Fiscal Partner Profile already exists with this code!",
-        )
-    ]
+    _fiscal_partner_profile_code_uniq = models.Constraint(
+        "unique (code)",
+        "Fiscal Partner Profile already exists with this code!",
+    )
 
     def _compute_partner_info(self):
         for record in self:

@@ -66,13 +66,10 @@ class Ncm(models.Model):
         string="PIS/COFINS",
     )
 
-    _sql_constraints = [
-        (
-            "fiscal_ncm_code_exception_uniq",
-            "unique (code, exception)",
-            "NCM already exists with this code!",
-        )
-    ]
+    _fiscal_ncm_code_exception_uniq = models.Constraint(
+        "unique (code, exception)",
+        "NCM already exists with this code!",
+    )
 
     def _get_ibpt(self, config, code_unmasked):
         return get_ibpt_product(config, code_unmasked)

@@ -24,20 +24,18 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="small_name" />
-                <group expand="0" string="Group By...">
-                    <filter
-                        string="Type In Out"
-                        name="type_in_out"
-                        domain="[]"
-                        context="{'group_by' : 'type_in_out'}"
-                    />
-                    <filter
-                        string="Type Move"
-                        name="type_move"
-                        domain="[]"
-                        context="{'group_by' : 'type_move'}"
-                    />
-                </group>
+                <filter
+                    string="Type In Out"
+                    name="type_in_out"
+                    domain="[]"
+                    context="{'group_by' : 'type_in_out'}"
+                />
+                <filter
+                    string="Type Move"
+                    name="type_move"
+                    domain="[]"
+                    context="{'group_by' : 'type_move'}"
+                />
             </search>
         </field>
     </record>
