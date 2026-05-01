@@ -178,7 +178,7 @@ INDUSTRY_TYPE = [
     ("05", "05 - Equiparado a industrial - Por opção"),
     ("06", "06 - Equiparado a industrial - Importação Direta"),
     ("07", "07 - Equiparado a industrial - Por lei específica"),
-    ("08", "08 - Equiparado a industrial - Não enquadrado nos" " códigos 05, 06 ou 07"),
+    ("08", "08 - Equiparado a industrial - Não enquadrado nos códigos 05, 06 ou 07"),
     ("09", "09 - Outros"),
 ]
 

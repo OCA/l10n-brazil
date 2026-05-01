@@ -43,8 +43,7 @@ class Cfop(models.Model):
     cfop_inverse_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="Inverse CFOP",
-        domain="[('destination', '=', destination),"
-        "('type_in_out', '!=', type_in_out)]",
+        domain="[('destination', '=', destination),('type_in_out', '!=', type_in_out)]",
     )
 
     cfop_return_id = fields.Many2one(

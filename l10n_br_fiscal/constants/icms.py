@@ -3,11 +3,10 @@
 
 ICMS_ORIGIN = [
     ("0", "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"),
-    ("1", "1 - Estrangeira – importação direta, exceto a indicada no " "código 6"),
+    ("1", "1 - Estrangeira – importação direta, exceto a indicada no código 6"),
     (
         "2",
-        "2 – Estrangeira – adquirida no mercado interno, exceto a indicada "
-        "no código 7",
+        "2 – Estrangeira – adquirida no mercado interno, exceto a indicada no código 7",
     ),
     (
         "3",
