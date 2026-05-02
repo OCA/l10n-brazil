@@ -5,8 +5,6 @@ import logging
 
 from erpbrasil.assinatura import misc
 
-from odoo import _
-
 from .constants import CERTIFICATE_TYPE_ECNPJ, CERTIFICATE_TYPE_NFE
 
 _logger = logging.getLogger(__name__)
@@ -50,7 +48,7 @@ def post_init_hook(env):
                 )
         except NameError:  # (means from erpbrasil.assinatura import misc failed)
             _logger.error(
-                _(
+                env._(
                     "Python Library erpbrasil.assinatura not installed!"
                     "You can install it later with: pip install erpbrasil.assinatura."
                     "Demo companies fake A1 certificates were not created."

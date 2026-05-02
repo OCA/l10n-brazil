@@ -5,7 +5,7 @@
 
 from erpbrasil.assinatura import certificado as cert
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -39,7 +39,7 @@ class ResCompany(models.Model):
 
             if not certificate:
                 raise ValidationError(
-                    _(
+                    record.env._(
                         "Certificate not found, you need to inform your e-CNPJ"
                         " or e-NFe certificate in the Company."
                     )
@@ -55,7 +55,7 @@ class ResCompany(models.Model):
                 certificate = self.sudo().certificate_ecnpj_id
                 if not certificate:
                     raise ValidationError(
-                        _("Only e-CNPJ Certicate can be used for this case.")
+                        self.env._("Only e-CNPJ Certicate can be used for this case.")
                     )
         return cert.Certificado(
             arquivo=certificate.file,

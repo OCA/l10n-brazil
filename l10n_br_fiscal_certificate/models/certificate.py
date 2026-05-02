@@ -4,7 +4,7 @@
 
 from erpbrasil.assinatura import certificado
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.misc import format_date
@@ -67,7 +67,7 @@ class Certificate(models.Model):
                 cert = certificado.Certificado(cert_file, cert_password)
             except Exception as e:
                 raise ValidationError(
-                    _("Cannot load Certificate ! \n\n {}").format(e)
+                    self.env._("Cannot load Certificate ! \n\n %s", e)
                 ) from e
 
             if cert:
@@ -91,7 +91,7 @@ class Certificate(models.Model):
         for c in self:
             cert_values = c._certificate_data(c.file, c.password)
             if not cert_values:
-                raise ValidationError(_("Cannot load Certificate !"))
+                raise ValidationError(self.env._("Cannot load Certificate !"))
 
     @api.depends("file", "password")
     def _compute_name(self):
