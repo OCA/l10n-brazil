@@ -5,7 +5,7 @@
 
 from erpbrasil.base.fiscal import cnpj_cpf, pis
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from odoo.addons.l10n_br_base.tools import check_cnpj_cpf
@@ -158,7 +158,9 @@ class HrEmployee(models.Model):
 
     registration = fields.Char(string="Registration number", groups="hr.group_hr_user")
 
-    country_id = fields.Many2one(comodel_name="res.country", default=_default_country)
+    country_id = fields.Many2one(
+        comodel_name="res.country", default=lambda self: self._default_country()
+    )
 
     employee_relationship_type = fields.Selection(
         string="Tipo de Colaborador",
@@ -179,7 +181,7 @@ class HrEmployee(models.Model):
     def _validate_pis_pasep(self):
         for record in self:
             if record.pis_pasep and not pis.validar(record.pis_pasep):
-                raise ValidationError(_("Invalid PIS/PASEP"))
+                raise ValidationError(self.env._("Invalid PIS/PASEP"))
 
     @api.constrains("cpf")
     def _check_cpf(self):
@@ -195,6 +197,6 @@ class HrEmployee(models.Model):
     @api.model
     def _get_marital_status_selection(self):
         return super()._get_marital_status_selection() + [
-            ("common_law_marriage", _("Common law marriage")),
-            ("separated", _("Separated")),
+            ("common_law_marriage", self.env._("Common law marriage")),
+            ("separated", self.env._("Separated")),
         ]
