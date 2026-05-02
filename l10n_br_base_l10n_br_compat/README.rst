@@ -21,13 +21,13 @@ l10n_br Compatibility
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_base_l10n_br_compat
+    :target: https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_base_l10n_br_compat
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_base_l10n_br_compat
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_base_l10n_br_compat
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -45,37 +45,37 @@ mundos.
 Benefícios e Funcionalidades:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- **Integração de Ecossistemas:** Conecta a abrangência e flexibilidade
-  do desenvolvimento colaborativo da OCA com a base do Odoo Enterprise.
-  Isso permite que os módulos Enterprise sejam enriquecidos com uma
-  parcela significativa das funcionalidades da localização OCA. Este
-  módulo funciona porque foi previamente feito um trabalho de
-  harmonização dos campos dos objetos ``res.partner`` e ``res.company``
-  na OCA com os novos nomes introduzidos pela Odoo a partir das versões
-  16.0/17.0/18.0.
-- **Compatibilidade Estendida:** Ao resolver os conflitos entre
-  ``l10n_br_base`` (e aproximadamente um terço dos módulos OCA que
-  dependem dele) e o módulo ``l10n_br``, este módulo viabiliza o uso de
-  aproximadamente um terço dos módulos da localização OCA com a
-  localização fechada do Odoo Enterprise.
-- **Prevenção de Conflitos:** Sua função é desativar as views
-  conflitantes de ``res.partner`` e ``res.company`` do módulo
-  ``l10n_br``. Isso elimina a duplicação de campos na interface,
-  priorizando as visões mais completas e robustas fornecidas pelo
-  ``l10n_br_base`` da OCA. O módulo também evita a duplicação dos
-  registros de cidades ``res.city``.
+-  **Integração de Ecossistemas:** Conecta a abrangência e flexibilidade
+   do desenvolvimento colaborativo da OCA com a base do Odoo Enterprise.
+   Isso permite que os módulos Enterprise sejam enriquecidos com uma
+   parcela significativa das funcionalidades da localização OCA. Este
+   módulo funciona porque foi previamente feito um trabalho de
+   harmonização dos campos dos objetos ``res.partner`` e ``res.company``
+   na OCA com os novos nomes introduzidos pela Odoo a partir das versões
+   16.0/17.0/18.0.
+-  **Compatibilidade Estendida:** Ao resolver os conflitos entre
+   ``l10n_br_base`` (e aproximadamente um terço dos módulos OCA que
+   dependem dele) e o módulo ``l10n_br``, este módulo viabiliza o uso de
+   aproximadamente um terço dos módulos da localização OCA com a
+   localização fechada do Odoo Enterprise.
+-  **Prevenção de Conflitos:** Sua função é desativar as views
+   conflitantes de ``res.partner`` e ``res.company`` do módulo
+   ``l10n_br``. Isso elimina a duplicação de campos na interface,
+   priorizando as visões mais completas e robustas fornecidas pelo
+   ``l10n_br_base`` da OCA. O módulo também evita a duplicação dos
+   registros de cidades ``res.city``.
 
 Público-Alvo e Recomendações:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- **Para usuários do Odoo Enterprise:** Este módulo é ideal para uma
-  **transição progressiva para a OCA** ou para projetos que necessitam
-  de funcionalidades de ambos os conjuntos de módulos.
-- **Para usuários exclusivos da OCA:** Se você já utiliza apenas a
-  localização open source OCA (**parabéns!**), a instalação deste módulo
-  **não é recomendada**. Os módulos ``l10n_br`` e
-  ``l10n_br_base_l10n_br_compat`` não agregam valor ao seu projeto e
-  podem introduzir complexidade desnecessária.
+-  **Para usuários do Odoo Enterprise:** Este módulo é ideal para uma
+   **transição progressiva para a OCA** ou para projetos que necessitam
+   de funcionalidades de ambos os conjuntos de módulos.
+-  **Para usuários exclusivos da OCA:** Se você já utiliza apenas a
+   localização open source OCA (**parabéns!**), a instalação deste
+   módulo **não é recomendada**. Os módulos ``l10n_br`` e
+   ``l10n_br_base_l10n_br_compat`` não agregam valor ao seu projeto e
+   podem introduzir complexidade desnecessária.
 
 Nota Técnica Importante:
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,19 +91,20 @@ Aviso Importante sobre Compatibilidade de Licenças:
 É fundamental entender as implicações das licenças envolvidas ao
 integrar módulos de ecossistemas diferentes:
 
-- **Licença AGPL (Módulos OCA):** A licença AGPL-3, sob a qual a grande
-  maioria dos módulos da OCA é publicada (e que era a licença original
-  do Odoo), é uma licença de *copyleft* forte. Ela garante a sua
-  liberdade de usar, modificar e redistribuir o software, mas **exige
-  que qualquer trabalho derivado (módulo customizado que dependa de um
-  módulo AGPL) seja também licenciado sob a AGPL** quando distribuído ou
-  oferecido como serviço (SaaS). O objetivo é garantir que as melhorias
-  feitas no software permaneçam livres e abertas para toda a comunidade.
+-  **Licença AGPL (Módulos OCA):** A licença AGPL-3, sob a qual a grande
+   maioria dos módulos da OCA é publicada (e que era a licença original
+   do Odoo), é uma licença de *copyleft* forte. Ela garante a sua
+   liberdade de usar, modificar e redistribuir o software, mas **exige
+   que qualquer trabalho derivado (módulo customizado que dependa de um
+   módulo AGPL) seja também licenciado sob a AGPL** quando distribuído
+   ou oferecido como serviço (SaaS). O objetivo é garantir que as
+   melhorias feitas no software permaneçam livres e abertas para toda a
+   comunidade.
 
-- **Licença Proprietária (Odoo Enterprise):** A licença do Odoo
-  Enterprise é restritiva e proprietária. Ela **não permite a
-  redistribuição ou publicação do código-fonte** dos módulos Enterprise
-  ou de trabalhos derivados deles.
+-  **Licença Proprietária (Odoo Enterprise):** A licença do Odoo
+   Enterprise é restritiva e proprietária. Ela **não permite a
+   redistribuição ou publicação do código-fonte** dos módulos Enterprise
+   ou de trabalhos derivados deles.
 
 **O Conflito Fundamental:** As liberdades fundamentais garantidas pela
 AGPL são **incompatíveis** com as restrições impostas pela licença
@@ -134,7 +135,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_base_l10n_br_compat%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_base_l10n_br_compat%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -149,9 +150,9 @@ Authors
 Contributors
 ------------
 
-- `AKRETION <https://akretion.com/pt-BR/>`__:
+-  `AKRETION <https://akretion.com/pt-BR/>`__:
 
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
 Maintainers
 -----------
@@ -174,6 +175,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-rvalyi| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_base_l10n_br_compat>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_base_l10n_br_compat>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
