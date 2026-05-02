@@ -199,7 +199,7 @@ class WorkalendarHolidayImport(models.TransientModel):
                         leaves.create(
                             {
                                 "resource_id": False,
-                                "name": "%s %d" % (holiday.nome, holiday.data.year),
+                                "name": f"{holiday.nome} {holiday.data.year}",
                                 "calendar_id": work_time.id,
                                 "date_from": date_from,
                                 "date_to": date_to,
