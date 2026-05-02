@@ -21,13 +21,13 @@ Brazilian Localisation ZIP Codes
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_zip
+    :target: https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_zip
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_zip
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_zip
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -36,9 +36,9 @@ Permite consultar o endereço através do CEP e preencher o campos do
 endereço com as informações consultadas, esse módulo também permite
 utilizar os seguintes serviços para consulta de CEP:
 
-- [API CEP](https://apicep.com/api-de-consulta/)
-- [Via CEP](https://viacep.com.br/)
-- [Correios](http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCepEndereco.cfm)
+-  [API CEP](https://apicep.com/api-de-consulta/)
+-  [Via CEP](https://viacep.com.br/)
+-  [Correios](http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCepEndereco.cfm)
 
 Para otimizar as buscas este módulo salva o resultado das consultas de
 cep na tabela l10n_br_zip, por padrão a cada 365 dias o registro de cep
@@ -66,11 +66,11 @@ habilitada ou desabilitada a busca de CEP
 
 Ao habilitar a busca de CEP existe as configurações:
 
-- Provedor de Busca de CEP;
-- Periodo para um registro na l10n_br_zip ser atualizado em uma nova
-  consulta.
+-  Provedor de Busca de CEP;
+-  Periodo para um registro na l10n_br_zip ser atualizado em uma nova
+   consulta.
 
-.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/18.0/l10n_br_zip/static/description/l10n_br_zip_1.png
+.. |image1| image:: https://raw.githubusercontent.com/OCA/l10n-brazil/19.0/l10n_br_zip/static/description/l10n_br_zip_1.png
 
 Usage
 =====
@@ -89,34 +89,35 @@ Changelog
 16.0.2.0.0 (2023-06-29)
 -----------------------
 
-   - Biblioteca PyCEP-Correios foi renomeada para BrazilCEP.
+   -  Biblioteca PyCEP-Correios foi renomeada para BrazilCEP.
 
 16.0.1.0.0 (2022-10-25)
 -----------------------
 
-   - Migração para 16.0
+   -  Migração para 16.0
 
 15.0.1.0.0 (2022-10-25)
 -----------------------
 
-   - Migração para 15.0
+   -  Migração para 15.0
 
 14.0.1.0.0 (2022-10-25)
 -----------------------
 
-   - Migração para 14.0
+   -  Migração para 14.0
 
 12.0.3.0.0 (2021-01-08)
 -----------------------
 
-   - Atualizada a biblioteca pycep-correios para a versão 5.0.0
-   - [ADD] Adicionado a opção para selecionar o provedor do serviço de
-     busca de CEP.
+   -  Atualizada a biblioteca pycep-correios para a versão 5.0.0
+   -  [ADD] Adicionado a opção para selecionar o provedor do serviço de
+      busca de CEP.
 
 12.0.2.0.0 (2019-06-17)
 -----------------------
 
-   - [REF] Incluida pesquisa e dependência da biblioteca PyCEP-Correios.
+   -  [REF] Incluida pesquisa e dependência da biblioteca
+      PyCEP-Correios.
 
 Bug Tracker
 ===========
@@ -124,7 +125,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_zip%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_zip%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -139,9 +140,9 @@ Authors
 Contributors
 ------------
 
-- Renato Lima <rento.lima@akretion.com.br>
-- Magno Costa <magno.costa@akretion.com.br>
-- Hendrix Costa <hendrix.costa@kmee.com.br>
+-  Renato Lima <rento.lima@akretion.com.br>
+-  Magno Costa <magno.costa@akretion.com.br>
+-  Hendrix Costa <hendrix.costa@kmee.com.br>
 
 Maintainers
 -----------
@@ -164,6 +165,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-renatonlima| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_zip>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_zip>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
