@@ -27,7 +27,16 @@ class L10nBRZipTest(TransactionCase):
                 district="Bela Vista",
             )
         )
-        cls.res_partner = cls.env.ref("l10n_br_base.res_partner_akretion")
+        cls.res_partner = cls.env["res.partner"].create(
+            dict(
+                name="Akretion",
+                street_name="Avenida Paulista",
+                district="Bela Vista",
+                country_id=cls.env.ref("base.br").id,
+                state_id=cls.env.ref("base.state_br_sp").id,
+                city_id=cls.env.ref("l10n_br_base.city_3550308").id,
+            )
+        )
         cls.res_partner_1 = cls.env["res.partner"].create(
             dict(
                 name="teste",
