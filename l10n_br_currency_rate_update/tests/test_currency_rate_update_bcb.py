@@ -7,7 +7,11 @@ from os import environ
 from unittest import mock
 
 from dateutil.relativedelta import relativedelta
-from decorator import decorate
+
+try:
+    from decorator import decorate
+except ImportError:
+    decorate = None
 
 from odoo import Command, fields
 from odoo.tests.common import TransactionCase
@@ -32,7 +36,9 @@ def not_every_day_test(method):
     to crash the entire l10n-brazil test suite because of this.
     the CI_FORCE_IBPT env var can be set to force the test anyhow.
     """
-    return decorate(method, _not_every_day_test)
+    if decorate:
+        return decorate(method, _not_every_day_test)
+    return method
 
 
 def mocked_requests_get(*args, **kwargs):
