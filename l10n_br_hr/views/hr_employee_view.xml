@@ -26,20 +26,16 @@
                     />
                 </group>
             </xpath>
-            <xpath expr="//field[@name='coach_id']" position="after">
+            <xpath expr="//field[@name='parent_id']" position="after">
                 <field name="registration" />
             </xpath>
-            <xpath expr="//field[@name='work_contact_id']" position="after">
+            <xpath expr="//field[@name='mobile_phone']" position="after">
                 <field name="alternate_phone" />
                 <field name="emergency_phone" />
                 <field name="talk_to" />
                 <field name="alternate_email" />
             </xpath>
-            <field name="work_contact_id" position="attributes">
-                <attribute name="domain">[('is_company','=',False)]</attribute>
-                <attribute name="required">1</attribute>
-            </field>
-            <xpath expr="//page[@name='public']" position="after">
+            <xpath expr="//page[@name='personal_information']" position="after">
                 <page
                     name="documents"
                     string="Documents"
@@ -105,7 +101,7 @@
                     </form>
                 </page>
             </xpath>
-            <xpath expr="//page[@name='public']" position="after">
+            <xpath expr="//page[@name='personal_information']" position="after">
                 <page
                     name="health"
                     string="Health"
