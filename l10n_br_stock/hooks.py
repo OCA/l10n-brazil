@@ -8,9 +8,14 @@ _logger = logging.getLogger(__name__)
 
 def set_stock_warehouse_external_ids(env, company_external_id):
     module, external_id = company_external_id.split(".")
+    company = env.ref(company_external_id, raise_if_not_found=False)
+    if not company:
+        return
     warehouse = env["stock.warehouse"].search(
-        [("company_id", "=", env.ref(company_external_id).id)], limit=1
+        [("company_id", "=", company.id)], limit=1
     )
+    if not warehouse:
+        return
 
     data_list = [
         {
