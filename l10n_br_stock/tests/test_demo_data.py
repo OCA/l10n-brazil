@@ -31,6 +31,12 @@ class TestDemoDataHooks(TransactionCase):
         "_picking_type_out",
     ]
 
+    def _require_demo_data(self):
+        """The hooks only create the demo records when the module is
+        installed with demo data (the OCA CI of 19.0 installs without it)."""
+        if not self.env.ref("base.module_l10n_br_stock").demo:
+            self.skipTest("the database was installed without demo data")
+
     def _resolve_warehouse(self, company_xid):
         """Resolve a warehouse via its external ID and assert it exists."""
         wh = self.env.ref(company_xid, raise_if_not_found=False)
@@ -39,6 +45,7 @@ class TestDemoDataHooks(TransactionCase):
 
     def test_warehouse_external_ids(self):
         """Warehouses for demo companies have proper external IDs."""
+        self._require_demo_data()
         for company_xid in (
             "l10n_br_stock.wh_empresa_simples_nacional",
             "l10n_br_stock.wh_empresa_lucro_presumido",
@@ -51,6 +58,7 @@ class TestDemoDataHooks(TransactionCase):
 
     def test_warehouse_sub_records_external_ids(self):
         """All warehouse sub-records (locations, picking types) have xids."""
+        self._require_demo_data()
         for prefix in (
             "l10n_br_stock.wh_empresa_simples_nacional",
             "l10n_br_stock.wh_empresa_lucro_presumido",
@@ -65,6 +73,7 @@ class TestDemoDataHooks(TransactionCase):
 
     def test_warehouse_company_link(self):
         """Each warehouse is linked to the correct demo company."""
+        self._require_demo_data()
         company_sn = self.env.ref("l10n_br_base.empresa_simples_nacional")
         company_lp = self.env.ref("l10n_br_base.empresa_lucro_presumido")
         wh_sn = self._resolve_warehouse("l10n_br_stock.wh_empresa_simples_nacional")
@@ -74,6 +83,7 @@ class TestDemoDataHooks(TransactionCase):
 
     def test_stock_quants_created(self):
         """post_init_hook created quants with inventory for demo products."""
+        self._require_demo_data()
         wh_sn = self._resolve_warehouse("l10n_br_stock.wh_empresa_simples_nacional")
         quants = self.env["stock.quant"].search(
             [("location_id", "=", wh_sn.lot_stock_id.id)]
@@ -92,6 +102,7 @@ class TestDemoDataHooks(TransactionCase):
 
     def test_demo_shelf_locations(self):
         """Demo shelf locations are correctly linked to warehouse stock."""
+        self._require_demo_data()
         loc_sn = self.env.ref("l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id")
         loc_lp = self.env.ref("l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id")
         shelf_sn_1 = self.env.ref("l10n_br_stock.stock_location_sn_shelf_1")
@@ -115,10 +126,9 @@ class TestDemoDataHooks(TransactionCase):
         )
 
         # The fields are searchable (have a search method or are stored)
-        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
-        if partner.legal_name or partner.name:
+        for field_name in ("legal_name", "l10n_br_ie_code"):
             pickings = self.env["stock.picking"].search(
-                [("legal_name", "ilike", partner.name or "")]
+                [(field_name, "ilike", "Cliente")]
             )
             # search should not raise even if no results
             self.assertIsInstance(pickings, type(self.env["stock.picking"]))
