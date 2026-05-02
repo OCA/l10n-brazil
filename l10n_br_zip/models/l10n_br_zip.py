@@ -8,7 +8,7 @@ import requests
 from brazilcep import WebService, get_address_from_cep
 from erpbrasil.base import misc
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 # This is the original 'send' method from the requests library that
@@ -68,7 +68,7 @@ class L10nBrZip(models.Model):
         else:
             if not state_id or not city_id or len(street_name or "") == 0:
                 raise UserError(
-                    _(
+                    self.env._(
                         "It is necessary to inform the State, municipality and public "
                         "place"
                     )
@@ -134,7 +134,7 @@ class L10nBrZip(models.Model):
                     zip_str, webservice=cep_ws_providers.get(cep_ws_provide)
                 )
         except Exception as e:
-            raise UserError(_("Error in BrazilCEP: ") + str(e)) from e
+            raise UserError(self.env._("Error in BrazilCEP: ") + str(e)) from e
 
         values = {}
         if cep and any(cep.values()):
@@ -184,7 +184,7 @@ class L10nBrZip(models.Model):
                 zip_code=obj.zip,
             )
         except AttributeError as e:
-            raise UserError(_("Error loading attribute: ") + str(e)) from e
+            raise UserError(self.env._("Error loading attribute: ") + str(e)) from e
 
         zips = self.search(domain)
 
@@ -239,8 +239,8 @@ class L10nBrZip(models.Model):
 
     def zip_select(self):
         self.ensure_one()
-        address_id = self._context.get("address_id")
-        object_name = self._context.get("object_name")
+        address_id = self.env.context.get("address_id")
+        object_name = self.env.context.get("object_name")
         if address_id and object_name:
             obj = self.env[object_name].browse(address_id)
             obj.write(self.set_result())

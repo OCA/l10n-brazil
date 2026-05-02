@@ -50,7 +50,7 @@ class L10nBrZipSearch(models.TransientModel):
     def default_get(self, fields_list):
         data = super().default_get(fields_list)
 
-        context = dict(self._context or {})
+        context = dict(self.env.context or {})
         data["zip"] = context.get("zip", False)
         data["street_name"] = context.get("street_name", False)
         data["district"] = context.get("district", False)
