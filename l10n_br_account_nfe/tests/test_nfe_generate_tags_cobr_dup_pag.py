@@ -64,13 +64,13 @@ class TestGeneratePaymentInfo(TransactionCase):
             {
                 "name": "30 Days",
                 "line_ids": [
-                    (
-                        0,
-                        0,
+                    Command.create(
                         {
-                            "value": "balance",
-                            "days": 30,
-                        },
+                            "value": "percent",
+                            "value_amount": 100,
+                            "delay_type": "days_after",
+                            "nb_days": 30,
+                        }
                     )
                 ],
             }
