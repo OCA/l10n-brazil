@@ -2,15 +2,14 @@
 # @author Antônio S. Pereira Neto <neto@engenere.one>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import SUPERUSER_ID, Command, api, tools
+from odoo import Command, tools
 
 
-def post_init_hook(cr, registry):
-    env = api.Environment(cr, SUPERUSER_ID, {})
-    load_simples_nacional_demo(env, registry)
+def post_init_hook(env):
+    load_simples_nacional_demo(env)
 
 
-def load_simples_nacional_demo(env, registry):
+def load_simples_nacional_demo(env):
     """
     Load demo data for company 'Simples Nacional' with
     default user company set to this company.
@@ -27,7 +26,7 @@ def load_simples_nacional_demo(env, registry):
         env.user.company_id = company_sn
 
         tools.convert_file(
-            env.cr,
+            env,
             "l10n_br_account_nfe",
             "demo/account_invoice_sn_demo.xml",
             None,
