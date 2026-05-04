@@ -111,6 +111,10 @@ class AccountChartTemplate(models.AbstractModel):
                     "account_purchase_tax_id": False,
                 }
             )
+            flavor = "itg"
+            if template_code == "br_oca_generic" or company.tax_framework == "3":
+                flavor = "cfc"
+            self._populate_default_br_tax_accounts(company, flavor=flavor)
         return result
 
     def _set_tax_group_accs(self, template_code, tax_data):
@@ -189,19 +193,20 @@ class AccountChartTemplate(models.AbstractModel):
             # Use fixed codes. Ensure they don't clash with base CoA or handle it.
             # We assume these codes are specific enough.
             code = code_cfc if flavor == "cfc" else code_itg
-            code = f"{code}{review_suffix}"
+            code_gen = f"{code}{review_suffix}"
 
             # TODO: would be better to 1st search for the taxes related to all templates
             # DEFAULT_TAX_TEMPLATES_ACCOUNTS.items()
             # and if xml_id_name_part is related to a tax template for which the tax
             # repartion_line_ids have accounts already, then skip account creation
             existing_account = Account.search(
-                [("code", "=", code), ("company_id", "=", company.id)], limit=1
+                [("code", "in", [code, code_gen]), ("company_id", "=", company.id)],
+                limit=1,
             )
             if not existing_account:
                 account = Account.create(
                     {
-                        "code": code,
+                        "code": code_gen,
                         "name": name,
                         "account_type": acc_type,
                         "company_id": company.id,
@@ -261,8 +266,12 @@ class AccountChartTemplate(models.AbstractModel):
             )
             company_tax = self.env.ref(tax_xmlid, raise_if_not_found=False)
             if not company_tax:
-                _logger.warning(f"tax {tax_xmlid} not found! Skipping it...")
-                continue
+                tax_xmlid = f"account.{company.id}_{tax_template_xmlid.split('.')[1]}"
+                company_tax = self.env.ref(tax_xmlid, raise_if_not_found=False)
+
+                if not company_tax:
+                    _logger.warning(f"tax {tax_xmlid} not found! Skipping it...")
+                    continue
 
             inv_rep_acc_key, ref_rep_acc_key = acc_mapping_keys
             invoice_account = (
