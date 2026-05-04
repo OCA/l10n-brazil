@@ -135,6 +135,9 @@ msgid "Close"
 msgstr "Fechar"
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_account_bank_statement_line__close_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_account_move__close_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_account_payment__close_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_document__close_id
 msgid "Close ID"
 msgstr "ID do Fechamento Fiscal"
@@ -311,11 +314,6 @@ msgid "Is Follower"
 msgstr "É Seguidor"
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__write_uid
 msgid "Last Updated by"
 msgstr "Última Atualização por"
@@ -324,11 +322,6 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__write_date
 msgid "Last Updated on"
 msgstr "Última Atualização em"
-
-#. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Anexo Principal"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_error
@@ -528,6 +521,12 @@ msgstr "Ano"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__zip_file
 msgid "Zip File"
 msgstr "Arquivo ZIP"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
 
 #~ msgid "Followers (Channels)"
 #~ msgstr "Seguidores (Canais)"
