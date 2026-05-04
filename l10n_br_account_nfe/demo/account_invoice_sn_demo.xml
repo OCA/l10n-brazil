@@ -15,9 +15,9 @@
         <field
             name="line_ids"
             eval="[Command.clear(),
-               Command.create({'value': 'percent', 'value_amount': 33, 'days': 30}),
-               Command.create({'value': 'percent', 'value_amount': 33, 'days': 60}),
-               Command.create({'value': 'balance', 'value_amount': 0.0, 'days': 90})
+               Command.create({'value': 'percent', 'value_amount': 33, 'delay_type': 'days_after', 'nb_days': 30}),
+               Command.create({'value': 'percent', 'value_amount': 33, 'delay_type': 'days_after', 'nb_days': 60}),
+               Command.create({'value': 'percent', 'value_amount': 34, 'delay_type': 'days_after', 'nb_days': 90})
                ]"
         />
     </record>
