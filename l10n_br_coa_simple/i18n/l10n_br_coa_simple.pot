@@ -1,9 +1,10 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
+# 	* l10n_br_coa_simple
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -11,3 +12,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_br_coa_simple
+#: model:ir.model,name:l10n_br_coa_simple.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
+
+#. module: l10n_br_coa_simple
+#: model:account.journal,name:l10n_br_coa_simple.sale_journal_empresa_sn
+#: model:account.journal,name:l10n_br_coa_simple.sale_journal_main_company
+msgid "Customer Invoices"
+msgstr ""
+
+#. module: l10n_br_coa_simple
+#: model:account.journal,name:l10n_br_coa_simple.general_journal_empresa_sn
+#: model:account.journal,name:l10n_br_coa_simple.general_journal_main_company
+msgid "Miscellaneous Operations"
+msgstr ""
+
+#. module: l10n_br_coa_simple
+#. odoo-python
+#: code:addons/l10n_br_coa_simple/models/template_br_oca_simple.py:0
+#, python-format
+msgid "Plano de Contas Simplificado"
+msgstr ""
+
+#. module: l10n_br_coa_simple
+#: model:account.journal,name:l10n_br_coa_simple.purchase_journal_empresa_sn
+#: model:account.journal,name:l10n_br_coa_simple.purchase_journal_main_company
+msgid "Vendor Bills"
+msgstr ""
