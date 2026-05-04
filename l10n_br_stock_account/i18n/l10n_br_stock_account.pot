@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,7 +20,6 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Accounting"
 msgstr ""
 
@@ -83,11 +82,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__amount_price_gross
 msgid "Amount without discount."
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
-msgid "Amounts"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -440,11 +434,6 @@ msgid "Delivery Costs"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
-msgid "Demand"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ii_customhouse_charges
 msgid "Despesas Aduaneiras"
 msgstr ""
@@ -457,6 +446,30 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__discount_value
 msgid "Discount Value"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:account.journal,name:l10n_br_stock_account.devolucao_compras_journal_main_company
+msgid "Diário Devolução de Compras"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_lucro_presumido
+#: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_main_company
+#: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_simples_nacional
+msgid "Diário Entrada Remessa"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_lucro_presumido
+#: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_main_company
+#: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_simples_nacional
+msgid "Diário Simples Remessa"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:account.journal,name:l10n_br_stock_account.devolucao_vendas_journal_main_company
+msgid "Diário de Devolução de Vendas"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -501,7 +514,6 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Extra Info"
 msgstr ""
 
@@ -534,11 +546,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__financial_total_gross
 msgid "Financial Gross Amount"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
-msgid "Fiscal"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -593,7 +600,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_quantity
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Fiscal Quantity"
 msgstr ""
 
@@ -1220,11 +1226,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
-msgid "Invoicing"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__issuer
 msgid "Issuer"
 msgstr ""
@@ -1347,7 +1348,6 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
 msgid "Others"
 msgstr ""
 
@@ -1498,6 +1498,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__partner_is_public_entity
 msgid "Public Entity"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__quantity
+msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1777,17 +1782,6 @@ msgstr ""
 #: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:0
 #, python-format
 msgid "This Fiscal Operation has no Fiscal Operation for Returns defined!"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__quantity
-msgid ""
-"This is the quantity of products from an inventory point of view. For moves "
-"in the state 'done', this is the quantity of products that were actually "
-"moved. For other moves, this is the quantity of product that is planned to "
-"be moved. Lowering this quantity does not generate a backorder. Changing "
-"this quantity on assigned moves affects the product reservation, and should "
-"be done with care."
 msgstr ""
 
 #. module: l10n_br_stock_account
