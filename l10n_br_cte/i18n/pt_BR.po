@@ -71,12 +71,18 @@ msgid "AC"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vAFRMM
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vAFRMM
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vAFRMM
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_vAFRMM
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vAFRMM
 msgid "AFRMM"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_vAFRMM
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_vAFRMM
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_vAFRMM
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_vAFRMM
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vAFRMM
 msgid "AFRMM (Adicional de Frete para Renovação da Marinha Mercante)"
@@ -103,16 +109,25 @@ msgid "Add a new CTe"
 msgstr "Adicionar um novo CTe"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_pCBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_pCBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_pCBS
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_pCBS
 msgid "Aliquota CBS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_pIBSMun
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_pIBSMun
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_pIBSMun
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_pIBSMun
 msgid "Aliquota IBS Municipal"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_pIBSUF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_pIBSUF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_pIBSUF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_pIBSUF
 msgid "Aliquota IBS UF"
 msgstr ""
@@ -150,6 +165,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_vRec
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_vRec
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_vRec
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vRec
 msgid "Amount without discount."
 msgstr ""
@@ -196,6 +214,9 @@ msgid "Authorization Protocol Not Found!"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_autXML
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_autXML
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_autXML
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_autXML
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_autXML
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_autXML
@@ -207,6 +228,9 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tcteos_autxml
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tctesimp_autxml
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tgtve_autxml
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_autXML
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_autXML
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_autXML
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_autXML
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_autXML
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_autXML
@@ -457,6 +481,9 @@ msgid "CT-e Normal"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_version
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_version
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_version
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_version
 msgid "CT-e Version"
 msgstr "Versão do CT-e"
@@ -474,11 +501,17 @@ msgid "CT-e de Substituição"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_transmission
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_transmission
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_transmission
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_transmission
 msgid "CTE Transmission"
 msgstr "Transmissão do CTE"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_environment
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_environment
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_environment
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_environment
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_environment
 msgid "CTe Environment"
@@ -505,6 +538,9 @@ msgid "Cabotagem"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_obsCont
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_obsCont
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_obsCont
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_compl__cte40_obsCont
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_compl__cte40_obsCont
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_compl__cte40_obsCont
@@ -519,6 +555,12 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tctesimp_obsfisco
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tgtve_obscont
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tgtve_obsfisco
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_obsCont
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_obsFisco
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_obsCont
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_obsFisco
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_obsCont
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_obsFisco
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_compl__cte40_obsCont
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_compl__cte40_obsFisco
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_compl__cte40_obsCont
@@ -655,12 +697,18 @@ msgid "Chave de acesso do CT-e a ser substituído (original)"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_chCTeFerroOrigem
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_chCTeFerroOrigem
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_chCTeFerroOrigem
 msgid "Chave de acesso do CT-e emitido"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_chCTeFerroOrigem
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_chCTeFerroOrigem
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_chCTeFerroOrigem
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_chCTeFerroOrigem
 msgid "Chave de acesso do CT-e emitido pelo ferrovia de origem"
@@ -684,12 +732,18 @@ msgid "City"
 msgstr "Cidade"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_CL
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_CL
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_CL
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_CL
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_CL
 msgid "Classe"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_CL
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_CL
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_CL
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_CL
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_CL
 msgid ""
@@ -701,6 +755,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_CST
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_CST
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_CST
 msgid "Classificação Tributária do Serviço"
 msgstr ""
@@ -737,6 +794,9 @@ msgstr ""
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tcteos_infctenorm_comp
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tcteos_vprest_comp
 #: model:ir.model,name:l10n_br_cte.model_cte_40_tctesimp_det_comp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_comp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_comp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_comp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_det__cte40_comp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_vprest__cte40_comp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_comp
@@ -835,26 +895,41 @@ msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_modal_aereo_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_modal_aereo_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_modal_aereo_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_modal_aereo_id
 msgid "Cte Modal Aereo"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_modal_aquaviario_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_modal_aquaviario_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_modal_aquaviario_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_modal_aquaviario_id
 msgid "Cte Modal Aquaviario"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_modal_dutoviario_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_modal_dutoviario_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_modal_dutoviario_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_modal_dutoviario_id
 msgid "Cte Modal Dutoviario"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_modal_ferroviario_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_modal_ferroviario_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_modal_ferroviario_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_modal_ferroviario_id
 msgid "Cte Modal Ferroviario"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_modal_rodoviario_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_modal_rodoviario_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_modal_rodoviario_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_modal_rodoviario_id
 msgid "Cte Modal Rodoviario"
 msgstr ""
@@ -878,11 +953,17 @@ msgid "Cte40 Chave"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_choice_infcteNorm_infcteComp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_choice_infcteNorm_infcteComp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_choice_infcteNorm_infcteComp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_choice_infcteNorm_infcteComp
 msgid "Cte40 Choice Infctenorm Infctecomp"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_choice_toma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_choice_toma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_choice_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_choice_toma
 msgid "Cte40 Choice Toma"
 msgstr ""
@@ -898,6 +979,7 @@ msgid "Cte40 Comp Infgtve"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move_line__cte40_Comp_vPrest_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_vprest_comp__cte40_Comp_vPrest_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_line__cte40_Comp_vPrest_id
 msgid "Cte40 Comp Vprest"
@@ -927,6 +1009,9 @@ msgid "Cte40 Enderferro"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_enderReme
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_enderReme
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_enderReme
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_enderReme
 msgid "Cte40 Enderreme"
 msgstr ""
@@ -958,11 +1043,17 @@ msgid "Cte40 Iddocantpap Iddocant"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_indSN
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_indSN
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_indSN
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_indSN
 msgid "Cte40 Indsn"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_infCTeComp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_infCTeComp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_infCTeComp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infCTeComp
 msgid "Cte40 Infctecomp"
 msgstr ""
@@ -979,6 +1070,9 @@ msgid "Cte40 Infctemultimodal Infservvinc"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_infCTeSupl
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_infCTeSupl
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_infCTeSupl
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infCTeSupl
 msgid "Cte40 Infctesupl"
 msgstr ""
@@ -1143,16 +1237,25 @@ msgid "Cte40 Uf"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_UFEnv
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_UFEnv
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_UFEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_UFEnv
 msgid "Cte40 Ufenv"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_UFFim
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_UFFim
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_UFFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_UFFim
 msgid "Cte40 Uffim"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_UFIni
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_UFIni
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_UFIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_UFIni
 msgid "Cte40 Ufini"
 msgstr ""
@@ -1169,6 +1272,9 @@ msgid "Cte40 Xender"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_xObs
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_xObs
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_xObs
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xObs
 msgid "Cte40 Xobs"
 msgstr ""
@@ -1185,6 +1291,9 @@ msgid "Currency"
 msgstr "Moeda"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_CFOP
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_CFOP
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_CFOP
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_CFOP
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_CFOP
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_CFOP
@@ -1211,12 +1320,18 @@ msgid "Código da Rota de Entrega"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_cTar
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_cTar
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_cTar
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_cTar
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cTar
 msgid "Código da Tarifa"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_cTar
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_cTar
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_cTar
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_cTar
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cTar
 msgid ""
@@ -1283,6 +1398,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_CRT
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_CRT
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_CRT
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_CRT
 msgid "Código de Regime Tributário (CTe)"
 msgstr ""
@@ -1300,6 +1418,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_cMunEnv
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_cMunEnv
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_cMunEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cMunEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_cMunEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cMunEnv
@@ -1307,6 +1428,9 @@ msgid "Código do Município de envio do CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_cMunEnv
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_cMunEnv
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_cMunEnv
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cMunEnv
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_cMunEnv
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cMunEnv
@@ -1316,6 +1440,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_cMunIni
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_cMunIni
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_cMunIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_det__cte40_cMunIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cMunIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cMunIni
@@ -1323,6 +1450,9 @@ msgid "Código do Município de início"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_cMunIni
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_cMunIni
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_cMunIni
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_det__cte40_cMunIni
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cMunIni
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cMunIni
@@ -1332,6 +1462,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_cMunFim
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_cMunFim
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_cMunFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_det__cte40_cMunFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cMunFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cMunFim
@@ -1339,6 +1472,9 @@ msgid "Código do Município de término"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_cMunFim
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_cMunFim
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_cMunFim
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_det__cte40_cMunFim
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cMunFim
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cMunFim
@@ -1458,6 +1594,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_cCT
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_cCT
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_cCT
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cCT
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_cCT
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_cCT
@@ -1466,6 +1605,9 @@ msgid "Código numérico que compõe a Chave"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_cCT
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_cCT
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_cCT
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_cCT
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_cCT
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_ide__cte40_cCT
@@ -1567,11 +1709,17 @@ msgid "Dados das duplicatas"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_peri
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_peri
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_peri
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_peri
 msgid "Dados de carga perigosa"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_enderToma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_enderToma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_enderToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_toma__cte40_enderToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_enderToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_enderDest
@@ -1600,6 +1748,9 @@ msgid "Dados do protocolo de status"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_dProg
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_dProg
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_dProg
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dProg
 msgid "Data Programada"
 msgstr ""
@@ -1623,12 +1774,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_dFim
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_dFim
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_dFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_dFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dFim
 msgid "Data de Fim da prestação do serviço"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_dIni
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_dIni
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_dIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_dIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dIni
 msgid "Data de Início da prestação do serviço"
@@ -1782,12 +1939,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_dPrevAereo
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_dPrevAereo
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_dPrevAereo
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_dPrevAereo
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dPrevAereo
 msgid "Data prevista da entrega"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_dPrevAereo
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_dPrevAereo
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_dPrevAereo
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_dPrevAereo
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dPrevAereo
 msgid ""
@@ -1816,6 +1979,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_dProg
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_dProg
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_dProg
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dProg
 msgid ""
 "Data programada\n"
@@ -1850,6 +2016,9 @@ msgid "Descrição literal do status do CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_dest
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_dest
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_dest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dest
 msgid "Destinatário"
 msgstr ""
@@ -1943,12 +2112,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_xDime
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_xDime
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_xDime
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_xDime
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xDime
 msgid "Dimensão"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_xDime
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_xDime
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_xDime
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_xDime
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xDime
 msgid ""
@@ -1960,12 +2135,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_direc
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_direc
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_direc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_direc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_direc
 msgid "Direção"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_direc
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_direc
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_direc
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_direc
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_direc
 msgid ""
@@ -2007,6 +2188,9 @@ msgid "Document"
 msgstr "Documento"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_dhEmi
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_dhEmi
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_dhEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dhEmi
 msgid "Document Date"
 msgstr "Data do Documento"
@@ -2083,6 +2267,9 @@ msgid "Emissão Normal"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_emit
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_emit
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_emit
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_emit
 msgid "Emit"
 msgstr ""
@@ -2139,17 +2326,26 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_exped
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_exped
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_exped
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_exped
 msgid "Expedidor"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_ferrEmi
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_ferrEmi
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_ferrEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_ferrEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_ferrEmi
 msgid "Ferrovia Emitente do CTe"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_ferrEmi
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_ferrEmi
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_ferrEmi
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_ferrEmi
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_ferrEmi
 msgid ""
@@ -2197,12 +2393,18 @@ msgid "Fiscal Document Type"
 msgstr "Tipo de Documento Fiscal"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_fluxo
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_fluxo
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_fluxo
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_fluxo
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_fluxo
 msgid "Fluxo Ferroviário"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_fluxo
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_fluxo
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_fluxo
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_fluxo
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_fluxo
 msgid ""
@@ -2211,6 +2413,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_pass
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_pass
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_pass
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_pass
 msgid "Fluxo Pass"
 msgstr ""
@@ -2230,6 +2435,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpEmis
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpEmis
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpEmis
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_tpEmis
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpEmis
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpEmis
@@ -2237,6 +2445,9 @@ msgid "Forma de emissão do CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_tpEmis
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_tpEmis
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_tpEmis
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpEmis
 msgid ""
 "Forma de emissão do CT-e\n"
@@ -2271,6 +2482,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpImp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpImp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpImp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpImp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_tpImp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpImp
@@ -2278,6 +2492,9 @@ msgid "Formato de impressão do DACTE"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_tpImp
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_tpImp
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_tpImp
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpImp
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_ide__cte40_tpImp
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpImp
@@ -2347,6 +2564,9 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_cte_modal_aquav_balsa
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_balsa
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_balsa
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_balsa
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_balsa
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_balsa
 msgid "Grupo de informações das balsas"
@@ -2537,6 +2757,9 @@ msgid "Identificador da Balsa"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_Id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_Id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_Id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_Id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_Id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_Id
@@ -2553,6 +2776,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_Id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_Id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_Id
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_Id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_Id
 msgid ""
@@ -2573,6 +2799,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_procEmi
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_procEmi
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_procEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_procEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_procEmi
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_procEmi
@@ -2580,6 +2809,9 @@ msgid "Identificador do processo de emissão"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_procEmi
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_procEmi
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_procEmi
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_procEmi
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_procEmi
 msgid ""
@@ -2681,6 +2913,9 @@ msgid "Identificação do Emitente do CT-e OS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_xNavio
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_xNavio
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_xNavio
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_xNavio
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xNavio
 msgid "Identificação do Navio"
@@ -2785,6 +3020,9 @@ msgid "Indicador do 'papel' do tomador do serviço no GT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_indIEToma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_indIEToma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_indIEToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_indIEToma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_indIEToma
 msgid "Indicador do papel do tomador"
@@ -2801,6 +3039,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_indIEToma
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_indIEToma
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_indIEToma
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_indIEToma
 msgid ""
 "Indicador do papel do tomador na prestação do serviço:\n"
@@ -2811,12 +3052,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_retira
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_retira
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_retira
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_retira
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_retira
 msgid "Indicador se o Recebedor retira"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_retira
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_retira
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_retira
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_retira
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_retira
 msgid ""
@@ -2866,6 +3113,9 @@ msgid "Informações das Espécies transportadas"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_ferroEnv
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_ferroEnv
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_ferroEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_ferroEnv
 msgid "Informações das Ferrovias Envolvidas"
 msgstr ""
@@ -2903,6 +3153,9 @@ msgid "Informações das NF-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_infNFe
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_infNFe
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_infNFe
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infNFe
 msgid "Informações das NF-e DOCS (Cte)"
 msgstr ""
@@ -2965,6 +3218,9 @@ msgid "Informações de identificação dos documentos de Transporte Anterior"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_infQ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_infQ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_infQ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_infservico__cte40_infQ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_infQ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infQ
@@ -3000,6 +3256,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_infQ
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_infQ
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_infQ
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_infQ
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infQ
 msgid ""
@@ -3058,6 +3317,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_dest
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_dest
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_dest
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_dest
 msgid ""
 "Informações do Destinatário do CT-e\n"
@@ -3128,6 +3390,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_rem
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_rem
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_rem
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_rem
 msgid ""
 "Informações do Remetente das mercadorias transportadas pelo CT-e\n"
@@ -3136,6 +3401,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_infRespTec
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_infRespTec
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_infRespTec
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_infRespTec
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_infRespTec
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_infRespTec
@@ -3144,6 +3412,9 @@ msgid "Informações do Responsável Técnico"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_infRespTec
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_infRespTec
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_infRespTec
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_infRespTec
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_infRespTec
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_infRespTec
@@ -3210,6 +3481,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_infOutros
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_infOutros
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_infOutros
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infOutros
 msgid "Informações dos Outros DOCS (Cte)"
 msgstr ""
@@ -3227,11 +3501,17 @@ msgid "Informações dos documentos referenciados"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_infDoc
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_infDoc
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_infDoc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infDoc
 msgid "Informações dos documentos transportados"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_infDoc
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_infDoc
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_infDoc
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_infDoc
 msgid ""
 "Informações dos documentos transportados pelo CT-e\n"
@@ -3383,18 +3663,27 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__insurance_endorsement
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__insurance_endorsement
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__insurance_endorsement
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_endorsement
 msgid "Insurance Endorsement"
 msgstr "Averbação do Seguro"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__insurance_policy
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__insurance_policy
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__insurance_policy
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
 msgid "Insurance Policy"
 msgstr "Apólice de Seguro"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__partner_insurance_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__partner_insurance_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__partner_insurance_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
 msgid "Insurance Provider"
@@ -3406,6 +3695,9 @@ msgid "Interior"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_irin
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_irin
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_irin
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_irin
 msgid "Irin do navio"
 msgstr ""
@@ -3416,6 +3708,9 @@ msgid "Irin do navio sempre deverá"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_irin
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_irin
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_irin
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_irin
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_irin
 msgid "Irin do navio sempre deverá ser informado"
@@ -3544,6 +3839,9 @@ msgid "Modais"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_modal
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_modal
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_modal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_modal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_modal
 msgid "Modal"
@@ -3560,6 +3858,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_modal
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_modal
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_modal
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_modal
 msgid ""
 "Modal\n"
@@ -3607,6 +3908,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_modal
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_modal
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte_modal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_modal
 msgid "Modal de Transporte"
 msgstr ""
@@ -3853,6 +4157,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_natOp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_natOp
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_natOp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_natOp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_natOp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_natOp
@@ -3921,6 +4228,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_xMunEnv
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_xMunEnv
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_xMunEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_xMunEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_xMunEnv
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xMunEnv
@@ -3928,6 +4238,9 @@ msgid "Nome do Município de envio do CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_xMunEnv
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_xMunEnv
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_xMunEnv
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_xMunEnv
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_xMunEnv
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xMunEnv
@@ -3937,6 +4250,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_xMunIni
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_xMunIni
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_xMunIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_det__cte40_xMunIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_xMunIni
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xMunIni
@@ -3944,6 +4260,9 @@ msgid "Nome do Município do início da prestação"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_xMunIni
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_xMunIni
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_xMunIni
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_det__cte40_xMunIni
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_xMunIni
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xMunIni
@@ -3953,6 +4272,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_xMunFim
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_xMunFim
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_xMunFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_det__cte40_xMunFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_xMunFim
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xMunFim
@@ -3960,6 +4282,9 @@ msgid "Nome do Município do término"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_xMunFim
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_xMunFim
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_xMunFim
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_det__cte40_xMunFim
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_xMunFim
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xMunFim
@@ -3969,6 +4294,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move_line__cte40_xNome
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infctenorm_comp__cte40_xComp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_vprest_comp__cte40_xNome
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_det_comp__cte40_xNome
@@ -3977,6 +4303,7 @@ msgid "Nome do componente"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move_line__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_vprest_comp__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_det_comp__cte40_xNome
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_line__cte40_xNome
@@ -4066,12 +4393,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_nOCA
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_nOCA
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_nOCA
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_nOCA
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nOCA
 msgid "Número Operacional do Conhecimento Aéreo"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_nOCA
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_nOCA
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_nOCA
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_nOCA
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nOCA
 msgid ""
@@ -4104,12 +4437,18 @@ msgid "Número da GTV-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_nMinu
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_nMinu
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_nMinu
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_nMinu
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nMinu
 msgid "Número da Minuta"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_nMinu
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_nMinu
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_nMinu
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_nMinu
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nMinu
 msgid ""
@@ -4124,6 +4463,9 @@ msgid "Número da Ordem de coleta"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_nViag
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_nViag
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_nViag
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_nViag
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nViag
 msgid "Número da Viagem"
@@ -4226,6 +4568,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_nCT
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_nCT
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_nCT
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_nCT
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_nCT
 msgid "Número do CT-e"
@@ -4284,6 +4629,9 @@ msgid "Número identificador do item agrupador da prestação"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_obsFisco
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_obsFisco
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_obsFisco
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_compl__cte40_obsFisco
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_compl__cte40_obsFisco
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_compl__cte40_obsFisco
@@ -4305,18 +4653,27 @@ msgstr ""
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_cte_modal_rodo_occ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_occ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_occ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_occ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo__cte40_occ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_occ
 msgid "Ordens de Coleta associados"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_xOutCat
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_xOutCat
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_xOutCat
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_xOutCat
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xOutCat
 msgid "Outras características da carga"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_xOutCat
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_xOutCat
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_xOutCat
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_xOutCat
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_xOutCat
 msgid ""
@@ -4460,12 +4817,18 @@ msgid "Processador documentos eletrônicos"
 msgstr "Processador documentos eletrônicos"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_proPred
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_proPred
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_proPred
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_proPred
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_proPred
 msgid "Produto predominante"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_proPred
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_proPred
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_proPred
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_proPred
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_proPred
 msgid ""
@@ -4546,6 +4909,9 @@ msgid "RN"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_RNTRC
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_RNTRC
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_RNTRC
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_RNTRC
 msgid "RNTRC"
 msgstr ""
@@ -4608,11 +4974,17 @@ msgid "Razão social ou nome do tomador"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_receb
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_receb
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_receb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_receb
 msgid "Recebedor"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__partner_receivering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__partner_receivering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__partner_receivering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_receivering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_receivering_id
 msgid "Receiver Address"
@@ -4641,6 +5013,9 @@ msgid "Registro Nacional"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_RNTRC
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_RNTRC
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_RNTRC
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_RNTRC
 msgid "Registro Nacional de Transportadores Rodoviários de Carga"
 msgstr ""
@@ -4655,6 +5030,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_rem
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_rem
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_rem
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_rem
 msgid "Remetente"
 msgstr ""
@@ -4665,6 +5043,9 @@ msgid "Report Action"
 msgstr "Ação de Relatório"
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_respFat
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_respFat
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_respFat
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_respFat
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_respFat
 msgid "Responsável pelo Faturamento"
@@ -4733,6 +5114,9 @@ msgid "Sem hora definida"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__partner_sendering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__partner_sendering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__partner_sendering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
 msgid "Sender Address"
@@ -4744,6 +5128,9 @@ msgid "Serviço Vinculado a Multimodal"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__partner_shippering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__partner_shippering_id
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__partner_shippering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_shippering_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_shippering_id
 msgid "Shipper Address"
@@ -4909,12 +5296,18 @@ msgid "Série da OCC"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_serie
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_serie
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_serie
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_serie
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_serie
 msgid "Série do CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_serie
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_serie
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_serie
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_serie
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_serie
 msgid ""
@@ -4950,6 +5343,14 @@ msgid "TO"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_enderToma
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_enderToma
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_enderToma
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_enderToma
+msgid "Technical Field."
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_toma__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_fone
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_dest__cte40_fone
@@ -4981,6 +5382,9 @@ msgid "Texto com o QR-Code impresso no DACTE"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__insurance_endorsement
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__insurance_endorsement
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__insurance_endorsement
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_endorsement
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_endorsement
 msgid ""
@@ -4993,6 +5397,9 @@ msgstr ""
 "emitir o CT-e."
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__insurance_policy
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__insurance_policy
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__insurance_policy
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
 msgid ""
@@ -5003,6 +5410,12 @@ msgstr ""
 "campo é usado principalmente ao emitir o CT-e."
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_receb
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__partner_receivering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_receb
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__partner_receivering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_receb
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__partner_receivering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_receb
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_receivering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_receivering_id
@@ -5017,6 +5430,9 @@ msgstr ""
 "emitir o CT-e."
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__partner_insurance_id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__partner_insurance_id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__partner_insurance_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
 msgid ""
@@ -5027,6 +5443,12 @@ msgstr ""
 "transportadas. Este campo é usado principalmente ao emitir o CT-e."
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_exped
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__partner_shippering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_exped
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__partner_shippering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_exped
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__partner_shippering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_exped
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_shippering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_shippering_id
@@ -5039,6 +5461,9 @@ msgstr ""
 "emissão do CT-e."
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__partner_sendering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__partner_sendering_id
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__partner_sendering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__partner_sendering_id
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_sendering_id
 msgid ""
@@ -5168,17 +5593,26 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_choice_icms
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_choice_icms
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_choice_icms
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_choice_icms
 msgid "Tipo de ICMS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpNav
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpNav
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpNav
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_tpNav
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpNav
 msgid "Tipo de Navegação"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_tpNav
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_tpNav
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_tpNav
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aquav__cte40_tpNav
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpNav
 msgid ""
@@ -5189,6 +5623,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpTraf
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpTraf
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpTraf
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_tpTraf
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpTraf
 msgid "Tipo de Tráfego"
@@ -5221,6 +5658,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpPer
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpPer
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpPer
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_semdata__cte40_tpPer
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpPer
 msgid "Tipo de data/período programado"
@@ -5234,6 +5674,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_tpPer
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_tpPer
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_tpPer
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpPer
 msgid ""
 "Tipo de data/período programado para entrega\n"
@@ -5264,6 +5707,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpHor
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpHor
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpHor
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_comhora__cte40_tpHor
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_nointer__cte40_tpHor
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpHor
@@ -5271,6 +5717,9 @@ msgid "Tipo de hora"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_tpHor
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_tpHor
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_tpHor
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpHor
 msgid ""
 "Tipo de hora\n"
@@ -5295,6 +5744,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpAmb
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpAmb
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpAmb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_tpAmb
@@ -5311,6 +5763,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_tpAmb
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_tpAmb
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_tpAmb
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpAmb
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpAmb
 msgid ""
@@ -5319,11 +5774,17 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpCTe
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpCTe
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpCTe
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpCTe
 msgid "Tipo do CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_tpCTe
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_tpCTe
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_tpCTe
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpCTe
 msgid ""
 "Tipo do CT-e\n"
@@ -5398,6 +5859,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_tpServ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_tpServ
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_tpServ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_tpServ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_tpServ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_tpServ
@@ -5436,6 +5900,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_tpServ
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_tpServ
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_tpServ
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_tpServ
 msgid ""
 "Tipo do Serviço\n"
@@ -5460,6 +5927,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_toma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_toma
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_toma__cte40_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_toma__cte40_toma
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tomaterceiro__cte40_toma
@@ -5490,6 +5960,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_toma
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_toma
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_toma
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_toma
 msgid ""
 "Tomador do Serviço\n"
@@ -5517,6 +5990,9 @@ msgid "Top margin in mm for the DACTE layout."
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vBCIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vBCIBSCBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vBCIBSCBS
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vBCIBSCBS
 msgid "Total Base de Calculo IBS/CBS"
 msgstr ""
@@ -5601,6 +6077,9 @@ msgid "Valor Total da NF"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vTPrest
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vTPrest
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vTPrest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_vprest__cte40_vTPrest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_total__cte40_vTPrest
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTPrest
@@ -5608,6 +6087,9 @@ msgid "Valor Total da Prestação do Serviço"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_vTPrest
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_vTPrest
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_vTPrest
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_vprest__cte40_vTPrest
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_total__cte40_vTPrest
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTPrest
@@ -5632,6 +6114,9 @@ msgid "Valor Total dos Produtos"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vTotTrib
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vTotTrib
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vTotTrib
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_imp__cte40_vTotTrib
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_imp__cte40_vTotTrib
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTotTrib
@@ -5654,6 +6139,9 @@ msgid "Valor Unitário do Veículo"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vRec
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vRec
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vRec
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_det__cte40_vRec
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_vprest__cte40_vRec
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vRec
@@ -5686,12 +6174,18 @@ msgid "Valor da Base de Cálculo do ICMS ST"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vCargaAverb
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vCargaAverb
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vCargaAverb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_vCargaAverb
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vCargaAverb
 msgid "Valor da Carga para efeito de averbação"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_vCargaAverb
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_vCargaAverb
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_vCargaAverb
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_vCargaAverb
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vCargaAverb
 msgid ""
@@ -5713,12 +6207,18 @@ msgid "Valor da Prestação Base de Cálculo do AFRMM"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_aereo_vTar
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_aereo_vTar
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_aereo_vTar
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_vTar
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_aereo_vTar
 msgid "Valor da Tarifa"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_aereo_vTar
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_aereo_vTar
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_aereo_vTar
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_cte_modal_aereo__cte40_vTar
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_aereo_vTar
 msgid ""
@@ -5734,6 +6234,9 @@ msgid "Valor da duplicata"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vTar
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vTar
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vTar
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_duto__cte40_vTar
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTar
 msgid "Valor da tarifa"
@@ -5750,6 +6253,9 @@ msgid "Valor do CSLL"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vFrete
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vFrete
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_ferrov__cte40_vFrete
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vFrete
 msgid "Valor do Frete do Tráfego Mútuo"
@@ -5807,6 +6313,7 @@ msgid "Valor do PIS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move_line__cte40_vComp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infctenorm_comp__cte40_vComp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_vprest_comp__cte40_vComp
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_det_comp__cte40_vComp
@@ -5847,17 +6354,26 @@ msgid "Valor total a Receber"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vCBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vCBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vCBS
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vCBS
 msgid "Valor total da CBS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vCarga
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vCarga
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vCarga
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_vCarga
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vCarga
 msgid "Valor total da carga"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_vCarga
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_vCarga
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_vCarga
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vCarga
 msgid ""
 "Valor total da carga\n"
@@ -5865,21 +6381,33 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vIBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vIBS
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vIBS
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vIBS
 msgid "Valor total do IBS"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vIBSUF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vIBSUF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vIBSUF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vIBSUF
 msgid "Valor total do IBS Estadual"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vIBSMun
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vIBSMun
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vIBSMun
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vIBSMun
 msgid "Valor total do IBS Municipal"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_vTotDFe
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_vTotDFe
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_vTotDFe
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_imp__cte40_vTotDFe
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_total__cte40_vTotDFe
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTotDFe
@@ -5887,6 +6415,9 @@ msgid "Valor total do documento fiscal"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_vTotDFe
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_vTotDFe
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_vTotDFe
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_imp__cte40_vTotDFe
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_total__cte40_vTotDFe
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_vTotDFe
@@ -5938,6 +6469,9 @@ msgid "Versão do Aplicativo que processou o CT-e"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_versao
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_versao
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_versao
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_versao
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_versao
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_versao
@@ -5946,6 +6480,9 @@ msgid "Versão do leiaute"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_versao
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_versao
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_versao
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_infcte__cte40_versao
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_versao
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_infcte__cte40_versao
@@ -5956,6 +6493,9 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_versaoModal
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_versaoModal
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_versaoModal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_infmodal__cte40_versaoModal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infmodal__cte40_versaoModal
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_versaoModal
@@ -5963,6 +6503,9 @@ msgid "Versão do leiaute específico"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_versaoModal
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_versaoModal
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_versaoModal
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_infmodal__cte40_versaoModal
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infmodal__cte40_versaoModal
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_versaoModal
@@ -5970,6 +6513,9 @@ msgid "Versão do leiaute específico para o Modal"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_verProc
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_verProc
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_verProc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_verProc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_ide__cte40_verProc
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tgtve_ide__cte40_verProc
@@ -5978,6 +6524,9 @@ msgid "Versão do processo de emissão"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_account_bank_statement_line__cte40_verProc
+#: model:ir.model.fields,help:l10n_br_cte.field_account_move__cte40_verProc
+#: model:ir.model.fields,help:l10n_br_cte.field_account_payment__cte40_verProc
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tcteos_ide__cte40_verProc
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tgtve_ide__cte40_verProc
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte40_verProc
@@ -6006,11 +6555,17 @@ msgid "chCte"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_cUF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_cUF
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_cUF
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_cUF
 msgid "cte40_cUF"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_mod
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_mod
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_mod
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_mod
 msgid "cte40_mod"
 msgstr ""
@@ -6093,6 +6648,9 @@ msgid "informações do CT-e multimodal vinculado"
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_veicNovos
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte40_veicNovos
+#: model:ir.model.fields,field_description:l10n_br_cte.field_account_payment__cte40_veicNovos
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_veicNovos
 msgid "informações dos veículos transportados"
 msgstr ""
