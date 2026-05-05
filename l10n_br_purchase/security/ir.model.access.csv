@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"l10n_br_fiscal_cfop","l10n_br_fiscal.cfop","l10n_br_fiscal.model_l10n_br_fiscal_cfop","purchase.group_purchase_user",1,0,0,0
+"l10n_br_fiscal_document","l10n_br_fiscal.document.type","l10n_br_fiscal.model_l10n_br_fiscal_document_type","purchase.group_purchase_user",1,0,0,0
+"l10n_br_account_document_serie","l10n_br_account.document.serie","l10n_br_fiscal.model_l10n_br_fiscal_document_serie","purchase.group_purchase_user",1,0,0,0
+"l10n_br_fiscal_operation","l10n_br_fiscal.operation","l10n_br_fiscal.model_l10n_br_fiscal_operation","purchase.group_purchase_user",1,0,0,0
+"l10n_br_fiscal_operation_line","l10n_br_fiscal.operation.line","l10n_br_fiscal.model_l10n_br_fiscal_operation_line","purchase.group_purchase_user",1,0,0,0

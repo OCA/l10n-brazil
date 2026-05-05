@@ -1,0 +1,787 @@
+# @ 2019 Akretion - www.akretion.com.br -
+#   Magno Costa <magno.costa@akretion.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+from odoo.tests import Form, TransactionCase
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    CFOP_DESTINATION_EXTERNAL,
+    CFOP_DESTINATION_INTERNAL,
+    DOCUMENT_ISSUER_PARTNER,
+    TAX_FRAMEWORK_NORMAL,
+    TAX_FRAMEWORK_SIMPLES,
+    TAX_FRAMEWORK_SIMPLES_ALL,
+)
+
+
+class L10nBrPurchaseBaseTest(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        cls.po_products = cls.env.ref("l10n_br_purchase.lp_po_only_products")
+        # cls.po_services = cls.env.ref(
+        #     'l10n_br_purchase.main_po_only_services')
+        # cls.po_prod_srv = cls.env.ref(
+        #     'l10n_br_purchase.main_po_product_service')
+        cls.fsc_op_purchase = cls.env.ref("l10n_br_fiscal.fo_compras")
+        # Testa os Impostos Dedutiveis
+        cls.fsc_op_purchase.deductible_taxes = True
+        cls.fsc_op_line_purchase = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
+        cls.fsc_op_line_purchase_resale = cls.env.ref(
+            "l10n_br_fiscal.fo_compras_compras_comercializacao"
+        )
+        cls.fsc_op_line_purchase_asset = cls.env.ref(
+            "l10n_br_fiscal.fo_compras_compras_ativo"
+        )
+        cls.fsc_op_line_purchase_use = cls.env.ref(
+            "l10n_br_fiscal.fo_compras_compras_uso_consumo"
+        )
+
+        cls.fsc_op_line_dist = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
+        cls.fsc_op_line_serv = cls.env.ref("l10n_br_fiscal.fo_venda_servico")
+
+        TAXES_NORMAL = {
+            "icms": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_icms_12"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_icms_00"),
+            },
+            "issqn": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_issqn_5"),
+            },
+            "ipi": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_ipi_5"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_ipi_00"),
+            },
+            "pis": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_pis_0_65"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_pis_50"),
+            },
+            "cofins": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_cofins_3"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_pis_50"),
+            },
+            "icmsfcp": {
+                "tax": False,
+                "cst": False,
+            },
+        }
+
+        TAXES_SIMPLES = {
+            "icms": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_icms_sn_com_credito"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_icmssn_101"),
+            },
+            "issqn": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_issqn_5"),
+            },
+            "ipi": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_ipi_outros"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_ipi_49"),
+            },
+            "pis": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_pis_outros"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_pis_98"),
+            },
+            "cofins": {
+                "tax": cls.env.ref("l10n_br_fiscal.tax_cofins_outros"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_cofins_98"),
+            },
+            "icmsfcp": {
+                "tax": False,
+                "cst": False,
+            },
+        }
+
+        cls.FISCAL_DEFS = {
+            CFOP_DESTINATION_INTERNAL: {
+                cls.fsc_op_line_purchase.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_1101"),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+                cls.fsc_op_line_purchase_resale.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_1102"),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+                cls.fsc_op_line_purchase_asset.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_1551"),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+                cls.fsc_op_line_purchase_use.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_1556"),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+            },
+            CFOP_DESTINATION_EXTERNAL: {
+                cls.fsc_op_line_purchase.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_2101"),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+                cls.fsc_op_line_purchase_resale.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_2102"),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+                cls.fsc_op_line_purchase_asset.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_2551"),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+                cls.fsc_op_line_purchase_use.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_2556"),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+            },
+            "service": {
+                cls.fsc_op_line_serv.name: {
+                    "cfop": False,
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+            },
+        }
+
+    def _change_user_company(self, company):
+        self.env.user.company_ids += company
+        self.env.user.company_id = company
+
+    def _run_purchase_order_onchanges(self, purchase_order):
+        purchase_order.onchange_partner_id()
+        purchase_order._onchange_fiscal_operation_id()
+
+    def _run_purchase_line_onchanges(self, purchase_line):
+        purchase_line._onchange_fiscal_tax_ids()
+
+    def _invoice_purchase_order(self, order):
+        order.with_context(tracking_disable=True).button_confirm()
+
+        invoice_values = {
+            "partner_id": order.partner_id.id,
+            "move_type": "in_invoice",
+        }
+
+        invoice_values.update(order._prepare_br_fiscal_dict())
+
+        document_type = order.company_id.document_type_id
+        document_type_id = order.company_id.document_type_id.id
+
+        document_serie = document_type.get_document_serie(
+            order.company_id, order.fiscal_operation_id
+        )
+
+        invoice_values["document_serie_id"] = document_serie.id
+        invoice_values["document_type_id"] = document_type_id
+        invoice_values["issuer"] = DOCUMENT_ISSUER_PARTNER
+        self.invoice = (
+            self.env["account.move"]
+            .with_context(tracking_disable=True)
+            .create(invoice_values)
+        )
+
+        invoice_lines = self.env["account.move.line"]
+        for line in order.order_line:
+            invoice_line = invoice_lines.new(
+                line._prepare_account_move_line(self.invoice)
+            )
+            invoice_lines += invoice_line
+        self.invoice.invoice_line_ids += invoice_lines
+        self.invoice.write({"purchase_id": order.id})
+        self.invoice._onchange_purchase_auto_complete()
+
+        self.assertEqual(
+            order.order_line.mapped("qty_invoiced"),
+            [4.0, 2.0],
+            'Purchase: all products should be invoiced"',
+        )
+
+        self.assertEqual(order.state, "purchase", "Error to confirm Purchase Order.")
+
+        for invoice in order.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_operation_id,
+                "Error to included Operation on invoice "
+                "dictionary from Purchase Order.",
+            )
+
+            self.assertTrue(
+                invoice.fiscal_operation_type,
+                "Error to included Operation Type on invoice"
+                " dictionary from Purchase Order.",
+            )
+
+            # Valida os Totais
+            self.assertEqual(
+                order.amount_total,
+                invoice.amount_total,
+                "Error Amount Total in Invoice is different from Purchase Order.",
+            )
+
+            self.assertEqual(
+                order.amount_tax,
+                invoice.amount_tax,
+                "Error Amount Tax in Invoice is different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_untaxed,
+                invoice.amount_untaxed,
+                "Error Amount Untaxed in Invoice is different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_price_gross,
+                invoice.amount_price_gross,
+                "Error Amount Price Gross in Invoice is different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_financial_total,
+                invoice.amount_financial_total,
+                "Error Amount Financial Total in Invoice"
+                " is different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_financial_total_gross,
+                invoice.amount_financial_total_gross,
+                "Error Amount Financial Total Gross in Invoice"
+                " is different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_freight_value,
+                invoice.amount_freight_value,
+                "Error Amount Freight in Invoice is different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_insurance_value,
+                invoice.amount_insurance_value,
+                "Error Amount Insurance in Invoice is different from Purchase Order.",
+            )
+            self.assertEqual(
+                order.amount_other_value,
+                invoice.amount_other_value,
+                "Error Amount Other Values in Invoice is different from Purchase Order",
+            )
+
+            for line in invoice.invoice_line_ids:
+                self.assertTrue(
+                    line.fiscal_operation_line_id,
+                    "Error to included Operation Line from Purchase Order Line.",
+                )
+                self.assertEqual(
+                    line.price_total,
+                    line.purchase_line_id.price_total,
+                    "Error is Price Total in Invoice Line"
+                    " is different from Purchase Order Line.",
+                )
+
+        self.invoice_action = order.action_view_invoice()
+        self.assertTrue(
+            self.invoice_action,
+            "Error opening invoice !",
+        )
+
+    def test_invoice_fiscal_quantity_not_from_po(self):
+        """Test that fiscal_quantity on invoice is computed from invoice qty,
+        not copied from PO line.
+
+        When the received/invoiced quantity differs from the ordered quantity
+        (e.g. weight adjustment on bulk products), fiscal_quantity must match
+        the invoice line quantity, not the PO line quantity.
+        """
+        self._change_user_company(self.company)
+        self._run_purchase_order_onchanges(self.po_products)
+        for line in self.po_products.order_line:
+            self._run_purchase_line_onchanges(line)
+
+        self.po_products.with_context(tracking_disable=True).button_confirm()
+
+        # 1) _prepare_account_move_line must NOT contain fiscal_quantity
+        for po_line in self.po_products.order_line:
+            vals = po_line._prepare_account_move_line(False)
+            self.assertNotIn(
+                "fiscal_quantity",
+                vals,
+                "fiscal_quantity should not be in the prepared invoice line "
+                "values — it must be recomputed from the invoice quantity.",
+            )
+
+        # 2) Create the invoice the same way the existing helper does
+        self._invoice_purchase_order(self.po_products)
+
+        product_lines = self.invoice.invoice_line_ids.filtered(
+            lambda line: line.display_type == "product"
+        )
+        self.assertTrue(product_lines, "Invoice must have product lines")
+
+        for inv_line in product_lines:
+            uot_factor = inv_line.product_id.uot_factor or 1.0
+            expected_fiscal_qty = inv_line.quantity * uot_factor
+            self.assertAlmostEqual(
+                inv_line.fiscal_quantity,
+                expected_fiscal_qty,
+                2,
+                "fiscal_quantity must equal quantity * uot_factor, "
+                "not the PO line fiscal_quantity.",
+            )
+
+        # 3) Simulate a weight adjustment: change invoice qty and verify
+        #    fiscal_quantity follows
+        first_line = product_lines[0]
+        original_qty = first_line.quantity
+        adjusted_qty = original_qty + 1.0
+        first_line.quantity = adjusted_qty
+
+        uot_factor = first_line.product_id.uot_factor or 1.0
+        self.assertAlmostEqual(
+            first_line.fiscal_quantity,
+            adjusted_qty * uot_factor,
+            2,
+            "After quantity adjustment, fiscal_quantity must recompute "
+            "to the new quantity * uot_factor.",
+        )
+
+    def test_l10n_br_purchase_products(self):
+        """Test brazilian Purchase Order with only Products."""
+        self._change_user_company(self.company)
+        self._run_purchase_order_onchanges(self.po_products)
+        self.assertTrue(
+            self.po_products.fiscal_operation_id,
+            "Error to mapping Operation on Purchase Order.",
+        )
+
+        self.assertEqual(
+            self.po_products.fiscal_operation_id.name,
+            self.fsc_op_purchase.name,
+            "Error to mapping correct Operation on Purchase Order "
+            "after change fiscal category.",
+        )
+
+        for line in self.po_products.order_line:
+            self._run_purchase_line_onchanges(line)
+
+            self.assertTrue(
+                line.fiscal_operation_id,
+                "Error to mapping Fiscal Operation on Purchase Order Line.",
+            )
+
+            self.assertTrue(
+                line.fiscal_operation_line_id,
+                "Error to mapping Fiscal Operation Line on Purchase Order Line.",
+            )
+
+            cfop = self.FISCAL_DEFS[line.cfop_id.destination][
+                line.fiscal_operation_line_id.name
+            ]["cfop"]
+
+            taxes = self.FISCAL_DEFS[line.cfop_id.destination][
+                line.fiscal_operation_line_id.name
+            ][line.company_id.tax_framework]
+
+            self.assertEqual(
+                line.cfop_id.code,
+                cfop.code,
+                f"Error to mapping CFOP {cfop.code} for {cfop.name}.",
+            )
+
+            if line.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+                icms_tax = line.icmssn_tax_id
+            else:
+                icms_tax = line.icms_tax_id
+
+            # ICMS
+            self.assertEqual(
+                icms_tax.name,
+                taxes["icms"]["tax"].name,
+                "Error to mapping Tax {} for {}.".format(
+                    taxes["icms"]["tax"].name, line.fiscal_operation_line_id.name
+                ),
+            )
+
+            self.assertEqual(
+                line.icms_cst_id.code,
+                taxes["icms"]["cst"].code,
+                "Error to mapping CST {} from {} for {}.".format(
+                    taxes["icms"]["cst"].code,
+                    taxes["icms"]["tax"].name,
+                    line.fiscal_operation_line_id.name,
+                ),
+            )
+
+            # ICMS FCP
+            self.assertFalse(
+                line.icmsfcp_tax_id,
+                "Error to mapping ICMS FCP 2%"
+                " for Venda de Contribuinte Dentro do Estado.",
+            )
+
+            # IPI
+            if (
+                line.ncm_id.code == "9403.30.00"
+                and "IPI Outros" not in taxes["ipi"]["tax"].name
+            ):
+                ipi_tax = self.env.ref("l10n_br_fiscal.tax_ipi_3_25")
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    ipi_tax.name,
+                    "Error to mapping Tax {} for {} {}.".format(
+                        taxes["ipi"]["tax"].name, line.ncm_id.code, line.cfop_id.code
+                    ),
+                )
+            else:
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    taxes["ipi"]["tax"].name,
+                    "Error to mapping Tax {} for {} {}.".format(
+                        taxes["ipi"]["tax"].name, line.ncm_id.code, line.cfop_id.code
+                    ),
+                )
+
+            self.assertEqual(
+                line.ipi_cst_id.code,
+                taxes["ipi"]["cst"].code,
+                "Error to mapping CST {} from {} for {}.".format(
+                    taxes["ipi"]["cst"].code,
+                    taxes["ipi"]["tax"].name,
+                    line.fiscal_operation_line_id.name,
+                ),
+            )
+
+            # PIS
+            self.assertEqual(
+                line.pis_tax_id.name,
+                taxes["pis"]["tax"].name,
+                "Error to mapping Tax {} for {}.".format(
+                    taxes["pis"]["tax"].name, line.fiscal_operation_line_id.name
+                ),
+            )
+
+            self.assertEqual(
+                line.pis_cst_id.code,
+                taxes["pis"]["cst"].code,
+                "Error to mapping CST {} from {} for {}.".format(
+                    taxes["pis"]["cst"].code,
+                    taxes["pis"]["tax"].name,
+                    line.fiscal_operation_line_id.name,
+                ),
+            )
+
+            # COFINS
+            self.assertEqual(
+                line.cofins_tax_id.name,
+                taxes["cofins"]["tax"].name,
+                "Error to mapping Tax {} for {}.".format(
+                    taxes["cofins"]["tax"].name, line.fiscal_operation_line_id.name
+                ),
+            )
+
+            self.assertEqual(
+                line.cofins_cst_id.code,
+                taxes["cofins"]["cst"].code,
+                "Error to mapping CST {} from {} for {}.".format(
+                    taxes["cofins"]["cst"].code,
+                    taxes["cofins"]["tax"].name,
+                    line.fiscal_operation_line_id.name,
+                ),
+            )
+
+        self._invoice_purchase_order(self.po_products)
+
+    def test_purchase_report(self):
+        """Test Purchase Report"""
+        self.env["purchase.report"].read_group(
+            [("product_id", "=", self.env.ref("product.product_product_12").id)],
+            ["qty_ordered", "price_average:avg"],
+            ["product_id"],
+        )
+        # TODO: Algo a ser validado?
+
+    def test_form_purchase(self):
+        """Test Purchase with Form"""
+
+        purchase_form = Form(self.env["purchase.order"])
+        purchase_form.partner_id = self.env.ref("l10n_br_base.res_partner_akretion")
+        with purchase_form.order_line.new() as line:
+            line.name = self.env.ref("product.product_product_12").name
+            line.product_id = self.env.ref("product.product_product_12")
+            line.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_compras_compras"
+            )
+
+        purchase_form.save()
+
+    def test_get_view(self):
+        arch, models = self.po_products._get_view()
+        self.assertTrue(
+            arch.findall(".//field[@name='fiscal_operation_id']"),
+            "Error to included Operation Line from Purchase Order Line.",
+        )
+
+    def test_fields_freight_insurance_other_costs(self):
+        """Test fields Freight, Insurance and Other Costs when
+        defined By Line or By Total in a Purchase Order.
+        """
+        self._change_user_company(self.company)
+        po = self.po_products
+        # Ensure the PO is in draft state for the test
+        if po.state != "draft":
+            po.button_cancel()
+            po.button_draft()
+
+        # Part 1: Test with delivery_costs = 'line'
+        # Values are set on the lines and totals are computed on the header.
+        po.company_id.delivery_costs = "line"
+
+        # Set values for the first line (qty=4, price_unit=100)
+        line1 = po.order_line[0]
+        line1.price_unit = 100.0
+        line1.product_qty = 4.0
+        line1.freight_value = 10.0
+        line1.insurance_value = 15.0
+        line1.other_value = 5.0
+
+        # Set values for the second line (qty=2, price_unit=100)
+        line2 = po.order_line[1]
+        line2.price_unit = 100.0
+        line2.product_qty = 2.0
+        line2.freight_value = 8.0
+        line2.insurance_value = 12.0
+        line2.other_value = 4.0
+
+        self.assertEqual(
+            po.amount_freight_value,
+            18.0,
+            "Amount Freight should be the sum of line values.",
+        )
+        self.assertEqual(
+            po.amount_insurance_value,
+            27.0,
+            "Amount Insurance should be the sum of line values.",
+        )
+        self.assertEqual(
+            po.amount_other_value, 9.0, "Amount Other should be the sum of line values."
+        )
+
+        # Part 2: Test with delivery_costs = 'total'
+        # Values are set on the header and distributed proportionally to lines.
+        po.company_id.delivery_costs = "total"
+
+        # Set header totals, which should trigger inverse methods to distribute.
+        po.amount_freight_value = 30.0
+        po.amount_insurance_value = 45.0
+        po.amount_other_value = 15.0
+
+        # Proportionality check:
+        # line1 price_gross = 4 * 100 = 400
+        # line2 price_gross = 2 * 100 = 200
+        # total_gross = 600
+        # line1 proportion = 400 / 600 = 2/3
+        # line2 proportion = 200 / 600 = 1/3
+
+        # Check freight distribution
+        self.assertAlmostEqual(line1.freight_value, 30.0 * (2 / 3), 2)
+        self.assertAlmostEqual(line2.freight_value, 30.0 * (1 / 3), 2)
+
+        # Check insurance distribution
+        self.assertAlmostEqual(line1.insurance_value, 45.0 * (2 / 3), 2)
+        self.assertAlmostEqual(line2.insurance_value, 45.0 * (1 / 3), 2)
+
+        # Check other costs distribution
+        self.assertAlmostEqual(line1.other_value, 15.0 * (2 / 3), 2)
+        self.assertAlmostEqual(line2.other_value, 15.0 * (1 / 3), 2)
+
+        # Finally, test invoicing with the final values
+        self._invoice_purchase_order(po)
+
+    def test_purchase_service_and_products(self):
+        """
+        Test Purchase Order with Services and Products.
+        """
+        # Caso Somente Serviços
+        po_only_service = self.env.ref("l10n_br_purchase.main_po_only_service")
+        self._run_purchase_order_onchanges(po_only_service)
+        for line in po_only_service.order_line:
+            self._run_purchase_line_onchanges(line)
+        po_only_service.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            po_only_service.state, "purchase", "Error to confirm Purchase Order."
+        )
+        po_only_service.action_create_invoice()
+        for invoice in po_only_service.invoice_ids:
+            # Caso Internacional não deve ter Documento Fiscal associado
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase with only Service.",
+            )
+
+        # Caso Serviços e Produtos
+        po_service_product = self.env.ref("l10n_br_purchase.main_po_service_product")
+        self._run_purchase_order_onchanges(po_service_product)
+        for line in po_service_product.order_line:
+            self._run_purchase_line_onchanges(line)
+        po_service_product.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            po_service_product.state, "purchase", "Error to confirm Purchase Order."
+        )
+        po_service_product.action_create_invoice()
+        for invoice in po_service_product.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase with Service and Product.",
+            )
+
+    def test_compatible_with_international_case(self):
+        """International test case: create an Invoice but not for Brazil."""
+        po_international = self.env.ref("purchase.purchase_order_1")
+        self._run_purchase_order_onchanges(po_international)
+        for line in po_international.order_line:
+            line.product_id.purchase_method = "purchase"
+            self._run_purchase_line_onchanges(line)
+        po_international.with_context(tracking_disable=True).button_confirm()
+        po_international.action_create_invoice()
+        for invoice in po_international.invoice_ids:
+            # Caso Internacional não deve ter Documento Fiscal associado
+            self.assertFalse(
+                invoice.fiscal_document_id,
+                "International case should not has Fiscal Document.",
+            )
+
+    def test_purchase_with_partner_to_invoice(self):
+        """
+        Test Purchase Order with different Partner to Invoice.
+        """
+        # Caso do Pedido criado com um Partner que possui um Partner to Invoice
+        purchase = self.env.ref("l10n_br_purchase.main_company-purchase_2")
+        self._run_purchase_order_onchanges(purchase)
+        for line in purchase.order_line:
+            self._run_purchase_line_onchanges(line)
+        purchase.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(purchase.state, "purchase", "Error to confirm Purchase Order.")
+        purchase.action_create_invoice()
+        for invoice in purchase.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase.",
+            )
+            partner_invoice = self.env["res.partner"].browse(
+                purchase.partner_id.address_get(["invoice"]).get("invoice")
+            )
+            self.assertEqual(
+                invoice.partner_id,
+                partner_invoice,
+                "The Invoice should be created with the Partner to Invoice",
+            )
+            self.assertNotEqual(
+                invoice.partner_id,
+                purchase.partner_id,
+                "The Invoice should not be created with the Partner of Purchase.",
+            )
+
+            # TODO: Deveria criar a Fatura com o Endereço de Entrega
+            #  partner_shipping_id preenchido com o Partner do Pedido
+            #  de Compra? Quando criado pelo Picking o campo é preenchido.
+
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    purchase.partner_id,
+            #    "The Invoice should be created with Partner to Shipping.",
+            # )
+
+        purchase_2 = self.env.ref("l10n_br_purchase.main_company-purchase_3")
+        self._run_purchase_order_onchanges(purchase_2)
+        for line in purchase_2.order_line:
+            self._run_purchase_line_onchanges(line)
+        purchase_2.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            purchase_2.state, "purchase", "Error to confirm Purchase Order."
+        )
+        purchase_2.action_create_invoice()
+        for invoice in purchase_2.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase.",
+            )
+            self.assertEqual(
+                invoice.partner_id,
+                purchase_2.partner_id,
+                "The Partner in Purchase and Invoice should be the same.",
+            )
+            # O partner_shipping_id aqui também é vazio, deveria ser preenchido?
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    purchase_2.partner_id,
+            #    "The Invoice should be created with Partner to Shipping.",
+            # )
+
+    def test_purchase_with_partner_to_shipping(self):
+        """Test brazilian Purchase Order with Partner to Shipping."""
+
+        # Caso do Pedido criado com o Contato de Entrega/Partner to Delivery
+        purchase = self.env.ref("l10n_br_purchase.main_company-purchase_4")
+        self._run_purchase_order_onchanges(purchase)
+        for line in purchase.order_line:
+            self._run_purchase_line_onchanges(line)
+        purchase.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(purchase.state, "purchase", "Error to confirm Purchase Order.")
+        purchase.action_create_invoice()
+        for invoice in purchase.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase.",
+            )
+            # TODO: Campo partner_shipping_id está vazio
+            #  deveria estar preenchido?
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    purchase.partner_id,
+            #    "The Invoice should be created with the Partner to Shipping",
+            # )
+            self.assertNotEqual(
+                invoice.partner_id,
+                purchase.partner_id,
+                "The Invoice should not be created with the Partner of Purchase.",
+            )
+            # TODO: Deveria criar a Fatura com o Endereço de Entrega
+            #  partner_shipping_id preenchido com o Partner do Pedido
+            #  de Compra? Quando criado pelo Picking o campo é preenchido.
+
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    purchase.partner_id,
+            #    "The Invoice should be created with Partner to Shipping.",
+            # )
+
+        # Caso do Pedido criado com o Partner que tem um Contato de Entrega
+        purchase_2 = self.env.ref("l10n_br_purchase.main_company-purchase_5")
+        self._run_purchase_order_onchanges(purchase_2)
+        for line in purchase_2.order_line:
+            self._run_purchase_line_onchanges(line)
+        purchase_2.with_context(tracking_disable=True).button_confirm()
+        self.assertEqual(
+            purchase_2.state, "purchase", "Error to confirm Purchase Order."
+        )
+        purchase_2.action_create_invoice()
+
+        for invoice in purchase_2.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_document_id,
+                "Fiscal Document missing for Purchase.",
+            )
+            self.assertEqual(
+                invoice.partner_id,
+                purchase_2.partner_id,
+                "The Partner in Purchase and Invoice should be the same.",
+            )
+            # TODO: O partner_shipping_id aqui também é vazio,
+            #  deveria ser preenchido?
+            # partner_delivery = self.env["res.partner"].browse(
+            #   purchase.partner_id.address_get(["delivery"]).get("delivery")
+            # )
+            # self.assertEqual(
+            #    invoice.partner_shipping_id,
+            #    partner_delivery,
+            #    "The Invoice should be created with Partner to Shipping.",
+            # )

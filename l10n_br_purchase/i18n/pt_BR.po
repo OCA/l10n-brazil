@@ -1,0 +1,2860 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* purchase
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-02 02:23+0000\n"
+"PO-Revision-Date: 2024-09-17 20:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Accounting"
+msgstr "Contabilidade"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__active_company_country_id
+msgid "Active Company Country"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__additional_data
+msgid "Additional Data"
+msgstr "Dados Adicionais"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__manual_additional_data
+msgid "Additional data manually entered by user"
+msgstr "Dados adicionais inseridos manualmente pelo usuário"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__allow_csll_irpj
+msgid "Allow Csll Irpj"
+msgstr "Permitir Csll Irpj"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_discount_value
+msgid "Amount Discount"
+msgstr "Total do Desconto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_estimate_tax
+msgid "Amount Estimate Tax"
+msgstr "Total Estimado de Impostos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_financial_total
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__financial_total
+msgid "Amount Financial"
+msgstr "Total Financeiro"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_financial_total_gross
+msgid "Amount Financial Gross"
+msgstr "Total Financeiro Bruto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_fiscal
+msgid "Amount Fiscal"
+msgstr "Total Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_price_gross
+msgid "Amount Gross"
+msgstr "Total Bruto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_tax
+msgid "Amount Tax"
+msgstr "Total de Imposto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_tax_included
+msgid "Amount Tax Included"
+msgstr "Total Impostos Inclusos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_tax_not_included
+msgid "Amount Tax Not Included"
+msgstr "Total Não incluído Impostos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_taxed
+msgid "Amount Taxed"
+msgstr "Total Tributado"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_total
+msgid "Amount Total"
+msgstr "Valor Total"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_untaxed
+msgid "Amount Untaxed"
+msgstr "Total sem Impostos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__amount_price_gross
+msgid "Amount without discount."
+msgstr "Total sem desconto."
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__08
+msgid "Ativo Imobilizado"
+msgstr "Ativo Imobilizado"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__ind_pres
+msgid "Buyer Presence"
+msgstr "Presença do Comprador"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cest_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__cest_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "CEST"
+msgstr "CEST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cfop_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__cfop_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "CFOP"
+msgstr "CFOP"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cfop_destination
+msgid "CFOP Destination"
+msgstr "CFOP Destino"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cnae_id
+msgid "CNAE Code"
+msgstr "Código CNAE"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_percent
+msgid "COFINS %"
+msgstr "% COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_reduction
+msgid "COFINS % Reduction"
+msgstr "% Redução COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofins_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_base
+msgid "COFINS Base"
+msgstr "Base para COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_base_id
+msgid "COFINS Base Code"
+msgstr "COFINS Código da Base"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_base_type
+msgid "COFINS Base Type"
+msgstr "COFINS Tipo da Base"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_cst_code
+msgid "COFINS CST Code"
+msgstr "Código CST de COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_credit_id
+msgid "COFINS Credit Code"
+msgstr "Código de Crédito de COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_wh_percent
+msgid "COFINS RET %"
+msgstr "% RET COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_wh_reduction
+msgid "COFINS RET % Reduction"
+msgstr "% Redução de RETENÇÃO de COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_wh_base
+msgid "COFINS RET Base"
+msgstr "Base para RET COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_wh_value
+msgid "COFINS RET Value"
+msgstr "Valor RET COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofins_wh_base
+msgid "COFINS Ret Base"
+msgstr "Base para RET COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofins_wh_value
+msgid "COFINS Ret Value"
+msgstr "Valor RET COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_percent
+msgid "COFINS ST %"
+msgstr "% ST COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_reduction
+msgid "COFINS ST % Reduction"
+msgstr "% Redução ST COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofinsst_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_base
+msgid "COFINS ST Base"
+msgstr "Base para ST COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_base_type
+msgid "COFINS ST Base Type"
+msgstr "Tipo de Base ST COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_cst_code
+msgid "COFINS ST CST Code"
+msgstr "Código CST ST COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofinsst_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_value
+msgid "COFINS ST Value"
+msgstr "Valor de ST do COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_cofins_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__cofins_value
+msgid "COFINS Value"
+msgstr "Valor do COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_wh_base_type
+msgid "COFINS WH Base Type"
+msgstr "Tipo de Base COFINS WH"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_percent
+msgid "CSLL %"
+msgstr "% CSLL"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_reduction
+msgid "CSLL % Reduction"
+msgstr "% de Redução do CSLL"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_csll_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_base
+msgid "CSLL Base"
+msgstr "Base para CSLL"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_wh_percent
+msgid "CSLL RET %"
+msgstr "% CSLL RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_wh_reduction
+msgid "CSLL RET % Reduction"
+msgstr "% de Redução CSLL RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_wh_base
+msgid "CSLL RET Base"
+msgstr "Base para CSLL RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_wh_value
+msgid "CSLL RET Value"
+msgstr "Valor RET CSLL"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_csll_wh_base
+msgid "CSLL Ret Base"
+msgstr "Base para CSLL RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_csll_wh_value
+msgid "CSLL Ret Value"
+msgstr "Valor RET CSLL"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_csll_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_value
+msgid "CSLL Value"
+msgstr "Valor CSLL"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_cst_id
+msgid "CST COFINS"
+msgstr "CST COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_cst_id
+msgid "CST COFINS ST"
+msgstr "CST COFINS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_cst_id
+msgid "CST ICMS"
+msgstr "CST ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_cst_id
+msgid "CST IPI"
+msgstr "CST IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_cst_id
+msgid "CST PIS"
+msgstr "CST PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_cst_id
+msgid "CST PIS ST"
+msgstr "CST PIS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__city_taxation_code_id
+msgid "City Taxation Code"
+msgstr "Código de Tributação da Cidade"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__comment_ids
+msgid "Comments"
+msgstr "Comentários"
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_company_type
+msgid "Company Type"
+msgstr "Tipo de Empresa"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__currency_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__customer_additional_data
+msgid "Customer Additional Data"
+msgstr "Dados Adicionais do Cliente"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__manual_customer_additional_data
+msgid "Customer Additional data manually entered by user"
+msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_ii_customhouse_charges
+msgid "Customhouse Charges"
+msgstr "Encargos Alfandegários"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company__purchase_fiscal_operation_id
+msgid "Default Fiscal Operation for Purchase"
+msgstr "Operação Fiscal Padrão para Compra"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__delivery_costs
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__delivery_costs
+msgid ""
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
+msgstr ""
+"Defina se os custos de Seguro, Frete e Outros Custos devem ser informados "
+"por Linha ou por Total."
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__delivery_costs
+msgid "Delivery Costs"
+msgstr "Custos de Entrega"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_customhouse_charges
+msgid "Despesas Aduaneiras"
+msgstr "Despesas Aduaneiras"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__discount_value
+msgid "Discount Value"
+msgstr "Valor do Desconto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__02
+msgid "Embalagem"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__estimate_tax
+msgid "Estimate Tax"
+msgstr "Estimativa de Imposto"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Extra Info"
+msgstr "Informação Extra"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcp_value_wh
+msgid "FCP WH"
+msgstr "FCP WH"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcp_wh_percent
+msgid "FCP WH %"
+msgstr "% FCP WH"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcp_base_wh
+msgid "FCP WH Base"
+msgstr "Base para FCP WH"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__ind_final
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ind_final
+msgid "Final Consumption Operation"
+msgstr "Operação de Consumo Final"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_financial_discount_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__financial_discount_value
+msgid "Financial Discount Value"
+msgstr "Valor do Desconto Financeiro"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr "Valor Bruto Financeiro"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_additional_data
+msgid "Fiscal Additional Data"
+msgstr "Dados Adicionais Fiscais"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__manual_fiscal_additional_data
+msgid "Fiscal Additional data manually entered by user"
+msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "Fiscal Operation"
+msgstr "Operação Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "Fiscal Operation Line"
+msgstr "Linha de Operação Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_price
+msgid "Fiscal Price"
+msgstr "Preço Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_genre_id
+msgid "Fiscal Product Genre"
+msgstr "Gênero Fiscal do Produto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_genre_code
+msgid "Fiscal Product Genre Code"
+msgstr "Código do Gênero Fiscal do Produto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_quantity
+msgid "Fiscal Quantity"
+msgstr "Quantidade Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr "Impostos Fiscais"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_type
+msgid "Fiscal Type"
+msgstr "Tipo Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__force_compute_delivery_costs_by_total
+msgid "Force Compute Delivery Costs By Total"
+msgstr "Forçar Cálculo de Custos de Entrega por Total"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_freight_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__freight_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__freight_value
+msgid "Freight Value"
+msgstr "Valor do Frete"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__price_gross
+msgid "Gross Product/Service Amount"
+msgstr "Valor bruto do produto/serviço"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_percent
+msgid "ICMS %"
+msgstr "% ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_reduction
+msgid "ICMS % Reduction"
+msgstr "% de Redução de ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icms_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_base
+msgid "ICMS Base"
+msgstr "Base para ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_base_type
+msgid "ICMS Base Type"
+msgstr "Tipo base do ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_cst_code
+msgid "ICMS CST Code"
+msgstr "Código CST do ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_destination_value
+msgid "ICMS Dest. Value"
+msgstr "Valor do Dest. ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_destination_base
+msgid "ICMS Destination Base"
+msgstr "Base de Destino do ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icms_destination_value
+msgid "ICMS Destination Value"
+msgstr "Valor Destino ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_effective_value
+msgid "ICMS Effective"
+msgstr "ICMS Efetivo"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_effective_percent
+msgid "ICMS Effective %"
+msgstr "% ICMS Efetivo"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_effective_reduction
+msgid "ICMS Effective % Reduction"
+msgstr "% de Redução ICMS Efetivo"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_effective_base
+msgid "ICMS Effective Base"
+msgstr "Base para ICMS Efetivo"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_destination_percent
+msgid "ICMS External %"
+msgstr "% ICMS Externo"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcp_percent
+msgid "ICMS FCP %"
+msgstr "% ICMS FCP"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icmsfcp_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcp_base
+msgid "ICMS FCP Base"
+msgstr "Base para ICMS FCP"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcpst_value
+msgid "ICMS FCP ST Value"
+msgstr "Valor ICMS FCP ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icmsfcp_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcp_value
+msgid "ICMS FCP Value"
+msgstr "Valor do ICMS FCP"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_origin_percent
+msgid "ICMS Internal %"
+msgstr "% ICMS Interno"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_origin
+msgid "ICMS Origin"
+msgstr "Origem do ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icms_origin_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_origin_value
+msgid "ICMS Origin Value"
+msgstr "Valor do ICMS de Origem"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_relief_id
+msgid "ICMS Relief"
+msgstr "Alívio do ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_relief_value
+msgid "ICMS Relief Value"
+msgstr "Valor de Alívio do ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmssn_percent
+msgid "ICMS SN %"
+msgstr "% ICMS SN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmssn_base
+msgid "ICMS SN Base"
+msgstr "Base do ICMS SN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmssn_credit_value
+msgid "ICMS SN Credit"
+msgstr "Crédito ICMS SN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmssn_reduction
+msgid "ICMS SN Reduction"
+msgstr "Redução do ICMS SN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_percent
+msgid "ICMS ST %"
+msgstr "% ICMS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_reduction
+msgid "ICMS ST % Reduction"
+msgstr "% Redução de ICMS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icmsst_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_base
+msgid "ICMS ST Base"
+msgstr "Base do ICMS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_base_type
+msgid "ICMS ST Base Type"
+msgstr "Tipo de Base do ICMS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_mva_percent
+msgid "ICMS ST MVA %"
+msgstr "% ICMS ST MVA"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icmsst_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__icmsst_value
+msgid "ICMS ST Value"
+msgstr "Valor do ICMS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_wh_percent
+msgid "ICMS ST WH %"
+msgstr "% ICMS ST WH"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_wh_base
+msgid "ICMS ST WH Base"
+msgstr "Base do ICMS ST WH"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_wh_value
+msgid "ICMS ST WH Value"
+msgstr "Valor do ICMS ST WH"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_sharing_percent
+msgid "ICMS Sharing %"
+msgstr "% de Compartilhamento do ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_substitute
+msgid "ICMS Substitute"
+msgstr "ICMS Substituto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icms_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__icms_value
+msgid "ICMS Value"
+msgstr "Valor do ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__tax_icms_or_issqn
+msgid "ICMS or ISSQN Tax"
+msgstr "Imposto sobre ICMS ou ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_icmssn_credit_value
+msgid "ICMSSN Credit Value"
+msgstr "Valor do Crédito de ICMSSN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_percent
+msgid "II %"
+msgstr "% II"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_ii_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_base
+msgid "II Base"
+msgstr "Base do II"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_ii_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__ii_value
+msgid "II Value"
+msgstr "Valor do II"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_percent
+msgid "INSS %"
+msgstr "% INSS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_reduction
+msgid "INSS % Reduction"
+msgstr "% de Redução do INSS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_inss_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_base
+msgid "INSS Base"
+msgstr "Base do INSS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_wh_percent
+msgid "INSS RET %"
+msgstr "% INSS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_wh_reduction
+msgid "INSS RET % Reduction"
+msgstr "% de Redução do INSS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_wh_base
+msgid "INSS RET Base"
+msgstr "Base do INSS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_wh_value
+msgid "INSS RET Value"
+msgstr "Valor do INSS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_inss_wh_base
+msgid "INSS Ret Base"
+msgstr "Base do INSS Ret"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_inss_wh_value
+msgid "INSS Ret Value"
+msgstr "Valor do INSS Ret"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_inss_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_value
+msgid "INSS Value"
+msgstr "Valor do INSS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_iof_value
+msgid "IOF Value"
+msgstr "Valor IOF"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_percent
+msgid "IPI %"
+msgstr "% IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_reduction
+msgid "IPI % Reduction"
+msgstr "% Redução do IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_ipi_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_base
+msgid "IPI Base"
+msgstr "Base do IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_base_type
+msgid "IPI Base Type"
+msgstr "Tipo da Base do IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_cst_code
+msgid "IPI CST Code"
+msgstr "Código CST do IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_guideline_id
+msgid "IPI Guideline"
+msgstr "Enquadramento do IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_ipi_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__ipi_value
+msgid "IPI Value"
+msgstr "Valor do IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_percent
+msgid "IRPJ %"
+msgstr "% IRPJ"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_reduction
+msgid "IRPJ % Reduction"
+msgstr "% Redução do IRPJ"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_irpj_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_base
+msgid "IRPJ Base"
+msgstr "Base do IRPJ"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_percent
+msgid "IRPJ RET %"
+msgstr "% RET IRPJ"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_reduction
+msgid "IRPJ RET % Reduction"
+msgstr "% Redução do IRPJ RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_value
+msgid "IRPJ RET Value"
+msgstr "Valor do IRPJ RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_irpj_wh_base
+msgid "IRPJ Ret Base"
+msgstr "Base do IRPJ Ret"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_irpj_wh_value
+msgid "IRPJ Ret Value"
+msgstr "Valor do IRPJ Ret"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_irpj_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_value
+msgid "IRPJ Value"
+msgstr "Valor do IRPJ"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_percent
+msgid "ISSQN %"
+msgstr "% ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_reduction
+msgid "ISSQN % Reduction"
+msgstr "% de Redução do ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_issqn_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_base
+msgid "ISSQN Base"
+msgstr "Base do ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_fg_city_id
+msgid "ISSQN City"
+msgstr "Cidade do ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_deduction_amount
+msgid "ISSQN Deduction Value"
+msgstr "Valor de Dedução do ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_desc_cond_amount
+msgid "ISSQN Discount Cond"
+msgstr "Desconto Cond. do ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_desc_incond_amount
+msgid "ISSQN Discount Incond"
+msgstr "Desconto Incond. do ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_eligibility
+msgid "ISSQN Eligibility"
+msgstr "Elegibilidade do ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_incentive
+msgid "ISSQN Incentive"
+msgstr "Incentivo ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_other_amount
+msgid "ISSQN Other Value"
+msgstr "Outro Valor ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_wh_percent
+msgid "ISSQN RET %"
+msgstr "% RET ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_wh_reduction
+msgid "ISSQN RET % Reduction"
+msgstr "% de Redução ISSQN RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_wh_base
+msgid "ISSQN RET Base"
+msgstr "Base do ISSQN RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_wh_value
+msgid "ISSQN RET Value"
+msgstr "Valor ISSQN RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_issqn_wh_base
+msgid "ISSQN Ret Base"
+msgstr "Base do ISSQN Ret"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_issqn_wh_value
+msgid "ISSQN Ret Value"
+msgstr "Valor ISSQN Ret"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_value
+msgid "ISSQN Value"
+msgstr "Valor ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__cfop_destination
+msgid "Identifies the operation destination."
+msgstr "Identifica o destino da operação."
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__allow_csll_irpj
+msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__partner_is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_insurance_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__insurance_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__insurance_value
+msgid "Insurance Value"
+msgstr "Valor do Seguro"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Invoices and Incoming Shipments"
+msgstr "Faturas e Remessas Recebidas"
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_account_move
+msgid "Journal Entry"
+msgstr "Lançamento de Diário"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__legal_name
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__manual_additional_data
+msgid "Manual Additional Data"
+msgstr "Dado Adicional Manual"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__manual_customer_additional_data
+msgid "Manual Customer Additional Data"
+msgstr "Dado Adicional do Cliente Manual"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__manual_fiscal_additional_data
+msgid "Manual Fiscal Additional Data"
+msgstr "Dado Adicional Fiscal Manual"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__07
+msgid "Material de Uso e Consumo"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__01
+msgid "Matéria-prima"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__00
+msgid "Mercadoria para Revenda"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__quantity
+#, fuzzy
+msgid "Mixin Quantity"
+msgstr "Quantidade"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__uom_id
+msgid "Mixin UOM"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__nbm_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__nbm_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "NBM"
+msgstr "NBM"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__nbs_id
+msgid "NBS"
+msgstr "NBS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ncm_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__ncm_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "NCM"
+msgstr "NCM"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__simple_value
+msgid "National Simple Taxes"
+msgstr "Impostos do Simples Nacional"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__simple_without_icms_value
+msgid "National Simple Taxes without ICMS"
+msgstr "Impostos do Simples Nacional sem ICMS"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Notes"
+msgstr "Observações"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_id
+msgid "Operation"
+msgstr "Operação"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_line_id
+msgid "Operation Line"
+msgstr "Linha de Operação"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__operation_name
+msgid "Operation Name"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_other_value
+msgid "Other Costs"
+msgstr "Outros Custos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__other_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__other_value
+msgid "Other Value"
+msgstr "Outros Valores"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__99
+msgid "Outras"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Outros Custos"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__10
+msgid "Outros insumos"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_percent
+msgid "PIS %"
+msgstr "% PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_reduction
+msgid "PIS % Reduction"
+msgstr "% Redução do PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pis_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_base
+msgid "PIS Base"
+msgstr "Base do PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_base_id
+msgid "PIS Base Code"
+msgstr "Código da Base do PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_base_type
+msgid "PIS Base Type"
+msgstr "Tipo da Base do PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_cst_code
+msgid "PIS CST Code"
+msgstr "Código CST do PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_credit_id
+msgid "PIS Credit"
+msgstr "Crédito do PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_percent
+msgid "PIS RET %"
+msgstr "% PIS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_reduction
+msgid "PIS RET % Reduction"
+msgstr "% de Redução do PIS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_base
+msgid "PIS RET Base"
+msgstr "Base do PIS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_value
+msgid "PIS RET Value"
+msgstr "Valor do PIS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pis_wh_base
+msgid "PIS Ret Base"
+msgstr "Base do PIS Ret"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pis_wh_value
+msgid "PIS Ret Value"
+msgstr "Valor do PIS Ret"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_percent
+msgid "PIS ST %"
+msgstr "% PIS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_reduction
+msgid "PIS ST % Reduction"
+msgstr "% de Redução do PIS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pisst_base
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_base
+msgid "PIS ST Base"
+msgstr "Base do PIS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_base_type
+msgid "PIS ST Base Type"
+msgstr "Tipo da Base do PIS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_cst_code
+msgid "PIS ST CST Code"
+msgstr "Código CST do PIS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pisst_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_value
+msgid "PIS ST Value"
+msgstr "Valor do PIS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_pis_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_value
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__pis_value
+msgid "PIS Value"
+msgstr "Valor do PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_base_type
+msgid "PIS WH Base Type"
+msgstr "Tipo da Base do PIS WH"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_order
+msgid "Partner Order (xPed)"
+msgstr "Pedido de Parceiro (xPed)"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_order_line
+msgid "Partner Order Line (nItemPed)"
+msgstr "Linha de Pedido do Parceiro (nItemPed)"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__product_id
+msgid "Product"
+msgstr "Produto"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "Product Fiscal Type"
+msgstr "Tipo Fiscal do Produto"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__04
+msgid "Produto Acabado"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__06
+msgid "Produto Intermediário"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__03
+msgid "Produto em Processo"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__partner_is_public_entity
+msgid "Public Entity"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de Compra"
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linha de Pedido de Compra"
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_report
+msgid "Purchase Report"
+msgstr "Relatório de Compra"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_res_company_form
+msgid "Purchases"
+msgstr "Compras"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie
+msgid "Serie Number"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__service_type_id
+msgid "Service Type LC 166"
+msgstr "Tipo de Serviço LC 166"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__09
+msgid "Serviços"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmssn_range_id
+msgid "Simplified Range Tax"
+msgstr "Intervalo do Imposto Simplificado"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__ie
+msgid "State Tax Number/RG"
+msgstr "Número da Inscrição Estadual/RG"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__05
+msgid "Subproduto"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_tax_benefit_id
+msgid "Tax Benefit"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_tax_benefit_code
+msgid "Tax Benefit Code"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_tax_id
+msgid "Tax COFINS"
+msgstr "Imposto COFINS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofins_wh_tax_id
+msgid "Tax COFINS RET"
+msgstr "Imposto COFINS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__cofinsst_tax_id
+msgid "Tax COFINS ST"
+msgstr "Imposto COFINS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_tax_id
+msgid "Tax CSLL"
+msgstr "Imposto CSLL"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__csll_wh_tax_id
+msgid "Tax CSLL RET"
+msgstr "Imposto CSLL RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__tax_framework
+msgid "Tax Framework"
+msgstr "Estrutura Tributária"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icms_tax_id
+msgid "Tax ICMS"
+msgstr "Imposto ICMS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcp_tax_id
+msgid "Tax ICMS FCP"
+msgstr "Imposto ICMS FCP"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmssn_tax_id
+msgid "Tax ICMS SN"
+msgstr "Imposto ICMS SN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__icmsst_tax_id
+msgid "Tax ICMS ST"
+msgstr "Imposto ICMS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ii_tax_id
+msgid "Tax II"
+msgstr "Imposto II"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_tax_id
+msgid "Tax INSS"
+msgstr "Imposto INSS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__inss_wh_tax_id
+msgid "Tax INSS RET"
+msgstr "Imposto INSS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ipi_tax_id
+msgid "Tax IPI"
+msgstr "Imposto IPI"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_tax_id
+msgid "Tax IRPJ"
+msgstr "Imposto IRPJ"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__irpj_wh_tax_id
+msgid "Tax IRPJ RET"
+msgstr "Imposto IRPJ RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_tax_id
+msgid "Tax ISSQN"
+msgstr "Imposto ISSQN"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_wh_tax_id
+msgid "Tax ISSQN RET"
+msgstr "Imposto ISSQN RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_tax_id
+msgid "Tax PIS"
+msgstr "Imposto PIS"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pis_wh_tax_id
+msgid "Tax PIS RET"
+msgstr "Imposto PIS RET"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__pisst_tax_id
+msgid "Tax PIS ST"
+msgstr "Imposto PIS ST"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__uot_id
+msgid "Tax UoM"
+msgstr "UoM Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__amount_tax_withholding
+msgid "Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_tax
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_type
+msgid "Tipo Fiscal"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_total
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__total_with_taxes
+msgid "Total With Taxes"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__price_unit
+msgid "Unit Price"
+msgstr "Preço Unitário"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_untaxed
+msgid "Untaxed Amount"
+msgstr "Valor Sem Impostos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__legal_name
+msgid "Used in fiscal documents"
+msgstr "Usado em documentos fiscais"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__icms_substitute
+msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__partner_id
+msgid "Vendor"
+msgstr "Fornecedor"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__partner_id
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__partner_id
+msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+msgstr ""
+"Você pode encontrar um fornecedor por seu nome, TIN, e-mail ou referência "
+"interna."
+
+#~ msgid "Fiscal Operation Type"
+#~ msgstr "Tipo de Operação Fiscal"
+
+#~ msgid "(-) Amount Tax Withholding"
+#~ msgstr "(-) Valor Retido na Fonte"
+
+#~ msgid "Amount Tax Withholding"
+#~ msgstr "Total de Imposto Retido na Fonte"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "Freight"
+#~ msgstr "Frete"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Insurance"
+#~ msgstr "Seguro"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Amount Tax not Included"
+#~ msgstr "Total de Impostos Não Incluídos no Preço"
+
+#~ msgid "Total with Taxes"
+#~ msgstr "Total com Impostos"
+
+#, fuzzy
+#~ msgid "Documents"
+#~ msgstr "Documento de Origem"
+
+#, fuzzy
+#~ msgid "Fiscal Document Count"
+#~ msgstr "Contagem de Anexos"
+
+#~ msgid "Invoice"
+#~ msgstr "Fatura"
+
+#~ msgid "# Vendor Bills"
+#~ msgstr "# Faturas de Fornecedor"
+
+#~ msgid "# of Lines"
+#~ msgstr "# de Linhas"
+
+#~ msgid "${object.company_id.name} Order (Ref ${object.name or 'n/a' })"
+#~ msgstr "${object.company_id.name} Ordem (Ref ${object.name or 'n/a' })"
+
+#~ msgid "3-way matching"
+#~ msgstr "Combinação em 3 vias"
+
+#~ msgid "3-way matching: purchases, receptions and bills"
+#~ msgstr "Combinação em 3 vias: compras, recepções e contas"
+
+#~ msgid ""
+#~ "<div style=\"margin: 0px; padding: 0px;\">\n"
+#~ "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+#~ "        Dear ${object.partner_id.name}\n"
+#~ "        % if object.partner_id.parent_id:\n"
+#~ "            (${object.partner_id.parent_id.name})\n"
+#~ "        % endif\n"
+#~ "        <br/><br/>\n"
+#~ "        Here is in attachment a purchase order <strong>${object.name}</"
+#~ "strong>\n"
+#~ "        % if object.partner_ref:\n"
+#~ "            with reference: ${object.partner_ref}\n"
+#~ "        % endif\n"
+#~ "        amounting in <strong>${format_amount(object.amount_total, object."
+#~ "currency_id)}</strong>\n"
+#~ "        from ${object.company_id.name}.\n"
+#~ "        <br/><br/>\n"
+#~ "        If you have any questions, please do not hesitate to contact us.\n"
+#~ "        <br/><br/>\n"
+#~ "        Best regards,\n"
+#~ "    </p>\n"
+#~ "</div>"
+#~ msgstr ""
+#~ "<div style=\"margin: 0px; padding: 0px;\">\n"
+#~ "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+#~ "        Car@ ${object.partner_id.name}\n"
+#~ "        % if object.partner_id.parent_id:\n"
+#~ "            (${object.partner_id.parent_id.name})\n"
+#~ "        % endif\n"
+#~ "        <br/><br/>\n"
+#~ "        Segue em anexo o pedido de cotação <strong>${object.name}</"
+#~ "strong>\n"
+#~ "        % if object.partner_ref:\n"
+#~ "            com a referencia: ${object.partner_ref}\n"
+#~ "        % endif\n"
+#~ "        no valor de <strong>${format_amount(object.amount_total, object."
+#~ "currency_id)}</strong>\n"
+#~ "        de ${object.company_id.name}.\n"
+#~ "        <br/><br/>\n"
+#~ "        Se tiver alguma dúvida, não hesite em contactar-nos.\n"
+#~ "        <br/><br/>\n"
+#~ "        Os melhores cumprimentos,\n"
+#~ "    </p>\n"
+#~ "</div>"
+
+#~ msgid ""
+#~ "<div style=\"margin: 0px; padding: 0px;\">\n"
+#~ "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+#~ "        Dear ${object.partner_id.name}\n"
+#~ "        % if object.partner_id.parent_id:\n"
+#~ "            (${object.partner_id.parent_id.name})\n"
+#~ "        % endif\n"
+#~ "        <br/><br/>\n"
+#~ "        Here is in attachment a request for quotation <strong>${object."
+#~ "name}</strong>\n"
+#~ "        % if object.partner_ref:\n"
+#~ "            with reference: ${object.partner_ref}\n"
+#~ "        % endif\n"
+#~ "        from ${object.company_id.name}.\n"
+#~ "        <br/><br/>\n"
+#~ "        If you have any questions, please do not hesitate to contact us.\n"
+#~ "        <br/><br/>\n"
+#~ "        Best regards,\n"
+#~ "    </p>\n"
+#~ "</div>"
+#~ msgstr ""
+#~ "<div style=\"margin: 0px; padding: 0px;\">\n"
+#~ "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+#~ "        Car@ ${object.partner_id.name}\n"
+#~ "        % if object.partner_id.parent_id:\n"
+#~ "            (${object.partner_id.parent_id.name})\n"
+#~ "        % endif\n"
+#~ "        <br/><br/>\n"
+#~ "        Segue em anexo o pedido de cotação <strong>${object.name}</"
+#~ "strong>\n"
+#~ "        % if object.partner_ref:\n"
+#~ "            com a referencia: ${object.partner_ref}\n"
+#~ "        % endif\n"
+#~ "        de ${object.company_id.name}.\n"
+#~ "        <br/><br/>\n"
+#~ "        Se tiver alguma dúvida, não hesite em contactar-nos.\n"
+#~ "        <br/><br/>\n"
+#~ "        Os melhores cumprimentos,\n"
+#~ "    </p>\n"
+#~ "</div>"
+
+#~ msgid ""
+#~ "<i class=\"fa fa-arrow-right\"/>\n"
+#~ "                                            How to import"
+#~ msgstr ""
+#~ "<i class=\"fa fa-arrow-right\"/>\n"
+#~ "                                            Como importar"
+
+#~ msgid ""
+#~ "<span class=\"badge badge-info\"><i class=\"fa fa-fw fa-file-text\"/> "
+#~ "Waiting for Bill</span>"
+#~ msgstr ""
+#~ "<span class=\"badge badge-info\"><i class=\"fa fa-fw fa-file-text\"/> "
+#~ "Esperando por conta</span>"
+
+#~ msgid ""
+#~ "<span class=\"badge badge-secondary\"><i class=\"fa fa-fw fa-remove\"/> "
+#~ "Cancelled</span>"
+#~ msgstr ""
+#~ "<span class=\"badge badge-secondary\"><i class=\"fa fa-fw fa-remove\"/> "
+#~ "Cancelado</span>"
+
+#~ msgid ""
+#~ "<span class=\"o_form_label\" attrs=\"{'invisible': [('state','not in',"
+#~ "('draft','sent'))]}\">Request for Quotation </span>\n"
+#~ "                        <span class=\"o_form_label\" "
+#~ "attrs=\"{'invisible': [('state','in',('draft','sent'))]}\">Purchase Order "
+#~ "</span>"
+#~ msgstr ""
+#~ "<span class=\"o_form_label\" attrs=\"{'invisible': [('state','not in',"
+#~ "('draft','sent'))]}\">Pedido de Cotação</span>\n"
+#~ "                        <span class=\"o_form_label\" "
+#~ "attrs=\"{'invisible': [('state','in',('draft','sent'))]}\">Ordem de "
+#~ "compra </span>"
+
+#~ msgid "<span class=\"o_stat_text\">Purchased</span>"
+#~ msgstr "<span class=\"o_stat_text\">Comprado</span>"
+
+#~ msgid "<strong>Amount</strong>"
+#~ msgstr "<strong>Quantidade</strong>"
+
+#~ msgid "<strong>Date Req.</strong>"
+#~ msgstr "<strong>Data Pedi.</strong>"
+
+#~ msgid "<strong>Date:</strong>"
+#~ msgstr "<strong>Data:</strong>"
+
+#~ msgid "<strong>Description</strong>"
+#~ msgstr "<strong>Descrição</strong>"
+
+#~ msgid "<strong>Expected Date</strong>"
+#~ msgstr "<strong>Data Prevista</strong>"
+
+#~ msgid "<strong>Order Date:</strong>"
+#~ msgstr "<strong>Data do Pedido:</strong>"
+
+#~ msgid "<strong>Our Order Reference:</strong>"
+#~ msgstr "<strong>Nossa Pedido de Referência:</strong>"
+
+#~ msgid "<strong>Product</strong>"
+#~ msgstr "<strong>Produto</strong>"
+
+#~ msgid "<strong>Qty</strong>"
+#~ msgstr "<strong>Qtd</strong>"
+
+#~ msgid "<strong>Quantity</strong>"
+#~ msgstr "<strong>Quantidade</strong>"
+
+#~ msgid "<strong>Shipping address:</strong>"
+#~ msgstr "<strong>Endereço de envio:</strong>"
+
+#~ msgid "<strong>Taxes</strong>"
+#~ msgstr "<strong>Impostos</strong>"
+
+#~ msgid "<strong>The ordered quantity has been updated.</strong>"
+#~ msgstr "<strong>A quantidade pedida foi atualizada.</strong>"
+
+#~ msgid "<strong>Unit Price</strong>"
+#~ msgstr "<strong>Preço Unitário</strong>"
+
+#~ msgid "<strong>Your Order Reference:</strong>"
+#~ msgstr "<strong>Seu Pedido de Referência:</strong>"
+
+#~ msgid ""
+#~ "A storable product is a product for which you manage stock. The Inventory "
+#~ "app has to be installed.\n"
+#~ "A consumable product is a product for which stock is not managed.\n"
+#~ "A service is a non-material product you provide."
+#~ msgstr ""
+#~ "Um produto armazenável é um produto no qual você pode gerenciar o "
+#~ "estoque. O aplicativo Inventário deve ser instalado.\n"
+#~ "Um produto consumível é um produto para o qual o estoque não é "
+#~ "gerenciado.\n"
+#~ "Um serviço é um produto não material que você fornece."
+
+#~ msgid "A warning can be set on a product or a customer (Purchase)"
+#~ msgstr "Um aviso pode ser definido em um produto ou um cliente (Compra)"
+
+#~ msgid "Access warning"
+#~ msgstr "Aviso de acesso"
+
+#~ msgid "Action Needed"
+#~ msgstr "Ação Necessária"
+
+#~ msgid "Activities"
+#~ msgstr "Atividades"
+
+#~ msgid "Activity State"
+#~ msgstr "Estado de Atividade"
+
+#~ msgid "Add Purchase Order"
+#~ msgstr "Adicionar Pedido de Compra"
+
+#~ msgid "All"
+#~ msgstr "Tudo"
+
+#~ msgid "Allow to edit purchase orders"
+#~ msgstr "Permite editar ordens de compra"
+
+#~ msgid "Analytic Account"
+#~ msgstr "Conta Analítica"
+
+#~ msgid "Analytic Tags"
+#~ msgstr "Tags Analíticas"
+
+#~ msgid "Approval Date"
+#~ msgstr "Data de Aprovação"
+
+#~ msgid "Approve Order"
+#~ msgstr "Aprovar Ordem"
+
+#~ msgid ""
+#~ "Associated Purchase Order. Filled in automatically when a PO is chosen on "
+#~ "the vendor bill."
+#~ msgstr ""
+#~ "Ordem de Compra associada. Preenchida automaticamente quando um OC é "
+#~ "escolhida na conta de fornecedor."
+
+#~ msgid "Auto-Complete"
+#~ msgstr "Auto-Completar"
+
+#~ msgid "Average Delivery Time"
+#~ msgstr "Tempo Médio de Entrega"
+
+#~ msgid "Average Price"
+#~ msgstr "Preço Médio"
+
+#~ msgid "Bill Control"
+#~ msgstr "Controle de Conta"
+
+#~ msgid "Bill Count"
+#~ msgstr "Contar Conta"
+
+#~ msgid "Bill Lines"
+#~ msgstr "Linhas da Fatura"
+
+#~ msgid "Billed Qty"
+#~ msgstr "Qtd Faturada"
+
+#~ msgid "Billed Quantity:"
+#~ msgstr "Quantidade Cobrada"
+
+#~ msgid "Billing Status"
+#~ msgstr "Situação Faturamento"
+
+#~ msgid "Bills"
+#~ msgstr "Faturas"
+
+#~ msgid "Bills Received"
+#~ msgstr "Faturas Recebidas"
+
+#~ msgid "Blocking Message"
+#~ msgstr "Mensagem de Bloqueio"
+
+#~ msgid ""
+#~ "By default, vendor prices can be set manually in the product detail form. "
+#~ "If your vendors provide you with pricelist files, this option allows you "
+#~ "to easily import them into the system from ‘Purchase > Vendor Pricelists’ "
+#~ "menu."
+#~ msgstr ""
+#~ "Por padrão, os preços do fornecedor podem ser definidos manualmente no "
+#~ "formulário de detalhes do produto. Se seus fornecedores fornecem arquivos "
+#~ "de lista de preços, esta opção permite importá-los facilmente para o "
+#~ "sistema a partir do menu ‘Comprar> Lista de preços do fornecedor’."
+
+#~ msgid "Calendar View"
+#~ msgstr "Visão de Calendário"
+
+#~ msgid ""
+#~ "Calls for tenders are used when you want to generate requests for "
+#~ "quotations to several vendors for a given set of products. You can "
+#~ "configure per product if you directly do a Request for Quotation to one "
+#~ "vendor or if you want a Call for Tenders to compare offers from several "
+#~ "vendors."
+#~ msgstr ""
+#~ "Os editais são usados quando você deseja gerar pedidos de cotação para "
+#~ "vários fornecedores para um determinado conjunto de produtos. Você pode "
+#~ "configurar por produto se fizer uma solicitação de cotação diretamente a "
+#~ "um fornecedor ou se quiser uma licitação para comparar ofertas de vários "
+#~ "fornecedores."
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Cancelled"
+#~ msgstr "Cancelado"
+
+#~ msgid "Cancelled Purchase Order #"
+#~ msgstr "Ordem de Compra Cancelada #"
+
+#~ msgid "Cannot delete a purchase order line which is in state '%s'."
+#~ msgstr ""
+#~ "Não é possível excluir uma linha do pedido de compras no estado '%s'."
+
+#~ msgid "Commercial Entity"
+#~ msgstr "Entidade Comercial"
+
+#~ msgid "Company Currency"
+#~ msgstr "Moeda da Empresa"
+
+#~ msgid "Config Settings"
+#~ msgstr "Ajuste de configurações"
+
+#~ msgid "Configuration"
+#~ msgstr "Configuração"
+
+#~ msgid "Confirm Order"
+#~ msgstr "Confirmar Pedido"
+
+#~ msgid "Confirm purchase orders in one step"
+#~ msgstr "Confirmar pedidos de compra em uma etapa"
+
+#~ msgid "Confirmed purchase orders are not editable"
+#~ msgstr "Ordens confirmadas não são editáveis"
+
+#~ msgid "Contact"
+#~ msgstr "Contato"
+
+#~ msgid "Control"
+#~ msgstr "Controle"
+
+#~ msgid "Control Policy"
+#~ msgstr "Política de Controle"
+
+#~ msgid "Create Bill"
+#~ msgstr "Criar conta"
+
+#~ msgid "Create a new product"
+#~ msgstr "Criar um novo produto"
+
+#~ msgid "Create a new product variant"
+#~ msgstr "Criar uma nova variante de produto"
+
+#~ msgid "Create a quotation"
+#~ msgstr "Criar uma cotação"
+
+#~ msgid "Create a request for quotation"
+#~ msgstr "Criar um requerimento de cotação"
+
+#~ msgid "Create a vendor bill"
+#~ msgstr "Criar uma conta de fornecedor"
+
+#~ msgid "Created by"
+#~ msgstr "Criado por"
+
+#~ msgid "Created on"
+#~ msgstr "Criado em"
+
+#~ msgid "Customer Portal URL"
+#~ msgstr "Endereço do Portal do Consumidor"
+
+#~ msgid "Date"
+#~ msgstr "Data"
+
+#~ msgid "Date Approved"
+#~ msgstr "Data da Aprovação"
+
+#~ msgid "Date on which this document has been created"
+#~ msgstr "Data que este documento foi criado"
+
+#~ msgid "Days to Deliver"
+#~ msgstr "Dias para Entrega"
+
+#~ msgid "Days to Validate"
+#~ msgstr "Dias para Validar"
+
+#~ msgid "Define your terms and conditions ..."
+#~ msgstr "Definir seus termos e condições ..."
+
+#~ msgid "Delivered quantities"
+#~ msgstr "Quantidades entregues"
+
+#~ msgid ""
+#~ "Depicts the date where the Quotation should be validated and converted "
+#~ "into a purchase order."
+#~ msgstr ""
+#~ "Descreve a data em que a cotação deve ser validada e convertida em um "
+#~ "pedido de compra."
+
+#~ msgid "Description"
+#~ msgstr "Descrição"
+
+#~ msgid "Description for Vendors"
+#~ msgstr "Descrição para Fornecedores"
+
+#~ msgid "Done"
+#~ msgstr "Concluído"
+
+#~ msgid "Double validation amount"
+#~ msgstr "Quantidade de Validação Dupla"
+
+#~ msgid "Draft RFQ"
+#~ msgstr "Rascunho RFQ"
+
+#~ msgid "Drop Ship Address"
+#~ msgstr "Apagar Endereço de Envio"
+
+#~ msgid "Expected Date"
+#~ msgstr "Data Prevista"
+
+#~ msgid "Extended Filters"
+#~ msgstr "Filtros Ampliados"
+
+#~ msgid "Extra line with %s "
+#~ msgstr "Linha extra com %s "
+
+#~ msgid "Followers"
+#~ msgstr "Seguidores"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canais)"
+
+#~ msgid "Followers (Partners)"
+#~ msgstr "Seguidores (Parceiros)"
+
+#~ msgid "Future Activities"
+#~ msgstr "Atividades Futuras"
+
+#~ msgid "Get 2 levels of approvals to confirm a purchase order"
+#~ msgstr "Obter 2 níveis de aprovações para confirmar um pedido de compra"
+
+#~ msgid "Get warnings in orders for products or vendors"
+#~ msgstr "Receber alertas em pedidos para produtos ou fornecedores"
+
+#~ msgid "Group By"
+#~ msgstr "Agrupar Por"
+
+#~ msgid "Hide cancelled lines"
+#~ msgstr "Ocultar linhas canceladas"
+
+#~ msgid "If checked new messages require your attention."
+#~ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
+
+#~ msgid "If checked, new messages require your attention."
+#~ msgstr "Se marcado novas mensagens solicitarão sua atenção."
+
+#~ msgid "If checked, some messages have a delivery error."
+#~ msgstr "Se marcado, algumas mensagens tem erro de entrega."
+
+#~ msgid ""
+#~ "If enabled, activates 3-way matching on vendor bills : the items must be "
+#~ "received in order to pay the invoice."
+#~ msgstr ""
+#~ "Se habilitado, ativa combinação em 3 vias para contas de fornecedor: os "
+#~ "itens devem ser recebidos para que a fatura seja paga."
+
+#~ msgid "Import Template for Products"
+#~ msgstr "Importar Modelo para Produtos"
+
+#~ msgid "Import vendor pricelists"
+#~ msgstr "Importar lista de preço de fornecedor"
+
+#~ msgid "In order to delete a purchase order, you must cancel it first."
+#~ msgstr ""
+#~ "Para poder excluir uma ordem de compra, você precisa primeiro cancelá-la"
+
+#~ msgid ""
+#~ "International Commercial Terms are a series of predefined commercial "
+#~ "terms used in international transactions."
+#~ msgstr ""
+#~ "International Commercial Terms são uma série de termos comerciais pré-"
+#~ "definidos utilizados em transações internacionais."
+
+#~ msgid "Invoice Line"
+#~ msgstr "Linha da Fatura"
+
+#~ msgid "Invoicing"
+#~ msgstr "Faturamento"
+
+#~ msgid "Is Follower"
+#~ msgstr "É um seguidor"
+
+#~ msgid "It will be converted into a purchase order."
+#~ msgstr "Será convertido em uma ordem de compra."
+
+#~ msgid "Last Updated by"
+#~ msgstr "Última atualização por"
+
+#~ msgid "Last Updated on"
+#~ msgstr "Última atualização em"
+
+#~ msgid "Late Activities"
+#~ msgstr "Últimas Atividades"
+
+#~ msgid "Levels of Approvals"
+#~ msgstr "Níveis de Aprovações"
+
+#~ msgid "Levels of Approvals *"
+#~ msgstr "Níveis de aprovação"
+
+#~ msgid ""
+#~ "Load the vendor bill based on selected purchase order. Several PO can be "
+#~ "selected."
+#~ msgstr ""
+#~ "Carregar a fatura de fornecedor baseada na ordem de compra selecionada. "
+#~ "Muitas ordens de compra podem ser selecionadas"
+
+#~ msgid "Lock"
+#~ msgstr "Trancar"
+
+#~ msgid "Lock Confirmed Orders"
+#~ msgstr "Trancar Pedidos Confirmados"
+
+#~ msgid "Locked"
+#~ msgstr "Trancado"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
+
+#~ msgid ""
+#~ "Make sure you only pay bills for which you received the goods you ordered"
+#~ msgstr ""
+#~ "Certifique-se de pagar somente as contas pelas quais você recebeu os bens "
+#~ "que pediu"
+
+#~ msgid "Manage Vendor Price"
+#~ msgstr "Gerenciar Preço de Fornecedor"
+
+#~ msgid "Manage your purchase agreements (call for tenders, blanket orders)"
+#~ msgstr ""
+#~ "Gerenciar seus acordos de compra (chamadas para propostas, pedidos "
+#~ "abertos)"
+
+#~ msgid "Manager"
+#~ msgstr "Gestor"
+
+#~ msgid "Managers must approve orders"
+#~ msgstr "Gerentes devem aprovar pedidos"
+
+#~ msgid "Manual Invoices"
+#~ msgstr "Faturamento Manual"
+
+#~ msgid ""
+#~ "Margin of error for vendor lead times. When the system generates Purchase "
+#~ "Orders for procuring products, they will be scheduled that many days "
+#~ "earlier to cope with unexpected vendor delays."
+#~ msgstr ""
+#~ "A margem de erro para os prazos de entrega do fornecedor. Quando o "
+#~ "sistema gera Pedidos de Compra para a aquisição de produtos, eles serão "
+#~ "agendados dias antes para lidar com atrasos inesperados de fornecedores."
+
+#~ msgid ""
+#~ "Margin of error for vendor lead times. When the system generates Purchase "
+#~ "Orders for reordering products,they will be scheduled that many days "
+#~ "earlier to cope with unexpected vendor delays."
+#~ msgstr ""
+#~ "Margem de erro para tempo de entrega de fornecedor. Quando o sistema "
+#~ "gerar Ordens de Compra para recomprar produtos, eles serão agendados "
+#~ "nesses número de dias anteriormente para levar em conta demoras "
+#~ "inesperadas de fornecedores."
+
+#~ msgid "Message Delivery error"
+#~ msgstr "Erro de entrega de Mensagem"
+
+#~ msgid "Message for Purchase Order"
+#~ msgstr "Mensagem para Pedido de Compra"
+
+#~ msgid "Message for Purchase Order Line"
+#~ msgstr "Mensagem para Linha do Pedido de Compra"
+
+#~ msgid "Messages"
+#~ msgstr "Mensagens"
+
+#~ msgid "Minimum Amount"
+#~ msgstr "Quantidade Mínima"
+
+#~ msgid "Minimum amount for which a double validation is required"
+#~ msgstr "Montante mínimo para os quais é necessário uma dupla validação"
+
+#~ msgid "Monthly Purchases"
+#~ msgstr "Compras Mensais"
+
+#~ msgid "My Activities"
+#~ msgstr "Minhas Atividades"
+
+#~ msgid "My Purchases"
+#~ msgstr "Minhas Compras"
+
+#~ msgid "Name, TIN, Email, or Reference"
+#~ msgstr "Nome, TIN, e-mail ou referência"
+
+#~ msgid "Newest"
+#~ msgstr "Mais Recente"
+
+#~ msgid "Next Activity Deadline"
+#~ msgstr "Prazo final para Próxima Atividade"
+
+#~ msgid "Next Activity Summary"
+#~ msgstr "Próximo Sumário de Atividade"
+
+#~ msgid "Next Activity Type"
+#~ msgstr "Tipo da Próxima Atividade"
+
+#~ msgid "No Bill to Receive"
+#~ msgstr "Nenhuma Fatura a Receber"
+
+#~ msgid "No Message"
+#~ msgstr "Sem Mensagem"
+
+#~ msgid "No longer edit orders once confirmed"
+#~ msgstr "Não editar pedidos uma vez confirmados"
+
+#~ msgid ""
+#~ "Non-stored related field to allow portal user to see the image of the "
+#~ "product he has ordered"
+#~ msgstr ""
+#~ "Campo relacionado não armazenado para permitir que o usuário do portal "
+#~ "veja a imagem do produto que solicitou"
+
+#~ msgid "Nothing to Bill"
+#~ msgstr "Nada para faturar"
+
+#~ msgid "Number of Actions"
+#~ msgstr "Número de ações"
+
+#~ msgid "Number of error"
+#~ msgstr "Número do erro"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Número de mensagens que requer uma ação"
+
+#~ msgid "Number of messages with delivery error"
+#~ msgstr "Número de mensagens com erro de entrega"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Quantidade de mensagens não lidas."
+
+#~ msgid "On ordered quantities"
+#~ msgstr "Em quantidades solicitadas"
+
+#~ msgid ""
+#~ "On ordered quantities: Control bills based on ordered quantities.\n"
+#~ "On received quantities: Control bills based on received quantities."
+#~ msgstr ""
+#~ "Em quantidades pedidas: controle as contas com base nas quantidades "
+#~ "pedidas.\n"
+#~ "Em quantidades recebidas: Controle as contas com base nas quantidades "
+#~ "recebidas."
+
+#~ msgid "On received quantities"
+#~ msgstr "Em quantidades recebidas"
+
+#~ msgid "Order Date"
+#~ msgstr "Data da Ordem"
+
+#~ msgid "Order Lines"
+#~ msgstr "Itens do Pedido"
+
+#~ msgid "Order Reference"
+#~ msgstr "Referência do Pedido"
+
+#~ msgid "Order Status"
+#~ msgstr "Situação de Pedido"
+
+#~ msgid "Ordered Quantity:"
+#~ msgstr "Quantidade Pedida:"
+
+#~ msgid "Ordered quantities"
+#~ msgstr "Quantidades solicitadas"
+
+#~ msgid "Orders"
+#~ msgstr "Pedidos"
+
+#~ msgid "Overdue"
+#~ msgstr "Vencido"
+
+#~ msgid "Partner Country"
+#~ msgstr "País Parceiro"
+
+#~ msgid "Payment Terms"
+#~ msgstr "Condições de pagamento"
+
+#~ msgid "Planned"
+#~ msgstr "Planejado"
+
+#~ msgid "Portal Access URL"
+#~ msgstr "Endereço de Acesso ao Portal"
+
+#~ msgid "Price Difference Account"
+#~ msgstr "Conta da Diferença de Preço"
+
+#~ msgid "Price Per Vendor"
+#~ msgstr "Preço por Fornecedor"
+
+#~ msgid "Print RFQ"
+#~ msgstr "Imprimir PDC"
+
+#~ msgid "Product Categories"
+#~ msgstr "Categorias de Produtos"
+
+#~ msgid "Product Category"
+#~ msgstr "Categoria de Produtos"
+
+#~ msgid "Product Image"
+#~ msgstr "Imagem do Produto"
+
+#~ msgid "Product Quantity"
+#~ msgstr "Quantidade do produto"
+
+#~ msgid "Product Template"
+#~ msgstr "Modelo de Produto"
+
+#~ msgid "Product Type"
+#~ msgstr "Tipo de Produto"
+
+#~ msgid "Product Unit of Measure"
+#~ msgstr "Unidade de Medida do Produto"
+
+#~ msgid "Product Variants"
+#~ msgstr "Variantes de Produto"
+
+#~ msgid "Products"
+#~ msgstr "Produtos"
+
+#~ msgid "Products Value"
+#~ msgstr "Valor dos Produtos"
+
+#~ msgid "Provide a double validation mechanism for purchases"
+#~ msgstr "Fornecer um mecanismo de dupla validação para compras"
+
+#~ msgid "Purchase"
+#~ msgstr "Compra"
+
+#~ msgid "Purchase Agreements"
+#~ msgstr "Acordos de Compra"
+
+#~ msgid "Purchase Analysis"
+#~ msgstr "Análise de Compras"
+
+#~ msgid ""
+#~ "Purchase Analysis allows you to easily check and analyse your company "
+#~ "purchase history and performance. From this menu you can track your "
+#~ "negotiation performance, the delivery performance of your vendors, etc."
+#~ msgstr ""
+#~ "A Análise de Compras permite a você conferir e analisar facilmente o "
+#~ "histórico e performance de compras da sua empresa. Neste menu você pode "
+#~ "monitorar a performance de negociação, a performance de entrega dos "
+#~ "fornecedores, etc."
+
+#~ msgid "Purchase Lead Time"
+#~ msgstr "Prazo de compras"
+
+#~ msgid "Purchase Order #"
+#~ msgstr "Ordem de Compra #"
+
+#~ msgid "Purchase Order Approval"
+#~ msgstr "Aprovação do pedido de compra"
+
+#~ msgid "Purchase Order Confirmation #"
+#~ msgstr "Confirmação de Pedido de Compra #"
+
+#~ msgid "Purchase Order Count"
+#~ msgstr "Contagem Ordem de Compra"
+
+#~ msgid "Purchase Order Fiscal Position"
+#~ msgstr "Posição Fiscal do Pedido de Compra"
+
+#~ msgid "Purchase Order Lines"
+#~ msgstr "Linhas do Pedido de Compra"
+
+#~ msgid "Purchase Order Modification"
+#~ msgstr "Modificação de ordem de compra"
+
+#~ msgid "Purchase Order Modification *"
+#~ msgstr "Modificação de ordem de compra *"
+
+#~ msgid ""
+#~ "Purchase Order Modification used when you want to purchase order editable "
+#~ "after confirm"
+#~ msgstr ""
+#~ "Modificação da ordem de compra usada quando você deseja que a ordem de "
+#~ "compra seja editável após a confirmação"
+
+#~ msgid "Purchase Orders"
+#~ msgstr "Pedidos de Compra"
+
+#~ msgid "Purchase Orders #"
+#~ msgstr "Ordens de Compra #"
+
+#~ msgid "Purchase Orders Statistics"
+#~ msgstr "Estatísticas das Ordens de Compra"
+
+#~ msgid "Purchase Representative"
+#~ msgstr "Representativo de Compra"
+
+#~ msgid "Purchase Warnings"
+#~ msgstr "Avisos de Compra"
+
+#~ msgid "Purchase orders that have been invoiced."
+#~ msgstr "Ordens de compra que foram faturadas."
+
+#~ msgid "Purchase orders that include lines not invoiced."
+#~ msgstr "Pedidos de compra com linhas não faturadas"
+
+#~ msgid "Purchase-Standard Price"
+#~ msgstr "Preço Padrão de Compra"
+
+#~ msgid "Purchased"
+#~ msgstr "Comprado"
+
+#~ msgid "Purchased Last 365 Days"
+#~ msgstr "Comprado nos últimos 365 dias"
+
+#~ msgid "Purchased in the last 365 days"
+#~ msgstr "Comprado nos últimos 365 dias"
+
+#~ msgid "Purchases & Bills Union"
+#~ msgstr "União de compras & contas"
+
+#~ msgid ""
+#~ "Put an address if you want to deliver directly from the vendor to the "
+#~ "customer. Otherwise, keep empty to deliver to your own company."
+#~ msgstr ""
+#~ "Coloque um endereço, se você quer entregar diretamente do fornecedor ao "
+#~ "cliente. Caso contrário, mantenha vazio para entregar a sua própria "
+#~ "empresa."
+
+#~ msgid "Quantities billed by vendors"
+#~ msgstr "Quantidades cobradas por fornecedores"
+
+#~ msgid "Quotations"
+#~ msgstr "Cotações"
+
+#~ msgid "RFQ"
+#~ msgstr "PDC"
+
+#~ msgid "RFQ Approved"
+#~ msgstr "Cotação Aprovada"
+
+#~ msgid "RFQ Confirmed"
+#~ msgstr "Cotação Confirmada"
+
+#~ msgid "RFQ Done"
+#~ msgstr "Cotação Feita"
+
+#~ msgid "RFQ Sent"
+#~ msgstr "RC Enviada"
+
+#~ msgid "RFQs and Purchases"
+#~ msgstr "PDC e Compras"
+
+#~ msgid "Re-Send by Email"
+#~ msgstr "Re-Enviar por Email"
+
+#~ msgid "Received Qty"
+#~ msgstr "Qtde Recebida"
+
+#~ msgid "Received Quantity:"
+#~ msgstr "Quantidade Recebida"
+
+#~ msgid "Record a new vendor bill"
+#~ msgstr "Gravar uma nova fatura de fornecedor"
+
+#~ msgid "Record a vendor bill related to this purchase"
+#~ msgstr "Gravar uma fatura de fornecedor relacionada a essa compra"
+
+#~ msgid "Reference"
+#~ msgstr "Referência"
+
+#~ msgid "Reference Document"
+#~ msgstr "Documento Referência"
+
+#~ msgid "Reference Unit of Measure"
+#~ msgstr "Unidade de Medida referencial"
+
+#~ msgid ""
+#~ "Reference of the document that generated this purchase order request (e."
+#~ "g. a sales order)"
+#~ msgstr ""
+#~ "Referência do documento que gerou o requerimento para essa ordem de "
+#~ "compra (ex.: uma ordem de compra)"
+
+#~ msgid ""
+#~ "Reference of the sales order or bid sent by the vendor. It's used to do "
+#~ "the matching when you receive the products as this reference is usually "
+#~ "written on the delivery order sent by your vendor."
+#~ msgstr ""
+#~ "Referência de pedidos de venda ou oferta enviada pelo fornecedor. É usada "
+#~ "para fazer a correspondência quando você recebe os produtos como esta "
+#~ "referência é geralmente escrito no pedido de entrega enviada pelo seu "
+#~ "fornecedor."
+
+#~ msgid "Reporting"
+#~ msgstr "Relatórios"
+
+#~ msgid "Request for Quotation"
+#~ msgstr "Solicitação para Cotação"
+
+#~ msgid "Request for Quotation #"
+#~ msgstr "Solicitar Cotação "
+
+#~ msgid "Requests for Quotation"
+#~ msgstr "Solicitação para Cotação"
+
+#~ msgid "Responsible User"
+#~ msgstr "Usuário Responsável"
+
+#~ msgid "Scheduled Date"
+#~ msgstr "Data Programada"
+
+#~ msgid "Search Purchase Order"
+#~ msgstr "Buscar Pedido de Compra"
+
+#~ msgid "Search Reference Document"
+#~ msgstr "Procurar Documento Referência"
+
+#~ msgid "Security Lead Time for Purchase"
+#~ msgstr "Margem de Segurança de Tempo Para Compra"
+
+#~ msgid "Security Token"
+#~ msgstr "Chave de segurança"
+
+#~ msgid "Select a purchase order or an old bill"
+#~ msgstr "Selecione uma ordem de compra para uma fatura velha"
+
+#~ msgid ""
+#~ "Selecting the \"Warning\" option will notify user with the message, "
+#~ "Selecting \"Blocking Message\" will throw an exception with the message "
+#~ "and block the flow. The Message has to be written in the next field."
+#~ msgstr ""
+#~ "Selecionando a opção \"Aviso\" notificará o usuário com a mensagem, "
+#~ "Selecionando \"Mensagem de Bloqueio\" lançará uma exceção com a mensagem "
+#~ "e bloqueará o fluxo. A mensagem deve ser escrita no próximo campo."
+
+#~ msgid "Send PO by Email"
+#~ msgstr "Enviar OC por E-mail"
+
+#~ msgid "Send by Email"
+#~ msgstr "Enviar por E-mail"
+
+#~ msgid "Sequence"
+#~ msgstr "Seqüência"
+
+#~ msgid "Set date to all order lines"
+#~ msgstr "Definir data para todas as linhas de pedido"
+
+#~ msgid "Set to Draft"
+#~ msgstr "Definir como Provisório"
+
+#~ msgid "Settings"
+#~ msgstr "Configurações"
+
+#~ msgid "Share"
+#~ msgstr "Partilhar"
+
+#~ msgid "Show all records which has next action date is before today"
+#~ msgstr ""
+#~ "Mostrar todas as gravações em que a próxima data de ação seja antes de "
+#~ "hoje."
+
+#~ msgid "Source"
+#~ msgstr "Fonte"
+
+#~ msgid "Status"
+#~ msgstr "Situação"
+
+#~ msgid ""
+#~ "Status based on activities\n"
+#~ "Overdue: Due date is already passed\n"
+#~ "Today: Activity date is today\n"
+#~ "Planned: Future activities."
+#~ msgstr ""
+#~ "Status baseado em atividades\n"
+#~ "Atrasado: Data definida já passou\n"
+#~ "Hoje: Data de atividade é hoje\n"
+#~ "Planejado: Atividades futuras."
+
+#~ msgid "Supplier Currency"
+#~ msgstr "Moeda do Fornecedor"
+
+#~ msgid "Supplier Pricelist"
+#~ msgstr "Lista de Preços para Fornecedor"
+
+#~ msgid "Tax"
+#~ msgstr "Imposto"
+
+#~ msgid "Taxes:"
+#~ msgstr "Taxa"
+
+#~ msgid "Terms and Conditions"
+#~ msgstr "Termos e Condições"
+
+#~ msgid ""
+#~ "The quotation contains the history of the discussion\n"
+#~ "                you had with your vendor."
+#~ msgstr ""
+#~ "A cotação contém a história da discussão\n"
+#~ "                que você teve como fornecedor."
+
+#~ msgid ""
+#~ "The request for quotation is the first step of the purchases flow. Once\n"
+#~ "                    converted into a purchase order, you will be able to "
+#~ "control the receipt\n"
+#~ "                    of the products and the vendor bill."
+#~ msgstr ""
+#~ "O pedido de cotação é a primeira etapa do fluxo compras. Uma vez\n"
+#~ "convertida em um pedido de compra, você será capaz de controlar o "
+#~ "recebimento\n"
+#~ "dos produtos e da conta de fornecedor."
+
+#~ msgid ""
+#~ "This account is used in automated inventory valuation to record the price "
+#~ "difference between a purchase order and its related vendor bill when "
+#~ "validating this vendor bill."
+#~ msgstr ""
+#~ "Esta conta é usada em avaliação automatizada de estoque para registrar a "
+#~ "diferença de preço entre uma ordem de compra e sua conta de fornecedor "
+#~ "relacionada ao validar esta conta de fornecedor."
+
+#~ msgid ""
+#~ "This account will be used to value price difference between purchase "
+#~ "price and accounting cost."
+#~ msgstr ""
+#~ "Esta conta será usada para avaliar diferença de preço entre preço de "
+#~ "compra e custo contábil."
+
+#~ msgid "This changes the scheduled date of all order lines to the given date"
+#~ msgstr ""
+#~ "Isso muda a data de todas as linhas de pedido agendadas para uma data "
+#~ "definida"
+
+#~ msgid ""
+#~ "This currency will be used, instead of the default one, for purchases "
+#~ "from the current partner"
+#~ msgstr ""
+#~ "Esta moeda será utilizada, em vez da padrão, para as compras do parceiro "
+#~ "atual"
+
+#~ msgid ""
+#~ "This default value is applied to any new product created. This can be "
+#~ "changed in the product detail form."
+#~ msgstr ""
+#~ "Esse valor padrão é aplicado para cada novo produto criado. Isso pode ser "
+#~ "mudado no formulário detalhe do produto."
+
+#~ msgid "This note will show up on purchase orders."
+#~ msgstr "Essa nota aparecerá em ordens de compra."
+
+#~ msgid "This vendor bill has been created from: %s"
+#~ msgstr "Esta fatura de fornecedor foi criada de: %s"
+
+#~ msgid "This vendor bill has been modified from: %s"
+#~ msgstr "Esta fatura de fornecedor foi modificada por: %s"
+
+#~ msgid "This vendor has no purchase order. Create a new RfQ"
+#~ msgstr ""
+#~ "Esse fornecedor não tem ordem de compra. Criar um novo Requerimento para "
+#~ "Cotação"
+
+#~ msgid "To Approve"
+#~ msgstr "Para Aprovar"
+
+#~ msgid "Today"
+#~ msgstr "Hoje"
+
+#~ msgid "Today Activities"
+#~ msgstr "Atividades de Hoje"
+
+#~ msgid "Total Price"
+#~ msgstr "Preço Total"
+
+#~ msgid "Total Quantity"
+#~ msgstr "Quantidade Total"
+
+#~ msgid "Total Untaxed amount"
+#~ msgstr "Valor Sem Imposto"
+
+#~ msgid "Total amount"
+#~ msgstr "Valor total"
+
+#~ msgid ""
+#~ "Unable to cancel this purchase order. You must first cancel the related "
+#~ "vendor bills."
+#~ msgstr ""
+#~ "Incapaz de cancelar essa ordem de compra. Você primeiro deve cancelar as "
+#~ "notas de fornecedor relacionadas."
+
+#~ msgid "Unit of Measure Categories"
+#~ msgstr "Categorias de Unidade de Medida"
+
+#~ msgid "Units of Measure"
+#~ msgstr "Unidades de Medida"
+
+#~ msgid "Unlock"
+#~ msgstr "Desbloquear"
+
+#~ msgid "Unread Messages"
+#~ msgstr "Mensagens não lidas"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Contador de Mensagens Não Lidas"
+
+#~ msgid "Untaxed"
+#~ msgstr "Sem impostos"
+
+#~ msgid "Untaxed Amount:"
+#~ msgstr "Valor sem Impostos"
+
+#~ msgid ""
+#~ "Use this menu to control the invoices to be received from your\n"
+#~ "            vendors. When registering a new bill, set the purchase order\n"
+#~ "            and Odoo will fill the bill automatically according to "
+#~ "ordered\n"
+#~ "            or received quantities."
+#~ msgstr ""
+#~ "Use esse menu para controlar as faturas para serem recebidas de seus\n"
+#~ "             fornecedores. Quando registrar uma nova fatura de "
+#~ "fornecedor, defina a ordem de compra\n"
+#~ "             e o Odoo irá preencher a nota automaticamente de acordo com "
+#~ "o que foi pediro\n"
+#~ "             ou quantidades recebidas."
+
+#~ msgid "User"
+#~ msgstr "Usuário"
+
+#~ msgid "Utility field to express amount currency"
+#~ msgstr "Campo utilitário para expressar o valor da moeda"
+
+#~ msgid "Vendor Bill"
+#~ msgstr "Fatura de Fornecedor"
+
+#~ msgid "Vendor Bills"
+#~ msgstr "Faturas de Fornecedor"
+
+#~ msgid "Vendor Country"
+#~ msgstr "País do Fornecedor"
+
+#~ msgid "Vendor Pricelists"
+#~ msgstr "Lista de preço Fornecedor"
+
+#~ msgid "Vendor Reference"
+#~ msgstr "Ref. de Fornecedor"
+
+#~ msgid "Vendors"
+#~ msgstr "Fornecedores"
+
+#~ msgid ""
+#~ "Vendors bills can be pre-generated based on purchase\n"
+#~ "                    orders or receipts. This allows you to control bills\n"
+#~ "                    you receive from your vendor according to the draft\n"
+#~ "                    document in Odoo."
+#~ msgstr ""
+#~ "Faturas de fornecedores podem ser previamente geradas com base no pedido\n"
+#~ "de compra ou recibos. Isto permite-lhe controlar contas\n"
+#~ "que recebe de o seu fornecedor de acordo com o documento\n"
+#~ "de rascunho no Odoo."
+
+#~ msgid "Waiting Bills"
+#~ msgstr "Faturas em espera"
+
+#~ msgid "Warning"
+#~ msgstr "Aviso"
+
+#~ msgid "Warning for %s"
+#~ msgstr "Aviso para %s"
+
+#~ msgid "Warning on the Purchase Order"
+#~ msgstr "Aviso no Pedido de Compra"
+
+#~ msgid "Warning when Purchasing this Product"
+#~ msgstr "Aviso para quando Comprar este Produto"
+
+#~ msgid "Warnings"
+#~ msgstr "Aviso"
+
+#~ msgid "Website Messages"
+#~ msgstr "Mensagens do Site"
+
+#~ msgid "Website communication history"
+#~ msgstr "Histórico de Comunicação do Site"
+
+#~ msgid ""
+#~ "You can control the invoice from your vendor according to\n"
+#~ "            what you purchased (services) or received (products)."
+#~ msgstr ""
+#~ "Você pode controlar a fatura do seu fornecedor de acordo com\n"
+#~ "o que você comprou (serviços) ou recebeu (produtos)."
+
+#~ msgid ""
+#~ "You must define a product for everything you purchase,\n"
+#~ "                whether it's a physical product, a consumable or services."
+#~ msgstr ""
+#~ "Você deve definir um produto para tudo o que compra,\n"
+#~ "                 Seja um produto físico, material de consumo ou serviços."
+
+#~ msgid ""
+#~ "You must define a product for everything you purchase,\n"
+#~ "            whether it's a physical product, a consumable or services."
+#~ msgstr ""
+#~ "Você deve definir um produto para tudo o que compra,\n"
+#~ "                 Seja um produto físico, material de consumo ou serviços."
