@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE
+     Copyright 2021 - TODAY, Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="contract_contract_form_view" model="ir.ui.view">
+        <field name="name">contract.contract form view (in l10n_br_contract)</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view" />
+        <field name="arch" type="xml">
+            <field name="fiscal_position_id" position="after">
+                <field name="country_id" invisible="1" />
+                <field
+                    name="company_id"
+                    invisible="1"
+                    groups="!base.group_multi_company"
+                />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field
+                    name="fiscal_operation_id"
+                    options="{'no_create': True}"
+                    invisible="country_id != %(base.br)d"
+                />
+                <field
+                    name="contract_recalculate_taxes_before_invoice"
+                    invisible="country_id != %(base.br)d"
+                />
+            </field>
+            <xpath
+                expr="//field[@name='contract_line_fixed_ids']"
+                position="attributes"
+            >
+                <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='contract_line_ids']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='product_id']"
+                position="before"
+            >
+                <button
+                    name="dummy_button_for_js"
+                    icon="fa-external-link"
+                    title="Edit in Form"
+                    class="btn-sm btn-link p-0 edit-line-popup"
+                />
+                <control name="fiscal_fields" invisible="1" />
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='last_date_invoiced']"
+                position="after"
+            >
+                <field name="country_id" invisible="1" />
+                <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                    optional="hide"
+                    invisible="country_id != %(base.br)d"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='contract_line_ids']/tree/button"
+                position="before"
+            >
+                <field name="country_id" invisible="1" />
+                <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                    optional="hide"
+                    invisible="country_id != %(base.br)d"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

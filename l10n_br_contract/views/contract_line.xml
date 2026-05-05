@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE
+     Copyright 2021 - TODAY, Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="contract_line_form_view" model="ir.ui.view">
+        <field
+            name="name"
+        >contract.contract.line form view (in l10n_br_contract)</field>
+        <field name="model">contract.line</field>
+        <field name="inherit_id" ref="contract.contract_line_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='discount']/.." position="after">
+                <group name="fiscal_fields" invisible="1">
+                    <field name="fiscal_operation_type" invisible="1" readonly="1" />
+                    <field name="fiscal_genre_code" invisible="1" />
+                    <field name="tax_framework" invisible="1" />
+                    <field name="tax_icms_or_issqn" invisible="1" />
+                </group>
+                <group
+                    name="fiscal"
+                    invisible="display_type == 'line_section' or (display_type == 'line_note' and note_invoicing_mode != False)"
+                >
+                    <field
+                        name="fiscal_operation_id"
+                        options="{'no_create': True}"
+                        invisible="country_id != %(base.br)d"
+                    />
+                    <field
+                        name="fiscal_operation_line_id"
+                        options="{'no_create': True}"
+                        invisible="country_id != %(base.br)d or not fiscal_operation_id"
+                    />
+                    <field
+                        name="cfop_id"
+                        options="{'no_create': True}"
+                        invisible="tax_icms_or_issqn == 'issqn' or country_id != %(base.br)d or not fiscal_operation_id"
+                    />
+                    <field
+                        name="service_type_id"
+                        options="{'no_create': True}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
+                    />
+                    <field
+                        name="city_taxation_code_id"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="national_taxation_code_id"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="cnae_id"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
+                        options="{'no_create': True}"
+                    />
+                </group>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <field name="country_id" invisible="1" />
+                <notebook
+                    invisible="display_type == 'line_section' or (display_type == 'line_note' and note_invoicing_mode != False) or not fiscal_operation_id"
+                >
+                    <page
+                        name="fiscal_taxes"
+                        string="Taxes"
+                        invisible="country_id != %(base.br)d"
+                    />
+                    <page
+                        name="amounts"
+                        string="Amounts"
+                        invisible="country_id != %(base.br)d"
+                    >
+                        <group>
+                            <group>
+                                <field name="fiscal_amount_untaxed" />
+                                <field name="amount_fiscal" />
+                                <field name="fiscal_amount_tax" />
+                                <field name="estimate_tax" readonly="1" />
+                            </group>
+                            <group>
+                                <field name="fiscal_amount_total" />
+                                <field name="amount_tax_withholding" readonly="1" />
+                                <field name="amount_taxed" />
+                            </group>
+                        </group>
+                    </page>
+                    <page
+                        name="fiscal_line_extra_info"
+                        string="Extra Info"
+                        invisible="country_id != %(base.br)d"
+                    />
+                </notebook>
+            </xpath>
+            <xpath expr="//group[@name='recurrence_info']" position="inside">
+                <field name="line_recurrence" invisible="1" />
+            </xpath>
+            <xpath expr="//group[@name='recurrence_info']" position="attributes">
+                <attribute
+                    name="invisible"
+                >display_type == 'line_section' or line_recurrence != True or (display_type == 'line_note' and note_invoicing_mode != 'custom')</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

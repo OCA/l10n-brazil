@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Main Company -->
+    <record id="base.main_company" model="res.company">
+        <field name="contract_sale_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="contract_purchase_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_compras"
+        />
+    </record>
+
+</odoo>
