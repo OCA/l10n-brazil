@@ -127,7 +127,8 @@ class AccountMoveSimpleNacional(AccountMoveBRCommon):
             "account_id": self.env["account.account"]
             .search(
                 [
-                    ("name", "=", "ICMS a Recolher"),
+                    ("name", "=", "ICMS"),
+                    ("account_type", "=", "liability_current"),
                     ("company_id", "=", self.company_data["company"].id),
                 ],
                 limit=1,

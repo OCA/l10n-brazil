@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="account_group_template_1" model="account.group.template">
+        <field name="code_prefix_start">1</field>
+        <field name="name">Ativo</field>
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11" model="account.group.template">
+        <field name="code_prefix_start">1.1</field>
+        <field name="name">Ativo Circulante</field>
+        <field name="parent_id" ref="account_group_template_1" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_111" model="account.group.template">
+        <field name="code_prefix_start">1.1.1</field>
+        <field name="name">Disponibilidades</field>
+        <field name="parent_id" ref="account_group_template_11" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11101" model="account.group.template">
+        <field name="code_prefix_start">1.1.1.01</field>
+        <field name="name">Caixa</field>
+        <field name="parent_id" ref="account_group_template_111" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11102" model="account.group.template">
+        <field name="code_prefix_start">1.1.1.02</field>
+        <field name="name">Depósitos Bancários à Vista</field>
+        <field name="parent_id" ref="account_group_template_111" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11103" model="account.group.template">
+        <field name="code_prefix_start">1.1.1.03</field>
+        <field name="name">Aplicações Financeiras</field>
+        <field name="parent_id" ref="account_group_template_111" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_112" model="account.group.template">
+        <field name="code_prefix_start">1.1.2</field>
+        <field name="name">Créditos</field>
+        <field name="parent_id" ref="account_group_template_11" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11201" model="account.group.template">
+        <field name="code_prefix_start">1.1.2.01</field>
+        <field name="name">Recebíveis de clientes</field>
+        <field name="parent_id" ref="account_group_template_112" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11202" model="account.group.template">
+        <field name="code_prefix_start">1.1.2.02</field>
+        <field name="name">Créditos de Colaboradores</field>
+        <field name="parent_id" ref="account_group_template_112" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11203" model="account.group.template">
+        <field name="code_prefix_start">1.1.2.03</field>
+        <field name="name">Créditos de Fornecedores</field>
+        <field name="parent_id" ref="account_group_template_112" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11204" model="account.group.template">
+        <field name="code_prefix_start">1.1.2.04</field>
+        <field name="name">Tributos Retidos na Fonte</field>
+        <field name="parent_id" ref="account_group_template_112" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11205" model="account.group.template">
+        <field name="code_prefix_start">1.1.2.05</field>
+        <field name="name">Tributos a Recuperar</field>
+        <field name="parent_id" ref="account_group_template_112" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11206" model="account.group.template">
+        <field name="code_prefix_start">1.1.2.06</field>
+        <field name="name">Tributos a Compensar</field>
+        <field name="parent_id" ref="account_group_template_112" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_113" model="account.group.template">
+        <field name="code_prefix_start">1.1.3</field>
+        <field name="name">Estoques</field>
+        <field name="parent_id" ref="account_group_template_11" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11301" model="account.group.template">
+        <field name="code_prefix_start">1.1.3.01</field>
+        <field name="name">Estoques de Mercadorias</field>
+        <field name="parent_id" ref="account_group_template_113" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11302" model="account.group.template">
+        <field name="code_prefix_start">1.1.3.02</field>
+        <field name="name">Estoques de Produtos</field>
+        <field name="parent_id" ref="account_group_template_113" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11303" model="account.group.template">
+        <field name="code_prefix_start">1.1.3.03</field>
+        <field name="name">Outros Estoques</field>
+        <field name="parent_id" ref="account_group_template_113" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_114" model="account.group.template">
+        <field name="code_prefix_start">1.1.4</field>
+        <field name="name">Despesas Pagas Antecipadamente</field>
+        <field name="parent_id" ref="account_group_template_11" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_11401" model="account.group.template">
+        <field name="code_prefix_start">1.1.4.01</field>
+        <field name="name">Despesas do Exercício Seguinte</field>
+        <field name="parent_id" ref="account_group_template_114" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_12" model="account.group.template">
+        <field name="code_prefix_start">1.2</field>
+        <field name="name">Ativo Não Circulante</field>
+        <field name="parent_id" ref="account_group_template_1" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_121" model="account.group.template">
+        <field name="code_prefix_start">1.2.1</field>
+        <field name="name">Realizável a Longo Prazo</field>
+        <field name="parent_id" ref="account_group_template_12" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_12101" model="account.group.template">
+        <field name="code_prefix_start">1.2.1.01</field>
+        <field name="name">Créditos de Longo Prazo</field>
+        <field name="parent_id" ref="account_group_template_121" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_12102" model="account.group.template">
+        <field name="code_prefix_start">1.2.1.02</field>
+        <field name="name">Ativos Fiscais Diferidos</field>
+        <field name="parent_id" ref="account_group_template_121" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_122" model="account.group.template">
+        <field name="code_prefix_start">1.2.2</field>
+        <field name="name">Investimentos</field>
+        <field name="parent_id" ref="account_group_template_12" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_12201" model="account.group.template">
+        <field name="code_prefix_start">1.2.2.01</field>
+        <field name="name">Investimentos Societários</field>
+        <field name="parent_id" ref="account_group_template_122" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_123" model="account.group.template">
+        <field name="code_prefix_start">1.2.3</field>
+        <field name="name">Imobilizado</field>
+        <field name="parent_id" ref="account_group_template_12" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_12301" model="account.group.template">
+        <field name="code_prefix_start">1.2.3.01</field>
+        <field name="name">Imobilizado - Aquisição</field>
+        <field name="parent_id" ref="account_group_template_123" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_12302" model="account.group.template">
+        <field name="code_prefix_start">1.2.3.02</field>
+        <field name="name">Imobilizado - Depreciação Acumulada</field>
+        <field name="parent_id" ref="account_group_template_123" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_124" model="account.group.template">
+        <field name="code_prefix_start">1.2.4</field>
+        <field name="name">Intangível</field>
+        <field name="parent_id" ref="account_group_template_12" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_12401" model="account.group.template">
+        <field name="code_prefix_start">1.2.4.01</field>
+        <field name="name">Intangível - Aquisição</field>
+        <field name="parent_id" ref="account_group_template_124" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_12402" model="account.group.template">
+        <field name="code_prefix_start">1.2.4.02</field>
+        <field name="name">Intangível - Amortização</field>
+        <field name="parent_id" ref="account_group_template_124" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_2" model="account.group.template">
+        <field name="code_prefix_start">2</field>
+        <field name="name">Passivo</field>
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21" model="account.group.template">
+        <field name="code_prefix_start">2.1</field>
+        <field name="name">Passivo Circulante</field>
+        <field name="parent_id" ref="account_group_template_2" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_211" model="account.group.template">
+        <field name="code_prefix_start">2.1.1</field>
+        <field name="name">Obrigações Trabalhistas</field>
+        <field name="parent_id" ref="account_group_template_21" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21101" model="account.group.template">
+        <field name="code_prefix_start">2.1.1.01</field>
+        <field name="name">Obrigações com Pessoal</field>
+        <field name="parent_id" ref="account_group_template_211" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_212" model="account.group.template">
+        <field name="code_prefix_start">2.1.2</field>
+        <field name="name">Obrigações com Terceiros</field>
+        <field name="parent_id" ref="account_group_template_21" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21201" model="account.group.template">
+        <field name="code_prefix_start">2.1.2.01</field>
+        <field name="name">Fornecedores</field>
+        <field name="parent_id" ref="account_group_template_212" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21202" model="account.group.template">
+        <field name="code_prefix_start">2.1.2.02</field>
+        <field name="name">Contas a Pagar</field>
+        <field name="parent_id" ref="account_group_template_212" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_213" model="account.group.template">
+        <field name="code_prefix_start">2.1.3</field>
+        <field name="name">Empréstimos e Financiamentos (CP)</field>
+        <field name="parent_id" ref="account_group_template_21" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21301" model="account.group.template">
+        <field name="code_prefix_start">2.1.3.01</field>
+        <field name="name">Empréstimos de Terceiros</field>
+        <field name="parent_id" ref="account_group_template_213" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_214" model="account.group.template">
+        <field name="code_prefix_start">2.1.4</field>
+        <field name="name">Obrigações Fiscais</field>
+        <field name="parent_id" ref="account_group_template_21" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21401" model="account.group.template">
+        <field name="code_prefix_start">2.1.4.01</field>
+        <field name="name">Retenções a Recolher</field>
+        <field name="parent_id" ref="account_group_template_214" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21402" model="account.group.template">
+        <field name="code_prefix_start">2.1.4.02</field>
+        <field name="name">Impostos a Pagar</field>
+        <field name="parent_id" ref="account_group_template_214" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21403" model="account.group.template">
+        <field name="code_prefix_start">2.1.4.03</field>
+        <field name="name">Parcelamentos Fiscais</field>
+        <field name="parent_id" ref="account_group_template_214" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_215" model="account.group.template">
+        <field name="code_prefix_start">2.1.5</field>
+        <field name="name">Provisões</field>
+        <field name="parent_id" ref="account_group_template_21" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21501" model="account.group.template">
+        <field name="code_prefix_start">2.1.5.01</field>
+        <field name="name">Provisões Tributárias</field>
+        <field name="parent_id" ref="account_group_template_215" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_216" model="account.group.template">
+        <field name="code_prefix_start">2.1.6</field>
+        <field name="name">Outras Obrigações</field>
+        <field name="parent_id" ref="account_group_template_21" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_21601" model="account.group.template">
+        <field name="code_prefix_start">2.1.6.01</field>
+        <field name="name">Obrigações com Sócios</field>
+        <field name="parent_id" ref="account_group_template_216" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_22" model="account.group.template">
+        <field name="code_prefix_start">2.2</field>
+        <field name="name">Passivo Não Circulante</field>
+        <field name="parent_id" ref="account_group_template_2" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_221" model="account.group.template">
+        <field name="code_prefix_start">2.2.1</field>
+        <field name="name">Obrigações com Terceiros LP</field>
+        <field name="parent_id" ref="account_group_template_22" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_22101" model="account.group.template">
+        <field name="code_prefix_start">2.2.1.01</field>
+        <field name="name">Fornecedores LP</field>
+        <field name="parent_id" ref="account_group_template_221" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_22102" model="account.group.template">
+        <field name="code_prefix_start">2.2.1.02</field>
+        <field name="name">Empréstimos e Financiamentos LP</field>
+        <field name="parent_id" ref="account_group_template_221" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_222" model="account.group.template">
+        <field name="code_prefix_start">2.2.2</field>
+        <field name="name">Obrigações Fiscais (LP)</field>
+        <field name="parent_id" ref="account_group_template_22" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_22201" model="account.group.template">
+        <field name="code_prefix_start">2.2.2.01</field>
+        <field name="name">Parcelamentos Fiscais (LP)</field>
+        <field name="parent_id" ref="account_group_template_222" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_22202" model="account.group.template">
+        <field name="code_prefix_start">2.2.2.02</field>
+        <field name="name">Tributos Diferidos</field>
+        <field name="parent_id" ref="account_group_template_222" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_223" model="account.group.template">
+        <field name="code_prefix_start">2.2.3</field>
+        <field name="name">Outras Obrigações de LP</field>
+        <field name="parent_id" ref="account_group_template_22" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_22301" model="account.group.template">
+        <field name="code_prefix_start">2.2.3.01</field>
+        <field name="name">Obrigações com Partes Relacionadas</field>
+        <field name="parent_id" ref="account_group_template_223" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_23" model="account.group.template">
+        <field name="code_prefix_start">2.3</field>
+        <field name="name">Patrimônio Líquido</field>
+        <field name="parent_id" ref="account_group_template_2" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_231" model="account.group.template">
+        <field name="code_prefix_start">2.3.1</field>
+        <field name="name">Capital Social Integralizado</field>
+        <field name="parent_id" ref="account_group_template_23" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_23101" model="account.group.template">
+        <field name="code_prefix_start">2.3.1.01</field>
+        <field name="name">Capital Social Subscrito</field>
+        <field name="parent_id" ref="account_group_template_231" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_28102" model="account.group.template">
+        <field name="code_prefix_start">2.8.1.02</field>
+        <field name="name">Capital Social a Integralizar</field>
+        <field name="parent_id" ref="account_group_template_2" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_282" model="account.group.template">
+        <field name="code_prefix_start">2.8.2</field>
+        <field name="name">Reservas de Capital</field>
+        <field name="parent_id" ref="account_group_template_2" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_28201" model="account.group.template">
+        <field name="code_prefix_start">2.8.2.01</field>
+        <field name="name">Adiantamento de Capital</field>
+        <field name="parent_id" ref="account_group_template_282" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_283" model="account.group.template">
+        <field name="code_prefix_start">2.8.3</field>
+        <field name="name">Reservas de Lucro</field>
+        <field name="parent_id" ref="account_group_template_2" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_28301" model="account.group.template">
+        <field name="code_prefix_start">2.8.3.01</field>
+        <field name="name">Lucros a Distribuir</field>
+        <field name="parent_id" ref="account_group_template_283" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_288" model="account.group.template">
+        <field name="code_prefix_start">2.8.8</field>
+        <field name="name">Resultados Acumulados</field>
+        <field name="parent_id" ref="account_group_template_2" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_28801" model="account.group.template">
+        <field name="code_prefix_start">2.8.8.01</field>
+        <field name="name">Lucros Acumulados</field>
+        <field name="parent_id" ref="account_group_template_288" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_28802" model="account.group.template">
+        <field name="code_prefix_start">2.8.8.02</field>
+        <field name="name">Prejuízos Acumulados</field>
+        <field name="parent_id" ref="account_group_template_288" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_3" model="account.group.template">
+        <field name="code_prefix_start">3</field>
+        <field name="name">Resultado</field>
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_31" model="account.group.template">
+        <field name="code_prefix_start">3.1</field>
+        <field name="name">RECEITAS</field>
+        <field name="parent_id" ref="account_group_template_3" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_311" model="account.group.template">
+        <field name="code_prefix_start">3.1.1</field>
+        <field name="name">RECEITA BRUTA</field>
+        <field name="parent_id" ref="account_group_template_31" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_31101" model="account.group.template">
+        <field name="code_prefix_start">3.1.1.01</field>
+        <field name="name">RECEITA BRUTA OPERACIONAL</field>
+        <field name="parent_id" ref="account_group_template_311" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_312" model="account.group.template">
+        <field name="code_prefix_start">3.1.2</field>
+        <field name="name">DEDUÇÕES DA RECEITA BRUTA</field>
+        <field name="parent_id" ref="account_group_template_31" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_31201" model="account.group.template">
+        <field name="code_prefix_start">3.1.2.01</field>
+        <field name="name">IMPOSTOS S/ FATURAMENTO</field>
+        <field name="parent_id" ref="account_group_template_312" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_31202" model="account.group.template">
+        <field name="code_prefix_start">3.1.2.02</field>
+        <field name="name">OUTRAS DEDUÇÕES DA RECEITA BRUTA</field>
+        <field name="parent_id" ref="account_group_template_312" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_32" model="account.group.template">
+        <field name="code_prefix_start">3.2</field>
+        <field name="name">Custos</field>
+        <field name="parent_id" ref="account_group_template_3" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_321" model="account.group.template">
+        <field name="code_prefix_start">3.2.1</field>
+        <field name="name">Custos dos bens e serviços</field>
+        <field name="parent_id" ref="account_group_template_32" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_32101" model="account.group.template">
+        <field name="code_prefix_start">3.2.1.01</field>
+        <field name="name">Custos dos bens e serviços vendidos</field>
+        <field name="parent_id" ref="account_group_template_321" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33" model="account.group.template">
+        <field name="code_prefix_start">3.3</field>
+        <field name="name">Despesas Operacionais</field>
+        <field name="parent_id" ref="account_group_template_3" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_331" model="account.group.template">
+        <field name="code_prefix_start">3.3.1</field>
+        <field name="name">Despesas com Vendas</field>
+        <field name="parent_id" ref="account_group_template_33" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33101" model="account.group.template">
+        <field name="code_prefix_start">3.3.1.01</field>
+        <field name="name">Despesas com Pessoal</field>
+        <field name="parent_id" ref="account_group_template_331" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33102" model="account.group.template">
+        <field name="code_prefix_start">3.3.1.02</field>
+        <field name="name">Outras Despesas com Vendas</field>
+        <field name="parent_id" ref="account_group_template_331" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_332" model="account.group.template">
+        <field name="code_prefix_start">3.3.2</field>
+        <field name="name">Despesas Administrativas</field>
+        <field name="parent_id" ref="account_group_template_33" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33201" model="account.group.template">
+        <field name="code_prefix_start">3.3.2.01</field>
+        <field name="name">Despesas com Pessoal</field>
+        <field name="parent_id" ref="account_group_template_332" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33202" model="account.group.template">
+        <field name="code_prefix_start">3.3.2.02</field>
+        <field name="name">Despesas Gerais</field>
+        <field name="parent_id" ref="account_group_template_332" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33203" model="account.group.template">
+        <field name="code_prefix_start">3.3.2.03</field>
+        <field name="name">Tributos e Contribuições</field>
+        <field name="parent_id" ref="account_group_template_332" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_339" model="account.group.template">
+        <field name="code_prefix_start">3.3.9</field>
+        <field name="name">Outros Resultados Operacionais</field>
+        <field name="parent_id" ref="account_group_template_33" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33901" model="account.group.template">
+        <field name="code_prefix_start">3.3.9.01</field>
+        <field name="name">Ganhos e Perdas de Capital</field>
+        <field name="parent_id" ref="account_group_template_339" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33902" model="account.group.template">
+        <field name="code_prefix_start">3.3.9.02</field>
+        <field name="name">Perdas</field>
+        <field name="parent_id" ref="account_group_template_339" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_33903" model="account.group.template">
+        <field name="code_prefix_start">3.3.9.03</field>
+        <field name="name">Resultado de Participação em Outras Sociedades</field>
+        <field name="parent_id" ref="account_group_template_339" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_34" model="account.group.template">
+        <field name="code_prefix_start">3.4</field>
+        <field name="name">Resultado Financeiro</field>
+        <field name="parent_id" ref="account_group_template_3" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_341" model="account.group.template">
+        <field name="code_prefix_start">3.4.1</field>
+        <field name="name">Encargos Financeiros Líquidos</field>
+        <field name="parent_id" ref="account_group_template_34" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_34101" model="account.group.template">
+        <field name="code_prefix_start">3.4.1.01</field>
+        <field name="name">Despesas Financeiras</field>
+        <field name="parent_id" ref="account_group_template_341" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_34102" model="account.group.template">
+        <field name="code_prefix_start">3.4.1.02</field>
+        <field name="name">Receitas Financeiras</field>
+        <field name="parent_id" ref="account_group_template_341" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_38" model="account.group.template">
+        <field name="code_prefix_start">3.8</field>
+        <field name="name">Provisão de Impostos</field>
+        <field name="parent_id" ref="account_group_template_3" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_381" model="account.group.template">
+        <field name="code_prefix_start">3.8.1</field>
+        <field name="name">Tributos sobre Lucro</field>
+        <field name="parent_id" ref="account_group_template_38" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+    <record id="account_group_template_38101" model="account.group.template">
+        <field name="code_prefix_start">3.8.1.01</field>
+        <field name="name">Impostos</field>
+        <field name="parent_id" ref="account_group_template_381" />
+        <field name="chart_template_id" ref="l10n_br_coa_simple_chart_template" />
+    </record>
+
+</odoo>
