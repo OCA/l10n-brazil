@@ -51,6 +51,18 @@ class TestL10nBrSalesCommission(TransactionCase):
                 "type": "service",
             }
         )
+        cls.service_commission = cls.env["product.product"].create(
+            {
+                "name": "Serviço de Comissão",
+                "categ_id": cls.env.ref("product.product_category_3").id,
+                "type": "service",
+                "tax_icms_or_issqn": "issqn",
+                "ncm_id": cls.env.ref("l10n_br_fiscal.ncm_00000000").id,
+                "fiscal_type": "09",
+                "fiscal_genre_id": cls.env.ref("l10n_br_fiscal.product_genre_00").id,
+                "service_type_id": cls.env.ref("l10n_br_fiscal.service_type_1009").id,
+            }
+        )
 
     def test_commission_config(self):
         config_form = Form(self.env["res.config.settings"])
@@ -84,9 +96,17 @@ class TestL10nBrSalesCommission(TransactionCase):
         self.assertEqual(len(settlements), 1, "Settlements not was created.")
 
         # Cria a Fatura das Comissões/Settlements
-        with Form(self.env["commission.make.invoice"]) as wiz_form:
-            wiz = wiz_form.save()
-            wiz.button_create()
+        wiz = self.env["commission.make.invoice"].create(
+            {
+                "product_id": self.service_commission.id,
+                "commission_gen_br_fiscal_doc": True,
+                "commission_document_type_id": self.env.ref(
+                    "l10n_br_fiscal.document_SE"
+                ).id,
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_compras").id,
+            }
+        )
+        wiz.button_create()
 
         settlements = self.env["commission.settlement"].search(
             [("state", "=", "invoiced")]
@@ -114,7 +134,7 @@ class TestL10nBrSalesCommission(TransactionCase):
             for line in settlement.invoice_id.invoice_line_ids:
                 self.assertEqual(
                     line.product_id,
-                    self.env.ref("l10n_br_sale_commission.service_commission"),
+                    self.service_commission,
                     "Fiscal Document with wrong Product.",
                 )
                 self.assertEqual(
@@ -156,7 +176,6 @@ class TestL10nBrSalesCommission(TransactionCase):
 
         sale_form = Form(cls.env["sale.order"])
         sale_form.partner_id = cls.customer
-        sale_form.pricelist_id = cls.env.ref("product.list0")
         sale_form.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
         with sale_form.order_line.new() as line_form:
             line_form.product_id = cls.product
