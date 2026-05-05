@@ -19,11 +19,11 @@
                 <field
                     name="fiscal_operation_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
                 <field
                     name="contract_recalculate_taxes_before_invoice"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
             </field>
             <xpath
@@ -64,7 +64,7 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                     optional="hide"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
             </xpath>
             <xpath
@@ -77,7 +77,7 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                     optional="hide"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
             </xpath>
         </field>
