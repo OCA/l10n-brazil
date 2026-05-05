@@ -5,7 +5,6 @@
         <field name="name">Main l10n_br_contract - Produtos</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
         <field name="user_id" ref="base.user_admin" />
-        <field name="pricelist_id" ref="product.list0" />
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="company_id" ref="base.main_company" />
     </record>
@@ -53,7 +52,6 @@
         <field name="name">Main l10n_br_contract - Serviços</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
         <field name="user_id" ref="base.user_admin" />
-        <field name="pricelist_id" ref="product.list0" />
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="company_id" ref="base.main_company" />
     </record>
@@ -82,7 +80,6 @@
         <field name="name">Main l10n_br_contract - Produtos e Serviços</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
         <field name="user_id" ref="base.user_admin" />
-        <field name="pricelist_id" ref="product.list0" />
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="company_id" ref="base.main_company" />
     </record>

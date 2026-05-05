@@ -27,6 +27,8 @@ class ContractLine(models.Model):
         comodel_name="res.partner",
         related="contract_id.partner_id",
         string="Partner",
+        store=True,
+        precompute=True,
     )
 
     ind_final = fields.Selection(related="contract_id.ind_final")
