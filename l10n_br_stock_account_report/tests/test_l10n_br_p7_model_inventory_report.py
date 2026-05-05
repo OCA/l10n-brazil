@@ -21,7 +21,7 @@ class L10nBRP7ModelInventoryReportTest(TransactionCase):
         picking = self.env.ref("stock_picking_invoicing.stock_picking_invoicing_7")
         # Force product availability
         for move in picking.move_ids_without_package:
-            move.quantity_done = move.product_uom_qty
+            move.quantity = move.product_uom_qty
         picking.button_validate()
         self.assertEqual(picking.state, "done")
         wizard_obj = self.env["stock.invoice.onshipping"].with_context(
