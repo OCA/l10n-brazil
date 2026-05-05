@@ -1,0 +1,242 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_account_nfe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-11-13 16:06+0000\n"
+"Last-Translator: Rodrigo Sottomaior Macedo "
+"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_account_nfe
+#: model:ir.actions.report,print_report_name:l10n_br_account_nfe.report_danfe_account
+msgid "'%s' % (object.document_key)"
+msgstr "'%s' % (object.document_key)"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__01
+msgid "01 - Dinheiro"
+msgstr "01 - Dinheiro"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__02
+msgid "02 - Cheque"
+msgstr "02 - Cheque"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__03
+msgid "03 - Cartão de Crédito"
+msgstr "03 - Cartão de Crédito"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__04
+msgid "04 - Cartão de Débito"
+msgstr "04 - Cartão de Débito"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__05
+msgid "05 - Crédito de Loja"
+msgstr "05 - Crédito de Loja"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__10
+msgid "10 - Vale Alimentação"
+msgstr "10 - Vale Alimentação"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__11
+msgid "11 - Vale Refeição"
+msgstr "11 - Vale Refeição"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__12
+msgid "12 - Vale Presente"
+msgstr "12 - Vale Presente"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__13
+msgid "13 - Vale Combustível"
+msgstr "13 - Vale Combustível"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__14
+msgid "14 - Duplicata Mercanti"
+msgstr "14 - Duplicata Mercanti"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__15
+msgid "15 - Boleto Bancário"
+msgstr "15 - Boleto Bancário"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__16
+msgid "16 - Depósito Bancário"
+msgstr "16 - Depósito Bancário"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__17
+msgid "17 - Pagamento Instantâneo (PIX)"
+msgstr "17 - Pagamento Instantâneo (PIX)"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__18
+msgid "18 - Transferência bancária, Carteira Digital"
+msgstr "18 - Transferência bancária, Carteira Digital"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__19
+msgid "19 - Programa de fidelidade, Cashback, Crédito Virtual"
+msgstr "19 - Programa de fidelidade, Cashback, Crédito Virtual"
+
+#. module: l10n_br_account_nfe
+#: model:account.payment.term,name:l10n_br_account_nfe.account_payment_term_30_60_90
+msgid "30/60/90"
+msgstr "30/60/90"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__90
+msgid "90 - Sem Pagamento"
+msgstr "90 - Sem Pagamento"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__99
+msgid "99 - Outros"
+msgstr "99 - Outros"
+
+#. module: l10n_br_account_nfe
+#: model:account.payment.mode,name:l10n_br_account_nfe.demo_payment_mode_boleto
+msgid "Boleto"
+msgstr "Boleto"
+
+#. module: l10n_br_account_nfe
+#: model:ir.actions.report,name:l10n_br_account_nfe.report_danfe_account
+msgid "DANFE"
+msgstr "DANFE"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_dup
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_dup
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_dup
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_dup
+msgid "Dados das duplicatas NT 2011/004"
+msgstr "Dados das duplicatas NT 2011/004"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr "Documento Fiscal"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_detPag
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_detPag
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
+msgid "Grupo de detalhamento da forma"
+msgstr "Grupo de detalhamento da forma"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_nfe_40_detpag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_move__nfe40_detPag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_payment__nfe40_detPag
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
+msgid "Grupo de detalhamento da forma de pagamento."
+msgstr "Grupo de detalhamento da forma de pagamento."
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Indicador da Forma"
+msgstr "Indicador da Forma"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid ""
+"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+msgstr ""
+"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__fiscal_payment_mode
+msgid "Meio de Pagamento da NF"
+msgstr "Meio de Pagamento da NF"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_payment_mode__fiscal_payment_mode
+msgid ""
+"Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e "
+"NFC-e. Para as notas com finalidade de Ajuste ou Devolução o campo Forma de "
+"Pagamento deve ser preenchido com 90 - Sem Pagamento."
+msgstr ""
+"Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e "
+"NFC-e. Para as notas com finalidade de Ajuste ou Devolução o campo Forma de "
+"Pagamento deve ser preenchido com 90 - Sem Pagamento."
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__1
+msgid "Pagamento à Prazo"
+msgstr "Pagamento à Prazo"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__0
+msgid "Pagamento à Vista"
+msgstr "Pagamento à Vista"
+
+#. module: l10n_br_account_nfe
+#. odoo-python
+#: code:addons/l10n_br_account_nfe/models/document.py:0
+#, python-format
+msgid ""
+"Payment Mode %(mode)s should have a Fiscal Payment Mode filled to be used in "
+"the Fiscal Document!"
+msgstr ""
+"Modo de Pagamento %(mode)s deve ter um Modo de Pagamento Fiscal preenchido "
+"para ser usado no Documento Fiscal!"
+
+#. module: l10n_br_account_nfe
+#. odoo-python
+#: code:addons/l10n_br_account_nfe/models/document.py:0
+#, python-format
+msgid "Payment Mode cannot be empty for this NF-e/NFC-e"
+msgstr "O Modo de Pagamento não pode estar vazio para esta NF-e/NFC-e"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modos de Pagamento"
+
+#. module: l10n_br_account_nfe
+#: model_terms:account.payment.term,note:l10n_br_account_nfe.account_payment_term_30_60_90
+msgid "Payment terms: 30/60/90"
+msgstr "Condição de pagamento: 30/60/90"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_ir_actions_report
+msgid "Report Action"
+msgstr "Relatar ação"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome Exibido"
+
+#~ msgid "Forma de Pagamento"
+#~ msgstr "Forma de Pagamento"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Indicador da Forma de Pagamento"
+#~ msgstr "Indicador da Forma de Pagamento"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Journal Item"
+#~ msgstr "Item de Diário"
