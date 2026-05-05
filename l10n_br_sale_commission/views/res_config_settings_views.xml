@@ -63,7 +63,7 @@
                                     <field
                                         name="commission_document_type_id"
                                         options="{'no_create': True}"
-                                        attrs="{'readonly': [('commission_gen_br_fiscal_doc', '=', False)]}"
+                                        readonly="not commission_gen_br_fiscal_doc"
                                     />
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                     <field
                                         name="commission_fiscal_operation_id"
                                         options="{'no_create': True}"
-                                        attrs="{'readonly': [('commission_gen_br_fiscal_doc', '=', False)]}"
+                                        readonly="not commission_gen_br_fiscal_doc"
                                     />
                                 </div>
                             </div>
