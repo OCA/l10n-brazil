@@ -22,9 +22,9 @@ class AccountMoveReversal(models.TransientModel):
 
         return res
 
-    def reverse_moves(self):
+    def reverse_moves(self, is_modify=False):
         self.ensure_one()
         return super(
             AccountMoveReversal,
             self.with_context(payment_mode_id=self.payment_mode_id.id),
-        ).reverse_moves()
+        ).reverse_moves(is_modify)
