@@ -19,41 +19,41 @@
                 </group>
                 <group
                     name="fiscal"
-                    attrs="{'invisible': ['|', ('display_type', '=', 'line_section'), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', False)]}"
+                    invisible="display_type == 'line_section' or (display_type == 'line_note' and note_invoicing_mode != False)"
                 >
                     <field
                         name="fiscal_operation_id"
                         options="{'no_create': True}"
-                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                        invisible="country_id != %(base.br)d"
                     />
                     <field
                         name="fiscal_operation_line_id"
                         options="{'no_create': True}"
-                        attrs="{'invisible': ['|', ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        invisible="country_id != %(base.br)d or not fiscal_operation_id"
                     />
                     <field
                         name="cfop_id"
                         options="{'no_create': True}"
-                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        invisible="tax_icms_or_issqn == 'issqn' or country_id != %(base.br)d or not fiscal_operation_id"
                     />
                     <field
                         name="service_type_id"
                         options="{'no_create': True}"
-                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                     />
                     <field
                         name="city_taxation_code_id"
-                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                         options="{'no_create': True}"
                     />
                     <field
                         name="national_taxation_code_id"
-                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                         options="{'no_create': True}"
                     />
                     <field
                         name="cnae_id"
-                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                         options="{'no_create': True}"
                     />
                 </group>
@@ -61,17 +61,17 @@
             <xpath expr="//sheet" position="inside">
                 <field name="country_id" invisible="1" />
                 <notebook
-                    attrs="{'invisible': [ '|', '|', ('display_type', '=', 'line_section'), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', False), ('fiscal_operation_id', '=', False)]}"
+                    invisible="display_type == 'line_section' or (display_type == 'line_note' and note_invoicing_mode != False) or not fiscal_operation_id"
                 >
                     <page
                         name="fiscal_taxes"
                         string="Taxes"
-                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                        invisible="country_id != %(base.br)d"
                     />
                     <page
                         name="amounts"
                         string="Amounts"
-                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                        invisible="country_id != %(base.br)d"
                     >
                         <group>
                             <group>
@@ -90,7 +90,7 @@
                     <page
                         name="fiscal_line_extra_info"
                         string="Extra Info"
-                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                        invisible="country_id != %(base.br)d"
                     />
                 </notebook>
             </xpath>
@@ -99,8 +99,8 @@
             </xpath>
             <xpath expr="//group[@name='recurrence_info']" position="attributes">
                 <attribute
-                    name="attrs"
-                >{'invisible': ['|','|', ('display_type', '=', 'line_section'), ('line_recurrence', '!=', True), '&amp;', ('display_type', '=', 'line_note'), ('note_invoicing_mode', '!=', 'custom')]}</attribute>
+                    name="invisible"
+                >display_type == 'line_section' or line_recurrence != True or (display_type == 'line_note' and note_invoicing_mode != 'custom')</attribute>
             </xpath>
         </field>
     </record>
