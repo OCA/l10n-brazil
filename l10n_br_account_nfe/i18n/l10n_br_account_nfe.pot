@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -94,11 +94,6 @@ msgid "19 - Programa de fidelidade, Cashback, Crédito Virtual"
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: model:account.payment.term,name:l10n_br_account_nfe.account_payment_term_30_60_90
-msgid "30/60/90"
-msgstr ""
-
-#. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__90
 msgid "90 - Sem Pagamento"
 msgstr ""
@@ -132,6 +127,16 @@ msgid "Dados das duplicatas NT 2011/004"
 msgstr ""
 
 #. module: l10n_br_account_nfe
+#: model:account.journal,name:l10n_br_account_nfe.demo_simples_nacional_bank_journal
+msgid "Diário de Boleto - Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_detPag
@@ -157,11 +162,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
 msgid ""
 "Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
-msgstr ""
-
-#. module: l10n_br_account_nfe
-#: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document
-msgid "Informações de exportação"
 msgstr ""
 
 #. module: l10n_br_account_nfe
