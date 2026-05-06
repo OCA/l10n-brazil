@@ -17,13 +17,10 @@ class PartnerPix(models.Model):
     _order = "sequence, id"
     _rec_name = "key"
 
-    _sql_constraints = [
-        (
-            "partner_pix_key_unique",
-            "unique(key_type, key, partner_id)",
-            "A Pix Key with this values already exists in this partner.",
-        )
-    ]
+    _partner_pix_key_unique = models.Constraint(
+        "unique(key_type, key, partner_id)",
+        "A Pix Key with this values already exists in this partner.",
+    )
 
     KEY_TYPES = [
         ("cnpj_cpf", "CPF or CNPJ"),

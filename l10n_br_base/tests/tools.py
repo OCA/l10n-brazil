@@ -19,5 +19,4 @@ def load_fixture_files(env, module, file_names, idref=None, mode="init"):
             idref=idref,
             mode=mode,
             noupdate=True,
-            kind="demo",
         )

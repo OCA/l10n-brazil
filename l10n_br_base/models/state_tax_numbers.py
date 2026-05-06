@@ -29,10 +29,7 @@ class StateTaxNumbers(models.Model):
         comodel_name="res.country.state", string="State", required=True
     )
 
-    _sql_constraints = [
-        (
-            "l10n_br_base_state_tax_numbers_id_uniq",
-            "unique (state_id, partner_id)",
-            "The Partner already has a State Tax Number for that State!",
-        )
-    ]
+    _state_tax_numbers_uniq = models.Constraint(
+        "unique (state_id, partner_id)",
+        "The Partner already has a State Tax Number for that State!",
+    )

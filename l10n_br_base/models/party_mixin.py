@@ -5,7 +5,7 @@ from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import api, fields, models
-from odoo.osv import expression
+from odoo.fields import Domain
 
 
 class PartyMixin(models.AbstractModel):
@@ -78,7 +78,7 @@ class PartyMixin(models.AbstractModel):
         """in the case of a simple search with only OR terms and a vat ilike condition,
         inject the possibility to match the cnpj_cpf_stripped field.
         """
-        if not any(term == "&" for term in domain) and not self._context.get(
+        if not any(term == "&" for term in domain) and not self.env.context.get(
             "no_stripped_match"
         ):
             for term in domain:
@@ -88,8 +88,8 @@ class PartyMixin(models.AbstractModel):
                     and term[0] == "vat"
                     and term[1] == "ilike"
                 ):
-                    domain = expression.OR(
-                        [domain, [("cnpj_cpf_stripped", "ilike", term[2])]]
+                    domain = Domain(domain) | Domain(
+                        [("cnpj_cpf_stripped", "ilike", term[2])]
                     )
                     break
         return super().search(domain, offset, limit, order)

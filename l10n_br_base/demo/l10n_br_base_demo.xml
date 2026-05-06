@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!--
-    Resource: res.partner.title
-    -->
-    <record id="res_partner_title_pvt_ltd" model="res.partner.title">
-        <field name="name">Corp.</field>
-        <field name="shortcut">Corp.</field>
-    </record>
-    <!--
     Resource: res.partner
     -->
     <record id="res_partner_intel" model="res.partner">
@@ -455,7 +448,6 @@
     </function>
 
     <record id="res_partner_akretion" model="res.partner">
-        <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="vat">11.034.414/0001-58</field>
         <field eval="0" name="employee" />
         <field name="is_company" eval="1" />
@@ -482,7 +474,6 @@
     </function>
 
     <record id="res_partner_address_ak2" model="res.partner">
-        <field name="title" ref="res_partner_title_pvt_ltd" />
         <field eval="0" name="employee" />
         <field eval="1" name="active" />
         <field name="is_company" eval="1" />
@@ -511,7 +502,6 @@
     </function>
 
     <record id="res_partner_address_ak3" model="res.partner">
-        <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="vat">11.034.414/0003-10</field>
         <field name="l10n_br_im_code">1448</field>
         <field eval="0" name="employee" />
@@ -587,7 +577,6 @@
     </function>
 
     <record id="res_partner_kmee" model="res.partner">
-        <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="vat">23.130.935/0001-98</field>
         <field eval="0" name="employee" />
         <field name="is_company" eval="1" />
