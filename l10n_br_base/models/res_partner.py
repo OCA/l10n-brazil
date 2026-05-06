@@ -55,7 +55,6 @@ class Partner(models.Model):
         help="Is it a Brazilian partner?",
     )
 
-    @api.returns("self", lambda value: value.id)
     def copy(self, default=None):
         if self.is_br_partner:
             if default is None:
@@ -74,9 +73,8 @@ class Partner(models.Model):
 
         commercial_partner = self.commercial_partner_id
         if commercial_partner != self:
-            sync_vals = commercial_partner._update_fields_values(
-                [field for field in self._commercial_fields() if field != "vat"]
-            )
+            sync_vals = commercial_partner._get_commercial_values()
+            sync_vals.pop("vat", None)
             self.write(sync_vals)
             self._commercial_sync_to_children()
 
@@ -88,9 +86,8 @@ class Partner(models.Model):
             return super()._commercial_sync_to_children(fields_to_sync)
 
         commercial_partner = self.commercial_partner_id
-        sync_vals = commercial_partner._update_fields_values(
-            [field for field in self._commercial_fields() if field != "vat"]
-        )
+        sync_vals = commercial_partner._get_commercial_values()
+        sync_vals.pop("vat", None)
         sync_children = self.child_ids.filtered(lambda c: not c.is_company)
         for child in sync_children:
             child._commercial_sync_to_children(fields_to_sync)
@@ -131,11 +128,13 @@ class Partner(models.Model):
                 ]
                 return
 
-            matches = record.env["res.partner"].search(domain)
+            matches = record.env["res.partner"].search(domain, limit=1)
             if matches:
                 if cnpj_cpf.validar_cnpj(record.vat):
                     if allow_cnpj_multi_ie == "True":
-                        for partner in record.env["res.partner"].search(domain):
+                        for partner in record.env["res.partner"].search(
+                            domain, limit=1
+                        ):
                             if (
                                 partner.l10n_br_ie_code == record.l10n_br_ie_code
                                 and record.l10n_br_ie_code

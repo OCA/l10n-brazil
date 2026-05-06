@@ -22,7 +22,6 @@
     <record id="base.main_company" model="res.company">
         <field name="name">Sua Empresa</field>
         <field name="legal_name">Sua Empresa Ltda</field>
-        <field name="currency_id" ref="base.BRL" />
     </record>
 
     <!-- Empresa Lucro Presumido -->
