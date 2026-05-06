@@ -48,8 +48,8 @@ class TestL10nBr(TransactionCase):
     def test_l10n_br_hr_cbo(self):
         cbo = self.env.ref("l10n_br_hr.1")
         self.assertTrue(
-            cbo.name_get()[0][1] == "010105 - Oficial general da " "aeronáutica",
-            "The CBO name by name_get is not valid, expected " "'code - name'",
+            cbo.name_get()[0][1] == "010105 - Oficial general da aeronáutica",
+            "The CBO name by name_get is not valid, expected 'code - name'",
         )
 
     def test_hr_deficiency(self):
@@ -57,7 +57,7 @@ class TestL10nBr(TransactionCase):
         self.assertEqual(
             deficiency_name,
             "Física",
-            "The deficiency name get is not valid, expected " "'Física'",
+            "The deficiency name get is not valid, expected 'Física'",
         )
 
     def test_hr_ethnicity(self):
@@ -65,5 +65,5 @@ class TestL10nBr(TransactionCase):
         self.assertEqual(
             ethnicity,
             "1 - Branca",
-            "The ethnicity get is not valid, expectded" " '1 - Branca'",
+            "The ethnicity get is not valid, expectded '1 - Branca'",
         )
