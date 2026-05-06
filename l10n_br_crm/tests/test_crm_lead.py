@@ -12,13 +12,22 @@ class CrmLeadTest(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
 
+        # Create or get a CRM stage
+        stage = cls.env["crm.stage"].search([("sequence", "=", 1)], limit=1)
+        if not stage:
+            stage = cls.env["crm.stage"].create({"name": "New", "sequence": 1})
+        cls.stage_new = stage
+
+        # Create a partner for conversion tests
+        cls.res_partner_2 = cls.env["res.partner"].create({"name": "Demo Partner"})
+
         # Create lead with simple details
         cls.crm_lead_company = cls.env["crm.lead"].create(
             {
                 "name": "Test Company Lead",
                 "legal_name": "Teste Empresa",
                 "cnpj": "56.647.352/0001-98",
-                "stage_id": cls.env.ref("crm.stage_lead1").id,
+                "stage_id": cls.stage_new.id,
                 "partner_name": "Test Partner",
                 "l10n_br_ie_code": "079.798.013.363",
                 "l10n_br_im_code": "99999999",
@@ -31,7 +40,7 @@ class CrmLeadTest(TransactionCase):
                 "name": "Test Contact",
                 "cpf": "70531160505",
                 "l10n_br_rg_code": "99.888.777-1",
-                "stage_id": cls.env.ref("crm.stage_lead1").id,
+                "stage_id": cls.stage_new.id,
                 "contact_name": "Test Contact",
             }
         )
@@ -42,7 +51,7 @@ class CrmLeadTest(TransactionCase):
                 "name": "Test Company Lead IE",
                 "legal_name": "Teste Empresa 1",
                 "cnpj": "57.240.310/0001-09",
-                "stage_id": cls.env.ref("crm.stage_lead1").id,
+                "stage_id": cls.stage_new.id,
                 "partner_name": "Test Partner 1",
                 "l10n_br_ie_code": "041.092.540.590",
                 "l10n_br_im_code": "99999999",
@@ -76,15 +85,13 @@ class CrmLeadTest(TransactionCase):
         self.crm_lead_company.action_set_lost()
 
         # Set lead to Open stage
-        self.crm_lead_company.write(
-            {"stage_id": self.env.ref("crm.stage_lead1").id, "active": True}
-        )
+        self.crm_lead_company.write({"stage_id": self.stage_new.id, "active": True})
         # Check if the lead stage is "Open".
         self.assertEqual(
             self.crm_lead_company.stage_id.sequence, 1, "Lead stage is not Open"
         )
         # Convert lead into opportunity for exiting customer
-        self.crm_lead_company.convert_opportunity(self.env.ref("base.res_partner_2"))
+        self.crm_lead_company.convert_opportunity(self.res_partner_2)
 
         # Check details of converted opportunity
         self.assertEqual(
@@ -94,12 +101,12 @@ class CrmLeadTest(TransactionCase):
         )
         self.assertEqual(
             self.crm_lead_company.partner_id.id,
-            self.env.ref("base.res_partner_2").id,
+            self.res_partner_2.id,
             "Partner mismatch!",
         )
         self.assertEqual(
             self.crm_lead_company.stage_id.id,
-            self.env.ref("crm.stage_lead1").id,
+            self.stage_new.id,
             "Stage of opportunity is incorrect!",
         )
 
@@ -138,15 +145,13 @@ class CrmLeadTest(TransactionCase):
         self.crm_lead_contact.action_set_lost()
 
         # Set lead to Open stage
-        self.crm_lead_contact.write(
-            {"stage_id": self.env.ref("crm.stage_lead1").id, "active": True}
-        )
+        self.crm_lead_contact.write({"stage_id": self.stage_new.id, "active": True})
         # Check if the lead stage is "Open".
         self.assertEqual(
             self.crm_lead_contact.stage_id.sequence, 1, "Lead stage is not Open"
         )
         # Convert lead into opportunity for exiting customer
-        self.crm_lead_contact.convert_opportunity(self.env.ref("base.res_partner_2"))
+        self.crm_lead_contact.convert_opportunity(self.res_partner_2)
 
         # Check details of converted opportunity
         self.assertEqual(
@@ -156,12 +161,12 @@ class CrmLeadTest(TransactionCase):
         )
         self.assertEqual(
             self.crm_lead_contact.partner_id.id,
-            self.env.ref("base.res_partner_2").id,
+            self.res_partner_2.id,
             "Partner mismatch!",
         )
         self.assertEqual(
             self.crm_lead_contact.stage_id.id,
-            self.env.ref("crm.stage_lead1").id,
+            self.stage_new.id,
             "Stage of opportunity is incorrect!",
         )
 
@@ -285,7 +290,7 @@ class CrmLeadTest(TransactionCase):
         lead_without_partner = self.env["crm.lead"].create(
             {
                 "name": "Test BR without Partner",
-                "stage_id": self.env.ref("crm.stage_lead1").id,
+                "stage_id": self.stage_new.id,
                 "country_id": self.env.ref("base.br").id,
             }
         )
@@ -295,7 +300,13 @@ class CrmLeadTest(TransactionCase):
         )
 
         # International Lead
-        inter_lead = self.env.ref("crm.crm_case_31")
+        inter_lead = self.env["crm.lead"].create(
+            {
+                "name": "Test International Lead",
+                "stage_id": self.stage_new.id,
+                "country_id": self.env.ref("base.us").id,
+            }
+        )
         self.assertFalse(
             inter_lead.show_l10n_br,
             "Field show_l10n_br should be False in International case.",
