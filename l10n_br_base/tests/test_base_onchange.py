@@ -124,7 +124,6 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         display_address = partner._display_address(without_company=True)
         self.assertEqual(
             display_address,
-            "Avenida Paulista, 807 CJ 2315\nCentro"
-            "\n01311-915 - São Paulo-SP\nBrazil",
-            "The function _display_address with parameter" " without_company failed.",
+            "Avenida Paulista, 807 CJ 2315\nCentro\n01311-915 - São Paulo-SP\nBrazil",
+            "The function _display_address with parameter without_company failed.",
         )
