@@ -19,13 +19,238 @@ msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_cofins_st_receivable
+msgid "COFINS ST a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_cofins_st_payable
+msgid "COFINS ST a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_cofins_receivable
+msgid "COFINS a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_cofins_payable
+msgid "COFINS a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_cofins_purchase_expense
+msgid "COFINS s/ Compras"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_cofins_sales_revenue
+msgid "COFINS s/ Vendas"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_csll_credit_note_revenue
+msgid "CSLL Devolução Venda"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_csll_receivable
+msgid "CSLL a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_csll_payable
+msgid "CSLL a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_csll_sales_revenue_contra
+msgid "CSLL sobre Vendas"
+msgstr ""
+
+#. module: l10n_br_coa_generic
 #: model:account.journal,name:l10n_br_coa_generic.sale_journal_empresa_lp
 msgid "Customer Invoices"
 msgstr ""
 
 #. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_fcp_st_payable
+msgid "ICMS FCP ST a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_fcp_st_receivable
+msgid "ICMS FCP ST s/ Estoque"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_fcp_receivable
+msgid "ICMS FCP a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_fcp_payable
+msgid "ICMS FCP a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icmssn_payable
+msgid "ICMS SN a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_st_payable
+msgid "ICMS ST a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_st_receivable
+msgid "ICMS ST s/ Estoque (Mercadorias)"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_receivable
+msgid "ICMS a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_payable
+msgid "ICMS a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_purchase_expense
+msgid "ICMS s/ Compras"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_icms_sales_revenue
+msgid "ICMS s/ Vendas"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_ii_credit_note_revenue
+msgid "II Devolução Venda"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_ii_receivable
+msgid "II a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_ii_payable
+msgid "II a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_ii_sales_revenue_contra
+msgid "II sobre Vendas"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_inss_receivable
+msgid "INSS a Compensar (Serv/Outros)"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_inss_payable
+msgid "INSS a Recolher (Serv/Outros)"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_ipi_receivable
+msgid "IPI a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_ipi_payable
+msgid "IPI a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_ipi_purchase_expense
+msgid "IPI s/ Compras"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_ipi_sales_revenue
+msgid "IPI s/ Vendas"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_irpj_credit_note_revenue
+msgid "IRPJ Devolução Venda"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_irpj_receivable
+msgid "IRPJ a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_irpj_payable
+msgid "IRPJ a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_irpj_sales_revenue_contra
+msgid "IRPJ sobre Vendas"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_issqn_credit_note_revenue
+msgid "ISSQN Devolução Serviços"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_issqn_receivable
+msgid "ISSQN a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_issqn_payable
+msgid "ISSQN a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_issqn_sales_revenue_contra
+msgid "ISSQN sobre Serviços"
+msgstr ""
+
+#. module: l10n_br_coa_generic
 #: model:account.journal,name:l10n_br_coa_generic.general_journal_empresa_lp
 msgid "Miscellaneous Operations"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_pis_st_receivable
+msgid "PIS ST a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_pis_st_payable
+msgid "PIS ST a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_pis_receivable
+msgid "PIS a Compensar"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_pis_payable
+msgid "PIS a Recolher"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_pis_purchase_expense
+msgid "PIS s/ Compras"
+msgstr ""
+
+#. module: l10n_br_coa_generic
+#: model:account.account,name:l10n_br_coa_generic.4_tax_pis_sales_revenue
+msgid "PIS s/ Vendas"
 msgstr ""
 
 #. module: l10n_br_coa_generic
