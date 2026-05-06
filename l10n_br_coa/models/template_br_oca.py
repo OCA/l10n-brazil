@@ -103,7 +103,11 @@ class AccountChartTemplate(models.AbstractModel):
                 }
             )
             flavor = "itg"
-            if template_code == "br_oca_generic" or company.tax_framework == "3":
+            if (
+                template_code == "br_oca_generic"
+                or hasattr(company, "tax_framework")
+                and company.tax_framework == "3"
+            ):
                 flavor = "cfc"
             self._populate_default_br_tax_accounts(company, flavor=flavor)
         return result
