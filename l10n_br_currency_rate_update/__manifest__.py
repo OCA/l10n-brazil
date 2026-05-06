@@ -5,7 +5,7 @@
     "name": "Currency Rate Update BR",
     "summary": "Update exchange rates using OCA modules for Brazil",
     "version": "18.0.1.0.2",
-    "author": "Akretion, " "Odoo Community Association (OCA)",
+    "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
