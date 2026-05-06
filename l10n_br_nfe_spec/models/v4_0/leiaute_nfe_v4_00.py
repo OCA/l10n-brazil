@@ -8,6 +8,11 @@ from odoo import fields, models
 
 from .dfe_tipos_basicos_v1_00 import (
     TTPCREDPRESIBSZFM,
+    TcompraGov,  # noqa: F401
+    TibscbsmonoTot,  # noqa: F401
+    Tis,  # noqa: F401
+    Tistot,  # noqa: F401
+    TtribNfe,  # noqa: F401
 )
 from .tipos_basico_v4_00 import (
     TAMB,
