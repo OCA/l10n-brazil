@@ -8,27 +8,26 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 
 
 class L10nBrPortal(CustomerPortal):
-    MANDATORY_BILLING_FIELDS = list(
-        set(CustomerPortal.MANDATORY_BILLING_FIELDS) - {"street"}
-    ) + [
-        "state_id",
-        "city_id",
-        "district",
-        "street_number",
-        "vat",
-        "zipcode",
-        "street_name",
-    ]
-    OPTIONAL_BILLING_FIELDS = list(
-        set(CustomerPortal.OPTIONAL_BILLING_FIELDS) - {"state_id"}
-    ) + [
-        "legal_name",
-        "l10n_br_ie_code",
-        "l10n_br_im_code",
-        "street2",
-        "mobile",
-        "l10n_br_rg_code",
-    ]
+    def _get_mandatory_fields(self):
+        return list(set(super()._get_mandatory_fields()) - {"street"}) + [
+            "state_id",
+            "city_id",
+            "district",
+            "street_number",
+            "vat",
+            "zipcode",
+            "street_name",
+        ]
+
+    def _get_optional_fields(self):
+        return list(set(super()._get_optional_fields()) - {"state_id"}) + [
+            "legal_name",
+            "l10n_br_ie_code",
+            "l10n_br_im_code",
+            "street2",
+            "mobile",
+            "l10n_br_rg_code",
+        ]
 
     def _prepare_portal_layout_values(self):
         values = super()._prepare_portal_layout_values()

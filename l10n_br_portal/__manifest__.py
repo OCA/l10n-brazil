@@ -5,7 +5,7 @@
     "name": "L10n Br Portal",
     "summary": """
         Campos Brasileiros no Portal""",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
@@ -26,7 +26,7 @@
             "/l10n_br_portal/static/src/js/l10n_br_portal.esm.js",
         ],
         "web.assets_tests": [
-            "/l10n_br_portal/static/src/js/l10n_br_portal_tour.js",
+            "/l10n_br_portal/static/src/js/l10n_br_portal_tour.esm.js",
         ],
     },
     "auto_install": True,
