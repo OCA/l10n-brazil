@@ -1,0 +1,173 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_coa
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_tax_mixin
+msgid "Account Tax Mixin"
+msgstr ""
+
+#. module: l10n_br_coa
+#. odoo-python
+#: code:addons/l10n_br_coa/models/template_br_oca.py:0
+msgid "Basic Chart of Accounts"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins
+msgid "COFINS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_cofinsst
+msgid "COFINS ST"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins_wh
+msgid "COFINS WH"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_csll
+msgid "CSLL"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_csll_wh
+msgid "CSLL WH"
+msgstr ""
+
+#. module: l10n_br_coa
+#. odoo-python
+#: code:addons/l10n_br_coa/models/template_br_oca.py:0
+msgid "Company %(company_name)s: created tax accounts: %(refs)s"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__deductible
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__deductible
+msgid "Deductible Tax?"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_icms
+msgid "ICMS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsfcp
+msgid "ICMS FCP"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsfcp_st
+msgid "ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_icmssn
+msgid "ICMS SN"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsst
+msgid "ICMS ST"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_ii
+msgid "II"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_inss
+msgid "INSS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_inss_wh
+msgid "INSS WH"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_ipi
+msgid "IPI"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_ir
+msgid "IR"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_irpj
+msgid "IRPJ"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_irpj_wh
+msgid "IRPJ WH"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_issqn
+msgid "ISSQN"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_issqn_wh
+msgid "ISSQN WH"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_others
+msgid "Others"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_pis
+msgid "PIS"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_pisst
+msgid "PIS ST"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_pis_wh
+msgid "PIS WH"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.tag,name:l10n_br_coa.tax_tag_simples
+msgid "Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__withholdable
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__withholdable
+msgid "Withholdable Tax?"
+msgstr ""

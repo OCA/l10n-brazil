@@ -1,0 +1,25 @@
+id,name,applicability,country_id:id
+l10n_br_coa.tax_tag_ipi,IPI,taxes,base.br
+l10n_br_coa.tax_tag_ii,II,taxes,base.br
+l10n_br_coa.tax_tag_icms,ICMS,taxes,base.br
+l10n_br_coa.tax_tag_icmssn,ICMS SN,taxes,base.br
+l10n_br_coa.tax_tag_icmsst,ICMS ST,taxes,base.br
+l10n_br_coa.tax_tag_icmsfcp,ICMS FCP,taxes,base.br
+l10n_br_coa.tax_tag_icmsfcp_st,ICMS FCP ST,taxes,base.br
+l10n_br_coa.tax_tag_pis,PIS,taxes,base.br
+l10n_br_coa.tax_tag_pisst,PIS ST,taxes,base.br
+l10n_br_coa.tax_tag_pis_wh,PIS WH,taxes,base.br
+l10n_br_coa.tax_tag_cofins,COFINS,taxes,base.br
+l10n_br_coa.tax_tag_cofinsst,COFINS ST,taxes,base.br
+l10n_br_coa.tax_tag_cofins_wh,COFINS WH,taxes,base.br
+l10n_br_coa.tax_tag_issqn,ISSQN,taxes,base.br
+l10n_br_coa.tax_tag_issqn_wh,ISSQN WH,taxes,base.br
+l10n_br_coa.tax_tag_csll,CSLL,taxes,base.br
+l10n_br_coa.tax_tag_csll_wh,CSLL WH,taxes,base.br
+l10n_br_coa.tax_tag_ir,IR,taxes,base.br
+l10n_br_coa.tax_tag_irpj,IRPJ,taxes,base.br
+l10n_br_coa.tax_tag_irpj_wh,IRPJ WH,taxes,base.br
+l10n_br_coa.tax_tag_inss,INSS,taxes,base.br
+l10n_br_coa.tax_tag_inss_wh,INSS WH,taxes,base.br
+l10n_br_coa.tax_tag_simples,"Simples Nacional",taxes,base.br
+l10n_br_coa.tax_tag_others,Others,taxes,base.br
