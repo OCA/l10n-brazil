@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -179,8 +179,8 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
-msgid "Contact Phone"
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__country_id
+msgid "Country"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -241,9 +241,14 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -265,6 +270,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__driver_license
 msgid "Driver license number"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__emergency_phone
+msgid "Emergency Phone"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -342,9 +352,14 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__id
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_ethnicity__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__id
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__id
+#: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__id
+#: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__id
 msgid "ID"
 msgstr ""
 
@@ -371,11 +386,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Identidade"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
-msgid "Identification Number for selected type"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -426,7 +436,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__marital
-msgid "Marital Status"
+msgid "Marital"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -456,11 +466,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__l10n_br_rg_code
 msgid "National ID number"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__country_id
-msgid "Nationality (Country)"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -547,6 +552,14 @@ msgid "Terceirizados"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__cresv_categ__3
 msgid "Third Category"
 msgstr ""
@@ -585,4 +598,10 @@ msgstr ""
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "XXX.XXXXX.XX-X"
+msgstr ""
+
+#. module: l10n_br_hr
+#. odoo-python
+#: code:addons/l10n_br_hr/models/hr_employee.py:0
+msgid "separated"
 msgstr ""
