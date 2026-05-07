@@ -1,8 +1,8 @@
 /** @odoo-module **/
-/* global Cleave */
+/* global Cleave, console */
 
-import {jsonrpc} from "@web/core/network/rpc_service";
 import publicWidget from "@web/legacy/js/public/public_widget";
+import {rpc} from "@web/core/network/rpc";
 
 publicWidget.registry.l10nBrPortalDetails = publicWidget.Widget.extend({
     selector: ".o_portal_details",
@@ -60,7 +60,7 @@ publicWidget.registry.l10nBrPortalDetails = publicWidget.Widget.extend({
         var vals = {zipcode: this.$('input[name="zipcode"]').val()};
         console.log("Changing ZIP");
 
-        jsonrpc("/l10n_br/zip_search", vals).then((data) => {
+        rpc("/l10n_br/zip_search", vals).then((data) => {
             if (data.error) {
                 console.log("Falha ao consultar cep");
             } else {
