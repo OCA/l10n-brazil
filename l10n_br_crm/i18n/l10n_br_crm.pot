@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,11 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__br_currency_id
-msgid "BR Company Currency"
-msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj
@@ -44,13 +39,13 @@ msgid "City of Address"
 msgstr ""
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnae_main_id
-msgid "Cnae Main"
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
+msgid "Country"
 msgstr ""
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__country_id
-msgid "Country"
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__display_name
+msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_crm
@@ -59,8 +54,8 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__equity_capital
-msgid "Equity Capital"
+#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__id
+msgid "ID"
 msgstr ""
 
 #. module: l10n_br_crm
@@ -78,17 +73,12 @@ msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
-msgid "Lead/Opportunity"
+msgid "Lead"
 msgstr ""
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_name
 msgid "Legal Name"
-msgstr ""
-
-#. module: l10n_br_crm
-#: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_nature_id
-msgid "Legal Nature"
 msgstr ""
 
 #. module: l10n_br_crm
