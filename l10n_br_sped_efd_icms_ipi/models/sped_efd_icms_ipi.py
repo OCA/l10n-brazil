@@ -226,6 +226,11 @@ class Registro0005(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # TODO melhorar isso
+        phone = record.phone.split(",")[0].strip()
+        phone = misc.punctuation_rm(phone).replace(" ", "")
+        if len(phone) == 13:
+            phone = phone[2:]
         return {
             "FANTASIA": record.name,
             "CEP": misc.punctuation_rm(record.zip),
@@ -233,7 +238,7 @@ class Registro0005(models.Model):
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
-            "FONE": misc.punctuation_rm(record.phone),
+            "FONE": phone,
             # "FAX": 0,  # Número do fax.
             "EMAIL": record.email,
         }
@@ -279,7 +284,11 @@ class Registro0100(models.Model):
                 "Cadastre o contador responsável dentro das configurações da Empresa."
             )
             raise UserError(msg_err)
-
+        # TODO melhorar isso
+        phone = record.phone.split(",")[0].strip()
+        phone = misc.punctuation_rm(phone).replace(" ", "")
+        if len(phone) == 13:
+            phone = phone[2:]
         return {
             "NOME": record.name,
             "CPF": misc.punctuation_rm(record.cnpj_cpf),
@@ -290,7 +299,7 @@ class Registro0100(models.Model):
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
-            "FONE": misc.punctuation_rm(record.phone),
+            "FONE": phone,
             # "FAX": 0,  # Número do fax.
             "EMAIL": record.email,
             "COD_MUN": record.city_id.ibge_code,
@@ -319,7 +328,7 @@ class Registro0150(models.Model):
             "COD_PAIS": record.country_id.bc_code,
             "IE": misc.punctuation_rm(record.inscr_est),
             "SUFRAMA": record.l10n_br_isuf_code or "",
-            "END": record.street_name,
+            "END": record.street_name[:60],
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
@@ -373,7 +382,7 @@ class Registro0190(models.Model):
             msg_err = _(f"UOM without code: {record.name}")
             raise UserError(msg_err)
         return {
-            "UNID": record.name,  # Código da unidade de medida
+            "UNID": record.code,  # Código da unidade de medida
             "DESCR": record.name,  # Descrição da unidade de medida
         }
 
@@ -413,9 +422,9 @@ class Registro0200(models.Model):
             "DESCR_ITEM": record.name,
             "COD_BARRA": record.barcode,
             # "COD_ANT_ITEM": "", # Não preencher. Ele deve ser especificado no Registro 0205
-            "UNID_INV": record.uom_id.name,
+            "UNID_INV": record.uom_id.code,
             "TIPO_ITEM": record.fiscal_type,
-            "COD_NCM": record.ncm_id.code,
+            "COD_NCM": misc.punctuation_rm(record.ncm_id.code),
             "EX_IPI": record.ncm_id.exception,
             "COD_GEN": record.fiscal_genre_id.code,
             "COD_LST": record.service_type_id.code,
@@ -511,7 +520,7 @@ class Registro0220(models.Model):
         factor = commercial_uom._compute_quantity(1.0, inventory_uom)
 
         return {
-            "UNID_CONV": record.get("unid_conv") or "",
+            "UNID_CONV": commercial_uom.code or "",
             "FAT_CONV": factor,
             "COD_BARRA": "",
         }
@@ -1009,9 +1018,9 @@ class RegistroC101(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "VL_FCP_UF_DEST": record.amount_icmsfcp_value or 0.0,
-            "VL_ICMS_UF_DEST": record.amount_icms_destination_value or 0.0,
-            "VL_ICMS_UF_REM": record.amount_icms_origin_value or 0.0,
+            "VL_FCP_UF_DEST": parent_record.amount_icmsfcp_value or 0.0,
+            "VL_ICMS_UF_DEST": parent_record.amount_icms_destination_value or 0.0,
+            "VL_ICMS_UF_REM": parent_record.amount_icms_origin_value or 0.0,
         }
 
 
@@ -1655,7 +1664,7 @@ class RegistroC190(models.Model):
                 CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
                 cfop.code AS cfop,
                 fdl.icms_percent AS aliq_icms,
-                SUM(fdl.price_gross) AS vl_opr,
+                SUM(fdl.amount_tax_not_included) AS vl_opr,
                 SUM(fdl.icms_base) AS vl_bc_icms,
                 SUM(fdl.icms_value) AS vl_icms,
                 SUM(fdl.icmsst_base) AS vl_bc_icms_st,
@@ -1665,7 +1674,7 @@ class RegistroC190(models.Model):
             LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
             LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
             WHERE fdl.document_id = %s
-            GROUP BY cst.code, cfop.code, fdl.icms_percent
+            GROUP BY cst.code, cfop.code, fdl.icms_percent, fdl.icms_origin
         """
         return query, [parent_record.id]
 
@@ -2295,7 +2304,7 @@ class RegistroC590(models.Model):
                 CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
                 cfop.code AS cfop,
                 fdl.icms_percent AS aliq_icms,
-                SUM(fdl.price_gross) AS vl_opr,
+                SUM(fdl.amount_tax_not_included) AS vl_opr,
                 SUM(fdl.icms_base) AS vl_bc_icms,
                 SUM(fdl.icms_value) AS vl_icms,
                 SUM(fdl.icmsst_base) AS vl_bc_icms_st,
@@ -2306,7 +2315,7 @@ class RegistroC590(models.Model):
             LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
             LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
             WHERE fdl.document_id = %s
-            GROUP BY cst.code, cfop.code, fdl.icms_percent
+            GROUP BY cst.code, cfop.code, fdl.icms_percent, fdl.icms_origin
         """
         return query, [parent_record.id]
 
@@ -3071,7 +3080,7 @@ class RegistroD190(models.Model):
                 cst.code AS cst_icms,
                 cfop.code AS cfop,
                 fdl.icms_percent AS aliq_icms,
-                SUM(fdl.price_gross) AS vl_opr,
+                SUM(fdl.amount_tax_not_included) AS vl_opr,
                 SUM(fdl.icms_base) AS vl_bc_icms,
                 SUM(fdl.icms_value) AS vl_icms
             FROM l10n_br_fiscal_document_line fdl
