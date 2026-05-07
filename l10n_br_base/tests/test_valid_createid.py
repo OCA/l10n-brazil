@@ -246,7 +246,7 @@ class ValidCreateIdTest(TransactionCase):
             .with_context(tracking_disable=True)
             .create(partner_data)
         )
-        self.assertEqual(  # FIXME
+        self.assertEqual(
             partner.vat,
             "93.429.799/0001-17",
             "The VAT must be the same as what was registered",

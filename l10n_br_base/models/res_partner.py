@@ -279,3 +279,12 @@ class Partner(models.Model):
         """Check if is a Brazilian Partner."""
         for record in self:
             record.is_br_partner = record._is_br_partner()
+
+    def format_vat_br(self, vat):
+        """Preserve Brazilian CNPJ/CPF formatting.
+
+        The base_vat module calls stdnum.br.cnpj.compact via _format_vat_number
+        which strips dots, slashes and dashes. By defining format_vat_br, we
+        override the stdnum behavior and keep the original formatting.
+        """
+        return vat
