@@ -63,21 +63,22 @@ def _redirect_and_collect_duplicates(env, city_data, oca_city_map):
 
 def _update_references(env, to_delete, oca_city_map):
     # Update references in l10n_br.zip.range before deleting
-    zip_ranges = (
-        env["l10n_br.zip.range"]
-        .with_context(active_test=False)
-        .search([("city_id", "in", to_delete.ids)])
-    )
-    if zip_ranges:
-        _logger.info("Updating city_id for %d zip ranges", len(zip_ranges))
-        for zip_range in zip_ranges:
-            key = (
-                zip_range.city_id.state_id.id,
-                _normalize_name(zip_range.city_id.name),
-            )
-            oca_city = oca_city_map.get(key)
-            if oca_city:
-                zip_range.write({"city_id": oca_city.id})
+    if "l10n_br.zip.range" in env:
+        zip_ranges = (
+            env["l10n_br.zip.range"]
+            .with_context(active_test=False)
+            .search([("city_id", "in", to_delete.ids)])
+        )
+        if zip_ranges:
+            _logger.info("Updating city_id for %d zip ranges", len(zip_ranges))
+            for zip_range in zip_ranges:
+                key = (
+                    zip_range.city_id.state_id.id,
+                    _normalize_name(zip_range.city_id.name),
+                )
+                oca_city = oca_city_map.get(key)
+                if oca_city:
+                    zip_range.write({"city_id": oca_city.id})
 
     # Update references in res.partner before deleting
     partners = (
