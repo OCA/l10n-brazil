@@ -324,7 +324,7 @@ class Registro0150(models.Model):
             "COMPL": record.street2,
             "BAIRRO": record.district,
         }
-        if record.country_id.bc_code == "1056":
+        if record.country_id.bc_code == "1058":
             if record.company_type == "person":
                 vals["CPF"] = misc.punctuation_rm(record.cnpj_cpf)
             else:
@@ -584,7 +584,8 @@ class Registro0400(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "COD_NAT": record.id,  # Código da natureza da operação/prestação
+            "COD_NAT": record.code
+            or str(record.id),  # Código da natureza da operação/prestação
             "DESCR_NAT": record.name,  # Descrição da natureza da operação/prestação
         }
 
@@ -1323,7 +1324,8 @@ class RegistroC170(models.Model):
             "IND_MOV": "0" if record.cfop_id.stock_move else "1",
             "CST_ICMS": cst_icms,
             "CFOP": str(record.cfop_id.code),
-            "COD_NAT": str(record.fiscal_operation_id.code),
+            "COD_NAT": record.fiscal_operation_id.code
+            or str(record.fiscal_operation_id.id),
             "VL_BC_ICMS": record.icms_base,
             "ALIQ_ICMS": record.icms_percent,
             "VL_ICMS": record.icms_value,
@@ -1650,7 +1652,7 @@ class RegistroC190(models.Model):
         # SPED requires grouping by CST, CFOP, and ICMS Aliquot
         query = """
             SELECT
-                cst.code AS cst_icms,
+                CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
                 cfop.code AS cfop,
                 fdl.icms_percent AS aliq_icms,
                 SUM(fdl.price_gross) AS vl_opr,
@@ -2290,7 +2292,7 @@ class RegistroC590(models.Model):
         # We group lines by CST, CFOP and ICMS % exactly as we do for C190
         query = """
             SELECT
-                cst.code AS cst_icms,
+                CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
                 cfop.code AS cfop,
                 fdl.icms_percent AS aliq_icms,
                 SUM(fdl.price_gross) AS vl_opr,
