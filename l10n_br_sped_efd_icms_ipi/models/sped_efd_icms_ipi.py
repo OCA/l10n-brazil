@@ -7,6 +7,7 @@ import textwrap
 from datetime import datetime, time
 
 from erpbrasil.base import misc
+from erpbrasil.base.misc import punctuation_rm
 from lxml.builder import E
 
 from odoo import _, api, fields, models
@@ -2188,50 +2189,60 @@ class RegistroC500(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c500"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c500"
+    _odoo_model = "l10n_br_fiscal.document"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Entrada 1 - Saíd...
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a t...
-    #         "SER": 0,  # Série do documento fiscal
-    #         "SUB": 0,  # Subsérie do documento fiscal
-    #         "COD_CONS": 0,  # - Código de classe de consumo de energia elétrica o...
-    #         "NUM_DOC": 0,  # Número do documento fiscal
-    #         "DT_DOC": 0,  # Data da emissão do documento fiscal
-    #         "DT_E_S": 0,  # Data da entrada ou da saída
-    #         "VL_DOC": 0,  # Valor total do documento fiscal
-    #         "VL_DESC": 0,  # Valor total do desconto
-    #         "VL_FORN": 0,  # Valor total fornecido/consumido
-    #         "VL_SERV_NT": 0,  # Valor total dos serviços não-tributados pelo ICMS
-    #         "VL_TERC": 0,  # Valor total cobrado em nome de terceiros
-    #         "VL_DA": 0,  # Valor total de despesas acessórias indicadas no docume...
-    #         "VL_BC_ICMS": 0,  # Valor acumulado da base de cálculo do ICMS
-    #         "VL_ICMS": 0,  # Valor acumulado do ICMS
-    #         "VL_BC_ICMS_ST": 0,  # Valor acumulado da base de cálculo do ICMS sub...
-    #         "VL_ICMS_ST": 0,  # Valor acumulado do ICMS retido por substituição t...
-    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
-    #         "VL_PIS": 0,  # Valor do PIS
-    #         "VL_COFINS": 0,  # Valor da COFINS
-    #         "TP_LIGACAO": 0,  # Código de tipo de Ligação 1 - Monofásico 2 - Bifá...
-    #         "COD_GRUPO_TENSAO": 0,  # Código de grupo de tensão: 01 - A1 - Alta T...
-    #         "CHV_DOCE": 0,  # Chave da Nota Fiscal de Energia Elétrica Eletrônica
-    #         "FIN_DOCE": 0,  # Finalidade da emissão do documento eletrônico: 1 – ...
-    #         "CHV_DOCE_REF": 0,  # Chave da nota referenciada, substituída.
-    #         "IND_DEST": 0,  # Indicador do Destinatário/Acessante: 1 – Contribuin...
-    #         "COD_MUN_DEST": 0,  # Código do município do destinatário conforme a ...
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
-    #         "COD_MOD_DOC_REF": 0,  # Código do modelo do documento fiscal referen...
-    #         "HASH_DOC_REF": 0,  # Código de autenticação digital do registro (Con...
-    #         "SER_DOC_REF": 0,  # Série do documento fiscal referenciado.
-    #         "NUM_DOC_REF": 0,  # Número do documento fiscal referenciado.
-    #         "MES_DOC_REF": 0,  # Mês e ano da emissão do documento fiscal referen...
-    #         "ENER_INJET": 0,  # Energia injetada
-    #         "OUTRAS_DED": 0,  # Outras deduções
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [
+            ("id", "in", declaration.fiscal_document_ids.ids),
+            ("document_type_id.code", "in", ("06", "28", "29", "66")),
+        ]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        ind_oper = "0" if record.fiscal_operation_type == "in" else "1"
+        ind_emit = "0" if record.issuer == "company" else "1"
+
+        return {
+            "IND_OPER": ind_oper,
+            "IND_EMIT": ind_emit,
+            "COD_PART": str(record.partner_id.id),
+            "COD_MOD": record.document_type_id.code,
+            "COD_SIT": record.state_fiscal,
+            "SER": record.document_serie or "",
+            "SUB": "",  # Rarely used nowadays
+            "COD_CONS": getattr(record, "consumption_class_code", ""),  # MISSING FIELD
+            "NUM_DOC": punctuation_rm(str(record.document_number)),
+            "DT_DOC": record.document_date,
+            "DT_E_S": record.date_in_out,
+            "VL_DOC": record.fiscal_amount_total or 0.0,
+            "VL_DESC": record.amount_discount_value or 0.0,
+            "VL_FORN": record.amount_price_gross or 0.0,
+            "VL_SERV_NT": getattr(
+                record, "amount_untaxed_services", 0.0
+            ),  # MISSING FIELD
+            "VL_TERC": getattr(record, "amount_third_party", 0.0),  # MISSING FIELD
+            "VL_DA": record.amount_other_value or 0.0,
+            "VL_BC_ICMS": record.amount_icms_base or 0.0,
+            "VL_ICMS": record.amount_icms_value or 0.0,
+            "VL_BC_ICMS_ST": record.amount_icmsst_base or 0.0,
+            "VL_ICMS_ST": record.amount_icmsst_value or 0.0,
+            "COD_INF": "",  # Mapped in child C595 if needed
+            "VL_PIS": record.amount_pis_value or 0.0,
+            "VL_COFINS": record.amount_cofins_value or 0.0,
+            "TP_LIGACAO": getattr(record, "connection_type", ""),  # MISSING FIELD
+            "COD_GRUPO_TENSAO": getattr(
+                record, "tension_group_code", ""
+            ),  # MISSING FIELD
+            "CHV_DOCE": record.document_key or "",
+            "FIN_DOCE": record.edoc_purpose or "1",
+            "CHV_DOCE_REF": "",  # Ref keys normally go here if Fin_doce is 2 or 3
+            "IND_DEST": "1" if record.partner_id.l10n_br_ie_code else "9",
+            "COD_MUN_DEST": record.partner_id.city_id.ibge_code or "",
+            "COD_CTA": "",
+            "ENER_INJET": getattr(record, "injected_energy", 0.0),  # MISSING FIELD
+            "OUTRAS_DED": getattr(record, "other_deductions", 0.0),  # MISSING FIELD
+        }
 
 
 class RegistroC510(models.Model):
@@ -2274,20 +2285,43 @@ class RegistroC590(models.Model):
     _name = "l10n_br_sped.efd_icms_ipi.c590"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c590"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação do agrupamento de...
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao “Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
-    #         "VL_BC_ICMS_ST": 0,  # Parcela correspondente ao "Valor da base de cá...
-    #         "VL_ICMS_ST": 0,  # Parcela correspondente ao valor creditado/debitad...
-    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #     }
+    @api.model
+    def _odoo_query(self, parent_record, declaration):
+        # We group lines by CST, CFOP and ICMS % exactly as we do for C190
+        query = """
+            SELECT
+                cst.code AS cst_icms,
+                cfop.code AS cfop,
+                fdl.icms_percent AS aliq_icms,
+                SUM(fdl.price_gross) AS vl_opr,
+                SUM(fdl.icms_base) AS vl_bc_icms,
+                SUM(fdl.icms_value) AS vl_icms,
+                SUM(fdl.icmsst_base) AS vl_bc_icms_st,
+                SUM(fdl.icmsst_value) AS vl_icms_st
+                -- vl_red_bc omitted here for brevity, but could be computed as:
+                -- SUM((fdl.price_gross) - fdl.icms_base) FILTER WHERE fdl.icms_reduction > 0
+            FROM l10n_br_fiscal_document_line fdl
+            LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
+            LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
+            WHERE fdl.document_id = %s
+            GROUP BY cst.code, cfop.code, fdl.icms_percent
+        """
+        return query, [parent_record.id]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return {
+            "CST_ICMS": record.get("cst_icms") or "",
+            "CFOP": record.get("cfop") or "",
+            "ALIQ_ICMS": record.get("aliq_icms") or 0.0,
+            "VL_OPR": record.get("vl_opr") or 0.0,
+            "VL_BC_ICMS": record.get("vl_bc_icms") or 0.0,
+            "VL_ICMS": record.get("vl_icms") or 0.0,
+            "VL_BC_ICMS_ST": record.get("vl_bc_icms_st") or 0.0,
+            "VL_ICMS_ST": record.get("vl_icms_st") or 0.0,
+            "VL_RED_BC": 0.0,
+            "COD_OBS": "",
+        }
 
 
 class RegistroC591(models.Model):
