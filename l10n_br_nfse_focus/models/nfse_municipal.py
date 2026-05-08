@@ -104,6 +104,7 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "incentivador_cultural": rps_info.get("incentivador_cultural", False),
             "natureza_operacao": rps_info.get("natureza_operacao"),
             "optante_simples_nacional": rps_info.get("optante_simples_nacional", False),
+            "regime_especial_tributacao": rps_info.get("natureza_operacao"),
             "status": rps_info.get("status"),
             "informacoes_adicionais_contribuinte": (
                 rps_info.get("customer_additional_data", False)[:256]
@@ -152,10 +153,18 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "aliquota": service.get("aliquota")
             if company.focusnfe_tax_rate_format == "decimal"
             else round(service.get("aliquota", 0.0) * 100, 1),
-            "base_calculo": round(service.get("base_calculo", 0), 2),
+            **(
+                {"base_calculo": round(service.get("base_calculo", 0), 2)}
+                if service.get("base_calculo", 0)
+                else {}
+            ),
             "discriminacao": service.get("discriminacao"),
             "iss_retido": service.get("iss_retido"),
-            "codigo_municipio": service.get("municipio_prestacao_servico"),
+            **(
+                {"codigo_municipio": service.get("municipio_prestacao_servico")}
+                if service.get("municipio_prestacao_servico") != "3507605"
+                else {}
+            ),
             "codigo_municipio_incidencia": service.get("municipio_prestacao_servico"),
             "item_lista_servico": service.get(company.focusnfe_nfse_service_type_value),
             "codigo_cnae": service.get(company.focusnfe_nfse_cnae_code_value),
@@ -178,10 +187,11 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "codigo_tributario_municipio": service.get("codigo_tributacao_municipio"),
             "codigo_nbs": service.get("codigo_nbs"),
             "codigo_indicador_operacao": service.get("codigo_indicador_operacao"),
-            "codigo_classificacao_tributaria": service.get(
-                "codigo_classificacao_tributaria"
+            "ibs_cbs_classificacao_tributaria": service.get(
+                "ibs_cbs_classificacao_tributaria"
             ),
-            "codigo_situacao_tributaria": service.get("codigo_situacao_tributaria"),
+            "ibs_cbs_situacao_tributaria": service.get("ibs_cbs_situacao_tributaria"),
+            "codigo_tributacao_nacional_iss": service.get("codigo_tributacao_nacional"),
             "ibs_cbs_base_calculo": service.get("ibs_cbs_base_calculo"),
             "ibs_uf_aliquota": round(service.get("ibs_uf_aliquota", 0), 2)
             if service.get("ibs_uf_aliquota")

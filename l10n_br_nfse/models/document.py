@@ -266,10 +266,10 @@ class Document(models.Model):
             "codigo_indicador_operacao": self.fiscal_line_ids[
                 0
             ].operation_indicator_id.code,
-            "codigo_classificacao_tributaria": self.fiscal_line_ids[
+            "ibs_cbs_classificacao_tributaria": self.fiscal_line_ids[
                 0
             ].tax_classification_id.code,
-            "codigo_situacao_tributaria": self.fiscal_line_ids[0].cbs_cst_code,
+            "ibs_cbs_situacao_tributaria": self.fiscal_line_ids[0].cbs_cst_code,
             "ibs_cbs_base_calculo": ibs_cbs_base_calculo,
             "ibs_uf_aliquota": ibs_uf_aliquota if ibs_uf_aliquota else None,
             "ibs_mun_aliquota": 0.0,
