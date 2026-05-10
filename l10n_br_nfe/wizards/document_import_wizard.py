@@ -211,7 +211,13 @@ class DocumentImportWizard(models.TransientModel):
             edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
             edoc.fiscal_operation_id = self.fiscal_operation_id
             for line in edoc.fiscal_line_ids:
+                # Preserve the XML price_unit because setting
+                # fiscal_operation_id triggers _compute_price_unit_fiscal
+                # which would overwrite it with the product's list/cost price
+                # (which is 0 when the product is created during import).
+                price_unit = line.price_unit
                 line.fiscal_operation_id = self.fiscal_operation_id
+                line.price_unit = price_unit
                 line.uom_id = line.uot_id
 
             if not self.partner_id:
