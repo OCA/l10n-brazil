@@ -969,6 +969,14 @@ class NFe(spec_models.StackedModel):
             )
         return res
 
+    @api.model
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = f"nfe40_{attr[1].metadata.get('name', attr[0])}"
+        if key == "nfe40_IBSCBSTot":
+            # IBSCBSTot fields are computed from lines, skip importing
+            return
+        return super()._build_attr(node, fields, vals, path, attr)
+
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
             enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
