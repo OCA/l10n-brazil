@@ -416,6 +416,84 @@ class AccountMoveLine(models.Model):
                 subtotal = line.quantity * line_discount_price_unit
                 line.price_total = line.price_subtotal = subtotal
 
+    # Ordered rules to classify an account.tax into a Brazilian tax kind
+    # from its domain/name. Each entry is (kind, include_kw, exclude_kw).
+    # Order matters: "icmsst" must be tested before "icms", etc.
+    _IMPORTED_TAX_MATCH_RULES = [
+        ("icmsst", ["icmsst", "icms_st", "icms st"], []),
+        ("icms", ["icms"], ["st", "wh", "ret"]),
+        ("ipi", ["ipi"], ["wh", "ret"]),
+        ("pis", ["pis"], ["st", "wh", "ret"]),
+        ("cofins", ["cofins"], ["st", "wh", "ret"]),
+        ("issqn", ["issqn", "iss"], ["inss", "wh", "ret"]),
+        ("ii", ["ii"], ["wh", "ret"]),
+        ("ibs", ["ibs"], ["wh", "ret"]),
+        ("cbs", ["cbs"], ["wh", "ret"]),
+    ]
+
+    # kind -> (fiscal_value_field, fiscal_base_field)
+    _IMPORTED_TAX_FIELD_MAP = {
+        "icmsst": ("icmsst_value", "icmsst_base"),
+        "icms": ("icms_value", "icms_base"),
+        "ipi": ("ipi_value", "ipi_base"),
+        "pis": ("pis_value", "pis_base"),
+        "cofins": ("cofins_value", "cofins_base"),
+        "issqn": ("issqn_value", "issqn_base"),
+        "ii": ("ii_value", "ii_base"),
+        "ibs": ("ibs_value", "ibs_base"),
+        "cbs": ("cbs_value", "cbs_base"),
+    }
+
+    def _resolve_tax_kind(self, tax_dict):
+        """Resolve the Brazilian tax kind from a compute_all tax dict.
+
+        Tries the account.tax tax_domain first, then falls back to
+        heuristic name matching against ``_IMPORTED_TAX_MATCH_RULES``.
+        Returns a kind string (e.g. "icms") or "".
+        """
+        domain = ""
+        acc_tax = (
+            self.env["account.tax"].browse(tax_dict["id"])
+            if tax_dict.get("id")
+            else None
+        )
+        if not acc_tax and tax_dict.get("tax_repartition_line_id"):
+            acc_tax = (
+                self.env["account.tax.repartition.line"]
+                .browse(tax_dict["tax_repartition_line_id"])
+                .tax_id
+            )
+        if acc_tax:
+            if hasattr(acc_tax, "tax_domain") and acc_tax.tax_domain:
+                domain = acc_tax.tax_domain
+            elif hasattr(acc_tax, "fiscal_tax_ids") and acc_tax.fiscal_tax_ids:
+                domain = acc_tax.fiscal_tax_ids[0].tax_domain
+        if not domain:
+            domain = tax_dict.get("name", "").lower()
+
+        for kind, include_kw, exclude_kw in self._IMPORTED_TAX_MATCH_RULES:
+            if any(kw in domain for kw in include_kw) and not any(
+                kw in domain for kw in exclude_kw
+            ):
+                return kind
+        return ""
+
+    def _override_taxes_from_import(self, taxes, fiscal_line, sign):
+        """Override compute_all tax amounts with imported fiscal values."""
+        for tax in taxes:
+            kind = self._resolve_tax_kind(tax)
+            fields = self._IMPORTED_TAX_FIELD_MAP.get(kind)
+            if fields:
+                tax["amount"] = sign * (getattr(fiscal_line, fields[0]) or 0.0)
+                tax["base"] = sign * (getattr(fiscal_line, fields[1]) or 0.0)
+            elif (
+                "wh" in tax.get("name", "").lower()
+                or "ret" in tax.get("name", "").lower()
+            ):
+                # Clear withholding taxes: XML doesn't bring WH item per item
+                tax["amount"] = 0.0
+                tax["base"] = 0.0
+
     @api.depends(
         "tax_ids",
         "currency_id",
@@ -509,100 +587,11 @@ class AccountMoveLine(models.Model):
                 line.fiscal_document_line_id
                 and line.fiscal_document_line_id.document_id.imported_document
             ):
-                fiscal_line = line.fiscal_document_line_id
-                for tax in compute_all_currency["taxes"]:
-                    # Resolve domain gracefully using OCA l10n_br mapped configurations
-                    domain = ""
-                    acc_tax = (
-                        self.env["account.tax"].browse(tax.get("id"))
-                        if tax.get("id")
-                        else None
-                    )
-                    if not acc_tax and tax.get("tax_repartition_line_id"):
-                        acc_tax = (
-                            self.env["account.tax.repartition.line"]
-                            .browse(tax["tax_repartition_line_id"])
-                            .tax_id
-                        )
-
-                    if acc_tax:
-                        if hasattr(acc_tax, "tax_domain") and acc_tax.tax_domain:
-                            domain = acc_tax.tax_domain
-                        elif (
-                            hasattr(acc_tax, "fiscal_tax_ids")
-                            and acc_tax.fiscal_tax_ids
-                        ):
-                            domain = acc_tax.fiscal_tax_ids[0].tax_domain
-
-                    # Fallback to name matching ONLY if domain
-                    # is not configured properly
-                    if not domain:
-                        domain = tax.get("name", "").lower()
-
-                    match = ""
-                    if "icmsst" in domain or "icms_st" in domain or "icms st" in domain:
-                        match = "icmsst"
-                    elif (
-                        "icms" in domain
-                        and "st" not in domain
-                        and "wh" not in domain
-                        and "ret" not in domain
-                    ):
-                        match = "icms"
-                    elif "ipi" in domain and "wh" not in domain and "ret" not in domain:
-                        match = "ipi"
-                    elif (
-                        "pis" in domain
-                        and "st" not in domain
-                        and "wh" not in domain
-                        and "ret" not in domain
-                    ):
-                        match = "pis"
-                    elif (
-                        "cofins" in domain
-                        and "st" not in domain
-                        and "wh" not in domain
-                        and "ret" not in domain
-                    ):
-                        match = "cofins"
-                    elif (
-                        ("issqn" in domain or "iss" in domain)
-                        and "inss" not in domain
-                        and "wh" not in domain
-                        and "ret" not in domain
-                    ):
-                        match = "issqn"
-                    elif "ii" in domain and "wh" not in domain and "ret" not in domain:
-                        match = "ii"
-
-                    if match == "icmsst":
-                        tax["amount"] = sign * (fiscal_line.icmsst_value or 0.0)
-                        tax["base"] = sign * (fiscal_line.icmsst_base or 0.0)
-                    elif match == "icms":
-                        tax["amount"] = sign * (fiscal_line.icms_value or 0.0)
-                        tax["base"] = sign * (fiscal_line.icms_base or 0.0)
-                    elif match == "ipi":
-                        tax["amount"] = sign * (fiscal_line.ipi_value or 0.0)
-                        tax["base"] = sign * (fiscal_line.ipi_base or 0.0)
-                    elif match == "pis":
-                        tax["amount"] = sign * (fiscal_line.pis_value or 0.0)
-                        tax["base"] = sign * (fiscal_line.pis_base or 0.0)
-                    elif match == "cofins":
-                        tax["amount"] = sign * (fiscal_line.cofins_value or 0.0)
-                        tax["base"] = sign * (fiscal_line.cofins_base or 0.0)
-                    elif match == "issqn":
-                        tax["amount"] = sign * (fiscal_line.issqn_value or 0.0)
-                        tax["base"] = sign * (fiscal_line.issqn_base or 0.0)
-                    elif match == "ii":
-                        tax["amount"] = sign * (fiscal_line.ii_value or 0.0)
-                        tax["base"] = sign * (fiscal_line.ii_base or 0.0)
-                    else:
-                        # Clear withholding taxes if they were matched
-                        # inadvertently by default logic.
-                        # XML doesn't bring WH item per item.
-                        if "wh" in domain or "ret" in domain:
-                            tax["amount"] = 0.0
-                            tax["base"] = 0.0
+                self._override_taxes_from_import(
+                    compute_all_currency["taxes"],
+                    line.fiscal_document_line_id,
+                    sign,
+                )
 
             line.compute_all_tax = {
                 frozendict(

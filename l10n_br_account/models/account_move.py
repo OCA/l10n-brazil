@@ -792,6 +792,8 @@ class AccountMove(models.Model):
                     + (line.ipi_value or 0.0)
                     + (line.ii_value or 0.0)
                     + (line.icmsfcpst_value or 0.0)
+                    + (line.ibs_value or 0.0)
+                    + (line.cbs_value or 0.0)
                 )
 
                 unit_and_prices.append(
