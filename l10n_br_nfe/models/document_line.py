@@ -1354,6 +1354,10 @@ class NFeLine(spec_models.StackedModel):
         if key in ["nfe40_CST", "nfe40_modBC", "nfe40_CSOSN"]:
             return  # (dealt with in _build_many2one)
 
+        if key == "nfe40_IBSCBS":
+            self._import_ibscbs_attrs(value, vals)
+            return
+
         if key.startswith("nfe40_ICMS") and key not in [
             "nfe40_ICMS",
             "nfe40_ICMSTot",
@@ -1472,6 +1476,17 @@ class NFeLine(spec_models.StackedModel):
                 value,
                 new_value,
             )
+
+        elif key == "nfe40_IBSCBS":
+            self._import_ibscbs_attrs(value, new_value)
+            if (
+                self._name == "account.invoice.line"
+                and comodel._name == "l10n_br_fiscal.document.line"
+            ):
+                # TODO do not hardcode!!
+                # stacked m2o
+                vals.update(new_value)
+            return
 
         if (
             self._name == "account.invoice.line"
