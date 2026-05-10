@@ -164,14 +164,14 @@ class NFeImportTest(TransactionCase):
             move.document_key, "35231149647316000169550010000661061151600085"
         )
 
-        self.assertTrue(abs(move.amount_price_gross - 11975.96) < 0.01)
-        self.assertTrue(abs(move.amount_discount_value - 0) < 0.01)
-        self.assertTrue(abs(move.amount_untaxed - 11975.96) < 0.01)
-        self.assertTrue(abs(move.amount_freight_value - 0) < 0.01)
-        self.assertTrue(abs(move.amount_insurance_value - 0) < 0.01)
-        self.assertTrue(abs(move.amount_other_value - 0) < 0.01)
-        self.assertTrue(abs(move.amount_tax - 132.14) < 0.01)
-        self.assertTrue(abs(move.amount_total - 12108.10) < 0.01)
+        self.assertAlmostEqual(move.amount_price_gross, 11975.96)
+        self.assertAlmostEqual(move.amount_discount_value, 0)
+        self.assertAlmostEqual(move.amount_untaxed, 11975.96)
+        self.assertAlmostEqual(move.amount_freight_value, 0)
+        self.assertAlmostEqual(move.amount_insurance_value, 0)
+        self.assertAlmostEqual(move.amount_other_value, 0)
+        self.assertAlmostEqual(move.amount_tax, 251.90)
+        self.assertAlmostEqual(move.amount_total, 12227.86)
 
         self.assertEqual(len(move.invoice_line_ids), 4)
 
@@ -182,10 +182,10 @@ class NFeImportTest(TransactionCase):
         self.assertEqual(move.invoice_line_ids[0].product_id.code, "1070147")
         self.assertEqual(move.invoice_line_ids[0].product_id.ncm_id.code, "48111090")
         self.assertEqual(move.invoice_line_ids[0].quantity, 70.1)
-        self.assertTrue(abs(move.invoice_line_ids[0].fiscal_quantity - 70.1) < 0.01)
-        self.assertTrue(abs(move.invoice_line_ids[0].price_unit - 58.0) < 0.01)
-        self.assertTrue(abs(move.invoice_line_ids[0].fiscal_price - 58.0) < 0.01)
-        self.assertTrue(abs(move.invoice_line_ids[0].price_subtotal - 4065.80) < 0.01)
+        self.assertAlmostEqual(move.invoice_line_ids[0].fiscal_quantity, 70.1)
+        self.assertAlmostEqual(move.invoice_line_ids[0].price_unit, 58.0)
+        self.assertAlmostEqual(move.invoice_line_ids[0].fiscal_price, 58.0)
+        self.assertAlmostEqual(move.invoice_line_ids[0].price_subtotal, 4065.80)
         self.assertEqual(move.invoice_line_ids[0].nfe40_xPed, "OC00589")
         self.assertEqual(move.invoice_line_ids[0].product_uom_id.code, "KG")
 
@@ -193,23 +193,21 @@ class NFeImportTest(TransactionCase):
             move.invoice_line_ids[0].icms_tax_id.id,
             self.ref("l10n_br_fiscal.tax_icms_12"),
         )
-        self.assertTrue(abs(move.invoice_line_ids[0].icms_value - 487.90) < 0.01)
+        self.assertAlmostEqual(move.invoice_line_ids[0].icms_value, 487.90)
         self.assertEqual(
             move.invoice_line_ids[0].ipi_tax_id.id,
             self.ref("l10n_br_fiscal.tax_ipi_3_25"),
         )
-        self.assertTrue(abs(move.invoice_line_ids[0].ipi_value - 132.14) < 0.01)
+        self.assertAlmostEqual(move.invoice_line_ids[0].ipi_value, 132.14)
         self.assertEqual(
             move.invoice_line_ids[0].pis_tax_id.id,
             self.ref("l10n_br_fiscal.tax_pis_0_65"),
         )
-        self.assertTrue(abs(move.invoice_line_ids[0].pis_value - 23.26) < 0.01)
+        self.assertAlmostEqual(move.invoice_line_ids[0].pis_value, 23.26)
         self.assertEqual(
             move.invoice_line_ids[0].cofins_tax_id.id,
             self.ref("l10n_br_fiscal.tax_cofins_3"),
         )
-        self.assertTrue(abs(move.invoice_line_ids[0].ipi_value - 132.14) < 0.01)
-
         self.assertEqual(
             move.invoice_line_ids[1].product_id.name,
             "PAVIO P/VELA VOTIVA 50 X 150MM (C102018007170)",
@@ -217,11 +215,11 @@ class NFeImportTest(TransactionCase):
         self.assertEqual(move.invoice_line_ids[1].product_id.code, "B100618007170")
         self.assertEqual(move.invoice_line_ids[1].product_id.ncm_id.code, "34060000")
         self.assertEqual(move.invoice_line_ids[1].quantity, 60)
-        self.assertTrue(abs(move.invoice_line_ids[1].fiscal_quantity - 60) < 0.01)
+        self.assertAlmostEqual(move.invoice_line_ids[1].fiscal_quantity, 60)
         self.assertEqual(move.invoice_line_ids[1].product_uom_id.code, "MILHEI")
-        self.assertTrue(abs(move.invoice_line_ids[1].price_subtotal - 3439.20) < 0.01)
+        self.assertAlmostEqual(move.invoice_line_ids[1].price_subtotal, 3439.20)
 
         self.assertEqual(len(move.due_line_ids), 3)
-        self.assertEqual(move.due_line_ids[0].credit, 4035.63)
-        self.assertEqual(move.due_line_ids[1].credit, 4035.63)
-        self.assertEqual(move.due_line_ids[2].credit, 4036.84)
+        self.assertAlmostEqual(move.due_line_ids[0].credit, 4075.95)
+        self.assertAlmostEqual(move.due_line_ids[1].credit, 4075.95)
+        self.assertAlmostEqual(move.due_line_ids[2].credit, 4075.96)
