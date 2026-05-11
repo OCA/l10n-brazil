@@ -257,9 +257,11 @@ class CTe(spec_models.StackedModel):
 
     cte40_verProc = fields.Char(
         copy=False,
-        default=lambda s: s.env["ir.config_parameter"]
-        .sudo()
-        .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA"),
+        default=lambda s: (
+            s.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA")
+        ),
     )
 
     cte40_cMunEnv = fields.Char(
@@ -1437,6 +1439,14 @@ class CTe(spec_models.StackedModel):
             )
         return res
 
+    @api.model
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = f"cte40_{attr[1].metadata.get('name', attr[0])}"
+        if key == "cte40_IBSCBS":
+            # IBSCBS values are extracted manually in import_binding_cte
+            return
+        return super()._build_attr(node, fields, vals, path, attr)
+
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key in ("cte40_infNFe", "cte40_autXML"):
             return  # TODO fix these imports eventually
@@ -1853,6 +1863,72 @@ class CTe(spec_models.StackedModel):
 
         return proc_xml
 
+    def _add_ibscbs_line_attrs(self, binding, line_attrs):
+        """Extract IBS/CBS values from the binding and update line_attrs."""
+        ibscbs = getattr(binding.infCte.imp, "IBSCBS", None)
+        if not (ibscbs and ibscbs.gIBSCBS):
+            return
+
+        gibscbs = ibscbs.gIBSCBS
+        v_bc = float(gibscbs.vBC) if gibscbs.vBC else 0.0
+
+        ibs_percent = ibs_value = 0.0
+        if gibscbs.gIBSUF:
+            ibs_percent = float(gibscbs.gIBSUF.pIBSUF) if gibscbs.gIBSUF.pIBSUF else 0.0
+            ibs_value = float(gibscbs.gIBSUF.vIBSUF) if gibscbs.gIBSUF.vIBSUF else 0.0
+        cbs_percent = cbs_value = 0.0
+        if gibscbs.gCBS:
+            cbs_percent = float(gibscbs.gCBS.pCBS) if gibscbs.gCBS.pCBS else 0.0
+            cbs_value = float(gibscbs.gCBS.vCBS) if gibscbs.gCBS.vCBS else 0.0
+
+        cst_code = ibscbs.CST if ibscbs.CST else "000"
+        cst_ibs = self.env.ref(
+            f"l10n_br_fiscal.cst_ibs_{cst_code}", raise_if_not_found=False
+        )
+        cst_cbs = self.env.ref(
+            f"l10n_br_fiscal.cst_cbs_{cst_code}", raise_if_not_found=False
+        )
+        ibs_tax = self.env["l10n_br_fiscal.tax"].search(
+            [
+                (
+                    "tax_group_id",
+                    "=",
+                    self.env.ref("l10n_br_fiscal.tax_group_ibs").id,
+                ),
+                ("percent_amount", "=", ibs_percent),
+            ],
+            limit=1,
+        )
+        cbs_tax = self.env["l10n_br_fiscal.tax"].search(
+            [
+                (
+                    "tax_group_id",
+                    "=",
+                    self.env.ref("l10n_br_fiscal.tax_group_cbs").id,
+                ),
+                ("percent_amount", "=", cbs_percent),
+            ],
+            limit=1,
+        )
+        fiscal_tax_ids = line_attrs.get("fiscal_tax_ids", [])
+        if ibs_tax:
+            line_attrs["ibs_tax_id"] = ibs_tax.id
+            fiscal_tax_ids += [Command.link(ibs_tax.id)]
+        if cbs_tax:
+            line_attrs["cbs_tax_id"] = cbs_tax.id
+            fiscal_tax_ids += [Command.link(cbs_tax.id)]
+        line_attrs["fiscal_tax_ids"] = fiscal_tax_ids
+        if cst_ibs:
+            line_attrs["ibs_cst_id"] = cst_ibs.id
+        if cst_cbs:
+            line_attrs["cbs_cst_id"] = cst_cbs.id
+        line_attrs["ibs_base"] = v_bc
+        line_attrs["ibs_percent"] = ibs_percent
+        line_attrs["ibs_value"] = ibs_value
+        line_attrs["cbs_base"] = v_bc
+        line_attrs["cbs_percent"] = cbs_percent
+        line_attrs["cbs_value"] = cbs_value
+
     def import_binding_cte(self, binding, edoc_type="in", dry_run=False):
         if hasattr(binding, "CTe"):
             binding = binding.CTe
@@ -1909,6 +1985,9 @@ class CTe(spec_models.StackedModel):
                         .search([("code", "=", binding.infCte.ide.CFOP)], limit=1)
                         .id
                     )
+
+                # Extract IBSCBS values if present
+                self._add_ibscbs_line_attrs(binding, line_attrs)
 
                 for comp in binding.infCte.vPrest.comp or [None]:
                     if comp is not None:

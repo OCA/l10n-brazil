@@ -89,5 +89,15 @@ class CTeImportTest(TransactionCase):
         self.assertEqual(cte.fiscal_line_ids[0].quantity, 1)
         self.assertEqual(cte.fiscal_line_ids[0].price_unit, 4000.0)
 
+        # IBSCBS data
+        self.assertAlmostEqual(cte.fiscal_line_ids[0].ibs_value, 4.0)
+        self.assertAlmostEqual(cte.fiscal_line_ids[0].cbs_value, 36.0)
+        self.assertAlmostEqual(cte.fiscal_line_ids[0].ibs_base, 4000.0)
+        self.assertAlmostEqual(cte.fiscal_line_ids[0].cbs_base, 4000.0)
+        self.assertAlmostEqual(cte.fiscal_line_ids[0].ibs_percent, 0.1)
+        self.assertAlmostEqual(cte.fiscal_line_ids[0].cbs_percent, 0.9)
+        self.assertEqual(cte.fiscal_line_ids[0].ibs_cst_id.code, "000")
+        self.assertEqual(cte.fiscal_line_ids[0].cbs_cst_id.code, "000")
+
     def test_import_out_cte(self):
         "(can be useful after an ERP migration)"
