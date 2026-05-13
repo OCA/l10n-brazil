@@ -271,12 +271,28 @@ class FiscalDocument(models.Model):
                 move.message_post(**kwargs)
         return res
 
-    def cancel_move_ids(self):
+    def _check_cancel_move_ids_allowed(self):
+        """Fail fast on closed period before the irreversible SEFAZ call."""
         for record in self:
-            if record.move_ids:
-                self.move_ids.button_cancel()
+            moves = record.move_ids.filtered(lambda m: m.state == "posted")
+            if moves:
+                moves._check_fiscalyear_lock_date()
+                moves.line_ids._check_tax_lock_date()
+
+    def cancel_move_ids(self):
+        # Replicate the core button_draft cleanup (analytic + reconcile)
+        # without invoking the override that blocks documents already
+        # cancelled at SEFAZ.
+        for record in self:
+            moves = record.move_ids
+            if not moves:
+                continue
+            moves.mapped("line_ids.analytic_line_ids").unlink()
+            moves.mapped("line_ids").remove_move_reconcile()
+            moves.button_cancel()
 
     def _document_cancel(self, justificative):
+        self._check_cancel_move_ids_allowed()
         result = super()._document_cancel(justificative)
         msg = f"Cancelamento: {justificative}"
         self.cancel_move_ids()
