@@ -98,6 +98,7 @@ class DocumentLine(models.Model):
             "discriminacao": str(self.name[:2000] or ""),
             "codigo_cnae": misc.punctuation_rm(self.cnae_id.code) or None,
             "codigo_nbs": self.nbs_id.code or "",
+            "codigo_nbs_unmasked": self.nbs_id.code_unmasked or "",
             "codigo_indicador_operacao": self.operation_indicator_id.code or "",
             "ibs_cbs_classificacao_tributaria": self.tax_classification_id.code
             or "000000",
