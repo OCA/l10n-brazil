@@ -221,6 +221,12 @@ class ResCompany(models.Model):
         domain="[('piscofins_type', '=', 'company')]",
     )
 
+    # Computed domains replace parent.tax_framework (Odoo 17 client-side JS).
+    # Odoo 18 evaluates Many2one domains server-side; parent. is invalid there.
+    piscofins_id_domain = fields.Json(compute="_compute_piscofins_id_domain")
+    tax_ipi_id_domain = fields.Json(compute="_compute_tax_ipi_id_domain")
+    tax_icms_id_domain = fields.Json(compute="_compute_tax_icms_id_domain")
+
     tax_cofins_wh_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default COFINS RET",
@@ -358,6 +364,55 @@ class ResCompany(models.Model):
             tax_def.update(tax_def_values)
         else:
             self.tax_definition_ids |= self.tax_definition_ids.create(tax_def_values)
+
+    @api.depends("tax_framework")
+    def _compute_piscofins_id_domain(self):
+        sn_ref = self.env.ref(
+            "l10n_br_fiscal.tax_pis_cofins_simples_nacional",
+            raise_if_not_found=False,
+        )
+        sn_id = sn_ref.id if sn_ref else 0
+        for rec in self:
+            base = [("piscofins_type", "=", "company")]
+            if rec.tax_framework == TAX_FRAMEWORK_NORMAL:
+                rec.piscofins_id_domain = base + [("id", "!=", sn_id)]
+            else:
+                rec.piscofins_id_domain = base + [("id", "=", sn_id)]
+
+    @api.depends("tax_framework")
+    def _compute_tax_ipi_id_domain(self):
+        ipi_outros = self.env.ref(
+            "l10n_br_fiscal.tax_ipi_outros", raise_if_not_found=False
+        )
+        tax_group_ipi = self.env.ref(
+            "l10n_br_fiscal.tax_group_ipi", raise_if_not_found=False
+        )
+        outros_id = ipi_outros.id if ipi_outros else 0
+        group_id = tax_group_ipi.id if tax_group_ipi else 0
+        for rec in self:
+            if rec.tax_framework == TAX_FRAMEWORK_NORMAL:
+                rec.tax_ipi_id_domain = [
+                    ("id", "!=", outros_id),
+                    ("tax_group_id", "=", group_id),
+                ]
+            else:
+                rec.tax_ipi_id_domain = [("id", "=", outros_id)]
+
+    @api.depends("tax_framework")
+    def _compute_tax_icms_id_domain(self):
+        icms_group = self.env.ref(
+            "l10n_br_fiscal.tax_group_icms", raise_if_not_found=False
+        )
+        icmssn_group = self.env.ref(
+            "l10n_br_fiscal.tax_group_icmssn", raise_if_not_found=False
+        )
+        icms_id = icms_group.id if icms_group else 0
+        icmssn_id = icmssn_group.id if icmssn_group else 0
+        for rec in self:
+            if rec.tax_framework == TAX_FRAMEWORK_NORMAL:
+                rec.tax_icms_id_domain = [("tax_group_id", "=", icms_id)]
+            else:
+                rec.tax_icms_id_domain = [("tax_group_id", "=", icmssn_id)]
 
     @api.onchange("profit_calculation", "tax_framework")
     def _onchange_profit_calculation(self):
