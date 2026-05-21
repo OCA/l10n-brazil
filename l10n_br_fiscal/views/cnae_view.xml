@@ -3,17 +3,17 @@
     <record id="cnae_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cnae.search</field>
         <field name="model">l10n_br_fiscal.cnae</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search string="CNAE">
-                <field name="code" />
-                <field name="name" />
+            <group name="group_by" position="inside">
                 <filter
                     string="Parent"
                     name="parent_id"
                     domain="[]"
                     context="{'group_by' : 'parent_id'}"
                 />
-            </search>
+            </group>
         </field>
     </record>
 
@@ -23,30 +23,24 @@
         <field name="inherit_id" ref="data_abstract_tree" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="code" />
-                <field name="name" />
+            <field name="name" position="after">
                 <field name="version" />
                 <field name="parent_id" />
-            </list>
+            </field>
         </field>
     </record>
 
     <record id="cnae_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.cnae.form</field>
         <field name="model">l10n_br_fiscal.cnae</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="CNAE">
-                <sheet>
-                    <group>
-                        <field name="code" />
-                        <field name="name" />
-                        <field name="version" />
-                        <field name="internal_type" />
-                        <field name="parent_id" />
-                    </group>
-                </sheet>
-            </form>
+            <field name="name" position="after">
+                <field name="version" />
+                <field name="internal_type" />
+                <field name="parent_id" />
+            </field>
         </field>
     </record>
 </odoo>

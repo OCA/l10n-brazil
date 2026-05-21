@@ -4,10 +4,10 @@
 <odoo>
     <record id="tax_classification_search" model="ir.ui.view">
         <field name="model">l10n_br_fiscal.tax.classification</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search string="Tax Classification">
-                <field name="code" />
-                <field name="name" />
+            <group name="group_by" position="inside">
                 <filter
                     string="Rate Type"
                     name="rate_type"
@@ -24,16 +24,16 @@
                     name="presumed_credit"
                     domain="[('presumed_credit', '=', True)]"
                 />
-            </search>
+            </group>
         </field>
     </record>
 
     <record id="tax_classification_tree" model="ir.ui.view">
         <field name="model">l10n_br_fiscal.tax.classification</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="code" />
-                <field name="name" />
+            <field name="name" position="after">
                 <field name="cst_code_prefix_like" column_invisible="True" />
                 <field name="tax_ibs_id" />
                 <field name="tax_cbs_id" />
@@ -46,61 +46,48 @@
                     widget="many2many_tags"
                     string="Related DFes"
                 />
-            </list>
+            </field>
         </field>
     </record>
 
     <record id="tax_classification_form" model="ir.ui.view">
         <field name="model">l10n_br_fiscal.tax.classification</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="Tax Classification">
-                <field name="id" invisible="1" />
-                <sheet>
+            <field name="name" position="after">
+                <field name="cst_code_prefix_like" invisible="1" />
+                <field name="description" />
+                <field name="rate_type" />
+            </field>
+            <group name="group_code_name" position="after">
+                <group string="Taxes">
                     <group>
-                        <group>
-                            <field name="code" />
-                            <field name="name" />
-                            <field name="cst_code_prefix_like" invisible="1" />
-                            <field name="description" />
-                            <field name="rate_type" />
-                        </group>
+                        <field name="tax_ibs_id" />
                     </group>
-                    <group string="Taxes">
-                        <group>
-                            <field name="tax_ibs_id" />
-                        </group>
-                        <group>
-                            <field name="tax_cbs_id" />
-                        </group>
+                    <group>
+                        <field name="tax_cbs_id" />
                     </group>
-                    <group string="Tax Indicators">
-                        <group>
-                            <field name="regular_taxation" />
-                        </group>
-                        <group>
-                            <field name="presumed_credit" />
-                        </group>
-                        <group>
-                            <field name="credit_reversal" />
-                        </group>
+                </group>
+                <group string="Tax Indicators">
+                    <group>
+                        <field name="regular_taxation" />
                     </group>
-                    <group string="Related Digital Fiscal Documents">
-                        <field
-                            name="document_type_ids"
-                            widget="many2many_tags"
-                            options="{'no_create': True, 'no_create_edit': True}"
-                        />
+                    <group>
+                        <field name="presumed_credit" />
                     </group>
-                </sheet>
-            </form>
+                    <group>
+                        <field name="credit_reversal" />
+                    </group>
+                </group>
+                <group string="Related Digital Fiscal Documents">
+                    <field
+                        name="document_type_ids"
+                        widget="many2many_tags"
+                        options="{'no_create': True, 'no_create_edit': True}"
+                    />
+                </group>
+            </group>
         </field>
-    </record>
-
-    <record id="tax_classification_act_window" model="ir.actions.act_window">
-        <field name="name">Tax Classification</field>
-        <field name="res_model">l10n_br_fiscal.tax.classification</field>
-        <field name="view_mode">list,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
     </record>
 </odoo>
