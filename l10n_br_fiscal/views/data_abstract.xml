@@ -22,7 +22,7 @@
                 <field name="name" />
                 <field name="date_start" />
                 <field name="date_end" />
-                <field name="active" widget="boolean_toggle" readonly="1"/>
+                <field name="active" widget="boolean_toggle" readonly="1" />
             </tree>
         </field>
     </record>
@@ -38,7 +38,7 @@
                         <field name="name" />
                         <field name="date_start" />
                         <field name="date_end" />
-                        <field name="active" widget="boolean_toggle"/>
+                        <field name="active" widget="boolean_toggle" />
                     </group>
                 </sheet>
             </form>
