@@ -14,6 +14,7 @@ from ..constants.fiscal import (
 
 class TaxPisCofins(models.Model):
     _name = "l10n_br_fiscal.tax.pis.cofins"
+    _inherit = "l10n_br_fiscal.data.abstract"
     _description = "Tax PIS/COFINS"
 
     code = fields.Char(required=True)
@@ -69,6 +70,8 @@ class TaxPisCofins(models.Model):
         readonly=True,
         string="NCMs",
     )
+
+    sped_table = fields.Char()
 
     @api.depends("ncms")
     def _compute_ncms(self):
