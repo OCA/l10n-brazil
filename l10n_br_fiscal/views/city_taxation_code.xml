@@ -5,50 +5,65 @@
     <record id="city_taxation_code_search_view" model="ir.ui.view">
         <field name="name">city.taxation.code.search (in l10n_br_fiscal)</field>
         <field name="model">l10n_br_fiscal.city.taxation.code</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search>
-                <field name="code" />
-                <field name="name" />
+            <field name="name" position="after">
                 <field name="service_type_id" />
                 <field name="state_id" />
                 <field name="city_id" />
                 <field name="cnae_id" />
-            </search>
+            </field>
+            <group name="group_by" position="inside">
+                <filter
+                    string="State"
+                    name="state_id"
+                    domain="[]"
+                    context="{'group_by' : 'state_id'}"
+                />
+                <filter
+                    string="City"
+                    name="city_id"
+                    domain="[]"
+                    context="{'group_by' : 'city_id'}"
+                />
+                <filter
+                    string="CNAE"
+                    name="cnae_id"
+                    domain="[]"
+                    context="{'group_by' : 'cnae_id'}"
+                />
+            </group>
         </field>
     </record>
 
     <record id="city_taxation_code_tree_view" model="ir.ui.view">
         <field name="name">city.taxation.code.tree (in l10n_br_fiscal)</field>
         <field name="model">l10n_br_fiscal.city.taxation.code</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="code" />
-                <field name="name" />
+            <field name="name" position="after">
                 <field name="service_type_id" />
                 <field name="state_id" />
                 <field name="city_id" />
                 <field name="cnae_id" />
-            </list>
+            </field>
         </field>
     </record>
 
     <record id="city_taxation_code_form_view" model="ir.ui.view">
         <field name="name">city.taxation.code.form (in l10n_br_fiscal)</field>
         <field name="model">l10n_br_fiscal.city.taxation.code</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form>
-                <header />
-                <sheet>
-                    <group>
-                        <field name="code" />
-                        <field name="name" />
-                        <field name="service_type_id" />
-                        <field name="state_id" />
-                        <field name="city_id" />
-                        <field name="cnae_id" />
-                    </group>
-                </sheet>
-            </form>
+            <field name="name" position="after">
+                <field name="service_type_id" />
+                <field name="state_id" />
+                <field name="city_id" />
+                <field name="cnae_id" />
+            </field>
         </field>
     </record>
 </odoo>

@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Main Company Simples Nacional -->
+    <!-- Purchase Order with only products test -->
+    <record id="main_po_only_products" model="purchase.order">
+        <field name="name">Main l10n_br_purchase - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_pl_only_products_1_2" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.0</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <record id="main_pl_only_products_2_2" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_products" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <!-- Endereço de Cobrança Diferente do Partner,a Fatura criada deverá ter
+         outro partner, o Contato definido como Endereço de Faturamento/Cobrança,
+         TODO: deveria criar a fatura usando Partner do Pedido como o Parceiro
+         para Entrega/partner_shipping_id?
+         No caso l10n_br_purchase_stock isso acontece
+    -->
+    <record id="main_company-purchase_2" model="purchase.order">
+        <field name="name">l10n_br_purchase - Endereço de Cobrança Diferente</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente7_rs" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_company-purchase_line_2_1" model="purchase.order.line">
+        <field name="order_id" ref="main_company-purchase_2" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.0</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <record id="main_company-purchase_line_2_2" model="purchase.order.line">
+        <field name="order_id" ref="main_company-purchase_2" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <!-- Endereço de Cobrança Diferente do Partner, nesse caso o Endereço já
+         está informado, não deve ter o Parceiro para Entrega
+    -->
+    <record id="main_company-purchase_3" model="purchase.order">
+        <field name="name">l10n_br_purchase - Endereço de Cobrança Informado</field>
+        <field
+            name="partner_id"
+            ref="l10n_br_base.res_partner_cliente7_rs_end_cobranca"
+        />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_company-purchase_line_3_1" model="purchase.order.line">
+        <field name="order_id" ref="main_company-purchase_3" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.0</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <record id="main_company-purchase_line_3_2" model="purchase.order.line">
+        <field name="order_id" ref="main_company-purchase_3" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <!-- Partner usado é o Contato de Entrega, a Fatura é criada com
+         o Partner do Pedido
+    -->
+    <record id="main_company-purchase_4" model="purchase.order">
+        <field
+            name="name"
+        >l10n_br_purchase - Contato do Endereço de Entrega Informado</field>
+        <field
+            name="partner_id"
+            ref="l10n_br_base.res_partner_cliente2_sp_end_entrega"
+        />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_company-purchase_line_4_1" model="purchase.order.line">
+        <field name="order_id" ref="main_company-purchase_4" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.0</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <record id="main_company-purchase_line_4_2" model="purchase.order.line">
+        <field name="order_id" ref="main_company-purchase_4" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <!-- Caso do Pedido com o Partner que tem um Contato com um Endereço de Entrega
+    a Fatura é criada com o Partner do Pedido -->
+    <record id="main_company-purchase_5" model="purchase.order">
+        <field
+            name="name"
+        >l10n_br_purchase - Partner que tem um Endereço de Entrega</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente2_sp" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_company-purchase_line_5_1" model="purchase.order.line">
+        <field name="order_id" ref="main_company-purchase_5" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.0</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <record id="main_company-purchase_line_5_2" model="purchase.order.line">
+        <field name="order_id" ref="main_company-purchase_5" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <!-- Empresa Lucro Presumido -->
+    <!-- Purchase Order with only products test -->
+    <record id="lp_po_only_products" model="purchase.order">
+        <field name="name">LP l10n_br_purchase - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="lp_pl_only_products_1_2" model="purchase.order.line">
+        <field name="order_id" ref="lp_po_only_products" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <record id="lp_pl_only_products_2_2" model="purchase.order.line">
+        <field name="order_id" ref="lp_po_only_products" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <!-- Empresa Simples Nacional -->
+    <!-- Purchase Order with only products test -->
+    <record id="sn_po_only_products" model="purchase.order">
+        <field name="name">SN l10n_br_purchase - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="sn_pl_only_products_1_2" model="purchase.order.line">
+        <field name="order_id" ref="sn_po_only_products" />
+        <field name="name">Office Chair Black</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_qty">4</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">25.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <record id="sn_pl_only_products_2_2" model="purchase.order.line">
+        <field name="order_id" ref="sn_po_only_products" />
+        <field name="name">Drawer Black</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">50.00</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+    </record>
+
+    <!-- Purchase Order with only Service -->
+    <record id="main_po_only_service" model="purchase.order">
+        <field name="name">Main l10n_br_purchase - Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_pl_only_service_1_1" model="purchase.order.line">
+        <field name="order_id" ref="main_po_only_service" />
+        <field name="name">Desenvolvimento Odoo</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">250</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras_uso_consumo"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">0000001</field>
+        <field name="partner_order_line">001</field>
+    </record>
+
+    <!-- Purchase Order with Service and Product -->
+    <record id="main_po_service_product" model="purchase.order">
+        <field name="name">Main l10n_br_purchase - Serviço e Produto</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_pl_service_product_1_1" model="purchase.order.line">
+        <field name="order_id" ref="main_po_service_product" />
+        <field name="name">Desenvolvimento Odoo</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">250</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras_uso_consumo"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">0000001</field>
+        <field name="partner_order_line">001</field>
+    </record>
+
+    <record id="main_pl_service_product_2_2" model="purchase.order.line">
+        <field name="order_id" ref="main_po_service_product" />
+        <field name="name">Gaveta Preta</field>
+        <field name="product_id" ref="product.product_product_16" />
+        <field name="product_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras"
+        />
+        <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
+        <field name="partner_order">0000001</field>
+        <field name="partner_order_line">002</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
+        <field name="insurance_value">10</field>
+        <field name="other_value">10</field>
+        <field name="freight_value">10</field>
+    </record>
+
+</odoo>
