@@ -3,37 +3,30 @@
     <record id="tax_ipi_guideline_class_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.ipi.guideline.class.search</field>
         <field name="model">l10n_br_fiscal.tax.ipi.guideline.class</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search string="IPI Guideline Class">
-                <field name="code" />
-                <field name="name" />
-            </search>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="tax_ipi_guideline_class_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.ipi.guideline.class.tree</field>
         <field name="model">l10n_br_fiscal.tax.ipi.guideline.class</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="code" />
-                <field name="name" />
-            </list>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="tax_ipi_guideline_class_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.ipi.guideline.class.form</field>
         <field name="model">l10n_br_fiscal.tax.ipi.guideline.class</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="code" />
-                        <field name="name" />
-                    </group>
-                </sheet>
-            </form>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 </odoo>

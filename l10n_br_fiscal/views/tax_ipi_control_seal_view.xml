@@ -3,37 +3,30 @@
     <record id="tax_ipi_control_seal_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.ipi.control.seal.search</field>
         <field name="model">l10n_br_fiscal.tax.ipi.guideline.class</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search string="IPI Control Seal">
-                <field name="code" />
-                <field name="name" />
-            </search>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="tax_ipi_control_seal_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.ipi.control.seal.tree</field>
         <field name="model">l10n_br_fiscal.tax.ipi.control.seal</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="code" />
-                <field name="name" />
-            </list>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="tax_ipi_control_seal_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.ipi.control.seal.form</field>
         <field name="model">l10n_br_fiscal.tax.ipi.control.seal</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <group>
-                        <field name="code" />
-                        <field name="name" />
-                    </group>
-                </sheet>
-            </form>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 </odoo>

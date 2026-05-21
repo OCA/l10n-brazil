@@ -5,38 +5,30 @@
     <record id="national_taxation_code_search_view" model="ir.ui.view">
         <field name="name">national.taxation.code.search (in l10n_br_fiscal)</field>
         <field name="model">l10n_br_fiscal.national.taxation.code</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search>
-                <field name="code" />
-                <field name="name" />
-            </search>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="national_taxation_code_tree_view" model="ir.ui.view">
         <field name="name">national.taxation.code.tree (in l10n_br_fiscal)</field>
         <field name="model">l10n_br_fiscal.national.taxation.code</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="code" />
-                <field name="name" />
-            </list>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="national_taxation_code_form_view" model="ir.ui.view">
         <field name="name">national.taxation.code.form (in l10n_br_fiscal)</field>
         <field name="model">l10n_br_fiscal.national.taxation.code</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form>
-                <header />
-                <sheet>
-                    <group>
-                        <field name="code" />
-                        <field name="name" />
-                    </group>
-                </sheet>
-            </form>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 </odoo>
