@@ -313,6 +313,14 @@ class OperationLine(models.Model):
             tax_ii = ncm.tax_ii_id
             mapping_result["taxes"][tax_ipi.tax_domain] = tax_ipi
 
+            if len(ncm.piscofins_ids) == 1:
+                mapping_result["taxes"][ncm.piscofins_ids[0].tax_pis_id.tax_domain] = (
+                    ncm.piscofins_ids[0].tax_pis_id
+                )
+                mapping_result["taxes"][
+                    ncm.piscofins_ids[0].tax_cofins_id.tax_domain
+                ] = ncm.piscofins_ids[0].tax_cofins_id
+
             if mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT:
                 mapping_result["taxes"][tax_ii.tax_domain] = tax_ii
 
