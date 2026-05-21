@@ -3,11 +3,16 @@
     <record id="tax_pis_cofins_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.search</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search string="Tax PIS COFINS">
-                <field name="code" />
-                <field name="name" />
-                <separator />
+            <group name="group_by" position="inside">
+                <filter
+                    string="Sped Table"
+                    name="sped_table"
+                    domain="[]"
+                    context="{'group_by' : 'sped_table'}"
+                />
                 <filter
                     string="Tax PIS"
                     name="tax_pis_id"
@@ -32,47 +37,47 @@
                     domain="[]"
                     context="{'group_by' : 'tax_cofins_st_id'}"
                 />
-            </search>
+            </group>
         </field>
     </record>
 
     <record id="tax_pis_cofins_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.pis.cofins.tree</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="code" />
-                <field name="name" />
+            <field name="name" position="after">
                 <field name="tax_pis_id" />
                 <field name="tax_pis_st_id" />
                 <field name="tax_cofins_id" />
                 <field name="tax_cofins_st_id" />
-            </list>
+                <field name="sped_table" />
+            </field>
         </field>
     </record>
 
     <record id="tax_pis_cofins_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.pis.cofins.tax.form</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="Tax PIS COFINS">
-                <sheet>
-                    <group>
-                        <field name="code" />
-                        <field name="name" />
-                        <field name="ncms" />
-                        <field name="ncm_exception" />
-                        <field name="not_in_ncms" />
-                        <field name="tax_pis_id" />
-                        <field name="tax_pis_st_id" />
-                        <field name="tax_cofins_id" />
-                        <field name="tax_cofins_st_id" />
-                    </group>
-                    <group name="ncms" string="Related NCMs">
-                        <field name="ncm_ids" nolabel="1" colspan="2" />
-                    </group>
-                </sheet>
-            </form>
+            <field name="name" position="after">
+                <field name="ncms" />
+                <field name="ncm_exception" />
+                <field name="not_in_ncms" />
+                <field name="tax_pis_id" />
+                <field name="tax_pis_st_id" />
+                <field name="tax_cofins_id" />
+                <field name="tax_cofins_st_id" />
+                <field name="sped_table" />
+            </field>
+            <group name="group_code_name" position="after">
+                <group name="ncms" string="Related NCMs">
+                    <field name="ncm_ids" nolabel="1" colspan="2" />
+                </group>
+            </group>
         </field>
     </record>
 </odoo>
