@@ -7,7 +7,6 @@ import logging
 import re
 import string
 from datetime import datetime
-from enum import Enum
 from unicodedata import normalize
 
 from erpbrasil.base.fiscal import cnpj_cpf
@@ -30,6 +29,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
     DENEGADO,
+    DOCUMENT_ISSUER_COMPANY,
     ENCERRADO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
@@ -62,6 +62,7 @@ from ..constants.mdfe import (
     MDFE_ENVIRONMENTS,
     MDFE_TRANSMISSIONS,
     MDFE_TRANSP_TYPE,
+    MDFE_TRANSP_TYPE_DEFAULT,
 )
 from ..constants.modal import (
     MDFE_MODAL_DEFAULT,
@@ -210,7 +211,7 @@ class MDFe(spec_models.StackedModel):
         selection=MDFE_TRANSP_TYPE,
         string="Transp Type",
         copy=False,
-        default=lambda self: self.env.company.mdfe_transp_type,
+        default=MDFE_TRANSP_TYPE_DEFAULT,
     )
 
     mdfe30_mod = fields.Char(related="document_type_id.code")
@@ -369,6 +370,8 @@ class MDFe(spec_models.StackedModel):
     def _compute_mdfe30_inf_percurso(self):
         for record in self:
             record.mdfe30_infPercurso = [Command.clear()]
+            origin = record.mdfe_initial_state_id
+            destination = record.mdfe_final_state_id
             record.mdfe30_infPercurso = [
                 Command.create(
                     {
@@ -376,6 +379,7 @@ class MDFe(spec_models.StackedModel):
                     },
                 )
                 for state in record.mdfe_route_state_ids
+                if state != origin and state != destination
             ]
 
     ##########################
@@ -529,6 +533,11 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_cInt = fields.Char(size=10, string="Código do Veículo")
 
+    mdfe_vehicle_id = fields.Many2one(
+        comodel_name="l10n_br_mdfe.vehicle",
+        string="Veículo",
+    )
+
     mdfe30_RENAVAM = fields.Char(size=11, string="RENAVAM")
 
     mdfe30_placa = fields.Char(string="Placa do Veículo")
@@ -572,6 +581,20 @@ class MDFe(spec_models.StackedModel):
     def _compute_mdfe30_rodo_uf(self):
         for record in self.filtered(filtered_processador_edoc_mdfe):
             record.mdfe30_UF = record.rodo_vehicle_state_id.code
+
+    @api.onchange("mdfe_vehicle_id")
+    def _onchange_mdfe_vehicle_id(self):
+        if self.mdfe_vehicle_id:
+            vehicle = self.mdfe_vehicle_id
+            self.mdfe30_cInt = vehicle.mdfe30_cInt
+            self.mdfe30_placa = vehicle.mdfe30_placa
+            self.mdfe30_RENAVAM = vehicle.mdfe30_RENAVAM
+            self.mdfe30_tara = vehicle.mdfe30_tara
+            self.mdfe30_capKG = vehicle.mdfe30_capKG
+            self.mdfe30_capM3 = vehicle.mdfe30_capM3
+            self.mdfe30_tpRod = vehicle.mdfe30_tpRod
+            self.mdfe30_tpCar = vehicle.mdfe30_tpCar
+            self.rodo_vehicle_state_id = vehicle.rodo_vehicle_state_id
 
     def _export_fields_mdfe_30_infmodal(self, xsd_fields, class_obj, export_dict):
         if self.mdfe_modal == "1":
@@ -646,6 +669,29 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_infMunDescarga = fields.One2many(
         comodel_name="l10n_br_mdfe.municipio.descarga", inverse_name="document_id"
+    )
+
+    mdfe_document_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.document",
+        relation="mdfe_m2m_document_rel",
+        column1="mdfe_document_id",
+        column2="related_document_id",
+        string="Related Documents",
+    )
+
+    mdfe_nfe_ids = fields.Many2many(
+        related="mdfe_document_ids",
+        string="Related Documents (legacy)",
+    )
+
+    mdfe_cte_ids = fields.Many2many(
+        related="mdfe_document_ids",
+        string="Related Documents (legacy)",
+    )
+
+    mdfe_mdfe_ids = fields.Many2many(
+        related="mdfe_document_ids",
+        string="Related Documents (legacy)",
     )
 
     ##########################
@@ -741,6 +787,92 @@ class MDFe(spec_models.StackedModel):
 
     mdfe30_cUnid = fields.Selection(default="01")
 
+    partner_city_id = fields.Many2one(
+        comodel_name="res.city",
+        string="Partner City",
+        compute="_compute_partner_city_id",
+        store=True,
+    )
+
+    @api.depends("partner_id.city_id")
+    def _compute_partner_city_id(self):
+        for record in self:
+            record.partner_city_id = record.partner_id.city_id
+
+    @api.model
+    def create(self, vals):
+        rec = super().create(vals)
+        if any(f in vals for f in ["mdfe_document_ids"]):
+            rec._sync_mdfe_documents()
+        return rec
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "mdfe_document_ids" in vals:
+            self._sync_mdfe_documents()
+        return res
+
+    def _sync_mdfe_documents(self):
+        doc_type_map = {"55": "nfe", "59": "cte", "58": "mdfe"}
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            all_cities = {}
+            for doc in record.mdfe_document_ids:
+                doc_type = doc_type_map.get(doc.document_type, "nfe")
+                partner = doc.partner_id
+                city = partner.city_id if partner else False
+                city_key = (city.id, doc_type) if city else (0, doc_type)
+                if city_key not in all_cities:
+                    all_cities[city_key] = {"city": city, "type": doc_type, "docs": []}
+                all_cities[city_key]["docs"].append(doc)
+
+            unlink_ids = record.mdfe30_infMunDescarga.ids
+            doc_rel_model = self.env["l10n_br_fiscal.document.related"]
+            for (city_id, doc_type), info in all_cities.items():
+                existing = record.mdfe30_infMunDescarga.filtered(
+                    lambda r, c=city_id, t=doc_type: (
+                        r.city_id.id == c if c else not r.city_id
+                    )
+                    and r.document_type == t
+                )
+                if existing:
+                    munic = existing[0]
+                    if munic.id in unlink_ids:
+                        unlink_ids.remove(munic.id)
+                else:
+                    munic = record.mdfe30_infMunDescarga.create(
+                        {
+                            "document_id": record.id,
+                            "city_id": city_id or False,
+                            "document_type": doc_type,
+                        }
+                    )
+
+                related_ids = []
+                for doc in info["docs"]:
+                    related = doc_rel_model.search(
+                        [
+                            ("document_related_id", "=", doc.id),
+                        ],
+                        limit=1,
+                    )
+                    if not related:
+                        related = doc_rel_model.create(
+                            {
+                                "document_related_id": doc.id,
+                                "document_type_id": doc.document_type_id.id,
+                                "document_key": doc.document_key,
+                                "document_serie": doc.document_serie,
+                                "document_number": doc.document_number,
+                                "document_total_amount": doc.fiscal_amount_total,
+                                "document_total_weight": doc.total_weight,
+                            }
+                        )
+                    related_ids.append(related.id)
+                munic.write({f"{doc_type}_ids": [(6, 0, related_ids)]})
+
+            if unlink_ids:
+                record.mdfe30_infMunDescarga.browse(unlink_ids).unlink()
+
     ##########################
     # MDF-e tag: tot
     # Methods
@@ -793,6 +925,48 @@ class MDFe(spec_models.StackedModel):
     ################################
     # Framework Spec model's methods
     ################################
+
+    @api.model
+    def default_get(self, fields):
+        res = super().default_get(fields)
+        doc_type_id = res.get("document_type_id") or self._context.get(
+            "default_document_type_id"
+        )
+        if doc_type_id:
+            doc_type = self.env["l10n_br_fiscal.document.type"].browse(doc_type_id)
+            if doc_type.code == MODELO_FISCAL_MDFE:
+                company = self.env.company
+                if not res.get("company_id"):
+                    res["company_id"] = company.id
+                if not res.get("user_id"):
+                    res["user_id"] = self.env.user.id
+                if company.partner_id.state_id and not res.get("mdfe_initial_state_id"):
+                    res["mdfe_initial_state_id"] = company.partner_id.state_id.id
+                if not res.get("mdfe_vehicle_id"):
+                    first_vehicle = self.env["l10n_br_mdfe.vehicle"].search(
+                        [
+                            ("partner_id", "child_of", company.partner_id.id),
+                            ("active", "=", True),
+                        ],
+                        limit=1,
+                    )
+                    if first_vehicle:
+                        res["mdfe_vehicle_id"] = first_vehicle.id
+                if not res.get("document_serie_id"):
+                    serie = doc_type.get_document_serie(company, None)
+                    if serie:
+                        res["document_serie_id"] = serie.id
+                if not res.get("partner_id"):
+                    if company.partner_id:
+                        res["partner_id"] = company.partner_id.id
+                if "mdfe_loading_city_ids" in fields and not res.get(
+                    "mdfe_loading_city_ids"
+                ):
+                    if company.city_id:
+                        res["mdfe_loading_city_ids"] = [
+                            Command.set([company.city_id.id])
+                        ]
+        return res
 
     @api.model
     def _prepare_import_dict(
@@ -1022,25 +1196,232 @@ class MDFe(spec_models.StackedModel):
         if self.document_type_id.code not in [MODELO_FISCAL_MDFE]:
             return super()._generate_key()
 
-        for record in self.filtered(filtered_processador_edoc_mdfe):
+        for record in self:
+            cnpj_cpf = record.company_id.cnpj_cpf or record.company_id.vat
+            if not cnpj_cpf:
+                raise ValidationError(
+                    _(
+                        "To Generate EDoc Key, you need to fill the CNPJ/CPF "
+                        "field on company %s."
+                    )
+                    % record.company_id.display_name
+                )
+            if not record.company_id.state_id:
+                raise ValidationError(
+                    _(
+                        "To Generate EDoc Key, you need to fill the State "
+                        "on company %s."
+                    )
+                    % record.company_id.display_name
+                )
+            if not record.document_type_id:
+                raise ValidationError(_("Document Type is not defined."))
+            if not record.document_number:
+                if record.document_serie_id:
+                    record.document_number = record.document_serie_id.next_seq_number()
+                if not record.document_number:
+                    raise ValidationError(
+                        _(
+                            "To Generate EDoc Key, you need to fill the "
+                            "Document Number."
+                        )
+                    )
+            if not record.document_serie:
+                if record.document_serie_id:
+                    record.document_serie = record.document_serie_id.code
+                if not record.document_serie:
+                    raise ValidationError(
+                        _(
+                            "To Generate EDoc Key, you need to fill the "
+                            "Document Serie."
+                        )
+                    )
+
             date = fields.Datetime.context_timestamp(record, record.document_date)
-            chave_edoc = ChaveEdoc(
-                ano_mes=date.strftime("%y%m").zfill(4),
-                cnpj_cpf_emitente=record.company_id.vat,
-                codigo_uf=(
-                    record.company_id.state_id
-                    and record.company_id.state_id.ibge_code
-                    or ""
-                ),
-                forma_emissao=int(self.mdfe_transmission),
-                modelo_documento=record.document_type_id.code or "",
-                numero_documento=record.document_number or "",
-                numero_serie=record.document_serie or "",
-                validar=False,
-            )
+
+            if filtered_processador_edoc_mdfe(record):
+                if not record.mdfe_transmission:
+                    raise ValidationError(
+                        _(
+                            "To Generate EDoc Key, you need to fill the "
+                            "MDFe Transmission field."
+                        )
+                    )
+                forma_emissao = int(punctuation_rm(str(record.mdfe_transmission)))
+                fields_to_validate = {
+                    "CNPJ/CPF": cnpj_cpf,
+                    "UF": record.company_id.state_id.ibge_code,
+                    "Document Type": record.document_type_id.code,
+                    "Document Number": record.document_number,
+                    "Document Serie": record.document_serie,
+                    "MDFe Transmission": record.mdfe_transmission,
+                }
+                cleaned_fields = {}
+                for label, value in fields_to_validate.items():
+                    cleaned = punctuation_rm(str(value or ""))
+                    if cleaned and not cleaned.isdigit():
+                        raise ValidationError(
+                            _(
+                                "The field %(label)s must contain only numbers. Found: '%(value)s'"
+                            )
+                            % {"label": label, "value": value}
+                        )
+                    cleaned_fields[label] = cleaned
+                chave_kw = {
+                    "ano_mes": date.strftime("%y%m").zfill(4),
+                    "cnpj_cpf_emitente": cleaned_fields["CNPJ/CPF"],
+                    "codigo_uf": cleaned_fields["UF"],
+                    "forma_emissao": forma_emissao,
+                    "modelo_documento": cleaned_fields["Document Type"],
+                    "numero_documento": cleaned_fields["Document Number"],
+                    "numero_serie": cleaned_fields["Document Serie"],
+                }
+            else:
+                chave_kw = {
+                    "ano_mes": date.strftime("%y%m").zfill(4),
+                    "cnpj_cpf_emitente": punctuation_rm(str(cnpj_cpf or "")),
+                    "codigo_uf": record.company_id.state_id.ibge_code,
+                    "forma_emissao": 1,
+                    "modelo_documento": record.document_type_id.code,
+                    "numero_documento": record.document_number,
+                    "numero_serie": record.document_serie,
+                }
+
+            chave_edoc = ChaveEdoc(validar=False, **chave_kw)
             record.key_random_code = chave_edoc.codigo_aleatorio
             record.key_check_digit = chave_edoc.digito_verificador
             record.document_key = chave_edoc.chave
+
+    def _document_number(self):
+        if (
+            self.issuer == DOCUMENT_ISSUER_COMPANY
+            and not self.document_serie_id
+            and self.document_type_id
+        ):
+            serie = self.document_type_id.get_document_serie(
+                self.company_id, self.fiscal_operation_id
+            )
+            if serie:
+                self.document_serie_id = serie
+        return super()._document_number()
+
+    def _document_check(self):
+        result = super()._document_check()
+        for record in self.filtered(filtered_processador_edoc_mdfe):
+            record._check_mdfe_required_fields()
+        return result
+
+    def _check_mdfe_required_fields(self):
+        self.ensure_one()
+
+        missing_fields = []
+
+        def check(value, label):
+            if not value:
+                missing_fields.append(label)
+
+        company = self.company_id
+        certificate = (
+            company.sudo().certificate_nfe_id or company.sudo().certificate_ecnpj_id
+        )
+
+        check(company, _("Company"))
+        check(company.vat, _("Company CNPJ/CPF"))
+        check(company.state_id, _("Company State"))
+        check(certificate, _("Digital Certificate"))
+        if certificate:
+            check(certificate.file, _("Digital Certificate File"))
+            check(certificate.password, _("Digital Certificate Password"))
+
+        check(self.document_type_id, _("Document Type"))
+        check(self.document_serie, _("Document Serie"))
+        check(self.document_number, _("Document Number"))
+        check(self.document_date, _("Document Date"))
+        check(self.mdfe_version, _("MDF-e Version"))
+        check(self.mdfe_environment, _("MDF-e Environment"))
+        check(self.mdfe_emit_type, _("MDF-e Emit Type"))
+        # mdfe_transp_type is only required when a third-party owner is set.
+        # It is validated together with mdfe30_prop in _check_mdfe_road_required_fields.
+        check(self.mdfe_modal, _("MDF-e Modal"))
+        check(self.mdfe_transmission, _("MDF-e Transmission"))
+        check(self.mdfe_initial_state_id, _("MDF-e Initial State"))
+        check(self.mdfe_final_state_id, _("MDF-e Final State"))
+        check(self.mdfe_loading_city_ids, _("MDF-e Loading City"))
+        check(self.mdfe30_infMunDescarga, _("MDF-e Unloading City"))
+
+        for descarga in self.mdfe30_infMunDescarga:
+            label = descarga.city_id.display_name or _("Unloading City")
+            check(descarga.city_id, _("MDF-e Unloading City"))
+            if descarga.document_type == "nfe":
+                check(
+                    descarga.nfe_ids, _("NF-e documents for unloading city %s") % label
+                )
+            elif descarga.document_type == "cte":
+                check(
+                    descarga.cte_ids, _("CT-e documents for unloading city %s") % label
+                )
+            elif descarga.document_type == "mdfe":
+                check(
+                    descarga.mdfe_ids,
+                    _("MDF-e transport documents for unloading city %s") % label,
+                )
+
+            for document in descarga.nfe_ids + descarga.cte_ids + descarga.mdfe_ids:
+                check(document.document_key, _("Document Key for %s") % label)
+
+        if self.mdfe_modal == "1":
+            self._check_mdfe_road_required_fields(missing_fields)
+
+        if missing_fields:
+            raise UserError(
+                _("Fill in the required MDF-e fields before sending:\n- %s")
+                % "\n- ".join(missing_fields)
+            )
+
+    def _check_mdfe_road_required_fields(self, missing_fields):
+        def check(value, label):
+            if not value:
+                missing_fields.append(label)
+
+        check(self.mdfe30_placa, _("Vehicle Plate"))
+        check(self.mdfe30_tara, _("Vehicle Tare in KG"))
+        check(self.mdfe30_tpRod, _("Vehicle Wheel Type"))
+        check(self.mdfe30_tpCar, _("Vehicle Body Type"))
+        check(self.mdfe30_condutor, _("Vehicle Driver"))
+
+        if self.mdfe30_prop:
+            if self.mdfe30_prop == self.company_id.partner_id:
+                missing_fields.append(
+                    _(
+                        "Vehicle Owner must be different from the MDF-e issuer. "
+                        "If the vehicle belongs to your company, clear the "
+                        "Transport Type field instead of filling an owner."
+                    )
+                )
+            elif not self.mdfe_transp_type:
+                missing_fields.append(
+                    _(
+                        "Transport Type must be informed when a third-party "
+                        "vehicle owner is specified."
+                    )
+                )
+        elif self.mdfe_transp_type:
+            missing_fields.append(
+                _(
+                    "Vehicle Owner is required when Transport Type is informed. "
+                    "If the vehicle belongs to your company, clear the "
+                    "Transport Type field."
+                )
+            )
+
+        if self.mdfe30_prop:
+            owner_rntrc = self.mdfe30_prop.rntrc_code
+            if owner_rntrc and (not owner_rntrc.isdigit() or len(owner_rntrc) != 8):
+                missing_fields.append(_("Owner RNTRC must contain exactly 8 digits."))
+
+        for condutor in self.mdfe30_condutor:
+            check(condutor.mdfe30_xNome, _("Driver Name"))
+            check(condutor.mdfe30_CPF, _("Driver CPF"))
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
@@ -1087,6 +1468,8 @@ class MDFe(spec_models.StackedModel):
         erros = Mdfe.schema_validation(xml_file)
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
+        if erros:
+            raise UserError(_("Invalid MDF-e XML:\n%s") % erros)
 
     def update_status_mdfe(self, process):
         self.ensure_one()
@@ -1127,40 +1510,40 @@ class MDFe(spec_models.StackedModel):
         self._change_state(state)
 
     def _eletronic_document_send(self):
-        super()._eletronic_document_send()
+        result = super()._eletronic_document_send()
         for record in self.filtered(filtered_processador_edoc_mdfe):
+            record._document_qrcode()
+            record._document_export()
             if record.xml_error_message:
-                return
+                raise UserError(_("Invalid MDF-e XML:\n%s") % record.xml_error_message)
             processador = record._edoc_processor()
             for edoc in record.serialize():
                 process = None
                 for p in processador.processar_documento(edoc):
                     process = p
-                    if process.webservice == "mdfeRecepcao":
-                        record.authorization_event_id._save_event_file(
-                            record.send_file_id.raw.decode("utf-8"), "xml"
-                        )
-
-            if process.resposta.cStat in LOTE_PROCESSADO + ["100"]:
-                record.update_status_mdfe(process)
-
-            elif process.resposta.cStat in DENEGADO:
-                record._change_state(SITUACAO_EDOC_DENEGADA)
-                record.write(
-                    {
-                        "status_code": process.resposta.cStat,
-                        "status_name": process.resposta.xMotivo,
-                    }
-                )
-
-            else:
-                record._change_state(SITUACAO_EDOC_REJEITADA)
-                record.write(
-                    {
-                        "status_code": process.resposta.cStat,
-                        "status_name": process.resposta.xMotivo,
-                    }
-                )
+                if process.webservice == "mdfeRecepcao":
+                    record.authorization_event_id._save_event_file(
+                        record.send_file_id.raw.decode("utf-8"), "xml"
+                    )
+                if process.resposta.cStat in LOTE_PROCESSADO + ["100"]:
+                    record.update_status_mdfe(process)
+                elif process.resposta.cStat in DENEGADO:
+                    record._change_state(SITUACAO_EDOC_DENEGADA)
+                    record.write(
+                        {
+                            "status_code": process.resposta.cStat,
+                            "status_name": process.resposta.xMotivo,
+                        }
+                    )
+                else:
+                    record._change_state(SITUACAO_EDOC_REJEITADA)
+                    record.write(
+                        {
+                            "status_code": process.resposta.cStat,
+                            "status_name": process.resposta.xMotivo,
+                        }
+                    )
+        return result
 
     def _mdfe_cancel(self):
         self.ensure_one()
@@ -1289,13 +1672,16 @@ class MDFe(spec_models.StackedModel):
     def _document_qrcode(self):
         res = super()._document_qrcode()
         for record in self.filtered(filtered_processador_edoc_mdfe):
-            record.mdfe30_infMDFeSupl = self.env[
-                "l10n_br_fiscal.document.supplement"
-            ].create(
-                {
-                    "qrcode": record.get_mdfe_qrcode(),
-                }
-            )
+            if record.mdfe30_infMDFeSupl:
+                record.mdfe30_infMDFeSupl.qrcode = record.get_mdfe_qrcode()
+            else:
+                record.mdfe30_infMDFeSupl = self.env[
+                    "l10n_br_fiscal.document.supplement"
+                ].create(
+                    {
+                        "qrcode": record.get_mdfe_qrcode(),
+                    }
+                )
         return res
 
     def get_mdfe_qrcode(self):
@@ -1381,9 +1767,7 @@ class MDFe(spec_models.StackedModel):
             "type": "binary",
         }
         report = self.env.ref("l10n_br_mdfe.main_template_damdfe")
-        pdf_data = report._render_qweb_pdf(
-            "main_template_damdfe", self.fiscal_line_ids.document_id.ids
-        )
+        pdf_data = report._render_qweb_pdf("main_template_damdfe", self.ids)
         attachment_data["datas"] = base64.b64encode(pdf_data[0])
         file_pdf = self.file_report_id
         self.file_report_id = False

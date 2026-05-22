@@ -6,7 +6,8 @@ import sys
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode, punctuation_rm
 
-from odoo import api, fields
+from odoo import _, api, fields
+from odoo.exceptions import ValidationError
 
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -209,7 +210,29 @@ class ResPartner(spec_models.SpecModel):
     )
 
     # Modelo Rodoviario - VeicTracaoProp - Proprietário ou possuidor do Veículo.
-    mdfe30_RNTRC = fields.Char(related="rntrc_code")
+    mdfe30_RNTRC = fields.Char(
+        compute="_compute_mdfe30_RNTRC",
+        inverse="_inverse_mdfe30_RNTRC",
+        compute_sudo=True,
+    )
+
+    vehicle_ids = fields.One2many(
+        comodel_name="l10n_br_mdfe.vehicle",
+        inverse_name="partner_id",
+        string="Veículos",
+    )
+
+    @api.depends("rntrc_code")
+    def _compute_mdfe30_RNTRC(self):
+        for rec in self:
+            rec.mdfe30_RNTRC = rec.rntrc_code
+
+    def _inverse_mdfe30_RNTRC(self):
+        for rec in self:
+            if rec.mdfe30_RNTRC:
+                if not rec.mdfe30_RNTRC.isdigit() or len(rec.mdfe30_RNTRC) != 8:
+                    raise ValidationError(_("RNTRC must contain exactly 8 digits."))
+                rec.rntrc_code = rec.mdfe30_RNTRC
 
     @api.depends("company_type", "l10n_br_ie_code", "cnpj_cpf", "country_id")
     def _compute_mdfe_data(self):

@@ -102,20 +102,29 @@ class Operation(models.Model):
     def action_create_new(self):
         ctx = self._context.copy()
         model = "l10n_br_fiscal.document"
-        if self.fiscal_operation_type == "out":
-            ctx.update(
-                {
-                    "default_fiscal_operation_type": "out",
-                    "default_fiscal_operation_id": self.id,
-                }
-            )
-        elif self.fiscal_operation_type == "in":
-            ctx.update(
-                {
-                    "default_fiscal_operation_type": "in",
-                    "default_fiscal_operation_id": self.id,
-                }
-            )
+
+        ctx.update(
+            {
+                "default_fiscal_operation_type": self.fiscal_operation_type,
+                "default_fiscal_operation_id": self.id,
+            }
+        )
+
+        if self.fiscal_type == "other":
+            ctx["default_partner_id"] = self.env.company.partner_id.id
+
+        op_doc_types = self.document_type_ids
+        if op_doc_types:
+            first = op_doc_types[0]
+            ctx["default_document_type_id"] = first.document_type_id.id
+            if first.document_serie_id:
+                ctx["default_document_serie_id"] = first.document_serie_id.id
+        else:
+            op_lines = self.line_ids.filtered("document_type_id")
+            if op_lines:
+                first = op_lines[0]
+                ctx["default_document_type_id"] = first.document_type_id.id
+
         return {
             "name": _("Create invoice/bill"),
             "type": "ir.actions.act_window",

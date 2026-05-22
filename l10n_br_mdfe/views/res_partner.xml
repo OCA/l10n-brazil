@@ -16,6 +16,17 @@
                         <field name="mdfe30_tpProp" />
                         <field name="mdfe30_RNTRC" />
                     </group>
+                    <group string="Veículos Cadastrados" colspan="4">
+                        <field name="vehicle_ids" nolabel="1">
+                            <tree>
+                                <field name="mdfe30_placa" />
+                                <field name="mdfe30_cInt" />
+                                <field name="mdfe30_RENAVAM" />
+                                <field name="rodo_vehicle_state_id" />
+                                <field name="active" />
+                            </tree>
+                        </field>
+                    </group>
                 </page>
             </xpath>
         </field>

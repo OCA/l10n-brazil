@@ -3,6 +3,8 @@
 
 from datetime import datetime
 
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.base.misc import punctuation_rm
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter
 
 from odoo.tests import TransactionCase
@@ -81,6 +83,31 @@ class MDFeDocumentTest(TransactionCase):
 
     def test_generate_key(self):
         self.mdfe_id._generate_key()
+        chave = ChaveEdoc(self.mdfe_id.document_key)
+
         self.assertTrue(self.mdfe_id.document_key)
         self.assertTrue(self.mdfe_id.key_random_code)
         self.assertTrue(self.mdfe_id.key_check_digit)
+        self.assertEqual(len(self.mdfe_id.document_key), 44)
+        self.assertTrue(self.mdfe_id.document_key.isdigit())
+        self.assertEqual(
+            self.mdfe_id.document_key[0:2],
+            self.mdfe_id.company_id.state_id.ibge_code.zfill(2),
+        )
+        self.assertEqual(
+            self.mdfe_id.document_key[2:6],
+            self.mdfe_id.document_date.strftime("%y%m"),
+        )
+        self.assertEqual(
+            self.mdfe_id.document_key[6:20],
+            punctuation_rm(self.mdfe_id.company_id.vat).zfill(14),
+        )
+        self.assertEqual(self.mdfe_id.document_key[20:22], "58")
+        self.assertEqual(self.mdfe_id.document_key[22:25], "030")
+        self.assertEqual(self.mdfe_id.document_key[25:34], "000070000")
+        self.assertEqual(
+            self.mdfe_id.document_key[34:35], self.mdfe_id.mdfe_transmission
+        )
+        self.assertEqual(self.mdfe_id.document_key[35:43], self.mdfe_id.key_random_code)
+        self.assertEqual(self.mdfe_id.document_key[43:44], self.mdfe_id.key_check_digit)
+        self.assertEqual(chave.digito_verificador, self.mdfe_id.key_check_digit)

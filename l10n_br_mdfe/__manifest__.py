@@ -4,7 +4,7 @@
 {
     "name": "MDFe",
     "summary": """Brazilian Eletronic Invoice MDF-e""",
-    "version": "16.0.4.0.0",
+    "version": "16.0.5.0.0",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "KMEE,Escodoo,Odoo Community Association (OCA)",
@@ -20,6 +20,7 @@
     "data": [
         # Data
         "data/ir_config_parameter.xml",
+        "data/mdfe_data.xml",
         # Security
         "security/ir.model.access.csv",
         # Views
@@ -29,6 +30,7 @@
         "views/res_company.xml",
         "views/transporte.xml",
         "views/res_partner.xml",
+        "views/vehicle_view.xml",
         "views/product_product.xml",
         "views/modal/modal_aquaviario.xml",
         "views/modal/modal_rodoviario.xml",
