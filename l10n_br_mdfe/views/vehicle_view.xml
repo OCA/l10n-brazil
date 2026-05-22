@@ -17,7 +17,10 @@
                             <field name="mdfe30_tpCar" />
                         </group>
                         <group>
-                            <field name="rodo_vehicle_state_id" domain="[('country_id.code', '=', 'BR')]" />
+                            <field
+                                name="rodo_vehicle_state_id"
+                                domain="[('country_id.code', '=', 'BR')]"
+                            />
                             <field name="mdfe30_tara" />
                             <field name="mdfe30_capKG" />
                             <field name="mdfe30_capM3" />
