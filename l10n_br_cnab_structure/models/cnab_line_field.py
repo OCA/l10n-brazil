@@ -212,10 +212,11 @@ class CNABField(models.Model):
             value = f"{value:.{self.assumed_comma}f}"
         value = str(value)
         if value_type == "num":
-            value = re.sub(r"\W+", "", value)
+            value = re.sub(r"[^0-9]", "", value)
             value = value.zfill(size)
         if value_type == "alpha":
             value = unidecode(value).upper()
+            value = re.sub(r"[^A-Z0-9\s]", "", value)
             value = value.ljust(size)
         value = value[:size]
         return value
