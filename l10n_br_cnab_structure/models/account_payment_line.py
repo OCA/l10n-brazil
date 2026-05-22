@@ -3,6 +3,8 @@
 # @author Felipe Motter Pereira <felipe@engenere.one>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from unidecode import unidecode
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -79,9 +81,11 @@ class AccountPaymentLine(models.Model):
     def _compute_cnab_beneficiary_name(self):
         for bline in self:
             if bline.partner_bank_id and bline.partner_bank_id.acc_holder_name:
-                bline.cnab_beneficiary_name = bline.partner_bank_id.acc_holder_name
+                bline.cnab_beneficiary_name = unidecode(
+                    bline.partner_bank_id.acc_holder_name
+                ).strip()
             else:
-                bline.cnab_beneficiary_name = bline.partner_id.name
+                bline.cnab_beneficiary_name = unidecode(bline.partner_id.name).strip()
 
     def _compute_batch_template_id(self):
         for bline in self:
