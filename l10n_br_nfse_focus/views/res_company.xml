@@ -14,10 +14,12 @@
                 <field
                     name="focusnfe_production_token"
                     attrs="{'invisible': ['|',('provedor_nfse','!=', 'focusnfe'),('nfse_environment', '!=', '1')]}"
+                    password="True"
                 />
                 <field
                     name="focusnfe_homologation_token"
                     attrs="{'invisible': ['|',('provedor_nfse','!=', 'focusnfe'),('nfse_environment', '!=', '2')]}"
+                    password="True"
                 />
                 <field
                     name="focusnfe_nfse_service_type_value"
