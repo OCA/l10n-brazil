@@ -18,7 +18,7 @@
                         name="show_subsequent_document"
                         type="object"
                         string="Show Document"
-                        attrs="{'invisible': [('subsequent_document_id', '=', False)]}"
+                        invisible="not subsequent_document_id"
                     />
                 </tree>
             </field>
