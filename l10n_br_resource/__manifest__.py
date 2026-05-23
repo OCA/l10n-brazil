@@ -12,7 +12,7 @@
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["l10n_br_base", "resource"],
-    "maintainers": ["mileo", "lfdivino"],
+    "maintainers": ["mileo"],
     "external_dependencies": {"python": ["workalendar"]},
     "data": [
         "views/resource_calendar_view.xml",
