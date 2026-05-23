@@ -90,169 +90,153 @@ class ResourceCalendar(models.Model):
             leaves.append(leave)
         return leaves
 
-    def data_eh_feriado(self, data):
-        """Verificar se uma data é feriado.
-        :param datetime data_referencia: Se nenhuma data referencia for passada
-                                    verifique se hoje eh feriado no calendario
-                                    corrente.
-                                    Se a data referencia for passada, verifique
-                                    se a data esta dentro de algum leave do
-                                    calendario corrente
-                                    date_start <= data_referencia <= data_end
+    def is_holiday(self, date):
+        """Check if a date is a holiday.
 
-        :return boolean True se a data referencia for feriado
-                        False se a data referencia nao for feriado
+        :param datetime date: date to check. If not provided, checks today.
+        :return boolean: True if the date is a holiday, False otherwise.
         """
-        if not data:
-            data = datetime.now()
+        if not date:
+            date = datetime.now()
         for leave in self.leave_ids:
-            if leave.date_from <= data:
-                if leave.date_to >= data:
+            if leave.date_from <= date:
+                if leave.date_to >= date:
                     if leave.leave_type == "F":
                         return True
         return False
 
-    def data_eh_feriado_bancario(self, data_referencia):
-        """Verificar se uma data é feriado bancário.
-        :param datetime data_referencia: Se nenhuma data referencia for
-                                    passada verifique se hoje é feriado
-                                    bancário. Se a data referencia for
-                                    passada, verifique se a data esta
-                                    dentro de algum leave
-                                    date_start <= data_referencia <= data_end
+    def is_bank_holiday(self, reference_date):
+        """Check if a date is a bank holiday.
 
-        :return int leaves_count: +1 se for feriado bancário
-                                   0 se a data nao for feriado bancário
+        :param datetime reference_date: date to check. If not provided,
+                                        checks today.
+        :return int: number of matching bank holiday leaves (> 0 if it is
+                     a bank holiday, 0 otherwise).
         """
-        if not data_referencia:
-            data_referencia = datetime.now()
+        if not reference_date:
+            reference_date = datetime.now()
         domain = [
-            ("date_from", "<=", data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
-            ("date_to", ">=", data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
+            ("date_from", "<=", reference_date.strftime("%Y-%m-%d %H:%M:%S")),
+            ("date_to", ">=", reference_date.strftime("%Y-%m-%d %H:%M:%S")),
             ("leave_type", "in", ["F", "B"]),
         ]
         leaves_count = self.env["resource.calendar.leaves"].search_count(domain)
         return leaves_count
 
-    def data_eh_feriado_emendado(self, data_referencia):
-        """Verificar se uma data é feriado emendado.
-        :param datetime data_referencia: Se nenhuma data referencia for passada
-                                   verifique se hoje é feriado emendado.
-                                   Se a data referencia for passada, verifique
-                                   se a data esta dentro de algum leave
-                                   date_start <= data_referencia <= data_end
+    def is_extended_holiday(self, reference_date):
+        """Check if a date is a bridged/extended holiday (feriado emendado).
 
-        :return retorna True ou False
+        A day is considered bridged when it falls between a holiday and a weekend.
+
+        :param datetime reference_date: date to check. If not provided,
+                                        checks today.
+        :return boolean: True if the date is a bridged holiday, False otherwise.
         """
-        if not data_referencia:
-            data_referencia = datetime.now()
-        eh_feriado = self.data_eh_feriado(data_referencia)
-        dia_antes = data_referencia - timedelta(days=1)
-        dia_depois = data_referencia + timedelta(days=1)
+        if not reference_date:
+            reference_date = datetime.now()
+        is_holiday_result = self.is_holiday(reference_date)
+        day_before = reference_date - timedelta(days=1)
+        day_after = reference_date + timedelta(days=1)
 
-        dia_antes_eh_segunda = (
-            True
-            if dia_antes.weekday() == 0 or self.data_eh_feriado(dia_antes)
-            else False
+        day_before_is_monday = (
+            True if day_before.weekday() == 0 or self.is_holiday(day_before) else False
         )
-        dia_depois_eh_sexta = (
-            True
-            if dia_depois.weekday() == 4 or self.data_eh_feriado(dia_depois)
-            else False
+        day_after_is_friday = (
+            True if day_after.weekday() == 4 or self.is_holiday(day_after) else False
         )
 
-        return eh_feriado and (dia_antes_eh_segunda or dia_depois_eh_sexta)
+        return is_holiday_result and (day_before_is_monday or day_after_is_friday)
 
-    def data_eh_dia_util(self, data):
-        """Verificar se data é dia util.
-        :param datetime data: Se nenhuma data referencia for passada
-                              verifique o dia de hoje.
-        :return boolean True: Se for dia útil
-                        False: Se Não for dia útil
+    def is_business_day(self, date):
+        """Check if a date is a business day.
+
+        :param datetime date: date to check. If not provided, checks today.
+        :return boolean: True if it is a business day, False otherwise.
         """
-        if not data:
-            data = datetime.now()
-        return not self.data_eh_feriado(data) and data.weekday() <= 4 or False
+        if not date:
+            date = datetime.now()
+        return not self.is_holiday(date) and date.weekday() <= 4 or False
 
-    def quantidade_dias_uteis(self, data_inicio, data_fim):
-        """Calcular a quantidade de dias úteis em determinado período.
-        :param datetime data_inicio: Se nenhuma data referencia for passada
-                                   verifique o dia de hoje.
-        :param datetime data_fim: Se nenhuma data referencia for passada
-                                   verifique o dia de hoje.
-        :return int: Quantidade de dias úteis
+    def count_business_days(self, start_date, end_date):
+        """Count the number of business days in a given period.
+
+        :param datetime start_date: start of the period.
+        :param datetime end_date: end of the period.
+        :return int: number of business days.
         """
-        if not data_inicio:
-            data_inicio = datetime.now()
-        if not data_fim:
-            data_fim = datetime.now()
-        dias_uteis = 0
-        while data_inicio <= data_fim:
-            if self.data_eh_dia_util(data_inicio):
-                dias_uteis += 1
-            data_inicio += timedelta(days=1)
+        if not start_date:
+            start_date = datetime.now()
+        if not end_date:
+            end_date = datetime.now()
+        business_days = 0
+        while start_date <= end_date:
+            if self.is_business_day(start_date):
+                business_days += 1
+            start_date += timedelta(days=1)
 
-        return dias_uteis
+        return business_days
 
-    def proximo_dia_util(self, data_referencia):
-        """Retornar o próximo dia util.
-        :param datetime data_referencia: Se nenhuma data referencia for passada
-                                   verifique se amanha é dia útil.
-        :return datetime Proximo dia util apartir da data referencia
+    def next_business_day(self, reference_date):
+        """Return the next business day after reference_date.
+
+        :param datetime reference_date: reference date. If not provided,
+                                        checks tomorrow.
+        :return datetime: next business day from reference_date.
         """
-        if not data_referencia:
-            data_referencia = datetime.now()
-        data_referencia += timedelta(days=1)
-        while data_referencia:
-            if self.data_eh_dia_util(data_referencia):
-                return data_referencia
-            data_referencia += timedelta(days=1)
+        if not reference_date:
+            reference_date = datetime.now()
+        reference_date += timedelta(days=1)
+        while reference_date:
+            if self.is_business_day(reference_date):
+                return reference_date
+            reference_date += timedelta(days=1)
 
-    def get_dias_base(self, data_from, data_to, mes_comercial=True):
-        """Calcular a quantidade de dias que devem ser remunerados em
-        determinado intervalo de tempo.
-        :param datetime data_from: Data inicial do intervalo de tempo.
-               datetime data_end: Data final do intervalo
-        :return int : quantidade de dias que devem ser remunerada
+    def get_base_days(self, date_from, date_to, commercial_month=True):
+        """Calculate the number of payable days in a given time interval.
+
+        :param datetime date_from: start date of the interval.
+        :param datetime date_to: end date of the interval.
+        :param bool commercial_month: if True, uses 30-day commercial month.
+        :return int: number of payable days.
         """
-        if not data_from:
-            data_from = datetime.now()
-        if not data_to:
-            data_to = datetime.now()
-        # Mes comercial sempre será 30 dias
-        if mes_comercial:
-            return 30 - data_from.day + 1
-        # Na admissao e rescisao nao levar em conta o mes comercial
-        quantidade_dias = (data_to - data_from).days + 1
-        if quantidade_dias > 30:
+        if not date_from:
+            date_from = datetime.now()
+        if not date_to:
+            date_to = datetime.now()
+        # Commercial month is always 30 days
+        if commercial_month:
+            return 30 - date_from.day + 1
+        # On hire/termination, do not use commercial month
+        days_count = (date_to - date_from).days + 1
+        if days_count > 30:
             return 30
         else:
-            return quantidade_dias
+            return days_count
 
-    def data_eh_dia_util_bancario(self, data):
-        """Verificar se data é dia util.
-        :param datetime data: Se nenhuma data referencia for passada
-                              verifique o dia de hoje.
-        :return boolean True: Se for dia útil
-                        False: Se Não for dia útil
+    def is_bank_business_day(self, date):
+        """Check if a date is a bank business day.
+
+        :param datetime date: date to check. If not provided, checks today.
+        :return boolean: True if it is a bank business day, False otherwise.
         """
-        if not data:
-            data = datetime.now()
-        if data.weekday() >= 5:
+        if not date:
+            date = datetime.now()
+        if date.weekday() >= 5:
             return False
-        elif self.data_eh_feriado_bancario(data):
+        elif self.is_bank_holiday(date):
             return False
         return True
 
-    def proximo_dia_util_bancario(self, data_referencia):
-        """Retornar o próximo dia util.
-        :param datetime data_referencia: Se nenhuma data referencia for passada
-                                   verifique se amanha é dia útil.
-        :return datetime Proximo dia util apartir da data referencia
+    def next_bank_business_day(self, reference_date):
+        """Return the next bank business day after reference_date.
+
+        :param datetime reference_date: reference date. If not provided,
+                                        checks tomorrow.
+        :return datetime: next bank business day from reference_date.
         """
-        if not data_referencia:
-            data_referencia = datetime.now()
-        data_referencia += timedelta(days=1)
-        if self.data_eh_dia_util_bancario(data_referencia):
-            return data_referencia
-        return self.proximo_dia_util_bancario(data_referencia)
+        if not reference_date:
+            reference_date = datetime.now()
+        reference_date += timedelta(days=1)
+        if self.is_bank_business_day(reference_date):
+            return reference_date
+        return self.next_bank_business_day(reference_date)

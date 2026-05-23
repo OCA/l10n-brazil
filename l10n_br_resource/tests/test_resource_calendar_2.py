@@ -18,104 +18,98 @@ class TestResourceCalendar(common.TransactionCase):
             }
         )
 
-    def test_data_eh_feriado(self):
+    def test_is_holiday(self):
         holiday_date = datetime(2023, 12, 25)
-        result = self.calendar.data_eh_feriado(holiday_date)
+        result = self.calendar.is_holiday(holiday_date)
         expected_result = True
         self.assertEqual(result, expected_result)
 
         non_holiday_date = datetime(2023, 12, 24)
-        result = self.calendar.data_eh_feriado(non_holiday_date)
+        result = self.calendar.is_holiday(non_holiday_date)
         expected_result = False
         self.assertEqual(result, expected_result)
 
         non_holiday_date2 = datetime(2023, 4, 13)
-        result = self.calendar.data_eh_feriado(non_holiday_date2)
+        result = self.calendar.is_holiday(non_holiday_date2)
         expected_result = False
         self.assertEqual(result, expected_result)
 
-        # Sem Data
-        self.calendar.data_eh_feriado(False)
+        # No date
+        self.calendar.is_holiday(False)
 
-    def test_data_eh_feriado_bancario(self):
-        reference_data = datetime.now()
+    def test_is_bank_holiday(self):
+        reference_date = datetime.now()
         leaves_count = self.env["resource.calendar.leaves"].search_count(
             [
-                ("date_from", "<=", reference_data),
-                ("date_to", ">=", reference_data),
+                ("date_from", "<=", reference_date),
+                ("date_to", ">=", reference_date),
                 ("leave_type", "in", ["F", "B"]),
             ]
         )
-        self.assertEqual(
-            leaves_count, self.calendar.data_eh_feriado_bancario(reference_data)
-        )
+        self.assertEqual(leaves_count, self.calendar.is_bank_holiday(reference_date))
 
-        reference_data = datetime(2023, 4, 21)
+        reference_date = datetime(2023, 4, 21)
         leaves_count = self.env["resource.calendar.leaves"].search_count(
             [
-                ("date_from", "<=", reference_data),
-                ("date_to", ">=", reference_data),
+                ("date_from", "<=", reference_date),
+                ("date_to", ">=", reference_date),
                 ("leave_type", "in", ["F", "B"]),
             ]
         )
-        self.assertEqual(
-            leaves_count, self.calendar.data_eh_feriado_bancario(reference_data)
-        )
+        self.assertEqual(leaves_count, self.calendar.is_bank_holiday(reference_date))
 
-        reference_data = datetime(2023, 4, 13)
+        reference_date = datetime(2023, 4, 13)
         leaves_count = self.env["resource.calendar.leaves"].search_count(
             [
-                ("date_from", "<=", reference_data),
-                ("date_to", ">=", reference_data),
+                ("date_from", "<=", reference_date),
+                ("date_to", ">=", reference_date),
                 ("leave_type", "in", ["F", "B"]),
             ]
         )
-        self.assertEqual(
-            leaves_count, self.calendar.data_eh_feriado_bancario(reference_data)
-        )
-        # Sem Data
-        self.calendar.data_eh_feriado_bancario(False)
+        self.assertEqual(leaves_count, self.calendar.is_bank_holiday(reference_date))
+        # No date
+        self.calendar.is_bank_holiday(False)
 
-    def test_data_eh_feriado_emendado(self):
-        reference_data = datetime(2023, 9, 7, 15, 0, 0)
+    def test_is_extended_holiday(self):
+        reference_date = datetime(2023, 9, 7, 15, 0, 0)
         expected_result = False
 
-        result = self.calendar.data_eh_feriado_emendado(reference_data)
+        result = self.calendar.is_extended_holiday(reference_date)
 
         self.assertEqual(result, expected_result)
-        # Sem Data
-        self.calendar.data_eh_feriado_emendado(False)
+        # No date
+        self.calendar.is_extended_holiday(False)
 
-    def test_data_eh_dia_util_bancario(self):
-        data_util = datetime(2023, 4, 17)
-        self.assertTrue(self.calendar.data_eh_dia_util_bancario(data_util))
+    def test_is_bank_business_day(self):
+        business_date = datetime(2023, 4, 17)
+        self.assertTrue(self.calendar.is_bank_business_day(business_date))
 
-        data_nao_util = datetime(2023, 4, 15)
-        self.assertFalse(self.calendar.data_eh_dia_util_bancario(data_nao_util))
+        non_business_date = datetime(2023, 4, 15)
+        self.assertFalse(self.calendar.is_bank_business_day(non_business_date))
 
-        data_nao_util = datetime(2023, 4, 16)
-        self.assertFalse(self.calendar.data_eh_dia_util_bancario(data_nao_util))
+        non_business_date = datetime(2023, 4, 16)
+        self.assertFalse(self.calendar.is_bank_business_day(non_business_date))
 
-        data_feriado = datetime(2023, 4, 21)
-        self.assertTrue(self.calendar.data_eh_dia_util_bancario(data_feriado))
+        holiday_date = datetime(2023, 4, 21)
+        self.assertTrue(self.calendar.is_bank_business_day(holiday_date))
 
-    def test_get_dias_base_mes_comercial(self):
-        data_from = datetime(2023, 4, 1)
-        data_to = datetime(2023, 4, 30)
-        self.assertEqual(self.calendar.get_dias_base(data_from, data_to, True), 30)
+    def test_get_base_days_commercial_month(self):
+        date_from = datetime(2023, 4, 1)
+        date_to = datetime(2023, 4, 30)
+        self.assertEqual(self.calendar.get_base_days(date_from, date_to, True), 30)
 
-        data_from = datetime(2023, 4, 15)
-        data_to = datetime(2023, 4, 30)
-        self.assertEqual(self.calendar.get_dias_base(data_from, data_to, True), 16)
+        date_from = datetime(2023, 4, 15)
+        date_to = datetime(2023, 4, 30)
+        self.assertEqual(self.calendar.get_base_days(date_from, date_to, True), 16)
 
-    def test_get_dias_base_nao_mes_comercial(self):
-        data_from = datetime(2023, 4, 1)
-        data_to = datetime(2023, 4, 15)
-        self.assertEqual(self.calendar.get_dias_base(data_from, data_to, False), 15)
+    def test_get_base_days_non_commercial_month(self):
+        date_from = datetime(2023, 4, 1)
+        date_to = datetime(2023, 4, 15)
+        self.assertEqual(self.calendar.get_base_days(date_from, date_to, False), 15)
 
-        data_from = datetime(2023, 4, 1)
-        data_to = datetime(2023, 5, 5)
-        self.assertEqual(self.calendar.get_dias_base(data_from, data_to, False), 30)
+        date_from = datetime(2023, 4, 1)
+        date_to = datetime(2023, 5, 5)
+        self.assertEqual(self.calendar.get_base_days(date_from, date_to, False), 30)
 
     def test_get_calendar_for_country(self):
         calendar = self.env[

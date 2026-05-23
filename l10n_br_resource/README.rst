@@ -104,9 +104,10 @@ Contributors
 ------------
 
 - Luis Felipe Mileo <mileo@kmee.com.br>
-- Luiz Divino <luiz.divino@kmee.com.br>
+- Luiz Divino luiz.divino@kmee.com.br
 - Hendrix Costa <hendrix.costa@kmee.com.br>
 - Bruna Braga <bruna.braga@kmee.com.br>
+- Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 
 Other credits
 -------------
@@ -131,13 +132,10 @@ promote its widespread use.
 .. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
     :target: https://github.com/mileo
     :alt: mileo
-.. |maintainer-lfdivino| image:: https://github.com/lfdivino.png?size=40px
-    :target: https://github.com/lfdivino
-    :alt: lfdivino
 
-Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-mileo| |maintainer-lfdivino| 
+|maintainer-mileo| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_resource>`_ project on GitHub.
 
