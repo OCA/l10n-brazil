@@ -5,12 +5,12 @@
     "name": "Brazilian Localization Expense Invoice",
     "summary": """
         Customization of HR Expense Invoice module for implementations in Brazil.""",
-    "version": "16.0.1.0.1",
+    "version": "17.0.1.0.1",
     "license": "AGPL-3",
     "author": "Escodoo,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
-        "l10n_br_fiscal",
+        "l10n_br_account",
         "hr_expense_invoice",
     ],
     "data": [

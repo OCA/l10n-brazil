@@ -51,22 +51,19 @@ class HrExpense(models.Model):
         invoice.write(
             {
                 "currency_id": self.currency_id.id,
-                "partner_id": self.employee_id.address_home_id.id,
+                "partner_id": self.employee_id.work_contact_id.id,
                 "user_id": self.env.user.id,
             }
         )
 
         invoice.fiscal_document_id._compute_document_serie_id()
 
-        for line in invoice.invoice_line_ids:
-            line.price_unit = self.unit_amount
-
         self.write(
             {
                 "invoice_id": invoice.id,
                 "quantity": 1,
                 "tax_ids": [(5,)],
-                "unit_amount": invoice.amount_total,
+                "total_amount_currency": invoice.amount_total,
             }
         )
 

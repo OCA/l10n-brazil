@@ -24,10 +24,7 @@ class TestL10nBrHrExpenseInvoice(TransactionCase):
                                 "product_id": cls.env.ref(
                                     "hr_expense.expense_product_meal"
                                 ).id,
-                                "product_uom_id": cls.env.ref(
-                                    "hr_expense.expense_product_meal"
-                                ).uom_id.id,
-                                "unit_amount": 500.0,
+                                "total_amount_currency": 500.0,
                                 "employee_id": cls.env.ref("hr.employee_admin").id,
                             }
                         ),
@@ -37,10 +34,7 @@ class TestL10nBrHrExpenseInvoice(TransactionCase):
                                 "product_id": cls.env.ref(
                                     "hr_expense.expense_product_mileage"
                                 ).id,
-                                "product_uom_id": cls.env.ref(
-                                    "hr_expense.expense_product_mileage"
-                                ).uom_id.id,
-                                "unit_amount": 700.0,
+                                "total_amount_currency": 700.0,
                                 "employee_id": cls.env.ref("hr.employee_admin").id,
                                 "fiscal_operation_id": cls.env.ref(
                                     "l10n_br_fiscal.fo_venda"
@@ -54,7 +48,7 @@ class TestL10nBrHrExpenseInvoice(TransactionCase):
         )
 
         cls.sheet_id.action_submit_sheet()
-        cls.sheet_id.approve_expense_sheets()
+        cls.sheet_id.action_approve_expense_sheets()
 
         for expense_line in cls.sheet_id.expense_line_ids:
             expense_line.action_expense_create_invoice()
