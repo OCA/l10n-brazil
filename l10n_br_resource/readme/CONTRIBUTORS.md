@@ -2,3 +2,4 @@
 - Luiz Divino \<<luiz.divino@kmee.com.br>\>
 - Hendrix Costa \<<hendrix.costa@kmee.com.br>\>
 - Bruna Braga \<<bruna.braga@kmee.com.br>\>
+- Cristiano Mafra Junior \<<cristiano.mafra@escodoo.com.br>\>
