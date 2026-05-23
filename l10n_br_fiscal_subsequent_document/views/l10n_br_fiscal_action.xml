@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Subsequent Operation-->
+
+    <record id="subsequent_operation_action" model="ir.actions.act_window">
+        <field name="name">Subsequent Operation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.subsequent.operation</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="subsequent_operation_tree" />
+        <field name="help" type="html">
+            <p
+                class="o_view_nocontent_smiling_face"
+            >Create a new Subsequent operation</p>
+            <p />
+        </field>
+    </record>
+    <!-- Subsequent Document-->
+
+    <record id="subsequent_document_action" model="ir.actions.act_window">
+        <field name="name">Subsequent Document</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.subsequent.document</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="subsequent_document_tree" />
+        <field name="help" type="html">
+            <p
+                class="o_view_nocontent_smiling_face"
+            >Create a new Subsequent Document</p>
+            <p />
+        </field>
+    </record>
+</odoo>

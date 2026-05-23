@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Subsequent Operation -->
+    <menuitem
+        id="subsequent_operation_menu"
+        action="subsequent_operation_action"
+        groups="l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.operations_config_menu"
+        sequence="40"
+    />
+    <!-- Subsequent Document -->
+    <menuitem
+        id="subsequent_document_menu"
+        action="subsequent_document_action"
+        groups="base.group_no_one"
+        parent="l10n_br_fiscal.others_config_menu"
+        sequence="60"
+    />
+</odoo>
