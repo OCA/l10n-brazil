@@ -138,34 +138,6 @@ class AccountMoveLine(models.Model):
 
     def write(self, values):
         self._sync_proxy_fields_vals(values)
-
-        # Ensure delegate exists if writing delegated fields and not already present.
-        # This can happen when an invoice is created without fiscal info and then
-        # repaired, or in some test scenarios.
-        fiscal_fields = self.env["l10n_br_fiscal.document.line"]._fields
-        if any(f in values for f in fiscal_fields):
-            for line in self:
-                if not line.fiscal_document_line_id and line.move_id.document_type_id:
-                    move = line.move_id
-                    fiscal_doc = move.fiscal_document_id
-                    if fiscal_doc:
-                        line.fiscal_document_line_id = (
-                            self.env["l10n_br_fiscal.document.line"]
-                            .sudo()
-                            .create(
-                                {
-                                    "document_id": fiscal_doc.id or fiscal_doc,
-                                    "product_id": (
-                                        values.get("product_id") or line.product_id.id
-                                    ),
-                                    "quantity": values.get("quantity") or line.quantity,
-                                    "price_unit": (
-                                        values.get("price_unit") or line.price_unit
-                                    ),
-                                }
-                            )
-                        )
-
         res = super().write(values)
         return res
 
