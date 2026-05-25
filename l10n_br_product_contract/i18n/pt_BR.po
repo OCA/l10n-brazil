@@ -1,0 +1,58 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_product_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2025-01-16 18:06+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.6.2\n"
+
+#. module: l10n_br_product_contract
+#: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order__display_name
+#: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_product_contract
+#: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order__id
+#: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_product_contract
+#: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order____last_update
+#: model:ir.model.fields,field_description:l10n_br_product_contract.field_sale_order_line____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_product_contract
+#: model:product.product,mdfe30_xProd:l10n_br_product_contract.recurrency_service_product
+#: model:product.product,name:l10n_br_product_contract.recurrency_service_product
+#: model:product.template,name:l10n_br_product_contract.recurrency_service_product_product_template
+msgid "Recurrency Service"
+msgstr "Serviço de Recorrência"
+
+#. module: l10n_br_product_contract
+#: model:ir.model,name:l10n_br_product_contract.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de Vendas"
+
+#. module: l10n_br_product_contract
+#: model:ir.model,name:l10n_br_product_contract.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linha do Pedido de Vendas"
+
+#. module: l10n_br_product_contract
+#: model:product.product,uom_name:l10n_br_product_contract.recurrency_service_product
+#: model:product.template,uom_name:l10n_br_product_contract.recurrency_service_product_product_template
+msgid "Units"
+msgstr "Unidades"
