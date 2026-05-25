@@ -105,6 +105,9 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "natureza_operacao": rps_info.get("natureza_operacao"),
             "optante_simples_nacional": rps_info.get("optante_simples_nacional", False),
             "regime_especial_tributacao": rps_info.get("natureza_operacao"),
+            "finalidade_emissao": rps_info.get("finalidade_emissao", "0"),
+            "indicador_destinatario": rps_info.get("indicador_destinatario", "9"),
+            "operacao_onerosa": rps_info.get("operacao_onerosa", False),
             "status": rps_info.get("status"),
             "informacoes_adicionais_contribuinte": (
                 rps_info.get("customer_additional_data", False)[:256]
