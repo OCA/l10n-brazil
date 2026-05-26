@@ -281,6 +281,33 @@ class AccountMove(models.Model):
 
         return result
 
+    def _compute_l10n_latam_document_type(self):
+        """Override to map fiscal document_type_id to l10n_latam_document_type_id.
+
+        When l10n_latam_invoice_document is installed, it requires
+        l10n_latam_document_type_id for posted invoices on journals that use documents.
+        This override ensures that when a fiscal document_type_id is set
+        (from l10n_br_fiscal), the corresponding l10n_latam_document_type_id is also
+        set based on matching code.
+        """
+        if hasattr(super(), "_compute_l10n_latam_document_type"):
+            super()._compute_l10n_latam_document_type()
+        # Only proceed if l10n_latam_invoice_document is installed
+        if "l10n_latam.document.type" not in self.env:
+            return
+        for move in self.filtered(
+            lambda m: m.document_type_id and not m.l10n_latam_document_type_id
+        ):
+            latam_doc_type = self.env["l10n_latam.document.type"].search(
+                [
+                    ("code", "=", move.document_type_id.code),
+                    ("country_id", "=", move.company_id.account_fiscal_country_id.id),
+                ],
+                limit=1,
+            )
+            if latam_doc_type:
+                move.l10n_latam_document_type_id = latam_doc_type
+
     def _compute_imported_terms(self):
         self.ensure_one()
         pass  # meant to be overriden
@@ -570,6 +597,54 @@ class AccountMove(models.Model):
             move.fiscal_document_ids.filtered(
                 lambda d: d.document_type_id
             ).action_document_confirm()
+
+        if "l10n_latam.document.type" in self.env:
+            for move in self.filtered(
+                lambda m: (
+                    m.l10n_latam_use_documents
+                    and not m.l10n_latam_document_type_id
+                    and m.state == "draft"
+                )
+            ):
+                # Try to find a matching document type by fiscal document type code
+                if move.document_type_id:
+                    latam_doc_type = self.env["l10n_latam.document.type"].search(
+                        [
+                            ("code", "=", move.document_type_id.code),
+                            (
+                                "country_id",
+                                "=",
+                                move.company_id.account_fiscal_country_id.id,
+                            ),
+                        ],
+                        limit=1,
+                    )
+                    if latam_doc_type:
+                        move.l10n_latam_document_type_id = latam_doc_type
+                        continue
+                # Fallback: search for available document types directly
+                # (l10n_latam_available_document_type_ids may not be computed yet)
+                internal_types = []
+                if move.move_type in ["out_refund", "in_refund"]:
+                    internal_types = ["credit_note"]
+                elif move.move_type in ["out_invoice", "in_invoice"]:
+                    internal_types = ["invoice", "debit_note"]
+                if move.debit_origin_id:
+                    internal_types = ["debit_note"]
+                internal_types += ["all"]
+                latam_doc_type = self.env["l10n_latam.document.type"].search(
+                    [
+                        ("internal_type", "in", internal_types),
+                        (
+                            "country_id",
+                            "=",
+                            move.company_id.account_fiscal_country_id.id,
+                        ),
+                    ],
+                    limit=1,
+                )
+                if latam_doc_type:
+                    move.l10n_latam_document_type_id = latam_doc_type
         return super()._post(soft=soft)
 
     def view_xml(self):
