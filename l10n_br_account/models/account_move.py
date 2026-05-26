@@ -5,7 +5,7 @@
 
 from contextlib import contextmanager
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import frozendict
 
@@ -137,7 +137,7 @@ class AccountMove(models.Model):
         for rec in self:
             if rec.document_type_id and not rec.fiscal_document_id:
                 raise UserError(
-                    _(
+                    self.env._(
                         "You cannot set a document type when the move has no"
                         " Fiscal Document!"
                     )
@@ -189,7 +189,7 @@ class AccountMove(models.Model):
         self.ensure_one()
         if len(self.fiscal_document_ids) > 1:
             raise UserError(
-                _(
+                self.env._(
                     "More than 1 fiscal document!"
                     "You should open the fiscal view"
                     "and perform the action on each document!"
@@ -511,10 +511,11 @@ class AccountMove(models.Model):
                 and move.fiscal_document_id.cancel_event_id
             ):
                 raise UserError(
-                    _(
-                        "You can't set this document number: {} to draft "
-                        "because this document is cancelled in SEFAZ"
-                    ).format(move.document_number)
+                    self.env._(
+                        "You can't set this document number: %(doc_number)s to draft "
+                        "because this document is cancelled in SEFAZ",
+                        doc_number=move.document_number,
+                    )
                 )
             # Sync fiscal document state (this is idempotent)
             # Pass in_button_draft context to prevent document.py from
@@ -613,7 +614,7 @@ class AccountMove(models.Model):
             source_op = source_move.fiscal_operation_id
             if not source_op:
                 raise UserError(
-                    _("""Document without Fiscal Operation! \n Force one!""")
+                    self.env._("""Document without Fiscal Operation! \n Force one!""")
                 )
 
             if (
@@ -621,7 +622,9 @@ class AccountMove(models.Model):
                 and not source_op.return_fiscal_operation_id
             ):
                 raise UserError(
-                    _("""Document without Return Fiscal Operation! \n Force one!""")
+                    self.env._(
+                        """Document without Return Fiscal Operation! \n Force one!"""
+                    )
                 )
 
             record.fiscal_operation_id = (
@@ -652,7 +655,7 @@ class AccountMove(models.Model):
                     and not line_fiscal_op.return_fiscal_operation_id
                 ):
                     raise UserError(
-                        _(
+                        self.env._(
                             """Line without Return Fiscal Operation! \n
                             Please force one! \n%(name)s""",
                             name=line.name,
@@ -695,26 +698,26 @@ class AccountMove(models.Model):
         """
         for move in self:
             if move.state != "draft":
-                raise UserError(_("Cannot import in non draft Account Move!"))
+                raise UserError(self.env._("Cannot import in non draft Account Move!"))
             elif (
                 move.partner_id
                 and move.partner_id != move.fiscal_document_id.partner_id
             ):
-                raise UserError(_("Partner mismatch!"))
+                raise UserError(self.env._("Partner mismatch!"))
             elif (
                 MOVE_TO_OPERATION[move.move_type]
                 != move.fiscal_document_id.fiscal_operation_type
             ):
-                raise UserError(_("Fiscal Operation Type mismatch!"))
+                raise UserError(self.env._("Fiscal Operation Type mismatch!"))
             elif move.company_id != move.fiscal_document_id.company_id:
-                raise UserError(_("Company mismatch!"))
+                raise UserError(self.env._("Company mismatch!"))
 
             move_fiscal_lines = set(
                 move.invoice_line_ids.mapped("fiscal_document_line_id")
             )
             fiscal_doc_lines = set(move.fiscal_document_id.fiscal_line_ids)
             if move_fiscal_lines == fiscal_doc_lines:
-                raise UserError(_("No new Fiscal Document Line to import!"))
+                raise UserError(self.env._("No new Fiscal Document Line to import!"))
 
             self.import_fiscal_document(move.fiscal_document_id, move_id=move.id)
 
