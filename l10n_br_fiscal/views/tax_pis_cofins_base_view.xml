@@ -3,37 +3,30 @@
     <record id="tax_pis_cofins_base_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.pis.cofins.base.search</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins.base</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search string="PIS COFINS Base">
-                <field name="code" />
-                <field name="name" />
-            </search>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="tax_pis_cofins_base_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.pis.cofins.base.tree</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins.base</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="code" />
-                <field name="name" />
-            </tree>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="tax_pis_cofins_base_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.tax.pis.cofins.base.form</field>
         <field name="model">l10n_br_fiscal.tax.pis.cofins.base</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="PIS COFINS Base">
-                <sheet>
-                    <group>
-                        <field name="code" />
-                        <field name="name" />
-                    </group>
-                </sheet>
-            </form>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 </odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="data_abstract_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.data.abstract.search</field>
+        <field name="model">l10n_br_fiscal.data.abstract</field>
+        <field name="arch" type="xml">
+            <search string="Data Abstract">
+                <field name="code" />
+                <field name="name" />
+                <separator />
+                <group name="group_by" expand="0" string="Group By..." />
+            </search>
+        </field>
+    </record>
+
+    <record id="data_abstract_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.data.abstract.tree</field>
+        <field name="model">l10n_br_fiscal.data.abstract</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="date_start" />
+                <field name="date_end" />
+                <field name="active" widget="boolean_toggle" readonly="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="data_abstract_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.data.abstract.form</field>
+        <field name="model">l10n_br_fiscal.data.abstract</field>
+        <field name="arch" type="xml">
+            <form string="Data Abstract">
+                <sheet>
+                    <group name="group_code_name">
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="date_start" />
+                        <field name="date_end" />
+                        <field name="active" widget="boolean_toggle" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
