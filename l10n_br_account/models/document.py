@@ -6,7 +6,7 @@ from datetime import datetime, time
 
 from pytz import UTC, timezone
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -211,8 +211,10 @@ class FiscalDocument(models.Model):
         )
 
         if non_draft_documents:
-            UserError(
-                _("You cannot delete a fiscal document which is not in draft state!")
+            raise UserError(
+                self.env._(
+                    "You cannot delete a fiscal document which is not in draft state!"
+                )
             )
         return super().unlink()
 
@@ -293,7 +295,7 @@ class FiscalDocument(models.Model):
         return result
 
     def _document_deny(self):
-        msg = _(
+        msg = self.env._(
             "Canceled due to the denial of document %(document_number)s",
             document_number=self.document_number,
         )
