@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class DocumentImportWizard(models.TransientModel):
@@ -68,7 +68,7 @@ class DocumentImportWizard(models.TransientModel):
             if not self.first_imported_move_id:
                 # only one imported account move:
                 return {
-                    "name": _("Imported Invoice"),
+                    "name": self.env._("Imported Invoice"),
                     "type": "ir.actions.act_window",
                     "target": "current",
                     "views": [[False, "form"]],
@@ -84,7 +84,7 @@ class DocumentImportWizard(models.TransientModel):
                     ]
                 )
                 return {
-                    "name": _("Imported Invoices"),
+                    "name": self.env._("Imported Invoices"),
                     "type": "ir.actions.act_window",
                     "target": "current",
                     "views": [[False, "tree"], [False, "form"]],
@@ -112,7 +112,7 @@ class DocumentImportWizard(models.TransientModel):
 
         wizard._onchange_file()
         return {
-            "name": _("Adjust Importation"),
+            "name": self.env._("Adjust Importation"),
             "type": "ir.actions.act_window",
             "target": "new",
             "views": [[False, "form"]],
