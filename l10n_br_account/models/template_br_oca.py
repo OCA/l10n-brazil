@@ -18,6 +18,35 @@ class AccountChartTemplate(models.AbstractModel):
             self.load_fiscal_taxes([company])
         return result
 
+    def _get_demo_data_move(self, company=False):
+        """
+        Set the l10n_latam_document_type_id on demo invoices for
+        Brazilian companies.
+        """
+        move_data = super()._get_demo_data_move(company)
+        if company.account_fiscal_country_id.code == "BR":
+            # Find a default document type for Brazil
+            # Use 'all' internal type as it matches all move types
+            latam_doc_type = self.env["l10n_latam.document.type"].search(
+                [
+                    ("country_id", "=", company.account_fiscal_country_id.id),
+                    ("internal_type", "=", "all"),
+                    ("active", "=", True),
+                ],
+                limit=1,
+                order="sequence,id",
+            )
+            if latam_doc_type:
+                for move in move_data.values():
+                    if move.get("move_type") in (
+                        "out_invoice",
+                        "out_refund",
+                        "in_invoice",
+                        "in_refund",
+                    ):
+                        move["l10n_latam_document_type_id"] = latam_doc_type.id
+        return move_data
+
     def load_fiscal_taxes(self, companies=None):
         """
         Create missing account.tax for Brazil.
