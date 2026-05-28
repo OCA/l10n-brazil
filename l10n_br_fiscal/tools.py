@@ -97,12 +97,11 @@ def set_journal_in_fiscal_operation(cr, company, values):
     :param company: Company Object
     :param values: Dict with Journal and Fiscal Operation
     """
-    _logger.info(f"Create or Inform Journal in Fiscal Operation for {company.name} ...")
+    _logger.info(f"Setting Journal in Fiscal Operation for {company.name}...")
     env = api.Environment(cr, SUPERUSER_ID, {})
     for value in values:
         fiscal_operation = value.get("fiscal_operation")
         journal = value.get("journal")
         operation = env.ref(fiscal_operation)
         journal_record = env.ref(journal)
-        # Set the journal_id for the specific company using company_dependent field
         operation.with_company(company).journal_id = journal_record
