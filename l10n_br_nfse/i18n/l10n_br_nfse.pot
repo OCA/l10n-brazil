@@ -159,11 +159,15 @@ msgid "City Settings"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__civil_construction_art
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__civil_construction_art
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__civil_construction_art
 msgid "Civil Construction ART"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__civil_construction_code
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__civil_construction_code
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__civil_construction_code
 msgid "Civil Construction Code"
 msgstr ""
@@ -244,6 +248,8 @@ msgid "E-mail:"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__edoc_error_message
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__edoc_error_message
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__edoc_error_message
 msgid "Edoc Error Message"
 msgstr ""
@@ -269,6 +275,7 @@ msgid "Exigibilidade suspensa por procedimento administrativo"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move_line__fiscal_deductions_value
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__fiscal_deductions_value
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_product_product__fiscal_deductions_value
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__fiscal_deductions_value
@@ -367,6 +374,8 @@ msgid "NFSe City Logo"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__nfse_environment
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__nfse_environment
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__nfse_environment
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__nfse_environment
 msgid "NFSe Environment"
@@ -413,6 +422,8 @@ msgid "Número do RPS"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__operation_nature
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__operation_nature
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__operation_nature
 msgid "Operation Nature"
 msgstr ""
@@ -423,6 +434,7 @@ msgid "Opção Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move_line__other_retentions_value
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__other_retentions_value
 msgid "Other Retentions"
 msgstr ""
@@ -474,6 +486,8 @@ msgid "Regime esp. Tributação"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__rps_type
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__rps_type
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_type
 msgid "Rps Type"
 msgstr ""
@@ -484,6 +498,8 @@ msgid "Sociedade de Profissionais"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__taxation_special_regime
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__taxation_special_regime
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__taxation_special_regime
 msgid "Taxation Special Regime"
 msgstr ""
@@ -519,6 +535,8 @@ msgid "Valor dos Serviços R$"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__verify_code
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__verify_code
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__verify_code
 msgid "Verify Code"
 msgstr ""
