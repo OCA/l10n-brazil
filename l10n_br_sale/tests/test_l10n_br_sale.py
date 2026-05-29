@@ -12,6 +12,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES_ALL,
 )
 
+from .tools import load_sale_fixture_files
+
 
 class L10nBrSaleBaseTest:
     __test__ = False
@@ -26,6 +28,13 @@ class L10nBrSaleBaseTest:
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.main_company = cls.env.ref("base.main_company")
+
+        # Load demo data as fixtures if not already present
+        if not cls.env.ref(
+            "l10n_br_sale.main_so_only_products", raise_if_not_found=False
+        ):
+            load_sale_fixture_files(cls.env)
+
         cls.company = cls.env.ref(cls.company_ref)
 
         # Ensure warehouse exists if stock module is installed
