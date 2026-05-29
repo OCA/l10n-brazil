@@ -130,6 +130,8 @@ msgid "Close"
 msgstr ""
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_account_bank_statement_line__close_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_account_move__close_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_document__close_id
 msgid "Close ID"
 msgstr ""
