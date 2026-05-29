@@ -1,0 +1,122 @@
+# Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
+import json
+
+from erpbrasil.base import misc
+from lxml import etree
+
+from odoo import api, fields, models
+from odoo.exceptions import AccessError
+
+
+class DataAbstract(models.AbstractModel):
+    """
+    Abstract base model for fiscal master data in Brazilian localization.
+
+    This model provides common structure and functionality for fiscal
+    data entities (NCM, CFOP, CST, etc.). It includes:
+    - Standard fields: `code`, `name`, `active`, and a computed
+      `code_unmasked` (for searching codes without punctuation).
+    - Default ordering by `code`.
+    - Enhanced search: Modifies search views and `_name_search`
+      to allow searching by `code`, `code_unmasked`, and `name`
+      simultaneously.
+    - Standardized display name format in `display_name`
+      (`<code> - <name>`).
+    - Permission control for archiving/unarchanging, restricted
+      to users in 'l10n_br_fiscal.group_manager' group.
+    """
+
+    _name = "l10n_br_fiscal.data.abstract"
+    _description = "Fiscal Data Abstract"
+    _order = "code"
+
+    code = fields.Char(required=True, index=True)
+
+    name = fields.Text(required=True, index=True)
+
+    code_unmasked = fields.Char(
+        string="Unmasked Code", compute="_compute_code_unmasked", store=True, index=True
+    )
+
+    active = fields.Boolean(default=True)
+
+    def action_archive(self):
+        if not self.env.user.has_group("l10n_br_fiscal.group_manager"):
+            raise AccessError(
+                self.env._("You don't have permission to archive records.")
+            )
+        return super().action_archive()
+
+    def action_unarchive(self):
+        if not self.env.user.has_group("l10n_br_fiscal.group_manager"):
+            raise AccessError(
+                self.env._("You don't have permission to unarchive records.")
+            )
+        return super().action_unarchive()
+
+    @api.depends("code")
+    def _compute_code_unmasked(self):
+        for r in self:
+            # TODO mask code and unmasck
+            r.code_unmasked = misc.punctuation_rm(r.code)
+
+    @api.model
+    def fields_view_get(
+        self, view_id=None, view_type="form", toolbar=False, submenu=False
+    ):
+        """
+        Modify search view architecture to enhance 'code' field filtering.
+
+        Intercept the search view definition, altering `filter_domain`
+        for the 'code' field. This lets users search by raw 'code',
+        'code_unmasked' (code without punctuation), or 'name' of the
+        record when typing into the 'code' filter in the search panel.
+        """
+
+        model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+
+        if view_type == "search":
+            doc = etree.XML(model_view["arch"])
+            for node in doc.xpath("//field[@name='code']"):
+                modifiers = json.loads(node.get("modifiers", "{}"))
+                modifiers["filter_domain"] = (
+                    "['|', '|', ('code', 'ilike', self), "
+                    "('code_unmasked', 'ilike', self + '%'),"
+                    "('name', 'ilike', self + '%')]"
+                )
+                node.set("modifiers", json.dumps(modifiers))
+            model_view["arch"] = etree.tostring(doc)
+
+        return model_view
+
+    @api.model
+    def _search_display_name(self, operator, value):
+        name = value or ""
+        if operator == "ilike" and not (name or "").strip():
+            return []
+        elif operator in ("ilike", "like", "=", "=like", "=ilike"):
+            return [
+                "|",
+                "|",
+                ("name", operator, name),
+                ("code", operator, name),
+                ("code_unmasked", "ilike", name + "%"),
+            ]
+
+    @api.depends("name", "code")
+    def _compute_display_name(self):
+        def truncate(value, size=64):
+            value = value or ""
+            if len(value) > size:
+                return f"{value[: size - 3]}..."
+            return value
+
+        for record in self:
+            code = record.code or ""
+            name = truncate(record.name)
+            if self.env.context.get("show_code_only"):
+                record.display_name = code
+            else:
+                record.display_name = f"{code} - {name}" if name else code

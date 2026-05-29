@@ -54,11 +54,11 @@ class TestMoveEdition(TransactionCase):
             {
                 "name": "Because I am accountman!",
                 "login": "accountman",
-                "password": "accountman",
-                "groups_id": [
+                "password": "***",
+                "group_ids": [
                     # we purposely don't give Fiscal access rights now to ensure
                     # non fiscal operations are still allowed
-                    Command.set(cls.env.user.groups_id.ids),
+                    Command.set(cls.env.user.group_ids.ids),
                     Command.link(cls.env.ref("account.group_account_manager").id),
                     Command.link(cls.env.ref("account.group_account_user").id),
                 ],
