@@ -117,8 +117,9 @@ class DocumentNfe(models.Model):
         self.ensure_one()
         self.move_ids.due_line_ids.mapped("date_maturity")
         moves_terms = self.move_ids.due_line_ids.filtered(
-            lambda move_line: move_line.date_maturity
-            and move_line.date_maturity > move_line.date
+            lambda move_line: (
+                move_line.date_maturity and move_line.date_maturity > move_line.date
+            )
         )
         return True if len(moves_terms) > 0 else False
 

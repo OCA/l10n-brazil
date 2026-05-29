@@ -10,7 +10,7 @@
     "summary": "Integration between l10n_br_account and l10n_br_nfe",
     "category": "Localisation",
     "license": "AGPL-3",
-    "author": "Engenere," "Akretion," "Odoo Community Association (OCA)",
+    "author": "Engenere,Akretion,Odoo Community Association (OCA)",
     "maintainers": ["antoniospneto", "felipemotter", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "17.0.1.0.0",
