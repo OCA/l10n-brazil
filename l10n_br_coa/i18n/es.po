@@ -34,26 +34,31 @@ msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_cofins
 msgid "COFINS"
 msgstr "COFINES"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofinsst
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_cofinsst
 msgid "COFINS ST"
 msgstr "CALLE COFINS"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins_wh
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_cofins_wh
 msgid "COFINS WH"
 msgstr "COFINS WH"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_csll
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_csll
 msgid "CSLL"
 msgstr "CSLL"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_csll_wh
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_csll_wh
 msgid "CSLL WH"
 msgstr "CSLL WH"
 
@@ -71,96 +76,115 @@ msgstr "¿Impuesto deducible?"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icms
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_icms
 msgid "ICMS"
 msgstr "ICMS"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsfcp
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_icmsfcp
 msgid "ICMS FCP"
 msgstr "ICMS FCP"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsfcp_st
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_icmsfcp_st
 msgid "ICMS FCP ST"
 msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icmssn
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_icmssn
 msgid "ICMS SN"
 msgstr "ICMS SN"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsst
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_icmsst
 msgid "ICMS ST"
 msgstr "ICMS ST"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_ii
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_ii
 msgid "II"
 msgstr "II"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_inss
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_inss
 msgid "INSS"
 msgstr "INSS"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_inss_wh
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_inss_wh
 msgid "INSS WH"
 msgstr "INSS WH"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_ipi
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_ipi
 msgid "IPI"
 msgstr "IPI"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_ir
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_ir
 msgid "IR"
 msgstr "IR"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_irpj
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_irpj
 msgid "IRPJ"
 msgstr "IRPJ"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_irpj_wh
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_irpj_wh
 msgid "IRPJ WH"
 msgstr "IRPJ WH"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_issqn
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_issqn
 msgid "ISSQN"
 msgstr "ISSQN"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_issqn_wh
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_issqn_wh
 msgid "ISSQN WH"
 msgstr "ISSQN WH"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_others
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_others
 msgid "Others"
 msgstr ""
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pis
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_pis
 msgid "PIS"
 msgstr "PIS"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pisst
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_pisst
 msgid "PIS ST"
 msgstr "PIS ST"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pis_wh
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_pis_wh
 msgid "PIS WH"
 msgstr "PIS WH"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_simples
+#: model:account.tax.group,name:l10n_br_coa.1_tax_group_simples
 msgid "Simples Nacional"
 msgstr "Nacionales Simples"
 
