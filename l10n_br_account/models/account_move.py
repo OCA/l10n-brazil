@@ -58,6 +58,8 @@ class AccountMove(models.Model):
         ondelete="cascade",
         store=True,
         readonly=False,
+        delegate=True,
+        required=True,
     )
 
     fiscal_document_ids = fields.One2many(

@@ -5,6 +5,19 @@
 def post_init_hook(env):
     """Allow to use demo main_company for Brazilian fiscal operations"""
 
+    # Drop NOT NULL constraints on _inherits fields
+    # In Odoo 19.0, _check_inherits requires required=True on delegate fields
+    # but we don't want the database constraint (not all records have fiscal documents)
+    cr = env.cr
+    cr.execute("""
+        ALTER TABLE account_move
+        ALTER COLUMN fiscal_document_id DROP NOT NULL
+    """)
+    cr.execute("""
+        ALTER TABLE account_move_line
+        ALTER COLUMN fiscal_document_line_id DROP NOT NULL
+    """)
+
     br_demo_companies = []
     demo_simple = env.ref(
         "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False

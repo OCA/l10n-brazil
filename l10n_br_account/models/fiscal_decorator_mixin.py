@@ -44,6 +44,23 @@ class FiscalDecoratorMixin(models.AbstractModel):
             field.required = False  # unset the required = True assignement
         return res
 
+    @api.model
+    def _register_hook(self):
+        """Override to drop NOT NULL constraints on _inherits fields."""
+        res = super()._register_hook()
+        if self._fiscal_decorator_model is not None:
+            field_name = self._inherits[self._fiscal_decorator_model]
+            field = self._fields.get(field_name)
+            if field:
+                _logger.info(
+                    "_register_hook: Setting %s.%s.required = False (was %s)",
+                    self._name,
+                    field_name,
+                    field.required,
+                )
+                field.required = False
+        return res
+
     @api.model_create_multi
     def create(self, vals_list):
         return super(

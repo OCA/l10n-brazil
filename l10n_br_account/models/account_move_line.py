@@ -32,6 +32,8 @@ class AccountMoveLine(models.Model):
         string="Fiscal Document Line",
         copy=False,
         ondelete="cascade",
+        delegate=True,
+        required=True,
     )
 
     document_type_id = fields.Many2one(
