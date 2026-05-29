@@ -125,7 +125,6 @@ msgstr "Documentos CTE"
 #. module: l10n_br_fiscal_closing
 #. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
-#, python-format
 msgid "Check write permissions in your system temp folder"
 msgstr "Verifique as permissões de gravação na pasta temporária do sistema"
 
@@ -135,6 +134,8 @@ msgid "Close"
 msgstr "Fechar"
 
 #. module: l10n_br_fiscal_closing
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_account_bank_statement_line__close_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_account_move__close_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_document__close_id
 msgid "Close ID"
 msgstr "ID do Fechamento Fiscal"
@@ -177,7 +178,6 @@ msgstr "Rascunho"
 #. module: l10n_br_fiscal_closing
 #. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
-#, python-format
 msgid "Error!"
 msgstr "Erro!"
 
@@ -246,7 +246,6 @@ msgstr "Tem mensagem"
 #. module: l10n_br_fiscal_closing
 #. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
-#, python-format
 msgid "I/O Error"
 msgstr "Erro de I/O"
 
@@ -311,11 +310,6 @@ msgid "Is Follower"
 msgstr "É Seguidor"
 
 #. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__write_uid
 msgid "Last Updated by"
 msgstr "Última Atualização por"
@@ -324,11 +318,6 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__write_date
 msgid "Last Updated on"
 msgstr "Última Atualização em"
-
-#. module: l10n_br_fiscal_closing
-#: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Anexo Principal"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_error
@@ -463,7 +452,6 @@ msgstr "Documentos RL"
 #. module: l10n_br_fiscal_closing
 #. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
-#, python-format
 msgid ""
 "Replication failed: document attachments [id = {}] is not present in the "
 "database."
@@ -528,6 +516,12 @@ msgstr "Ano"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__zip_file
 msgid "Zip File"
 msgstr "Arquivo ZIP"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
 
 #~ msgid "Followers (Channels)"
 #~ msgstr "Seguidores (Canais)"
