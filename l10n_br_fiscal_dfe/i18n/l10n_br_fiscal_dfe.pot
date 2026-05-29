@@ -88,6 +88,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_action
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_account_bank_statement_line__dfe_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_account_move__dfe_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_document__dfe_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_search
