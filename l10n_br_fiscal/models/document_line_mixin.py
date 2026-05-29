@@ -449,7 +449,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     "ibs_base_type": TAX_BASE_TYPE_PERCENT,
                 }
             )
-            if line.fiscal_operation_line_id:
+            if line.fiscal_operation_line_id and line.company_id:
                 compute_result = line.fiscal_tax_ids.compute_taxes(
                     company=line.company_id,
                     partner=line._get_fiscal_partner(),
