@@ -1,0 +1,5 @@
+# Dependencies for l10n_br_account 19.0 migration testing
+# l10n_br_base and l10n_br_coa are already migrated in OCA/19.0
+# l10n_br_fiscal uses akretion fork with additional fixes
+
+odoo-addon-l10n_br_fiscal @ git+https://github.com/akretion/l10n-brazil.git@19.0-mig-l10n_br_fiscal#subdirectory=l10n_br_fiscal
