@@ -15,7 +15,7 @@
         <field name="priority">99</field>
         <field name="inherit_id" ref="account.view_partner_property_form" />
         <field name="arch" type="xml">
-            <group position="after" name="banks">
+            <group name="general" position="inside">
                 <div />
                 <group
                     string="Brazilian Instant Payment Keys (PIX)"

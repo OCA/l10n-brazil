@@ -263,7 +263,6 @@ class FiscalDocument(models.Model):
             return
         return super()._update_cache(values, validate)
 
-    @api.returns("mail.message", lambda value: value.id)
     def message_post(self, **kwargs):
         """
         broadcast message_post to all related account.move so

@@ -32,7 +32,7 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
         if hasattr(cls, "tax_purchase_b") and cls.tax_purchase_b.exists():
             cls.tax_purchase_b.unlink()
 
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_fiscal.group_manager")
 
         cls.product_a.write(
             {
