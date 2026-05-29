@@ -13,12 +13,21 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES_ALL,
 )
 
+from .tools import load_purchase_fixture_files
+
 
 class L10nBrPurchaseBaseTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
+        # Load demo data as fixtures if not already present
+        if not cls.env.ref(
+            "l10n_br_purchase.lp_po_only_products", raise_if_not_found=False
+        ):
+            load_purchase_fixture_files(cls.env)
+
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.po_products = cls.env.ref("l10n_br_purchase.lp_po_only_products")
         # cls.po_services = cls.env.ref(

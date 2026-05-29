@@ -9,11 +9,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'base.main_company\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="main_pl_only_products_1_2" model="purchase.order.line">
@@ -59,11 +54,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'base.main_company\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="main_company-purchase_line_2_1" model="purchase.order.line">
@@ -109,11 +99,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'base.main_company\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="main_company-purchase_line_3_1" model="purchase.order.line">
@@ -161,11 +146,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'base.main_company\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="main_company-purchase_line_4_1" model="purchase.order.line">
@@ -209,11 +189,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'base.main_company\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="main_company-purchase_line_5_1" model="purchase.order.line">
@@ -255,11 +230,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'l10n_br_base.empresa_lucro_presumido\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="lp_pl_only_products_1_2" model="purchase.order.line">
@@ -301,11 +271,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'l10n_br_base.empresa_simples_nacional\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="sn_pl_only_products_1_2" model="purchase.order.line">
@@ -347,11 +312,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'base.main_company\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="main_pl_only_service_1_1" model="purchase.order.line">
@@ -380,11 +340,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field
-            name="picking_type_id"
-            model="stock.picking.type"
-            eval="obj().env.get(\'stock.picking.type\') and obj().env[\'stock.picking.type\'].search([(\'code\', \'=\', \'incoming\'), (\'company_id\', \'=\', ref(\'base.main_company\'))], limit=1).id or False"
-        />
     </record>
 
     <record id="main_pl_service_product_1_1" model="purchase.order.line">
