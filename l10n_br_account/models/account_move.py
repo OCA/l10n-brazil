@@ -252,7 +252,7 @@ class AccountMove(models.Model):
         "fiscal_line_ids.fiscal_amount_tax",
     )
     def _compute_amount(self):
-        if "force_fiscal_amount_recompute" in self._context:
+        if "force_fiscal_amount_recompute" in self.env.context:
             for move in self.filtered(lambda m: m.fiscal_operation_id):
                 # this is a ugly hack required for importing composite
                 # fiscal documents for instance. It should be used

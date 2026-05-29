@@ -37,6 +37,9 @@
     "demo": [
         "demo/res_users_demo.xml",
     ],
+    "oca_data_manual": [
+        "report/account_invoice_report_view.xml",
+    ],
     "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,

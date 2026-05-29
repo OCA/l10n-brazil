@@ -205,7 +205,8 @@ class FiscalDocument(models.Model):
         for record in self:
             record.move_count = len(record.move_ids)
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_not_draft(self):
         non_draft_documents = self.filtered(
             lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
         )
@@ -216,7 +217,6 @@ class FiscalDocument(models.Model):
                     "You cannot delete a fiscal document which is not in draft state!"
                 )
             )
-        return super().unlink()
 
     @api.model
     def _sync_shadow_fields(self, vals):
@@ -241,7 +241,7 @@ class FiscalDocument(models.Model):
         for vals in vals_list:
             self._sync_shadow_fields(vals)
 
-        if self._context.get("create_from_account"):
+        if self.env.context.get("create_from_account"):
             filtered_vals_list = []
             for values in vals_list:
                 if values.get("document_type_id") or values.get("document_serie_id"):
@@ -304,7 +304,7 @@ class FiscalDocument(models.Model):
 
     def action_document_confirm(self):
         result = super().action_document_confirm()
-        if not self._context.get("skip_post"):
+        if not self.env.context.get("skip_post"):
             move_ids = self.move_ids.filtered(lambda move: move.state == "draft")
             move_ids._post()
         return result
