@@ -1,0 +1,407 @@
+# Copyright 2023 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+import logging
+
+from odoo import fields
+from odoo.tests import Form
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
+_logger = logging.getLogger(__name__)
+
+
+class AccountMoveBRCommon(AccountTestInvoicingCommon):
+    """
+    This is the base test suite for l10n_br_account with proper Brazilian
+    Charts of Accounts and Brazilian data.
+    """
+
+    chart_template = "generic_coa"
+
+    @classmethod
+    def setUpClass(cls):
+        # Ensure generic_coa is loaded for test companies before parent setup
+        # This is needed for Odoo 18+ where chart_template_ref param was removed
+        super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
+        # Remove default Odoo demo taxes if they conflict or are not needed
+        if hasattr(cls, "tax_sale_b") and cls.tax_sale_b.exists():
+            cls.tax_sale_b.unlink()
+        if hasattr(cls, "tax_purchase_b") and cls.tax_purchase_b.exists():
+            cls.tax_purchase_b.unlink()
+
+        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
+
+        cls.product_a.write(
+            {
+                "default_code": "prod_a",
+                "standard_price": 1000.0,
+                "ncm_id": cls.env.ref("l10n_br_fiscal.ncm_94033000").id,
+                "fiscal_genre_id": cls.env.ref("l10n_br_fiscal.product_genre_94").id,
+                "fiscal_type": "00",
+                "icms_origin": "5",
+                "taxes_id": False,
+                "tax_icms_or_issqn": "icms",
+                "uoe_id": cls.env.ref("uom.product_uom_kgm").id,
+            }
+        )
+        # Odoo 18 removed ir.property model - company-dependent fields
+        # are handled differently. The product already has fiscal_type and
+        # icms_origin set above, so we skip creating ir.property records.
+        # cls.fiscal_type_product_product_a = ... (removed for Odoo 18)
+        # cls.fiscal_origin_product_product_a = ... (removed for Odoo 18)
+
+        cls.product_b.write(
+            {
+                "default_code": "prod_b",
+                "lst_price": 1000.0,
+                "ncm_id": cls.env.ref("l10n_br_fiscal.ncm_94013090").id,
+                "fiscal_genre_id": cls.env.ref("l10n_br_fiscal.product_genre_94").id,
+                "fiscal_type": "00",
+                "icms_origin": "0",
+                "taxes_id": False,
+                "tax_icms_or_issqn": "icms",
+                "uoe_id": cls.env.ref("uom.product_uom_kgm").id,
+            }
+        )
+        # Odoo 18 removed ir.property model - company-dependent fields
+        # are handled differently. The product already has fiscal_type and
+        # icms_origin set above, so we skip creating ir.property records.
+        # cls.fiscal_type_product_product_b = ... (removed for Odoo 18)
+        # cls.fiscal_origin_product_product_b = ... (removed for Odoo 18)
+
+        cls.partner_a.write(
+            {
+                "vat": "49.190.159/0001-05",
+                "is_company": "1",
+                "ind_ie_dest": "1",
+                "tax_framework": "3",
+                "legal_name": "partner A",
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_rj").id,
+                "district": "Centro",
+                "zip": "01311-915",
+                "fiscal_profile_id": cls.env.ref(
+                    "l10n_br_fiscal.partner_fiscal_profile_snc"
+                ).id,
+            }
+        )
+        cls.partner_b.write(
+            {
+                "vat": "42.591.651/0001-43",
+                "is_company": "0",
+                "legal_name": "partner B",
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_ba").id,
+                "district": "Na PQP",
+                "zip": "01311-942",
+                "fiscal_profile_id": cls.env.ref(
+                    "l10n_br_fiscal.partner_fiscal_profile_cnt"
+                ).id,
+            }
+        )
+
+        cls.partner_c = cls.partner_a.copy(
+            {
+                "name": "partner_c",
+                "vat": "67.405.936/0001-73",
+                "legal_name": "partner C",
+                "fiscal_profile_id": cls.env.ref(
+                    "l10n_br_fiscal.partner_fiscal_profile_ncn"
+                ).id,
+            }
+        )
+
+        cls.fo_sale_with_icms_reduction = cls.env[
+            "l10n_br_fiscal.operation.line"
+        ].create(
+            {
+                "name": "Venda com ICMS 12 e Redução de 26,57",
+                "ind_ie_dest": "1",
+                "cfop_internal_id": cls.env.ref("l10n_br_fiscal.cfop_5101").id,
+                "cfop_external_id": cls.env.ref("l10n_br_fiscal.cfop_6101").id,
+                "cfop_export_id": cls.env.ref("l10n_br_fiscal.cfop_7101").id,
+                "state": "approved",
+                "product_type": "04",
+                "fiscal_operation_id": cls.env.ref("l10n_br_fiscal.fo_venda").id,
+            }
+        )
+
+    @classmethod
+    def setup_independent_company(cls, **kwargs):
+        """Override to create Brazilian-configured company for tests.
+
+        In Odoo 18+, this is called by BaseCommon.setUpClass to create
+        the independent company. We override it to apply Brazilian fiscal
+        configuration based on the test class needs.
+        """
+        # Get the company name from kwargs or use default
+        company_name = kwargs.get("name", "company_1_data")
+
+        # Apply Brazilian configuration based on company name
+        if "Lucro Presumido" in company_name:
+            kwargs.update(
+                {
+                    "tax_framework": "3",
+                    "profit_calculation": "presumed",
+                    "ripi": True,
+                    "piscofins_id": cls.env.ref(
+                        "l10n_br_fiscal.tax_pis_cofins_columativo"
+                    ).id,
+                    "icms_regulation_id": cls.env.ref(
+                        "l10n_br_fiscal.tax_icms_regulation"
+                    ).id,
+                    "country_id": cls.env.ref("base.br").id,
+                    "currency_id": cls.env.ref("base.BRL").id,
+                    "is_industry": True,
+                    "cnae_main_id": cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
+                    "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+                    "vat": "13.339.532/0001-09",
+                    "state_id": cls.env.ref("base.state_br_sp"),
+                }
+            )
+        elif "Simples Nacional" in company_name:
+            kwargs.update(
+                {
+                    "tax_framework": "1",
+                    "coefficient_r": False,
+                    "ripi": True,
+                    "piscofins_id": cls.env.ref(
+                        "l10n_br_fiscal.tax_pis_cofins_simples_nacional"
+                    ).id,
+                    "tax_ipi_id": cls.env.ref("l10n_br_fiscal.tax_ipi_outros").id,
+                    "tax_icms_id": cls.env.ref(
+                        "l10n_br_fiscal.tax_icms_sn_com_credito"
+                    ).id,
+                    "annual_revenue": 815000.0,
+                    "country_id": cls.env.ref("base.br").id,
+                    "currency_id": cls.env.ref("base.BRL").id,
+                    "is_industry": True,
+                    "cnae_main_id": cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
+                    "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+                    "vat": "14.572.457/0001-85",
+                    "state_id": cls.env.ref("base.state_br_sp"),
+                }
+            )
+        else:
+            # Default Brazilian configuration
+            kwargs.update(
+                {
+                    "country_id": cls.env.ref("base.br").id,
+                    "currency_id": cls.env.ref("base.BRL").id,
+                    "cnae_main_id": cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
+                    "vat": "14.572.457/0001-85",
+                    "state_id": cls.env.ref("base.state_br_sp"),
+                }
+            )
+
+        # Call parent to create company with chart template
+        company = super().setup_independent_company(**kwargs)
+
+        # Load fiscal taxes for the company
+        cls.env["account.chart.template"].load_fiscal_taxes(companies=[company])
+
+        return company
+
+    @classmethod
+    def configure_normal_company_taxes(cls):
+        # Tax configuration for normal company
+        tax_def_model = cls.env["l10n_br_fiscal.tax.definition"]
+        doc_serie_model = cls.env["l10n_br_fiscal.document.serie"]
+        cls.pis_tax_definition_empresa_lc = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_pis").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_pis_0_65").id,
+                "cst_id": cls.env.ref("l10n_br_fiscal.cst_pis_01").id,
+                "state": "approved",
+            }
+        )
+
+        cls.cofins_tax_definition_empresa_lc = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_cofins").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_cofins_3").id,
+                "cst_id": cls.env.ref("l10n_br_fiscal.cst_cofins_01").id,
+                "state": "approved",
+            }
+        )
+
+        cls.icms_tax_definition_empresa_lc_icms_reduction = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_icms").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_icms_12_red_26_57").id,
+                "cst_id": cls.env.ref("l10n_br_fiscal.cst_icms_20").id,
+                "state": "approved",
+                "fiscal_operation_line_id": cls.fo_sale_with_icms_reduction.id,
+            }
+        )
+
+        # Tax Definition for PIS and COFINS Withholding
+        cls.pis_wh_tax_definition_empresa_lc = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_pis_wh").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_pis_wh_0_65").id,
+                "state": "expired",
+            }
+        )
+
+        cls.cofins_wh_tax_definition_empresa_lc = tax_def_model.create(
+            {
+                "company_id": cls.company_data["company"].id,
+                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_cofins_wh").id,
+                "is_taxed": True,
+                "is_debit_credit": True,
+                "custom_tax": True,
+                "tax_id": cls.env.ref("l10n_br_fiscal.tax_cofins_wh_3").id,
+                "state": "expired",
+            }
+        )
+
+        cls.empresa_lc_document_55_serie_1 = doc_serie_model.create(
+            {
+                "code": "1",
+                "name": "Série 1",
+                "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
+                "company_id": cls.company_data["company"].id,
+                "active": True,
+            }
+        )
+
+    @classmethod
+    def init_invoice(
+        cls,
+        move_type,
+        partner=None,
+        invoice_date=None,
+        post=False,
+        products=None,
+        amounts=None,
+        taxes=None,
+        currency=None,
+        document_type=None,
+        document_serie_id=None,
+        fiscal_operation=None,
+        fiscal_operation_lines=None,
+        document_serie=None,
+        document_number=None,
+    ):
+        """
+        We could not override the super one because we need to inject extra BR fiscal
+        fields.
+        """
+        products = [] if products is None else products
+        amounts = [] if amounts is None else amounts
+        move_form = Form(
+            cls.env["account.move"].with_context(
+                default_move_type=move_type,
+                account_predictive_bills_disable_prediction=True,
+            )
+        )
+        move_form.invoice_date = invoice_date or fields.Date.from_string("2019-01-01")
+        #        move_form.date = move_form.invoice_date
+        move_form.partner_id = partner or cls.partner_a
+        move_form.currency_id = currency if currency else cls.company_data["currency"]
+
+        # extra BR fiscal params:
+        move_form.document_type_id = document_type
+        if document_serie_id is not None:
+            move_form.document_serie_id = document_serie_id
+        move_form.fiscal_operation_id = fiscal_operation
+        if document_number is not None:
+            move_form.document_number = document_number
+        if document_serie is not None:
+            move_form.document_serie = document_serie
+
+        # Ensure l10n_latam_document_type_id is set if using documents
+        if (
+            "l10n_latam.document.type" in cls.env
+            and move_form.l10n_latam_use_documents
+            and not move_form.l10n_latam_document_type_id
+        ):
+            if document_type:
+                # Map fiscal document type to l10n_latam document type
+                latam_doc_type = "l10n_latam.document.type" in cls.env and cls.env[
+                    "l10n_latam.document.type"
+                ].search(
+                    [
+                        ("code", "=", document_type.code),
+                        ("country_id", "=", cls.env.ref("base.br").id),
+                    ],
+                    limit=1,
+                )
+                if latam_doc_type:
+                    move_form.l10n_latam_document_type_id = latam_doc_type
+
+        for index, product in enumerate(products):
+            with move_form.invoice_line_ids.new() as line_form:
+                line_form.product_id = product
+
+                # extra BR fiscal params:
+                line_form.fiscal_operation_line_id = fiscal_operation_lines[index]
+
+                if taxes:
+                    line_form.tax_ids.clear()
+                    line_form.tax_ids.add(taxes)
+
+        for amount in amounts:
+            with move_form.invoice_line_ids.new() as line_form:
+                line_form.name = "test line"
+                # We use account_predictive_bills_disable_prediction context key so that
+                # this doesn't trigger prediction in case enterprise
+                # (hence account_predictive_bills) is installed
+                line_form.price_unit = amount
+                if taxes:
+                    line_form.tax_ids.clear()
+                    for tax in taxes:
+                        line_form.tax_ids.add(tax)
+
+        rslt = move_form.save()
+
+        if post:
+            rslt.action_post()
+
+        return rslt
+
+    @classmethod
+    def sort_lines(cls, lines):
+        """
+        Utility method to help debugging
+        """
+        return lines.sorted(
+            lambda line: (
+                line.exclude_from_invoice_tab,
+                not bool(line.tax_line_id),
+                line.name or "",
+                line.balance,
+            )
+        )
+
+    @classmethod
+    def line_log(cls, lines, index):
+        """
+        Utility method to help debugging
+        """
+        lines = cls.sort_lines(lines.sorted())
+        log = (
+            f"LINE {index} {lines[index].name} {lines[index].debit}"
+            f" {lines[index].credit} {lines[index].account_id.name}"
+        )
+        return log

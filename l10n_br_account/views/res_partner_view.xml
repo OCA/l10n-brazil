@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2020-TODAY Akretion (http://www.akretion.com/)
+  @author: Renato Lima <renato.lima@akretion.com.br>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <!--
+        Partners Extension
+    -->
+
+    <record id="l10n_br_account_partner_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <group position="after" name="banks">
+                <div />
+                <group
+                    string="Brazilian Instant Payment Keys (PIX)"
+                    name="pix_keys"
+                    groups="account.group_account_invoice,account.group_account_readonly"
+                    invisible="not show_l10n_br"
+                >
+                    <field name="show_l10n_br" invisible="1" />
+                    <field name="pix_key_ids" nolabel="1" colspan="2">
+                        <list editable="bottom">
+                            <field name="partner_id" column_invisible="True" />
+                            <field name="sequence" widget="handle" />
+                            <field name="key_type" />
+                            <field name="key" />
+                            <field name="partner_bank_id" />
+                        </list>
+                    </field>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

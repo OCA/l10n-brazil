@@ -1,0 +1,351 @@
+# Copyright (C) 2009 - TODAY Renato Lima - Akretion
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
+import logging
+from datetime import datetime, time
+
+from pytz import UTC, timezone
+
+from odoo import api, fields, models
+from odoo.exceptions import UserError
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_ISSUER_PARTNER,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_NFE,
+    SITUACAO_EDOC_EM_DIGITACAO,
+)
+
+_logger = logging.getLogger(__name__)
+
+
+class FiscalDocument(models.Model):
+    _inherit = "l10n_br_fiscal.document"
+
+    move_ids = fields.One2many(
+        comodel_name="account.move",
+        inverse_name="fiscal_document_id",
+        string="Invoices",
+    )
+
+    move_count = fields.Integer(
+        string="Invoice count",
+        compute="_compute_move_count",
+        readonly=True,
+    )
+
+    # -------------------------------------------------------------------------
+    # PROXY FIELDS FOR _inherits SHADOWED NAMES
+    # -------------------------------------------------------------------------
+    # When using _inherits (delegation), fields with identical names on both
+    # the child and delegated model may not synchronize correctly. To avoid
+    # ORM sync issues, we define proxy_* fields as plain stored fields. Then
+    # the actual fields point to the proxies via related, ensuring
+    # consistency and editability. Same pattern used in document_line.py.
+
+    proxy_company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company (proxy)",
+        help="Technical Field.",
+        default=lambda self: self.env.company,
+    )
+    proxy_partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Partner (proxy)",
+        help="Technical Field.",
+    )
+    proxy_partner_shipping_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Shipping Partner (proxy)",
+        help="Technical Field.",
+    )
+
+    # -------------------------------------------------------------------------
+    # SHADOWED FIELDS SYNC
+    # -------------------------------------------------------------------------
+
+    company_id = fields.Many2one(
+        related="proxy_company_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+        default=None,
+    )
+    partner_id = fields.Many2one(
+        related="proxy_partner_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+    partner_shipping_id = fields.Many2one(
+        related="proxy_partner_shipping_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+    )
+
+    @api.onchange("company_id")
+    def _inverse_company_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.company_id != doc.company_id:
+                    move.company_id = doc.company_id
+
+    @api.onchange("partner_id")
+    def _inverse_partner_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.partner_id != doc.partner_id:
+                    move.partner_id = doc.partner_id
+
+    @api.onchange("partner_shipping_id")
+    def _inverse_partner_shipping_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.partner_shipping_id != doc.partner_shipping_id:
+                    move.partner_shipping_id = doc.partner_shipping_id
+
+    @api.onchange("user_id")
+    def _inverse_user_id(self):
+        for doc in self:
+            for move in doc.move_ids:
+                if move.user_id != doc.user_id:
+                    move.user_id = doc.user_id
+
+    fiscal_line_ids = fields.One2many(
+        copy=False,
+    )
+
+    # For some reason, perhaps limitation of _inhertis,
+    # the related directly in the account.move does not work correctly.
+    incoterm_id = fields.Many2one(
+        comodel_name="account.incoterms",
+        string="Fiscal Inconterm",
+        compute="_compute_incoterm_id",
+        inverse="_inverse_incoterm_id",
+    )
+
+    document_date = fields.Datetime(
+        compute="_compute_document_date", inverse="_inverse_document_date", store=True
+    )
+
+    date_in_out = fields.Datetime(
+        compute="_compute_date_in_out", inverse="_inverse_date_in_out", store=True
+    )
+
+    proxy_user_id = fields.Many2one(
+        comodel_name="res.users",
+        string="User (proxy)",
+        help="Technical Field.",
+    )
+
+    user_id = fields.Many2one(
+        related="proxy_user_id",
+        store=True,
+        precompute=True,
+        readonly=False,
+        default=None,
+    )
+
+    @api.depends("issuer", "move_ids.invoice_date")
+    def _compute_document_date(self):
+        for record in self:
+            if record.move_ids and record.issuer == DOCUMENT_ISSUER_PARTNER:
+                move_id = record.move_ids[0]
+                if move_id.invoice_date:
+                    user_tz = timezone(self.env.user.tz or "UTC")
+                    doc_date = datetime.combine(move_id.invoice_date, time.min)
+                    record.document_date = (
+                        user_tz.localize(doc_date).astimezone(UTC).replace(tzinfo=None)
+                    )
+
+    def _inverse_document_date(self):
+        for record in self:
+            if record.move_ids and record.issuer == DOCUMENT_ISSUER_PARTNER:
+                move_id = record.move_ids[0]
+                if record.document_date:
+                    move_id.invoice_date = record.document_date.date()
+
+    @api.depends("issuer", "move_ids.date")
+    def _compute_date_in_out(self):
+        for record in self:
+            if record.move_ids and record.issuer == DOCUMENT_ISSUER_PARTNER:
+                move_id = record.move_ids[0]
+                if move_id.date:
+                    user_tz = timezone(self.env.user.tz or "UTC")
+                    doc_date = datetime.combine(move_id.date, time.min)
+                    record.date_in_out = (
+                        user_tz.localize(doc_date).astimezone(UTC).replace(tzinfo=None)
+                    )
+
+    def _inverse_date_in_out(self):
+        for record in self:
+            if record.move_ids and record.issuer == DOCUMENT_ISSUER_PARTNER:
+                move_id = record.move_ids[0]
+                if record.date_in_out:
+                    move_id.date = record.date_in_out.date()
+
+    @api.depends("move_ids.invoice_incoterm_id")
+    def _compute_incoterm_id(self):
+        for record in self:
+            for move in record.move_ids:
+                if move.invoice_incoterm_id:
+                    record.incoterm_id = move.invoice_incoterm_id
+                else:
+                    record.incoterm_id = False
+
+    def _inverse_incoterm_id(self):
+        for record in self:
+            if record.move_ids:
+                record.move_ids.invoice_incoterm_id = record.incoterm_id
+
+    @api.depends("move_ids")
+    def _compute_move_count(self):
+        for record in self:
+            record.move_count = len(record.move_ids)
+
+    def unlink(self):
+        non_draft_documents = self.filtered(
+            lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO
+        )
+
+        if non_draft_documents:
+            raise UserError(
+                self.env._(
+                    "You cannot delete a fiscal document which is not in draft state!"
+                )
+            )
+        return super().unlink()
+
+    @api.model
+    def _sync_shadow_fields(self, vals):
+        if "partner_id" not in vals and "proxy_partner_id" in vals:
+            vals["partner_id"] = vals["proxy_partner_id"]
+        if "partner_shipping_id" not in vals and "proxy_partner_shipping_id" in vals:
+            vals["partner_shipping_id"] = vals["proxy_partner_shipping_id"]
+        if "company_id" not in vals and "proxy_company_id" in vals:
+            vals["company_id"] = vals["proxy_company_id"]
+        if "user_id" not in vals and "proxy_user_id" in vals:
+            vals["user_id"] = vals["proxy_user_id"]
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """
+        It's not allowed to create a fiscal document line without a document_type_id
+        anyway. But instead of letting Odoo crash in this case we simply avoid creating
+        the record. This makes it possible to create an account.move without a
+        fiscal_document_id despite the _inherits system:
+        Odoo will write NULL as the value in this case.
+        """
+        for vals in vals_list:
+            self._sync_shadow_fields(vals)
+
+        if self._context.get("create_from_account"):
+            filtered_vals_list = []
+            for values in vals_list:
+                if values.get("document_type_id") or values.get("document_serie_id"):
+                    # we also disable the fiscal_line_ids creation here to
+                    # let the ORM create them later from the account.move.line records
+                    values.update({"fiscal_line_ids": False})
+                    filtered_vals_list.append(values)
+            return super().create(filtered_vals_list)
+        else:
+            return super().create(vals_list)
+
+    def _update_cache(self, values, validate=True):
+        """
+        Overriden to avoid raising error with ensure_one() in super()
+        when called from some account.move onchange
+        as we allow empty fiscal document in account.move.
+        """
+        if len(self) == 0:
+            return
+        return super()._update_cache(values, validate)
+
+    @api.returns("mail.message", lambda value: value.id)
+    def message_post(self, **kwargs):
+        """
+        broadcast message_post to all related account.move so
+        messages in a fiscal document chatter are visible in the
+        related account moves.
+        """
+        res = super().message_post(**kwargs)
+        for doc in self:
+            for move in doc.move_ids:
+                move.message_post(**kwargs)
+        return res
+
+    def cancel_move_ids(self):
+        for record in self:
+            if record.move_ids:
+                self.move_ids.button_cancel()
+
+    def _document_cancel(self, justificative):
+        result = super()._document_cancel(justificative)
+        msg = f"Cancelamento: {justificative}"
+        self.cancel_move_ids()
+        self.message_post(body=msg)
+        return result
+
+    def _document_correction(self, justificative):
+        result = super()._document_correction(justificative)
+        msg = f"Carta de correção: {justificative}"
+        self.message_post(body=msg)
+        return result
+
+    def _document_deny(self):
+        msg = self.env._(
+            "Canceled due to the denial of document %(document_number)s",
+            document_number=self.document_number,
+        )
+        self.cancel_move_ids()
+        self.message_post(body=msg)
+
+    def action_document_confirm(self):
+        result = super().action_document_confirm()
+        if not self._context.get("skip_post"):
+            move_ids = self.move_ids.filtered(lambda move: move.state == "draft")
+            move_ids._post()
+        return result
+
+    def action_document_back2draft(self):
+        result = super().action_document_back2draft()
+        # Only call button_draft if we're not already in the button_draft flow.
+        # This prevents double-calling super().button_draft() while still
+        # ensuring button_draft gets called when action_document_back2draft
+        # is invoked directly (e.g., from tests or UI).
+        if not self.env.context.get("in_button_draft"):
+            for move in self.move_ids:
+                if move.state != "draft":
+                    move.button_draft()
+        return result
+
+    def action_view_invoice(self):
+        self.ensure_one()
+        form_view_name = "account.view_move_form"
+
+        if not self.move_ids or not self.move_ids[0].move_type:
+            return
+        move_type = self.move_ids[0].move_type
+        xmlid = f"account.action_move_{move_type}_type"
+        action = self.env["ir.actions.act_window"]._for_xml_id(xmlid)
+
+        if len(self.move_ids) > 1:
+            action["domain"] = f"[('id', 'in', {self.move_ids.ids})]"
+        else:
+            form_view = self.env.ref(form_view_name)
+            action["views"] = [(form_view.id, "form")]
+            action["res_id"] = self.move_ids.id
+
+        return action
+
+    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
+        self.ensure_one()
+        models_cancel_on_deny = [MODELO_FISCAL_NFE, MODELO_FISCAL_CTE]
+        if (
+            self.document_type_id.code in models_cancel_on_deny
+            and self.issuer == DOCUMENT_ISSUER_COMPANY
+        ):
+            self._document_deny()
+        return super().exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)

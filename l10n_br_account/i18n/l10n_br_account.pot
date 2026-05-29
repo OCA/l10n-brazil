@@ -1,0 +1,2771 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "(-) Discount"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "(-) Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move_line.py:0
+#, python-format
+msgid "(Discount)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "<span>Fiscal Details</span>"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_decorator_mixin
+msgid ""
+"A mixin to decorate l10n_br_fiscal_document(.line) easily.\n"
+"    It specially deals with related and compute fields inherited with _inherits.\n"
+"    "
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_form
+msgid "Account"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__force_fiscal_operation_journal_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__journal_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_search
+msgid "Account Journal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
+msgid "Account Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Accounting"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__additional_data
+msgid "Additional Data"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__manual_additional_data
+msgid "Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Adjust Importation"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__all
+msgid "All"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__allow_csll_irpj
+msgid "Allow Csll Irpj"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_discount_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_discount_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_discount_value
+msgid "Amount Discount"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_estimate_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_estimate_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_estimate_tax
+msgid "Amount Estimate Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_financial_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_financial_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__financial_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_financial_total
+msgid "Amount Financial"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_financial_total_gross
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_financial_total_gross
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_financial_total_gross
+msgid "Amount Financial Gross"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_fiscal
+msgid "Amount Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_price_gross
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_price_gross
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_price_gross
+msgid "Amount Gross"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_included
+msgid "Amount Tax Included"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_not_included
+msgid "Amount Tax Not Included"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_taxed
+msgid "Amount Taxed"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__amount_price_gross
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__amount_price_gross
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__amount_price_gross
+msgid "Amount without discount."
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Amounts"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__08
+msgid "Ativo Imobilizado"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__authorization_event_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__authorization_event_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__authorization_event_id
+msgid "Authorization Event"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__authorization_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__authorization_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__authorization_file_id
+msgid "Authorization File XML"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__authorization_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__authorization_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__authorization_date
+msgid "Authorization Protocol Date"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__authorization_protocol
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__authorization_protocol
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__authorization_protocol
+msgid "Authorization Protocol Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:res.groups,name:l10n_br_account.group_line_fiscal_detail
+msgid "Brazilian Fiscal details (popup) in Account Move Lines"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_partner_form
+msgid "Brazilian Instant Payment Keys (PIX)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_tax_form
+msgid "Brazilian Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__ind_pres
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__ind_pres
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__ind_pres
+msgid "Buyer Presence"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cbs_percent
+msgid "CBS %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cbs_reduction
+msgid "CBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cbs_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cbs_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cbs_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cbs_base
+msgid "CBS Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cbs_base_type
+msgid "CBS Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cbs_cst_code
+msgid "CBS CST Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cbs_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cbs_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cbs_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cbs_value
+msgid "CBS Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__cest_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cest_id
+msgid "CEST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__cfop_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cfop_id
+msgid "CFOP"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cfop_destination
+msgid "CFOP Destination"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cnae_id
+msgid "CNAE Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_cnpj_cpf
+msgid "CNPJ"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_percent
+msgid "COFINS %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_reduction
+msgid "COFINS % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofins_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cofins_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofins_base
+msgid "COFINS Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_base_id
+msgid "COFINS Base Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_base_type
+msgid "COFINS Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_cst_code
+msgid "COFINS CST Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_credit_id
+msgid "COFINS Credit Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_percent
+msgid "COFINS RET %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_reduction
+msgid "COFINS RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_base
+msgid "COFINS RET Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_value
+msgid "COFINS RET Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofins_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cofins_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofins_wh_base
+msgid "COFINS Ret Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofins_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cofins_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofins_wh_value
+msgid "COFINS Ret Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_percent
+msgid "COFINS ST %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_reduction
+msgid "COFINS ST % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofinsst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cofinsst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofinsst_base
+msgid "COFINS ST Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_base_type
+msgid "COFINS ST Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_cst_code
+msgid "COFINS ST CST Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofinsst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cofinsst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofinsst_value
+msgid "COFINS ST Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_cofins_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__cofins_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_cofins_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_cofins_value
+msgid "COFINS Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_base_type
+msgid "COFINS WH Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_percent
+msgid "CSLL %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_reduction
+msgid "CSLL % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_csll_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_csll_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_csll_base
+msgid "CSLL Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_percent
+msgid "CSLL RET %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_reduction
+msgid "CSLL RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_base
+msgid "CSLL RET Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_value
+msgid "CSLL RET Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_csll_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_csll_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_csll_wh_base
+msgid "CSLL Ret Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_csll_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_csll_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_csll_wh_value
+msgid "CSLL Ret Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_csll_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_csll_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_csll_value
+msgid "CSLL Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cbs_cst_id
+msgid "CST CBS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_cst_id
+msgid "CST COFINS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_cst_id
+msgid "CST COFINS ST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ibs_cst_id
+msgid "CST IBS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_id
+msgid "CST ICMS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_cst_id
+msgid "CST IPI"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_cst_id
+msgid "CST PIS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_cst_id
+msgid "CST PIS ST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cancel_event_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cancel_event_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cancel_event_id
+msgid "Cancel Event"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cancel_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cancel_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cancel_file_id
+msgid "Cancel File XML"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cancel_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cancel_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cancel_date
+msgid "Cancel Protocol Date"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cancel_protocol_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cancel_protocol_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cancel_protocol_number
+msgid "Cancel Protocol Protocol"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cancel_reason
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cancel_reason
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cancel_reason
+msgid "Cancel Reason"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "Canceled due to the denial of document %(document_number)s"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "Cannot import in non draft Account Move!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__city_taxation_code_id
+msgid "City Taxation Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__city_taxation_code_id
+msgid ""
+"City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
+"National NFS-e."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__comment_ids
+msgid "Comments"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__company_id
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__issuer__company
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__proxy_company_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_company_id
+msgid "Company (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__company_l10n_br_ie_code_st
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__company_l10n_br_ie_code_st
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__company_l10n_br_ie_code_st
+msgid "Company ST State Tax Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_company_type
+msgid "Company Type"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "Company mismatch!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ind_final
+msgid "Consumidor final"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__correction_event_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__correction_event_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__correction_event_ids
+msgid "Correction Events"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__correction_reason
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__correction_reason
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__correction_reason
+msgid "Correction Reason"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cst_code_prefix_like
+msgid "Cst Code Prefix Like"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__customer_additional_data
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__customer_additional_data
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__customer_additional_data
+msgid "Customer Additional Data"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__manual_customer_additional_data
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__manual_customer_additional_data
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__manual_customer_additional_data
+msgid "Customer Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_ii_customhouse_charges
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_ii_customhouse_charges
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_ii_customhouse_charges
+msgid "Customhouse Charges"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__date_in_out
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__date_in_out
+msgid "Date IN/OUT"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__deductible_taxes
+msgid "Deductible Taxes"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__delivery_costs
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__delivery_costs
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__delivery_costs
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__delivery_costs
+msgid ""
+"Define if costs of Insurance, Freight and Other Costs should be informed by "
+"Line or by Total."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__delivery_costs
+msgid "Delivery Costs"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ii_customhouse_charges
+msgid "Despesas Aduaneiras"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__discount
+msgid "Discount (%)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__discount_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__discount_value
+msgid "Discount Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__document_date
+msgid "Document Date"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__key_check_digit
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__key_check_digit
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__key_random_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__key_random_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_line_ids
+msgid "Document Lines"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_number
+msgid "Document Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__file_report_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__file_report_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__file_report_id
+msgid "Document Report"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_serie_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__document_serie_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_serie_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_serie_id
+msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.wizard_document_status_act_multi
+msgid "Document Status"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_subsequent_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_subsequent_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_subsequent_ids
+msgid "Document Subsequent"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__document_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_type_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_type_id
+msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_type
+msgid "Document Type Code"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid ""
+"Document without Fiscal Operation! \n"
+" Force one!"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid ""
+"Document without Return Fiscal Operation! \n"
+" Force one!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_electronic
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_electronic
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_electronic
+msgid "Electronic?"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__02
+msgid "Embalagem"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__estimate_tax
+msgid "Estimate Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__event_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__event_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__event_ids
+msgid "Events"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Extra Info"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcp_value_wh
+msgid "FCP WH"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcp_wh_percent
+msgid "FCP WH %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcp_base_wh
+msgid "FCP WH Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__ind_final
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__ind_final
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__edoc_purpose
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__edoc_purpose
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__edoc_purpose
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__edoc_purpose
+msgid "Finalidade"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_financial_discount_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_financial_discount_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__financial_discount_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_financial_discount_value
+msgid "Financial Discount Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__financial_total_gross
+msgid "Financial Gross Amount"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard__first_imported_move_id
+msgid "First Imported Move"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_additional_data
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_additional_data
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_additional_data
+msgid "Fiscal Additional Data"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__manual_fiscal_additional_data
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__manual_fiscal_additional_data
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__manual_fiscal_additional_data
+msgid "Fiscal Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_amount_untaxed
+msgid "Fiscal Amount Untaxed"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_document_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_document_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_document_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__document_id
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_line
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_document_line_id
+msgid "Fiscal Document Line"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Fiscal Document Line to import..."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_related_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_related_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_related_ids
+msgid "Fiscal Document Related"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Fiscal Document to import..."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_document_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_document_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_document_ids
+msgid "Fiscal Documents"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__incoterm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__incoterm_id
+msgid "Fiscal Inconterm"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_operation
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_operation_id
+msgid "Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_operation_line
+msgid "Fiscal Operation Line"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "Fiscal Operation Type mismatch!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__fiscal_position_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__fiscal_position_id
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_price
+msgid "Fiscal Price"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_genre_id
+msgid "Fiscal Product Genre"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_genre_code
+msgid "Fiscal Product Genre Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_quantity
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Fiscal Quantity"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_tax
+msgid "Fiscal Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__fiscal_tax_group_id
+msgid "Fiscal Tax Group"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__fiscal_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_type
+msgid "Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__force_compute_delivery_costs_by_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__force_compute_delivery_costs_by_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__force_compute_delivery_costs_by_total
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__force_compute_delivery_costs_by_total
+msgid "Force Compute Delivery Costs By Total"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__force_fiscal_operation_id
+msgid "Force Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_freight_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__freight_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_freight_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__freight_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_freight_value
+msgid "Freight Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_gross
+msgid "Gross Product/Service Amount"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__cst_code_prefix_like
+msgid "Helper field to filter taxes by CST code prefix (3 chars) using LIKE."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ibs_percent
+msgid "IBS %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ibs_reduction
+msgid "IBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_ibs_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_ibs_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ibs_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_ibs_base
+msgid "IBS Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ibs_base_type
+msgid "IBS Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ibs_cst_code
+msgid "IBS CST Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_ibs_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_ibs_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ibs_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_ibs_value
+msgid "IBS Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_percent
+msgid "ICMS %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_reduction
+msgid "ICMS % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icms_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icms_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icms_base
+msgid "ICMS Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_base_type
+msgid "ICMS Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_cst_code
+msgid "ICMS CST Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_destination_value
+msgid "ICMS Dest. Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_destination_base
+msgid "ICMS Destination Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icms_destination_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icms_destination_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icms_destination_value
+msgid "ICMS Destination Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_effective_value
+msgid "ICMS Effective"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_effective_percent
+msgid "ICMS Effective %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_effective_reduction
+msgid "ICMS Effective % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_effective_base
+msgid "ICMS Effective Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_destination_percent
+msgid "ICMS External %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcp_percent
+msgid "ICMS FCP %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icmsfcp_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icmsfcp_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcp_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icmsfcp_base
+msgid "ICMS FCP Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcpst_percent
+msgid "ICMS FCP ST %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcpst_base
+msgid "ICMS FCP ST Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icmsfcpst_value
+msgid "ICMS FCP ST Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icmsfcp_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icmsfcp_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcp_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icmsfcp_value
+msgid "ICMS FCP Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_origin_percent
+msgid "ICMS Internal %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_origin
+msgid "ICMS Origin"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icms_origin_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icms_origin_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_origin_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icms_origin_value
+msgid "ICMS Origin Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_relief_id
+msgid "ICMS Relief"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_relief_value
+msgid "ICMS Relief Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmssn_percent
+msgid "ICMS SN %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmssn_base
+msgid "ICMS SN Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmssn_credit_value
+msgid "ICMS SN Credit"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmssn_reduction
+msgid "ICMS SN Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_percent
+msgid "ICMS ST %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_reduction
+msgid "ICMS ST % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icmsst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icmsst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icmsst_base
+msgid "ICMS ST Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_base_type
+msgid "ICMS ST Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_mva_percent
+msgid "ICMS ST MVA %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icmsst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icmsst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icmsst_value
+msgid "ICMS ST Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_wh_percent
+msgid "ICMS ST WH %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_wh_base
+msgid "ICMS ST WH Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_wh_value
+msgid "ICMS ST WH Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_sharing_percent
+msgid "ICMS Sharing %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_substitute
+msgid "ICMS Substitute"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icms_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icms_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icms_value
+msgid "ICMS Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__tax_icms_or_issqn
+msgid "ICMS or ISSQN Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icmssn_credit_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icmssn_credit_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_icmssn_credit_value
+msgid "ICMSSN Credit Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ii_percent
+msgid "II %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_ii_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_ii_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ii_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_ii_base
+msgid "II Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_ii_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__ii_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_ii_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ii_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_ii_value
+msgid "II Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_percent
+msgid "INSS %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_reduction
+msgid "INSS % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_inss_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_inss_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_inss_base
+msgid "INSS Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_wh_percent
+msgid "INSS RET %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_wh_reduction
+msgid "INSS RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_wh_base
+msgid "INSS RET Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_wh_value
+msgid "INSS RET Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_inss_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_inss_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_inss_wh_base
+msgid "INSS Ret Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_inss_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_inss_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_inss_wh_value
+msgid "INSS Ret Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_inss_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_inss_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_inss_value
+msgid "INSS Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ii_iof_value
+msgid "IOF Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_percent
+msgid "IPI %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_reduction
+msgid "IPI % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_ipi_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_ipi_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_ipi_base
+msgid "IPI Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_base_type
+msgid "IPI Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_cst_code
+msgid "IPI CST Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_guideline_id
+msgid "IPI Guideline"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_ipi_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__ipi_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_ipi_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_ipi_value
+msgid "IPI Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_percent
+msgid "IRPJ %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_reduction
+msgid "IRPJ % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_irpj_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_irpj_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_irpj_base
+msgid "IRPJ Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_wh_percent
+msgid "IRPJ RET %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_wh_reduction
+msgid "IRPJ RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_wh_base
+msgid "IRPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_wh_value
+msgid "IRPJ RET Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_irpj_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_irpj_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_irpj_wh_base
+msgid "IRPJ Ret Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_irpj_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_irpj_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_irpj_wh_value
+msgid "IRPJ Ret Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_irpj_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_irpj_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_irpj_value
+msgid "IRPJ Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__national_taxation_code_id
+msgid "ISS National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_percent
+msgid "ISSQN %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_reduction
+msgid "ISSQN % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_issqn_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_issqn_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_issqn_base
+msgid "ISSQN Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_fg_city_id
+msgid "ISSQN City"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_deduction_amount
+msgid "ISSQN Deduction Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_desc_cond_amount
+msgid "ISSQN Discount Cond"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_desc_incond_amount
+msgid "ISSQN Discount Incond"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_eligibility
+msgid "ISSQN Eligibility"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_incentive
+msgid "ISSQN Incentive"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_other_amount
+msgid "ISSQN Other Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_wh_percent
+msgid "ISSQN RET %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_wh_reduction
+msgid "ISSQN RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_wh_base
+msgid "ISSQN RET Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_wh_value
+msgid "ISSQN RET Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_issqn_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_issqn_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_issqn_wh_base
+msgid "ISSQN Ret Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_issqn_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_issqn_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_issqn_wh_value
+msgid "ISSQN Ret Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_issqn_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_issqn_value
+msgid "ISSQN Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__cfop_destination
+msgid "Identifies the operation destination."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_reversal__journal_id
+msgid "If empty, uses the journal of the journal entry to be reversed."
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.document_import_wizard_form
+msgid "Import Account Move"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_import_wizard
+msgid "Import Document Wizard"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Import Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__imported_document
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__imported_document
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__imported_document
+msgid "Imported"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Imported Invoice"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Imported Invoices"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__in
+msgid "In"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__fiscal_document_ids
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__fiscal_document_ids
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__fiscal_document_ids
+msgid ""
+"In some rare cases (NFS-e, CT-e...) a single account.move\n"
+"        may have several different fiscal documents related to its account.move.lines.\n"
+"        "
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_incoterms
+msgid "Incoterms"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__allow_csll_irpj
+msgid "Indicates potential 'CSLL' and 'IRPJ' tax charges."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__partner_is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_insurance_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__insurance_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_insurance_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__insurance_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_insurance_value
+msgid "Insurance Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__invalidate_event_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__invalidate_event_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__invalidate_event_id
+msgid "Invalidate Event"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__invalidate_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__invalidate_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__invalidate_file_id
+msgid "Invalidate File XML"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__invalidate_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__invalidate_date
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__invalidate_date
+msgid "Invalidate Protocol Date"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__invalidate_protocol_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__invalidate_protocol_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__invalidate_protocol_number
+msgid "Invalidate Protocol Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__move_id
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__account_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__account_line_ids
+msgid "Invoice Lines"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__move_count
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__move_count
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__move_count
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__move_count
+msgid "Invoice count"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__move_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__move_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__move_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__move_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.account_document_form_inherit
+msgid "Invoices"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__is_edoc_printed
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__is_edoc_printed
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__is_edoc_printed
+msgid "Is Printed?"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__issqn_value
+msgid "Issqn Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__issuer
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__issuer
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__issuer
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__issuer
+msgid "Issuer"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_journal
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_reversal__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_key
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_key
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_key
+msgid "Key"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__name
+msgid "Label"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_legal_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_legal_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_legal_name
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
+msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid ""
+"Line without Return Fiscal Operation! \n"
+"\n"
+"                            Please force one! \n"
+"%(name)s"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__manual_additional_data
+msgid "Manual Additional Data"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__manual_customer_additional_data
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__manual_customer_additional_data
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__manual_customer_additional_data
+msgid "Manual Customer Additional Data"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__manual_fiscal_additional_data
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__manual_fiscal_additional_data
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__manual_fiscal_additional_data
+msgid "Manual Fiscal Additional Data"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__07
+msgid "Material de Uso e Consumo"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__01
+msgid "Matéria-prima"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__00
+msgid "Mercadoria para Revenda"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__transport_modal
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__transport_modal
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__transport_modal
+msgid "Modal de Transporte"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_ir_model_data
+msgid "Model Data"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid ""
+"More than 1 fiscal document!You should open the fiscal viewand perform the "
+"action on each document!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__nbm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nbm_id
+msgid "NBM"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__nbs_id
+msgid "NBS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__ncm_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ncm_id
+msgid "NCM"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_name
+msgid "Name (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_value
+msgid "National Simple Taxes"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__simple_without_icms_value
+msgid "National Simple Taxes without ICMS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__national_taxation_code_id
+msgid "National Taxation Code for the ISS tax (National NFS-e)"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "No new Fiscal Document Line to import!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_tree
+msgid "Open Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_id
+msgid "Operation"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__operation_fiscal_type
+msgid "Operation Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__operation_indicator_id
+msgid "Operation Indicator"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__fiscal_operation_line_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_line_id
+msgid "Operation Line"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__operation_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__operation_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__operation_name
+msgid "Operation Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_type
+msgid "Operation Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_other_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_other_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_other_value
+msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__other_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__other_value
+msgid "Other Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Others"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_move__fiscal_operation_type__out
+msgid "Out"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__99
+msgid "Outras"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__10
+msgid "Outros insumos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_percent
+msgid "PIS %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_reduction
+msgid "PIS % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_pis_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_pis_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_pis_base
+msgid "PIS Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_base_id
+msgid "PIS Base Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_base_type
+msgid "PIS Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_cst_code
+msgid "PIS CST Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_credit_id
+msgid "PIS Credit"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_wh_percent
+msgid "PIS RET %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_wh_reduction
+msgid "PIS RET % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_wh_base
+msgid "PIS RET Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_wh_value
+msgid "PIS RET Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_pis_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_pis_wh_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_pis_wh_base
+msgid "PIS Ret Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_pis_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_pis_wh_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_pis_wh_value
+msgid "PIS Ret Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_percent
+msgid "PIS ST %"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_reduction
+msgid "PIS ST % Reduction"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_pisst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_pisst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_base
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_pisst_base
+msgid "PIS ST Base"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_base_type
+msgid "PIS ST Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_cst_code
+msgid "PIS ST CST Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_pisst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_pisst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_pisst_value
+msgid "PIS ST Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_pis_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__pis_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_pis_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_value
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_pis_value
+msgid "PIS Value"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_wh_base_type
+msgid "PIS WH Base Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__partner_id
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__issuer__partner
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__proxy_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__proxy_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__proxy_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_partner_id
+msgid "Partner (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_order
+msgid "Partner Order (xPed)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_order_line
+msgid "Partner Order Line (nItemPed)"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "Partner mismatch!"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__payment_term_number
+msgid "Payment Term Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__processador_edoc
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__processador_edoc
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__processador_edoc
+msgid "Processador documentos eletrônicos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_product_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_product_id
+msgid "Product (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__04
+msgid "Produto Acabado"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__06
+msgid "Produto Intermediário"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__03
+msgid "Produto em Processo"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_is_public_entity
+msgid "Public Entity"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__quantity
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_quantity
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_quantity
+msgid "Quantity (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__rps_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__rps_number
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__rps_number
+msgid "RPS Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_ir_rule
+msgid "Record Rule"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__send_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__send_file_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__send_file_id
+msgid "Send Document File XML"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_serie
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_serie
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_serie
+msgid "Serie Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__service_type_id
+msgid "Service Type"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__service_type_id
+msgid "Service Type LC 166"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__09
+msgid "Serviços"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__partner_shipping_id
+msgid "Shipping Address"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__proxy_partner_shipping_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_shipping_id
+msgid "Shipping Partner (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.account_document_form_inherit
+msgid "Show related invoices"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmssn_range_id
+msgid "Simplified Range Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__state_fiscal
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__state_fiscal
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__state_fiscal
+msgid "Situação Fiscal"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__state_edoc
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__state_edoc
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__state_edoc
+msgid "Situação e-doc"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__partner_l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_l10n_br_ie_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__partner_l10n_br_ie_code
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
+msgid "State Tax Number"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__status_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__status_code
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__status_code
+msgid "Status Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__status_description
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__status_description
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__status_description
+msgid "Status Description"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__status_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__status_name
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__status_name
+msgid "Status Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__payment_term_number
+msgid ""
+"Stores the installment number in the format 'current-total'. For example, "
+"'1-3' for the first of three installments, '2-3' for the second, and '3-3' "
+"for the last installment."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields.selection,name:l10n_br_account.selection__account_invoice_report__fiscal_type__05
+msgid "Subproduto"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_subsequent_generated
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_subsequent_generated
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_subsequent_generated
+msgid "Subsequent documents generated?"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_tax_benefit_id
+msgid "Tax Benefit"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_tax_benefit_code
+msgid "Tax Benefit Code"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cbs_tax_id
+msgid "Tax CBS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_tax_id
+msgid "Tax COFINS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofins_wh_tax_id
+msgid "Tax COFINS RET"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__cofinsst_tax_id
+msgid "Tax COFINS ST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_tax_id
+msgid "Tax CSLL"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__csll_wh_tax_id
+msgid "Tax CSLL RET"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__tax_classification_id
+msgid "Tax Classification"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__tax_framework
+msgid "Tax Framework"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_tax_group
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_tax_group
+msgid "Tax Group"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ibs_tax_id
+msgid "Tax IBS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icms_tax_id
+msgid "Tax ICMS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcp_tax_id
+msgid "Tax ICMS FCP"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsfcpst_tax_id
+msgid "Tax ICMS FCP ST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmssn_tax_id
+msgid "Tax ICMS SN"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__icmsst_tax_id
+msgid "Tax ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ii_tax_id
+msgid "Tax II"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_tax_id
+msgid "Tax INSS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__inss_wh_tax_id
+msgid "Tax INSS RET"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_tax_id
+msgid "Tax IPI"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_tax_id
+msgid "Tax IRPJ"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__irpj_wh_tax_id
+msgid "Tax IRPJ RET"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_tax_id
+msgid "Tax ISSQN"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__issqn_wh_tax_id
+msgid "Tax ISSQN RET"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_tax_id
+msgid "Tax PIS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pis_wh_tax_id
+msgid "Tax PIS RET"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__pisst_tax_id
+msgid "Tax PIS ST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__uot_id
+msgid "Tax UoM"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_tax_withholding
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__amount_tax_withholding
+msgid "Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__proxy_partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__proxy_user_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__proxy_partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__proxy_user_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_name
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_quantity
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__proxy_partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__proxy_user_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__company_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__proxy_partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__proxy_user_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document__user_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__company_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_company_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_name
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_partner_id
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_quantity
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__quantity
+msgid "Technical Field."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__proxy_price_unit
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_price_unit
+msgid "Technical mirror."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_cnpj_cpf
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_cnpj_cpf
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__partner_cnpj_cpf
+msgid ""
+"The Tax Identification Number. Values here will be validated based on the "
+"country format. You can use '/' to indicate that the partner is not subject "
+"to tax."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__quantity
+msgid ""
+"The optional quantity expressed by this line, eg: number of product sold. "
+"The quantity is not a legal requirement but is very useful for some reports."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__public_entity_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__public_entity_type
+msgid "Tipo de Entidade Governamental"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__edoc_refund_credit_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__edoc_refund_credit_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__edoc_refund_credit_type
+msgid "Tipo de Nota de Crédito"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__edoc_refund_debit_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__edoc_refund_debit_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__edoc_refund_debit_type
+msgid "Tipo de Nota de Débito"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__service_provider
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__service_provider
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__service_provider
+msgid "Tomador do Serviço"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__total_weight
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__total_weight
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__total_weight
+msgid "Total Weight"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__financial_total_gross
+msgid "Total amount before any discounts are applied."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__price_gross
+msgid ""
+"Total value of products or services (quantity x unit price)before any "
+"discounts."
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__uom_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__uom_id
+msgid "UOM"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__price_unit
+msgid "Unit Price"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__proxy_price_unit
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__proxy_price_unit
+msgid "Unit Price (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__product_uom_id
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__partner_legal_name
+#: model:ir.model.fields,help:l10n_br_account.field_account_move__partner_legal_name
+#: model:ir.model.fields,help:l10n_br_account.field_account_payment__partner_legal_name
+msgid "Used in fiscal documents"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__user_id
+msgid "User"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__proxy_user_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__proxy_user_id
+msgid "User (proxy)"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__icms_destination_value
+msgid "Valor Difal Destino"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__icmsfcp_value
+msgid "Valor Difal FCP"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__icms_origin_value
+msgid "Valor Difal Origem"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__icms_value
+msgid "Valor ICMS"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_report__icmsst_value
+msgid "Valor ICMS ST"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__icms_substitute
+msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__document_version
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__document_version
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__document_version
+msgid "Version"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__xml_error_message
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move__xml_error_message
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__xml_error_message
+msgid "XML validation errors"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid ""
+"You can't set this document number: {} to draft because this document is "
+"cancelled in SEFAZ"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "You cannot delete a fiscal document which is not in draft state!"
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/account_move.py:0
+#, python-format
+msgid "You cannot set a document type when the move has no Fiscal Document!"
+msgstr ""
