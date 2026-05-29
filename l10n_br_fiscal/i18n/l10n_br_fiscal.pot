@@ -2447,11 +2447,6 @@ msgid "Distrito Federal"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__document_id
-msgid "Document"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_date
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Document Date"
@@ -2500,9 +2495,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__document_number
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__document_number
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__document_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_status_wizard__document_number
 msgid "Document Number"
 msgstr ""
@@ -2541,9 +2534,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__document_type_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__document_type_id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_status_wizard__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_invalidate_number__document_type_id
@@ -2960,11 +2951,22 @@ msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__document_id
+msgid "Fiscal Document (Account)"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_comment__object__l10n_br_fiscal_document_line_mixin
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_comment__object_id__l10n_br_fiscal_document_line_mixin
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 msgid "Fiscal Document Line"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_number
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__document_number
+msgid "Fiscal Document Number"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2990,6 +2992,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_type_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__document_type_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_type_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_type_form
 msgid "Fiscal Document Type"
@@ -8247,6 +8251,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_form
 msgid "Taxes Settings"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__company_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_shipping_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__user_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__company_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__quantity
+msgid "Technical Field."
 msgstr ""
 
 #. module: l10n_br_fiscal
