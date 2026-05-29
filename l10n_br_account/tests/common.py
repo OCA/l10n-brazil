@@ -86,6 +86,9 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 "fiscal_profile_id": cls.env.ref(
                     "l10n_br_fiscal.partner_fiscal_profile_snc"
                 ).id,
+                # Clear fiscal position to avoid Odoo 19.0 auto-computation
+                # affecting test expectations
+                "property_account_position_id": False,
             }
         )
         cls.partner_b.write(
@@ -100,6 +103,9 @@ class AccountMoveBRCommon(AccountTestInvoicingCommon):
                 "fiscal_profile_id": cls.env.ref(
                     "l10n_br_fiscal.partner_fiscal_profile_cnt"
                 ).id,
+                # Clear fiscal position to avoid Odoo 19.0 auto-computation
+                # affecting test expectations
+                "property_account_position_id": False,
             }
         )
 

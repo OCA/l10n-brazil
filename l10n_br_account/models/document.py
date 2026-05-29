@@ -68,20 +68,17 @@ class FiscalDocument(models.Model):
     company_id = fields.Many2one(
         related="proxy_company_id",
         store=True,
-        precompute=True,
         readonly=False,
         default=None,
     )
     partner_id = fields.Many2one(
         related="proxy_partner_id",
         store=True,
-        precompute=True,
         readonly=False,
     )
     partner_shipping_id = fields.Many2one(
         related="proxy_partner_shipping_id",
         store=True,
-        precompute=True,
         readonly=False,
     )
 

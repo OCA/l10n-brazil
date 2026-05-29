@@ -77,20 +77,29 @@ class AccountMove(models.Model):
         compute="_compute_fiscal_operation_type",
     )
 
+    # NOTE: These onchanges are disabled in Odoo 19.0 because they cause
+    # recursive loops with the Form class. The related field mechanism
+    # (company_id related to proxy_company_id with readonly=False)
+    # should handle the syncing automatically.
+    # If needed, use create/write overrides instead.
+    """
     @api.onchange("partner_id")
     def _inverse_partner_id(self):
         for move in self:
-            move.proxy_partner_id = move.partner_id
+            if move.proxy_partner_id != move.partner_id:
+                move.proxy_partner_id = move.partner_id
 
     @api.onchange("partner_shipping_id")
     def _inverse_partner_shipping_id(self):
         for move in self:
-            move.proxy_partner_shipping_id = move.partner_shipping_id
+            if move.proxy_partner_shipping_id != move.partner_shipping_id:
+                move.proxy_partner_shipping_id = move.partner_shipping_id
 
     @api.onchange("company_id")
     def _inverse_company_id(self):
         for move in self:
-            move.proxy_company_id = move.company_id
+            if move.proxy_company_id != move.company_id:
+                move.proxy_company_id = move.company_id
 
     # account.move.user_id is a related field pointing to invoice_user_id,
     # so it may not be present in create/write vals. We sync from
@@ -98,7 +107,9 @@ class AccountMove(models.Model):
     @api.onchange("invoice_user_id")
     def _inverse_user_id(self):
         for move in self:
-            move.proxy_user_id = move.invoice_user_id
+            if move.proxy_user_id != move.invoice_user_id:
+                move.proxy_user_id = move.invoice_user_id
+    """
 
     @api.model
     def _sync_proxy_fields_vals(self, vals):
