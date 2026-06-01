@@ -328,6 +328,11 @@ class Document(models.Model):
             ).strftime("%Y-%m-%dT%H:%M:%S"),
             "natureza_operacao": self.operation_nature,
             "regime_especial_tributacao": self.taxation_special_regime,
+            "finalidade_emissao": "0",
+            "indicador_destinatario": "1"
+            if (self.partner_id.is_company and self.partner_id.l10n_br_ie_code)
+            else "9",
+            "operacao_onerosa": bool(self.fiscal_line_ids[0].operation_indicator_id),
             "optante_simples_nacional": "1"
             if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
             else "2",
