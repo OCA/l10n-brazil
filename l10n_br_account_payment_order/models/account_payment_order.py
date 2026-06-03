@@ -230,7 +230,29 @@ class AccountPaymentOrder(models.Model):
         date = context_today.strftime("%d%m")
         file_number = self.file_number
         if cnab_type == "240":
-            return f"CB{date}{file_number}.REM"
+            if self.journal_id.bank_id.code_bc == '748':
+                dia = context_today.strftime("%d").zfill(2)
+                mes = int(context_today.strftime("%m"))
+                if mes > 9:
+                    mes = context_today.strftime("%b")[:0]
+                file_name = f"{self.payment_mode_id.cnab_config_id.cnab_company_bank_code}{str(mes)}{dia}"
+                existe = self.env["ir.attachment"].read_group(
+                        domain=[
+                            ('res_model', '=', 'account.payment.order'),
+                            ('name', 'like', file_name),
+                            ('res_id', '!=', self.id),
+                        ],
+                        fields=['name'],
+                        groupby=['res_id']
+                )
+                if existe:
+                    file_name += f".RM{len(existe)}"
+                else:
+                    file_name += f".REM"
+
+                return file_name
+            else:
+                return f"CB{date}{file_number}.REM"
         elif cnab_type == "400":
             return f"CB{date}{file_number:02d}.REM"
         elif cnab_type == "500":
