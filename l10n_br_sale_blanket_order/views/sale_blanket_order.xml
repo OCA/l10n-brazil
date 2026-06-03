@@ -25,6 +25,25 @@
                     options="{'currency_field': 'currency_id'}"
                 />
             </field>
+            <xpath expr="//field[@name='line_ids']/tree" position="inside">
+                <control name="fiscal_fields" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="fiscal_operation_type" invisible="1" />
+                <field name="cfop_id" invisible="1" />
+                <field name="tax_framework" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="freight_value" invisible="1" />
+                <field name="insurance_value" invisible="1" />
+                <field name="other_value" invisible="1" />
+            </xpath>
             <field name="validity_date" position="after">
                 <field name="fiscal_operation_id" required="True" />
                 <field name="ind_final" required="True" />
