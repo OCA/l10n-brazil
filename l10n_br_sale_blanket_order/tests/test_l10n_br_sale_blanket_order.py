@@ -1,7 +1,10 @@
 # Copyright 2023 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from contextlib import contextmanager
 from datetime import date, timedelta
+
+from lxml import etree
 
 from odoo.fields import Command
 from odoo.tests.common import TransactionCase
@@ -82,6 +85,24 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
         )
 
         return wizard
+
+    @contextmanager
+    def _temporary_company_country(self, country):
+        original_country = self.company.country_id
+        self.company.country_id = country
+        try:
+            yield
+        finally:
+            self.company.country_id = original_country
+
+    @contextmanager
+    def _temporary_user_groups(self, groups):
+        original_groups = self.env.user.groups_id
+        self.env.user.groups_id = groups
+        try:
+            yield
+        finally:
+            self.env.user.groups_id = original_groups
 
     # Test method to confirm and process a Blanket Order.
     def test_confirm_and_process_blanket_order_and_invoice(self):
@@ -201,3 +222,56 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
             ("id", "=", self.company.cnae_main_id.id),
         ]
         self.assertEqual(domain, expected_domain)
+
+    def test_get_view(self):
+        """Covers all _get_view branches for sale.blanket.order."""
+
+        sale_blanket_order = self.env["sale.blanket.order"]
+        group_fiscal = self.env.ref(
+            "l10n_br_sale.group_line_fiscal_detail", raise_if_not_found=False
+        ) or self.skipTest("Group l10n_br_sale.group_line_fiscal_detail not found.")
+
+        with self.subTest("BR company - form view - fiscal fields injected"):
+            arch, _ = sale_blanket_order._get_view(view_type="form")
+            self.assertIn(
+                "fiscal_operation_id", etree.tostring(arch, encoding="unicode")
+            )
+
+        with self.subTest("Non-BR company - form view - line_ids tree not modified"):
+            us_country = self.env.ref("base.us")
+            with self._temporary_company_country(us_country):
+                arch_non_br, _ = sale_blanket_order._get_view(view_type="form")
+                self.assertFalse(
+                    any(
+                        sub_tree.get("editable") == ""
+                        for sub_tree in arch_non_br.xpath(
+                            "//field[@name='line_ids']/tree"
+                        )
+                    ),
+                    "Error: line_ids tree should not be editable for non-BR company.",
+                )
+
+        with self.subTest("BR company - fiscal group - line_ids tree editable"):
+            with self._temporary_user_groups([(4, group_fiscal.id)]):
+                arch_group, _ = sale_blanket_order._get_view(view_type="form")
+                self.assertTrue(
+                    all(
+                        sub_tree.get("editable", "NOT_SET") == ""
+                        for sub_tree in arch_group.xpath(
+                            "//field[@name='line_ids']/tree"
+                        )
+                    ),
+                    "Error: line_ids tree should be editable for fiscal detail group.",
+                )
+
+        with self.subTest("BR company - force_line_fiscal_detail_edition context"):
+            arch_ctx, _ = sale_blanket_order.with_context(
+                force_line_fiscal_detail_edition=True
+            )._get_view(view_type="form")
+            self.assertTrue(
+                all(
+                    sub_tree.get("editable", "NOT_SET") == ""
+                    for sub_tree in arch_ctx.xpath("//field[@name='line_ids']/tree")
+                ),
+                "Error: line_ids tree editable with force_line_fiscal_detail_edition.",
+            )
