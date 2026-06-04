@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Produtos -->
     <!-- TODO -  No Brasil o caso de Ordens de Entrega que não tem ligação com
           Pedido de Venda precisam informar o Preço de Custo/standard_price e não o de
@@ -1062,5 +1061,4 @@
         <field name="insurance_value">100</field>
         <field name="other_value">100</field>
     </record>
-
 </odoo>
