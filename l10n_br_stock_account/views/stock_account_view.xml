@@ -6,7 +6,7 @@
 -->
 <odoo>
     <record id="stock_move_tree" model="ir.ui.view">
-        <field name="name">l10n_br_stock_account.move.tree</field>
+        <field name="name">l10n_br_stock_account.move.list</field>
         <field name="model">stock.move</field>
         <field name="inherit_id" ref="stock_picking_invoicing.view_move_tree" />
         <field name="arch" type="xml">
