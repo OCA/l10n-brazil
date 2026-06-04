@@ -3,7 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import Command
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests import Form
+from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
 
@@ -36,6 +37,7 @@ class StockRuleTest(TransactionCase):
                             "location_dest_id": cls.env.ref(
                                 "stock.stock_location_output"
                             ).id,
+                            "location_dest_from_rule": True,
                             "invoice_state": "2binvoiced",
                             "fiscal_operation_id": cls.env.ref(
                                 "l10n_br_fiscal.fo_venda"
