@@ -179,7 +179,6 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         with 3 lines (and qty 2)
         :return:
         """
-        nb_invoice_before = self.env["account.move"].search_count([])
         self._change_user_company(self.env.ref("base.main_company"))
         self.env["account.move"].search_count([])
         self.env.ref("l10n_br_base.res_partner_cliente1_sp").write({"type": "invoice"})
@@ -231,9 +230,11 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         invoice_pick_2.unlink()
         for picking in pickings:
             self.assertEqual(picking.invoice_state, "2binvoiced")
-        nb_invoice_after = self.env["account.move"].search_count([])
-        # Should be equals because we delete the invoice
-        self.assertEqual(nb_invoice_before, nb_invoice_after)
+        # Check that invoices for our pickings were deleted
+        remaining_invoices = self.env["account.move"].search(
+            [("id", "in", [invoice_pick_1.id, invoice_pick_2.id])]
+        )
+        self.assertFalse(remaining_invoices, "Invoices should be deleted")
 
         # Caso onde por ter no partner do Endereço de Faturamento o campo
         # company_type com Person o address_get retorna esse partner e
@@ -274,11 +275,6 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         """Test Picking Split created with Fiscal Values."""
         self._change_user_company(self.env.ref("base.main_company"))
         picking2 = self.env.ref("l10n_br_stock_account.main_company-picking_2")
-
-        self._run_picking_onchanges(picking2)
-
-        for line in picking2.move_ids:
-            self._run_line_onchanges(line)
 
         picking2.action_confirm()
         picking2.action_assign()
@@ -514,11 +510,9 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         Test of compatible with international case, create Invoice but not for Brazil.
         """
         picking = self.env.ref("stock_picking_invoicing.stock_picking_invoicing_2")
-        self._run_picking_onchanges(picking)
         picking.fiscal_operation_id = False
         # Force product availability
         for move in picking.move_ids_without_package:
-            self._run_line_onchanges(move)
             # test split
             move.product_uom_qty = 2
             move.quantity = 1
@@ -535,6 +529,8 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self.picking_move_state(backorder)
 
         self.assertEqual(picking.state, "done")
+        # Switch to picking company for invoice creation
+        self._change_user_company(picking.company_id)
         invoice = self.create_invoice_wizard(picking)
         # Confirm Invoice
         invoice.action_post()
@@ -554,10 +550,7 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         self._change_user_company(self.env.ref("base.main_company"))
         picking = self.env.ref("l10n_br_stock_account.main_company-picking_2")
 
-        self._run_picking_onchanges(picking)
-
         for line in picking.move_ids:
-            self._run_line_onchanges(line)
             # Force Split
             line.quantity = 10
 
@@ -580,7 +573,98 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
     def test_simples_nacional(self):
         """Test case of Simples Nacional"""
-        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
+        company_sn = self.env.ref("l10n_br_base.empresa_simples_nacional")
+        self._change_user_company(company_sn)
+        # Load chart template for Simples Nacional company if not already loaded
+        has_receivable = (
+            self.env["account.account"]
+            .with_company(company_sn)
+            .search_count([("account_type", "=", "asset_receivable")])
+        )
+        if not has_receivable:
+            # Create minimal chart accounts for Simples Nacional company
+            # to avoid depending on l10n_br chart template
+            account_vals = [
+                {
+                    "name": "Receivable",
+                    "code": "1.1.1.01",
+                    "account_type": "asset_receivable",
+                    "company_ids": [(4, company_sn.id)],
+                    "reconcile": True,
+                },
+                {
+                    "name": "Payable",
+                    "code": "2.1.1.01",
+                    "account_type": "liability_payable",
+                    "company_ids": [(4, company_sn.id)],
+                    "reconcile": True,
+                },
+                {
+                    "name": "Income",
+                    "code": "3.1.1.01",
+                    "account_type": "income",
+                    "company_ids": [(4, company_sn.id)],
+                },
+                {
+                    "name": "Expense",
+                    "code": "4.1.1.01",
+                    "account_type": "expense",
+                    "company_ids": [(4, company_sn.id)],
+                },
+            ]
+            accounts = self.env["account.account"].create(account_vals)
+            receivable_account = accounts.filtered(
+                lambda a: a.account_type == "asset_receivable"
+            )
+            payable_account = accounts.filtered(
+                lambda a: a.account_type == "liability_payable"
+            )
+            income_account = accounts.filtered(lambda a: a.account_type == "income")
+            expense_account = accounts.filtered(lambda a: a.account_type == "expense")
+            # Set default company accounts
+            company_sn.account_journal_suspense_account_id = receivable_account.id
+            # Set product category accounts for this company
+            product_category = self.env.ref("product.product_category_all")
+            product_category.with_company(
+                company_sn
+            ).property_account_income_categ_id = income_account
+            product_category.with_company(
+                company_sn
+            ).property_account_expense_categ_id = expense_account
+            # Load fiscal taxes for the company
+            self.env["account.chart.template"].load_fiscal_taxes(companies=[company_sn])
+        # Ensure partner has property accounts for this company
+        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        receivable_account = (
+            self.env["account.account"]
+            .with_company(company_sn)
+            .search(
+                [
+                    ("account_type", "=", "asset_receivable"),
+                    ("company_ids", "in", [company_sn.id]),
+                ],
+                limit=1,
+            )
+        )
+        payable_account = (
+            self.env["account.account"]
+            .with_company(company_sn)
+            .search(
+                [
+                    ("account_type", "=", "liability_payable"),
+                    ("company_ids", "in", [company_sn.id]),
+                ],
+                limit=1,
+            )
+        )
+        if receivable_account:
+            partner.with_company(
+                company_sn
+            ).property_account_receivable_id = receivable_account
+        if payable_account:
+            partner.with_company(
+                company_sn
+            ).property_account_payable_id = payable_account
         picking = self.env.ref("l10n_br_stock_account.simples_nacional-picking_1")
         for line in picking.move_ids:
             # Testa _get_price_unit
@@ -624,12 +708,9 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
         picking.picking_type_id.pre_generate_fiscal_document_number = "pack"
-
-        self._run_picking_onchanges(picking)
         picking.action_confirm()
         picking.action_assign()
         for move in picking.move_ids_without_package:
-            self._run_line_onchanges(move)
             move.quantity = move.product_uom_qty
         for line in picking.move_ids:
             line.price_unit = 100

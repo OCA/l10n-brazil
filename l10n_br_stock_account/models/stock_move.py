@@ -37,9 +37,6 @@ class StockMove(models.Model):
     # Adapt Mixin's fields
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
-        relation="fiscal_move_line_tax_rel",
-        column1="document_id",
-        column2="fiscal_tax_id",
         string="Fiscal Taxes",
     )
 
@@ -111,6 +108,36 @@ class StockMove(models.Model):
 
                     if tax_ids:
                         record.tax_ids = tax_ids
+
+    @api.model
+    def _add_precomputed_values(self, vals_list):
+        # Skip fiscal_tax_ids precompute for stock.move to avoid FK constraint
+        # on the m2m relation table during creation. The taxes will be
+        # computed later via _compute_fiscal_tax_ids when the record exists.
+        for vals in vals_list:
+            vals.pop("fiscal_tax_ids", None)
+        return super()._add_precomputed_values(vals_list)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        return super(
+            StockMove, self.with_context(skip_compute_fiscal_tax_ids=True)
+        ).create(vals_list)
+
+    def _compute_fiscal_tax_ids(self):
+        # Skip during creation/precompute when record is not yet in DB.
+        # In Odoo 18, precompute runs during create before flush, causing
+        # the m2m insert to fail with FK constraint.
+        # Check if records exist in DB before writing to m2m relation.
+        if self.ids:
+            self.env.cr.execute(
+                "SELECT id FROM stock_move WHERE id IN %s", (tuple(self.ids),)
+            )
+            existing_ids = {r[0] for r in self.env.cr.fetchall()}
+            if not existing_ids:
+                # All records are new (not yet flushed) - skip
+                return
+        return super()._compute_fiscal_tax_ids()
 
     @api.onchange("product_id", "fiscal_operation_id", "price_unit")
     def _onchange_product_quantity(self):

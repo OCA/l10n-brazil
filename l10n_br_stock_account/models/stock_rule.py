@@ -3,7 +3,7 @@
 # Copyright (C) 2016  Luis Felipe Miléo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class StockRule(models.Model):
@@ -26,7 +26,7 @@ class StockRule(models.Model):
     )
 
     invoice_state = fields.Selection(
-        selection=[("2binvoiced", _("To Be Invoiced")), ("none", _("Not Applicable"))],
+        selection=[("2binvoiced", "To Be Invoiced"), ("none", "Not Applicable")],
         string="Invoice Status",
         default="none",
         copy=False,
