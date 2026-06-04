@@ -360,8 +360,10 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
             assert line.ind_final, "Error field ind_final in Invoice Line not None"
             # Verifica se o campo tax_ids da Fatura esta igual ao da Separação
             mv_line = picking.move_ids.filtered(
-                lambda ln, line=line: ln.product_id == line.product_id
-                and ln.fiscal_operation_id == line.fiscal_operation_id
+                lambda ln, line=line: (
+                    ln.product_id == line.product_id
+                    and ln.fiscal_operation_id == line.fiscal_operation_id
+                )
             )
             self.assertEqual(
                 line.tax_ids,
