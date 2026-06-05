@@ -106,6 +106,7 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "optante_simples_nacional": rps_info.get("optante_simples_nacional", False),
             "regime_especial_tributacao": rps_info.get("natureza_operacao"),
             "finalidade_emissao": rps_info.get("finalidade_emissao", "0"),
+            "consumidor_final": rps_info.get("consumidor_final", False),
             "indicador_destinatario": rps_info.get("indicador_destinatario", "9"),
             "operacao_onerosa": rps_info.get("operacao_onerosa", False),
             "status": rps_info.get("status"),
@@ -210,6 +211,9 @@ class FocusnfeNfse(FocusnfeNfseBase):
             "cbs_valor": round(service.get("cbs_valor", 0), 2)
             if service.get("cbs_valor")
             else None,
+            "ibs_uf_percentual_diferimento": 0.0,
+            "ibs_mun_percentual_diferimento": 0.0,
+            "cbs_percentual_diferimento": 0.0,
         }
 
     def _prepare_recipient_data(self, recipient, identification, company):

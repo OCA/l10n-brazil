@@ -331,6 +331,7 @@ class Document(models.Model):
             "natureza_operacao": self.operation_nature,
             "regime_especial_tributacao": self.taxation_special_regime,
             "finalidade_emissao": "0",
+            "consumidor_final": False,
             "indicador_destinatario": "1"
             if (self.partner_id.is_company and self.partner_id.l10n_br_ie_code)
             else "9",
