@@ -57,6 +57,32 @@ class AccountMove(models.Model):
             }
         )
 
+        if self.payment_mode_id.cnab_config_id.bank_code_bc == "748":
+            self._get_nosso_numero(boletos)
+
+    def _get_nosso_numero(self, boletos):
+        brcobranca_api_url = get_brcobranca_api_url(self.env)
+        brcobranca_service_url = brcobranca_api_url + "/api/boleto/nosso_numero"
+        for boleto in boletos:
+            if 'bank' in boleto:
+                del boleto['bank']
+            payload = {
+                'bank': 'sicredi',
+                'data': json.dumps(boleto)
+            }
+
+            res = requests.get(
+                brcobranca_service_url,
+                params=payload,
+                timeout=TIMEOUT,
+            )
+            nosso_numero = res.json()
+            receivable_ids = self.mapped("financial_move_line_ids")
+            for linha in receivable_ids:
+                for payment in linha.payment_line_ids:
+                    if payment.own_number == str(boleto['nosso_numero']).zfill(5):
+                        payment.write({'own_number': nosso_numero})
+
     def _get_brcobranca_boleto(self, boletos):
         content = json.dumps(boletos)
         f = open(tempfile.mktemp(), "w")
