@@ -88,6 +88,7 @@
 
         <xpath expr="//page[@name='sale_lines']" position="before">
             <field name="country_id" invisible="1" />
+            <field name="product_uom" invisible="1" force_save="1" />
             <page name="fiscal_taxes" string="Taxes" />
 
             <page name="amounts" string="Amounts">
