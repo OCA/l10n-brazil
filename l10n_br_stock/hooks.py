@@ -82,10 +82,55 @@ def set_stock_warehouse_external_ids(env, company_external_id):
     env["ir.model.data"]._update_xmlids(data_list)
 
 
+def ensure_demo_warehouse(env, company_external_id, partner_external_id, code):
+    """Ensure a demo warehouse exists for the given company.
+
+    The stock module auto-creates a warehouse for each company, but in some
+    installation orders (e.g. OCA CI installing many modules at once) the
+    warehouse may not exist yet when l10n_br_stock's hooks run. This function
+    creates it if needed and is idempotent.
+    """
+    company = env.ref(company_external_id, raise_if_not_found=False)
+    if not company:
+        return
+    warehouse = env["stock.warehouse"].search(
+        [("company_id", "=", company.id)], limit=1
+    )
+    if warehouse:
+        return warehouse
+    partner = env.ref(partner_external_id, raise_if_not_found=False)
+    vals = {
+        "name": company.name,
+        "code": code,
+        "company_id": company.id,
+    }
+    if partner:
+        vals["partner_id"] = partner.id
+    _logger.info(
+        "Creating demo warehouse %s (%s) for company %s",
+        code,
+        company.name,
+        company_external_id,
+    )
+    return env["stock.warehouse"].create(vals)
+
+
 def pre_init_hook(env):
     """Import XML data to change core data"""
     if env.ref("base.module_stock").demo:
         _logger.info("Loading l10n_br_stock warehouse external ids...")
+        ensure_demo_warehouse(
+            env,
+            "l10n_br_base.empresa_simples_nacional",
+            "l10n_br_base.res_partner_cliente1_sp",
+            "ESN",
+        )
+        ensure_demo_warehouse(
+            env,
+            "l10n_br_base.empresa_lucro_presumido",
+            "l10n_br_base.res_partner_cliente1_sp",
+            "ELP",
+        )
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
         set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
 
@@ -116,6 +161,11 @@ def create_locations_quants(env, locations, products):
 
 def post_init_hook(env):
     if env.ref("base.module_l10n_br_stock").demo:
+        # Create external IDs for demo company warehouses (they didn't exist
+        # during pre_init_hook because stock module creates them after)
+        set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_simples_nacional")
+        set_stock_warehouse_external_ids(env, "l10n_br_base.empresa_lucro_presumido")
+
         # Get warehouses for demo companies
         company_sn = env.ref(
             "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False

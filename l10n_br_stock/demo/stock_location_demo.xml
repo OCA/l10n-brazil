@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
+    <!--
+        Warehouse records are created in hooks.py (pre_init_hook) to avoid
+        duplicate key violations when the stock module already auto-created
+        warehouses for the demo companies. The hooks set the external IDs
+        (wh_empresa_simples_nacional, wh_empresa_lucro_presumido) on those
+        existing warehouses, so we reference them here via ref().
+    -->
+
     <!-- Simples Nacional -->
 
     <record id="stock_location_sn_shelf_1" model="stock.location">
@@ -7,8 +15,7 @@
         <field name="posx">0</field>
         <field
             name="location_id"
-            model="stock.warehouse"
-            eval="obj().env['stock.warehouse'].search([('company_id', '=', ref('l10n_br_base.empresa_simples_nacional'))], limit=1).lot_stock_id.id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
         />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
     </record>
@@ -18,8 +25,7 @@
         <field name="posx">0</field>
         <field
             name="location_id"
-            model="stock.warehouse"
-            eval="obj().env['stock.warehouse'].search([('company_id', '=', ref('l10n_br_base.empresa_simples_nacional'))], limit=1).lot_stock_id.id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
         />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
     </record>
@@ -31,8 +37,7 @@
         <field name="posx">0</field>
         <field
             name="location_id"
-            model="stock.warehouse"
-            eval="obj().env['stock.warehouse'].search([('company_id', '=', ref('l10n_br_base.empresa_lucro_presumido'))], limit=1).lot_stock_id.id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
@@ -42,8 +47,7 @@
         <field name="posx">0</field>
         <field
             name="location_id"
-            model="stock.warehouse"
-            eval="obj().env['stock.warehouse'].search([('company_id', '=', ref('l10n_br_base.empresa_lucro_presumido'))], limit=1).lot_stock_id.id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
     </record>
