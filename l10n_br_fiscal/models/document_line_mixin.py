@@ -119,11 +119,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             [
                 fname
                 for fname, _field in filter(
-                    lambda item: item[1].compute
-                    in (
-                        "_compute_tax_fields",
-                        "_compute_fiscal_tax_ids",
-                        "_compute_product_fiscal_fields",
+                    lambda item: (
+                        item[1].compute
+                        in (
+                            "_compute_tax_fields",
+                            "_compute_fiscal_tax_ids",
+                            "_compute_product_fiscal_fields",
+                        )
                     ),
                     self.env["l10n_br_fiscal.document.line.mixin"]._fields.items(),
                 )
@@ -317,6 +319,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "ind_final",
     )
     def _compute_fiscal_tax_ids(self):
+        if self.env.context.get("skip_compute_fiscal_tax_ids"):
+            return
         for line in self:
             if line.fiscal_operation_line_id:
                 mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
