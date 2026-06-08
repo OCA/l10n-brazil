@@ -230,10 +230,12 @@ class AccountPaymentOrder(models.Model):
         date = context_today.strftime("%d%m")
         file_number = self.file_number
         if cnab_type == "240":
+            # Banco Sicredi e diferente do padrão dos outros bancos
             if self.journal_id.bank_id.code_bc == '748':
                 dia = context_today.strftime("%d").zfill(2)
                 mes = int(context_today.strftime("%m"))
                 if mes > 9:
+                    # O = Outubro, N = Novembro, D = Dezembro
                     mes = context_today.strftime("%b")[:0]
                 file_name = f"{self.payment_mode_id.cnab_config_id.cnab_company_bank_code}{str(mes)}{dia}"
                 existe = self.env["ir.attachment"].read_group(
