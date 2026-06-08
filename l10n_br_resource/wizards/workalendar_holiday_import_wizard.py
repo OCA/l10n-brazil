@@ -66,7 +66,6 @@ class WorkalendarHolidayImport(models.TransientModel):
                 {
                     "name": "Calendar " + country.name,
                     "country_id": country.id,
-                    # '':u'N',
                 }
             )
             return calendar
@@ -204,7 +203,7 @@ class WorkalendarHolidayImport(models.TransientModel):
                                 "date_from": date_from,
                                 "date_to": date_to,
                                 "leave_type": holiday.tipo,
-                                "abrangencia": holiday.abrangencia,
+                                "coverage": holiday.abrangencia,
                             }
                         )
                 date_reference += relativedelta(years=1)
