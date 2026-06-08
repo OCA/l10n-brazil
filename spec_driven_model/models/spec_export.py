@@ -31,7 +31,9 @@ class SpecMixinExport(models.AbstractModel):
                 binding_type = self.fix_camel_case(binding_type)
             if not binding_type:
                 # TODO fix these pathologic cases
-                print("TODO fix these cases", field_name, self, odoo_class)
+                _logger.debug(
+                    "TODO fix these cases %s %s %s", field_name, self, odoo_class
+                )
                 binding_type = odoo_class._get_spec_property(
                     f"binding_type_{field_name.split('_')[1]}"
                 )
@@ -50,7 +52,9 @@ class SpecMixinExport(models.AbstractModel):
             assert len(binding_types) == 1, (
                 f"Found several (or no) _binding_type attributes in {odoo_class} "
                 f"ancestors: {binding_types}. You can define a "
-                f"_{self._spec_prefix()}_binding_type{'_' + field_name.split('_')[1] if field_name else ''} in {odoo_class} "
+                f"_{self._spec_prefix()}_binding_type"
+                f"{'_' + field_name.split('_')[1] if field_name else ''} "
+                f"in {odoo_class} "
                 "to avoid ambiguities."
             )
             binding_type = binding_types.pop()
@@ -63,7 +67,7 @@ class SpecMixinExport(models.AbstractModel):
         if not word:
             return word
 
-        # Initialize a list with the first character (since it never changes case based on this rule)
+        # First character never changes case
         result = [word[0]]
 
         for i in range(1, len(word)):
