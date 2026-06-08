@@ -5,14 +5,14 @@ from workalendar.america.brazil import IBGE_REGISTER
 
 
 class BrazilianHoliday:
-    def __init__(self, nome, data, estado_ibge, municipio_ibge, abrangencia, tipo):
-        self.estado_ibge = estado_ibge
-        self.municipio_ibge = municipio_ibge
-        self.municipio_nome = ""
-        self.abrangencia = abrangencia
-        self.tipo = tipo
-        self.nome = nome
-        self.data = data
+    def __init__(self, name, date, state_ibge, city_ibge, coverage, leave_type):
+        self.state_ibge = state_ibge
+        self.city_ibge = city_ibge
+        self.city_name = ""
+        self.coverage = coverage
+        self.leave_type = leave_type
+        self.name = name
+        self.date = date
 
 
 # Commemorative holidays list
@@ -34,13 +34,13 @@ def brazil_all_holidays_set(year):
         holiday_date = national_holidays[0]
 
         if national_holidays[1] in COMMEMORATIVE_HOLIDAYS:
-            tipo_feriado = "C"
+            holiday_leave_type = "C"
         else:
-            tipo_feriado = "F"
+            holiday_leave_type = "F"
         holiday_obj = BrazilianHoliday(
-            holiday_name, holiday_date, None, None, "N", tipo_feriado
+            holiday_name, holiday_date, None, None, "N", holiday_leave_type
         )
-        if not any(x.nome == holiday_obj.nome for x in holidays_set):
+        if not any(x.name == holiday_obj.name for x in holidays_set):
             holidays_set.append(holiday_obj)
 
     # Get brazilian bank holidays
@@ -50,34 +50,34 @@ def brazil_all_holidays_set(year):
         holiday_date = bank_holidays[0]
 
         holiday_obj = BrazilianHoliday(holiday_name, holiday_date, None, None, "N", "B")
-        if not any(x.nome == holiday_obj.nome for x in holidays_set):
+        if not any(x.name == holiday_obj.name for x in holidays_set):
             holidays_set.append(holiday_obj)
 
     # Get holidays from brazilian state
     for register in IBGE_REGISTER.items():
-        estado_ibge = re.sub("BR-IBGE-", "", register[0])
-        if len(estado_ibge) == 2:
+        state_ibge = re.sub("BR-IBGE-", "", register[0])
+        if len(state_ibge) == 2:
             cal_state = IBGE_REGISTER[register[0]]()
             for state_holidays in cal_state.holidays(year):
                 holiday_name = state_holidays[1]
                 holiday_date = state_holidays[0]
 
                 holiday_obj = BrazilianHoliday(
-                    holiday_name, holiday_date, estado_ibge, None, "E", "F"
+                    holiday_name, holiday_date, state_ibge, None, "E", "F"
                 )
 
                 # Check if is just a state holiday
                 if not any(
-                    (x.nome == holiday_obj.nome and not x.estado_ibge)
+                    (x.name == holiday_obj.name and not x.state_ibge)
                     for x in holidays_set
                 ):
                     holidays_set.append(holiday_obj)
 
     # Get brazilian municipal holidays
     for register in IBGE_REGISTER.items():
-        municipio_ibge = re.sub("BR-IBGE-", "", register[0])
-        estado_ibge = municipio_ibge[0:2]
-        if len(municipio_ibge) > 2:
+        city_ibge = re.sub("BR-IBGE-", "", register[0])
+        state_ibge = city_ibge[0:2]
+        if len(city_ibge) > 2:
             cal_city = IBGE_REGISTER[register[0]]()
 
             for city_holiday in cal_city.holidays(year):
@@ -85,12 +85,12 @@ def brazil_all_holidays_set(year):
                 holiday_date = city_holiday[0]
 
                 holiday_obj = BrazilianHoliday(
-                    holiday_name, holiday_date, estado_ibge, municipio_ibge, "M", "F"
+                    holiday_name, holiday_date, state_ibge, city_ibge, "M", "F"
                 )
 
                 # Check if is just a municipal holiday
                 if not any(
-                    (x.nome == holiday_obj.nome and not x.municipio_ibge)
+                    (x.name == holiday_obj.name and not x.city_ibge)
                     for x in holidays_set
                 ):
                     holidays_set.append(holiday_obj)
