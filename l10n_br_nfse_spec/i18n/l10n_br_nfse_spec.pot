@@ -4,16 +4,14 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
-"Language-Team: none\n"
-"Language: pt_BR\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"Plural-Forms: \n"
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfse_spec.selection__l10n_br_fiscal_document_line__nfse10_CST__00
@@ -230,8 +228,8 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcinfnfse__nfse10_xLocIncid
 msgid ""
-"A descrição do código de município utilizado pelo Sistema Nacional NFS-e é o "
-"nome de cada município pertencente ao 'Anexo V – Tabela de Código de "
+"A descrição do código de município utilizado pelo Sistema Nacional NFS-e é o"
+" nome de cada município pertencente ao 'Anexo V – Tabela de Código de "
 "Municípios do IBGE', que consta ao final do Manual de Orientação ao "
 "Contribuinte do ISSQN para a Sefin Nacional NFS-e."
 msgstr ""
@@ -332,8 +330,8 @@ msgstr ""
 msgid ""
 "Chave da nota, número identificador da nota, número do contrato ou outro "
 "identificador de documento emitido pelo prestador de serviços, que subsidia "
-"a emissão dessa nota pelo tomador do serviço ou intermediário (preenchimento "
-"obrigatório caso a nota esteja sendo emitida pelo Tomador ou intermediário "
+"a emissão dessa nota pelo tomador do serviço ou intermediário (preenchimento"
+" obrigatório caso a nota esteja sendo emitida pelo Tomador ou intermediário "
 "do serviço)."
 msgstr ""
 
@@ -375,8 +373,7 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tccomexterior__nfse10_mdic
 msgid ""
-"Compartilhar as informações da NFS-e gerada a partir desta DPS com a "
-"Secretaria de Comércio Exterior:\n"
+"Compartilhar as informações da NFS-e gerada a partir desta DPS com a Secretaria de Comércio Exterior:\n"
 "0 - Não enviar para o MDIC;\n"
 "1 - Enviar para o MDIC;"
 msgstr ""
@@ -499,8 +496,7 @@ msgid ""
 "02 - Enquadramento de NFS-e no Simples Nacional;\n"
 "03 - Inclusão Retroativa de Imunidade/Isenção para NFS-e;\n"
 "04 - Exclusão Retroativa de Imunidade/Isenção para NFS-e;\n"
-"05 - Rejeição de NFS-e pelo tomador ou pelo intermediário se responsável "
-"pelo recolhimento do tributo;\n"
+"05 - Rejeição de NFS-e pelo tomador ou pelo intermediário se responsável pelo recolhimento do tributo;\n"
 "99 - Outros;"
 msgstr ""
 
@@ -518,8 +514,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tccserv__nfse10_cTribNac
 msgid ""
 "Código de tributação nacional do ISSQN:\n"
-"Regra de formação - 6 dígitos numéricos sendo: 2 para Item (LC 116/2003), 2 "
-"para Subitem (LC 116/2003) e 2 para Desdobro Nacional"
+"Regra de formação - 6 dígitos numéricos sendo: 2 para Item (LC 116/2003), 2 para Subitem (LC 116/2003) e 2 para Desdobro Nacional"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -672,8 +667,8 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcinfnfse__nfse10_dhProc
 msgid ""
-"Data/Hora da validação da DPS e geração da NFS-e. Data e hora no formato UTC "
-"(Universal Coordinated Time):AAAA-MM-DDThh:mm:ssTZD"
+"Data/Hora da validação da DPS e geração da NFS-e. Data e hora no formato UTC"
+" (Universal Coordinated Time):AAAA-MM-DDThh:mm:ssTZD"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -880,8 +875,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcinfodedred__nfse10_documentos
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tclistadocdedred__nfse10_docDedRed
 msgid ""
-"Grupo de informações de documento utilizado para Dedução/Redução do valor do "
-"serviço"
+"Grupo de informações de documento utilizado para Dedução/Redução do valor do"
+" serviço"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -1022,8 +1017,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcserv__nfse10_lsadppu
 msgid ""
 "Grupo de informações relativas a atividades de Locação, sublocação, "
-"arrendamento, direito de passagem ou permissão de uso, compartilhado ou não, "
-"de ferrovia, rodovia, postes, cabos, dutos e condutos de qualquer natureza"
+"arrendamento, direito de passagem ou permissão de uso, compartilhado ou não,"
+" de ferrovia, rodovia, postes, cabos, dutos e condutos de qualquer natureza"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -1113,7 +1108,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcinfdps__nfse10_Id
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tcinfnfse__nfse10_Id
 msgid "Id"
-msgstr "Id"
+msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,field_description:l10n_br_nfse_spec.field_nfse_10_tccomexterior__nfse10_tpMoeda
@@ -1191,12 +1186,8 @@ msgid ""
 "0 - Imunidade (tipo não informado na nota de origem);\n"
 "1 - Patrimônio, renda ou serviços, uns dos outros (CF88, Art 150, VI, a);\n"
 "2 - Templos de qualquer culto (CF88, Art 150, VI, b);\n"
-"3 - Patrimônio, renda ou serviços dos partidos políticos, inclusive suas "
-"fundações, das entidades sindicais dos trabalhadores, das instituições de "
-"educação e de assistência social, sem fins lucrativos, atendidos os "
-"requisitos da lei (CF88, Art 150, VI, c);\n"
-"4 - Livros, jornais, periódicos e o papel destinado a sua impressão (CF88, "
-"Art 150, VI, d);"
+"3 - Patrimônio, renda ou serviços dos partidos políticos, inclusive suas fundações, das entidades sindicais dos trabalhadores, das instituições de educação e de assistência social, sem fins lucrativos, atendidos os requisitos da lei (CF88, Art 150, VI, c);\n"
+"4 - Livros, jornais, periódicos e o papel destinado a sua impressão (CF88, Art 150, VI, d);"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -1208,11 +1199,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcbeneficiomunicipal__nfse10_tpBM
 msgid ""
 "Identificação da Lei parametrizada pelo município que define o benefício.\n"
-"Trata-se de um identificador único que foi gerado pelo Sistema Nacional no "
-"momento em que o município de incidência do ISSQN incluiu o benefício no "
-"sistema.\n"
-"Tem a seguinte regra de formação: 7 dígitos com o código IBGE do município + "
-"4 dígitos com número sequencial.\n"
+"Trata-se de um identificador único que foi gerado pelo Sistema Nacional no momento em que o município de incidência do ISSQN incluiu o benefício no sistema.\n"
+"Tem a seguinte regra de formação: 7 dígitos com o código IBGE do município + 4 dígitos com número sequencial.\n"
 "Deve ser obtido da parametrização do município de incidência do ISSQN."
 msgstr ""
 
@@ -1234,8 +1222,7 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctribtotal__nfse10_indTotTrib
 msgid ""
-"Indicador de informação de valor total de tributos. Possui valor fixo igual "
-"a zero (indTotTrib=0).\n"
+"Indicador de informação de valor total de tributos. Possui valor fixo igual a zero (indTotTrib=0).\n"
 "Não informar nenhum valor estimado para os Tributos (Decreto 8.264/2014).\n"
 "0 - Não;"
 msgstr ""
@@ -1314,14 +1301,11 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tccomexterior__nfse10_mecAFComexP
 msgid ""
-"Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo prestador do "
-"serviço:\n"
+"Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo prestador do serviço:\n"
 "00 - Desconhecido (tipo não informado na nota de origem);\n"
 "01 - Nenhum;\n"
-"02 - ACC - Adiantamento sobre Contrato de Câmbio – Redução a Zero do IR e do "
-"IOF;\n"
-"03 - ACE – Adiantamento sobre Cambiais Entregues - Redução a Zero do IR e do "
-"IOF;\n"
+"02 - ACC - Adiantamento sobre Contrato de Câmbio – Redução a Zero do IR e do IOF;\n"
+"03 - ACE – Adiantamento sobre Cambiais Entregues - Redução a Zero do IR e do IOF;\n"
 "04 - BNDES-Exim Pós-Embarque – Serviços;\n"
 "05 - BNDES-Exim Pré-Embarque - Serviços;\n"
 "06 - FGE - Fundo de Garantia à Exportação;\n"
@@ -1332,14 +1316,12 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tccomexterior__nfse10_mecAFComexT
 msgid ""
-"Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo tomador do "
-"serviço:\n"
+"Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo tomador do serviço:\n"
 "00 - Desconhecido (tipo não informado na nota de origem);\n"
 "01 - Nenhum;\n"
 "02 - Adm. Pública e Repr. Internacional;\n"
 "03 - Alugueis e Arrend. Mercantil de maquinas, equip., embarc. e aeronaves;\n"
-"04 - Arrendamento Mercantil de aeronave para empresa de transporte aéreo "
-"público;\n"
+"04 - Arrendamento Mercantil de aeronave para empresa de transporte aéreo público;\n"
 "05 - Comissão a agentes externos na exportação;\n"
 "06 - Despesas de armazenagem, mov. e transporte de carga no exterior;\n"
 "07 - Eventos FIFA (subsidiária);\n"
@@ -1662,8 +1644,7 @@ msgstr ""
 msgid ""
 "Número do telefone do emitente.\n"
 "(Preencher com o Código DDD + número do telefone.\n"
-"Nas operações com exterior é permitido informar o código do país + código da "
-"localidade + número do telefone)"
+"Nas operações com exterior é permitido informar o código do país + código da localidade + número do telefone)"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -1678,8 +1659,7 @@ msgstr ""
 msgid ""
 "Número do telefone do prestador:\n"
 "Preencher com o Código DDD + número do telefone.\n"
-"Nas operações com exterior é permitido informar o código do país + código da "
-"localidade + número do telefone)"
+"Nas operações com exterior é permitido informar o código do país + código da localidade + número do telefone)"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -1703,10 +1683,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcinfnfse__nfse10_nNFSe
 msgid ""
 "Número sequencial por tipo de emitente da NFS-e.\n"
-"A Sefin Nacional NFS-e irá gerar o número da NFS-e de forma sequencial por "
-"emitente. Por se tratar de um ambiente altamente transacional, a Sefin "
-"Nacional NFS-e não irá reutilizar números inutilizados durante a geração da "
-"NFS-e."
+"A Sefin Nacional NFS-e irá gerar o número da NFS-e de forma sequencial por emitente. Por se tratar de um ambiente altamente transacional, a Sefin Nacional NFS-e não irá reutilizar números inutilizados durante a geração da NFS-e."
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -1723,31 +1700,17 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcinfnfse__nfse10_cLocIncid
 msgid ""
-"O código de município utilizado pelo Sistema Nacional NFS-e é o código "
-"definido para cada município pertencente ao ''Anexo V – Tabela de Código de "
-"Municípios do IBGE'', que consta ao final do Manual de Orientação ao "
-"Contribuinte do ISSQN para a Sefin Nacional NFS-e.\n"
-"O município de incidência do ISSQN é determinado automaticamente pelo "
-"sistema, conforme regras do aspecto espacial da lei complementar federal (LC "
-"116/03) que são válidas para todos  os municípios.\n"
+"O código de município utilizado pelo Sistema Nacional NFS-e é o código definido para cada município pertencente ao ''Anexo V – Tabela de Código de Municípios do IBGE'', que consta ao final do Manual de Orientação ao Contribuinte do ISSQN para a Sefin Nacional NFS-e.\n"
+"O município de incidência do ISSQN é determinado automaticamente pelo sistema, conforme regras do aspecto espacial da lei complementar federal (LC 116/03) que são válidas para todos  os municípios.\n"
 "http://www.planalto.gov.br/ccivil_03/Leis/LCP/Lcp116.htm"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcinfdps__nfse10_cLocEmi
 msgid ""
-"O código de município utilizado pelo Sistema Nacional NFS-e é o código "
-"definido para cada município pertencente ao ''Anexo V – Tabela de Código de "
-"Municípios do IBGE'', que consta ao final do Manual de Orientação ao "
-"Contribuinte do ISSQN para a Sefin Nacional NFS-e.\n"
-"O município emissor da NFS-e é aquele município em que o emitente da DPS "
-"está cadastrado e autorizado a 'emitir uma NFS-e', ou seja, emitir uma DPS "
-"para que o sistema nacional valide as informações nela prestadas e gere a "
-"NFS-e correspondente para o emitente.\n"
-"Para que o sistema nacional emita a NFS-e o município emissor deve ser "
-"conveniado e estar ativo no sistema nacional. Além disso o convênio do "
-"município deve permitir que os contribuintes do município utilize os "
-"emissores públicos do Sistema Nacional NFS-e"
+"O código de município utilizado pelo Sistema Nacional NFS-e é o código definido para cada município pertencente ao ''Anexo V – Tabela de Código de Municípios do IBGE'', que consta ao final do Manual de Orientação ao Contribuinte do ISSQN para a Sefin Nacional NFS-e.\n"
+"O município emissor da NFS-e é aquele município em que o emitente da DPS está cadastrado e autorizado a 'emitir uma NFS-e', ou seja, emitir uma DPS para que o sistema nacional valide as informações nela prestadas e gere a NFS-e correspondente para o emitente.\n"
+"Para que o sistema nacional emita a NFS-e o município emissor deve ser conveniado e estar ativo no sistema nacional. Além disso o convênio do município deve permitir que os contribuintes do município utilize os emissores públicos do Sistema Nacional NFS-e"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -1791,24 +1754,17 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcregtrib__nfse10_regApTribSN
 msgid ""
-"Opção para que o contribuinte optante pelo Simples Nacional ME/EPP "
-"(opSimpNac = 3) possa indicar, ao emitir o documento fiscal, em qual regime "
-"de apuração os tributos federais e municipal estão inseridos, caso tenha "
-"ultrapassado algum sublimite ou limite definido para o Simples Nacional.\n"
+"Opção para que o contribuinte optante pelo Simples Nacional ME/EPP (opSimpNac = 3) possa indicar, ao emitir o documento fiscal, em qual regime de apuração os tributos federais e municipal estão inseridos, caso tenha ultrapassado algum sublimite ou limite definido para o Simples Nacional.\n"
 "1 – Regime de apuração dos tributos federais e municipal pelo SN;\n"
-"2 – Regime de apuração dos tributos federais pelo SN e ISSQN  por fora do SN "
-"conforme respectiva legislação municipal do tributo;\n"
-"3 – Regime de apuração dos tributos federais e municipal por fora do SN "
-"conforme respectivas legilações federal e municipal de cada tributo;"
+"2 – Regime de apuração dos tributos federais pelo SN e ISSQN  por fora do SN conforme respectiva legislação municipal do tributo;\n"
+"3 – Regime de apuração dos tributos federais e municipal por fora do SN conforme respectivas legilações federal e municipal de cada tributo;"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tclocprest__nfse10_opConsumServ
 msgid ""
-"Opção para que o emitente informe onde ocorreu o consumo do serviço "
-"prestado.\n"
-"0 - Consumo do serviço prestado ocorrido no município do local da "
-"prestação;\n"
+"Opção para que o emitente informe onde ocorreu o consumo do serviço prestado.\n"
+"0 - Consumo do serviço prestado ocorrido no município do local da prestação;\n"
 "1 - Consumo do serviço prestado ocorrido ocorrido no exterior ;"
 msgstr ""
 
@@ -2159,8 +2115,8 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tclocacaosublocacao__nfse10_objeto
 msgid ""
-"Tipo de objetos da locação, sublocação, arrendamento, direito de passagem ou "
-"permissão de uso"
+"Tipo de objetos da locação, sublocação, arrendamento, direito de passagem ou"
+" permissão de uso"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2288,13 +2244,9 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctribmunicipal__nfse10_pAliq
 msgid ""
-"Valor da alíquota (%) do serviço prestado relativo ao município sujeito "
-"ativo (município de incidência) do ISSQN.\n"
-"Se o município de incidência pertence ao Sistema Nacional NFS-e a alíquota "
-"estará parametrizada e, portanto, será fornecida pelo sistema.\n"
-"Se o município de incidência não pertence ao Sistema Nacional NFS-e a "
-"alíquota não estará parametrizada e, por isso, deverá ser fornecida pelo "
-"emitente."
+"Valor da alíquota (%) do serviço prestado relativo ao município sujeito ativo (município de incidência) do ISSQN.\n"
+"Se o município de incidência pertence ao Sistema Nacional NFS-e a alíquota estará parametrizada e, portanto, será fornecida pelo sistema.\n"
+"Se o município de incidência não pertence ao Sistema Nacional NFS-e a alíquota não estará parametrizada e, por isso, deverá ser fornecida pelo emitente."
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2334,11 +2286,8 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcvaloresnfse__nfse10_vLiq
 msgid ""
-"Valor líquido = Valor do serviço - Desconto condicionado - Desconto "
-"incondicionado - Valores retidos (CP, IRRF, CSLL)* - Valores, se retidos "
-"(ISSQN, PIS, COFINS)**\n"
-"Valor Líquido (R$) = vServ – vDescIncond – vDescCond – (vRetCP + vRetIRRF + "
-"vRetCSLL)* – (vISSQN - vPIS + vCOFINS)**"
+"Valor líquido = Valor do serviço - Desconto condicionado - Desconto incondicionado - Valores retidos (CP, IRRF, CSLL)* - Valores, se retidos (ISSQN, PIS, COFINS)**\n"
+"Valor Líquido (R$) = vServ – vDescIncond – vDescCond – (vRetCP + vRetIRRF + vRetCSLL)* – (vISSQN - vPIS + vCOFINS)**"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2419,8 +2368,8 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcbeneficiomunicipal__nfse10_vRedBCBM
 msgid ""
-"Valor monetário informado pelo emitente para redução da base de cálculo (BC) "
-"do ISSQN devido a um Benefício Municipal (BM)."
+"Valor monetário informado pelo emitente para redução da base de cálculo (BC)"
+" do ISSQN devido a um Benefício Municipal (BM)."
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2475,8 +2424,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcdocdedred__nfse10_vDedutivelRedutivel
 msgid ""
 "Valor monetário total dedutível/redutível no documento informado (R$).\n"
-"Este é o valor total no documento informado que é passível de dedução/"
-"redução."
+"Este é o valor total no documento informado que é passível de dedução/redução."
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2487,8 +2435,7 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcdocdedred__nfse10_vDeducaoReducao
 msgid ""
-"Valor monetário utilizado para dedução/redução do valor do serviço da NFS-e "
-"que está sendo emitida (R$).\n"
+"Valor monetário utilizado para dedução/redução do valor do serviço da NFS-e que está sendo emitida (R$).\n"
 "Deve ser menor ou igual ao valor deduzível/redutível (vDedutivelRedutivel)."
 msgstr ""
 
@@ -2550,8 +2497,8 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tctribtotal__nfse10_pTotTrib
 msgid ""
-"Valor percentual total aproximado dos tributos, em conformidade com o artigo "
-"1o da Lei no 12.741/2012"
+"Valor percentual total aproximado dos tributos, em conformidade com o artigo"
+" 1o da Lei no 12.741/2012"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
@@ -2562,10 +2509,8 @@ msgstr ""
 #. module: l10n_br_nfse_spec
 #: model:ir.model.fields,help:l10n_br_nfse_spec.field_nfse_10_tcvaloresnfse__nfse10_vTotalRet
 msgid ""
-"Valor total de retenções = Σ(CP + IRRF + CSLL  + ISSQN* +  (PIS + "
-"COFINS)**)\n"
-"vTotalRet (R$) = (vRetCP + vRetIRRF + vRetCSLL) + vISSQN* + (vPIS + "
-"vCOFINS)**"
+"Valor total de retenções = Σ(CP + IRRF + CSLL  + ISSQN* +  (PIS + COFINS)**)\n"
+"vTotalRet (R$) = (vRetCP + vRetIRRF + vRetCSLL) + vISSQN* + (vPIS + vCOFINS)**"
 msgstr ""
 
 #. module: l10n_br_nfse_spec
