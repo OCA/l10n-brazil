@@ -43,7 +43,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "date_to": fields.Datetime.to_datetime("2016-03-21 23:59:59"),
                 "calendar_id": self.nacional_calendar_id.id,
                 "leave_type": "F",
-                "abrangencia": "N",
+                "coverage": "N",
                 "resource_id": self.resource_1.id,
             }
         )
@@ -60,7 +60,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "date_to": fields.Datetime.to_datetime("2016-01-25 23:59:59"),
                 "calendar_id": self.estadual_calendar_id.id,
                 "leave_type": "F",
-                "abrangencia": "E",
+                "coverage": "E",
             }
         )
         self.municipal_calendar_id = self.resource_calendar.create(
@@ -76,7 +76,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "date_to": fields.Datetime.to_datetime("2016-08-25 23:59:59"),
                 "calendar_id": self.municipal_calendar_id.id,
                 "leave_type": "F",
-                "abrangencia": "M",
+                "coverage": "M",
             }
         )
 
@@ -100,7 +100,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "date_to": fields.Datetime.to_datetime("2016-12-24 23:59:59"),
                 "calendar_id": self.nacional_calendar_id.id,
                 "leave_type": "F",
-                "abrangencia": "N",
+                "coverage": "N",
             }
         )
         self.assertEqual(self.leave_nacional_02.name, "Natal")
@@ -116,7 +116,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "date_to": fields.Datetime.to_datetime("2016-07-16 23:59:59"),
                 "calendar_id": self.estadual_calendar_id.id,
                 "leave_type": "F",
-                "abrangencia": "E",
+                "coverage": "E",
             }
         )
         self.assertEqual(self.leave_estadual_02.name, "Aniversario MG")
@@ -132,7 +132,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "date_to": fields.Datetime.to_datetime("2016-03-19 23:59:59"),
                 "calendar_id": self.municipal_calendar_id.id,
                 "leave_type": "F",
-                "abrangencia": "M",
+                "coverage": "M",
             }
         )
         self.assertEqual(self.leave_municipal_02.name, "Aniversario Itajuba")
@@ -258,7 +258,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "date_to": fields.Datetime.to_datetime("2017-01-21 23:59:59"),
                 "calendar_id": self.nacional_calendar_id.id,
                 "leave_type": "F",
-                "abrangencia": "N",
+                "coverage": "N",
             }
         )
         feriado2 = fields.Datetime.to_datetime("2017-01-21 00:00:00")
@@ -305,7 +305,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
                 "date_to": fields.Datetime.to_datetime("2017-01-13 23:59:59"),
                 "calendar_id": self.nacional_calendar_id.id,
                 "leave_type": "B",
-                "abrangencia": "N",
+                "coverage": "N",
             }
         )
         data = fields.Datetime.to_datetime("2017-01-13 01:02:03")
