@@ -403,7 +403,7 @@ class CNPJWebservice(models.AbstractModel):
         try:
             cep_values = self.env["l10n_br.zip"]._consultar_cep(cep)
         except UserError as error:
-            _logger.warning(error.name)
+            _logger.warning(str(error))
             return False
 
         return cep_values.get("city_id")
