@@ -3,6 +3,10 @@
 
 from odoo.tests import TransactionCase
 
+MOCK_REQUESTS_GET = (
+    "odoo.addons.l10n_br_cnpj_search.wizard.partner_cnpj_search_wizard.requests.get"
+)
+
 
 class TestCnpjCommon(TransactionCase):
     @classmethod
