@@ -17,11 +17,6 @@ msgstr ""
 "X-Generator: Weblate 4.17\n"
 
 #. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__abrangencia
-msgid "Abrangencia"
-msgstr "Abrangência"
-
-#. module: l10n_br_resource
 #: model:ir.actions.act_window,name:l10n_br_resource.action_workalendar_holiday_import
 msgid "Action Import Brazilian Holidays"
 msgstr "Ação Importação Feriados Brasileiros"
@@ -35,6 +30,17 @@ msgstr "Cancelar"
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__child_ids
 msgid "Child Calendar"
 msgstr "Calendário Filho"
+
+#. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__country_id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__coverage
+msgid "Coverage"
+msgstr ""
 
 #. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__create_uid
@@ -57,6 +63,8 @@ msgid "Day(s)"
 msgstr "Dia(s)"
 
 #. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__display_name
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__display_name
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
@@ -67,13 +75,13 @@ msgid "End Date"
 msgstr "Data Final"
 
 #. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__state_id
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__state_id
-msgid "Estado"
-msgstr "Estado"
+#. odoo-python
+#: code:addons/l10n_br_resource/models/resource_calendar.py:0
+msgid "Error! You cannot create recursive hierarchies."
+msgstr ""
 
 #. module: l10n_br_resource
-#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__e
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__coverage__e
 msgid "Estadual"
 msgstr "Estadual"
 
@@ -88,6 +96,8 @@ msgid "Feriado bancário"
 msgstr "Feriado bancário"
 
 #. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__id
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__id
 msgid "ID"
 msgstr "ID"
@@ -115,11 +125,6 @@ msgid "Interval"
 msgstr "Intervalo"
 
 #. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import____last_update
-msgid "Last Modified on"
-msgstr "Última Modificação em"
-
-#. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__write_uid
 msgid "Last Updated by"
 msgstr "Última Atualização por"
@@ -140,18 +145,18 @@ msgid "Month(s)"
 msgstr "Mês(es)"
 
 #. module: l10n_br_resource
-#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__m
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__coverage__m
 msgid "Municipal"
 msgstr "Municipal"
 
 #. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__l10n_br_city_id
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__l10n_br_city_id
-msgid "Municipio"
-msgstr "Municipio"
+msgid "Municipality"
+msgstr ""
 
 #. module: l10n_br_resource
-#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__n
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__coverage__n
 msgid "Nacional"
 msgstr "Nacional"
 
@@ -164,12 +169,6 @@ msgstr "Calendário Pai"
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__parent_path
 msgid "Parent Path"
 msgstr "Caminho Pai"
-
-#. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__country_id
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__country_id
-msgid "País"
-msgstr "País"
 
 #. module: l10n_br_resource
 #: model:ir.model,name:l10n_br_resource.model_resource_calendar_leaves
@@ -187,11 +186,13 @@ msgid "Start Date"
 msgstr "Data de Início"
 
 #. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__leave_type
-msgid "Tipo"
-msgstr "Tipo"
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__state_id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__state_id
+msgid "State"
+msgstr ""
 
 #. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__leave_type
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__interval_type
 msgid "Type"
 msgstr "Tipo"
@@ -225,6 +226,24 @@ msgstr "ou"
 #: model_terms:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "until"
 msgstr "até"
+
+#~ msgid "Abrangencia"
+#~ msgstr "Abrangência"
+
+#~ msgid "Estado"
+#~ msgstr "Estado"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última Modificação em"
+
+#~ msgid "Municipio"
+#~ msgstr "Municipio"
+
+#~ msgid "País"
+#~ msgstr "País"
+
+#~ msgid "Tipo"
+#~ msgstr "Tipo"
 
 #, python-format
 #~ msgid "Error! You cannot create recursive calendars."
