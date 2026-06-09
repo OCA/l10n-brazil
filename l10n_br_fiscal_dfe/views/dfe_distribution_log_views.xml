@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_l10n_br_fiscal_dfe_distribution_log_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.distribution_log.tree</field>
+        <field name="model">l10n_br_fiscal_dfe.distribution_log</field>
+        <field name="arch" type="xml">
+            <tree
+                decoration-danger="log_type == 'error'"
+                decoration-warning="log_type == 'warning'"
+                decoration-info="log_type == 'info'"
+            >
+                <field name="create_date" />
+                <field name="log_type" />
+                <field name="message" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_fiscal_dfe_distribution_log_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.distribution_log.form</field>
+        <field name="model">l10n_br_fiscal_dfe.distribution_log</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="create_date" readonly="1" />
+                            <field name="log_type" readonly="1" />
+                            <field name="company_id" readonly="1" />
+                        </group>
+                    </group>
+                    <field name="message" readonly="1" />
+                    <notebook>
+                        <page string="SOAP Request">
+                            <field
+                                name="request_xml"
+                                readonly="1"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                            />
+                        </page>
+                        <page string="SOAP Response">
+                            <field
+                                name="response_xml"
+                                readonly="1"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record
+        id="action_l10n_br_fiscal_dfe_distribution_log"
+        model="ir.actions.act_window"
+    >
+        <field name="name">DF-e Logs</field>
+        <field name="res_model">l10n_br_fiscal_dfe.distribution_log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

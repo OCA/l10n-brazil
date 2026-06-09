@@ -1,0 +1,618 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Monitor de NF-e</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="monitor-de-nf-e">
+<h1 class="title">Monitor de NF-e</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:60c6f65af17a8157d859d7ff5644fd37d321027d1c3c957a9fd9a49cee107c0b
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfe_dfe"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-16-0/l10n-brazil-16-0-l10n_br_nfe_dfe"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=16.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<div class="section" id="monitor-de-nf-e-distribuicao-de-dfe">
+<h1>Monitor de NF-e (Distribuição de DFe)</h1>
+<p>Este módulo implementa a funcionalidade de monitoramento, download e
+processamento automático de <strong>Notas Fiscais Eletrônicas (NF-e, modelo
+55)</strong> emitidas contra o CNPJ da sua empresa. Ele opera conectando-se
+diretamente ao Web Service de Distribuição de DF-e da SEFAZ (Ambiente
+Nacional).</p>
+<p>Este módulo estende o framework abstrato genérico <tt class="docutils literal">l10n_br_fiscal_dfe</tt>
+e incorpora as necessidades e especificidades exclusivas aplicadas à
+Nota Fiscal Eletrônica (como Manifestação do Destinatário e os schemas
+XML da NF-e).</p>
+<div class="section" id="principais-funcionalidades">
+<h2>Principais Funcionalidades</h2>
+<ul class="simple">
+<li><strong>Consulta Automática (Polling):</strong> Tarefa agendada (Cron) que
+consulta periodicamente o serviço da SEFAZ, garantindo que você tenha
+acesso rápido a todas as NF-es emitidas contra o seu CNPJ sem
+precisar solicitar o arquivo ao fornecedor.</li>
+<li><strong>Processamento Especializado:</strong> Identifica e separa os payloads
+baixados nos seus devidos formatos: XMLs Completos com protocolo
+(<tt class="docutils literal">procNFe</tt>), Resumos da NF-e (<tt class="docutils literal">resNFe</tt>) e Eventos da Nota Fiscal
+(<tt class="docutils literal">resEvento</tt> / <tt class="docutils literal">procEventoNFe</tt>).</li>
+<li><strong>Manifestação do Destinatário (MD-e):</strong> Funcionalidade nativa para
+acusar o recebimento ou rejeição da NF-e perante a SEFAZ:<ul>
+<li><strong>Ciência da Operação:</strong> Confirmação prévia para liberar o
+download do XML completo.</li>
+<li><strong>Confirmação da Operação.</strong></li>
+<li><strong>Desconhecimento da Operação.</strong></li>
+<li><strong>Operação não Realizada.</strong></li>
+</ul>
+</li>
+<li><strong>Manifestação Automática:</strong> Opção para o Odoo aplicar o evento de
+“Ciência da Operação” instantânea e automaticamente a todas as novas
+notas resumidas identificadas, acelerando o recebimento do arquivo
+completo para importação.</li>
+<li><strong>Importação Inteligente:</strong> Botão de ação que converte
+instantaneamente o XML válido baixado em um rascunho de Documento
+Fiscal padrão do Odoo (<tt class="docutils literal">l10n_br_fiscal.document</tt>), pré-populando os
+impostos, CFOPs, emitentes e destinatários.</li>
+<li><strong>Geração de DANFE:</strong> Geração do documento PDF do DANFE utilizando a
+biblioteca <tt class="docutils literal">brazilfiscalreport</tt>.</li>
+<li><strong>Notificações:</strong> Notifica os usuários inscritos, diretamente no
+inbox do Odoo, caso novas NF-es emitidas por terceiros sejam
+detectadas no servidor da Receita Federal.</li>
+</ul>
+<p>Este módulo é implementado em estrita conformidade com a <a class="reference external" href="https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=P0U3lU1Fe40=">Nota Técnica
+2014.002
+v1.30</a>.</p>
+<p><strong>Table of contents</strong></p>
+</div>
+</div>
+<div class="section" id="installation">
+<h1>Installation</h1>
+<p>Este módulo requer os seguintes componentes e dependências para
+funcionar corretamente:</p>
+<ol class="arabic simple">
+<li><strong>Dependências Odoo:</strong><ul>
+<li><tt class="docutils literal">l10n_br_fiscal_dfe</tt> (O framework de distribuição abstrato da
+OCA)</li>
+<li><tt class="docutils literal">l10n_br_nfe</tt> (O módulo base de emissão e gestão de modelos da
+NF-e)</li>
+<li><tt class="docutils literal">queue_job</tt> (Sempre requerido pelo framework base para
+agendamentos e chamadas assíncronas)</li>
+</ul>
+</li>
+<li><strong>Dependências Python:</strong><ul>
+<li><tt class="docutils literal">nfelib</tt>: A biblioteca moderna que consolida os <em>bindings</em> e
+clientes de comunicação para NF-e/CT-e/MDF-e.</li>
+<li><tt class="docutils literal">brazilfiscalreport</tt>: Necessária para realizar o <em>parse</em> do XML
+e desenhar a saída em formato PDF (DANFE).</li>
+</ul>
+</li>
+</ol>
+<p>Para instalar as bibliotecas de sistema Python:</p>
+<pre class="code bash literal-block">
+pip<span class="w"> </span>install<span class="w"> </span>nfelib<span class="w"> </span>brazilfiscalreport
+</pre>
+<div class="section" id="configuracao-pre-requisito-obrigatoria">
+<h2>Configuração Pré-Requisito Obrigatória</h2>
+<p>A SEFAZ bloqueia e rejeita as chamadas aos Web Services caso sua empresa
+não esteja perfeitamente configurada no Odoo. Antes de rodar as
+consultas:</p>
+<ol class="arabic simple">
+<li>Acesse o cadastro de <strong>Empresas</strong> e preencha corretamente o Estado
+(UF) e o <strong>CNPJ/CPF</strong> (somente numéricos ou formatado).</li>
+<li>Na aba <strong>Fiscal</strong> -&gt; <strong>Certificados</strong>, faça o upload e valide o
+<strong>Certificado Digital A1</strong> com a senha correta. Este certificado será
+utilizado ativamente pelo módulo para a troca de chaves com o
+Ambiente Nacional da SEFAZ.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="configuration">
+<h1>Configuration</h1>
+<div class="section" id="canal-queue-job">
+<h2>Canal queue_job</h2>
+<p>O módulo registra os jobs de distribuição DF-e no canal <tt class="docutils literal">root.dfe</tt>. É
+<strong>obrigatório</strong> configurar este canal com capacidade máxima de <strong>1 job
+simultâneo</strong>, caso contrário consultas concorrentes à SEFAZ podem causar
+erro 656 (consumo indevido) e bloqueio temporário do CNPJ.</p>
+<p>No arquivo de configuração do Odoo:</p>
+<pre class="code ini literal-block">
+<span class="k">[queue_job]</span><span class="w">
+</span><span class="na">channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">root:2,root.dfe:1</span>
+</pre>
+<p>Ou via variável de ambiente:</p>
+<pre class="literal-block">
+ODOO_QUEUE_JOB_CHANNELS=root:2,root.dfe:1
+</pre>
+</div>
+<div class="section" id="configuracao-da-empresa">
+<h2>Configuração da empresa</h2>
+<p>Em <strong>Faturamento &gt; Configuração &gt; Empresas</strong>, na aba <strong>Fiscal &gt; DF-e</strong>
+(Configurações DF-e):</p>
+<ul class="simple">
+<li><strong>Versão DF-e</strong>: versão do serviço (padrão: 1.01)</li>
+<li><strong>Ambiente DF-e</strong>: Produção ou Homologação</li>
+<li><strong>Busca automática de DF-e</strong>: habilita a consulta automática via cron</li>
+<li><strong>Manifestação Automática do Destinatário (NF-e)</strong>: envia ciência da
+operação automaticamente para cada resumo de NF-e recebido</li>
+</ul>
+<p>A empresa precisa ter um <strong>certificado digital A1</strong> configurado no
+módulo <tt class="docutils literal">l10n_br_fiscal_certificate</tt>.</p>
+</div>
+<div class="section" id="notificacao-de-documentos-por-usuario">
+<h2>Notificação de documentos (por usuário)</h2>
+<p>Em <strong>Preferências do Usuário</strong>, o campo <strong>Notificação DF-e</strong> habilita o
+recebimento de notificações na caixa de entrada quando novos documentos
+de terceiros são encontrados pela distribuição DF-e.</p>
+</div>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<div class="section" id="configuracao">
+<h2>Configuração</h2>
+<p>Para habilitar a busca e o processamento automático de notas:</p>
+<ol class="arabic simple">
+<li>Acesse <strong>Configurações &gt; Usuários e Empresas &gt; Empresas</strong>.</li>
+<li>Abra o cadastro da sua empresa e localize a aba ou seção <strong>NF-e
+DF-e</strong>.</li>
+<li>Marque a opção <strong>Auto-fetch NF-e</strong> para que o Odoo realize as
+consultas periódicas de forma agendada em background.</li>
+<li>Opcionalmente, ative a <strong>Manifestação Automática</strong> caso queira que o
+sistema registre o evento de “Ciência da Operação” automaticamente
+assim que a SEFAZ alertar sobre a existência de uma nota nova. Isso
+acelera significativamente a liberação do XML completo para download.</li>
+</ol>
+</div>
+<div class="section" id="painel-de-controle-dashboard">
+<h2>Painel de Controle (Dashboard)</h2>
+<p>Acesse a visão principal navegando por <strong>Faturamento &gt; Fiscal &gt;
+Consultas DF-e &gt; NF-e de Terceiros</strong>.</p>
+<p>No topo da listagem, o sistema exibe um painel de status em tempo real
+da sua comunicação com a SEFAZ:</p>
+<ul class="simple">
+<li><strong>Status do Ambiente:</strong> Indica se você está operando em Produção ou
+Homologação.</li>
+<li><strong>Progresso do NSU:</strong> Mostra a numeração em que o seu Odoo está
+(Último NSU) comparado ao NSU máximo registrado na base da Receita
+Federal para o seu CNPJ. Quando os números se igualam, a tag verde
+“Sincronizado” é exibida.</li>
+<li><strong>Importações Pendentes:</strong> Um contador de alerta que mostra quantas
+notas completas já foram baixadas em XML, mas ainda não foram
+efetivamente importadas como Documentos Fiscais no Odoo.</li>
+</ul>
+</div>
+<div class="section" id="fluxo-de-trabalho-e-acoes-disponiveis">
+<h2>Fluxo de Trabalho e Ações Disponíveis</h2>
+<p>Ao clicar em um documento na listagem, você poderá identificar a sua
+situação através das cores (Azul para Resumo, Verde para XML Completo).
+O fluxo padrão permite as seguintes ações:</p>
+<ol class="arabic simple">
+<li><strong>Manifestar:</strong> Botão que abre o assistente para você enviar
+oficialmente um evento à SEFAZ (Ciência, Confirmação, Desconhecimento
+ou Operação Não Realizada). Lembre-se: por regras da SEFAZ, o XML
+completo com validade jurídica (<tt class="docutils literal">procNFe</tt>) só é liberado para
+download após uma manifestação de Ciência ou Confirmação.</li>
+<li><strong>Importar como Documento Fiscal:</strong> Disponível apenas quando o XML
+completo já foi baixado. Este botão converte o XML imediatamente em
+um registro de <tt class="docutils literal">l10n_br_fiscal.document</tt>, preenchendo
+automaticamente os fornecedores, CFOPs e valores para uso nos módulos
+de compras e estoque.</li>
+<li><strong>Download PDF:</strong> Utiliza os dados do XML para gerar e baixar o
+arquivo PDF do DANFE.</li>
+<li><strong>Pesquisa Específica:</strong> No painel superior das listagens, você
+encontra o assistente de busca específica. Ele permite pular o
+sequencial de NSU e forçar a requisição pontual de uma NF-e
+utilizando apenas a sua <strong>Chave de Acesso</strong> (44 dígitos), ideal para
+notas de recebimento urgente.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="bug-tracker">
+<h1>Bug Tracker</h1>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfe_dfe%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h1>Credits</h1>
+<div class="section" id="authors">
+<h2>Authors</h2>
+<ul class="simple">
+<li>Engenere</li>
+<li>KMEE</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2>Contributors</h2>
+<ul class="simple">
+<li><a class="reference external" href="https://engenere.one">Engenere</a>:<ul>
+<li>Felipe Motter &lt;<a class="reference external" href="mailto:felipe&#64;engenere.one">felipe&#64;engenere.one</a>&gt;</li>
+<li>Antônio Neto &lt;<a class="reference external" href="mailto:neto&#64;engenere.one">neto&#64;engenere.one</a>&gt;</li>
+<li>Cristiano Mafra Junior</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://www.kmee.com.br">KMEE</a>:<ul>
+<li>Luis Felipe Miléo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
+<li>Gabriel Cardoso &lt;<a class="reference external" href="mailto:gabriel.cardoso&#64;kmee.com.br">gabriel.cardoso&#64;kmee.com.br</a>&gt;</li>
+<li>Felipe Zago &lt;<a class="reference external" href="mailto:felipe.zago&#64;kmee.com.br">felipe.zago&#64;kmee.com.br</a>&gt;</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://akretion.com/pt-BR/">AKRETION</a>:<ul>
+<li>Raphaël Valyi &lt;<a class="reference external" href="mailto:raphael.valyi&#64;akretion.com.br">raphael.valyi&#64;akretion.com.br</a>&gt;</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2>Maintainers</h2>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_nfe_dfe">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

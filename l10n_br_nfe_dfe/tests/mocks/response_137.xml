@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soap:Envelope
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+>
+  <soap:Body>
+    <nfeDistDFeInteresseResponse
+            xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"
+        >
+      <nfeDistDFeInteresseResult>
+        <retDistDFeInt
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns="http://www.portalfiscal.inf.br/nfe"
+                    versao="1.01"
+                >
+          <tpAmb>1</tpAmb>
+          <verAplic>1.4.0</verAplic>
+          <cStat>137</cStat>
+          <xMotivo>Nenhum documento localizado para o Contribuinte</xMotivo>
+          <dhResp>2022-04-04T11:54:49-03:00</dhResp>
+          <ultNSU>000000000000200</ultNSU>
+          <maxNSU>000000000000200</maxNSU>
+        </retDistDFeInt>
+      </nfeDistDFeInteresseResult>
+    </nfeDistDFeInteresseResponse>
+  </soap:Body>
+</soap:Envelope>

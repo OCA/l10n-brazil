@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Base Document Tree -->
+    <record id="view_l10n_br_fiscal_dfe_document_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.document.tree</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field name="arch" type="xml">
+            <tree
+                decoration-success="color_status == 'green'"
+                decoration-info="color_status == 'blue'"
+                decoration-muted="color_status == 'muted'"
+            >
+                <field name="color_status" invisible="1" />
+                <field name="fiscal_type" invisible="1" />
+                <field name="access_key" />
+                <field name="emitter" />
+                <field name="vat" />
+                <field name="document_amount" />
+                <field name="document_emission_date" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Base Document Form -->
+    <record id="view_l10n_br_fiscal_dfe_document_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.document.form</field>
+        <field name="model">l10n_br_fiscal_dfe.document</field>
+        <field name="arch" type="xml">
+            <form string="DF-e Document">
+                <header>
+                    <button
+                        name="import_document"
+                        type="object"
+                        string="Import as Fiscal Document"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('color_status', '!=', 'green')]}"
+                    />
+                    <button name="make_pdf" type="object" string="Download PDF" />
+                    <field name="color_status" invisible="1" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="access_key" readonly="1" />
+                            <field name="fiscal_type" readonly="1" />
+                            <field name="emitter" readonly="1" />
+                            <field name="vat" readonly="1" />
+                            <field name="partner_id" />
+                        </group>
+                        <group>
+                            <field name="document_amount" readonly="1" />
+                            <field name="document_emission_date" readonly="1" />
+                            <field name="document_state" readonly="1" />
+                            <field name="company_id" readonly="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="XML Payloads (DF-e)">
+                            <field name="dfe_ids" readonly="1">
+                                <tree>
+                                    <field name="nsu" />
+                                    <field name="schema_type" />
+                                    <field name="document_type_dfe" />
+                                    <button
+                                        name="action_download_xml"
+                                        type="object"
+                                        string="Download XML"
+                                        icon="fa-download"
+                                    />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Generic Menu Root -->
+    <menuitem
+        id="menu_l10n_br_fiscal_dfe_root"
+        name="Consultas DF-e"
+        parent="l10n_br_fiscal.fiscal_menu"
+        sequence="50"
+    />
+</odoo>

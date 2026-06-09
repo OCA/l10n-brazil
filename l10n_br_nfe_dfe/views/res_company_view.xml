@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_company_form_nfe_dfe" model="ir.ui.view">
+        <field name="name">res.company.nfe.dfe.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="NF-e DF-e">
+                    <group>
+                        <field name="nfe_auto_fetch" />
+                        <field name="auto_manifest_nfe" />
+                        <field name="nfe_last_nsu" readonly="1" />
+                        <field name="nfe_max_nsu" readonly="1" />
+                        <field name="nfe_dfe_next_query" readonly="1" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

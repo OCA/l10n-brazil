@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soap:Envelope
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+>
+  <soap:Body>
+    <nfeDistDFeInteresseResponse
+            xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe"
+        >
+      <nfeDistDFeInteresseResult>
+        <retDistDFeInt
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns="http://www.portalfiscal.inf.br/nfe"
+                    versao="1.01"
+                >
+          <tpAmb>1</tpAmb>
+          <verAplic>1.4.0</verAplic>
+          <cStat>138</cStat>
+          <xMotivo>Documento(s) localizado(s)</xMotivo>
+          <dhResp>2022-04-04T11:54:49-03:00</dhResp>
+          <ultNSU>000000000000201</ultNSU>
+          <maxNSU>000000000000201</maxNSU>
+          <loteDistDFeInt>
+            <docZip
+                            NSU="000000000000200"
+                            schema="resNFe_v1.00.xsd"
+                        >H4sIAK6gsWkC/1VQwW6EIBC9+xWEuzJgXbsbZA+NHnowTbS9UxdXEkQjZt3PL+heSibMY+a9lxn49Tka9FCL05MtME0AI2W76abtvcDfbRW/46uI+KJcXSnkydYVeFjX+ULItm3JPC2rNL12nTSJtn3yuxDbK7x7ymm3BCwihHg3eAuRZgyAZufs/JbSDALOM58pvA5lcGJ5ntMT5eTQBPVH/fUp/ss42Yuh+6ynUYm2bNoSxajR42yUQ7Xs/FrScHL0A/M2lKMWDBjEQH20lF0AfMSQ+puTgxCoj7oSfqwkVAPe5fr+I41YlVuV5x6vfbtGr2HWMPQLRpwc/yb+ANMU+iFnAQAA</docZip>
+            <docZip
+                            NSU="000000000000201"
+                            schema="procNFe_v4.00.xsd"
+                        >H4sIAK6gsWkC/5VU226jMBB971dYvCe2SWm2leMqioKUlUqjhvSdgNMggU3BuWi/fscGEpPty0YIj2cOcz0T9nopC3QSdZMrOfPomHhIyFRlufyaeds4HP3yXvkDk3uxrlWKAC2bmXfQunrB+Hw+jytV66TY502aFONc7se7GgPas04TNfMex4R4/AEhFoXCnCABDi5olc08OCeBTwgNnoPnxwkNiJGnAZyUdD/qkyd/Op3SJ/qD39ZjJnoZbuk25JOAYXM62ijkvSOwRa5NJvq94p9CZgnD7eVmLFXGA3Bnzpu2EXUuOGW4FRxf4BnUchAgOyzLnPvEJyNC4Ymp/0IIPCMygTfDLaCvBzsFMVHm2nG1iNa/+bBdDFvlDXOJVCl4vNzESzRCm7ysCtGgKElhzknBcGu/RnMjsExoJFdalEAIz/FZ1W79pqFro6H+BLq5vjderMa8jlqhWDRaQNh/YIvwfc0DSnwowYiu7bhQJd9GDFvBtXwbBbCVmM5931tPW2nthHSITjHAtLlbCACGeTHs1gqzEbfuaAV8d6CrxdsmVnro3DCgdz2gAb6DM+z4g6nbxbDbgnsBUtFmW34gvlkkyNxJrpqXO0O+VujV8Om8KvLUtAwy6m+9OT2YWP+zhjDww3WdLbs/RLrT6p7gwYDgHab/SNrUqY17jQF7M6goy78+oT+65U93uya+0Yk2nYZ8rNgbLm9K5yfF58C9Ov+TZAopdGwUyhIUhSPDxA5xa3wf1g5f2+oY7v74+F/vBsTxKQUAAA==</docZip>
+          </loteDistDFeInt>
+        </retDistDFeInt>
+      </nfeDistDFeInteresseResult>
+    </nfeDistDFeInteresseResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="dfe_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.dfe.form</field>
+        <field name="model">l10n_br_fiscal_dfe.dfe</field>
+        <field name="arch" type="xml">
+            <form string="DF-e Record" create="false" edit="false">
+                <header>
+                    <button
+                        name="action_download_xml"
+                        string="Download XML"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="access_key" readonly="1" />
+                            <field name="nsu" readonly="1" />
+                            <field name="document_type_dfe" readonly="1" />
+                            <field name="event_type_dfe" readonly="1" />
+                            <field name="operation_type" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="schema_type" readonly="1" />
+                            <field name="fiscal_type" readonly="1" />
+                            <field name="company_id" readonly="1" />
+                            <field name="attachment_id" readonly="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="XML Content">
+                            <field
+                                name="xml_pretty"
+                                readonly="1"
+                                widget="ace"
+                                options="{'mode': 'xml'}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dfe_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.dfe.tree</field>
+        <field name="model">l10n_br_fiscal_dfe.dfe</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false">
+                <field name="create_date" />
+                <field name="nsu" />
+                <field name="fiscal_type" />
+                <field name="document_type_dfe" />
+                <field name="schema_type" />
+                <field name="access_key" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_l10n_br_fiscal_dfe_record" model="ir.actions.act_window">
+        <field name="name">DF-e Payload Records</field>
+        <field name="res_model">l10n_br_fiscal_dfe.dfe</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_l10n_br_fiscal_dfe_record"
+        name="DF-e Payloads (Raw)"
+        parent="l10n_br_fiscal_dfe.menu_l10n_br_fiscal_dfe_root"
+        action="action_l10n_br_fiscal_dfe_record"
+        sequence="99"
+        groups="base.group_no_one"
+    />
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <!-- User preferences (simple form) -->
+    <record id="view_users_form_simple_modif_dfe" model="ir.ui.view">
+        <field name="name">res.users.preferences.form.dfe</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+            <field name="notification_type" position="after">
+                <field name="dfe_notification" readonly="0" />
+            </field>
+        </field>
+    </record>
+
+    <!-- Admin user form -->
+    <record id="view_users_form_dfe" model="ir.ui.view">
+        <field name="name">res.users.form.dfe</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <field name="notification_type" position="after">
+                <field
+                    name="dfe_notification"
+                    attrs="{'invisible': [('share', '=', True)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

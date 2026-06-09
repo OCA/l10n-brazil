@@ -1,10 +1,6 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
-==================
-L10n BR Fiscal Dfe
-==================
+======================
+Monitor de DF-e (Base)
+======================
 
 .. 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,7 +13,7 @@ L10n BR Fiscal Dfe
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -32,12 +28,191 @@ L10n BR Fiscal Dfe
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Distribuição de documentos fiscais
+Framework Base para Distribuição de Documentos Fiscais Eletrônicos (DF-e)
+=========================================================================
+
+Este módulo serve como um **framework abstrato** para o monitoramento e
+download de documentos fiscais eletrônicos (DF-e) disponibilizados pela
+SEFAZ através dos Web Services de Distribuição (Ambiente Nacional).
+
+**Atenção:** Este módulo não realiza consultas de documentos específicos
+por si só. Ele fornece a infraestrutura técnica e comum para que módulos
+de implementação realizem o trabalho, como:
+
+-  ``l10n_br_nfe_dfe``: Para Nota Fiscal Eletrônica (NF-e - Modelo 55).
+-  ``l10n_br_cte_dfe``: Para Conhecimento de Transporte Eletrônico (CT-e
+   - Modelo 57).
+
+Principais Funcionalidades da Base
+----------------------------------
+
+Ao isolar a lógica de comunicação com a SEFAZ, este módulo previne a
+duplicação de código e garante um comportamento padronizado na
+localização brasileira do Odoo. Ele fornece:
+
+-  **Motor de Consulta Genérico:** Lógica de loop de consulta, paginação
+   de NSUs (Número Sequencial Único) e integração com o ``queue_job``
+   para processamento assíncrono em background.
+-  **Gerenciamento de Cooldown:** Tratamento inteligente de pausas e
+   bloqueios para evitar punições da SEFAZ, lidando automaticamente com
+   os códigos de status 137 (Nenhum documento) e 656 (Consumo Indevido).
+-  **Armazenamento de XML:** Estrutura de dados
+   (``l10n_br_fiscal_dfe.dfe``) para armazenar nativamente os payloads
+   XML compactados em Base64/gZip retornados pela SEFAZ (``docZip``).
+-  **Cabeçalho de Documento Unificado:** Modelo genérico
+   (``l10n_br_fiscal_dfe.document``) para agrupar os XMLs e armazenar
+   metadados comuns (Chave de Acesso, Emitente, Valor, Data, CNPJ)
+   independente do tipo de documento fiscal.
+-  **Logs de Comunicação SOAP:** Sistema robusto de log de auditoria
+   (``l10n_br_fiscal_dfe.distribution_log``) que grava integralmente as
+   requisições e respostas XML brutas para depuração.
+-  **Interface de Usuário Comum:** Estruturas base para o painel de
+   status (Banner), vistas de lista, formulários e assistentes
+   (*wizards*) de busca específica (por Chave de Acesso ou NSU).
+-  **Utilitários Compartilhados:** Ferramentas para descompactação de
+   XMLs, validação de chaves de acesso, vinculação automática de
+   Parceiros (via CNPJ/CPF) e download em lote (ZIP).
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Installation
+============
+
+Este módulo atua como uma infraestrutura base (framework abstrato) e
+requer os seguintes componentes para funcionar:
+
+1. **Dependências Odoo:**
+
+   -  ``l10n_br_fiscal`` (Framework Fiscal da OCA)
+   -  ``queue_job`` (Gerenciador de tarefas em background da OCA,
+      necessário para o polling assíncrono)
+
+2. **Dependências Python:**
+
+   -  ``brazil_fiscal_client``: Cliente SOAP moderno e genérico
+      utilizado para a comunicação direta com os Web Services da SEFAZ.
+
+Para instalar a biblioteca Python necessária em seu ambiente Odoo,
+execute o seguinte comando:
+
+.. code:: bash
+
+   pip install brazil-fiscal-client
+
+**Nota Importante:** Como este é apenas um módulo de motor abstrato,
+você raramente precisará instalá-lo diretamente de forma isolada. Ele
+será instalado de forma automática como dependência quando você for
+utilizar e instalar um dos módulos de implementação, como:
+
+-  ``l10n_br_nfe_dfe`` (Para o monitoramento de NF-e)
+-  ``l10n_br_cte_dfe`` (Para o monitoramento de CT-e)
+
+Configuration
+=============
+
+Canal queue_job
+---------------
+
+O módulo registra os jobs de distribuição DF-e no canal ``root.dfe``. É
+**obrigatório** configurar este canal com capacidade máxima de **1 job
+simultâneo**, caso contrário consultas concorrentes à SEFAZ podem causar
+erro 656 (consumo indevido) e bloqueio temporário do CNPJ.
+
+No arquivo de configuração do Odoo:
+
+.. code:: ini
+
+   [queue_job]
+   channels = root:2,root.dfe:1
+
+Ou via variável de ambiente:
+
+::
+
+   ODOO_QUEUE_JOB_CHANNELS=root:2,root.dfe:1
+
+Configuração da empresa
+-----------------------
+
+Em **Faturamento > Configuração > Empresas**, na aba **Fiscal > DF-e**
+(Configurações DF-e):
+
+-  **Versão DF-e**: versão do serviço (padrão: 1.01)
+-  **Ambiente DF-e**: Produção ou Homologação
+-  **Busca automática de DF-e**: habilita a consulta automática via cron
+-  **Manifestação Automática do Destinatário (NF-e)**: envia ciência da
+   operação automaticamente para cada resumo de NF-e recebido
+
+A empresa precisa ter um **certificado digital A1** configurado no
+módulo ``l10n_br_fiscal_certificate``.
+
+Notificação de documentos (por usuário)
+---------------------------------------
+
+Em **Preferências do Usuário**, o campo **Notificação DF-e** habilita o
+recebimento de notificações na caixa de entrada quando novos documentos
+de terceiros são encontrados pela distribuição DF-e.
+
+Usage
+=====
+
+Como este é um módulo de infraestrutura (base abstrata), a maior parte
+de suas funcionalidades opera nos bastidores. No entanto, ele provê
+ferramentas transversais de auditoria, depuração e ações genéricas que
+são herdadas pelos módulos específicos (NF-e, CT-e).
+
+Logs de Comunicação (Auditoria e Depuração)
+-------------------------------------------
+
+O módulo registra de forma detalhada todas as tentativas de comunicação
+com os Web Services da SEFAZ, o que é extremamente útil para
+diagnosticar bloqueios, erros de certificado ou instabilidades no
+Ambiente Nacional.
+
+Para visualizar os logs:
+
+1. Acesse **Configurações > Usuários e Empresas > Empresas**.
+2. Abra o formulário da sua empresa.
+3. Clique no botão inteligente (Smart Button) **DF-e Logs** na parte
+   superior da tela.
+
+Alternativamente, ative o modo desenvolvedor e acesse:
+
+-  **Faturamento > Configuração > Técnico > Logs de Distribuição DF-e**
+
+Dentro de cada registro de log, você poderá visualizar o horário da
+tentativa, o resultado (Sucesso, Erro, Aviso) e as abas contendo os
+**XMLs brutos de Requisição e Resposta SOAP**.
+
+Acesso aos Payloads Brutos (XML)
+--------------------------------
+
+Sempre que a SEFAZ retorna um documento, o arquivo zipado original é
+salvo no banco de dados. Para fins técnicos ou de conformidade, você
+pode consultar todos os fragmentos XML recebidos:
+
+1. Com o modo desenvolvedor ativo, acesse **Faturamento > Configuração >
+   Técnico > Payloads DF-e (Raw)**.
+2. Esta tela listará todos os NSUs processados, vinculados aos seus
+   respectivos documentos, contendo o tipo de schema (ex: ``procNFe``,
+   ``resNFe``, ``procCTe``, etc.) e o arquivo XML descompactado.
+
+Ações Globais Disponíveis
+-------------------------
+
+Este módulo disponibiliza ações padronizadas que podem ser utilizadas
+nas listagens de documentos específicos (como NF-e de Terceiros ou CT-e
+de Terceiros):
+
+-  **Download de XMLs (ZIP):** Selecione múltiplos documentos na
+   listagem e acesse a engrenagem de **Ação > Download XMLs (ZIP)** para
+   baixar um pacote contendo todos os arquivos físicos validados.
+-  **Vincular Parceiro:** Ação técnica para forçar o sistema a buscar e
+   atrelar um cadastro de Parceiro (Fornecedor/Cliente) ao documento
+   DF-e baseando-se no CNPJ/CPF contido na chave de acesso.
 
 Bug Tracker
 ===========
@@ -55,16 +230,27 @@ Credits
 Authors
 -------
 
+* Engenere
 * KMEE
 
 Contributors
 ------------
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Luis Felipe Miléo <mileo@kmee.com.br>
-  - Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
-  - Felipe Zago <felipe.zago@kmee.com.br>
+   -  Felipe Motter <felipe@engenere.one>
+   -  Antônio Neto <neto@engenere.one>
+   -  Cristiano Mafra Junior
+
+-  `KMEE <https://www.kmee.com.br>`__:
+
+   -  Luis Felipe Miléo <mileo@kmee.com.br>
+   -  Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
+   -  Felipe Zago <felipe.zago@kmee.com.br>
+
+-  `AKRETION <https://akretion.com/pt-BR/>`__:
+
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
 Maintainers
 -----------
@@ -78,6 +264,20 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-felipemotter| image:: https://github.com/felipemotter.png?size=40px
+    :target: https://github.com/felipemotter
+    :alt: felipemotter
+.. |maintainer-antoniospneto| image:: https://github.com/antoniospneto.png?size=40px
+    :target: https://github.com/antoniospneto
+    :alt: antoniospneto
+.. |maintainer-rvalyi| image:: https://github.com/rvalyi.png?size=40px
+    :target: https://github.com/rvalyi
+    :alt: rvalyi
+
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-felipemotter| |maintainer-antoniospneto| |maintainer-rvalyi| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_fiscal_dfe>`_ project on GitHub.
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="dfe_banner_template">
+        <div class="o_dfe_banner alert alert-info" role="alert">
+            <div class="row">
+                <div class="col-md-3">
+                    <strong><t t-esc="fiscal_type" /> Status:</strong>
+                    <t t-if="is_homologation">
+                        <span class="badge badge-warning">Homologation</span>
+                    </t>
+                    <t t-else="">
+                        <span class="badge badge-success">Production</span>
+                    </t>
+                </div>
+                <div class="col-md-3">
+                    <strong>Auto-Fetch:</strong>
+                    <t t-if="auto_fetch"><span class="text-success">Active</span></t>
+                    <t t-else=""><span class="text-danger">Disabled</span></t>
+                </div>
+                <div class="col-md-3">
+                    <strong>NSU Progress:</strong>
+                    <t t-if="not last_query">
+                        <span class="text-warning">Never been queried</span>
+                    </t>
+                    <t t-else="">
+                        <t t-esc="last_nsu" /> / <t t-esc="max_nsu" />
+                        <t t-if="last_nsu == max_nsu and max_nsu != '0'">
+                            <span class="badge badge-success">Synced</span>
+                        </t>
+                    </t>
+                </div>
+                <div class="col-md-3">
+                    <strong>Pending Imports:</strong>
+                    <span
+                        t-attf-class="{{ 'text-warning font-weight-bold' if pending_count > 0 else 'text-success' }}"
+                    >
+                        <t t-esc="pending_count" />
+                    </span>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

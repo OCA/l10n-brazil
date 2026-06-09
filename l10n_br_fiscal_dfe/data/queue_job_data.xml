@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo noupdate="0">
+    <!-- Base Channel for all DF-e operations -->
+    <record id="channel_dfe" model="queue.job.channel">
+        <field name="name">dfe</field>
+        <field name="parent_id" ref="queue_job.channel_root" />
+    </record>
+</odoo>

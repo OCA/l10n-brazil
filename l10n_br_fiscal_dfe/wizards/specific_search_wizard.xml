@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_dfe_specific_search_wizard_form" model="ir.ui.view">
+        <field name="name">dfe.specific.search.wizard.form</field>
+        <field
+            name="model"
+        >dfe.specific.search.wizard</field> <!-- MUST MATCH PYTHON _name -->
+        <field name="arch" type="xml">
+            <form string="Specific DFe Search">
+                <group>
+                    <field
+                        name="fiscal_type"
+                        invisible="1"
+                    /> <!-- Added context field -->
+                    <field
+                        name="search_type"
+                        widget="radio"
+                        options="{'horizontal': false}"
+                    />
+                    <field
+                        name="access_key"
+                        attrs="{'invisible': [('search_type', '!=', 'access_key')], 'required': [('search_type', '=', 'access_key')]}"
+                    />
+                    <field
+                        name="nsu"
+                        attrs="{'invisible': [('search_type', '!=', 'nsu')], 'required': [('search_type', '=', 'nsu')]}"
+                    />
+                </group>
+                <footer>
+                    <button
+                        name="action_confirm_search"
+                        string="Search"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
