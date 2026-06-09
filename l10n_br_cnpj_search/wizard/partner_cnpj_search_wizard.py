@@ -9,6 +9,7 @@ from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import punctuation_rm
 
 from odoo import Command, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 # This is the original 'send' method from the requests library that
@@ -78,8 +79,15 @@ class PartnerCnpjSearchWizard(models.TransientModel):
                     headers=webservice.get_headers(),
                     timeout=5,
                 )
-            except requests.exceptions.Timeout:
-                _logger.debug("Request timed out!")
+            except requests.exceptions.Timeout as exc:
+                _logger.warning(
+                    "CNPJ search request timed out (provider: %s)",
+                    provider_name,
+                    exc_info=True,
+                )
+                raise UserError(
+                    self.env._("The CNPJ search service did not respond in time.")
+                ) from exc
         data = webservice.validate(response)
         values = webservice.import_data(data)
         values["provider_name"] = provider_name
