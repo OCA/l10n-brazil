@@ -1598,6 +1598,7 @@ msgstr ""
 
 #. module: l10n_br_sale_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.inherit_sale_blanket_order_line_form_fiscal_tabs
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.sale_blanket_order_form_view
 msgid "Taxes"
 msgstr ""
 
