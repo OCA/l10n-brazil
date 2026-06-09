@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Sample Ginfes CompNfse response for received NFS-e (tomador side) -->
+<CompNfse
+    xmlns="http://www.ginfes.com.br/servico_consultar_nfse_resposta_v03.xsd"
+    xmlns:tipos="http://www.ginfes.com.br/tipos_v03.xsd"
+>
+    <Nfse>
+        <tipos:InfNfse Id="NFSe12345">
+            <tipos:Numero>12345</tipos:Numero>
+            <tipos:CodigoVerificacao>GINFES01</tipos:CodigoVerificacao>
+            <tipos:DataEmissao>2024-03-15T10:30:00</tipos:DataEmissao>
+            <tipos:NaturezaOperacao>1</tipos:NaturezaOperacao>
+            <tipos:PrestadorServico>
+                <tipos:RazaoSocial>Empresa Prestadora Ginfes LTDA</tipos:RazaoSocial>
+                <tipos:Cnpj>59594315000157</tipos:Cnpj>
+                <tipos:InscricaoMunicipal>35172</tipos:InscricaoMunicipal>
+            </tipos:PrestadorServico>
+            <tipos:TomadorServico>
+                <tipos:IdentificacaoTomador>
+                    <tipos:CpfCnpj>
+                        <tipos:Cnpj>81493979000189</tipos:Cnpj>
+                    </tipos:CpfCnpj>
+                </tipos:IdentificacaoTomador>
+                <tipos:RazaoSocial>Empresa Tomadora LTDA</tipos:RazaoSocial>
+            </tipos:TomadorServico>
+            <tipos:Servico>
+                <tipos:Valores>
+                    <tipos:ValorServicos>1500.00</tipos:ValorServicos>
+                    <tipos:ValorDeducoes>0.00</tipos:ValorDeducoes>
+                    <tipos:ValorIss>75.00</tipos:ValorIss>
+                    <tipos:Aliquota>0.05</tipos:Aliquota>
+                    <tipos:ValorLiquidoNfse>1425.00</tipos:ValorLiquidoNfse>
+                </tipos:Valores>
+                <tipos:ItemListaServico>105</tipos:ItemListaServico>
+                <tipos:Discriminacao
+                >Consultoria e desenvolvimento de sistemas de informação</tipos:Discriminacao>
+                <tipos:CodigoMunicipio>3132404</tipos:CodigoMunicipio>
+            </tipos:Servico>
+        </tipos:InfNfse>
+    </Nfse>
+</CompNfse>
