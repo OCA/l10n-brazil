@@ -25,9 +25,16 @@ class TestTestSerPro(TestCnpjCommon):
         cls.set_param("serpro_schema", "basica")
 
     def test_serpro_basica(self):
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=self.mocked_response_serpro_1,
+        with (
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.wizard."
+                "partner_cnpj_search_wizard.requests.get",
+                return_value=mock.Mock(status_code=200),
+            ),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=self.mocked_response_serpro_1,
+            ),
         ):
             dummy_basica = self.model.create(
                 {"name": "Dummy Basica", "vat": "34.238.864/0001-68"}
@@ -66,7 +73,14 @@ class TestTestSerPro(TestCnpjCommon):
         invalid = self.model.create({"name": "invalid", "vat": "44.356.113/0001-08"})
         invalid._onchange_vat()
 
-        with self.assertRaises(ValidationError):
+        with (
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.wizard."
+                "partner_cnpj_search_wizard.requests.get",
+                return_value=mock.Mock(status_code=404, reason="Not Found"),
+            ),
+            self.assertRaises(ValidationError),
+        ):
             action_wizard = invalid.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
             wizard_context["active_model"] = "res.partner"
@@ -112,9 +126,16 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(socios, expected_socios)
 
     def test_serpro_empresa(self):
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=self.mocked_response_serpro_2,
+        with (
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.wizard."
+                "partner_cnpj_search_wizard.requests.get",
+                return_value=mock.Mock(status_code=200),
+            ),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=self.mocked_response_serpro_2,
+            ),
         ):
             self.model.search([("vat", "=", "34.238.864/0002-49")]).write(
                 {"active": False}
@@ -148,9 +169,16 @@ class TestTestSerPro(TestCnpjCommon):
         dummy_empresa.unlink()
 
     def test_serpro_qsa(self):
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=self.mocked_response_serpro_3,
+        with (
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.wizard."
+                "partner_cnpj_search_wizard.requests.get",
+                return_value=mock.Mock(status_code=200),
+            ),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=self.mocked_response_serpro_3,
+            ),
         ):
             self.model.search([("vat", "=", "34.238.864/0001-68")]).write(
                 {"active": False}
