@@ -1,12 +1,15 @@
 from .test_nfse_serialize import TestNfseSerialize
 
+
 class TestNfseExportLC(TestNfseSerialize):
     @classmethod
     def setUpClass(cls):
-        nfse_list = [{
-            "record_ref": "l10n_br_nfse_nacional.demo_nfse_lc",
-            "xml_file": "dps-regime-normal.xml",
-        }]
+        nfse_list = [
+            {
+                "record_ref": "l10n_br_nfse_nacional.demo_nfse_lc",
+                "xml_file": "dps-regime-normal.xml",
+            }
+        ]
         super().setUpClass(nfse_list)
 
     def test_serialize_xml(self):
