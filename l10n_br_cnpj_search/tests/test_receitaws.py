@@ -8,7 +8,10 @@ from unittest import mock
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.l10n_br_cnpj_search.tests.common import TestCnpjCommon
+from odoo.addons.l10n_br_cnpj_search.tests.common import (
+    MOCK_REQUESTS_GET,
+    TestCnpjCommon,
+)
 
 
 @tagged("post_install", "-at_install")
@@ -27,8 +30,7 @@ class TestReceitaWS(TestCnpjCommon):
         )
 
         with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.wizard."
-            "partner_cnpj_search_wizard.requests.get",
+            MOCK_REQUESTS_GET,
             return_value=mock.Mock(status_code=200),
         ), mock.patch(
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
@@ -62,8 +64,7 @@ class TestReceitaWS(TestCnpjCommon):
 
     def test_receita_ws_fail(self):
         with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.wizard."
-            "partner_cnpj_search_wizard.requests.get",
+            MOCK_REQUESTS_GET,
             return_value=mock.Mock(
                 status_code=200,
                 **{
@@ -82,8 +83,7 @@ class TestReceitaWS(TestCnpjCommon):
 
     def test_receita_ws_multiple_phones(self):
         with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.wizard."
-            "partner_cnpj_search_wizard.requests.get",
+            MOCK_REQUESTS_GET,
             return_value=mock.Mock(status_code=200),
         ), mock.patch(
             "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
