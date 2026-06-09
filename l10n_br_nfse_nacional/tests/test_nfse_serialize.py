@@ -1,14 +1,13 @@
-import os
 import logging
-from xmldiff import main
-from odoo.tests.common import TransactionCase
+
+from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import TcinfDps
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
-from odoo.addons import l10n_br_nfse_nacional
-from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import TcinfDps
+from odoo.tests.common import TransactionCase
 
 _logger = logging.getLogger(__name__)
+
 
 class TestNfseSerialize(TransactionCase):
     @classmethod
@@ -16,7 +15,7 @@ class TestNfseSerialize(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.nfse_list = []
-        for nfse_data in (nfse_list or []):
+        for nfse_data in nfse_list or []:
             # Only append if the demo data exists in the database
             nfse = cls.env.ref(nfse_data["record_ref"], raise_if_not_found=False)
             if nfse:
@@ -25,14 +24,6 @@ class TestNfseSerialize(TransactionCase):
 
     def serialize_xml(self, nfse_data):
         nfse = nfse_data["nfse"]
-        xml_path = os.path.join(
-            l10n_br_nfse_nacional.__path__[0],
-            "tests",
-            "nfse",
-            "v1_00",
-            "DPS",
-            nfse_data["xml_file"],
-        )
 
         # Set namespace on binding class to avoid ns1 prefixes in XML output
         # TODO should not be required...
@@ -41,7 +32,9 @@ class TestNfseSerialize(TransactionCase):
         # binding = nfse._build_binding("nfse", "10")
         binding = nfse._serialize([])[0]
         serializer = XmlSerializer(config=SerializerConfig(indent="  "))
-        xml_output = serializer.render(obj=binding, ns_map={None: "http://www.sped.fazenda.gov.br/nfse"})
+        xml_output = serializer.render(
+            obj=binding, ns_map={None: "http://www.sped.fazenda.gov.br/nfse"}
+        )
 
         # Save to a temporary file
         output_path = "/tmp/test_dps_output.xml"
