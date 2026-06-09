@@ -1,17 +1,22 @@
 import pkg_resources
+
 from odoo.tests import TransactionCase
+
 from odoo.addons import l10n_br_nfse_nacional
+
 
 class NfseImportTest(TransactionCase):
     def test_import_dps(self):
         try:
             from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import DPS
         except ImportError:
-            return # Skip gracefully if nfelib nfse national schema isn't present
+            return  # Skip gracefully if nfelib nfse national schema isn't present
 
         res_items = ("tests", "nfse", "v1_00", "DPS", "dps-regime-normal.xml")
         resource_path = "/".join(res_items)
-        xml_stream = pkg_resources.resource_stream(l10n_br_nfse_nacional.__name__, resource_path)
+        xml_stream = pkg_resources.resource_stream(
+            l10n_br_nfse_nacional.__name__, resource_path
+        )
         binding = DPS.from_xml(xml_stream.read().decode())
 
         doc = self.env["l10n_br_fiscal.document"].import_binding_nfse(
