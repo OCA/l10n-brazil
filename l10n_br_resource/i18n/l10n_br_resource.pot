@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__abrangencia
-msgid "Abrangencia"
-msgstr ""
-
-#. module: l10n_br_resource
 #: model:ir.actions.act_window,name:l10n_br_resource.action_workalendar_holiday_import
 msgid "Action Import Brazilian Holidays"
 msgstr ""
@@ -31,6 +26,17 @@ msgstr ""
 #. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__child_ids
 msgid "Child Calendar"
+msgstr ""
+
+#. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__country_id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__coverage
+msgid "Coverage"
 msgstr ""
 
 #. module: l10n_br_resource
@@ -72,13 +78,7 @@ msgid "Error! You cannot create recursive hierarchies."
 msgstr ""
 
 #. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__state_id
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__state_id
-msgid "Estado"
-msgstr ""
-
-#. module: l10n_br_resource
-#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__e
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__coverage__e
 msgid "Estadual"
 msgstr ""
 
@@ -142,18 +142,18 @@ msgid "Month(s)"
 msgstr ""
 
 #. module: l10n_br_resource
-#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__m
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__coverage__m
 msgid "Municipal"
 msgstr ""
 
 #. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__l10n_br_city_id
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__l10n_br_city_id
-msgid "Municipio"
+msgid "Municipality"
 msgstr ""
 
 #. module: l10n_br_resource
-#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__n
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__coverage__n
 msgid "Nacional"
 msgstr ""
 
@@ -165,12 +165,6 @@ msgstr ""
 #. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__parent_path
 msgid "Parent Path"
-msgstr ""
-
-#. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__country_id
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__country_id
-msgid "País"
 msgstr ""
 
 #. module: l10n_br_resource
@@ -189,11 +183,13 @@ msgid "Start Date"
 msgstr ""
 
 #. module: l10n_br_resource
-#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__leave_type
-msgid "Tipo"
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__state_id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__state_id
+msgid "State"
 msgstr ""
 
 #. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__leave_type
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__interval_type
 msgid "Type"
 msgstr ""
