@@ -6,10 +6,12 @@
 import logging
 from unittest import mock
 
-from odoo.exceptions import ValidationError
+import requests
+
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 
-from .common import TestCnpjCommon
+from .common import MOCK_REQUESTS_GET, TestCnpjCommon
 
 _logger = logging.getLogger(__name__)
 
@@ -27,8 +29,7 @@ class TestTestSerPro(TestCnpjCommon):
     def test_serpro_basica(self):
         with (
             mock.patch(
-                "odoo.addons.l10n_br_cnpj_search.wizard."
-                "partner_cnpj_search_wizard.requests.get",
+                MOCK_REQUESTS_GET,
                 return_value=mock.Mock(status_code=200),
             ),
             mock.patch(
@@ -68,6 +69,23 @@ class TestTestSerPro(TestCnpjCommon):
             self.assertEqual(dummy_basica.equity_capital, 0)
             self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
+    def test_serpro_timeout(self):
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                side_effect=requests.exceptions.Timeout,
+            ),
+            self.assertRaises(UserError),
+        ):
+            dummy = self.model.create(
+                {"name": "Dummy Timeout", "vat": "34.238.864/0001-68"}
+            )
+            dummy._onchange_vat()
+            action_wizard = dummy.action_open_cnpj_search_wizard()
+            wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
+            self.env["partner.search.wizard"].with_context(**wizard_context).create({})
+
     def test_serpro_not_found(self):
         # In the Trial version there are only a few registered CNPJ records
         invalid = self.model.create({"name": "invalid", "vat": "44.356.113/0001-08"})
@@ -75,8 +93,7 @@ class TestTestSerPro(TestCnpjCommon):
 
         with (
             mock.patch(
-                "odoo.addons.l10n_br_cnpj_search.wizard."
-                "partner_cnpj_search_wizard.requests.get",
+                MOCK_REQUESTS_GET,
                 return_value=mock.Mock(status_code=404, reason="Not Found"),
             ),
             self.assertRaises(ValidationError),
@@ -128,8 +145,7 @@ class TestTestSerPro(TestCnpjCommon):
     def test_serpro_empresa(self):
         with (
             mock.patch(
-                "odoo.addons.l10n_br_cnpj_search.wizard."
-                "partner_cnpj_search_wizard.requests.get",
+                MOCK_REQUESTS_GET,
                 return_value=mock.Mock(status_code=200),
             ),
             mock.patch(
@@ -171,8 +187,7 @@ class TestTestSerPro(TestCnpjCommon):
     def test_serpro_qsa(self):
         with (
             mock.patch(
-                "odoo.addons.l10n_br_cnpj_search.wizard."
-                "partner_cnpj_search_wizard.requests.get",
+                MOCK_REQUESTS_GET,
                 return_value=mock.Mock(status_code=200),
             ),
             mock.patch(
