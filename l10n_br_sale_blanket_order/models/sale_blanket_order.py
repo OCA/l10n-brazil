@@ -85,30 +85,20 @@ class SaleBlanketOrder(models.Model):
             order._compute_amount()
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        if self.env.company.country_id.code != "BR":
+            return arch, view
+        if view_type == "form" and self.env.company.country_id.code == "BR":
+            arch = self.env["sale.blanket.order.line"].inject_fiscal_fields(arch)
+        if view_type == "form" and (
+            self.user_has_groups("l10n_br_sale.group_line_fiscal_detail")
+            or self.env.context.get("force_line_fiscal_detail_edition")
+        ):
+            for sub_tree_node in arch.xpath("//field[@name='line_ids']/tree"):
+                sub_tree_node.attrib["editable"] = ""
 
-        if view_type == "form":
-            view = self.env["ir.ui.view"]
-
-            sub_form_view = order_view["fields"]["line_ids"]["views"]["form"]["arch"]
-
-            sub_form_node = self.env["sale.blanket.order.line"].inject_fiscal_fields(
-                sub_form_view
-            )
-
-            sub_arch, sub_fields = view.postprocess_and_fields(
-                sub_form_node, "sale.blanket.order.line", False
-            )
-
-            order_view["fields"]["line_ids"]["views"]["form"] = {
-                "fields": sub_fields,
-                "arch": sub_arch,
-            }
-
-        return order_view
+        return arch, view
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
