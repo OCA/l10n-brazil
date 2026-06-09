@@ -35,12 +35,12 @@ class ResourceCalendar(models.Model):
 
     parent_path = fields.Char(index=True)
 
-    country_id = fields.Many2one("res.country", "País")
+    country_id = fields.Many2one("res.country", "Country")
     state_id = fields.Many2one(
-        "res.country.state", "Estado", domain="[('country_id','=',country_id)]"
+        "res.country.state", "State", domain="[('country_id','=',country_id)]"
     )
     l10n_br_city_id = fields.Many2one(
-        "res.city", "Municipio", domain="[('state_id','=',state_id)]"
+        "res.city", "Municipality", domain="[('state_id','=',state_id)]"
     )
     leave_ids = fields.Many2many(
         comodel_name="resource.calendar.leaves", compute="_compute_leave_ids"

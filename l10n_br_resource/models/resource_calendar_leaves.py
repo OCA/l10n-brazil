@@ -8,18 +8,18 @@ from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
-TIPO_FERIADO = {
-    "F": "Feriado",
-    "B": "Feriado bancário",
-    "C": "Data comemorativa",
-}
+HOLIDAY_TYPE_LABELS = [
+    ("F", "Feriado"),
+    ("B", "Feriado bancário"),
+    ("C", "Data comemorativa"),
+]
 
 
-ABRANGENCIA_FERIADO = {
-    "N": "Nacional",
-    "E": "Estadual",
-    "M": "Municipal",
-}
+HOLIDAY_COVERAGE_LABELS = [
+    ("N", "Nacional"),
+    ("E", "Estadual"),
+    ("M", "Municipal"),
+]
 
 
 class ResourceCalendarLeave(models.Model):
@@ -27,25 +27,25 @@ class ResourceCalendarLeave(models.Model):
 
     country_id = fields.Many2one(
         "res.country",
-        string="País",
+        string="Country",
         related="calendar_id.country_id",
     )
     state_id = fields.Many2one(
         "res.country.state",
-        "Estado",
+        "State",
         related="calendar_id.state_id",
         domain="[('country_id','=',country_id)]",
     )
     l10n_br_city_id = fields.Many2one(
         "res.city",
-        "Municipio",
+        "Municipality",
         related="calendar_id.l10n_br_city_id",
         domain="[('state_id','=',state_id)]",
     )
     leave_type = fields.Selection(
-        string="Tipo",
-        selection=[item for item in TIPO_FERIADO.items()],
+        string="Type",
+        selection=HOLIDAY_TYPE_LABELS,
     )
-    abrangencia = fields.Selection(
-        selection=[item for item in ABRANGENCIA_FERIADO.items()],
+    coverage = fields.Selection(
+        selection=HOLIDAY_COVERAGE_LABELS,
     )
