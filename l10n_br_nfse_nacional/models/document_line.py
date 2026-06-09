@@ -1,5 +1,7 @@
-from odoo import fields, api
+from odoo import api, fields
+
 from odoo.addons.spec_driven_model.models import spec_models
+
 
 class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     _name = "l10n_br_fiscal.document.line"
@@ -20,10 +22,11 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         "nfse.10.tctribtotal",
     ]
 
-    _nfse10_odoo_module = "odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_complexos_v1_00"
+    _nfse10_odoo_module = (
+        "odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_complexos_v1_00"
+    )
     _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00"
-#    _nfse10_binding_type = "Tccserv" #'TctribTotal', 'Tccserv', 'TcvdescCondIncond', 'TcvservPrest', 'TctribOutrosPisCofins', 'TctribMunicipal', 'TcinfoValores', 'TclocPrest', 'TctribNacional', 'TcinfoTributacao', 'Tcserv'
-    _nfse10_binding_type_serv = "Tcserv" #'TctribTotal', 'Tccserv', 'TcvdescCondIncond', 'TcvservPrest', 'TctribOutrosPisCofins', 'TctribMunicipal', 'TcinfoValores', 'TclocPrest', 'TctribNacional', 'TcinfoTributacao', 'Tcserv'
+    _nfse10_binding_type_serv = "Tcserv"
     _nfse10_binding_type_valores = "TcinfoValores"
     _nfse10_binding_type_vServPrest = "TcvservPrest"
     _nfse10_binding_type_vDescCondIncond = "TcvdescCondIncond"
@@ -35,16 +38,51 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     _nfse10_binding_type_tribFed = "TctribNacional"
     _nfse10_binding_type_totTrib = "TctribTotal"
 
-    # Force self-stack references with explicit strings to avoid label collision warnings
-    nfse10_locPrest = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="Local Prestação")
-    nfse10_cServ = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="Código Serviço")
-    nfse10_vServPrest = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="Valores Serviço")
-    nfse10_vDescCondIncond = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="Descontos")
-    nfse10_trib = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="Tributação")
-    nfse10_tribMun = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="Tributos Municipais")
-    nfse10_tribFed = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="Tributos Federais")
-    nfse10_piscofins = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="PIS/COFINS")
-    nfse10_totTrib = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_self", string="Total Tributos")
+    nfse10_locPrest = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="Local Prestação",
+    )
+    nfse10_cServ = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="Código Serviço",
+    )
+    nfse10_vServPrest = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="Valores Serviço",
+    )
+    nfse10_vDescCondIncond = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="Descontos",
+    )
+    nfse10_trib = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="Tributação",
+    )
+    nfse10_tribMun = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="Tributos Municipais",
+    )
+    nfse10_tribFed = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="Tributos Federais",
+    )
+    nfse10_piscofins = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="PIS/COFINS",
+    )
+    nfse10_totTrib = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_self",
+        string="Total Tributos",
+    )
 
     # Fields mapped to tags
     nfse10_cLocPrestacao = fields.Char(related="issqn_fg_city_id.ibge_code")
@@ -92,8 +130,14 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     def _compute_nfse10_valores(self):
         for rec in self:
             rec.nfse10_vServ = f"{rec.price_gross:.2f}" if rec.price_gross else False
-            rec.nfse10_vDescIncond = f"{rec.discount_value:.2f}" if rec.discount_value else False
-            rec.nfse10_vDescCond = f"{rec.issqn_desc_cond_amount:.2f}" if rec.issqn_desc_cond_amount else False
+            rec.nfse10_vDescIncond = (
+                f"{rec.discount_value:.2f}" if rec.discount_value else False
+            )
+            rec.nfse10_vDescCond = (
+                f"{rec.issqn_desc_cond_amount:.2f}"
+                if rec.issqn_desc_cond_amount
+                else False
+            )
 
     @api.depends("issqn_percent", "issqn_wh_percent", "issqn_value", "issqn_wh_value")
     def _compute_nfse10_trib_mun(self):
@@ -105,21 +149,45 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     @api.depends("inss_wh_value", "irpj_wh_value", "csll_wh_value")
     def _compute_nfse10_trib_fed(self):
         for rec in self:
-            rec.nfse10_vRetCP = f"{rec.inss_wh_value:.2f}" if rec.inss_wh_value else False
-            rec.nfse10_vRetIRRF = f"{rec.irpj_wh_value:.2f}" if rec.irpj_wh_value else False
-            rec.nfse10_vRetCSLL = f"{rec.csll_wh_value:.2f}" if rec.csll_wh_value else False
+            rec.nfse10_vRetCP = (
+                f"{rec.inss_wh_value:.2f}" if rec.inss_wh_value else False
+            )
+            rec.nfse10_vRetIRRF = (
+                f"{rec.irpj_wh_value:.2f}" if rec.irpj_wh_value else False
+            )
+            rec.nfse10_vRetCSLL = (
+                f"{rec.csll_wh_value:.2f}" if rec.csll_wh_value else False
+            )
 
-    @api.depends("pis_cst_code", "pis_base", "cofins_base", "pis_percent", "cofins_percent", "pis_value", "cofins_value", "pis_wh_value", "cofins_wh_value")
+    @api.depends(
+        "pis_cst_code",
+        "pis_base",
+        "cofins_base",
+        "pis_percent",
+        "cofins_percent",
+        "pis_value",
+        "cofins_value",
+        "pis_wh_value",
+        "cofins_wh_value",
+    )
     def _compute_nfse10_pis_cofins(self):
+        valid_cst = dict(self._fields["nfse10_CST"].selection)
         for rec in self:
-            rec.nfse10_CST = rec.pis_cst_code or "00"
+            cst = rec.pis_cst_code
+            rec.nfse10_CST = cst if cst in valid_cst else "00"
             base = rec.pis_base or rec.cofins_base or 0.0
             rec.nfse10_vBCPisCofins = f"{base:.2f}" if base else False
             rec.nfse10_pAliqPis = f"{rec.pis_percent:.2f}" if rec.pis_percent else False
-            rec.nfse10_pAliqCofins = f"{rec.cofins_percent:.2f}" if rec.cofins_percent else False
+            rec.nfse10_pAliqCofins = (
+                f"{rec.cofins_percent:.2f}" if rec.cofins_percent else False
+            )
             rec.nfse10_vPis = f"{rec.pis_value:.2f}" if rec.pis_value else False
-            rec.nfse10_vCofins = f"{rec.cofins_value:.2f}" if rec.cofins_value else False
-            rec.nfse10_tpRetPisCofins = "1" if (rec.pis_wh_value or rec.cofins_wh_value) else "2"
+            rec.nfse10_vCofins = (
+                f"{rec.cofins_value:.2f}" if rec.cofins_value else False
+            )
+            rec.nfse10_tpRetPisCofins = (
+                "1" if (rec.pis_wh_value or rec.cofins_wh_value) else "2"
+            )
 
     def _compute_nfse10_tot_trib(self):
         for rec in self:
@@ -130,10 +198,19 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         internal_stack_mappings = [
-            "nfse10_locPrest", "nfse10_cServ", "nfse10_vServPrest",
-            "nfse10_vDescCondIncond", "nfse10_trib", "nfse10_tribMun",
-            "nfse10_tribFed", "nfse10_piscofins", "nfse10_totTrib"
+            "nfse10_locPrest",
+            "nfse10_cServ",
+            "nfse10_vServPrest",
+            "nfse10_vDescCondIncond",
+            "nfse10_trib",
+            "nfse10_tribMun",
+            "nfse10_tribFed",
+            "nfse10_piscofins",
+            "nfse10_totTrib",
         ]
         if field_name in internal_stack_mappings:
-            return self._build_binding(class_name=class_obj._fields[field_name].comodel_name, field_name=field_name)
+            return self._build_binding(
+                class_name=class_obj._fields[field_name].comodel_name,
+                field_name=field_name,
+            )
         return super()._export_many2one(field_name, xsd_required, class_obj)

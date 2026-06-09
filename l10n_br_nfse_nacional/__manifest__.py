@@ -4,15 +4,26 @@
     "version": "16.0.1.0.0",
     "category": "Localisation",
     "license": "AGPL-3",
-    "author": "Odoo Community Association (OCA)",
+    "author": "Akretion, KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
+    "external_dependencies": {
+        "python": [
+            "nfelib",
+            "erpbrasil.assinatura",
+            "requests",
+            "cryptography",
+        ],
+    },
     "depends": [
         "l10n_br_nfse",
         "l10n_br_nfse_spec",
         "spec_driven_model",
     ],
-    "data": [],
+    "data": [
+        "wizards/document_cancel_wizard.xml",
+        "views/document_view.xml",
+    ],
     "demo": [
         "demo/fiscal_document_demo.xml",
     ],
