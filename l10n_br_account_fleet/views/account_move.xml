@@ -2,7 +2,6 @@
 <!-- Copyright 2023 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="account_move_form_view">
         <field name="name">account.move.form (in l10n_br_account_fleet)</field>
         <field name="model">account.move</field>
@@ -20,5 +19,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>
