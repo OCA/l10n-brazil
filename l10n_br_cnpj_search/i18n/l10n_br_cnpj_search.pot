@@ -339,6 +339,13 @@ msgid "Street2"
 msgstr ""
 
 #. module: l10n_br_cnpj_search
+#. odoo-python
+#: code:addons/l10n_br_cnpj_search/wizard/partner_cnpj_search_wizard.py:0
+#, python-format
+msgid "The CNPJ search service did not respond in time."
+msgstr ""
+
+#. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Update Partner"
 msgstr ""
