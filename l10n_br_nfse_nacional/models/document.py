@@ -1,7 +1,40 @@
-from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
+import base64
+import gzip
+import os
+import re
+import tempfile
 
-from odoo import fields, api
+from nfelib import CommonMixin
+from nfelib.nfse.bindings.v1_0.dps_v1_00 import Dps
+from nfelib.nfse.bindings.v1_0.ped_reg_evento_v1_00 import PedRegEvento
+from nfelib.nfse.bindings.v1_0.tipos_eventos_v1_00 import (
+    TcinfPedReg,
+    Te101101,
+    Te101101XDesc,
+)
+from requests.exceptions import RequestException
+
+from odoo import _, api, fields
+from odoo.exceptions import UserError
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
+    MODELO_FISCAL_NFSE,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_REJEITADA,
+)
 from odoo.addons.spec_driven_model.models import spec_models
+
+from ..constants.nfse_nacional import ADN_BASE_URL, NFSE_NACIONAL_CANCEL_EVENT
+from ..transport.adn_rest import AdnRestClient
+
+
+def filter_nfse_nacional(record):
+    return (
+        record.document_type_id and record.document_type_id.code == MODELO_FISCAL_NFSE
+    )
+
 
 class L10nBrFiscalDocument(spec_models.SpecModel):
     _name = "l10n_br_fiscal.document"
@@ -12,13 +45,17 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         "nfse.10.tcinfdps",
     ]
 
-    _nfse10_odoo_module = "odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_complexos_v1_00"
+    _nfse10_odoo_module = (
+        "odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_complexos_v1_00"
+    )
     _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00"
-    _nfse10_binding_type = "TcinfDps" #Tcdps"
-#    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.dps_v1_00"
-#    _nfse10_binding_type = "Dps" #Tcdps"
+    _nfse10_binding_type = "TcinfDps"  # Tcdps"
+    #    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.dps_v1_00"
+    #    _nfse10_binding_type = "Dps" #Tcdps"
 
-    nfse10_infDPS = fields.Many2one("l10n_br_fiscal.document", compute="_compute_nfse10_self")
+    nfse10_infDPS = fields.Many2one(
+        "l10n_br_fiscal.document", compute="_compute_nfse10_self"
+    )
 
     nfse10_Id = fields.Char(compute="_compute_nfse10_id")
     nfse10_tpAmb = fields.Selection(related="company_id.nfse_environment")
@@ -32,9 +69,21 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     nfse10_prest = fields.Many2one("res.company", related="company_id")
     nfse10_toma = fields.Many2one("res.partner", related="partner_id")
+    nfse10_interm = fields.Many2one("res.partner")
 
-    nfse10_serv = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores")
-    nfse10_valores = fields.Many2one("l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores")
+    nfse10_serv = fields.Many2one(
+        "l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores"
+    )
+    nfse10_valores = fields.Many2one(
+        "l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores"
+    )
+
+    nfse_key = fields.Char(
+        string="NFS-e Access Key", size=50, copy=False, readonly=True
+    )
+    nfse_number = fields.Char(string="NFS-e Number", copy=False, readonly=True)
+    nfse_protocol = fields.Char(string="NFS-e Protocol", copy=False, readonly=True)
+    edoc_error_message = fields.Text(readonly=True, copy=False)
 
     def _compute_nfse10_self(self):
         for rec in self:
@@ -68,7 +117,9 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if field_name == "nfse10_infDPS":
-            return self._build_binding(class_name=class_obj._fields[field_name].comodel_name)
+            return self._build_binding(
+                class_name=class_obj._fields[field_name].comodel_name
+            )
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def import_binding_nfse(self, binding, edoc_type="in", dry_run=False):
@@ -85,7 +136,8 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
     def _check_key(self):  # TODO required??
         """
         Bypass the 44-digit ChaveEdoc validation for NFS-e Nacional.
-        DPS uses 42 digits and NFS-e uses 50 digits, which breaks the standard validation.
+        DPS uses 42 digits and NFS-e uses 50 digits, which breaks the
+        standard validation.
         """
         nfse_nacional_docs = self.filtered(
             lambda r: r.document_type_id and r.document_type_id.code == "SE"
@@ -94,17 +146,268 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
         # Only call the strict l10n_br_fiscal validation on NFe/CTe/MDFe
         if other_docs:
-            super(L10nBrFiscalDocument, other_docs)._check_key()
+            return super(L10nBrFiscalDocument, other_docs)._check_key()
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(lang="pt_BR").filtered(
-#            filter_processador_edoc_cte
-            # TODO make t compat with Focus etc...
-            lambda r: r.document_type_id and r.document_type_id.code == "SE"
-        ):
+        for record in self.with_context(lang="pt_BR").filtered(filter_nfse_nacional):
             inf_dps = record._build_binding("nfse", "10")
-            nfse = Dps(infDPS=inf_dps, signature=None)
+            nfse = Dps(infDPS=inf_dps, versao="1.00", signature=None)
             edocs.append(nfse)
         return edocs
 
+    def _document_export(self, pretty_print=True):
+        result = super()._document_export()
+        for record in self.filtered(filter_nfse_nacional):
+            edoc = record.serialize()[0]
+            xml_file = edoc.to_xml()
+            if (
+                record.authorization_event_id
+                and record.authorization_event_id.state == "draft"
+            ):
+                record.sudo().authorization_event_id.unlink()
+            event_id = record.event_ids.create_event_save_xml(
+                company_id=record.company_id,
+                environment=record._nfse_nacional_event_env(),
+                event_type="0",
+                xml_file=xml_file,
+                document_id=record,
+            )
+            record.authorization_event_id = event_id
+            certificate = record.company_id.certificate
+            signed_xml = edoc.sign_xml(
+                xml_file, certificate.file, certificate.password, edoc.infDPS.Id
+            )
+            record._validate_xml(signed_xml)
+        return result
+
+    def _validate_xml(self, xml_file):
+        self.ensure_one()
+        if not self.filtered(filter_nfse_nacional):
+            return super()._validate_xml(xml_file)
+        erros = "\n".join(Dps.schema_validation(xml_file))
+        self.write({"xml_error_message": erros or False})
+
+    def _nfse_nacional_event_env(self):
+        self.ensure_one()
+        if self.company_id.nfse_environment == "1":
+            return EVENT_ENV_PROD
+        return EVENT_ENV_HML
+
+    def _eletronic_document_send(self):
+        result = super()._eletronic_document_send()
+        for record in self.filtered(filter_nfse_nacional):
+            if record.xml_error_message:
+                continue
+            if record.state_edoc != "a_enviar":
+                continue
+            record._adn_send_for_authorization()
+        return result
+
+    def _adn_send_for_authorization(self):
+        self.ensure_one()
+        edoc = self.serialize()[0]
+        certificate = self.company_id.certificate
+        signed_xml = edoc.sign_xml(
+            edoc.to_xml(), certificate.file, certificate.password, edoc.infDPS.Id
+        )
+        if not signed_xml.lstrip().startswith("<?xml"):
+            signed_xml = '<?xml version="1.0" encoding="UTF-8"?>' + signed_xml
+        packed = AdnRestClient.pack_dps(signed_xml)
+        response = self._adn_post(lambda client: client.post_dps(packed))
+        self._adn_process_response(response)
+
+    def _adn_post(self, call):
+        """Run ``call(client)`` against the ADN over mTLS with a temp 0600 PEM."""
+        self.ensure_one()
+        base_url = ADN_BASE_URL[self.company_id.nfse_environment]
+        pem = self._adn_mtls_pem()
+        tmp = tempfile.NamedTemporaryFile("wb", suffix=".pem", delete=False)
+        try:
+            os.chmod(tmp.name, 0o600)
+            tmp.write(pem)
+            tmp.close()
+            client = AdnRestClient(base_url, tmp.name)
+            try:
+                return call(client)
+            except RequestException as exc:
+                raise UserError(
+                    _(
+                        "Could not reach the NFS-e Nacional service (ADN) at "
+                        "%(url)s: %(err)s"
+                    )
+                    % {"url": base_url, "err": exc}
+                ) from exc
+        finally:
+            os.unlink(tmp.name)
+
+    def _adn_mtls_pem(self):
+        from cryptography.hazmat.primitives.serialization import (
+            Encoding,
+            NoEncryption,
+            PrivateFormat,
+            pkcs12,
+        )
+
+        certificate = self.company_id.certificate
+        pfx = base64.b64decode(certificate.file)
+        password = (certificate.password or "").encode() or None
+        key, cert, _extra = pkcs12.load_key_and_certificates(pfx, password)
+        pem = key.private_bytes(
+            Encoding.PEM, PrivateFormat.TraditionalOpenSSL, NoEncryption()
+        )
+        pem += cert.public_bytes(Encoding.PEM)
+        return pem
+
+    def _adn_process_response(self, response):
+        self.ensure_one()
+        body = response.body or {}
+        authorized = response.status_code in (200, 201) and bool(
+            body.get("chaveAcesso")
+        )
+        if authorized:
+            self.write(
+                {
+                    "nfse_key": body.get("chaveAcesso"),
+                    "nfse_number": body.get("nNFSe") or body.get("numeroNfse"),
+                    "nfse_protocol": body.get("protocolo") or body.get("nProt"),
+                    "status_code": str(body.get("status") or "100"),
+                    "status_name": body.get("motivo") or _("Authorized"),
+                    "edoc_error_message": False,
+                }
+            )
+            self.authorization_event_id.set_done(
+                status_code=self.status_code,
+                response=self.status_name,
+                protocol_date=fields.Datetime.now(),
+                protocol_number=self.nfse_protocol,
+                file_response_xml=self._adn_decode_nfse(body),
+            )
+            self._change_state(SITUACAO_EDOC_AUTORIZADA)
+        else:
+            message = self._adn_format_errors(response)
+            self.write(
+                {
+                    "edoc_error_message": message,
+                    "status_code": str(response.status_code),
+                    "status_name": _("Rejected"),
+                }
+            )
+            self.authorization_event_id.set_done(
+                status_code=str(response.status_code),
+                response=message,
+                protocol_date=fields.Datetime.now(),
+                protocol_number=False,
+                file_response_xml=False,
+            )
+            self.message_post(body=_("NFS-e rejected by the ADN:\n%s") % message)
+            self._change_state(SITUACAO_EDOC_REJEITADA)
+
+    @staticmethod
+    def _adn_format_errors(response):
+        body = response.body or {}
+        erros = body.get("erros") or body.get("erro") or []
+        lines = []
+        for e in erros:
+            code = e.get("Codigo") or e.get("codigo")
+            desc = e.get("Descricao") or e.get("descricao")
+            comp = e.get("complemento") or e.get("Complemento")
+            lines.append(f"{code} - {desc}" + (f" ({comp})" if comp else ""))
+        if lines:
+            return "\n".join(lines)
+        return body.get("mensagem") or response.content[:1000].decode(
+            "utf-8", "replace"
+        )
+
+    @staticmethod
+    def _adn_decode_nfse(body):
+        raw = body.get("nfseXmlGZipB64")
+        if raw:
+            return gzip.decompress(base64.b64decode(raw)).decode("utf-8")
+        return body.get("nfseXml") or ""
+
+    def _document_cancel(self, justificative):
+        for record in self.filtered(filter_nfse_nacional):
+            motive = self.env.context.get("nfse_cancel_motive", "1")
+            record._adn_cancel(justificative, motive)
+        return super()._document_cancel(justificative)
+
+    def _adn_cancel(self, justificative, motive):
+        self.ensure_one()
+        ped = self._build_cancel_pedreg(justificative, motive)
+        certificate = self.company_id.certificate
+        signed = CommonMixin.sign_xml(
+            self._serialize_pedreg(ped),
+            certificate.file,
+            certificate.password,
+            ped.infPedReg.Id,
+        )
+        if not signed.lstrip().startswith("<?xml"):
+            signed = '<?xml version="1.0" encoding="UTF-8"?>' + signed
+        packed = AdnRestClient.pack_dps(signed)
+        response = self._adn_post(
+            lambda client: client.post_event(self.nfse_key, packed)
+        )
+        return self._adn_process_cancel_response(response, signed)
+
+    def _cancel_event_id(self):
+        self.ensure_one()
+        return f"PRE{self.nfse_key}{NFSE_NACIONAL_CANCEL_EVENT}001"
+
+    def _build_cancel_pedreg(self, justificative, motive):
+        self.ensure_one()
+        company = self.company_id
+        cnpj = re.sub(r"\D", "", company.partner_id.cnpj_cpf or "")
+        dt = fields.Datetime.context_timestamp(self, fields.Datetime.now()).strftime(
+            "%Y-%m-%dT%H:%M:%S-03:00"
+        )
+        inf = TcinfPedReg(
+            tpAmb=company.nfse_environment,
+            verAplic="Odoo OCA",
+            dhEvento=dt,
+            CNPJAutor=cnpj,
+            chNFSe=self.nfse_key,
+            nPedRegEvento="1",
+            e101101=Te101101(
+                xDesc=Te101101XDesc.CANCELAMENTO_DE_NFS_E,
+                cMotivo=motive,
+                xMotivo=justificative,
+            ),
+            Id=self._cancel_event_id(),
+        )
+        return PedRegEvento(infPedReg=inf, versao="1.00")
+
+    @staticmethod
+    def _serialize_pedreg(ped):
+        from xsdata.formats.dataclass.serializers import XmlSerializer
+        from xsdata.formats.dataclass.serializers.config import SerializerConfig
+
+        serializer = XmlSerializer(config=SerializerConfig(pretty_print=False))
+        return serializer.render(
+            ped, ns_map={None: "http://www.sped.fazenda.gov.br/nfse"}
+        )
+
+    def _adn_process_cancel_response(self, response, signed_xml):
+        self.ensure_one()
+        if response.status_code not in (200, 201):
+            raise UserError(
+                _("NFS-e cancellation rejected by the ADN:\n%s")
+                % self._adn_format_errors(response)
+            )
+        body = response.body or {}
+        event = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=self._nfse_nacional_event_env(),
+            event_type="2",
+            xml_file=signed_xml,
+            document_id=self,
+        )
+        self.cancel_event_id = event
+        event.set_done(
+            status_code=str(response.status_code),
+            response=body.get("mensagem") or _("Cancelled"),
+            protocol_date=fields.Datetime.now(),
+            protocol_number=body.get("protocolo") or body.get("nProt") or False,
+            file_response_xml=self._adn_decode_nfse(body) or signed_xml,
+        )
+        return True
