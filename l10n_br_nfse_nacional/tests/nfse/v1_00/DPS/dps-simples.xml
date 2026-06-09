@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <DPS xmlns="http://www.sped.fazenda.gov.br/nfse">
   <infDPS Id="DPS140015920176113500013200900000000000000006">
     <tpAmb>2</tpAmb>
@@ -24,7 +24,8 @@
       </locPrest>
       <cServ>
         <cTribNac>010101</cTribNac>
-        <xDescServ>teste teste teste teste teste teste teste teste teste teste teste</xDescServ>
+        <xDescServ
+                >teste teste teste teste teste teste teste teste teste teste teste</xDescServ>
       </cServ>
     </serv>
     <valores>
