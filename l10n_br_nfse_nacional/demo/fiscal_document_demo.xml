@@ -20,16 +20,16 @@
     <!-- Prestador (Company) -->
     <record id="partner_company_lc" model="res.partner">
         <field name="name">Empresa Regime Normal</field>
-        <field name="is_company" eval="True"/>
+        <field name="is_company" eval="True" />
         <field name="cnpj_cpf">00.000.000/0000-00</field>
         <field name="l10n_br_im_code">152422</field>
-        <field name="city_id" ref="l10n_br_base.city_4202404"/>
+        <field name="city_id" ref="l10n_br_base.city_4202404" />
     </record>
 
     <!-- Tomador (Customer) -->
     <record id="partner_toma_lc" model="res.partner">
         <field name="name">XXXXXXX XXXXXXXXXXX LTDA ME</field>
-        <field name="is_company" eval="True"/>
+        <field name="is_company" eval="True" />
         <field name="cnpj_cpf">00.000.000/0000-00</field>
         <field name="l10n_br_im_code">00000</field>
         <field name="street">ARY XXXXXXX XXXXX</field>
@@ -39,11 +39,11 @@
 
     <!-- Documento LC -->
     <record id="demo_nfse_lc" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
-        <field name="partner_id" ref="partner_toma_lc"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="partner_toma_lc" />
 
         <!-- NEW: Define the document type so the key validation is bypassed! -->
-        <field name="document_type_id" search="[('code', '=', 'SE')]"/>
+        <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
         <field name="document_number">2</field>
         <field name="document_serie">00007</field>
@@ -56,11 +56,11 @@
     </record>
 
     <record id="demo_nfse_lc_line" model="l10n_br_fiscal.document.line">
-        <field name="document_id" ref="demo_nfse_lc"/>
+        <field name="document_id" ref="demo_nfse_lc" />
         <field name="name">Teste de NF Nacional com imposto</field>
-        <field name="national_taxation_code_id" ref="nat_tax_code_010101"/>
-        <field name="nbs_id" ref="nbs_111111111"/>
-        <field name="issqn_fg_city_id" ref="l10n_br_base.city_4202404"/>
+        <field name="national_taxation_code_id" ref="nat_tax_code_010101" />
+        <field name="nbs_id" ref="nbs_111111111" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_4202404" />
         <field name="price_unit">20.00</field>
         <field name="quantity">1</field>
         <field name="inss_wh_value">0.40</field>
@@ -78,10 +78,10 @@
     <!-- Prestador (Company) -->
     <record id="partner_company_sn" model="res.partner">
         <field name="name">Empresa Simples Nacional</field>
-        <field name="is_company" eval="True"/>
+        <field name="is_company" eval="True" />
         <field name="cnpj_cpf">01.761.135/0001-32</field>
         <field name="l10n_br_im_code">01761135000132</field>
-        <field name="city_id" ref="l10n_br_base.city_1400159"/>
+        <field name="city_id" ref="l10n_br_base.city_1400159" />
     </record>
 
     <!-- Tomador (Anonymous Customer - No <toma> tag expected) -->
@@ -91,11 +91,11 @@
 
     <!-- Documento SN -->
     <record id="demo_nfse_sn" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
-        <field name="partner_id" ref="partner_toma_sn"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="partner_id" ref="partner_toma_sn" />
 
         <!-- NEW: Define the document type so the key validation is bypassed! -->
-        <field name="document_type_id" search="[('code', '=', 'SE')]"/>
+        <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
         <field name="document_number">6</field>
         <field name="document_serie">900</field>
@@ -108,10 +108,12 @@
     </record>
 
     <record id="demo_nfse_sn_line" model="l10n_br_fiscal.document.line">
-        <field name="document_id" ref="demo_nfse_sn"/>
-        <field name="name">teste teste teste teste teste teste teste teste teste teste teste</field>
-        <field name="national_taxation_code_id" ref="nat_tax_code_010101"/>
-        <field name="issqn_fg_city_id" ref="l10n_br_base.city_1400159"/>
+        <field name="document_id" ref="demo_nfse_sn" />
+        <field
+            name="name"
+        >teste teste teste teste teste teste teste teste teste teste teste</field>
+        <field name="national_taxation_code_id" ref="nat_tax_code_010101" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_1400159" />
         <field name="price_unit">999999999.99</field>
         <field name="quantity">1</field>
         <field name="discount_value">9999999.99</field>
