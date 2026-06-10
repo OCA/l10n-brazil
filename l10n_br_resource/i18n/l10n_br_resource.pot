@@ -93,6 +93,11 @@ msgid "Feriado bancário"
 msgstr ""
 
 #. module: l10n_br_resource
+#: model:ir.model,name:l10n_br_resource.model_wizard_workalendar_holiday_import
+msgid "Holiday Import Wizard"
+msgstr ""
+
+#. module: l10n_br_resource
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__id
 #: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__id
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__id
@@ -197,11 +202,6 @@ msgstr ""
 #. module: l10n_br_resource
 #: model:ir.model.fields.selection,name:l10n_br_resource.selection__wizard_workalendar_holiday_import__interval_type__weeks
 msgid "Week(s)"
-msgstr ""
-
-#. module: l10n_br_resource
-#: model:ir.model,name:l10n_br_resource.model_wizard_workalendar_holiday_import
-msgid "Wizard de import de feriados"
 msgstr ""
 
 #. module: l10n_br_resource
