@@ -8,7 +8,10 @@ from unittest import mock
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
-from odoo.addons.l10n_br_cnpj_search.tests.common import TestCnpjCommon
+from odoo.addons.l10n_br_cnpj_search.tests.common import (
+    MOCK_REQUESTS_GET,
+    TestCnpjCommon,
+)
 
 
 @tagged("post_install", "-at_install")
@@ -26,9 +29,15 @@ class TestReceitaWS(TestCnpjCommon):
             }
         )
 
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=self.mocked_response_ws_1,
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                return_value=mock.Mock(status_code=200),
+            ),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=self.mocked_response_ws_1,
+            ),
         ):
             action_wizard = kilian.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
@@ -57,7 +66,21 @@ class TestReceitaWS(TestCnpjCommon):
         self.assertEqual(kilian.cnae_main_id.code, "4751-2/01")
 
     def test_receita_ws_fail(self):
-        with self.assertRaises(ValidationError):
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                return_value=mock.Mock(
+                    status_code=200,
+                    **{
+                        "json.return_value": {
+                            "status": "ERROR",
+                            "message": "CNPJ inválido",
+                        }
+                    },
+                ),
+            ),
+            self.assertRaises(ValidationError),
+        ):
             invalido = self.model.create({"name": "invalido", "vat": "00000000000000"})
             invalido._onchange_vat()
             action_wizard = invalido.action_open_cnpj_search_wizard()
@@ -66,9 +89,15 @@ class TestReceitaWS(TestCnpjCommon):
             self.env["partner.search.wizard"].with_context(**wizard_context).create({})
 
     def test_receita_ws_multiple_phones(self):
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=self.mocked_response_ws_2,
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                return_value=mock.Mock(status_code=200),
+            ),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=self.mocked_response_ws_2,
+            ),
         ):
             isla = self.model.create({"name": "Isla", "vat": "92.666.056/0001-06"})
             isla._onchange_vat()

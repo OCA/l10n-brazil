@@ -6,12 +6,20 @@
 import logging
 from unittest import mock
 
-from odoo.exceptions import ValidationError
-from odoo.tests import tagged
+import requests
 
-from .common import TestCnpjCommon
+from odoo.exceptions import UserError, ValidationError
+from odoo.tests import tagged
+from odoo.tools import mute_logger
+
+from .common import MOCK_REQUESTS_GET, TestCnpjCommon
 
 _logger = logging.getLogger(__name__)
+
+MOCK_GET_CITY_ID = (
+    "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice."
+    "CNPJWebservice._get_city_id"
+)
 
 
 @tagged("post_install", "-at_install")
@@ -25,9 +33,16 @@ class TestTestSerPro(TestCnpjCommon):
         cls.set_param("serpro_schema", "basica")
 
     def test_serpro_basica(self):
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=self.mocked_response_serpro_1,
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                return_value=mock.Mock(status_code=200),
+            ),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=self.mocked_response_serpro_1,
+            ),
+            mock.patch(MOCK_GET_CITY_ID, return_value=False),
         ):
             dummy_basica = self.model.create(
                 {"name": "Dummy Basica", "vat": "34.238.864/0001-68"}
@@ -61,12 +76,36 @@ class TestTestSerPro(TestCnpjCommon):
             self.assertEqual(dummy_basica.equity_capital, 0)
             self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
+    @mute_logger("odoo.addons.l10n_br_cnpj_search.wizard.partner_cnpj_search_wizard")
+    def test_serpro_timeout(self):
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                side_effect=requests.exceptions.Timeout,
+            ),
+            self.assertRaises(UserError),
+        ):
+            dummy = self.model.create(
+                {"name": "Dummy Timeout", "vat": "34.238.864/0001-68"}
+            )
+            dummy._onchange_vat()
+            action_wizard = dummy.action_open_cnpj_search_wizard()
+            wizard_context = action_wizard.get("context")
+            wizard_context["active_model"] = "res.partner"
+            self.env["partner.search.wizard"].with_context(**wizard_context).create({})
+
     def test_serpro_not_found(self):
         # In the Trial version there are only a few registered CNPJ records
         invalid = self.model.create({"name": "invalid", "vat": "44.356.113/0001-08"})
         invalid._onchange_vat()
 
-        with self.assertRaises(ValidationError):
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                return_value=mock.Mock(status_code=404, reason="Not Found"),
+            ),
+            self.assertRaises(ValidationError),
+        ):
             action_wizard = invalid.action_open_cnpj_search_wizard()
             wizard_context = action_wizard.get("context")
             wizard_context["active_model"] = "res.partner"
@@ -112,9 +151,16 @@ class TestTestSerPro(TestCnpjCommon):
         self.assertEqual(socios, expected_socios)
 
     def test_serpro_empresa(self):
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=self.mocked_response_serpro_2,
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                return_value=mock.Mock(status_code=200),
+            ),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=self.mocked_response_serpro_2,
+            ),
+            mock.patch(MOCK_GET_CITY_ID, return_value=False),
         ):
             self.model.search([("vat", "=", "34.238.864/0002-49")]).write(
                 {"active": False}
@@ -148,9 +194,16 @@ class TestTestSerPro(TestCnpjCommon):
         dummy_empresa.unlink()
 
     def test_serpro_qsa(self):
-        with mock.patch(
-            "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
-            return_value=self.mocked_response_serpro_3,
+        with (
+            mock.patch(
+                MOCK_REQUESTS_GET,
+                return_value=mock.Mock(status_code=200),
+            ),
+            mock.patch(
+                "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
+                return_value=self.mocked_response_serpro_3,
+            ),
+            mock.patch(MOCK_GET_CITY_ID, return_value=False),
         ):
             self.model.search([("vat", "=", "34.238.864/0001-68")]).write(
                 {"active": False}
