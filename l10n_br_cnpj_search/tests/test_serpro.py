@@ -10,10 +10,16 @@ import requests
 
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
+from odoo.tools import mute_logger
 
 from .common import MOCK_REQUESTS_GET, TestCnpjCommon
 
 _logger = logging.getLogger(__name__)
+
+MOCK_GET_CITY_ID = (
+    "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice."
+    "CNPJWebservice._get_city_id"
+)
 
 
 @tagged("post_install", "-at_install")
@@ -36,6 +42,7 @@ class TestTestSerPro(TestCnpjCommon):
                 "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
                 return_value=self.mocked_response_serpro_1,
             ),
+            mock.patch(MOCK_GET_CITY_ID, return_value=False),
         ):
             dummy_basica = self.model.create(
                 {"name": "Dummy Basica", "vat": "34.238.864/0001-68"}
@@ -69,6 +76,7 @@ class TestTestSerPro(TestCnpjCommon):
             self.assertEqual(dummy_basica.equity_capital, 0)
             self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
+    @mute_logger("odoo.addons.l10n_br_cnpj_search.wizard.partner_cnpj_search_wizard")
     def test_serpro_timeout(self):
         with (
             mock.patch(
@@ -152,6 +160,7 @@ class TestTestSerPro(TestCnpjCommon):
                 "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
                 return_value=self.mocked_response_serpro_2,
             ),
+            mock.patch(MOCK_GET_CITY_ID, return_value=False),
         ):
             self.model.search([("vat", "=", "34.238.864/0002-49")]).write(
                 {"active": False}
@@ -194,6 +203,7 @@ class TestTestSerPro(TestCnpjCommon):
                 "odoo.addons.l10n_br_cnpj_search.models.cnpj_webservice.CNPJWebservice.validate",
                 return_value=self.mocked_response_serpro_3,
             ),
+            mock.patch(MOCK_GET_CITY_ID, return_value=False),
         ):
             self.model.search([("vat", "=", "34.238.864/0001-68")]).write(
                 {"active": False}
