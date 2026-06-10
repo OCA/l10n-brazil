@@ -1,0 +1,229 @@
+id,code,name,note,account_type,reconcile
+coa_simple_1110101,1.1.1.01.01,Caixa,,asset_cash,1
+coa_simple_1110102,1.1.1.01.02,Fundo Fixo de Caixa,,asset_cash,1
+coa_simple_1110201,1.1.1.02.01,Bancos Conta Movimento,,asset_cash,1
+coa_simple_1110301,1.1.1.03.01,Aplicação Financeira de Liquidez Imediata,,asset_cash,1
+coa_simple_1120101,1.1.2.01.01,Contas a Receber,,asset_receivable,1
+coa_simple_1120102,1.1.2.01.02,PECLD,,asset_receivable,1
+coa_simple_1120201,1.1.2.02.01,Adiantamento Quinzenal,,asset_current,0
+coa_simple_1120202,1.1.2.02.02,Empréstimos a colaboradores,,asset_current,0
+coa_simple_1120203,1.1.2.02.03,Antecipação de Salários,,asset_current,0
+coa_simple_1120204,1.1.2.02.04,Antecipação de Férias,,asset_current,0
+coa_simple_1120205,1.1.2.02.05,Antecipação de 13º Salário,,asset_current,0
+coa_simple_1120301,1.1.2.03.01,Adiantamentos a Fornecedores,,asset_receivable,1
+coa_simple_1120401,1.1.2.04.01,IRRF,,asset_current,0
+coa_simple_1120402,1.1.2.04.02,CSLL Retida na Fonte,,asset_current,0
+coa_simple_1120403,1.1.2.04.03,PIS Retido na fonte,,asset_current,0
+coa_simple_1120404,1.1.2.04.04,COFINS Retida na Fonte,,asset_current,0
+coa_simple_1120405,1.1.2.04.05,INSS Retido na Fonte,,asset_current,0
+coa_simple_1120501,1.1.2.05.01,IPI a Recuperar,,asset_current,0
+coa_simple_1120502,1.1.2.05.02,ICMS a Recuperar,,asset_current,0
+coa_simple_1120503,1.1.2.05.03,PIS a Recuperar - Crédito Básico,,asset_current,0
+coa_simple_1120504,1.1.2.05.04,PIS a Recuperar - Crédito Presumido,,asset_current,0
+coa_simple_1120505,1.1.2.05.05,COFINS a Recuperar - Crédito Básico,,asset_current,0
+coa_simple_1120506,1.1.2.05.06,COFINS a Recuperar - Crédito Presumido,,asset_current,0
+coa_simple_1120507,1.1.2.05.07,CIDE a Recuperar,,asset_current,0
+coa_simple_1120508,1.1.2.05.08,Outros Impostos e Contribuições a Recuperar,,asset_current,0
+coa_simple_1120509,1.1.2.05.09,Saldo Negativo - IRPJ,,asset_current,0
+coa_simple_1120510,1.1.2.05.10,Saldo Negativo - CSLL,,asset_current,0
+coa_simple_1120511,1.1.2.05.11,IBS a Recuperar,,asset_current,0
+coa_simple_1120512,1.1.2.05.12,CBS a Recuperar,,asset_current,0
+coa_simple_1120513,1.1.2.05.13,IS a Recuperar,,asset_current,0
+coa_simple_1120601,1.1.2.06.01,IRPJ Estimativa,,asset_current,0
+coa_simple_1120602,1.1.2.06.02,CSLL Estimativa,,asset_current,0
+coa_simple_1120603,1.1.2.06.03,COFINS a Compensar,,asset_current,0
+coa_simple_1120604,1.1.2.06.04,PIS/PASEP a Compensar,,asset_current,0
+coa_simple_1120605,1.1.2.06.05,IPI a Compensar,,asset_current,0
+coa_simple_1120606,1.1.2.06.06,INSS a compensar,,asset_current,0
+coa_simple_1130101,1.1.3.01.01,Mercadorias para Revenda,,asset_current,0
+coa_simple_1130102,1.1.3.01.02,(-) Perda por Ajuste ao Valor Realizável Líquido - Estoque Mercadorias,,asset_current,0
+coa_simple_1130201,1.1.3.02.01,Insumos (materiais diretos),,asset_current,0
+coa_simple_1130202,1.1.3.02.02,Outros Materiais,,asset_current,0
+coa_simple_1130203,1.1.3.02.03,Produtos em Elaboração,,asset_current,0
+coa_simple_1130204,1.1.3.02.04,Produtos Acabados,,asset_current,0
+coa_simple_1130205,1.1.3.02.05,(-) Perda por Ajuste ao Valor Realizável Líquido - Estoque Produtos,,asset_current,0
+coa_simple_1130301,1.1.3.03.01,Materiais para Consumo,,asset_current,0
+coa_simple_1130302,1.1.3.03.02,Materiais para Reposição,,asset_current,0
+coa_simple_1140101,1.1.4.01.01,Aluguéis e Arredamentos Pagos Antecipadamente,,liability_payable,1
+coa_simple_1140102,1.1.4.01.02,Prêmios de Seguros a Apropriar,,liability_payable,1
+coa_simple_1160199,1.1.6.01.99,Outras Despesas Antecipadas,,liability_payable,1
+coa_simple_1210101,1.2.1.01.01,Clientes - Longo Prazo,,asset_non_current,0
+coa_simple_1210102,1.2.1.01.02,PCLD Longo Prazo,,asset_non_current,0
+coa_simple_1210103,1.2.1.01.03,Juros a apropriar Clientes LP,,asset_non_current,0
+coa_simple_1210104,1.2.1.01.04,Empréstimos de LP,,asset_non_current,0
+coa_simple_1210105,1.2.1.01.05,Juros a apropriar Empréstimos LP,,asset_non_current,0
+coa_simple_1210201,1.2.1.02.01,IRPJ Diferido,,asset_non_current,0
+coa_simple_1210202,1.2.1.02.02,CSLL Diferido,,asset_non_current,0
+coa_simple_1220101,1.2.2.01.01,Investimentos em Controladas,,asset_non_current,0
+coa_simple_1220102,1.2.2.01.02,Ágio pago pela mais valia,,asset_non_current,0
+coa_simple_1220103,1.2.2.01.03,Ágio pago por Goodwill,,asset_non_current,0
+coa_simple_1220104,1.2.2.01.04,Investimentos em Coligadas,,asset_non_current,0
+coa_simple_1220105,1.2.2.01.05,Investimentos em Joint Ventures,,asset_non_current,0
+coa_simple_1230110,1.2.3.01.10,Terrenos,,asset_fixed,0
+coa_simple_1230111,1.2.3.01.11,Impairment Terrenos,,asset_fixed,0
+coa_simple_1230120,1.2.3.01.20,Edifícios e Construções,,asset_fixed,0
+coa_simple_1230121,1.2.3.01.21,Impairment Edifícios e Construções,,asset_fixed,0
+coa_simple_1230130,1.2.3.01.30,Benfeitorias em Imóveis de Terceiros,,asset_fixed,0
+coa_simple_1230131,1.2.3.01.31,Impairment Benfeitorias em Imóveis de Terceiros,,asset_fixed,0
+coa_simple_1230140,1.2.3.01.40,"Máquinas, Equipamentos e Instalações Industriais",,asset_fixed,0
+coa_simple_1230141,1.2.3.01.41,"Impairment Máquinas, Equipamentos e Instalações Industriais",,asset_fixed,0
+coa_simple_1230150,1.2.3.01.50,"Móveis, Utensílios e Instalações Comerciais",,asset_fixed,0
+coa_simple_1230151,1.2.3.01.51,"Impairment Móveis, Utensílios e Instalações Comerciais",,asset_fixed,0
+coa_simple_1230160,1.2.3.01.60,Veículos,,asset_fixed,0
+coa_simple_1230161,1.2.3.01.61,Impairment Veículos,,asset_fixed,0
+coa_simple_1230162,1.2.3.01.62,Terrenos para Investimento - Custo,,asset_fixed,0
+coa_simple_1230170,1.2.3.01.70,Edifícios para Investimento - Custo,,asset_fixed,0
+coa_simple_1230171,1.2.3.01.71,Edifícios para Investimento - Depreciação,,expense_depreciation,0
+coa_simple_1230220,1.2.3.02.20,Depreciação Acumulada - Edifícios e Construções,,expense_depreciation,0
+coa_simple_1230230,1.2.3.02.30,Depreciação Acumulada - Benfeitorias em Imóveis de Terceiros,,expense_depreciation,0
+coa_simple_1240110,1.2.4.01.10,Softwares,,asset_fixed,0
+coa_simple_1240111,1.2.4.01.11,Impairment - Softwares,,asset_fixed,0
+coa_simple_1240120,1.2.4.01.20,Marcas,,asset_fixed,0
+coa_simple_1240121,1.2.4.01.21,Impairment - Marcas,,asset_fixed,0
+coa_simple_1240130,1.2.4.01.30,Patentes e Segredos Industriais,,asset_fixed,0
+coa_simple_1240131,1.2.4.01.31,Impairment - Patentes e Segredos Industriais,,asset_fixed,0
+coa_simple_1240140,1.2.4.01.40,Goodwill,,asset_fixed,0
+coa_simple_1240210,1.2.4.02.10,Amortização Acumulada - Softwares,,expense_depreciation,0
+coa_simple_1240220,1.2.4.02.20,Amortização Acumulada - Marcas,,expense_depreciation,0
+coa_simple_1240230,1.2.4.02.30,Amortização Acumulada - Patentes e Segredos Industriais,,expense_depreciation,0
+coa_simple_2110101,2.1.1.01.01,Salários e Remunerações a Pagar,,liability_current,0
+coa_simple_2110102,2.1.1.01.02,Participações no Resultado a Pagar,,liability_current,0
+coa_simple_2110103,2.1.1.01.03,INSS a Recolher,,liability_current,0
+coa_simple_2110104,2.1.1.01.04,FGTS a Recolher,,liability_current,0
+coa_simple_2110105,2.1.1.01.05,INSS desoneração da folha,,liability_current,0
+coa_simple_2110106,2.1.1.01.06,Férias,,liability_current,0
+coa_simple_2110107,2.1.1.01.07,13º Salário,,liability_current,0
+coa_simple_2110108,2.1.1.01.08,INSS - Férias,,liability_current,0
+coa_simple_2110109,2.1.1.01.09,FGTS - Férias,,liability_current,0
+coa_simple_2110110,2.1.1.01.10,INSS - 13º Salário,,liability_current,0
+coa_simple_2110111,2.1.1.01.11,FGTS - 13º Salário,,liability_current,0
+coa_simple_2120101,2.1.2.01.01,Fornecedores Nacionais,,liability_payable,1
+coa_simple_2120102,2.1.2.01.02,Fornecedores Exterior,,liability_payable,1
+coa_simple_2120201,2.1.2.02.01,Aluguéis e Arrendamentos a Pagar,,liability_payable,1
+coa_simple_2120202,2.1.2.02.02,Adiantamento de Clientes,,asset_receivable,1
+coa_simple_2120203,2.1.2.02.03,Outras Contas a Pagar,,liability_payable,1
+coa_simple_2130101,2.1.3.01.01,Duplicatas Descontadas,,liability_current,0
+coa_simple_2130102,2.1.3.01.02,Empréstimos e Financiamentos,,liability_current,0
+coa_simple_2140101,2.1.4.01.01,IRRF,,liability_current,0
+coa_simple_2140102,2.1.4.01.02,CSRF,,liability_current,0
+coa_simple_2140103,2.1.4.01.03,ISS retido na Fonte,,liability_current,0
+coa_simple_2140104,2.1.4.01.04,INSS retido na Fonte,,liability_current,0
+coa_simple_2140105,2.1.4.01.05,IBS Retido na Fonte,,liability_current,0
+coa_simple_2140106,2.1.4.01.06,CBS Retido na Fonte,,liability_current,0
+coa_simple_2140201,2.1.4.02.01,IRPJ,,liability_current,0
+coa_simple_2140202,2.1.4.02.02,CSLL,,liability_current,0
+coa_simple_2140203,2.1.4.02.03,PIS,,liability_current,0
+coa_simple_2140204,2.1.4.02.04,COFINS,,liability_current,0
+coa_simple_2140205,2.1.4.02.05,IPI,,liability_current,0
+coa_simple_2140206,2.1.4.02.06,ICMS,,liability_current,0
+coa_simple_2140207,2.1.4.02.07,IOF,,liability_current,0
+coa_simple_2140208,2.1.4.02.08,ISS,,liability_current,0
+coa_simple_2140209,2.1.4.02.09,Tributos Municipais,,liability_current,0
+coa_simple_2140210,2.1.4.02.10,Simples Nacional,,liability_current,0
+coa_simple_2140211,2.1.4.02.11,IBS,,liability_current,0
+coa_simple_2140212,2.1.4.02.12,CBS,,liability_current,0
+coa_simple_2140213,2.1.4.02.13,IS,,liability_current,0
+coa_simple_2140301,2.1.4.03.01,Tributos Federais,,liability_current,0
+coa_simple_2140302,2.1.4.03.02,Tributos Estaduais e Municipais,,liability_current,0
+coa_simple_2150101,2.1.5.01.01,IRPJ,,liability_current,0
+coa_simple_2150102,2.1.5.01.02,CSLL,,liability_current,0
+coa_simple_2160101,2.1.6.01.01,Lucros a Pagar,,liability_current,0
+coa_simple_2160102,2.1.6.01.02,Mútuo com Partes Relacionadas,,liability_current,0
+coa_simple_2210101,2.2.1.01.01,Fornecedores Nacionais,,liability_non_current,0
+coa_simple_2210102,2.2.1.01.02,Fornecedores Exterior,,liability_non_current,0
+coa_simple_2210103,2.2.1.01.03,Juros a apropriar Obrigações LP,,liability_non_current,0
+coa_simple_2210201,2.2.1.02.01,Empréstimos e Financiamentos LP,,liability_non_current,0
+coa_simple_2210202,2.2.1.02.02,Duplicatas Descontadas LP,,liability_non_current,0
+coa_simple_2210203,2.2.1.02.03,Juros a apropriar Empréstimos LP,,liability_non_current,0
+coa_simple_2220101,2.2.2.01.01,Tributos Federais LP,,liability_non_current,0
+coa_simple_2220102,2.2.2.01.02,Tributos Estaduais e Municipais LP,,liability_non_current,0
+coa_simple_2220201,2.2.2.02.01,IRPJ Diferido,,liability_non_current,0
+coa_simple_2220202,2.2.2.02.02,CSLL Diferido,,liability_non_current,0
+coa_simple_2230101,2.2.3.01.01,Empréstimos de Sócios,,liability_non_current,0
+coa_simple_2230102,2.2.3.01.02,Mútuos com Partes Relacionadas,,liability_non_current,0
+coa_simple_2230103,2.2.3.01.03,Juros a Apropriar Partes Relacionadas,,liability_non_current,0
+coa_simple_2310101,2.3.1.01.01,Capital Social Subscrito,,liability_non_current,0
+coa_simple_2810201,2.8.1.02.01,Capital Social a Integralizar,,liability_non_current,0
+coa_simple_2820101,2.8.2.01.01,Adiantamento para Futuro Aumento de Capital,,liability_non_current,0
+coa_simple_2830101,2.8.3.01.01,Lucros a Distribuir,,liability_non_current,0
+coa_simple_2880101,2.8.8.01.01,Lucros Acumulados,,liability_non_current,0
+coa_simple_2880201,2.8.8.02.01,Prejuízos Acumulados,,liability_non_current,0
+coa_simple_3110101,3.1.1.01.01,Serviços Prestados,,income,0
+coa_simple_3110102,3.1.1.01.02,Mercadorias Vendidas,,income,0
+coa_simple_3110103,3.1.1.01.03,Produtos Vendidos,,income,0
+coa_simple_3120101,3.1.2.01.01,PIS,,liability_current,0
+coa_simple_3120102,3.1.2.01.02,COFINS,,liability_current,0
+coa_simple_3120103,3.1.2.01.03,ISS,,liability_current,0
+coa_simple_3120104,3.1.2.01.04,ICMS,,liability_current,0
+coa_simple_3120105,3.1.2.01.05,SIMPLES NACIONAL,,liability_current,0
+coa_simple_3120106,3.1.2.01.06,IBS,,liability_current,0
+coa_simple_3120107,3.1.2.01.07,CBS,,liability_current,0
+coa_simple_3120108,3.1.2.01.08,IS,,liability_current,0
+coa_simple_3120201,3.1.2.02.01,DESCONTOS E ABATIMENTOS,,expense,0
+coa_simple_3120202,3.1.2.02.02,DEVOLUÇÕES,,expense,0
+coa_simple_3120203,3.1.2.02.03,JUROS DE AVP,,expense,0
+coa_simple_3210101,3.2.1.01.01,Custos dos Produtos Vendidos,,expense_direct_cost,0
+coa_simple_3210102,3.2.1.01.02,Custos das Mercadorias Vendidas,,expense_direct_cost,0
+coa_simple_3210103,3.2.1.01.03,Custos dos Serviços Prestados,,expense_direct_cost,0
+coa_simple_3310101,3.3.1.01.01,Salários,,expense_direct_cost,0
+coa_simple_3310102,3.3.1.01.02,Gratificações,,expense_direct_cost,0
+coa_simple_3310103,3.3.1.01.03,Férias,,expense_direct_cost,0
+coa_simple_3310104,3.3.1.01.04,13º Salário,,expense_direct_cost,0
+coa_simple_3310105,3.3.1.01.05,INSS,,expense_direct_cost,0
+coa_simple_3310106,3.3.1.01.06,FGTS,,expense_direct_cost,0
+coa_simple_3310107,3.3.1.01.07,Vale Refeição/Refeitório,,expense_direct_cost,0
+coa_simple_3310108,3.3.1.01.08,Vale Transporte,,expense_direct_cost,0
+coa_simple_3310109,3.3.1.01.09,Assistência Médica,,expense_direct_cost,0
+coa_simple_3310110,3.3.1.01.10,Seguro de Vida,,expense_direct_cost,0
+coa_simple_3310111,3.3.1.01.11,Treinamento,,expense_direct_cost,0
+coa_simple_3310201,3.3.1.02.01,Comissões sobre Vendas,,expense,0
+coa_simple_3310202,3.3.1.02.02,Propaganda e publicidade,,expense,0
+coa_simple_3310203,3.3.1.02.03,Brindes e material promocional,,expense,0
+coa_simple_3320101,3.3.2.01.01,Salários,,expense,0
+coa_simple_3320102,3.3.2.01.02,Gratificações,,expense,0
+coa_simple_3320103,3.3.2.01.03,Férias,,expense,0
+coa_simple_3320104,3.3.2.01.04,13º Salário,,expense,0
+coa_simple_3320105,3.3.2.01.05,INSS,,expense,0
+coa_simple_3320106,3.3.2.01.06,FGTS,,expense,0
+coa_simple_3320107,3.3.2.01.07,Vale Refeiçãoo/Refeitório,,expense,0
+coa_simple_3320108,3.3.2.01.08,Vale Transporte,,expense,0
+coa_simple_3320109,3.3.2.01.09,Assistência Médica,,expense,0
+coa_simple_3320110,3.3.2.01.10,Seguro de Vida,,expense,0
+coa_simple_3320111,3.3.2.01.11,Treinamento,,expense,0
+coa_simple_3320112,3.3.2.01.12,Pro Labore,,expense,0
+coa_simple_3320201,3.3.2.02.01,Aluguéis e Arrendamentos,,expense,0
+coa_simple_3320202,3.3.2.02.02,Condomínios e Estacionamentos,,expense,0
+coa_simple_3320203,3.3.2.02.03,Despesas com Veículos,,expense,0
+coa_simple_3320204,3.3.2.02.04,Depreciação,,expense,0
+coa_simple_3320205,3.3.2.02.05,Amortização,,expense,0
+coa_simple_3320206,3.3.2.02.06,Serviços Profissionais Contratados,,expense,0
+coa_simple_3320207,3.3.2.02.07,Energia,,expense,0
+coa_simple_3320208,3.3.2.02.08,Água e Esgoto,,expense,0
+coa_simple_3320209,3.3.2.02.09,Telefone e Internet,,expense,0
+coa_simple_3320210,3.3.2.02.10,Correios e Malotes,,expense,0
+coa_simple_3320211,3.3.2.02.11,Seguros,,expense,0
+coa_simple_3320212,3.3.2.02.12,Multas,,expense,0
+coa_simple_3320213,3.3.2.02.13,Bens de Pequeno Valor,,expense,0
+coa_simple_3320214,3.3.2.02.14,Material de Escritório,,expense,0
+coa_simple_3320301,3.3.2.03.01,Taxas e Tributos Municipais,,expense,0
+coa_simple_3320302,3.3.2.03.02,PIS s/ Outras Receitas,,expense,0
+coa_simple_3320303,3.3.2.03.03,COFINS s/ Outras Receitas,,expense,0
+coa_simple_3390101,3.3.9.01.01,Receita na Venda de Imobilizado,,expense,0
+coa_simple_3390102,3.3.9.01.02,Custo do Imobilizado Baixado,,expense,0
+coa_simple_3390201,3.3.9.02.01,PECLD,,equity,0
+coa_simple_3390202,3.3.9.02.02,Perda de recuperabilidade (Impairment),,equity,0
+coa_simple_3390301,3.3.9.03.01,Resultado Positivo de Equivalência Patrimonial,,equity,0
+coa_simple_3390302,3.3.9.03.02,Resultado Negativo de Equivalência Patrimonial,,equity,0
+coa_simple_3410101,3.4.1.01.01,Juros Passivos,,expense,0
+coa_simple_3410102,3.4.1.01.02,Despesas Bancárias,,expense,0
+coa_simple_3410103,3.4.1.01.03,IOF,,expense,0
+coa_simple_3410104,3.4.1.01.04,Descontos Concedidos,,expense,0
+coa_simple_3410105,3.4.1.01.05,Variação Cambial Passiva,,expense,0
+coa_simple_3410201,3.4.1.02.01,Rendimentos de Aplicação Financeira,,income_other,0
+coa_simple_3410202,3.4.1.02.02,Juros Ativos,,income_other,0
+coa_simple_3410203,3.4.1.02.03,Descontos Obtidos,,income_other,0
+coa_simple_3410204,3.4.1.02.04,Variação Cambial Ativa,,income_other,0
+coa_simple_3810101,3.8.1.01.01,IRPJ Corrente,,equity,0
+coa_simple_3810102,3.8.1.01.02,CSLL Corrente,,equity,0
+coa_simple_3810103,3.8.1.01.03,IRPJ Diferido,,equity,0
+coa_simple_3810104,3.8.1.01.04,CSLL Diferido,,equity,0
