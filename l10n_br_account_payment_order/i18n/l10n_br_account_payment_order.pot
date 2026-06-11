@@ -2605,6 +2605,7 @@ msgid "Payment Method Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_method
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__payment_method_ids
 msgid "Payment Methods"
 msgstr ""
