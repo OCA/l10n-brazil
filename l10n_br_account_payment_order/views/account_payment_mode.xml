@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_account_payment_mode_form" model="ir.ui.view">
+        <field name="name">payment.mode.l10n_br_payment.form</field>
+        <field name="model">account.payment.mode</field>
+        <field name="priority">99</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_order_ok" position="after">
+                <separator />
+                <field name="auto_create_payment_order" />
+            </field>
+            <field name="payment_type" position="after">
+                <field name="payment_mode_domain" />
+                <field name="payment_method_code" invisible="1" />
+            </field>
+            <xpath expr="//form/sheet/group[@name='note']" position="before">
+                <field name="bank_id" invisible="1" />
+                <group
+                    string="Configurações Brasileiras - CNAB"
+                    name='l10n-br-config'
+                    col="4"
+                    invisible="payment_method_code not in ('240', '400', '500', 'manual_test')"
+                >
+                    <field
+                        name="cnab_config_id"
+                        domain="[('payment_method_id', '=', payment_method_id), ('bank_id', '=', bank_id)]"
+                    />
+                </group>
+            </xpath>
+            <group name="note" position="after">
+                <chatter />
+            </group>
+        </field>
+    </record>
+</odoo>
