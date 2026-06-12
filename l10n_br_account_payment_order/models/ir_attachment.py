@@ -15,7 +15,7 @@ class IrAttachment(models.Model):
             if (
                 rec.res_model in ["cnab.return.log"]
                 and rec.res_id
-                and self._uid != SUPERUSER_ID
+                and self.env.uid != SUPERUSER_ID
             ):
                 raise UserError(
                     self.env._("Sorry, you are not allowed to delete the attachment.")
