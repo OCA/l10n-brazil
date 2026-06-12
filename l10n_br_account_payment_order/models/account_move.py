@@ -127,9 +127,7 @@ class AccountMove(models.Model):
             # mesmo no CNAB 240
             interval.instruction_move_code_id = cnab_config.sending_code_id
         filtered_invoice_ids = self.filtered(
-            lambda s: (
-                s.payment_mode_id and s.payment_mode_id.auto_create_payment_order
-            )
+            lambda s: s.payment_mode_id and s.payment_mode_id.auto_create_payment_order
         )
         if filtered_invoice_ids:
             # Criação das Linha na Ordem de Pagamento

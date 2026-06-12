@@ -50,12 +50,12 @@ class TestPaymentOrderInbound(CNABTestCommon):
         for line in self.invoice_cef_240.line_ids.filtered(
             lambda line: line.own_number
         ):
-            assert (
-                line.own_number
-            ), "own_number field is not filled in created Move Line."
-            assert (
-                line.instruction_move_code_id
-            ), "instruction_move_code_id field is not filled in created Move Line."
+            assert line.own_number, (
+                "own_number field is not filled in created Move Line."
+            )
+            assert line.instruction_move_code_id, (
+                "instruction_move_code_id field is not filled in created Move Line."
+            )
             # testar com a parcela 700
             if line.debit == 700.0:
                 test_balance_value = line.get_balance()

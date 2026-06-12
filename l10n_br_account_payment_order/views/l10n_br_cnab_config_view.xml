@@ -25,20 +25,18 @@
                 <field name="name" />
                 <field name="bank_id" />
                 <field name="payment_method_id" />
-                <group expand='0' string='Group By...'>
-                    <filter
-                        string='Bank'
-                        name="bank_id"
-                        domain="[]"
-                        context="{'group_by' : 'bank_id'}"
-                    />
-                    <filter
-                        string='CNAB Type'
-                        name="payment_method_id"
-                        domain="[]"
-                        context="{'group_by' : 'payment_method_id'}"
-                    />
-                </group>
+                <filter
+                    string='Bank'
+                    name="bank_id"
+                    domain="[]"
+                    context="{'group_by' : 'bank_id'}"
+                />
+                <filter
+                    string='CNAB Type'
+                    name="payment_method_id"
+                    domain="[]"
+                    context="{'group_by' : 'payment_method_id'}"
+                />
             </search>
         </field>
     </record>
@@ -321,7 +319,7 @@
     </record>
     <menuitem
         id="menu_l10n_br_cnab_config"
-        parent="account.account_management_menu"
+        parent="account.menu_finance_entries"
         name="CNAB Config"
         sequence="999"
         action="l10n_br_cnab_config_action"

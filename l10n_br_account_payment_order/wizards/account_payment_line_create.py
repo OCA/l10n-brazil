@@ -13,8 +13,7 @@ class AccountPaymentLineCreate(models.TransientModel):
     _inherit = "account.payment.line.create"
 
     allow_error = fields.Boolean(
-        string="Permitir linhas com erro na exportação, "
-        "já incluidas em outras ordens",
+        string="Permitir linhas com erro na exportação, já incluidas em outras ordens",
     )
 
     allow_rejected = fields.Boolean(

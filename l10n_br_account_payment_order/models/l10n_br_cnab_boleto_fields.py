@@ -272,8 +272,7 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
     suspend_protest_keep_wallet_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
         string="Suspend Protest and Keep in Wallet Instruction Code",
-        help="CNAB Movement Instruction Code for"
-        " Suspend Protest and Keep in Wallet.",
+        help="CNAB Movement Instruction Code for Suspend Protest and Keep in Wallet.",
         tracking=True,
     )
 

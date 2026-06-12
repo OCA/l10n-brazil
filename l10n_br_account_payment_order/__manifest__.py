@@ -4,7 +4,7 @@
 
 {
     "name": "Brazilian Payment Order",
-    "version": "18.0.1.0.4",
+    "version": "19.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE, Akretion, Odoo Community Association (OCA)",
     "maintainers": ["mbcosta"],
@@ -15,7 +15,6 @@
         "l10n_br_base",
         "account_payment_order",
         "l10n_br_account_due_list",
-        "account_due_list_payment_mode",
     ],
     "data": [
         # Security

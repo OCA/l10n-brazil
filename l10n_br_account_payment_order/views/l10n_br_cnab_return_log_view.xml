@@ -240,13 +240,11 @@
                 <!-- Opções para busca -->
                 <field name="bank_account_id" />
                 <!-- Agrupar -->
-                <group string="Agrupar por">
-                    <filter
-                        name="group_by_move_bank_account_id"
-                        string="Conta Bancária"
-                        context="{'group_by': 'bank_account_id'}"
-                    />
-                </group>
+                <filter
+                    name="group_by_move_bank_account_id"
+                    string="Conta Bancária"
+                    context="{'group_by': 'bank_account_id'}"
+                />
             </search>
         </field>
     </record>
