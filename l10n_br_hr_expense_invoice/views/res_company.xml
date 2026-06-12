@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="res_company_form_view">
+        <field name="name">res.company.form (in l10n_br_hr_expense_invoice)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='taxes']" position="after">
+                <page name="l10n_br_hr_expense_invoice" string="Expense Invoice">
+                    <group>
+                        <group>
+                            <field name="expense_invoice_fiscal_operation_id" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
