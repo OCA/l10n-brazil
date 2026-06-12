@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import _, models
+from odoo import models
 
 from odoo.addons.account.models.chart_template import template
 
@@ -13,7 +13,7 @@ class AccountChartTemplate(models.AbstractModel):
     @template("br_oca_generic")
     def _get_br_oca_generic_template_data(self):
         return {
-            "name": _("Plano de Contas para empresas do Regime normal"),
+            "name": self.env._("Plano de Contas para empresas do Regime normal"),
             "parent": "br_oca",
             "visible": True,
             "property_account_receivable_id": "coa_generic_112101",
