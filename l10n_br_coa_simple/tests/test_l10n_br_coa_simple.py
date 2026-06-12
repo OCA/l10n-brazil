@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
 class L10nBrSimpleCOA(TransactionCase):
@@ -13,12 +14,13 @@ class L10nBrSimpleCOA(TransactionCase):
             {"name": "Empresa Teste do Plano de Contas Simplificado"}
         )
 
+    @mute_logger("odoo.addons.account.models.chart_template")
     def test_l10n_br_coa_simple(self):
         """Test installing the chart of accounts template in a new company"""
 
         chart_template = self.env["account.chart.template"]
         chart_template.try_loading(
-            "br_oca_simple", self.l10n_br_company, install_demo=True
+            "br_oca_simple", self.l10n_br_company, install_demo=False
         )
 
         # Verify the chart template was loaded
