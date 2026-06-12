@@ -22,7 +22,7 @@ _INTERVALS = {
 
 class WorkalendarHolidayImport(models.TransientModel):
     _name = "wizard.workalendar.holiday.import"
-    _description = "Wizard de import de feriados"
+    _description = "Holiday Import Wizard"
 
     @api.depends("start_date", "interval_number", "interval_type")
     def _compute_end_date(self):
@@ -49,7 +49,7 @@ class WorkalendarHolidayImport(models.TransientModel):
 
     def get_state_from_calendar(self, holiday):
         state = self.env["res.country.state"].search(
-            [("ibge_code", "=", holiday.estado_ibge)]
+            [("ibge_code", "=", holiday.state_ibge)]
         )
         return state or False
 
@@ -66,7 +66,6 @@ class WorkalendarHolidayImport(models.TransientModel):
                 {
                     "name": "Calendar " + country.name,
                     "country_id": country.id,
-                    # '':u'N',
                 }
             )
             return calendar
@@ -97,21 +96,21 @@ class WorkalendarHolidayImport(models.TransientModel):
 
     def get_calendar_for_city(self, holiday):
         if not self.env["res.city"].search_count(
-            [("ibge_code", "=", holiday.municipio_ibge)]
+            [("ibge_code", "=", holiday.city_ibge)]
         ):
             city_id = self.env["res.city"].create(
                 {
-                    "name": holiday.municipio_nome,
+                    "name": holiday.city_name,
                     "state_id": self.get_state_from_calendar(holiday).id,
-                    "ibge_code": holiday.municipio_ibge,
+                    "ibge_code": holiday.city_ibge,
                     "country_id": self.get_country_from_calendar(holiday).id,
                 }
             )
         else:
             city_id = self.env["res.city"].search(
                 [
-                    ("ibge_code", "=", holiday.municipio_ibge),
-                    ("state_id.ibge_code", "=", holiday.estado_ibge),
+                    ("ibge_code", "=", holiday.city_ibge),
+                    ("state_id.ibge_code", "=", holiday.state_ibge),
                 ]
             )
 
@@ -122,7 +121,7 @@ class WorkalendarHolidayImport(models.TransientModel):
 
             calendar_id = self.env["resource.calendar"].create(
                 {
-                    "name": "Calendar " + holiday.municipio_nome,
+                    "name": "Calendar " + holiday.city_name,
                     "l10n_br_city_id": city_id.id,
                     "parent_id": parent_id.id,
                     "state_id": self.get_state_from_calendar(holiday).id,
@@ -146,31 +145,31 @@ class WorkalendarHolidayImport(models.TransientModel):
             while date_reference.year <= fields.Date.to_date(wiz.end_date).year:
                 all_holidays = brazil_all_holidays_set(date_reference.year)
                 for holiday in all_holidays:
-                    if holiday.municipio_ibge:
-                        municipio_nome = (
+                    if holiday.city_ibge:
+                        city_name = (
                             self.env["res.city"]
                             .search(
                                 [
-                                    ("ibge_code", "=", holiday.municipio_ibge),
+                                    ("ibge_code", "=", holiday.city_ibge),
                                 ]
                             )
                             .name
                         )
-                        holiday.municipio_nome = municipio_nome
+                        holiday.city_name = city_name
 
                     if (
                         fields.Date.to_date(wiz.end_date)
-                        >= holiday.data
+                        >= holiday.date
                         >= fields.Date.to_date(wiz.start_date)
                     ):
                         public_holidays.append(holiday)
 
                 for holiday in public_holidays:
                     utc_dt = fields.Datetime.to_datetime(
-                        fields.Datetime.to_datetime(holiday.data)
+                        fields.Datetime.to_datetime(holiday.date)
                     )
 
-                    # Setar a data do feriado com timezone de brasilia
+                    # Set holiday datetime with Brasilia timezone offset
                     user_dt = tz_br.localize(utc_dt)
                     datetime_from = utc_dt - relativedelta(
                         seconds=user_dt.utcoffset().total_seconds()
@@ -182,11 +181,11 @@ class WorkalendarHolidayImport(models.TransientModel):
                     date_from = fields.Datetime.to_datetime(datetime_from)
                     date_to = fields.Datetime.to_datetime(datetime_to)
 
-                    if holiday.abrangencia == "N":  # Tipo Nacional
+                    if holiday.coverage == "N":  # National
                         work_time = self.get_calendar_for_country()
-                    if holiday.abrangencia == "E":  # Tipo Estadual
+                    if holiday.coverage == "E":  # State
                         work_time = self.get_calendar_for_state(holiday)
-                    if holiday.abrangencia == "M":  # Tipo Municipal
+                    if holiday.coverage == "M":  # Municipal
                         work_time = self.get_calendar_for_city(holiday)
                     if not leaves.search_count(
                         [
@@ -199,12 +198,12 @@ class WorkalendarHolidayImport(models.TransientModel):
                         leaves.create(
                             {
                                 "resource_id": False,
-                                "name": "%s %d" % (holiday.nome, holiday.data.year),
+                                "name": f"{holiday.name} {holiday.date.year}",
                                 "calendar_id": work_time.id,
                                 "date_from": date_from,
                                 "date_to": date_to,
-                                "leave_type": holiday.tipo,
-                                "abrangencia": holiday.abrangencia,
+                                "leave_type": holiday.leave_type,
+                                "coverage": holiday.coverage,
                             }
                         )
                 date_reference += relativedelta(years=1)
