@@ -42,6 +42,18 @@
         <field name="product_type">00</field>
     </record>
 
+    <record id="fo_venda_revenda_st" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="name">Revenda com ST</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5405" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6404" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7102" />
+        <field name="requires_st" eval="True" />
+        <field name="state">approved</field>
+        <field name="product_type">00</field>
+    </record>
+
     <record id="fo_venda_venda_nao_contribuinte" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="name">Venda não Contribuinte</field>
