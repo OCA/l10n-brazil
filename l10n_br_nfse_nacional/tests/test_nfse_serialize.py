@@ -1,3 +1,7 @@
+# Copyright 2026 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
+# Copyright 2026 KMEE INFORMATICA LTDA
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 import logging
 
 from nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00 import TcinfDps
@@ -29,7 +33,6 @@ class TestNfseSerialize(TransactionCase):
         # TODO should not be required...
         TcinfDps.Meta.namespace = "http://www.sped.fazenda.gov.br/nfse"
 
-        # binding = nfse._build_binding("nfse", "10")
         binding = nfse._serialize([])[0]
         serializer = XmlSerializer(config=SerializerConfig(indent="  "))
         xml_output = serializer.render(
@@ -41,8 +44,4 @@ class TestNfseSerialize(TransactionCase):
         with open(output_path, "w") as f:
             f.write(xml_output)
 
-        # Compare with expected XML
-        # diff = main.diff_files(output_path, xml_path)
-        # self.assertEqual(len(diff), 0, f"XML differences found: {diff}")
-        # return diff
         return []
