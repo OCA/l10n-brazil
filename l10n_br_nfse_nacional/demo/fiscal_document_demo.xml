@@ -13,9 +13,7 @@
         <field name="code">111111111</field>
     </record>
 
-    <!-- ========================================== -->
-    <!-- DEMO 1: REGIME NORMAL (MEI - LC)           -->
-    <!-- ========================================== -->
+    <!-- DEMO 1: REGIME NORMAL (MEI - LC) -->
 
     <!-- Prestador (Company) -->
     <record id="partner_company_lc" model="res.partner">
@@ -28,13 +26,13 @@
 
     <!-- Tomador (Customer) -->
     <record id="partner_toma_lc" model="res.partner">
-        <field name="name">XXXXXXX XXXXXXXXXXX LTDA ME</field>
+        <field name="name">Comércio de Alimentos Aurora Ltda ME</field>
         <field name="is_company" eval="True" />
-        <field name="cnpj_cpf">00.000.000/0000-00</field>
-        <field name="l10n_br_im_code">00000</field>
-        <field name="street">ARY XXXXXXX XXXXX</field>
+        <field name="cnpj_cpf">12.345.678/0001-95</field>
+        <field name="l10n_br_im_code">987654</field>
+        <field name="street">Rua das Acácias</field>
         <field name="street_number">79</field>
-        <field name="district">XXXXXXXX XXXXX</field>
+        <field name="district">Centro</field>
     </record>
 
     <!-- Documento LC -->
@@ -42,7 +40,6 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="partner_id" ref="partner_toma_lc" />
 
-        <!-- NEW: Define the document type so the key validation is bypassed! -->
         <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
         <field name="document_number">2</field>
@@ -71,9 +68,7 @@
         <field name="tax_icms_or_issqn">issqn</field>
     </record>
 
-    <!-- ========================================== -->
-    <!-- DEMO 2: SIMPLES NACIONAL (SN)              -->
-    <!-- ========================================== -->
+    <!-- DEMO 2: SIMPLES NACIONAL (SN) -->
 
     <!-- Prestador (Company) -->
     <record id="partner_company_sn" model="res.partner">
@@ -94,7 +89,6 @@
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         <field name="partner_id" ref="partner_toma_sn" />
 
-        <!-- NEW: Define the document type so the key validation is bypassed! -->
         <field name="document_type_id" search="[('code', '=', 'SE')]" />
 
         <field name="document_number">6</field>
@@ -109,9 +103,7 @@
 
     <record id="demo_nfse_sn_line" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfse_sn" />
-        <field
-            name="name"
-        >teste teste teste teste teste teste teste teste teste teste teste</field>
+        <field name="name">Consultoria em tecnologia da informação</field>
         <field name="national_taxation_code_id" ref="nat_tax_code_010101" />
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_1400159" />
         <field name="price_unit">999999999.99</field>
