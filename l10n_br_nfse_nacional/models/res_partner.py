@@ -1,3 +1,7 @@
+# Copyright 2026 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
+# Copyright 2026 KMEE INFORMATICA LTDA
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from erpbrasil.base.misc import punctuation_rm
 
 from odoo import api, fields
