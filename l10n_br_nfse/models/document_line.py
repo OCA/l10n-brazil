@@ -98,10 +98,11 @@ class DocumentLine(models.Model):
             "discriminacao": str(self.name[:2000] or ""),
             "codigo_cnae": misc.punctuation_rm(self.cnae_id.code) or None,
             "codigo_nbs": self.nbs_id.code or "",
+            "codigo_nbs_unmasked": self.nbs_id.code_unmasked or "",
             "codigo_indicador_operacao": self.operation_indicator_id.code or "",
-            "codigo_classificacao_tributaria": self.tax_classification_id.code
+            "ibs_cbs_classificacao_tributaria": self.tax_classification_id.code
             or "000000",
-            "codigo_situacao_tributaria": self.ibs_cst_code or "000",
+            "ibs_cbs_situacao_tributaria": self.ibs_cst_code or "000",
             "ibs_cbs_base_calculo": round(self.issqn_base, 2),
             "valor_desconto_incondicionado": round(self.discount_value, 2),
             "ibs_uf_aliquota": round(self.ibs_percent, 2) if self.ibs_percent else None,
