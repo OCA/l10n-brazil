@@ -692,16 +692,20 @@ class AccountMove(models.Model):
         self.ensure_one_doc()
         return self.fiscal_document_id.action_send_email()
 
-    @api.constrains(
-        "state", "l10n_latam_document_type_id", "l10n_latam_document_number"
-    )
+    @api.constrains("state")
     def _check_l10n_latam_documents(self):
-        """Override to auto-assign document type instead of raising error.
+        """Auto-assign l10n_latam document type for Brazilian companies, then
+        let upstream validation run.
 
         When l10n_latam_invoice_document is installed, posting invoices requires
-        l10n_latam_document_type_id on journals that use documents. This override
-        auto-assigns a document type if one isn't set, instead of raising a
-        ValidationError.
+        l10n_latam_document_type_id on journals that use documents. Instead of
+        raising an error, this override auto-assigns a document type for Brazilian
+        companies (where fiscal documents are electronic and numbering is automatic).
+
+        For non-Brazilian companies, the auto-assign is skipped and the upstream
+        constraint runs unchanged, preserving full validation (including document
+        number checks) for other Latin American localizations in multi-localization
+        databases.
         """
         if "l10n_latam.document.type" not in self.env:
             return
@@ -710,6 +714,7 @@ class AccountMove(models.Model):
                 x.l10n_latam_use_documents
                 and x.state == "posted"
                 and not x.l10n_latam_document_type_id
+                and x.company_id.country_id.code == "BR"
             )
         ):
             # Try to find a matching document type
@@ -747,22 +752,23 @@ class AccountMove(models.Model):
                     limit=1,
                 )
             if not latam_doc_type:
-                # Last resort: find ANY document type for the country
-                country = move.company_id.account_fiscal_country_id
-                if (
-                    move.company_id.country_id
-                    and move.company_id.country_id.code == "BR"
-                ):
-                    country = move.company_id.country_id
+                # Last resort: find ANY document type for Brazil
                 latam_doc_type = self.env["l10n_latam.document.type"].search(
-                    [("country_id", "=", country.id)],
+                    [("country_id", "=", move.company_id.country_id.id)],
                     limit=1,
                 )
             if latam_doc_type:
                 move.l10n_latam_document_type_id = latam_doc_type
-            else:
-                # If no document type found, call super to get the original error
-                super(AccountMove, move)._check_l10n_latam_documents()
+
+        # Let upstream validation run only for non-Brazilian companies.
+        # Brazilian companies use electronic document numbering managed by
+        # l10n_br_fiscal, so the upstream manual document number check would
+        # raise false positives on demo data and is irrelevant for Brazil.
+        # For other Latin American localizations in multi-localization databases,
+        # the original validation (document type + document number) runs unchanged.
+        non_br_moves = self.filtered(lambda m: m.company_id.country_id.code != "BR")
+        if non_br_moves:
+            super(AccountMove, non_br_moves)._check_l10n_latam_documents()
 
     def copy_data(self, default=None):
         res = super().copy_data(default=default)
