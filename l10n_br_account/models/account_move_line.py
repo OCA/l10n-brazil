@@ -145,10 +145,18 @@ class AccountMoveLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        # Track which records have manually set fiscal tax fields
-        # has_manual_tax = []
-        for values in vals_list:
-            # has_manual_tax.append(any(f in values for f in FISCAL_TAX_ID_FIELDS))
+        # Build the set of fiscal fields that _compute_tax_fields can reset,
+        # so we can save and restore manually-set values after the forced recompute.
+        mixin_fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields
+        recompute_fields = {
+            f for f, v in mixin_fields.items() if v.compute == "_compute_tax_fields"
+        } | set(FISCAL_TAX_ID_FIELDS)
+        # Save manually-set tax fields from the original vals before any modification
+        manual_tax_vals = {}
+        for i, values in enumerate(vals_list):
+            saved = {f: values[f] for f in recompute_fields if f in values}
+            if saved:
+                manual_tax_vals[i] = saved
             self._sync_proxy_fields_vals(values)
             if values.get("fiscal_document_line_id"):
                 continue
@@ -199,15 +207,28 @@ class AccountMoveLine(models.Model):
         # which depends on document_id (linked above)
         sorted_result.mapped("fiscal_document_line_id")._compute_fiscal_tax_ids()
 
-        # But preserve manually set individual tax fields
-        # FIXME:this worked on v17, not on v18!
-        # see commented custom tax/FCP tests in test_move_edition in same commit
-        # for i, line in enumerate(sorted_result):
-        #     fiscal_line = line.fiscal_document_line_id
-        #     if not fiscal_line:
-        #         continue
-        #     if not has_manual_tax[i]:
-        #         fiscal_line._compute_fiscal_tax_ids()
+        # Restore manually-set tax fields that the recompute above may have overwritten.
+        # The recompute resets all tax fields (via _compute_tax_fields null_mask), so we
+        # need to re-apply values that were explicitly provided in the creation vals.
+        # IMPORTANT: write tax ID fields first, then amount/base fields. The
+        # document.line write() override calls _update_fiscal_tax_ids() when
+        # FISCAL_TAX_ID_FIELDS change, which triggers _compute_tax_fields and resets
+        # all amount fields. By writing amounts LAST, they survive that recompute.
+        for i, line in enumerate(sorted_result):
+            if i not in manual_tax_vals:
+                continue
+            fiscal_line = line.fiscal_document_line_id
+            if not fiscal_line:
+                continue
+            saved = manual_tax_vals[i]
+            tax_id_vals = {f: v for f, v in saved.items() if f in FISCAL_TAX_ID_FIELDS}
+            amount_vals = {
+                f: v for f, v in saved.items() if f not in FISCAL_TAX_ID_FIELDS
+            }
+            if tax_id_vals:
+                fiscal_line.write(tax_id_vals)
+            if amount_vals:
+                fiscal_line.write(amount_vals)
 
         return sorted_result
 
