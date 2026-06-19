@@ -100,8 +100,6 @@ class SaleOrderLine(models.Model):
         precompute=True,
     )
 
-    ind_final = fields.Selection(related="order_id.ind_final")
-
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total
     delivery_costs = fields.Selection(
@@ -123,6 +121,11 @@ class SaleOrderLine(models.Model):
         string="CNAE Code",
         domain=lambda self: self._cnae_domain(),
     )
+
+    # adapted for _compute_find_final:
+    def _get_document(self):
+        self.ensure_one()
+        return self.order_id
 
     # Depends on price_unit because we need a field to force compute in new records
     # not created yet. This field is necessary to compute readonly condition for
