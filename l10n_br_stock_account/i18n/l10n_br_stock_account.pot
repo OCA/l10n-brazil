@@ -576,6 +576,11 @@ msgid "Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_price
 msgid "Fiscal Price"
 msgstr ""
@@ -1321,11 +1326,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__operation_name
 msgid "Operation Name"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_operation_type
-msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_stock_account
