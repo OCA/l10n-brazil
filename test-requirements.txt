@@ -5,3 +5,4 @@ nfelib
 Setuptools<81
 signxml==3.2.2
 xmldiff
+odoo-addon-web_list_record_popup @ git+https://github.com/OCA/web.git@refs/pull/3522/head#subdirectory=web_list_record_popup
