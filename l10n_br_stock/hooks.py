@@ -8,9 +8,14 @@ _logger = logging.getLogger(__name__)
 
 def set_stock_warehouse_external_ids(env, company_external_id):
     module, external_id = company_external_id.split(".")
+    company = env.ref(company_external_id, raise_if_not_found=False)
+    if not company:
+        return
     warehouse = env["stock.warehouse"].search(
-        [("company_id", "=", env.ref(company_external_id).id)], limit=1
+        [("company_id", "=", company.id)], limit=1
     )
+    if not warehouse:
+        return
 
     data_list = [
         {
@@ -111,27 +116,47 @@ def create_locations_quants(env, locations, products):
 
 def post_init_hook(env):
     if env.ref("base.module_l10n_br_stock").demo:
-        create_locations_quants(
-            env,
-            [
-                env.ref("l10n_br_stock.wh_empresa_simples_nacional").lot_stock_id,
-                env.ref("l10n_br_stock.wh_empresa_lucro_presumido").lot_stock_id,
-            ],
-            [
-                env.ref("product.product_product_24"),
-                env.ref("product.product_product_7"),
-                env.ref("product.product_product_6"),
-                env.ref("product.product_product_9"),
-                env.ref("product.product_product_10"),
-                env.ref("product.product_product_11"),
-                env.ref("product.product_product_11b"),
-                env.ref("product.product_product_4"),
-                env.ref("product.product_product_4b"),
-                env.ref("product.product_product_4c"),
-                env.ref("product.product_product_12"),
-                env.ref("product.product_product_13"),
-                env.ref("product.product_product_27"),
-                env.ref("product.product_product_3"),
-                env.ref("product.product_product_25"),
-            ],
+        # Get warehouses for demo companies
+        company_sn = env.ref(
+            "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False
         )
+        company_lp = env.ref(
+            "l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False
+        )
+
+        locations = []
+        if company_sn:
+            warehouse_sn = env["stock.warehouse"].search(
+                [("company_id", "=", company_sn.id)], limit=1
+            )
+            if warehouse_sn:
+                locations.append(warehouse_sn.lot_stock_id)
+        if company_lp:
+            warehouse_lp = env["stock.warehouse"].search(
+                [("company_id", "=", company_lp.id)], limit=1
+            )
+            if warehouse_lp:
+                locations.append(warehouse_lp.lot_stock_id)
+
+        if locations:
+            create_locations_quants(
+                env,
+                locations,
+                [
+                    env.ref("product.product_product_24"),
+                    env.ref("product.product_product_7"),
+                    env.ref("product.product_product_6"),
+                    env.ref("product.product_product_9"),
+                    env.ref("product.product_product_10"),
+                    env.ref("product.product_product_11"),
+                    env.ref("product.product_product_11b"),
+                    env.ref("product.product_product_4"),
+                    env.ref("product.product_product_4b"),
+                    env.ref("product.product_product_4c"),
+                    env.ref("product.product_product_12"),
+                    env.ref("product.product_product_13"),
+                    env.ref("product.product_product_27"),
+                    env.ref("product.product_product_3"),
+                    env.ref("product.product_product_25"),
+                ],
+            )
