@@ -1037,6 +1037,12 @@ msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr ""
+
+#. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_price
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_price
 msgid "Fiscal Price"
@@ -2060,12 +2066,6 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__operation_name
 msgid "Operation Name"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__fiscal_operation_type
-msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_pos
