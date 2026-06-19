@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="nfse_nacional_res_company_form" model="ir.ui.view">
+        <field
+            name="name"
+        >l10n_br_fiscal.res.company.form (in l10n_br_nfse_nacional)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_nfse.nfse_res_company_form" />
+        <field name="arch" type="xml">
+            <field name="provedor_nfse" position="after">
+                <field
+                    name="nfse_nacional_update_authorized_status"
+                    attrs="{'invisible': [('provedor_nfse', '!=', 'nfse_nacional')]}"
+                />
+                <field
+                    name="nfse_nacional_force_odoo_danfse"
+                    attrs="{'invisible': [('provedor_nfse', '!=', 'nfse_nacional')]}"
+                />
+            </field>
+            <xpath expr="//field[@name='nfse_ssl_verify']" position="attributes">
+                <attribute name="invisible">0</attribute>
+                <attribute name="attrs">
+                    {'invisible': [('provedor_nfse', 'not in', ['nfse_nacional', 'focusnfe'])]}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_document_import_nfse_nacional_wizard" model="ir.ui.view">
+        <field name="name">l10n_br_nfse_nacional.import.wizard.form</field>
+        <field name="model">l10n_br_nfse_nacional.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import NFS-e Nacional">
+                <group>
+                    <field name="company_id" />
+                    <field name="xml_file" filename="xml_filename" />
+                    <field name="xml_filename" invisible="1" />
+                    <field
+                        name="document_id"
+                        readonly="1"
+                        attrs="{'invisible': [('document_id', '=', False)]}"
+                    />
+                </group>
+                <footer>
+                    <button
+                        name="action_import"
+                        string="Import"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record
+        id="action_document_import_nfse_nacional_wizard"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Import NFS-e Nacional</field>
+        <field name="res_model">l10n_br_nfse_nacional.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_import_nfse_nacional"
+        name="Import NFS-e Nacional"
+        parent="l10n_br_fiscal.document_nfse_menu"
+        action="action_document_import_nfse_nacional_wizard"
+        sequence="20"
+    />
+</odoo>

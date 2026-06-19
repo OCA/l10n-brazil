@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="nfse_nacional_document_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfse_nacional.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_nfse.nfse_document_form_inherit" />
+        <field name="arch" type="xml">
+            <group name="nfse_info" position="inside">
+                <field
+                    name="nfse_nacional_chave"
+                    attrs="{'invisible': [('document_type', '!=', 'SE')]}"
+                    readonly="1"
+                />
+                <field
+                    name="nfse_nacional_rps_substituido"
+                    attrs="{'invisible': [('document_type', '!=', 'SE')]}"
+                />
+            </group>
+        </field>
+    </record>
+</odoo>
