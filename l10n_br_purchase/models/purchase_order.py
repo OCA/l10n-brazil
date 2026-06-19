@@ -73,6 +73,14 @@ class PurchaseOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         invoice_vals = super()._prepare_invoice()
+        # Ensure the invoice partner is resolved via address_get.
+        # The core _prepare_invoice uses address_get but in some
+        # MRO configurations its result may not reach this override
+        # (e.g. when purchase_stock or other modules reshape the
+        #  method-resolution chain).  Mirror _get_fiscal_partner
+        # below which already applies the same safeguard.
+        partner_invoice = self.partner_id.address_get(["invoice"])["invoice"]
+        invoice_vals["partner_id"] = partner_invoice
         if self.fiscal_operation_id:
             # O caso Brasil se caracteriza por ter a Operação Fiscal
             document_type_id = (
