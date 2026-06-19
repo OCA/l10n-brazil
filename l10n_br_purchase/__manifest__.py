@@ -9,7 +9,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "18.0.1.0.0",
-    "depends": ["purchase", "l10n_br_account"],
+    "depends": ["purchase", "l10n_br_account", "web_list_record_popup"],
     "data": [
         # Security
         "security/ir.model.access.csv",
