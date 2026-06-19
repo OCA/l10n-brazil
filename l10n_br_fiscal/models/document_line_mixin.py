@@ -1063,7 +1063,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     fiscal_operation_type = fields.Selection(
-        string="Operation Type",
+        string="Fiscal Operation Type",
         related="fiscal_operation_id.fiscal_operation_type",
     )
 
