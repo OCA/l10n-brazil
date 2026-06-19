@@ -154,10 +154,7 @@
             <xpath
                 expr="//field[@name='invoice_line_ids']/list/field[@name='product_id']"
                 position="before"
-            >
-                <!--widget name="line_view_popup_button" TODO make it work in l10n_br_fiscal
-                /-->
-            </xpath>
+            />
             <xpath
                 expr="//field[@name='invoice_line_ids']/list/field[@name='tax_ids']"
                 position="replace"
@@ -237,19 +234,6 @@
                     }
                     </attribute>
             </xpath>
-            <!--xpath
-                TODO MIGRATE see https://github.com/OCA/l10n-brazil/pull/3037
-                expr="//field[@name='line_ids']/tree/field[@name='price_total']"
-                position="attributes"
-            >
-                <attribute name="force_save">1</attribute>
-            </xpath-->
-            <!--xpath
-                expr="//field[@name='line_ids']/tree/field[@name='price_subtotal']"
-                position="attributes"
-            >
-                <attribute name="force_save">1</attribute>
-            </xpath-->
             <xpath
                 expr="//field[@name='line_ids']/list/field[@name='tax_ids']"
                 position="replace"
