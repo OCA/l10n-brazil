@@ -8,7 +8,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "18.0.1.0.1",
-    "depends": ["sale_management", "l10n_br_account"],
+    "depends": ["sale_management", "l10n_br_account", "web_list_record_popup"],
     "data": [
         # Data
         "data/company.xml",
