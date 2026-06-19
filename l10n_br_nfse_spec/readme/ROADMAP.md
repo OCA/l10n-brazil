@@ -1,0 +1,4 @@
+- Suporte ao bloco de Comércio Exterior (``comExt``) na DPS
+- Suporte ao bloco de Obra (``obra``) na DPS
+- Suporte ao intermediário de serviços (``interm``) na DPS
+- Suporte à substituição de NFS-e via bloco ``subst`` na DPS

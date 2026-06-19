@@ -6,9 +6,11 @@ erpbrasil.assinatura
 erpbrasil.base
 erpbrasil.edoc
 erpbrasil.transmissao
+lxml
 nfelib
 num2words
 phonenumbers
 pyyaml
 unidecode
 workalendar
+xsdata
