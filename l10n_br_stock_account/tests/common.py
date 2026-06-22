@@ -24,12 +24,19 @@ class TestBrPickingInvoicingCommon(TestStockPickingInvoicingCommon):
     @classmethod
     def get_default_groups(cls):
         groups = super().get_default_groups()
-        return (
-            groups
-            | cls.env.ref("l10n_br_fiscal.group_user")
+        groups |= (
+            cls.env.ref("l10n_br_fiscal.group_user")
             | cls.env.ref("l10n_br_fiscal.group_manager")
             | cls.env.ref("stock.group_stock_manager")
         )
+
+        module_l10n_br_nfe = cls.env["ir.module.module"].search(
+            [("name", "=", "l10n_br_nfe")]
+        )
+        if module_l10n_br_nfe and module_l10n_br_nfe.state == "installed":
+            groups |= cls.env.ref("l10n_br_nfe.group_manager")
+
+        return groups
 
     def _change_user_company(self, company):
         self.env.user.company_ids += company
