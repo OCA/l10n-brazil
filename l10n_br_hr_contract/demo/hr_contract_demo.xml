@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- João — CLT, RGPS, mensal, R$ 4.500 -->
+        <record id="demo_contract_joao" model="hr.contract">
+            <field name="name">Contrato João Carlos da Silva</field>
+            <field name="employee_id" ref="l10n_br_hr.demo_employee_joao" />
+            <field
+            name="department_id"
+            ref="l10n_br_hr.demo_department_administrativo"
+        />
+            <field name="job_id" ref="l10n_br_hr.demo_job_analista_admin" />
+            <field name="wage">4500.00</field>
+            <field name="date_start">2024-01-02</field>
+            <field name="state">open</field>
+            <field name="labor_regime_id" ref="labor_regime_clt" />
+            <field name="labor_bond_type_id" ref="labor_bond_type_10" />
+            <field name="admission_type_id" ref="admission_type_1" />
+            <field name="welfare_policy">rgps</field>
+            <field name="salary_unit" ref="salary_unit_5" />
+            <field name="weekly_hours">44</field>
+            <field name="monthly_hours">220</field>
+        </record>
+
+        <!-- Maria — CLT, RGPS, mensal, R$ 5.200 -->
+        <record id="demo_contract_maria" model="hr.contract">
+            <field name="name">Contrato Maria Fernanda Santos</field>
+            <field name="employee_id" ref="l10n_br_hr.demo_employee_maria" />
+            <field name="department_id" ref="l10n_br_hr.demo_department_operacional" />
+            <field name="job_id" ref="l10n_br_hr.demo_job_tecnico_seguranca" />
+            <field name="wage">5200.00</field>
+            <field name="date_start">2024-01-02</field>
+            <field name="state">open</field>
+            <field name="labor_regime_id" ref="labor_regime_clt" />
+            <field name="labor_bond_type_id" ref="labor_bond_type_10" />
+            <field name="admission_type_id" ref="admission_type_1" />
+            <field name="welfare_policy">rgps</field>
+            <field name="salary_unit" ref="salary_unit_5" />
+            <field name="weekly_hours">44</field>
+            <field name="monthly_hours">220</field>
+        </record>
+
+        <!-- Pedro — CLT, RGPS, mensal, R$ 3.800 -->
+        <record id="demo_contract_pedro" model="hr.contract">
+            <field name="name">Contrato Pedro Henrique Oliveira</field>
+            <field name="employee_id" ref="l10n_br_hr.demo_employee_pedro" />
+            <field name="department_id" ref="l10n_br_hr.demo_department_operacional" />
+            <field name="job_id" ref="l10n_br_hr.demo_job_operador_industrial" />
+            <field name="wage">3800.00</field>
+            <field name="date_start">2024-01-02</field>
+            <field name="state">open</field>
+            <field name="labor_regime_id" ref="labor_regime_clt" />
+            <field name="labor_bond_type_id" ref="labor_bond_type_10" />
+            <field name="admission_type_id" ref="admission_type_1" />
+            <field name="welfare_policy">rgps</field>
+            <field name="salary_unit" ref="salary_unit_5" />
+            <field name="weekly_hours">44</field>
+            <field name="monthly_hours">220</field>
+        </record>
+
+        <!-- Ana — Estatutário, RPPS, mensal, R$ 8.500 -->
+        <record id="demo_contract_ana" model="hr.contract">
+            <field name="name">Contrato Ana Beatriz Souza</field>
+            <field name="employee_id" ref="l10n_br_hr.demo_employee_ana" />
+            <field name="department_id" ref="l10n_br_hr.demo_department_ti" />
+            <field name="job_id" ref="l10n_br_hr.demo_job_analista_sistemas" />
+            <field name="wage">8500.00</field>
+            <field name="date_start">2024-01-02</field>
+            <field name="state">open</field>
+            <field name="labor_regime_id" ref="labor_regime_est" />
+            <field name="labor_bond_type_id" ref="labor_bond_type_30" />
+            <field name="admission_type_id" ref="admission_type_1" />
+            <field name="welfare_policy">rpps</field>
+            <field name="salary_unit" ref="salary_unit_5" />
+            <field name="weekly_hours">44</field>
+            <field name="monthly_hours">220</field>
+        </record>
+
+        <!-- Lucas — CLT Aprendiz, RGPS, mensal, R$ 1.412 -->
+        <record id="demo_contract_lucas" model="hr.contract">
+            <field name="name">Contrato Lucas Gabriel Costa</field>
+            <field name="employee_id" ref="l10n_br_hr.demo_employee_lucas" />
+            <field
+            name="department_id"
+            ref="l10n_br_hr.demo_department_administrativo"
+        />
+            <field name="job_id" ref="l10n_br_hr.demo_job_aprendiz_admin" />
+            <field name="wage">1412.00</field>
+            <field name="date_start">2024-01-02</field>
+            <field name="state">open</field>
+            <field name="labor_regime_id" ref="labor_regime_clt" />
+            <field name="labor_bond_type_id" ref="labor_bond_type_55" />
+            <field name="admission_type_id" ref="admission_type_1" />
+            <field name="welfare_policy">rgps</field>
+            <field name="salary_unit" ref="salary_unit_5" />
+            <field name="weekly_hours">30</field>
+            <field name="monthly_hours">150</field>
+        </record>
+
+        <!-- Carla — CLT PCD, RGPS, mensal, R$ 6.000 -->
+        <record id="demo_contract_carla" model="hr.contract">
+            <field name="name">Contrato Carla Regina Pereira</field>
+            <field name="employee_id" ref="l10n_br_hr.demo_employee_carla" />
+            <field
+            name="department_id"
+            ref="l10n_br_hr.demo_department_administrativo"
+        />
+            <field name="job_id" ref="l10n_br_hr.demo_job_analista_rh" />
+            <field name="wage">6000.00</field>
+            <field name="date_start">2024-01-02</field>
+            <field name="state">open</field>
+            <field name="labor_regime_id" ref="labor_regime_clt" />
+            <field name="labor_bond_type_id" ref="labor_bond_type_10" />
+            <field name="admission_type_id" ref="admission_type_1" />
+            <field name="welfare_policy">rgps</field>
+            <field name="salary_unit" ref="salary_unit_5" />
+            <field name="weekly_hours">44</field>
+            <field name="monthly_hours">220</field>
+        </record>
+
+</odoo>

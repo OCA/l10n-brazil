@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- João Carlos da Silva — CLT regular, 2 dep. IRRF -->
+        <record id="demo_employee_joao" model="hr.employee">
+            <field name="name">João Carlos da Silva</field>
+            <field name="gender">male</field>
+            <field name="birthday">1985-03-15</field>
+            <field name="marital">married</field>
+            <field name="country_id" ref="base.br" />
+            <field name="department_id" ref="demo_department_administrativo" />
+            <field name="job_id" ref="demo_job_analista_admin" />
+            <field name="cnpj_cpf">529.982.247-25</field>
+            <field name="pis_pasep">12345678900</field>
+            <field name="ctps">12345</field>
+            <field name="ctps_series">0001</field>
+            <field name="ctps_date">2010-02-10</field>
+            <field name="ctps_uf_id" ref="base.state_br_sp" />
+            <field name="father_name">Carlos Eduardo da Silva</field>
+            <field name="mother_name">Maria José da Silva</field>
+            <field name="ethnicity" ref="ethnicity_1" />
+            <field name="blood_type">o+</field>
+            <field name="registration">EMP001</field>
+            <field name="employee_relationship_type">funcionario</field>
+        </record>
+
+        <!-- Maria Fernanda Santos — CLT periculosidade -->
+        <record id="demo_employee_maria" model="hr.employee">
+            <field name="name">Maria Fernanda Santos</field>
+            <field name="gender">female</field>
+            <field name="birthday">1990-07-22</field>
+            <field name="marital">single</field>
+            <field name="country_id" ref="base.br" />
+            <field name="department_id" ref="demo_department_operacional" />
+            <field name="job_id" ref="demo_job_tecnico_seguranca" />
+            <field name="cnpj_cpf">453.178.287-91</field>
+            <field name="pis_pasep">23456789013</field>
+            <field name="ctps">23456</field>
+            <field name="ctps_series">0002</field>
+            <field name="ctps_date">2015-05-20</field>
+            <field name="ctps_uf_id" ref="base.state_br_sp" />
+            <field name="father_name">Fernando Antônio Santos</field>
+            <field name="mother_name">Ana Paula Santos</field>
+            <field name="ethnicity" ref="ethnicity_2" />
+            <field name="blood_type">a+</field>
+            <field name="registration">EMP002</field>
+            <field name="employee_relationship_type">funcionario</field>
+        </record>
+
+        <!-- Pedro Henrique Oliveira — CLT insalubridade -->
+        <record id="demo_employee_pedro" model="hr.employee">
+            <field name="name">Pedro Henrique Oliveira</field>
+            <field name="gender">male</field>
+            <field name="birthday">1988-11-05</field>
+            <field name="marital">married</field>
+            <field name="country_id" ref="base.br" />
+            <field name="department_id" ref="demo_department_operacional" />
+            <field name="job_id" ref="demo_job_operador_industrial" />
+            <field name="cnpj_cpf">111.444.777-35</field>
+            <field name="pis_pasep">34567890125</field>
+            <field name="ctps">34567</field>
+            <field name="ctps_series">0003</field>
+            <field name="ctps_date">2012-08-15</field>
+            <field name="ctps_uf_id" ref="base.state_br_mg" />
+            <field name="father_name">Henrique José Oliveira</field>
+            <field name="mother_name">Fernanda Oliveira</field>
+            <field name="ethnicity" ref="ethnicity_3" />
+            <field name="blood_type">b+</field>
+            <field name="registration">EMP003</field>
+            <field name="employee_relationship_type">funcionario</field>
+        </record>
+
+        <!-- Ana Beatriz Souza — Estatutário/RPPS -->
+        <record id="demo_employee_ana" model="hr.employee">
+            <field name="name">Ana Beatriz Souza</field>
+            <field name="gender">female</field>
+            <field name="birthday">1978-01-30</field>
+            <field name="marital">married</field>
+            <field name="country_id" ref="base.br" />
+            <field name="department_id" ref="demo_department_ti" />
+            <field name="job_id" ref="demo_job_analista_sistemas" />
+            <field name="cnpj_cpf">987.654.321-00</field>
+            <field name="pis_pasep">45678901236</field>
+            <field name="ctps">45678</field>
+            <field name="ctps_series">0004</field>
+            <field name="ctps_date">2005-03-01</field>
+            <field name="ctps_uf_id" ref="base.state_br_rj" />
+            <field name="father_name">José Ricardo Souza</field>
+            <field name="mother_name">Beatriz Helena Souza</field>
+            <field name="ethnicity" ref="ethnicity_1" />
+            <field name="blood_type">ab+</field>
+            <field name="registration">EMP004</field>
+            <field name="employee_relationship_type">funcionario</field>
+        </record>
+
+        <!-- Lucas Gabriel Costa — CLT aprendiz -->
+        <record id="demo_employee_lucas" model="hr.employee">
+            <field name="name">Lucas Gabriel Costa</field>
+            <field name="gender">male</field>
+            <field name="birthday">2005-06-12</field>
+            <field name="marital">single</field>
+            <field name="country_id" ref="base.br" />
+            <field name="department_id" ref="demo_department_administrativo" />
+            <field name="job_id" ref="demo_job_aprendiz_admin" />
+            <field name="cnpj_cpf">321.654.987-91</field>
+            <field name="pis_pasep">56789012346</field>
+            <field name="ctps">56789</field>
+            <field name="ctps_series">0005</field>
+            <field name="ctps_date">2024-01-02</field>
+            <field name="ctps_uf_id" ref="base.state_br_sp" />
+            <field name="father_name">Gabriel Antônio Costa</field>
+            <field name="mother_name">Patrícia Costa</field>
+            <field name="ethnicity" ref="ethnicity_4" />
+            <field name="blood_type">o-</field>
+            <field name="registration">EMP005</field>
+            <field name="employee_relationship_type">funcionario</field>
+        </record>
+
+        <!-- Carla Regina Pereira — CLT PCD + moléstia grave -->
+        <record id="demo_employee_carla" model="hr.employee">
+            <field name="name">Carla Regina Pereira</field>
+            <field name="gender">female</field>
+            <field name="birthday">1982-09-18</field>
+            <field name="marital">single</field>
+            <field name="country_id" ref="base.br" />
+            <field name="department_id" ref="demo_department_administrativo" />
+            <field name="job_id" ref="demo_job_analista_rh" />
+            <field name="cnpj_cpf">741.852.963-55</field>
+            <field name="pis_pasep">67890123455</field>
+            <field name="ctps">67890</field>
+            <field name="ctps_series">0006</field>
+            <field name="ctps_date">2008-11-10</field>
+            <field name="ctps_uf_id" ref="base.state_br_sp" />
+            <field name="father_name">Roberto Pereira</field>
+            <field name="mother_name">Regina Cláudia Pereira</field>
+            <field name="ethnicity" ref="ethnicity_1" />
+            <field name="blood_type">a-</field>
+            <field name="registration">EMP006</field>
+            <field name="employee_relationship_type">funcionario</field>
+            <field name="deficiency_id" ref="deficiency_1" />
+            <field
+            name="deficiency_description"
+        >Deficiência física - membro inferior</field>
+        </record>
+
+</odoo>

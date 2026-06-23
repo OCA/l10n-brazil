@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="demo_job_analista_admin" model="hr.job">
+            <field name="name">Analista Administrativo</field>
+            <field name="department_id" ref="demo_department_administrativo" />
+        </record>
+
+        <record id="demo_job_tecnico_seguranca" model="hr.job">
+            <field name="name">Técnico de Segurança do Trabalho</field>
+            <field name="department_id" ref="demo_department_operacional" />
+        </record>
+
+        <record id="demo_job_operador_industrial" model="hr.job">
+            <field name="name">Operador Industrial</field>
+            <field name="department_id" ref="demo_department_operacional" />
+        </record>
+
+        <record id="demo_job_analista_sistemas" model="hr.job">
+            <field name="name">Analista de Sistemas</field>
+            <field name="department_id" ref="demo_department_ti" />
+        </record>
+
+        <record id="demo_job_aprendiz_admin" model="hr.job">
+            <field name="name">Aprendiz Administrativo</field>
+            <field name="department_id" ref="demo_department_administrativo" />
+        </record>
+
+        <record id="demo_job_analista_rh" model="hr.job">
+            <field name="name">Analista de RH</field>
+            <field name="department_id" ref="demo_department_administrativo" />
+        </record>
+
+</odoo>
