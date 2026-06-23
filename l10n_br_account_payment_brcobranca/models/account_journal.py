@@ -184,7 +184,9 @@ class AccountJournal(models.Model):
             # obter e preencher ele por enquanto e feito da forma abaixo,
             # verificar se possível melhorar isso.
             data_credito = ""
+
             for row in result_row:
+                data_credito = row.get("date")
                 if row.get("type") == "liquidado":
                     data_credito = row.get("date")
                     break
