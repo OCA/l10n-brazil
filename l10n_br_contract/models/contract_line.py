@@ -31,7 +31,22 @@ class ContractLine(models.Model):
         precompute=True,
     )
 
-    ind_final = fields.Selection(related="contract_id.ind_final")
+    uom_id = fields.Many2one(
+        comodel_name="uom.uom",
+        compute="_compute_uom_id",
+        store=True,
+        precompute=True,
+    )
+    automatic_price = fields.Boolean(
+        compute="_compute_automatic_price",
+        store=True,
+        precompute=True,
+    )
+    price_unit = fields.Float(
+        compute="_compute_price_unit",
+        store=True,
+        precompute=True,
+    )
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
@@ -42,6 +57,10 @@ class ContractLine(models.Model):
     )
 
     line_recurrence = fields.Boolean(related="contract_id.line_recurrence")
+
+    def _get_document(self):
+        self.ensure_one()
+        return self.contract_id
 
     def _prepare_invoice_line(self):
         self.ensure_one()

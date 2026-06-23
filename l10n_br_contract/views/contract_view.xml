@@ -40,7 +40,7 @@
                 >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='product_id']"
+                expr="//field[@name='contract_line_fixed_ids']/list/field[@name='product_id']"
                 position="before"
             >
                 <button
@@ -55,7 +55,7 @@
                 <field name="fiscal_operation_id" invisible="1" />
             </xpath>
             <xpath
-                expr="//field[@name='contract_line_fixed_ids']/tree/field[@name='last_date_invoiced']"
+                expr="//field[@name='contract_line_fixed_ids']/list/field[@name='last_date_invoiced']"
                 position="after"
             >
                 <field name="country_id" invisible="1" />
@@ -68,8 +68,8 @@
                 />
             </xpath>
             <xpath
-                expr="//field[@name='contract_line_ids']/tree/button"
-                position="before"
+                expr="//field[@name='contract_line_ids']/list/field[@name='price_subtotal']"
+                position="after"
             >
                 <field name="country_id" invisible="1" />
                 <field

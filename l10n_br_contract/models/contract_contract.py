@@ -49,7 +49,7 @@ class ContractContract(models.Model):
 
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
-        related="partner_id.cnpj_cpf",
+        related="partner_id.vat",
     )
 
     legal_name = fields.Char(
