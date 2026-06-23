@@ -1,0 +1,37 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_sale_invoice_plan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2024-01-02 20:00+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#. module: l10n_br_sale_invoice_plan
+#: model:ir.model.fields,field_description:l10n_br_sale_invoice_plan.field_sale_invoice_plan__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_sale_invoice_plan
+#: model:ir.model.fields,field_description:l10n_br_sale_invoice_plan.field_sale_invoice_plan__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_sale_invoice_plan
+#: model:ir.model,name:l10n_br_sale_invoice_plan.model_sale_invoice_plan
+msgid "Invoice Planning Detail"
+msgstr "Detalhes do Plano de Faturamento"
+
+#. module: l10n_br_sale_invoice_plan
+#: model:ir.model.fields,field_description:l10n_br_sale_invoice_plan.field_sale_invoice_plan____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
