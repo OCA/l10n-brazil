@@ -251,6 +251,11 @@ class ValidCreateIdTest(TransactionCase):
             "93.429.799/0001-17",
             "The VAT must be the same as what was registered",
         )
+        self.assertEqual(
+            partner.vat_formatted_cnpj,
+            "93.429.799/0001-17",
+            "The VAT/CNPJ must be the same as what was registered",
+        )
 
     def test_create_company_in_brazil(self):
         """Test the creation of a company in Brazil"""
