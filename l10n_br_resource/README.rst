@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ================
 L10n Br Resource
 ================
@@ -17,7 +13,7 @@ L10n Br Resource
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -107,6 +103,7 @@ Contributors
 - Luiz Divino <luiz.divino@kmee.com.br>
 - Hendrix Costa <hendrix.costa@kmee.com.br>
 - Bruna Braga <bruna.braga@kmee.com.br>
+- Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 
 Other credits
 -------------
@@ -131,13 +128,10 @@ promote its widespread use.
 .. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
     :target: https://github.com/mileo
     :alt: mileo
-.. |maintainer-lfdivino| image:: https://github.com/lfdivino.png?size=40px
-    :target: https://github.com/lfdivino
-    :alt: lfdivino
 
-Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
-|maintainer-mileo| |maintainer-lfdivino| 
+|maintainer-mileo| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_resource>`_ project on GitHub.
 
