@@ -5,3 +5,4 @@ from . import test_other_ie
 from . import test_valid_pix
 from . import test_partner_bank
 from . import test_cnpj_alfanumerico
+from . import test_duplicate_cnpj
