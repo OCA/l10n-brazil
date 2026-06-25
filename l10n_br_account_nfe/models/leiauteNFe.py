@@ -13,6 +13,6 @@ class DetPag(models.AbstractModel):
             ("0", "Pagamento à Vista"),
             ("1", "Pagamento à Prazo"),
         ],
-        string="Forma de Pagamento",
+        string="Indicador de Pagamento",
         help="Indicador da Forma de Pagamento",
     )
