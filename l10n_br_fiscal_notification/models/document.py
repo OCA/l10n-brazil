@@ -3,7 +3,7 @@
 
 from odoo import _, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_AUTORIZADA
+from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import DOCUMENT_STATE_AUTHORIZED
 
 
 class Document(models.Model):
@@ -33,16 +33,26 @@ class Document(models.Model):
                 default_attachment_ids=self._get_mail_attachment()
             ).send_mail(self.id)
 
-    def _after_change_state(self, old_state, new_state):
-        self.ensure_one()
-        result = super()._after_change_state(old_state, new_state)
-        self.send_email(new_state)
-        return result
+    def write(self, vals):
+        if "state_edoc" in vals:
+            # We filter records that are actually changing state to avoid
+            # spurious notifications
+            records_changing_state = self.filtered(
+                lambda r: r.state_edoc != vals["state_edoc"]
+            )
+
+            result = super().write(vals)
+
+            for record in records_changing_state:
+                record.send_email(vals["state_edoc"])
+            return result
+
+        return super().write(vals)
 
     def _get_mail_attachment(self):
         self.ensure_one()
         attachment_ids = []
-        if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+        if self.state_edoc == DOCUMENT_STATE_AUTHORIZED:
             if self.file_report_id:
                 attachment_ids.append(self.file_report_id.id)
             if self.authorization_file_id:
