@@ -24,6 +24,14 @@ class TestDanfe(AccountMoveBRCommon):
         move_form.invoice_date = "2019-01-01"
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
         move_form.document_serie_id = self.empresa_lc_document_55_serie_1
+        # l10n_latam_invoice_document compatibility
+        if "l10n_latam.document.type" in self.env:
+            latam_doc_type = self.env["l10n_latam.document.type"].search(
+                [("code", "=", "55"), ("country_id", "=", self.env.ref("base.br").id)],
+                limit=1,
+            )
+            if latam_doc_type and move_form.l10n_latam_use_documents:
+                move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         with move_form.invoice_line_ids.new() as line_form:
             line_form.product_id = self.product_a

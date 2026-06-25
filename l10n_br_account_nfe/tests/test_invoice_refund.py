@@ -86,6 +86,14 @@ class TestInvoiceRefund(AccountMoveBRCommon):
         move_form.invoice_payment_term_id = cls.payment_term
         move_form.document_type_id = cls.env.ref("l10n_br_fiscal.document_55")
         move_form.document_serie_id = cls.empresa_lc_document_55_serie_1
+        # l10n_latam_invoice_document compatibility
+        if "l10n_latam.document.type" in cls.env:
+            latam_doc_type = cls.env["l10n_latam.document.type"].search(
+                [("code", "=", "55"), ("country_id", "=", cls.env.ref("base.br").id)],
+                limit=1,
+            )
+            if latam_doc_type and move_form.l10n_latam_use_documents:
+                move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
         move_form.invoice_date = "2019-02-01"
         with move_form.invoice_line_ids.new() as line_form:
