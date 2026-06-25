@@ -98,10 +98,11 @@
             </xpath>
             <!-- Hide buttons for imported documents -->
             <xpath
-                expr="//header/button[@name='action_document_correction']"
+                expr="//header/button[@name='action_document_back2draft']"
                 position="attributes"
             >
                 <attribute
+
                     name="invisible"
                 >state_edoc != 'autorizada' or imported_document</attribute>
             </xpath>
@@ -119,7 +120,7 @@
             >
                 <attribute
                     name="invisible"
-                >state_edoc != 'autorizada' or not document_electronic or imported_document</attribute>
+                >state_edoc != 'a_enviar' or not document_electronic or imported_document</attribute>
             </xpath>
         </field>
     </record>
