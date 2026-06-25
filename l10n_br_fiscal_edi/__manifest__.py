@@ -34,4 +34,9 @@
         "views/l10n_br_fiscal_menu.xml",
     ],
     "installable": True,
+    "external_dependencies": {
+        "python": [
+            "transitions",
+        ]
+    },
 }
