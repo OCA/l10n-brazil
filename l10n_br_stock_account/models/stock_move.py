@@ -38,6 +38,7 @@ class StockMove(models.Model):
     fiscal_tax_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax",
         string="Fiscal Taxes",
+        precompute=False,
     )
 
     uom_id = fields.Many2one(
@@ -120,6 +121,48 @@ class StockMove(models.Model):
         for vals in vals_list:
             vals.pop("fiscal_tax_ids", None)
         return super()._add_precomputed_values(vals_list)
+
+    @api.model
+    def _setup_base(self):
+        res = super()._setup_base()
+        # The l10n_br_fiscal.document.line.mixin fields are precomputed by
+        # default, but stock.move depends on non-precomputed fields like
+        # partner_id and quantity. All those precomputed computed fields must
+        # be disabled to avoid the Odoo 18 warnings during registry setup.
+        mixin_classes = [
+            klass
+            for klass in self._model_classes__
+            if getattr(klass, "_name", None) == "l10n_br_fiscal.document.line.mixin"
+        ]
+        if not mixin_classes:
+            return res
+        mixin_class = mixin_classes[0]
+        mixin_names = {field.name for field in mixin_class._field_definitions}
+        for name in mixin_names:
+            field = self._fields.get(name)
+            if field is None or not field.precompute:
+                continue
+            if field.related:
+                # Related fields are safe to disable and may otherwise warn
+                # when their related path crosses non-precomputed fields.
+                field.precompute = False
+                continue
+            if not field.compute:
+                continue
+            # Look at the mixin method, not the stock.move override: the
+            # override may not repeat @api.depends, but the original field
+            # definition still declares dependencies that drive precompute.
+            compute = getattr(mixin_class, field.compute, None)
+            if compute is None:
+                continue
+            func = getattr(compute, "__func__", compute)
+            if not getattr(func, "_depends", None):
+                # Compute methods without explicit @api.depends rely on
+                # precompute to get their initial value (e.g. ind_final).
+                # Keep precompute enabled for them.
+                continue
+            field.precompute = False
+        return res
 
     @api.model_create_multi
     def create(self, vals_list):
