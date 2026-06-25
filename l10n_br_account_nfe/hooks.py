@@ -15,7 +15,7 @@ def load_simples_nacional_demo(env):
     default user company set to this company.
     """
 
-    # Load XML file with demo data.
+    # Load XML file with demo data (payment terms, journals, payment modes).
     company_sn = env.ref(
         "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False
     )

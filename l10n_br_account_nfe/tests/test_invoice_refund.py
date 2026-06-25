@@ -1,13 +1,27 @@
 # Copyright 2025 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import Command, fields
-from odoo.tests import TransactionCase
+from odoo.tests import Form, tagged
+
+from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
+
+from .tools import load_account_nfe_fixture_files
 
 
-class TestInvoiceRefund(TransactionCase):
+@tagged("post_install", "-at_install")
+class TestInvoiceRefund(AccountMoveBRCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+
+        if not cls.env.ref(
+            "l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False
+        ):
+            load_account_nfe_fixture_files(cls.env)
+
+        cls.configure_normal_company_taxes()
+        cls.env.flush_all()
 
         cls.sale_account = cls.env["account.account"].create(
             dict(
@@ -27,65 +41,64 @@ class TestInvoiceRefund(TransactionCase):
             )
         )
 
+        cls.payment_mode = cls.env["account.payment.mode"].create(
+            {
+                "name": "Direct debit refund",
+                "company_id": cls.company_data["company"].id,
+                "payment_method_id": cls.env.ref(
+                    "account.account_payment_method_manual_in"
+                ).id,
+                "bank_account_link": "variable",
+            }
+        )
+
+        cls.payment_term = cls.env["account.payment.term"].create(
+            {
+                "name": "Immediate Payment",
+                "line_ids": [
+                    Command.create(
+                        {
+                            "value": "percent",
+                            "value_amount": 100,
+                            "delay_type": "days_after",
+                            "nb_days": 0,
+                        }
+                    )
+                ],
+            }
+        )
+
         cls.reverse_vals = {
             "date": fields.Date.from_string("2019-02-01"),
             "reason": "no reason",
             "journal_id": cls.refund_journal.id,
         }
 
-        cls.invoice = cls.env["account.move"].create(
-            dict(
-                name="Test Refund Invoice 2",
-                move_type="out_invoice",
-                invoice_payment_term_id=cls.env.ref(
-                    "account.account_payment_term_advance"
-                ).id,
-                partner_id=cls.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
-                journal_id=cls.refund_journal.id,
-                document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
-                document_serie_id=cls.env.ref(
-                    "l10n_br_fiscal.empresa_lc_document_55_serie_1"
-                ).id,
-                fiscal_operation_id=cls.env.ref("l10n_br_fiscal.fo_venda").id,
-                invoice_line_ids=[
-                    Command.create(
-                        {
-                            "product_id": cls.env.ref("product.product_product_6").id,
-                            "quantity": 1.0,
-                            "price_unit": 100.0,
-                            "account_id": cls.env["account.account"]
-                            .search(
-                                [
-                                    (
-                                        "account_type",
-                                        "=",
-                                        "income",
-                                    ),
-                                    (
-                                        "company_id",
-                                        "=",
-                                        cls.env.company.id,
-                                    ),
-                                ],
-                                limit=1,
-                            )
-                            .id,
-                            "name": "Refund Test",
-                            "fiscal_operation_id": cls.env.ref(
-                                "l10n_br_fiscal.fo_venda"
-                            ).id,
-                            "fiscal_operation_line_id": cls.env.ref(
-                                "l10n_br_fiscal.fo_venda_venda"
-                            ).id,
-                            "uom_id": cls.env.ref("uom.product_uom_unit").id,
-                        },
-                    )
-                ],
+        # Create invoice using Form (init_invoice triggers tax computation bug)
+        move_form = Form(
+            cls.env["account.move"].with_context(
+                default_move_type="out_invoice",
+                account_predictive_bills_disable_prediction=True,
             )
         )
+        move_form.partner_id = cls.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        move_form.journal_id = cls.refund_journal
+        move_form.invoice_payment_term_id = cls.payment_term
+        move_form.document_type_id = cls.env.ref("l10n_br_fiscal.document_55")
+        move_form.document_serie_id = cls.empresa_lc_document_55_serie_1
+        move_form.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
+        move_form.invoice_date = "2019-02-01"
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = cls.env.ref("product.product_product_6")
+            line_form.price_unit = 100.0
+            line_form.name = "Refund Test"
+            line_form.fiscal_operation_line_id = cls.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+        cls.invoice = move_form.save()
 
     def test_refund_with_payment_mode(self):
-        payment_mode = self.env.ref("account_payment_mode.payment_mode_inbound_dd1")
+        payment_mode = self.payment_mode
 
         invoice = self.invoice
         invoice.action_post()
