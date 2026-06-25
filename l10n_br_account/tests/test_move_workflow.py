@@ -46,5 +46,11 @@ class TestMoveWorkflow(AccountMoveBRCommon):
     def test_document_deny(self):
         document_id = self.move_out_venda.fiscal_document_id
         self.assertEqual(self.move_out_venda.state, "draft")
-        document_id.exec_after_SITUACAO_EDOC_DENEGADA("em_digitacao", "denegada")
+        # Post the invoice, which confirms the document into 'open' state.
+        # Run under sudo: on 17.0 the move re-post trips the "Entry lines"
+        # record rule for a non-admin test user (line company_id flush).
+        self.move_out_venda.sudo().action_post()
+        # Trigger deny via FSM — the _after_document_deny callback
+        # in l10n_br_account cancels the linked account.move
+        document_id._trigger_fsm("action_deny")
         self.assertEqual(self.move_out_venda.state, "cancel")
