@@ -1,5 +1,6 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # Copyright (C) 2019  KMEE INFORMATICA LTDA
+# Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _, api, fields, models
@@ -224,8 +225,9 @@ class Document(models.Model):
 
     def _document_send(self):
         no_electronic = self.filtered(
-            lambda d: not d.document_electronic
-            or not d.issuer == DOCUMENT_ISSUER_COMPANY
+            lambda d: (
+                not d.document_electronic or not d.issuer == DOCUMENT_ISSUER_COMPANY
+            )
         )
         no_electronic._no_eletronic_document_send()
         electronic = self - no_electronic
