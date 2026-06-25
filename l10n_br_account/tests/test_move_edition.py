@@ -8,6 +8,11 @@ from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import Form, TransactionCase, tagged
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+)
+
 _logger = logging.getLogger(__name__)
 
 
@@ -158,7 +163,6 @@ class TestMoveEdition(TransactionCase):
         # now user needs to be a Fiscal User:
         self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
         self.user.groups_id += self.env.ref("uom.group_uom")
-
         nfe_user_group = self.env.ref(
             "l10n_br_nfe.group_user", raise_if_not_found=False
         )
@@ -294,7 +298,7 @@ class TestMoveEdition(TransactionCase):
         move = move_form.save()
 
         self.assertEqual(move.state, "draft")
-        self.assertEqual(move.state_edoc, "em_digitacao")
+        self.assertEqual(move.state_edoc, DOCUMENT_STATE_DRAFT)
         self.assertEqual(move.fiscal_document_id.document_serie, "1")
         self.assertTrue(move.fiscal_document_id)
         self.assertEqual(len(move.fiscal_document_ids), 1)
@@ -351,6 +355,44 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(move.state, "cancel")
         move.button_draft()
         self.assertEqual(move.state, "draft")
+
+    def test_out_fiscal_invoice_cancel_without_sefaz_event_can_back_to_draft(self):
+        """Ensure local cancel (without SEFAZ cancel event) can return to draft."""
+
+        self.user.groups_id += self.env.ref("l10n_br_fiscal.group_user")
+        self.user.groups_id += self.env.ref("uom.group_uom")
+        nfe_user_group = self.env.ref(
+            "l10n_br_nfe.group_user", raise_if_not_found=False
+        )
+        if nfe_user_group:
+            self.user.groups_id += nfe_user_group
+
+        move_form = Form(
+            self.env["account.move"].with_context(
+                default_move_type="out_invoice",
+            )
+        )
+        move_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
+        move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        move_form.document_serie_id = self.env.ref(
+            "l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        )
+        move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        move_form.ind_final = "1"
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_id
+            line_form.price_unit = 42
+        move = move_form.save()
+
+        move.action_post()
+        move.button_cancel()
+
+        self.assertEqual(move.state_edoc, DOCUMENT_STATE_CANCEL)
+        self.assertFalse(move.fiscal_document_id.cancel_event_id)
+
+        move.button_draft()
+        self.assertEqual(move.state, "draft")
+        self.assertEqual(move.state_edoc, DOCUMENT_STATE_DRAFT)
 
     def test_in_non_fiscal_invoice(self):
         """
@@ -452,7 +494,7 @@ class TestMoveEdition(TransactionCase):
         move = move_form.save()
 
         self.assertEqual(move.state, "draft")
-        self.assertEqual(move.state_edoc, "em_digitacao")
+        self.assertEqual(move.state_edoc, DOCUMENT_STATE_DRAFT)
         self.assertEqual(move.fiscal_document_id.document_serie, "1")
         self.assertTrue(move.fiscal_document_id)
         self.assertEqual(len(move.fiscal_document_ids), 1)
