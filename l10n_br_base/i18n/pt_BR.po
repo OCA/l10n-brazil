@@ -3897,6 +3897,14 @@ msgid "Bálsamo"
 msgstr "Bálsamo"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_l10n_br_base_party_mixin__vat_formatted_cnpj
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__vat_formatted_cnpj
+#: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat_formatted_cnpj
+#: model:ir.model.fields,help:l10n_br_base.field_res_users__vat_formatted_cnpj
+msgid "CNPJ or CPF formatted with proper punctuation and special characters"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf_stripped
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf_stripped
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf_stripped
@@ -26677,6 +26685,14 @@ msgstr "Usado em documentos fiscais"
 #: model:res.city,name:l10n_br_base.city_2932804
 msgid "Utinga"
 msgstr "Utinga"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__vat_formatted_cnpj
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__vat_formatted_cnpj
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__vat_formatted_cnpj
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__vat_formatted_cnpj
+msgid "VAT Formatted (Brazil)"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4322509
