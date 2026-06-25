@@ -3,14 +3,33 @@
 # Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from transitions import Machine, MachineError
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_INVALIDATED,
+    DOCUMENT_STATE_OPEN,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_MDFE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFSE,
     PROCESSADOR_NENHUM,
-    SITUACAO_EDOC_AUTORIZADA,
+)
+
+from ..constants.fiscal import (
+    DOCUMENT_STATE_AUTHORIZED,
+    DOCUMENT_STATE_DENIED,
+    DOCUMENT_STATE_REJECTED,
+    DOCUMENT_STATE_SENDING,
+    DOCUMENT_STATES,
 )
 
 
@@ -20,20 +39,38 @@ def filter_processador(record):
     return False
 
 
+class FiscalDocumentWrapper:
+    def __init__(self, document):
+        self._document = document
+
+    def __getattr__(self, name):
+        return getattr(self._document, name)
+
+    @property
+    def state_edoc(self):
+        return self._document.state_edoc
+
+    @state_edoc.setter
+    def state_edoc(self, value):
+        self._document.write({"state_edoc": value})
+
+
 class Document(models.Model):
     """
-    As of August 2024, this is the extraction of the legacy
-    l10n_br_fiscal.document.electronic mixin that was part of l10n_br_fiscal
-    from version 12 to 14. This code was made before the OCA/edi and OCA/edi-framework
-    and might easily be improved...
+    Fiscal Document EDI extension implementing State Machine workflow.
     """
 
-    _name = "l10n_br_fiscal.document"
+    _inherit = "l10n_br_fiscal.document"
 
-    _inherit = [
-        "l10n_br_fiscal.document",
-        "l10n_br_fiscal.document.workflow",
-    ]
+    state_edoc = fields.Selection(
+        selection_add=DOCUMENT_STATES,
+        ondelete={
+            DOCUMENT_STATE_SENDING: "set default",
+            DOCUMENT_STATE_AUTHORIZED: "set default",
+            DOCUMENT_STATE_REJECTED: "set default",
+            DOCUMENT_STATE_DENIED: "set default",
+        },
+    )
 
     event_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.event",
@@ -129,6 +166,10 @@ class Document(models.Model):
         readonly=True,
     )
 
+    cancel_reason = fields.Char()
+
+    correction_reason = fields.Char()
+
     # Invalidate Event Related Fields
     invalidate_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
@@ -166,37 +207,6 @@ class Document(models.Model):
         copy=False,
     )
 
-    # these workflow methods are plugged here so their interface defined in
-    # l10n_br_fiscal can easily be overriden in other modules.
-    def action_document_confirm(self):
-        super().action_document_confirm()
-        return self._document_confirm_to_send()
-
-    def action_document_send(self):
-        super().action_document_send()
-        return self._action_document_send()
-
-    def action_document_back2draft(self):
-        super().action_document_back2draft()
-        return self._action_document_back2draft()
-
-    def action_document_cancel(self):
-        super().action_document_cancel()
-        return self._action_document_cancel()
-
-    def action_document_invalidate(self):
-        super().action_document_invalidate()
-        return self._action_document_invalidate()
-
-    def action_document_correction(self):
-        super().action_document_correction()
-        return self._action_document_correction()
-
-    def exec_after_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
-        # see https://github.com/OCA/l10n-brazil/pull/3272
-        super().exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
-        return self._exec_after_SITUACAO_EDOC_DENEGADA(old_state, new_state)
-
     @api.depends("status_code", "status_name")
     def _compute_status_description(self):
         for record in self:
@@ -208,38 +218,430 @@ class Document(models.Model):
             else:
                 record.status_description = False
 
-    def _eletronic_document_send(self):
-        """Implement this method in your transmission module,
-        to send the electronic document and use the method _change_state
-        to update the state of the transmited document,
+    @api.constrains("issuer")
+    def _check_issuer(self):
+        for record in self.filtered(lambda d: d.document_electronic):
+            if not record.issuer:
+                raise ValidationError(
+                    _(
+                        "The field 'Issuer' is required for brazilian electronic "
+                        "documents!"
+                    )
+                )
 
-        def _eletronic_document_send(self):
-            super()._document_send()
-            for record in self.filtered(myfilter):
-                Do your transmission stuff
-                [...]
-                Change the state of the document
+    # -------------------------------------------------------------------------
+    # State Machine Logic
+    # -------------------------------------------------------------------------
+
+    def get_state_machine_config(self):
+        self.ensure_one()
+        return {
+            "states": [
+                DOCUMENT_STATE_DRAFT,
+                DOCUMENT_STATE_OPEN,
+                DOCUMENT_STATE_SENDING,
+                DOCUMENT_STATE_AUTHORIZED,
+                DOCUMENT_STATE_REJECTED,
+                DOCUMENT_STATE_DENIED,
+                DOCUMENT_STATE_CANCEL,
+                # Terminal state (no outgoing transition), but it must be
+                # known to the machine: building it with an unknown initial
+                # state raises ValueError.
+                DOCUMENT_STATE_INVALIDATED,
+            ],
+            "transitions": [
+                # Validate: Draft -> Open
+                {
+                    "trigger": "action_validate",
+                    "source": DOCUMENT_STATE_DRAFT,
+                    "dest": DOCUMENT_STATE_OPEN,
+                    "before": "_before_document_validate",
+                },
+                # Send: Open -> Sending
+                {
+                    "trigger": "action_send",
+                    "source": [DOCUMENT_STATE_OPEN, DOCUMENT_STATE_REJECTED],
+                    "dest": DOCUMENT_STATE_SENDING,
+                    "before": "_before_document_send",
+                    "after": "_after_document_send",
+                },
+                # Authorize: Sending -> Authorized
+                {
+                    "trigger": "action_authorize",
+                    "source": [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN],
+                    "dest": DOCUMENT_STATE_AUTHORIZED,
+                },
+                # Reject: Sending -> Rejected
+                {
+                    "trigger": "action_reject",
+                    "source": [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN],
+                    "dest": DOCUMENT_STATE_REJECTED,
+                },
+                # Deny: Sending -> Denied
+                {
+                    "trigger": "action_deny",
+                    "source": [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN],
+                    "dest": DOCUMENT_STATE_DENIED,
+                    "after": "_after_document_deny",
+                },
+                # Cancel: Authorized -> Cancel
+                {
+                    "trigger": "action_cancel_fsm",
+                    "source": [
+                        DOCUMENT_STATE_AUTHORIZED,
+                        DOCUMENT_STATE_OPEN,  # Allow canceling if manual/not sent
+                        DOCUMENT_STATE_REJECTED,
+                        DOCUMENT_STATE_DRAFT,
+                        DOCUMENT_STATE_SENDING,
+                    ],
+                    "dest": DOCUMENT_STATE_CANCEL,
+                    "before": "_before_document_cancel",
+                },
+                # Back to Draft
+                {
+                    "trigger": "action_draft_fsm",
+                    "source": [
+                        DOCUMENT_STATE_OPEN,
+                        DOCUMENT_STATE_SENDING,
+                        DOCUMENT_STATE_REJECTED,
+                        DOCUMENT_STATE_CANCEL,
+                        DOCUMENT_STATE_DENIED,
+                        DOCUMENT_STATE_DRAFT,
+                    ],
+                    "dest": DOCUMENT_STATE_DRAFT,
+                    "before": "_before_document_back2draft",
+                },
+            ],
+            "initial": self.state_edoc,
+        }
+
+    def _trigger_fsm(self, trigger):
+        for doc in self:
+            try:
+                wrapper = FiscalDocumentWrapper(doc)
+                config = doc.get_state_machine_config()
+                Machine(
+                    model=wrapper,
+                    states=config["states"],
+                    transitions=config["transitions"],
+                    initial=config["initial"],
+                    model_attribute="state_edoc",  # Bind to state_edoc
+                    ignore_invalid_triggers=False,
+                )
+                getattr(wrapper, trigger)()
+            except MachineError as e:
+                raise UserError(
+                    _("State transition failed for action '%(action)s': %(error)s")
+                    % {"action": trigger, "error": e}
+                ) from e
+
+    def _document_cancel(self, justificative=None):
+        if justificative:
+            self.cancel_reason = justificative
+        self._trigger_fsm("action_cancel_fsm")
+
+    def _document_correction(self, justificative):
+        """Record the correction reason. Specific document modules override
+        this method to transmit the correction event (CC-e)."""
+        self.ensure_one()
+        self.correction_reason = justificative
+
+    # -------------------------------------------------------------------------
+    # Transition Callbacks
+    # -------------------------------------------------------------------------
+
+    def _before_document_validate(self):
+        self._document_date()
+        self._document_number()
+        self._document_comment()
+        self._document_check()
+        self._document_export()  # Legacy hook, might be empty
+
+    def _before_document_send(self):
+        # Placeholder for pre-send checks
+        pass
+
+    def _after_document_send(self):
+        # Trigger actual sending logic
+        self._document_send_logic()
+
+    def _before_document_cancel(self):
+        # Logic moved from _document_cancel
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            # If authorized, we need to call SEFAZ cancellation
+            # This is usually done via Wizard, so this transition might be triggered
+            # AFTER the wizard logic.
+            # If triggered directly, ensure we have a reason if required.
+            pass
+
+    def _before_document_back2draft(self):
+        self.xml_error_message = False
+        self.file_report_id = False
+
+    # -------------------------------------------------------------------------
+    # Logic Implementation (Ported from Workflow/Mixin)
+    # -------------------------------------------------------------------------
+
+    def _document_date(self):
+        if not self.document_date:
+            self.document_date = fields.Datetime.now()
+        if not self.date_in_out:
+            self.date_in_out = fields.Datetime.now()
+
+    def _document_check(self):
+        return True
+
+    def _generate_key(self):
+        for record in self:
+            if record.document_type_id.code in (
+                MODELO_FISCAL_NFE,
+                MODELO_FISCAL_NFCE,
+                MODELO_FISCAL_CTE,
+                MODELO_FISCAL_MDFE,
+            ):
+                date = fields.Datetime.context_timestamp(record, record.document_date)
+                chave_edoc = ChaveEdoc(
+                    ano_mes=date.strftime("%y%m").zfill(4),
+                    cnpj_cpf_emitente=record.company_id.vat,
+                    codigo_uf=(
+                        record.company_id.state_id
+                        and record.company_id.state_id.ibge_code
+                        or ""
+                    ),
+                    forma_emissao=1,  # TODO: Implementar campo no Odoo
+                    modelo_documento=record.document_type_id.code or "",
+                    numero_documento=record.document_number or "",
+                    numero_serie=record.document_serie or "",
+                    validar=False,
+                )
+                record.key_random_code = chave_edoc.codigo_aleatorio
+                record.key_check_digit = chave_edoc.digito_verificador
+                record.document_key = chave_edoc.chave
+
+    def _document_number(self):
+        self.ensure_one()
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            if self.document_serie_id:
+                self.document_serie = self.document_serie_id.code
+
+                if self.document_type == MODELO_FISCAL_NFSE and not self.rps_number:
+                    self.rps_number = self.document_serie_id.next_seq_number()
+
+                if (
+                    self.document_type != MODELO_FISCAL_NFSE
+                    and not self.document_number
+                ):
+                    self.document_number = self.document_serie_id.next_seq_number()
+
+            if not self.operation_name:
+                self.operation_name = ", ".join(
+                    [
+                        line.name
+                        for line in self.fiscal_line_ids.mapped("fiscal_operation_id")
+                    ]
+                )
+
+            if self.document_electronic and not self.document_key:
+                self._generate_key()
+
+    def _document_send_logic(self):
         """
-        for record in self.filtered(filter_processador):
-            record._change_state(SITUACAO_EDOC_AUTORIZADA)
-
-    def _document_send(self):
+        Logic to handle document sending.
+        Separates electronic vs non-electronic handling.
+        """
         no_electronic = self.filtered(
             lambda d: (
                 not d.document_electronic or not d.issuer == DOCUMENT_ISSUER_COMPANY
             )
         )
-        no_electronic._no_eletronic_document_send()
+        # Non-electronic/partner-issued docs go straight to Authorized:
+        # there is nothing to transmit.
+        for doc in no_electronic:
+            doc._trigger_fsm("action_authorize")
+
         electronic = self - no_electronic
         electronic._eletronic_document_send()
 
+    def _eletronic_document_send(self):
+        """
+        Implement this method in your transmission module.
+        """
+        for record in self.filtered(filter_processador):
+            # Simulate immediate authorization for 'No Processor'
+            record._trigger_fsm("action_authorize")
+
+    def _document_export(self, **kwargs):
+        pass
+
+    def _document_status(self):
+        """Return the document status as text and, when needed, update the
+        document status. Hook meant to be overridden by transmission modules
+        (l10n_br_nfe, l10n_br_nfse_focus...)."""
+        return None
+
+    def _edoc_processor(self):
+        """Hook meant to return the erpbrasil.edoc processor of the document.
+        Overridden by transmission modules."""
+        return None
+
+    def _document_qrcode(self):
+        """Hook meant to compute the document QR Code (NFC-e, CT-e...).
+        Overridden by transmission modules."""
+        pass
+
+    def _validate_xml(self, xml_file):
+        """Hook meant to validate the document XML against its schema.
+        Overridden by transmission modules."""
+        pass
+
+    def _direct_draft_send(self):
+        """When it returns True, the document is sent right after being
+        confirmed (draft -> open -> sending in a single action). Meant to be
+        overridden by modules such as POS/NFC-e ones."""
+        return False
+
     def serialize(self):
+        """
+        Serialize the document to a list of EDocs (objects from erpbrasil.edoc).
+        Modules should override _serialize to add their EDocs.
+        """
         edocs = []
         self._serialize(edocs)
         return edocs
 
     def _serialize(self, edocs):
+        """
+        Hook for modules to add their serialized EDocs to the list.
+        """
         return edocs
+
+    def _get_state_to_action_map(self):
+        return {
+            DOCUMENT_STATE_OPEN: "action_validate",
+            DOCUMENT_STATE_SENDING: "action_send",
+            DOCUMENT_STATE_AUTHORIZED: "action_authorize",
+            DOCUMENT_STATE_REJECTED: "action_reject",
+            DOCUMENT_STATE_DENIED: "action_deny",
+            DOCUMENT_STATE_CANCEL: "action_cancel_fsm",
+            DOCUMENT_STATE_DRAFT: "action_draft_fsm",
+        }
+
+    def _change_state(self, state, force_change=False):
+        """
+        Wrapper to trigger state changes via FSM for legacy compatibility.
+        """
+        # Map legacy states to triggers if possible, or just update state_edoc
+        # The FSM manages state_edoc, but 'transitions' allows direct assignment
+        # if not locked. However, to respect the FSM flow, we should try triggers.
+        # But 'state' argument here is the target state (e.g. 'authorized'),
+        # not an action.
+
+        # Mapping target state to action
+        state_to_action = self._get_state_to_action_map()
+
+        trigger = state_to_action.get(state)
+        if trigger:
+            # If we are already in the target state, do nothing unless forced?
+            if self.state_edoc == state and not force_change:
+                return
+
+            # Try to trigger the transition
+            try:
+                self._trigger_fsm(trigger)
+            except UserError as e:
+                # If transition fails (e.g. invalid source state), we might force it
+                # if the legacy code demands it (e.g. synchronization with SEFAZ).
+                # In legacy code, _change_state often just wrote to the field.
+                if force_change:
+                    self.write({"state_edoc": state})
+                else:
+                    raise e
+        else:
+            # If no transition defined, fallback to write (e.g. custom states?)
+            self.write({"state_edoc": state})
+
+    # -------------------------------------------------------------------------
+    # Actions / Buttons
+    # -------------------------------------------------------------------------
+
+    def action_document_confirm(self):
+        """Override base button to trigger FSM validation.
+
+        This method must be idempotent because account.move._post() may call it
+        again for already confirmed documents.
+        """
+        electronic_company = self.filtered(
+            lambda d: d.document_electronic and d.issuer == DOCUMENT_ISSUER_COMPANY
+        )
+        to_validate = electronic_company.filtered(
+            lambda d: d.state_edoc == DOCUMENT_STATE_DRAFT
+        )
+        if to_validate:
+            to_validate._trigger_fsm("action_validate")
+            for doc in to_validate.filtered(lambda d: d._direct_draft_send()):
+                doc.action_document_send()
+
+        others = self - electronic_company
+        if others:
+            return super(Document, others).action_document_confirm()
+
+        return True
+
+    def action_document_send(self):
+        """Trigger Sending"""
+        return self._trigger_fsm("action_send")
+
+    def action_document_back2draft(self):
+        """Override base button"""
+        if self.document_electronic and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            return self._trigger_fsm("action_draft_fsm")
+        else:
+            return super().action_document_back2draft()
+
+    def action_document_cancel(self):
+        """Override base button"""
+        if self.state_edoc in (
+            DOCUMENT_STATE_CANCEL,
+            DOCUMENT_STATE_DENIED,
+            DOCUMENT_STATE_INVALIDATED,
+        ):
+            return True
+
+        if self.document_electronic and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            # For authorized docs, show wizard
+            if self.state_edoc == DOCUMENT_STATE_AUTHORIZED:
+                return self.env["ir.actions.act_window"]._for_xml_id(
+                    "l10n_br_fiscal_edi.document_cancel_wizard_action"
+                )
+            # Otherwise trigger FSM cancel
+            return self._trigger_fsm("action_cancel_fsm")
+        else:
+            return super().action_document_cancel()
+
+    def action_document_correction(self):
+        """Open the correction wizard for authorized company-issued documents."""
+        self.ensure_one()
+        if (
+            self.state_edoc == DOCUMENT_STATE_AUTHORIZED
+            and self.issuer == DOCUMENT_ISSUER_COMPANY
+        ):
+            return self.env["ir.actions.act_window"]._for_xml_id(
+                "l10n_br_fiscal_edi.document_correction_wizard_action"
+            )
+        raise UserError(
+            _(
+                "You can only create a fiscal correction for authorized "
+                "documents issued by your company."
+            )
+        )
+
+    def _after_document_deny(self):
+        """Hook called after document denial. Override in account module."""
+        pass
+
+    # -------------------------------------------------------------------------
+    # Misc Tools
+    # -------------------------------------------------------------------------
 
     def _target_new_tab(self, attachment_id):
         if attachment_id:
@@ -251,7 +653,6 @@ class Document(models.Model):
 
     def view_xml(self):
         self.ensure_one()
-        super().view_xml()
         xml_file = self.authorization_file_id or self.send_file_id
         if not xml_file:
             self._document_export()
@@ -265,25 +666,8 @@ class Document(models.Model):
 
     def view_pdf(self):
         self.ensure_one()
-        super().view_pdf()
         if not self.file_report_id or not self.authorization_file_id:
             self.make_pdf()
         if not self.file_report_id:
             raise UserError(_("No PDF file generated!"))
         return self._target_new_tab(self.file_report_id)
-
-    def _document_status(self):
-        """Retorna o status do documento em texto e se necessário,
-        atualiza o status do documento"""
-        return
-
-    @api.constrains("issuer")
-    def _check_issuer(self):
-        for record in self.filtered(lambda d: d.document_electronic):
-            if not record.issuer:
-                raise ValidationError(
-                    _(
-                        "The field 'Issuer' is required for brazilian electronic "
-                        "documents!"
-                    )
-                )
