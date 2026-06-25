@@ -6,26 +6,16 @@ import json
 from odoo import fields, models
 
 from ..constants.fiscal import (
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_ENVIADA,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_OPEN,
     SITUACAO_EDOC_INUTILIZADA,
-    SITUACAO_EDOC_REJEITADA,
 )
 
-EDOC_2_CONFIRM = (
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_ENVIADA,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_REJEITADA,
-)
+EDOC_2_CONFIRM = (DOCUMENT_STATE_DRAFT,)
 
 EDOC_CANCELED = (
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
+    DOCUMENT_STATE_CANCEL,
     SITUACAO_EDOC_INUTILIZADA,
 )
 
@@ -86,7 +76,7 @@ class Operation(models.Model):
             [
                 ("fiscal_operation_id.fiscal_type", "=", self.fiscal_type),
                 ("fiscal_operation_id", "=", self.id),
-                ("state_edoc", "=", SITUACAO_EDOC_AUTORIZADA),
+                ("state_edoc", "=", DOCUMENT_STATE_OPEN),
             ]
         )
 
@@ -168,7 +158,7 @@ class Operation(models.Model):
         if ctx.get("search_default_cancel"):
             action["domain"] += [("state_edoc", "in", EDOC_CANCELED)]
         elif ctx.get("search_default_authorized"):
-            action["domain"] += [("state_edoc", "=", SITUACAO_EDOC_AUTORIZADA)]
+            action["domain"] += [("state_edoc", "=", DOCUMENT_STATE_OPEN)]
         elif ctx.get("search_default_2confirm"):
             action["domain"] += [("state_edoc", "in", EDOC_2_CONFIRM)]
         return action
