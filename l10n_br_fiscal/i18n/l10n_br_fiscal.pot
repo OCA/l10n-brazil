@@ -6773,6 +6773,11 @@ msgid "Peso Total"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__piscofins_id_domain
+msgid "Piscofins Id Domain"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_indicator_form
 msgid "Place of supply"
 msgstr ""
@@ -8189,6 +8194,11 @@ msgid "Tax ISSQN RET"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_icms_id_domain
+msgid "Tax Icms Id Domain"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__tax_include
 msgid "Tax Included in Price"
 msgstr ""
@@ -8196,6 +8206,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_classification_form
 msgid "Tax Indicators"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_ipi_id_domain
+msgid "Tax Ipi Id Domain"
 msgstr ""
 
 #. module: l10n_br_fiscal
