@@ -348,3 +348,19 @@ class AccountTax(models.Model):
         )
 
         return res
+
+    @api.model
+    def _distribute_delta_amount_smoothly(
+        self, precision_digits, delta_amount, target_factors
+    ):
+        """Guard against empty target_factors.
+
+        In Odoo 18, _distribute_delta_amount_smoothly can receive empty
+        target_factors when Brazilian fiscal taxes interact with
+        deductible_taxes, causing an IndexError.
+        """
+        if not target_factors:
+            return []
+        return super()._distribute_delta_amount_smoothly(
+            precision_digits, delta_amount, target_factors
+        )
