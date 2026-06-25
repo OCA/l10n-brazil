@@ -11,10 +11,10 @@ from odoo.fields import Datetime
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
-    SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_INUTILIZADA,
     SITUACAO_EDOC_REJEITADA,
 )
@@ -98,7 +98,7 @@ class TestNFCe(TestNFeExport):
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/servico_paralizado.xml"})
     def test_nfce_contingencia(self):
         self.document_id.action_document_send()
-        self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_A_ENVIAR)
+        self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_ENVIADA)
         self.assertEqual(self.document_id.nfe_transmission, "9")
         self.assertIsNotNone(self.document_id.get_nfce_qrcode())
 
