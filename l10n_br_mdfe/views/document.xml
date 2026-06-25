@@ -8,12 +8,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="priority">5</field>
         <field name="arch" type="xml">
-            <xpath
-                expr="//button[@name='action_document_correction']"
-                position="attributes"
-            >
-                <attribute name="invisible">document_type == '58'</attribute>
-            </xpath>
+
             <xpath expr="//page[@name='document_related']" position="attributes">
                 <attribute name="invisible">document_type == '58'</attribute>
             </xpath>
@@ -78,6 +73,12 @@
         <field name="priority">5</field>
         <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
         <field name="arch" type="xml">
+            <xpath
+                expr="//button[@name='action_document_correction']"
+                position="attributes"
+            >
+                <attribute name="invisible">document_type == '58'</attribute>
+            </xpath>
             <xpath expr="//page[@name='others']" position="before">
                 <page string="Related Documents" invisible="document_type != '58'">
                     <field name="mdfe30_infMunDescarga" nolabel="1">
