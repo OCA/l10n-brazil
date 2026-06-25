@@ -14,11 +14,11 @@ from odoo.tools import frozendict
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
     FISCAL_IN_OUT_ALL,
     FISCAL_OUT,
     MODELO_FISCAL_NFE,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_EM_DIGITACAO,
 )
 
 from .constants import (
@@ -492,22 +492,27 @@ class AccountMove(models.Model):
 
     def button_draft(self):
         for move in self.filtered(lambda d: d.document_type_id):
-            if move.state_edoc == SITUACAO_EDOC_CANCELADA:
-                if move.issuer == DOCUMENT_ISSUER_COMPANY:
-                    raise UserError(
-                        _(
-                            "You can't set this document number: {} to draft "
-                            "because this document is cancelled in SEFAZ"
-                        ).format(move.document_number)
-                    )
+            if (
+                move.state_edoc == DOCUMENT_STATE_CANCEL
+                and move.document_number
+                and move.issuer == DOCUMENT_ISSUER_COMPANY
+                and move.fiscal_document_id.cancel_event_id
+            ):
+                raise UserError(
+                    _(
+                        "You can't set this document number: {} to draft "
+                        "because this document is cancelled in SEFAZ"
+                    ).format(move.document_number)
+                )
             move.fiscal_document_ids.filtered(
-                lambda d: d.state_edoc != SITUACAO_EDOC_EM_DIGITACAO
+                lambda d: d.state_edoc != DOCUMENT_STATE_DRAFT
             ).action_document_back2draft()
         return super().button_draft()
 
     def action_document_send(self):
         for invoice in self.filtered(lambda d: d.document_type_id):
-            invoice.fiscal_document_ids.action_document_send()
+            if hasattr(invoice.fiscal_document_ids, "action_document_send"):
+                invoice.fiscal_document_ids.action_document_send()
             # FIXME: na migração para a v14 foi permitido o post antes do envio
             #  para destravar a migração, mas poderia ser cogitado de obrigar a
             #  transmissão antes do post novamente como na v12.
