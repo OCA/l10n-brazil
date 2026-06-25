@@ -69,6 +69,14 @@ class TestGeneratePaymentInfo(AccountMoveBRCommon):
         move_form.currency_id = cls.company_data["currency"]
         move_form.document_type_id = cls.env.ref("l10n_br_fiscal.document_55")
         move_form.document_serie_id = cls.empresa_lc_document_55_serie_1
+        # l10n_latam_invoice_document compatibility
+        if "l10n_latam.document.type" in cls.env:
+            latam_doc_type = cls.env["l10n_latam.document.type"].search(
+                [("code", "=", "55"), ("country_id", "=", cls.env.ref("base.br").id)],
+                limit=1,
+            )
+            if latam_doc_type and move_form.l10n_latam_use_documents:
+                move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
         move_form.invoice_date = "2019-01-01"
         move_form.payment_mode_id = cls.payment_mode
@@ -138,6 +146,14 @@ class TestGeneratePaymentInfo(AccountMoveBRCommon):
         move_form.currency_id = cls.company_data["currency"]
         move_form.document_type_id = cls.env.ref("l10n_br_fiscal.document_55")
         move_form.document_serie_id = cls.empresa_lc_document_55_serie_1
+        # l10n_latam_invoice_document compatibility
+        if "l10n_latam.document.type" in cls.env:
+            latam_doc_type = cls.env["l10n_latam.document.type"].search(
+                [("code", "=", "55"), ("country_id", "=", cls.env.ref("base.br").id)],
+                limit=1,
+            )
+            if latam_doc_type and move_form.l10n_latam_use_documents:
+                move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
         move_form.invoice_date = "2019-01-01"
         move_form.payment_mode_id = payment_mode
@@ -197,6 +213,14 @@ class TestGeneratePaymentInfo(AccountMoveBRCommon):
         move_form.partner_id = partner
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
         move_form.document_serie_id = self.empresa_lc_document_55_serie_1
+        # l10n_latam_invoice_document compatibility
+        if "l10n_latam.document.type" in self.env:
+            latam_doc_type = self.env["l10n_latam.document.type"].search(
+                [("code", "=", "55"), ("country_id", "=", self.env.ref("base.br").id)],
+                limit=1,
+            )
+            if latam_doc_type and move_form.l10n_latam_use_documents:
+                move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
         move_form.invoice_date = "2019-01-01"
         with move_form.invoice_line_ids.new() as line_form:
@@ -236,6 +260,14 @@ class TestGeneratePaymentInfo(AccountMoveBRCommon):
         )
         move_form.partner_id = self.env.ref("l10n_br_base.res_partner_akretion")
         move_form.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
+        # l10n_latam_invoice_document compatibility
+        if "l10n_latam.document.type" in self.env:
+            latam_doc_type = self.env["l10n_latam.document.type"].search(
+                [("code", "=", "55"), ("country_id", "=", self.env.ref("base.br").id)],
+                limit=1,
+            )
+            if latam_doc_type and move_form.l10n_latam_use_documents:
+                move_form.l10n_latam_document_type_id = latam_doc_type
         move_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_bonificacao")
         move_form.invoice_date = "2019-01-01"
         with move_form.invoice_line_ids.new() as line_form:
