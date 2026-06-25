@@ -7,9 +7,9 @@ from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_STATE_DRAFT,
     FISCAL_IN_OUT,
     FISCAL_IN_OUT_DEFAULT,
-    SITUACAO_EDOC_EM_DIGITACAO,
 )
 
 
@@ -102,7 +102,7 @@ class DocumentSerie(models.Model):
                 if self.env["l10n_br_fiscal.document"].search_count(
                     [
                         ("document_serie_id", "=", serie.id),
-                        ("state_edoc", "not in", [SITUACAO_EDOC_EM_DIGITACAO]),
+                        ("state_edoc", "not in", [DOCUMENT_STATE_DRAFT]),
                     ],
                     limit=1,
                 ):
