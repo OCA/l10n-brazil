@@ -70,6 +70,17 @@ class PurchaseOrderLine(models.Model):
         self.ensure_one()
         return self.order_id
 
+    @api.depends("product_id", "fiscal_operation_id")
+    def _compute_price_unit_fiscal(self):
+        # The core purchase module already computes price_unit from seller
+        # info (or standard_price fallback) in
+        # _compute_price_unit_and_date_planned_and_name. The fiscal mixin's
+        # default implementation would blindly overwrite price_unit with
+        # standard_price, discarding any value set by the seller pricelist
+        # or manually by the user. In purchase, price_unit is entered by the
+        # buyer and the fiscal mixin must NOT override it.
+        pass
+
     @api.depends(
         "product_uom_qty",
         "price_unit",
@@ -97,15 +108,13 @@ class PurchaseOrderLine(models.Model):
 
     def _compute_tax_id(self):
         for line in self:
+            res = super()._compute_tax_id()
             if line.fiscal_operation_line_id:
-                res = super()._compute_tax_id()
                 line.taxes_id = line.fiscal_tax_ids.account_taxes(
                     user_type="purchase",
                     fiscal_operation=line.fiscal_operation_id,
                     company=line.company_id,
                 )
-            else:
-                res = None
             return res
 
     @api.onchange("fiscal_tax_ids")
