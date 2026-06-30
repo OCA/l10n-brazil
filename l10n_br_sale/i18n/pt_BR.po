@@ -18,14 +18,24 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 
 #. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Freight</strong>"
+msgstr "<strong>Frete</strong>"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Insurance</strong>"
+msgstr "<strong>Seguro</strong>"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Other Costs</strong>"
+msgstr "<strong>Outros Custos</strong>"
+
+#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Accounting"
 msgstr "Contabilidade"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__additional_data
-msgid "Additional Data"
-msgstr "Dados Adicionais"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__manual_additional_data
@@ -74,11 +84,6 @@ msgid "Amount Gross"
 msgstr "Total Bruto"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax
-msgid "Amount Tax"
-msgstr "Total de Imposto"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_tax_included
 msgid "Amount Tax Included"
 msgstr "Total Impostos Inclusos"
@@ -92,16 +97,6 @@ msgstr "Total Não incluído Impostos"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_taxed
 msgid "Amount Taxed"
 msgstr "Total Tributado"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_total
-msgid "Amount Total"
-msgstr "Valor Total"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__amount_untaxed
-msgid "Amount Untaxed"
-msgstr "Total sem Impostos"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__amount_price_gross
@@ -120,10 +115,47 @@ msgid "Ativo Imobilizado"
 msgstr "Ativo Imobilizado"
 
 #. module: l10n_br_sale
+#: model:res.groups,name:l10n_br_sale.group_line_fiscal_detail
+msgid "Brazilian Fiscal details (popup) in Sale Order Lines"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ind_pres
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__ind_pres
 msgid "Buyer Presence"
 msgstr "Presença do Comprador"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_percent
+msgid "CBS %"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_reduction
+msgid "CBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_cbs_base
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_base
+msgid "CBS Base"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_base_type
+msgid "CBS Base Type"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_cst_code
+msgid "CBS CST Code"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_cbs_value
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_value
+msgid "CBS Value"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cest_id
@@ -149,12 +181,6 @@ msgstr "CFOP Destino"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cnae_id
 msgid "CNAE Code"
 msgstr "Código CNAE"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__cnpj_cpf
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
-msgid "CNPJ/CPF"
-msgstr "CNPJ/CPF"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_percent
@@ -319,6 +345,11 @@ msgid "CSLL Value"
 msgstr "Valor CSLL"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_cst_id
+msgid "CST CBS"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cofins_cst_id
 msgid "CST COFINS"
 msgstr "CST COFINS"
@@ -328,6 +359,11 @@ msgstr "CST COFINS"
 #, fuzzy
 msgid "CST COFINS ST"
 msgstr "CST COFINS ST"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_cst_id
+msgid "CST IBS"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_cst_id
@@ -359,6 +395,13 @@ msgid "City Taxation Code"
 msgstr "Código de Tributação da Cidade"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__city_taxation_code_id
+msgid ""
+"City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
+"National NFS-e."
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__comment_ids
 msgid "Comments"
@@ -371,6 +414,7 @@ msgstr "Empresas"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__company_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__company_id
 msgid "Company"
 msgstr "Empresa"
 
@@ -383,6 +427,11 @@ msgstr "Tipo de Empresa"
 #: model:ir.model,name:l10n_br_sale.model_res_config_settings
 msgid "Config Settings"
 msgstr "Ajustes de Configurações"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ind_final
+msgid "Consumidor final"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__copy_note
@@ -406,6 +455,11 @@ msgid "Country"
 msgstr "País"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cst_code_prefix_like
+msgid "Cst Code Prefix Like"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__currency_id
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__currency_id
 msgid "Currency"
@@ -415,11 +469,6 @@ msgstr "Moeda"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_id
 msgid "Customer"
 msgstr "Cliente"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__customer_additional_data
-msgid "Customer Additional Data"
-msgstr "Dados Adicionais do Cliente"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__manual_customer_additional_data
@@ -473,6 +522,16 @@ msgid "Discount in Sales Orders per Value"
 msgstr "Desconto no Pedido de Vendas por Valor"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_check_digit
+msgid "Document Key Check Digit"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__key_random_code
+msgid "Document Key Random Code"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_number
 msgid "Document Number"
 msgstr ""
@@ -485,6 +544,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_type_id
 msgid "Document Type"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Edit in Form"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -521,7 +585,6 @@ msgstr "Base para FCP WH"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ind_final
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ind_final
 msgid "Final Consumption Operation"
 msgstr "Operação de Consumo Final"
 
@@ -537,19 +600,27 @@ msgid "Financial Gross Amount"
 msgstr "Valor Bruto Financeiro"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_additional_data
-msgid "Fiscal Additional Data"
-msgstr "Dados Adicionais Fiscais"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__manual_fiscal_additional_data
 msgid "Fiscal Additional data manually entered by user"
 msgstr "Dados adicionais fiscais inseridos manualmente pelo usuário"
 
 #. module: l10n_br_sale
-#: model:ir.model,name:l10n_br_sale.model_l10n_br_fiscal_document
-msgid "Fiscal Document"
-msgstr "Documento Fiscal"
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_amount_tax
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_amount_tax
+msgid "Fiscal Amount Tax"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_amount_total
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_amount_total
+msgid "Fiscal Amount Total"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_amount_untaxed
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_amount_untaxed
+msgid "Fiscal Amount Untaxed"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__fiscal_operation_id
@@ -564,12 +635,9 @@ msgid "Fiscal Operation Line"
 msgstr "Linha de Operação Fiscal"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_bank_statement_line__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_move__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_account_payment__fiscal_proxy_partner_shipping_id
-#: model:ir.model.fields,field_description:l10n_br_sale.field_l10n_br_fiscal_document__fiscal_proxy_partner_shipping_id
-msgid "Fiscal Partner Shipping"
-msgstr ""
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr "Tipo de Operação Fiscal"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_price
@@ -629,6 +697,43 @@ msgstr "Valor do Frete"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_gross
 msgid "Gross Amount"
 msgstr "Total Bruto"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__cst_code_prefix_like
+msgid "Helper field to filter taxes by CST code prefix (3 chars) using LIKE."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_percent
+msgid "IBS %"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_reduction
+msgid "IBS % Reduction"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_ibs_base
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_base
+msgid "IBS Base"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_base_type
+msgid "IBS Base Type"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_cst_code
+msgid "IBS CST Code"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_ibs_value
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_value
+msgid "IBS Value"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_percent
@@ -1016,6 +1121,11 @@ msgid "IRPJ Value"
 msgstr "Valor do IRPJ"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__national_taxation_code_id
+msgid "ISS National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__issqn_percent
 msgid "ISSQN %"
 msgstr "% ISSQN"
@@ -1122,9 +1232,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
-msgid "Inscr. Estadual"
-msgstr "Inscr. Estadual"
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__insurance_endorsement
+msgid "Insurance Endorsement"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__insurance_policy
+msgid "Insurance Policy"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_insurance_id
+msgid "Insurance Provider"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_insurance_value
@@ -1139,19 +1259,14 @@ msgid "Invoice Lines"
 msgstr "Linhas da Fatura"
 
 #. module: l10n_br_sale
-#: model:ir.model,name:l10n_br_sale.model_account_move
-msgid "Journal Entry"
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__issuer
+msgid "Issuer"
 msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_key
 msgid "Key"
 msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__legal_name
-msgid "Legal Name"
-msgstr "Razão Social"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__manual_additional_data
@@ -1218,6 +1333,11 @@ msgid "National Simple Taxes without ICMS"
 msgstr "Impostos do Simples Nacional sem ICMS"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__national_taxation_code_id
+msgid "National Taxation Code for the ISS tax (National NFS-e)"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__ind_pres__2
 msgid "Não presencial, internet"
 msgstr "Não presencial, internet"
@@ -1244,6 +1364,16 @@ msgid "Operation"
 msgstr "Operação"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__operation_fiscal_type
+msgid "Operation Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__operation_indicator_id
+msgid "Operation Indicator"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_line_id
 msgid "Operation Line"
 msgstr "Linha de Operação"
@@ -1252,11 +1382,6 @@ msgstr "Linha de Operação"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__operation_name
 msgid "Operation Name"
 msgstr "Nome da Operação"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_type
-msgid "Operation Type"
-msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__ind_pres__1
@@ -1420,6 +1545,11 @@ msgid "Partner Order Line (nItemPed)"
 msgstr "Linha de Pedido do Parceiro (nItemPed)"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__p_devol
+msgid "Percentual de mercadoria devolvida"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_tax
 msgid "Price Tax"
 msgstr ""
@@ -1461,9 +1591,9 @@ msgid "Public Entity"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
-msgid "Razão Social"
-msgstr "Razão Social"
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_receivering_id
+msgid "Receiver Address"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_company_form
@@ -1486,6 +1616,11 @@ msgid "Sales Order Line"
 msgstr "Linha do Pedido de Vendas"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_sendering_id
+msgid "Sender Address"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__document_serie
 msgid "Serie Number"
 msgstr ""
@@ -1501,6 +1636,11 @@ msgid "Serviços"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__partner_shippering_id
+msgid "Shipper Address"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icmssn_range_id
 msgid "Simplified Range Tax"
 msgstr "Intervalo do Imposto Simplificado"
@@ -1509,11 +1649,6 @@ msgstr "Intervalo do Imposto Simplificado"
 #: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__sale_fiscal_operation_id
 msgid "Standard Sales Fiscal Operation"
 msgstr "Operação Fiscal Padrão de Vendas"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ie
-msgid "State Tax Number/RG"
-msgstr "Número da Inscrição Estadual/RG"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields.selection,name:l10n_br_sale.selection__sale_report__fiscal_type__05
@@ -1533,6 +1668,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_tax_benefit_code
 msgid "Tax Benefit Code"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__cbs_tax_id
+msgid "Tax CBS"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -1561,9 +1701,19 @@ msgid "Tax CSLL RET"
 msgstr "Imposto CSLL RET"
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__tax_classification_id
+msgid "Tax Classification"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__tax_framework
 msgid "Tax Framework"
 msgstr "Estrutura Tributária"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ibs_tax_id
+msgid "Tax IBS"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_tax_id
@@ -1657,7 +1807,6 @@ msgid "Tax Withholding"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_tax
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Taxes"
 msgstr "Impostos"
@@ -1672,9 +1821,53 @@ msgstr ""
 "no menu Configuração)"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_total
-msgid "Total"
-msgstr "Total"
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__insurance_endorsement
+msgid ""
+"The endorsement number associated with the insurance policy, indicating any "
+"modifications or adjustments to the coverage. This field is primarily used "
+"when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__insurance_policy
+msgid ""
+"The insurance policy number covering the transported goods. This field is "
+"primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__partner_receivering_id
+msgid ""
+"The intermediary partner who receives the goods before they reach the final "
+"recipient, often involved in verification, temporary storage, or further "
+"distribution. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__partner_insurance_id
+msgid ""
+"The partner providing insurance coverage for the transported goods. This "
+"field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__partner_shippering_id
+msgid ""
+"The partner responsible for delivering the cargo to the carrier, if not done "
+"directly by the sender. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__partner_sendering_id
+msgid ""
+"The partner responsible for sending the goods, typically the issuer of the "
+"document. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__total_weight
+msgid "Total Weight"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__financial_total_gross
@@ -1709,16 +1902,6 @@ msgid "Unit Price"
 msgstr "Preço Unitário"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_untaxed
-msgid "Untaxed Amount"
-msgstr "Valor Sem Impostos"
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__legal_name
-msgid "Used in fiscal documents"
-msgstr "Usado em documentos fiscais"
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__user_discount_value
 msgid "User Discount Value"
 msgstr ""
@@ -1733,8 +1916,55 @@ msgstr ""
 msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
 
-#~ msgid "Fiscal Operation Type"
-#~ msgstr "Tipo de Operação Fiscal"
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ipi_devol_value
+msgid "Valor do IPI devolvido"
+msgstr ""
+
+#~ msgid "Additional Data"
+#~ msgstr "Dados Adicionais"
+
+#~ msgid "Amount Tax"
+#~ msgstr "Total de Imposto"
+
+#~ msgid "Amount Total"
+#~ msgstr "Valor Total"
+
+#~ msgid "Amount Untaxed"
+#~ msgstr "Total sem Impostos"
+
+#~ msgid "CNPJ/CPF"
+#~ msgstr "CNPJ/CPF"
+
+#~ msgid "Customer Additional Data"
+#~ msgstr "Dados Adicionais do Cliente"
+
+#~ msgid "Fiscal Additional Data"
+#~ msgstr "Dados Adicionais Fiscais"
+
+#~ msgid "Fiscal Document"
+#~ msgstr "Documento Fiscal"
+
+#~ msgid "Inscr. Estadual"
+#~ msgstr "Inscr. Estadual"
+
+#~ msgid "Legal Name"
+#~ msgstr "Razão Social"
+
+#~ msgid "Razão Social"
+#~ msgstr "Razão Social"
+
+#~ msgid "State Tax Number/RG"
+#~ msgstr "Número da Inscrição Estadual/RG"
+
+#~ msgid "Total"
+#~ msgstr "Total"
+
+#~ msgid "Untaxed Amount"
+#~ msgstr "Valor Sem Impostos"
+
+#~ msgid "Used in fiscal documents"
+#~ msgstr "Usado em documentos fiscais"
 
 #~ msgid "(-) Amount Tax Withholding"
 #~ msgstr "(-) Valor Retido na Fonte"
@@ -1744,15 +1974,6 @@ msgstr ""
 
 #~ msgid "<strong>Amount Untaxed</strong>"
 #~ msgstr "<strong>Total Sem Impostos</strong>"
-
-#~ msgid "<strong>Freight</strong>"
-#~ msgstr "<strong>Frete</strong>"
-
-#~ msgid "<strong>Insurance</strong>"
-#~ msgstr "<strong>Seguro</strong>"
-
-#~ msgid "<strong>Other Costs</strong>"
-#~ msgstr "<strong>Outros Custos</strong>"
 
 #~ msgid "<strong>Taxes</strong>"
 #~ msgstr "<strong>Impostos</strong>"
