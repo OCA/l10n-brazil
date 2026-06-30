@@ -3158,6 +3158,8 @@ msgstr "Linha de Operação Fiscal já existe com esse nome !"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__fiscal_operation_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_search
 msgid "Fiscal Operation Type"
@@ -6306,10 +6308,13 @@ msgstr "Numeração inutilizada"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order__ind_final__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order_line__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order_line__issqn_incentive__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order__ind_final__0
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__issqn_incentive__2
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__ind_final__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__issqn_incentive__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_picking__ind_final__0
 msgid "Não"
@@ -6486,8 +6491,6 @@ msgid "Operation Name"
 msgstr "Nome da Operação"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_type
 msgid "Operation Type"
 msgstr "Tipo da Operação"
@@ -7810,10 +7813,13 @@ msgstr "Endereço de Entrega"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_mixin__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_definition__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order__ind_final__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order_line__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__purchase_order_line__issqn_incentive__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_partner__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order__ind_final__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__sale_order_line__issqn_incentive__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_move__issqn_incentive__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__stock_picking__ind_final__1
 msgid "Sim"
