@@ -1003,6 +1003,7 @@ msgstr "Linha de Operação Fiscal"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_operation_type
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
@@ -2014,11 +2015,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__operation_name
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__operation_name
 msgid "Operation Name"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_operation_type
-msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_account
