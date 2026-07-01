@@ -9,7 +9,7 @@
     "version": "16.0.1.0.2",
     "development_status": "Beta",
     "depends": [
-        # "account_reconciliation_widget",
+        "account_reconcile_oca",
         "web_responsive",
         "web_theme_classic",
         "account_usability",
