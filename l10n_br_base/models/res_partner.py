@@ -45,11 +45,6 @@ class Partner(models.Model):
         help="Keys for Brazilian instant payment (pix)",
     )
 
-    show_l10n_br = fields.Boolean(
-        compute="_compute_show_l10n_br",
-        help="Should display Brazilian localization fields?",
-    )
-
     is_br_partner = fields.Boolean(
         compute="_compute_br_partner",
         help="Is it a Brazilian partner?",
@@ -241,16 +236,6 @@ class Partner(models.Model):
     @api.onchange("city_id")
     def _onchange_city_id(self):
         self.city = self.city_id.name
-
-    def _compute_show_l10n_br(self):
-        """
-        Defines when Brazilian localization fields should be displayed.
-        """
-        for rec in self:
-            if rec.company_id and rec.company_id.country_id != self.env.ref("base.br"):
-                rec.show_l10n_br = False
-            else:
-                rec.show_l10n_br = True
 
     def create_company(self):
         self.ensure_one()

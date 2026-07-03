@@ -69,6 +69,11 @@ class PartyMixin(models.AbstractModel):
         size=32,
     )
 
+    show_l10n_br = fields.Boolean(
+        compute="_compute_show_l10n_br",
+        help="Should display Brazilian localization fields?",
+    )
+
     def _default_country_id(self):
         """Default country set to Brazil if the current company is Brazilian.
         Can be overridden in other modules if needed.
@@ -140,3 +145,14 @@ class PartyMixin(models.AbstractModel):
         """Format the VAT field (CNPJ/CPF) with proper punctuation."""
         if self.vat and self.country_id and self.country_id.code == "BR":
             self.vat = cnpj_cpf.formata(str(self.vat))
+
+    @api.depends("country_id")
+    def _compute_show_l10n_br(self):
+        """
+        Defines when Brazilian localization fields should be displayed.
+        """
+        for record in self:
+            show_l10n_br = False
+            if record.country_id == record.env.ref("base.br"):
+                show_l10n_br = True
+            record.show_l10n_br = show_l10n_br

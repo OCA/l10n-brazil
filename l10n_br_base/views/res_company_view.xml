@@ -13,27 +13,24 @@
                 <field
                     name="legal_name"
                     placeholder="Legal Name..."
-                    invisible="country_id != %(base.br)d"
+                    invisible="not show_l10n_br"
                 />
                 <field
                     name="l10n_br_ie_code"
                     placeholder="State Tax Number..."
-                    invisible="country_id != %(base.br)d"
+                    invisible="not show_l10n_br"
                 />
                 <field
                     name="l10n_br_im_code"
                     placeholder="Municipal Tax Number..."
-                    invisible="country_id != %(base.br)d"
+                    invisible="not show_l10n_br"
                 />
                 <field
                     name="l10n_br_isuf_code"
                     placeholder="Suframa"
                     invisible="state_id != %(base.state_br_am)d"
                 />
-                <field
-                    name="state_tax_number_ids"
-                    invisible="country_id != %(base.br)d"
-                >
+                <field name="state_tax_number_ids" invisible="not show_l10n_br">
                     <list editable="bottom">
                         <!-- field name="company_id" column_invisible="1" /-->
                         <field name="l10n_br_ie_code" />
