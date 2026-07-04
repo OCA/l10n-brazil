@@ -214,6 +214,62 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
             "Error: Not all invoices are in posted state after validation.",
         )
 
+    def test_partial_quantity_recomputes_fiscal_amounts(self):
+        """A sale order created from a blanket order line for a partial
+        quantity must have its fiscal amounts recomputed for that quantity,
+        not copied over from the blanket order line's original quantity.
+        """
+        blanket_order = self._create_blanket_order()
+        blanket_order._onchange_fiscal_operation_id()
+        blanket_order._amount_all()
+        blanket_order.sudo().action_confirm()
+
+        bo_line = blanket_order.line_ids[0]
+        self.assertEqual(bo_line.quantity, 20.0)
+        bo_line.write(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_venda_revenda"
+                ).id,
+            }
+        )
+
+        full_price_subtotal = bo_line.price_subtotal
+        self.assertTrue(full_price_subtotal)
+        partial_qty = 5.0
+        wizard = (
+            self.env["sale.blanket.order.wizard"]
+            .with_context(active_id=blanket_order.id, active_model="sale.blanket.order")
+            .create(
+                {
+                    "blanket_order_id": blanket_order.id,
+                    "line_ids": [
+                        Command.create(
+                            {
+                                "blanket_line_id": bo_line.id,
+                                "product_id": bo_line.product_id.id,
+                                "date_schedule": bo_line.date_schedule,
+                                "remaining_uom_qty": bo_line.remaining_uom_qty,
+                                "price_unit": bo_line.price_unit,
+                                "product_uom": bo_line.product_uom,
+                                "qty": partial_qty,
+                                "partner_id": bo_line.partner_id.id,
+                            }
+                        )
+                    ],
+                }
+            )
+        )
+
+        result = wizard.create_sale_order()
+        sale_order = self.env["sale.order"].browse(result["domain"][0][2][0])
+        so_line = sale_order.order_line[0]
+        self.assertEqual(so_line.product_uom_qty, partial_qty)
+        expected_subtotal = full_price_subtotal * partial_qty / bo_line.quantity
+        self.assertAlmostEqual(so_line.price_subtotal, expected_subtotal, 2)
+        self.assertNotAlmostEqual(so_line.price_subtotal, full_price_subtotal, 2)
+
     def test_cnae_domain(self):
         domain = self.env["sale.blanket.order.line"]._cnae_domain()
         expected_domain = [
