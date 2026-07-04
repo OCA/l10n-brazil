@@ -14,6 +14,7 @@
     "data": [
         "views/res_partner_views.xml",
         "views/res_company_view.xml",
+        "views/res_country_views.xml",
     ],
     "post_init_hook": "post_init_hook",
     "auto_install": True,
