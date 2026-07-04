@@ -412,7 +412,7 @@ class CNABImportWizard(models.TransientModel):
             )
 
     def _check_company(self, return_dict):
-        cnpj_cpf = "".join(char for char in self.company_id.cnpj_cpf if char.isdigit())
+        cnpj_cpf = self.company_id.cnpj_cpf_stripped or ""
         if cnpj_cpf.zfill(14) != str(return_dict["cnpj_cpf"]).zfill(14):
             raise UserError(
                 _("CNPJ/CPF of your active company is different of the file.")
