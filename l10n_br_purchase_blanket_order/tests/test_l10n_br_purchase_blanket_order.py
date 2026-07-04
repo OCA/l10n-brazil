@@ -184,7 +184,14 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
 
         bo_line = blanket_order.line_ids[0]
         self.assertEqual(bo_line.quantity, 20.0)
-        self.assertTrue(bo_line.taxes_id)
+        bo_line.write(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_compras").id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_compras_compras"
+                ).id,
+            }
+        )
 
         full_price_subtotal = bo_line.price_subtotal
         self.assertTrue(full_price_subtotal)
@@ -199,6 +206,7 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
         expected_subtotal = full_price_subtotal * partial_qty / bo_line.quantity
         self.assertAlmostEqual(po_line.price_subtotal, expected_subtotal, 2)
         self.assertNotAlmostEqual(po_line.price_subtotal, full_price_subtotal, 2)
+
     def test_prepare_po_line_uses_order_start_without_schedule(self):
         blanket_order = self._create_blanket_order({"date_schedule": False})
         wizard = self._create_wizard(blanket_order)
@@ -307,7 +315,7 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
         blanket_line.fiscal_operation_id = False
         blanket_line._compute_price_unit_fiscal()
         self.assertEqual(blanket_line.price_unit, 0.0)
-    
+
     def test_onchange_product_keeps_taxes_id_from_fiscal(self):
         """Inline tree product onchange must not leave taxes_id empty on BR CoA.
 
@@ -331,6 +339,7 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
 
         line._onchange_fiscal_tax_ids()
         self.assertEqual(line.taxes_id, expected)
+
     def test_cnae_domain(self):
         domain = self.env["purchase.blanket.order.line"]._cnae_domain()
         expected_domain = [

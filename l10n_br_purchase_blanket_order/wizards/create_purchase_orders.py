@@ -14,8 +14,18 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
     def _prepare_po_line_vals(self, line):
         fiscal_vals = line.blanket_line_id._prepare_br_fiscal_dict()
 
-        fiscal_vals["quantity"] = line.qty
-        fiscal_vals["fiscal_quantity"] = line.qty
+        if line.qty != fiscal_vals["quantity"]:
+            # The tax/amount fields above were computed for the blanket
+            # order line's original quantity. Changing the quantity on a
+            # virtual record lets the ORM detect the change and recompute
+            # them naturally, the same mechanism used by onchange.
+            virtual = self.env["l10n_br_fiscal.document.line"].new(fiscal_vals)
+            virtual.quantity = line.qty
+            fiscal_vals = {
+                fname: virtual._fields[fname].convert_to_write(virtual[fname], virtual)
+                for fname in fiscal_vals
+            }
+
         fiscal_vals["company_id"] = self.blanket_order_id.company_id.id
 
         fiscal_vals = self._simulate_onchange_price_subtotal(fiscal_vals)
@@ -51,6 +61,7 @@ class PurchaseBlanketOrderWizard(models.TransientModel):
                 )
             ]
         return vals
+
     def _simulate_onchange_price_subtotal(self, values):
         line = self.env["account.move.line"].new(values.copy())
         new_values = line._convert_to_write(line._cache)
