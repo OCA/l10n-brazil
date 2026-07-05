@@ -58,13 +58,13 @@ class ResPartner(spec_models.SpecModel):
     )
 
     cte40_CNPJ = fields.Char(
-        compute="_compute_cte_data",
+        compute="_compute_cte_stored_data",
         inverse="_inverse_cte40_CNPJ",
         store=True,
         compute_sudo=True,
     )
     cte40_CPF = fields.Char(
-        compute="_compute_cte_data",
+        compute="_compute_cte_stored_data",
         inverse="_inverse_cte40_CPF",
         store=True,
         compute_sudo=True,
@@ -325,6 +325,25 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.cte40_enderFerro = rec.id
 
+    @api.depends("company_type", "vat", "country_id")
+    def _compute_cte_stored_data(self):
+        """Compute stored CT-e CNPJ/CPF fields."""
+        for rec in self:
+            cnpj_cpf = rec.cnpj_cpf_stripped
+            if cnpj_cpf:
+                if rec.country_id.code != "BR":
+                    rec.cte40_CNPJ = ""
+                    rec.cte40_CPF = ""
+                elif rec.is_company:
+                    rec.cte40_CNPJ = cnpj_cpf
+                    rec.cte40_CPF = None
+                else:
+                    rec.cte40_CPF = cnpj_cpf
+                    rec.cte40_CNPJ = None
+            else:
+                rec.cte40_CNPJ = ""
+                rec.cte40_CPF = ""
+
     @api.depends("company_type", "l10n_br_ie_code", "vat", "country_id")
     def _compute_cte_data(self):
         """Set schema data which are not just related fields"""
@@ -348,8 +367,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.cte40_choice_exped = "cte40_CNPJ"
                     rec.cte40_choice_autxml = "cte40_CNPJ"
                     rec.cte40_choice_transporta = "cte40_CNPJ"
-                    rec.cte40_CNPJ = cnpj_cpf
-                    rec.cte40_CPF = None
                 else:
                     rec.cte40_choice_tlocal = "cte40_CPF"
                     rec.cte40_choice_toma = "cte40_CPF"
@@ -360,8 +377,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.cte40_choice_exped = "cte40_CPF"
                     rec.cte40_choice_autxml = "cte40_CPF"
                     rec.cte40_choice_transporta = "cte40_CPF"
-                    rec.cte40_CPF = cnpj_cpf
-                    rec.cte40_CNPJ = None
             else:
                 rec.cte40_choice_tlocal = False
                 rec.cte40_choice_toma = False
@@ -372,8 +387,6 @@ class ResPartner(spec_models.SpecModel):
                 rec.cte40_choice_exped = False
                 rec.cte40_choice_autxml = False
                 rec.cte40_choice_transporta = False
-                rec.cte40_CNPJ = ""
-                rec.cte40_CPF = ""
 
             if rec.l10n_br_ie_code:
                 rec.cte40_IE = punctuation_rm(rec.l10n_br_ie_code)

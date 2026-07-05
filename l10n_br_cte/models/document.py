@@ -263,19 +263,19 @@ class CTe(spec_models.StackedModel):
     )
 
     cte40_cMunEnv = fields.Char(
-        compute="_compute_cte40_data",
+        compute="_compute_cte40_stored_data",
         store=True,
         compute_sudo=True,
     )
 
     cte40_xMunEnv = fields.Char(
-        compute="_compute_cte40_data",
+        compute="_compute_cte40_stored_data",
         store=True,
         compute_sudo=True,
     )
 
     cte40_UFEnv = fields.Char(
-        compute="_compute_cte40_data",
+        compute="_compute_cte40_stored_data",
         store=True,
         compute_sudo=True,
     )
@@ -393,25 +393,47 @@ class CTe(spec_models.StackedModel):
     @api.depends(
         "partner_id",
         "company_id",
+        "cte40_exped",
+        "cte40_rem",
+        "cte40_receb",
+        "cte40_dest",
+    )
+    def _compute_cte40_stored_data(self):
+        """Compute stored CT-e location fields (Envio)."""
+        for doc in self.filtered(filter_processador_edoc_cte):
+            if doc.company_id.partner_id.country_id == doc.partner_id.country_id:
+                if doc.issuer == DOCUMENT_ISSUER_COMPANY:
+                    doc.cte40_xMunEnv = (
+                        doc.company_id.partner_id.city_id.name
+                    )
+                else:
+                    doc.cte40_xMunEnv = (
+                        doc.partner_id.city_id.name
+                    )
+                doc.cte40_cMunEnv = doc.company_id.partner_id.city_id.ibge_code
+                doc.cte40_UFEnv = doc.company_id.partner_id.state_id.code
+            else:
+                doc.cte40_UFEnv = "EX"
+                doc.cte40_xMunEnv = (
+                    doc.company_id.partner_id.country_id.name
+                    + "/"
+                    + doc.company_id.partner_id.city_id.name
+                )
+                doc.cte40_cMunEnv = "9999999"
+
+    @api.depends(
+        "partner_id",
+        "company_id",
+        "issuer",
         "partner_sendering_id",
         "partner_shippering_id",
         "partner_shipping_id",
         "partner_receivering_id",
     )
     def _compute_cte40_data(self):
+        """Compute non-stored CT-e location fields (Inicio, Fim)."""
         for doc in self.filtered(filter_processador_edoc_cte):
             if doc.company_id.partner_id.country_id == doc.partner_id.country_id:
-                if doc.issuer == DOCUMENT_ISSUER_COMPANY:
-                    doc.cte40_xMunEnv = (
-                        doc.company_id.partner_id.city_id.name
-                    )  # TODO: provavelmente vai depender de quem é o emissor
-                else:
-                    doc.cte40_xMunEnv = (
-                        doc.partner_id.city_id.name
-                    )  # TODO: provavelmente vai depender de quem é o emissor
-
-                doc.cte40_cMunEnv = doc.company_id.partner_id.city_id.ibge_code
-                doc.cte40_UFEnv = doc.company_id.partner_id.state_id.code
                 doc.cte40_xMunIni = (
                     doc.cte40_exped.city_id.name or doc.cte40_rem.city_id.name
                 )
@@ -433,15 +455,8 @@ class CTe(spec_models.StackedModel):
                 )
             else:
                 doc.cte40_UFIni = "EX"
-                doc.cte40_UFEnv = "EX"
                 doc.cte40_xMunIni = "EXTERIOR"
                 doc.cte40_cMunIni = "9999999"
-                doc.cte40_xMunEnv = (
-                    doc.company_id.partner_id.country_id.name
-                    + "/"
-                    + doc.company_id.partner_id.city_id.name
-                )
-                doc.cte40_cMunEnv = "9999999"
                 doc.cte40_cMunFim = "9999999"
                 doc.cte40_xMunFim = "EXTERIOR"
                 doc.cte40_UFFim = "EX"
