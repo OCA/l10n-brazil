@@ -19,6 +19,6 @@ class MDFeSeguroCarga(spec_models.SpecModel):
         comodel_name="res.partner",
         domain=[
             ("is_company", "=", True),
-            ("cnpj_cpf", "!=", False),
+            ("vat", "!=", False),
         ],
     )

@@ -1,8 +1,6 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from erpbrasil.base.misc import punctuation_rm
-
 from odoo import api, fields
 
 from odoo.addons.spec_driven_model.models import spec_models
@@ -196,7 +194,7 @@ class MDFeModalRodoviarioPagamento(spec_models.StackedModel):
     @api.depends("partner_id")
     def _compute_mdfe_data(self):
         for rec in self:
-            cnpj_cpf = punctuation_rm(rec.partner_id.cnpj_cpf)
+            cnpj_cpf = rec.partner_id.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.partner_id.country_id.code != "BR":
                     rec.mdfe30_choice_tresponsible = "mdfe40_idEstrangeiro"

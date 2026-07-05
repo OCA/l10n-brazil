@@ -19,7 +19,7 @@ class TestMDFeResPartner(TransactionCase):
         self.assertEqual(
             self.partner_id.mdfe30_choice_tcontractor, "mdfe30_idEstrangeiro"
         )
-        self.assertEqual(self.partner_id.mdfe30_idEstrangeiro, self.partner_id.cnpj_cpf)
+        self.assertEqual(self.partner_id.mdfe30_idEstrangeiro, self.partner_id.vat)
 
     def test_inverse_fields(self):
         foreign_partner = self.env.ref("base.res_partner_12")
@@ -28,12 +28,12 @@ class TestMDFeResPartner(TransactionCase):
 
         self.partner_id.mdfe30_CNPJ = "97414612000162"
         self.assertEqual(
-            self.partner_id.cnpj_cpf, cnpj_cpf.formata(self.partner_id.mdfe30_CNPJ)
+            self.partner_id.vat, cnpj_cpf.formata(self.partner_id.mdfe30_CNPJ)
         )
 
         self.partner_id.mdfe30_CPF = "48737433032"
         self.assertEqual(
-            self.partner_id.cnpj_cpf, cnpj_cpf.formata(self.partner_id.mdfe30_CPF)
+            self.partner_id.vat, cnpj_cpf.formata(self.partner_id.mdfe30_CPF)
         )
 
         self.partner_id.mdfe30_IE = "630514648079"

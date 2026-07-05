@@ -206,11 +206,11 @@ class ResPartner(spec_models.SpecModel):
         compute_sudo=True,
     )
 
-    @api.depends("company_type", "cnpj_cpf", "country_id")
+    @api.depends("company_type", "vat", "country_id")
     def _compute_mdfe_id_numbers(self):
         """Compute stored identification fields (CNPJ, CPF, idEstrangeiro)"""
         for rec in self:
-            cnpj_cpf = punctuation_rm(rec.cnpj_cpf)
+            cnpj_cpf = rec.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.mdfe30_idEstrangeiro = rec.vat
@@ -228,7 +228,7 @@ class ResPartner(spec_models.SpecModel):
     @api.depends(
         "company_type",
         "l10n_br_ie_code",
-        "cnpj_cpf",
+        "vat",
         "country_id",
         "zip",
         "phone",
@@ -236,7 +236,7 @@ class ResPartner(spec_models.SpecModel):
     def _compute_mdfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
-            cnpj_cpf = punctuation_rm(rec.cnpj_cpf)
+            cnpj_cpf = rec.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.mdfe30_choice_tcontractor = "mdfe30_idEstrangeiro"
@@ -280,7 +280,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_choice_tcontractor = "mdfe30_CPF"
                 rec.mdfe30_choice_contractor = "mdfe30_CPF"
                 rec.mdfe30_choice_insurer = "mdfe30_CPF"
-                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.mdfe30_CNPJ))
+                rec.vat = cnpj_cpf.formata(str(rec.mdfe30_CNPJ))
 
     def _inverse_mdfe30_CPF(self):
         for rec in self:
@@ -292,7 +292,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.mdfe30_choice_tcontractor = "mdfe30_CNPJ"
                 rec.mdfe30_choice_contractor = "mdfe30_CNPJ"
                 rec.mdfe30_choice_insurer = "mdfe30_CNPJ"
-                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.mdfe30_CPF))
+                rec.vat = cnpj_cpf.formata(str(rec.mdfe30_CPF))
 
     def _inverse_mdfe30_idEstrangeiro(self):
         for rec in self:
