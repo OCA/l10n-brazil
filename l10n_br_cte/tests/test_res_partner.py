@@ -13,7 +13,7 @@ class TestResPartner(TransactionCase):
         cls.partner = cls.partner_model.create(
             {
                 "name": "Test Partner",
-                "cnpj_cpf": "87697453000105",
+                "vat": "87697453000105",
                 "zip": "12345000",
                 "phone": "(11) 91234-5678",
                 "email": "test@company.com",
@@ -51,7 +51,7 @@ class TestResPartner(TransactionCase):
         self.partner.cte40_CNPJ = "21524956000162"
         self.partner._inverse_cte40_CNPJ()
         self.assertEqual(
-            self.partner.cnpj_cpf,
+            self.partner.vat,
             "21.524.956/0001-62",
             "CNPJ was not formatted correctly",
         )

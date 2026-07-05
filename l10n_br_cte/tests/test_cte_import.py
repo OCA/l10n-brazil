@@ -2,7 +2,7 @@
 # Copyright 2025 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import pkg_resources
+import importlib.resources
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo.models import NewId
@@ -22,8 +22,10 @@ class CTeImportTest(TransactionCase):
         )
 
         resource_path = "/".join(res_items)
-        cte_stream = pkg_resources.resource_stream(l10n_br_cte.__name__, resource_path)
-        binding = Tcte.from_xml(cte_stream.read().decode())
+        cte_stream = importlib.resources.files(l10n_br_cte.__name__).joinpath(
+            resource_path
+        )
+        binding = Tcte.from_xml(cte_stream.read_text(encoding="utf-8"))
         self.env["l10n_br_fiscal.document"].search(
             [("document_number", "=", 571)]
         ).unlink()
@@ -43,8 +45,10 @@ class CTeImportTest(TransactionCase):
         )
 
         resource_path = "/".join(res_items)
-        cte_stream = pkg_resources.resource_stream(l10n_br_cte.__name__, resource_path)
-        binding = Tcte.from_xml(cte_stream.read().decode())
+        cte_stream = importlib.resources.files(l10n_br_cte.__name__).joinpath(
+            resource_path
+        )
+        binding = Tcte.from_xml(cte_stream.read_text(encoding="utf-8"))
         self.env["l10n_br_fiscal.document"].search(
             [("document_number", "=", 571)]
         ).unlink()
