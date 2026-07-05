@@ -257,9 +257,11 @@ class CTe(spec_models.StackedModel):
 
     cte40_verProc = fields.Char(
         copy=False,
-        default=lambda s: s.env["ir.config_parameter"]
-        .sudo()
-        .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA"),
+        default=lambda s: (
+            s.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_cte.version.name", default="Odoo Brasil OCA")
+        ),
     )
 
     cte40_cMunEnv = fields.Char(
@@ -403,13 +405,9 @@ class CTe(spec_models.StackedModel):
         for doc in self.filtered(filter_processador_edoc_cte):
             if doc.company_id.partner_id.country_id == doc.partner_id.country_id:
                 if doc.issuer == DOCUMENT_ISSUER_COMPANY:
-                    doc.cte40_xMunEnv = (
-                        doc.company_id.partner_id.city_id.name
-                    )
+                    doc.cte40_xMunEnv = doc.company_id.partner_id.city_id.name
                 else:
-                    doc.cte40_xMunEnv = (
-                        doc.partner_id.city_id.name
-                    )
+                    doc.cte40_xMunEnv = doc.partner_id.city_id.name
                 doc.cte40_cMunEnv = doc.company_id.partner_id.city_id.ibge_code
                 doc.cte40_UFEnv = doc.company_id.partner_id.state_id.code
             else:
