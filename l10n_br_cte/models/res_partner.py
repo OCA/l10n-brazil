@@ -325,11 +325,11 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.cte40_enderFerro = rec.id
 
-    @api.depends("company_type", "l10n_br_ie_code", "cnpj_cpf", "country_id")
+    @api.depends("company_type", "l10n_br_ie_code", "vat", "country_id")
     def _compute_cte_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
-            cnpj_cpf = punctuation_rm(rec.cnpj_cpf)
+            cnpj_cpf = rec.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.cte40_choice_toma = "cte40_idEstrangeiro"
@@ -408,7 +408,7 @@ class ResPartner(spec_models.SpecModel):
                 rec.cte40_choice_exped = "cte40_CPF"
                 rec.cte40_choice_autxml = "cte40_CPF"
                 rec.cte40_choice_transporta = "cte40_CPF"
-                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.cte40_CNPJ))
+                rec.vat = cnpj_cpf.formata(str(rec.cte40_CNPJ))
 
     def _inverse_cte40_CPF(self):
         for rec in self:
@@ -430,7 +430,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.cte40_choice_exped = "cte40_CPF"
                 rec.cte40_choice_autxml = "cte40_CNPJ"
                 rec.cte40_choice_transporta = "cte40_CNPJ"
-                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.cte40_CPF))
+                rec.vat = cnpj_cpf.formata(str(rec.cte40_CPF))
 
     def _inverse_cte40_IE(self):
         for rec in self:
@@ -454,16 +454,16 @@ class ResPartner(spec_models.SpecModel):
             return False
 
         if parent_dict.get("cte40_CNPJ", False):
-            rec_dict["cnpj_cpf"] = parent_dict["cte40_CNPJ"]
+            rec_dict["vat"] = parent_dict["cte40_CNPJ"]
 
         if rec_dict.get("cte40_CNPJ", False):
-            rec_dict["cnpj_cpf"] = rec_dict["cte40_CNPJ"]
+            rec_dict["vat"] = rec_dict["cte40_CNPJ"]
 
-        if rec_dict.get("cnpj_cpf", False):
+        if rec_dict.get("vat", False):
             domain_cnpj = [
                 "|",
-                ("vat", "=", rec_dict["cnpj_cpf"]),
-                ("vat", "=", cnpj_cpf.formata(rec_dict["cnpj_cpf"])),
+                ("cnpj_cpf_stripped", "=", rec_dict["vat"]),
+                ("vat", "=", cnpj_cpf.formata(rec_dict["vat"])),
             ]
             match = self.search(domain_cnpj, limit=1)
             if match:
@@ -492,10 +492,10 @@ class ResPartner(spec_models.SpecModel):
             # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
             # É exportado o CNPJ/CPF do parent_id é importate para o endereço
             # de entrega/retirada
-            if not self.cnpj_cpf and self.parent_id:
-                cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
+            if not self.cnpj_cpf_stripped and self.parent_id:
+                cnpj_cpf = self.parent_id.cnpj_cpf_stripped
             else:
-                cnpj_cpf = punctuation_rm(self.cnpj_cpf)
+                cnpj_cpf = self.cnpj_cpf_stripped
 
             if xsd_field == self.cte40_choice_tlocal:
                 return cnpj_cpf
@@ -514,7 +514,7 @@ class ResPartner(spec_models.SpecModel):
                 return "EX"
 
             if xsd_field == "cte40_idEstrangeiro":
-                return self.vat or self.cnpj_cpf or self.l10n_br_rg_code or "EXTERIOR"
+                return self.vat or self.l10n_br_rg_code or "EXTERIOR"
 
         return super()._export_field(xsd_field, class_obj, member_spec, export_value)
 

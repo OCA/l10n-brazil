@@ -25,12 +25,12 @@ class TestCTeResPartner(TransactionCase):
 
         self.partner_id.cte40_CNPJ = "97414612000162"
         self.assertEqual(
-            self.partner_id.cnpj_cpf, cnpj_cpf.formata(self.partner_id.cte40_CNPJ)
+            self.partner_id.vat, cnpj_cpf.formata(self.partner_id.cte40_CNPJ)
         )
 
         self.partner_id.cte40_CPF = "48737433032"
         self.assertEqual(
-            self.partner_id.cnpj_cpf, cnpj_cpf.formata(self.partner_id.cte40_CPF)
+            self.partner_id.vat, cnpj_cpf.formata(self.partner_id.cte40_CPF)
         )
 
         self.partner_id.cte40_IE = "630514648079"

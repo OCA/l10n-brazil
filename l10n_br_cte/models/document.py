@@ -1445,16 +1445,16 @@ class CTe(spec_models.StackedModel):
                 value.enderEmit, path=path
             )
             new_value.update(enderEmit_value)
-            company_cnpj = self.env.company.cnpj_cpf.translate(
+            company_vat = self.env.company.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
             emit_cnpj = new_value.get("cte40_CNPJ").translate(
                 str.maketrans("", "", string.punctuation)
             )
-            if company_cnpj != emit_cnpj:
+            if company_vat != emit_cnpj:
                 vals["issuer"] = "partner"
             new_value["is_company"] = True
-            new_value["cnpj_cpf"] = emit_cnpj
+            new_value["vat"] = emit_cnpj
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
@@ -1463,16 +1463,16 @@ class CTe(spec_models.StackedModel):
                 value.enderDest, path=path
             )
             new_value.update(enderDest_value)
-            company_cnpj = self.env.company.cnpj_cpf.translate(
+            company_vat = self.env.company.vat.translate(
                 str.maketrans("", "", string.punctuation)
             )
             dest_cnpj = new_value.get("cte40_CNPJ").translate(
                 str.maketrans("", "", string.punctuation)
             )
-            if company_cnpj != dest_cnpj:
+            if company_vat != dest_cnpj:
                 vals["issuer"] = "partner"
             new_value["is_company"] = True
-            new_value["cnpj_cpf"] = dest_cnpj
+            new_value["vat"] = dest_cnpj
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
@@ -1860,7 +1860,7 @@ class CTe(spec_models.StackedModel):
             .build_from_binding("cte", "40", binding.infCte, dry_run=dry_run)
         )
 
-        if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
+        if edoc_type == "in" and document.company_id.vat != cnpj_cpf.formata(
             binding.infCte.emit.CNPJ
         ):
             document.fiscal_operation_type = "in"
