@@ -92,12 +92,12 @@ class PartnerPix(models.Model):
         return phone
 
     def _normalize_cnpj_cpf(self, doc_number):
-        doc_number = "".join(char for char in doc_number if char.isdigit())
+        doc_number = "".join(char for char in doc_number if char.isalnum())
         if not 11 <= len(doc_number) <= 14:
             raise ValidationError(
                 _(
                     f"Invalid Document Number {doc_number}: "
-                    f"\nThe CPF must have 11 digits and the CNPJ 14 digits."
+                    f"\nThe CPF must have 11 characters and the CNPJ 14 characters."
                 )
             )
         is_valid = cnpj_cpf.validar(doc_number)
