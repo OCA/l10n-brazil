@@ -104,7 +104,7 @@ class PartnerPix(models.Model):
 
     def _normalize_cnpj_cpf(self, doc_number):
         check_cnpj_cpf(self.env, doc_number, self.env.ref("base.br"), True)
-        return "".join(char for char in doc_number if char.isdigit())
+        return "".join(char for char in doc_number if char.isalnum())
 
     def _normalize_evp(self, key):
         # EVP: Endereço Virtual de Pagamento (chave aleatória)
