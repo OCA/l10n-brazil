@@ -13,11 +13,11 @@ interactions:
         User-Agent:
           - python-requests/2.25.1
       method: GET
-      uri: https://www.receitaws.com.br/v1/cnpj/00000000000000
+      uri: https://www.receitaws.com.br/v1/cnpj/11222333000181
     response:
       body:
         string:
-          '{"cnpj": "00.000.000/0000-00", "ultima_atualizacao":
+          '{"cnpj": "11.222.333/0001-81", "ultima_atualizacao":
           "2024-01-25T23:02:46.856Z", "status": "ERROR", "message": "CNPJ rejeitado pela
           Receita Federal", "billing": {"free": true, "database": true}}'
       headers:
