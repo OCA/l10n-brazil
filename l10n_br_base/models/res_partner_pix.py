@@ -95,7 +95,7 @@ class PartnerPix(models.Model):
 
     @api.model
     def _normalize_cnpj_cpf(self, doc_number, partner_id):
-        doc_number = "".join(char for char in doc_number if char.isdigit())
+        doc_number = "".join(char for char in doc_number if char.isalnum())
         partner = self.env["res.partner"].browse(partner_id)
         check_cnpj_cpf(self.env, doc_number, partner.country_id)
 

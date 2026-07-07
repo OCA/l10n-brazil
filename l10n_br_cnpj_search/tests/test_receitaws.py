@@ -61,7 +61,7 @@ class TestReceitaWS(TestCnpjCommon):
         ignore_localhost=True,
     )
     def test_receita_ws_fail(self):
-        invalido = self.model.create({"name": "invalido", "cnpj_cpf": "00000000000000"})
+        invalido = self.model.create({"name": "invalido", "cnpj_cpf": "11222333000181"})
         invalido._onchange_cnpj_cpf()
 
         with self.assertRaises(ValidationError):

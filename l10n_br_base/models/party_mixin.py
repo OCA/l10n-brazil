@@ -81,7 +81,8 @@ class PartyMixin(models.AbstractModel):
 
     @api.onchange("cnpj_cpf")
     def _onchange_cnpj_cpf(self):
-        self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
+        if self.cnpj_cpf:
+            self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
 
     @api.onchange("zip")
     def _onchange_zip(self):
