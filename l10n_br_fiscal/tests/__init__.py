@@ -17,5 +17,4 @@ from . import (
     test_service_type,
     test_operation,
     test_company_tax_domain,
-    test_tax_framework,
 )
