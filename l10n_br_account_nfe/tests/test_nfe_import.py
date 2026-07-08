@@ -65,6 +65,7 @@ class NFeImportTest(TransactionCase):
             del line["id"]
             del line["product_id"]
             del line["ncm_internal"]
+            del line["cfop_warning"]
         self.assertEqual(len(lines), 4)
         kg_uom_id = self.env.ref("uom.product_uom_kgm").id
         milheiro_uom_id = self.env.ref("l10n_br_fiscal.UOM_MILHEIRO").id
