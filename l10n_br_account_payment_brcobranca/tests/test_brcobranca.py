@@ -250,6 +250,24 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             )
             self.assertEqual(self.invoice_ailos_240.payment_state, "paid")
 
+    def test_4_sicredi_cnab_240_file_name(self):
+        self._run_invoice_and_order_brcobranca(self.invoice_sicredi_240)
+
+        payment_order = self.invoice_sicredi_240.line_ids.mapped(
+            "payment_line_ids"
+        ).order_id
+
+        payment_order.file_number = 1
+
+        file_name = payment_order.get_file_name("240")
+
+        self.assertTrue(file_name.endswith(".REM"))
+        self.assertTrue(
+            file_name.startswith(
+                payment_order.payment_mode_id.cnab_config_id.cnab_company_bank_code
+            )
+        )
+
     def test_5_nordeste_cnab_400(self):
         """
         Test import Nordeste Bank CNAB 400, the case has different 'Return Code'

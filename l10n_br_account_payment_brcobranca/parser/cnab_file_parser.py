@@ -26,7 +26,7 @@ dict_brcobranca_bank = {
     "399": "hsbc",
     "341": "itau",
     "033": "santander",
-    "748": "sicred",
+    "748": "sicredi",
     "004": "banco_nordeste",
     "021": "banestes",
     "756": "sicoob",
@@ -105,7 +105,7 @@ class CNABFileParser(FileParser):
     def _get_date_format(self, bank_name_brcobranca):
         # TODO: Idealmente o JSON de Retorno do BRCobranca deveria vir
         #  padronizado para não ser necessário ser feito esse tratamento aqui
-        if bank_name_brcobranca in ("ailos", "santander"):
+        if bank_name_brcobranca in ("ailos", "santander", "sicredi"):
             # No Banco AILOS e Santander o formato da Data é completo com os 4 digitos.
             zeros_date = "00000000"
             date_format = "%d%m%Y"
@@ -325,7 +325,7 @@ class CNABFileParser(FileParser):
         return result_row_list
 
     def _get_allowed_registration_code(self, bank_name_brcobranca):
-        if bank_name_brcobranca in ("ailos", "santander"):
+        if bank_name_brcobranca in ("ailos", "santander", "sicredi"):
             # No AILOS e Santander o código de registro onde ficam as linhas CNAB é o 3.
             allowed_registration_code = 3
         elif bank_name_brcobranca == "banco_brasil":
@@ -432,21 +432,21 @@ class CNABFileParser(FileParser):
         valor_recebido = (
             valor_desconto
         ) = valor_juros_mora = valor_abatimento = valor_tarifa = 0.0
-
         if linha_cnab["valor_recebido"]:
             # Campo Valor Recebido vem com o Valor da Tarifa:
             # valor recebido = valor pago + valor da tarifa
             valor_recebido = self.cnab_str_to_float(linha_cnab["valor_recebido"])
 
         zeros_date, date_format = self._get_date_format(bank_name_brcobranca)
-
+        data_ocorrencia = self._get_occurrence_date(linha_cnab, date_format, zeros_date)
         if linha_cnab["data_credito"] == zeros_date or not linha_cnab["data_credito"]:
             data_credito = linha_cnab["data_credito"]
         else:
             data_credito = datetime.datetime.strptime(
                 str(linha_cnab["data_credito"]), date_format
             ).date()
-
+        if not data_credito or data_credito == zeros_date:
+            data_credito = data_ocorrencia
         cnab_config = account_move_line.payment_mode_id.cnab_config_id
         # Na própria lib o desconto é tratado com duas keys diferentes
         # dependendo do banco e do formato. Também há um erro de escrita que foi tratado
@@ -535,6 +535,7 @@ class CNABFileParser(FileParser):
                         "partner_id": account_move_line.company_id.partner_id.id,
                         "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
+                        "date": data_credito,
                     }
                 )
 
@@ -551,6 +552,7 @@ class CNABFileParser(FileParser):
                         "account_id": tariff_charge_account.id,
                         "payment_line_ids": payment_lines.ids,
                         "cnab_returned_ref": account_move_line.document_number,
+                        "date": data_credito,
                     }
                 )
 
@@ -598,20 +600,22 @@ class CNABFileParser(FileParser):
         if self.bank.code_bc == "341":
             valor_recebido_calculado += valor_tarifa
 
-        row_list.append(
-            {
-                "name": account_move_line.move_id.name,
-                "debit": 0.0,
-                "credit": valor_recebido_calculado,
-                "move_line": account_move_line,
-                "type": "liquidado",
-                "payment_line_ids": payment_lines.ids,
-                "account_id": account_move_line.account_id.id,
-                "partner_id": account_move_line.partner_id.id,
-                "date": data_credito,
-                "cnab_returned_ref": account_move_line.own_number,
-            }
-        )
+        # ao lancar tarifas esta executando aqui novamente, sem o if
+        if valor_recebido_calculado:
+            row_list.append(
+                {
+                    "name": account_move_line.move_id.name,
+                    "debit": 0.0,
+                    "credit": valor_recebido_calculado,
+                    "move_line": account_move_line,
+                    "type": "liquidado",
+                    "payment_line_ids": payment_lines.ids,
+                    "account_id": account_move_line.account_id.id,
+                    "partner_id": account_move_line.partner_id.id,
+                    "date": data_credito,
+                    "cnab_returned_ref": account_move_line.own_number,
+                }
+            )
 
         # CNAB LOG
         log_event_payment = {
