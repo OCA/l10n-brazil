@@ -38,6 +38,12 @@ class DocumentImportWizard(models.TransientModel):
 
     file = fields.Binary(string="File to Import")
 
+    imported_products_ids = fields.One2many(
+        string="Imported Products",
+        comodel_name="l10n_br_fiscal.document.import.wizard.line",
+        inverse_name="import_xml_id",
+    )
+
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Fiscal Operation",
