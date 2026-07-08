@@ -31,6 +31,7 @@ class DocumentImportWizard(models.TransientModel):
         account.move(s) at the end of the attachments sequence.
         """
         _binding, fiscal_document = self._import_edoc()
+        fiscal_document._check_document_import()
         move_type = f"{self.fiscal_operation_type}_invoice"
         move_id = (
             self.env["account.move"]
