@@ -146,6 +146,41 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
             purchase_order.order_line[0].fiscal_operation_id,
         )
 
+    def test_partial_quantity_recomputes_fiscal_amounts(self):
+        """A purchase order created from a blanket order line for a partial
+        quantity must have its fiscal amounts recomputed for that quantity,
+        not copied over from the blanket order line's original quantity.
+        """
+        blanket_order = self._create_blanket_order()
+        blanket_order._onchange_fiscal_operation_id()
+        blanket_order._amount_all()
+        blanket_order.sudo().action_confirm()
+
+        bo_line = blanket_order.line_ids[0]
+        self.assertEqual(bo_line.quantity, 20.0)
+        bo_line.write(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_compras").id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_compras_compras"
+                ).id,
+            }
+        )
+
+        full_price_subtotal = bo_line.price_subtotal
+        self.assertTrue(full_price_subtotal)
+        partial_qty = 5.0
+        wizard = self._create_wizard(blanket_order)
+        wizard.line_ids.qty = partial_qty
+
+        result = wizard.create_purchase_order()
+        purchase_order = self.env["purchase.order"].browse(result["domain"][0][2][0])
+        po_line = purchase_order.order_line[0]
+        self.assertEqual(po_line.product_qty, partial_qty)
+        expected_subtotal = full_price_subtotal * partial_qty / bo_line.quantity
+        self.assertAlmostEqual(po_line.price_subtotal, expected_subtotal, 2)
+        self.assertNotAlmostEqual(po_line.price_subtotal, full_price_subtotal, 2)
+
     def test_prepare_po_line_uses_order_start_without_schedule(self):
         blanket_order = self._create_blanket_order({"date_schedule": False})
         wizard = self._create_wizard(blanket_order)
