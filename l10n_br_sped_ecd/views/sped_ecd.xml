@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem name="ECD" parent="l10n_br_sped_base.menu_root" id="ecd" sequence="2" />
+
+    <record id="declaration_ecd_action" model="ir.actions.act_window">
+    <field name="name">ECD Declaration</field>
+    <field name="res_model">l10n_br_sped.ecd.0000</field>
+    <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="declaration_ecd_action" parent="ecd" id="declaration_ecd" />
+
+
+    <menuitem name="BLOCO 0" parent="ecd" id="ecd_0" />
+
+    <record id="ecd_0007_action" model="ir.actions.act_window">
+        <field name="name">0007 OUTRAS INSCRIÇÕES CADASTRAIS DA PESSOA JURÍDICA</field>
+        <field name="res_model">l10n_br_sped.ecd.0007</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_0007_action" parent="ecd_0" id="ecd_0007" />
+
+    <record id="ecd_0020_action" model="ir.actions.act_window">
+        <field name="name">0020 ESCRITURAÇÃO CONTÁBIL DESCENTRALIZADA</field>
+        <field name="res_model">l10n_br_sped.ecd.0020</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_0020_action" parent="ecd_0" id="ecd_0020" />
+
+    <record id="ecd_0035_action" model="ir.actions.act_window">
+        <field name="name">0035 IDENTIFICAÇÃO DAS SCP</field>
+        <field name="res_model">l10n_br_sped.ecd.0035</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_0035_action" parent="ecd_0" id="ecd_0035" />
+
+    <record id="ecd_0150_action" model="ir.actions.act_window">
+        <field name="name">0150 TABELA DE CADASTRO DO PARTICIPANTE</field>
+        <field name="res_model">l10n_br_sped.ecd.0150</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_0150_action" parent="ecd_0" id="ecd_0150" />
+
+
+    <menuitem name="BLOCO I" parent="ecd" id="ecd_i" />
+
+    <record id="ecd_i010_action" model="ir.actions.act_window">
+        <field name="name">I010 IDENTIFICAÇÃO DA ESCRITURAÇÃO CONTÁBIL</field>
+        <field name="res_model">l10n_br_sped.ecd.i010</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_i010_action" parent="ecd_i" id="ecd_i010" />
+
+
+    <menuitem name="BLOCO J" parent="ecd" id="ecd_j" />
+
+    <record id="ecd_j005_action" model="ir.actions.act_window">
+        <field name="name">J005 DEMONSTRAÇÕES CONTÁBEIS</field>
+        <field name="res_model">l10n_br_sped.ecd.j005</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_j005_action" parent="ecd_j" id="ecd_j005" />
+
+    <record id="ecd_j900_action" model="ir.actions.act_window">
+        <field name="name">J900 TERMO DE ENCERRAMENTO</field>
+        <field name="res_model">l10n_br_sped.ecd.j900</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_j900_action" parent="ecd_j" id="ecd_j900" />
+
+
+    <menuitem name="BLOCO K" parent="ecd" id="ecd_k" />
+
+    <record id="ecd_k030_action" model="ir.actions.act_window">
+        <field name="name">K030 PERÍODO DA ESCRITURAÇÃO CONTÁBIL CONSOLIDADA</field>
+        <field name="res_model">l10n_br_sped.ecd.k030</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_k030_action" parent="ecd_k" id="ecd_k030" />
+
+    <record id="ecd_k200_action" model="ir.actions.act_window">
+        <field name="name">K200 PLANO DE CONTAS CONSOLIDADO</field>
+        <field name="res_model">l10n_br_sped.ecd.k200</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="ecd_k200_action" parent="ecd_k" id="ecd_k200" />
+</odoo>
