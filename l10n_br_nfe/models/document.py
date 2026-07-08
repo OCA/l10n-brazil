@@ -985,8 +985,17 @@ class NFe(spec_models.StackedModel):
                 "company_type": "person",
             }
             new_value.update(new_vals)
+            # Store the delivery address on the stored partner_shipping_id
+            # field (like emit/dest write to partner_id). nfe40_entrega is a
+            # non-stored computed field, so writing to it would silently drop
+            # the imported delivery address.
             super()._build_many2one(
-                self.env["res.partner"], vals, new_value, key, value, path
+                self.env["res.partner"],
+                vals,
+                new_value,
+                "partner_shipping_id",
+                value,
+                path,
             )
         elif key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
             enderEmit_value = self.env["res.partner"].build_attrs(
