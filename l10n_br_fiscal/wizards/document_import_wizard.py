@@ -225,6 +225,22 @@ class DocumentImportWizard(models.TransientModel):
         if operation_lines:
             return operation_lines[0].fiscal_operation_id
 
+    def _match_uom_by_code(self, *codes):
+        """Match a fiscal UoM from one or more XML unit codes (uCom/uTrib).
+
+        First try the fiscal ``code`` field, then fall back to the
+        ``uom_alias`` module aliases so that supplier abbreviations
+        (e.g. ``MIL`` -> ``MILHEIRO``, ``UNID`` -> ``Units``) resolve to
+        the company's own UoM.
+        """
+        codes = [code for code in codes if code]
+        if not codes:
+            return self.env["uom.uom"]
+        uom = self.env["uom.uom"].search([("code", "in", codes)], limit=1)
+        if not uom:
+            uom = self.env["uom.uom"].search([("alias_ids.code", "in", codes)], limit=1)
+        return uom
+
     def _parse_file(self):
         return self._parse_file_data(self.file)
 
