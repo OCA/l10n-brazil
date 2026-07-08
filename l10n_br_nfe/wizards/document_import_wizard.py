@@ -90,23 +90,7 @@ class DocumentImportWizard(models.TransientModel):
         taxes = self._get_taxes_from_xml_product(product)
         supplier_id = self._search_product_supplier_by_product_code(product.prod.cProd)
         product_id = self._match_product(product.prod)
-        uom_id = self.env["uom.uom"].search(
-            [
-                "|",
-                ("code", "=", product.prod.uCom),
-                ("code", "=", product.prod.uTrib),
-            ],
-            limit=1,
-        )
-        if not uom_id:  # search for alias
-            uom_id = self.env["uom.uom"].search(
-                [
-                    "|",
-                    ("name", "=", product.prod.uCom),
-                    ("name", "=", product.prod.uTrib),
-                ],
-                limit=1,
-            )
+        uom_id = self._match_uom_by_code(product.prod.uCom, product.prod.uTrib)
 
         return {
             "product_name": product.prod.xProd,
