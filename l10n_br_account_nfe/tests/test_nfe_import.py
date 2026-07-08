@@ -70,6 +70,7 @@ class NFeImportTest(TransactionCase):
             del line["id"]
             del line["product_id"]
             del line["ncm_internal"]
+            del line["cfop_warning"]
         self.assertEqual(len(lines), 4)
         self.assertDictEqual(
             lines[0],

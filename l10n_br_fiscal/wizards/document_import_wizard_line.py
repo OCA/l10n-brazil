@@ -3,7 +3,7 @@
 # Copyright 2025 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import Command, fields, models
+from odoo import Command, _, api, fields, models
 
 
 class DocumentImportWizardLine(models.TransientModel):
@@ -74,6 +74,49 @@ class DocumentImportWizardLine(models.TransientModel):
         comodel_name="l10n_br_fiscal.cfop",
         string="Change CFOP",
     )
+
+    cfop_warning = fields.Char(
+        compute="_compute_cfop_warning",
+        string="CFOP Alert",
+        help="Warns when the CFOP declared in the XML is inconsistent with "
+        "the actual geography (issuer state vs company state). Useful to "
+        "spot supplier mistakes before they pollute the SPED books.",
+    )
+
+    @api.depends("cfop_xml", "import_xml_id.issuer_partner_id.state_id")
+    def _compute_cfop_warning(self):
+        for line in self:
+            line.cfop_warning = line._get_cfop_warning()
+
+    def _get_cfop_warning(self):
+        """Compare the XML CFOP scope (from its first digit) with the real
+        issuer/company geography. CFOP first digit: 1/5 = intrastate,
+        2/6 = interstate, 3/7 = foreign trade."""
+        self.ensure_one()
+        if not self.cfop_xml:
+            return False
+        declared = self.cfop_xml[0]
+        wizard = self.import_xml_id
+        issuer_state = wizard.issuer_partner_id.state_id
+        company_state = wizard.company_id.state_id
+        if not issuer_state or not company_state:
+            return False
+        same_state = issuer_state == company_state
+        if declared in ("1", "5") and not same_state:
+            return _(
+                "XML CFOP %(cfop)s is intrastate but issuer (%(issuer)s) "
+                "and company (%(company)s) are in different states."
+            ) % {
+                "cfop": self.cfop_xml,
+                "issuer": issuer_state.code,
+                "company": company_state.code,
+            }
+        if declared in ("2", "6") and same_state:
+            return _(
+                "XML CFOP %(cfop)s is interstate but issuer "
+                "and company are both in %(state)s."
+            ) % {"cfop": self.cfop_xml, "state": company_state.code}
+        return False
 
     def _find_or_create_product_supplierinfo(self):
         for line in self:
