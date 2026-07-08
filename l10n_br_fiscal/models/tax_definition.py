@@ -39,7 +39,9 @@ class TaxDefinition(models.Model):
 
     Furthermore, it allows for conditions based on:
     - Originating and destination states (`state_from_id`, `state_to_ids`)
-    - Product characteristics (NCM, CEST, NBM, specific products, type)
+    - Product characteristics (NCM, CEST, NBM, NBS, specific products, type)
+    - Service characteristics (city/national taxation codes, service types,
+      operation indicators)
     - Partner characteristics (tax framework, ICMS taxpayer status, final consumer)
     - Company tax framework
     - Date validity (`date_start`, `date_end`)
@@ -235,6 +237,12 @@ class TaxDefinition(models.Model):
     service_type_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.service.type",
         string="Fiscal Service Types",
+    )
+
+    operation_indicator_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+        relation="tax_definition_operation_indicator_rel",
+        string="Operation Indicators",
     )
 
     ind_final = fields.Selection(
@@ -472,6 +480,7 @@ class TaxDefinition(models.Model):
         city_taxation_code=None,
         national_taxation_code=None,
         service_type=None,
+        operation_indicator=None,
     ):
         """
         Filter and return tax definitions that match the given criteria.
@@ -488,6 +497,7 @@ class TaxDefinition(models.Model):
         - NCM, NBM, NBS, CEST codes, allowing for no specific code.
         - City taxation codes, allowing for no specific code.
         - Service types, allowing for no specific type.
+        - Operation indicators, allowing for no specific indicator.
         - Specific products, allowing for no specific product.
 
         :param company: The company record (res.company) of the transaction.
@@ -507,6 +517,9 @@ class TaxDefinition(models.Model):
             (l10n_br_fiscal.national.taxation.code).
         :param service_type: Optional Service Type record
             (l10n_br_fiscal.service.type).
+        :param operation_indicator: Optional Operation Indicator record
+            (l10n_br_fiscal.operation.indicator); defaults to product's
+            operation indicator.
         :return: A recordset of matching
             l10n_br_fiscal.tax.definition.
         """
@@ -522,6 +535,9 @@ class TaxDefinition(models.Model):
 
         if not cest:
             cest = product.cest_id
+
+        if not operation_indicator:
+            operation_indicator = product.operation_indicator_id
 
         domain = [
             ("state", "!=", "expired"),
@@ -550,6 +566,9 @@ class TaxDefinition(models.Model):
             "|",
             ("service_type_ids", "=", False),
             ("service_type_ids", "=", service_type.id),
+            "|",
+            ("operation_indicator_ids", "=", False),
+            ("operation_indicator_ids", "=", operation_indicator.id),
             "|",
             ("product_ids", "=", False),
             ("product_ids", "=", product.id),

@@ -301,6 +301,24 @@
                                 />
                             </group>
                         </page>
+                        <page
+                            name="operation_indicators_page"
+                            string="Operation Indicator"
+                        >
+                            <group
+                                name="operation_indicators"
+                                string="Operation Indicators"
+                            >
+                                <field
+                                    name="operation_indicator_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                    options="{'no_create': True}"
+                                    readonly="state != 'draft'"
+                                />
+                            </group>
+                        </page>
                         <page name="service_types_page" string="Fiscal Service Type">
                             <group name="service_types" string="Fiscal Service Types">
                                 <field

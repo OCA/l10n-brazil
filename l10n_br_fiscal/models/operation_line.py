@@ -214,6 +214,7 @@ class OperationLine(models.Model):
         city_taxation_code=None,
         national_taxation_code=None,
         service_type=None,
+        operation_indicator=None,
         ind_final=None,
     ):
         """
@@ -253,6 +254,9 @@ class OperationLine(models.Model):
             (l10n_br_fiscal.national.taxation.code).
         :param service_type: Optional Service Type record
             (l10n_br_fiscal.service.type).
+        :param operation_indicator: Optional Operation Indicator record
+            (l10n_br_fiscal.operation.indicator); defaults to product's
+            operation indicator.
         :param ind_final: (Passed to icms_regulation_id.map_tax; not directly
             used for tax calculation here)
         :return: A dictionary containing:
@@ -294,6 +298,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            operation_indicator=operation_indicator,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -350,6 +355,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            operation_indicator=operation_indicator,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -367,6 +373,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            operation_indicator=operation_indicator,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -384,6 +391,7 @@ class OperationLine(models.Model):
             city_taxation_code=city_taxation_code,
             national_taxation_code=national_taxation_code,
             service_type=service_type,
+            operation_indicator=operation_indicator,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 

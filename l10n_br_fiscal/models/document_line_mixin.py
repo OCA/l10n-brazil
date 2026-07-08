@@ -314,6 +314,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "city_taxation_code_id",
         "national_taxation_code_id",
         "service_type_id",
+        "operation_indicator_id",
         "ind_final",
     )
     def _compute_fiscal_tax_ids(self):
@@ -330,6 +331,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     city_taxation_code=line.city_taxation_code_id,
                     national_taxation_code=line.national_taxation_code_id,
                     service_type=line.service_type_id,
+                    operation_indicator=line.operation_indicator_id,
                     ind_final=line.ind_final,
                 )
                 line.cfop_id = mapping_result["cfop"]
