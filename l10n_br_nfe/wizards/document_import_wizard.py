@@ -5,6 +5,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
+from collections import Counter
 
 from erpbrasil.base.fiscal.cnpj_cpf import formata
 
@@ -44,10 +45,25 @@ class DocumentImportWizard(models.TransientModel):
             infNFe = binding.infNFe
             self.nat_op = infNFe.ide.natOp
             self.fiscal_operation_id = self._find_fiscal_operation(
-                infNFe.det[0].prod.CFOP, self.nat_op, self.fiscal_operation_type
+                self._most_common_cfop(infNFe),
+                self.nat_op,
+                self.fiscal_operation_type,
             )
             self._create_imported_products_by_xml(binding)
         return res
+
+    @api.model
+    def _most_common_cfop(self, infNFe):
+        """Return the CFOP shared by most of the NFe lines.
+
+        A single NFe can mix CFOPs (e.g. a freight or one-off line), so
+        picking the first line's CFOP is unreliable. The majority CFOP
+        better represents the document's fiscal operation.
+        """
+        cfops = [det.prod.CFOP for det in infNFe.det if det.prod.CFOP]
+        if not cfops:
+            return False
+        return Counter(cfops).most_common(1)[0][0]
 
     def _destination_partner_from_binding(self, binding):
         if self.document_type == MODELO_FISCAL_NFE:
