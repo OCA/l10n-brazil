@@ -199,6 +199,22 @@ class TaxDefinition(models.Model):
         string="NBMs",
     )
 
+    nbss = fields.Text(
+        string="NBS List",
+        readonly=True,
+    )
+
+    not_in_nbss = fields.Text(
+        string="Not in NBSs",
+        readonly=True,
+    )
+
+    nbs_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.nbs",
+        readonly=True,
+        string="NBSs",
+    )
+
     product_ids = fields.Many2many(
         comodel_name="product.product",
         string="Products",
@@ -304,6 +320,10 @@ class TaxDefinition(models.Model):
                 domain.append(
                     ("nbm_ids", "in", tax_definition.nbm_ids.ids),
                 )
+            if tax_definition.nbs_ids:
+                domain.append(
+                    ("nbs_ids", "in", tax_definition.nbs_ids.ids),
+                )
             if tax_definition.product_ids:
                 domain.append(
                     ("product_ids", "in", tax_definition.product_ids.ids),
@@ -388,6 +408,27 @@ class TaxDefinition(models.Model):
             else:
                 r.nbm_ids = False
 
+    def action_search_nbss(self):
+        nbs = self.env["l10n_br_fiscal.nbs"]
+        for r in self:
+            domain = []
+
+            if r.nbss:
+                domain += tools.domain_field_codes(r.nbss, code_size=10)
+
+            if r.not_in_nbss:
+                domain += tools.domain_field_codes(
+                    field_codes=r.not_in_nbss,
+                    operator1="!=",
+                    operator2="not ilike",
+                    code_size=10,
+                )
+
+            if domain:
+                r.nbs_ids = nbs.search(domain)
+            else:
+                r.nbs_ids = False
+
     @api.model_create_multi
     def create(self, vals_list):
         create_super = super().create(vals_list)
@@ -401,6 +442,8 @@ class TaxDefinition(models.Model):
                 ).action_search_cests()
             if "nbms" in values.keys():
                 create_super[index].with_context(do_not_write=True).action_search_nbms()
+            if "nbss" in values.keys():
+                create_super[index].with_context(do_not_write=True).action_search_nbss()
         return create_super
 
     def write(self, values):
@@ -413,6 +456,8 @@ class TaxDefinition(models.Model):
             self.with_context(do_not_write=True).action_search_cests()
         if "nbms" in values.keys() and not do_not_write:
             self.with_context(do_not_write=True).action_search_nbms()
+        if "nbss" in values.keys() and not do_not_write:
+            self.with_context(do_not_write=True).action_search_nbss()
         return write_super
 
     def map_tax_definition(
@@ -440,7 +485,7 @@ class TaxDefinition(models.Model):
         - Current record state (not 'expired').
         - Originating state (state_from_id).
         - Destination states (state_to_ids), allowing for no specific destination.
-        - NCM, NBM, CEST codes, allowing for no specific code.
+        - NCM, NBM, NBS, CEST codes, allowing for no specific code.
         - City taxation codes, allowing for no specific code.
         - Service types, allowing for no specific type.
         - Specific products, allowing for no specific product.
@@ -453,7 +498,7 @@ class TaxDefinition(models.Model):
         :param nbm: Optional NBM record (l10n_br_fiscal.nbm);
             defaults to product's NBM.
         :param nbs: Optional NBS record (l10n_br_fiscal.nbs);
-            (Note: nbs not used in current domain construction)
+            defaults to product's NBS.
         :param cest: Optional CEST record (l10n_br_fiscal.cest);
             defaults to product's CEST.
         :param city_taxation_code: Optional City Taxation Code record
@@ -472,6 +517,9 @@ class TaxDefinition(models.Model):
         if not nbm:
             nbm = product.nbm_id
 
+        if not nbs:
+            nbs = product.nbs_id
+
         if not cest:
             cest = product.cest_id
 
@@ -487,6 +535,9 @@ class TaxDefinition(models.Model):
             "|",
             ("nbm_ids", "=", False),
             ("nbm_ids", "=", nbm.id),
+            "|",
+            ("nbs_ids", "=", False),
+            ("nbs_ids", "=", nbs.id),
             "|",
             ("cest_ids", "=", False),
             ("cest_ids", "=", cest.id),
