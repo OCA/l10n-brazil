@@ -266,6 +266,24 @@ class Operation(models.Model):
             ("icms_origin", "=", False),
         ]
 
+        domain += [
+            "|",
+            ("nbs_id", "=", product.nbs_id.id),
+            ("nbs_id", "=", False),
+        ]
+
+        domain += [
+            "|",
+            ("operation_indicator_id", "=", product.operation_indicator_id.id),
+            ("operation_indicator_id", "=", False),
+        ]
+
+        domain += [
+            "|",
+            ("categ_id", "=", product.categ_id.id),
+            ("categ_id", "=", False),
+        ]
+
         return domain
 
     def line_definition(self, company, partner, product):
@@ -289,6 +307,9 @@ class Operation(models.Model):
                 "product_type",
                 "tax_icms_or_issqn",
                 "icms_origin",
+                "nbs_id",
+                "operation_indicator_id",
+                "categ_id",
             ]
             return sum(1 for field in fields if getattr(line, field))
 
