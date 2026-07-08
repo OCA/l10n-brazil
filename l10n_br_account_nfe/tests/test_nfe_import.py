@@ -5,6 +5,7 @@ import base64
 import os
 
 from odoo import Command
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 from odoo.tests.common import Form
 
@@ -235,3 +236,26 @@ class NFeImportTest(TransactionCase):
         self.assertAlmostEqual(move.due_line_ids[0].credit, 4075.95, places=2)
         self.assertAlmostEqual(move.due_line_ids[1].credit, 4075.95, places=2)
         self.assertAlmostEqual(move.due_line_ids[2].credit, 4075.96, places=2)
+
+    def test_import_incomplete_document_is_blocked(self):
+        """A document with a line missing its product/uom/qty/price must not
+        be importable into an account move (SPED data integrity)."""
+        file_path = os.path.join(
+            l10n_br_account_nfe.__path__[0],
+            "tests",
+            "nfe",
+            "35231149647316000169550010000661061151600085-nfe.xml",
+        )
+        with open(file_path, "rb") as file:
+            file_content = file.read()
+
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
+        with Form(wizard) as import_form:
+            import_form.file = base64.b64encode(file_content)
+            import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+
+        _binding, document = wizard._import_edoc()
+        # Break one line to simulate an unmatched product.
+        document.fiscal_line_ids[0].product_id = False
+        with self.assertRaises(UserError):
+            document._check_document_import()
