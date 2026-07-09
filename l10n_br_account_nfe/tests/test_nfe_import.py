@@ -175,6 +175,13 @@ class NFeImportTest(TransactionCase):
 
         self.assertEqual(len(move.invoice_line_ids), 4)
 
+        # The supplier declared CFOP 6101 (interstate sale); the de-para
+        # recomputes it to the company's inbound CFOP, but partner_cfop_id
+        # preserves the declared value for bookkeeping / SPED (C197).
+        doc_line = move.fiscal_document_id.fiscal_line_ids[0]
+        self.assertEqual(doc_line.partner_cfop_id.code, "6101")
+        self.assertNotEqual(doc_line.cfop_id.code, "6101")
+
         self.assertEqual(
             move.invoice_line_ids[0].product_id.name,
             "PAPEL CELOFANE (CELULOSE) 35GSM 19x24CM",
