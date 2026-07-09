@@ -518,6 +518,43 @@ class Document(models.Model):
         """
         pass
 
+    def _edoc_needs_sefaz_action(self):
+        """True when cancelling/resetting the e-doc requires a SEFAZ
+        round-trip, so the driving account.move flow must NOT touch it.
+
+        Base fiscal documents have no SEFAZ lifecycle, so they never do.
+        Overridden in l10n_br_fiscal_edi for authorized/in-transit docs.
+        """
+        self.ensure_one()
+        return False
+
+    def action_document_cancel_from_move(self):
+        """Best-effort cancel triggered by cancelling the linked move.
+
+        Cancels only e-docs that do not need a SEFAZ event; SEFAZ-locked
+        ones are left untouched so the accounting user can still cancel or
+        adjust the move without being blocked.
+        """
+        for doc in self:
+            if doc.state_edoc == DOCUMENT_STATE_CANCEL:
+                continue
+            if doc._edoc_needs_sefaz_action():
+                continue
+            doc.action_document_cancel()
+
+    def action_document_back2draft_from_move(self):
+        """Best-effort reset-to-draft triggered by resetting the move.
+
+        Resets only e-docs that do not need a SEFAZ event; SEFAZ-locked
+        ones are left untouched so the move can still be reset to draft.
+        """
+        for doc in self:
+            if doc.state_edoc == DOCUMENT_STATE_DRAFT:
+                continue
+            if doc._edoc_needs_sefaz_action():
+                continue
+            doc.action_document_back2draft()
+
     @api.depends("fiscal_operation_id")
     def _compute_edoc_purpose(self):
         for record in self:
