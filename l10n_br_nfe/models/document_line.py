@@ -7,7 +7,7 @@ from enum import Enum
 
 from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs, TtribNfe
 
-from odoo import api, fields
+from odoo import _, api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
@@ -1563,6 +1563,13 @@ class NFeLine(spec_models.StackedModel):
                 tax_domain_with_red,
                 limit=1,
             )
+            # If no fiscal tax with this base reduction exists yet, create it
+            # instead of falling back to a plain (no-reduction) tax, which
+            # would compute a wrong ICMS credit and diverge from the NFe/SPED.
+            if not fiscal_tax_id and percent:
+                fiscal_tax_id = self._create_reduced_fiscal_tax(
+                    tax_group_id, percent, cst_id, icms_percent_red
+                )
 
         if not fiscal_tax_id:
             if tax_domain_with_cst:
@@ -1661,6 +1668,34 @@ class NFeLine(spec_models.StackedModel):
         # elif kind == "cofins":  # (will also apply to cofinsst)
         #     pass
         #     # TODO  qBCProd, vAliqProd
+
+    def _create_reduced_fiscal_tax(
+        self, tax_group_id, percent, cst_id, percent_reduction
+    ):
+        """Create an ICMS fiscal tax with a base reduction when the company
+        has none configured for this rate/reduction combination.
+
+        Without this, an imported NFe line that declares an ICMS base
+        reduction (redução de base de cálculo) would fall back to a plain
+        no-reduction tax, computing a higher ICMS credit than the supplier
+        actually charged and diverging from the NFe / SPED. The created tax
+        carries the proper percent_reduction so it is reused on the next
+        import (idempotent via the earlier search on percent_reduction).
+        """
+        cst_field = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
+        vals = {
+            "name": _("ICMS %(percent)s%% Com Red. %(red)s%%")
+            % {"percent": percent, "red": percent_reduction},
+            "tax_group_id": tax_group_id,
+            "percent_amount": percent,
+            "percent_reduction": percent_reduction,
+            "percent_debit_credit": 0,
+            "value_amount": 0,
+            "icmsst_mva_percent": 0,
+            "icmsst_value": 0,
+            cst_field: cst_id,
+        }
+        return self.env["l10n_br_fiscal.tax"].create(vals)
 
     def _import_ibscbs_attrs(self, value, odoo_attrs):
         """Import IBSCBS tax attributes from NFe binding."""
