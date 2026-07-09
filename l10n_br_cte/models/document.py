@@ -24,6 +24,7 @@ from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
 
 from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
+from xsdata.formats.dataclass.serializers import XmlSerializer
 
 from odoo import Command, _, api, fields
 from odoo.exceptions import UserError, ValidationError
@@ -1535,7 +1536,10 @@ class CTe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.filtered(filter_processador_edoc_cte):
+        for record in self.filtered(
+            lambda r: filter_processador_edoc_cte(r)
+            and r.document_type == MODELO_FISCAL_CTE
+        ):
             inf_cte = record._build_binding("cte", "40")
 
             inf_cte_supl = None
@@ -1571,7 +1575,10 @@ class CTe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_cte):
             edoc = record.serialize()[0]
             # processador = record._edoc_processor()
-            xml_file = edoc.to_xml()
+            # CteOs (model 67) has no to_xml helper; fall back to the xsdata serializer
+            xml_file = (
+                edoc.to_xml() if hasattr(edoc, "to_xml") else XmlSerializer().render(edoc)
+            )
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(

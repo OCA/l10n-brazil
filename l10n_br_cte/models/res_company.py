@@ -23,7 +23,7 @@ PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, "erpbrasil.edoc")]
 
 class ResCompany(spec_models.SpecModel):
     _name = "res.company"
-    _inherit = ["res.company", "cte.40.tcte_emit"]
+    _inherit = ["res.company", "cte.40.tcte_emit", "cteos.40.tcteos_emit"]
     _cte_search_keys = ["cte40_CNPJ", "cte40_xNome", "cte40_xFant"]
 
     ##########################
@@ -101,6 +101,18 @@ class ResCompany(spec_models.SpecModel):
     cte40_fone = fields.Char(related="partner_id.cte40_fone")
 
     cte40_CRT = fields.Selection(related="tax_framework")
+
+    # CT-e OS (model 67) emit block — reuse the CT-e emit mapping
+    cteos40_enderEmit = fields.Many2one(
+        comodel_name="res.partner",
+        related="partner_id",
+        readonly=False,
+    )
+    cteos40_CNPJ = fields.Char(related="partner_id.cte40_CNPJ")
+    cteos40_xNome = fields.Char(related="partner_id.legal_name")
+    cteos40_xFant = fields.Char(related="partner_id.name")
+    cteos40_IE = fields.Char(related="partner_id.cte40_IE")
+    cteos40_CRT = fields.Selection(related="tax_framework")
 
     dacte_margin_top = fields.Integer(
         default=5, help="Top margin in mm for the DACTE layout."
