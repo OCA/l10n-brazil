@@ -203,6 +203,28 @@ class NFeImportWizardTest(TransactionCase):
         prod_id = self.wizard._match_product(MagicMock())
         self.assertFalse(prod_id)
 
+    def test_match_product_by_purchase(self):
+        """The purchase-order priority match is a soft dependency on
+        l10n_br_purchase (which adds partner_order/partner_order_line to
+        purchase.order.line). It must be a no-op when those fields are absent,
+        so _match_product falls back to supplierinfo/default_code/barcode."""
+        self._prepare_wizard(self.xml_1)
+        pol = self.env.get("purchase.order.line")
+        has_fields = pol is not None and "partner_order" in pol._fields
+        mock = MagicMock()
+        mock.xPed = "NONEXISTENT-PO-REF"
+        mock.nItemPed = "999"
+        # No PO references this xPed (and/or l10n_br_purchase absent) -> no
+        # match, and crucially no crash on a missing field.
+        self.assertFalse(self.wizard._match_product_by_purchase(mock))
+        if not has_fields:
+            # guard short-circuits before any purchase.order.line search
+            self.assertFalse(
+                self.wizard._match_product_by_purchase(
+                    self.wizard._parse_file().infNFe.det[0].prod
+                )
+            )
+
     def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)
 
