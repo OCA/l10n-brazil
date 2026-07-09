@@ -12,6 +12,8 @@ from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.edoc.cte import CTe as edoc_cte
+from erpbrasil.edoc.cte import TransmissaoCTE
 
 # TODO: precisa tratar
 from lxml import etree
@@ -20,8 +22,7 @@ from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs as CTeTcibs
 from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import TtribCte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
 
-# TODO: precisa tratar nfelib
-# from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
+from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import Command, _, api, fields
@@ -1545,27 +1546,25 @@ class CTe(spec_models.StackedModel):
             edocs.append(cte)
         return edocs
 
-    # def _edoc_processor(self):
-    #     if self.document_type != MODELO_FISCAL_CTE:
-    #         return super()._edoc_processor()
-
-    #     if not self.company_id.certificate_nfe_id:
-    #         raise UserError(_("Certificado não encontrado"))
-
-    #     certificado = self.env.company._get_br_ecertificate()
-    #     session = Session()
-    #     session.verify = False
-
-    #     params = {
-    #         "transmissao": TransmissaoCTE(certificado, session),
-    #         "uf": self.company_id.state_id.ibge_code,
-    #         "versao": self.cte_version,
-    #         "ambiente": self.cte_environment,
-    #     }
-    #     return edoc_cte(**params)
-
     def _edoc_processor(self):
-        pass
+        if not self.filtered(filter_processador_edoc_cte):
+            return super()._edoc_processor()
+
+        if not self.company_id.certificate_nfe_id:
+            raise UserError(_("Certificate not found"))
+
+        certificado = self.company_id._get_br_ecertificate()
+        session = Session()
+        session.verify = False
+
+        params = {
+            "transmissao": TransmissaoCTE(certificado, session),
+            "uf": self.company_id.state_id.ibge_code,
+            "versao": self.cte_version,
+            "ambiente": self.cte_environment,
+            "mod": self.document_type,
+        }
+        return edoc_cte(**params)
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
