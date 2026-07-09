@@ -86,6 +86,7 @@
                 <field name="document_electronic" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />
                 <field name="document_type" invisible="1" />
+                <field name="edoc_is_locked" invisible="1" />
                 <header>
                     <button
                         name="action_document_confirm"
@@ -179,7 +180,10 @@
                             /></h1>
                     </div>
                     <group>
-                        <group name="partner_info">
+                        <group
+                            name="partner_info"
+                            attrs="{'readonly': [('edoc_is_locked', '=', True)]}"
+                        >
                             <field
                                 name="partner_id"
                                 widget="res_partner_many2one"
@@ -190,7 +194,7 @@
                         </group>
                         <group
                             name="l10n_br_fiscal"
-                            attrs="{'invisible': [('document_type', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])]}"
+                            attrs="{'invisible': [('document_type', 'in', ['57', '08', '09', '10', '11', '26', '67', '8B'])], 'readonly': [('edoc_is_locked', '=', True)]}"
                         >
                             <field
                                 name="fiscal_operation_id"
@@ -200,7 +204,10 @@
                             <field name="ind_final" />
                             <field name="ind_pres" />
                         </group>
-                        <group name="document_numbers">
+                        <group
+                            name="document_numbers"
+                            attrs="{'readonly': [('edoc_is_locked', '=', True)]}"
+                        >
                             <field name="issuer" />
                             <field name="document_type_id" required="1" />
                             <label
@@ -234,7 +241,10 @@
                         </group>
                         <group name="document_extra">
                             <field name="state_fiscal" />
-                            <field name="document_date" />
+                            <field
+                                name="document_date"
+                                attrs="{'readonly': [('edoc_is_locked', '=', True)]}"
+                            />
                             <field name="date_in_out" />
                             <field name="user_id" />
                             <field
@@ -249,6 +259,7 @@
                         <page name="products" string="Products and Services">
                             <field
                                 name="fiscal_line_ids"
+                                attrs="{'readonly': [('edoc_is_locked', '=', True)]}"
                                 context="{
                                     'form_view_ref': 'l10n_br_fiscal.document_line_form',
                                     'default_document_id': id,
