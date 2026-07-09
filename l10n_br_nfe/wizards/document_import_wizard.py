@@ -2,6 +2,7 @@
 # Copyright (C) 2022  Renan Hiroki Bastos - Kmee
 # Copyright (C) 2023  Luiz Felipe do Divino - Kmee
 # Copyright (C) 2023  Felipe Zago Rodrigues - Kmee
+# Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
@@ -157,6 +158,10 @@ class DocumentImportWizard(models.TransientModel):
         return variant_ids[0]
 
     def _match_product(self, xml_product):
+        product_id = self._match_product_by_purchase(xml_product)
+        if product_id:
+            return product_id
+
         product_id = self._get_product_by_supplier(xml_product.cProd)
         if product_id:
             return product_id
@@ -173,6 +178,74 @@ class DocumentImportWizard(models.TransientModel):
             domain = expression.OR(domains)
             rec_id = self.env["product.product"].search(domain, limit=1)
         return rec_id
+
+    def _match_product_by_purchase(self, xml_product):
+        """Priority match from the referenced purchase order.
+
+        When ``l10n_br_purchase`` is installed and the XML line references the
+        buyer's purchase order (xPed / nItemPed), take the product from the
+        matching purchase order line first: it is the most authoritative match
+        since the buyer already stated which product was ordered.
+
+        Soft dependency: no-op unless l10n_br_purchase is installed (it adds
+        the partner_order / partner_order_line fields to purchase.order.line;
+        core ``purchase`` alone does not provide them).
+        """
+        pol_model = self.env.get("purchase.order.line")
+        if pol_model is None or "partner_order" not in pol_model._fields:
+            return False
+        xped = (getattr(xml_product, "xPed", "") or "").strip()
+        if not xped:
+            return False
+
+        partner = self.partner_id.id
+        pol = pol_model.sudo()
+        nitemped = (getattr(xml_product, "nItemPed", "") or "").strip()
+
+        # 1) exact agreed reference: xPed + nItemPed on the purchase order line
+        if nitemped:
+            line = pol.search(
+                [
+                    ("order_id.partner_id", "=", partner),
+                    ("partner_order", "=", xped),
+                    ("partner_order_line", "=", nitemped),
+                ],
+                limit=1,
+            )
+            if line:
+                return line.product_id
+
+        # 2) heuristic: narrow to the referenced order (partner_order on the
+        # line, else the buyer PO name / vendor reference), then disambiguate
+        # the line by the XML product code / barcode.
+        lines = pol.search(
+            [("order_id.partner_id", "=", partner), ("partner_order", "=", xped)]
+        )
+        if not lines:
+            order = (
+                self.env["purchase.order"]
+                .sudo()
+                .search(
+                    [
+                        ("partner_id", "=", partner),
+                        "|",
+                        ("partner_ref", "=", xped),
+                        ("name", "=", xped),
+                    ],
+                    limit=1,
+                )
+            )
+            lines = order.order_line
+        if len(lines) == 1:
+            return lines.product_id
+        cprod = getattr(xml_product, "cProd", None)
+        ean = getattr(xml_product, "cEANTrib", None)
+        for line in lines:
+            if cprod and line.product_id.default_code == cprod:
+                return line.product_id
+            if ean and ean != "SEM GTIN" and line.product_id.barcode == ean:
+                return line.product_id
+        return False
 
     def _get_taxes_from_xml_product(self, product):
         vICMS = 0
