@@ -1362,6 +1362,16 @@ class NFeLine(spec_models.StackedModel):
                 .search([("code_unmasked", "=", value)], limit=1)
                 .id
             )
+        if key == "nfe40_CFOP" and value:
+            # Preserve the CFOP declared by the counterparty. cfop_id itself is
+            # recomputed by the de-para; partner_cfop_id keeps the original for
+            # bookkeeping / SPED (C197).
+            vals["partner_cfop_id"] = (
+                self.env["l10n_br_fiscal.cfop"]
+                .search([("code", "=", value)], limit=1)
+                .id
+            )
+
         if key == "nfe40_qCom":
             vals["quantity"] = float(value)
         if key == "nfe40_qTrib":
