@@ -1561,6 +1561,13 @@ class NFeLine(spec_models.StackedModel):
                 tax_domain_with_red,
                 limit=1,
             )
+            # If no fiscal tax with this base reduction exists yet, create it
+            # instead of falling back to a plain (no-reduction) tax, which
+            # would compute a wrong ICMS credit and diverge from the NFe/SPED.
+            if not fiscal_tax_id and percent:
+                fiscal_tax_id = self._create_reduced_fiscal_tax(
+                    tax_group_id, percent, cst_id, icms_percent_red
+                )
 
         if not fiscal_tax_id:
             if tax_domain_with_cst:
