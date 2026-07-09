@@ -29,7 +29,7 @@ class TestDanfeGeneration(TransactionCase):
     def test_generate_danfe_brazil_fiscal_report_partner(self):
         nfe = self.env.ref("l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11")
         nfe.action_document_confirm()
-        nfe.issuer = "partner"
+        nfe.with_context(skip_edoc_lock=True).issuer = "partner"
         nfe.view_pdf()
         self.assertTrue(nfe.file_report_id)
 
