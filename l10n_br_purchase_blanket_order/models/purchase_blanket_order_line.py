@@ -181,7 +181,6 @@ class PurchaseBlanketOrderLine(models.Model):
         "cfop_id",
         "icmssn_range_id",
         "icms_origin",
-        "icms_cst_id",
         "ind_final",
         "icms_relief_id",
         "order_id.company_id",
