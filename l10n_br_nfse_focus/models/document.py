@@ -354,7 +354,7 @@ class Document(models.Model):
                     self._process_error_status(record, json)
                 elif json["status"] == STATUS_CANCELADO:
                     if record.state_edoc != SITUACAO_EDOC_CANCELADA:
-                        record.action_document_cancel()
+                        record._document_cancel(record.cancel_reason)
 
             return _(json["status"])
 
@@ -393,7 +393,7 @@ class Document(models.Model):
                     record._change_state(SITUACAO_EDOC_REJEITADA)
                 elif json["status"] == STATUS_CANCELADO:
                     if record.state_edoc != SITUACAO_EDOC_CANCELADA:
-                        record.action_document_cancel()
+                        record._document_cancel(record.cancel_reason)
 
             return _(json["status"])
 
