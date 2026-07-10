@@ -29,13 +29,6 @@ class DocumentLine(models.Model):
             if line.product_id and line.product_id.fiscal_deductions_value:
                 line.fiscal_deductions_value = line.product_id.fiscal_deductions_value
 
-    def _compute_taxes(self, taxes, cst=None):
-        discount_value = self.discount_value
-        self.discount_value += self.fiscal_deductions_value
-        res = super()._compute_taxes(taxes, cst)
-        self.discount_value = discount_value
-        return res
-
     @api.model
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
