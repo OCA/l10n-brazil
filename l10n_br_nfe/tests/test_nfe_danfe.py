@@ -32,3 +32,15 @@ class TestDanfeGeneration(TransactionCase):
         nfe.issuer = "partner"
         nfe.view_pdf()
         self.assertTrue(nfe.file_report_id)
+
+    def test_generate_danfe_after_authorization(self):
+        """The DANFE must be generated automatically upon authorization.
+
+        Regression test: the legacy _exec_after_SITUACAO_EDOC_AUTORIZADA
+        hook that generated it became dead code with the FSM refactor.
+        """
+        nfe = self.env.ref("l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11")
+        nfe.action_document_confirm()
+        self.assertFalse(nfe.file_report_id)
+        nfe._trigger_fsm("action_authorize")
+        self.assertTrue(nfe.file_report_id)
