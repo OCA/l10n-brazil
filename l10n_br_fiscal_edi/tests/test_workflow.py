@@ -195,6 +195,21 @@ class TestWorkflow(TransactionCase):
 
         with self.assertRaises(UserError):
             self.fiscal_document.action_document_send()
+
+    def test_dashboard_counts_authorized(self):
+        """The operation dashboard 'authorized' counter must count
+        authorized documents, not merely confirmed (open) ones."""
+        operation = self.env.ref("l10n_br_fiscal.fo_venda")
+        self.fiscal_document.fiscal_operation_id = operation
+        self.fiscal_document.document_electronic = True
+
+        self.fiscal_document.action_document_confirm()
+        before = operation.get_operation_dashboard_data()["number_authorized"]
+
+        self.fiscal_document.action_document_send()
+        after = operation.get_operation_dashboard_data()["number_authorized"]
+        self.assertEqual(after, before + 1)
+
     def test_operation_comments_copied_on_confirm(self):
         """Comments configured on the fiscal operation must be copied to the
         document upon confirmation.
