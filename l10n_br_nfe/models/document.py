@@ -1325,7 +1325,7 @@ class NFe(spec_models.StackedModel):
         erros = "\n".join(erros)
         self.write({"xml_error_message": erros or False})
 
-    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+    def _after_document_authorize(self):
         self.ensure_one()
         if (
             self.document_type_id.code in [MODELO_FISCAL_NFE]
@@ -1340,7 +1340,7 @@ class NFe(spec_models.StackedModel):
                 # Se der problema que apareça quando
                 # o usuário clicar no gerar PDF novamente.
                 _logger.error(f"DANFE Error \n {e}")
-        return super()._exec_after_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
+        return super()._after_document_authorize()
 
     def _generate_key(self):
         if self.document_type_id.code not in [
