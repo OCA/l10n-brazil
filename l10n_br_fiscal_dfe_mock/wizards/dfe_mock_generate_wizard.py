@@ -170,6 +170,9 @@ class DfeMockGenerateWizard(models.TransientModel):
         """Build a procNFe XML string."""
         serie = access_key[22:25].lstrip("0") or "1"
         nnf = access_key[25:34].lstrip("0") or "1"
+        company = self.company_id
+        dest_cnpj = re.sub(r"[^0-9]", "", company.vat or "")
+        dest_ie = re.sub(r"[^0-9]", "", getattr(company, "l10n_br_ie_code", "") or "")
         return (
             '<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">'
             '<NFe xmlns="http://www.portalfiscal.inf.br/nfe">'
@@ -208,6 +211,21 @@ class DfeMockGenerateWizard(models.TransientModel):
             f"<IE>{partner_data['ie']}</IE>"
             "<CRT>3</CRT>"
             "</emit>"
+            "<dest>"
+            f"<CNPJ>{dest_cnpj}</CNPJ>"
+            f"<xNome>{company.name}</xNome>"
+            "<enderDest>"
+            "<xLgr>Rua Empresa Mock</xLgr><nro>1</nro>"
+            "<xBairro>Centro</xBairro>"
+            f"<cMun>{partner_data['uf_code']}00308</cMun>"
+            "<xMun>Cidade Mock</xMun>"
+            "<UF>SP</UF>"
+            "<CEP>01000000</CEP>"
+            "<cPais>1058</cPais><xPais>BRASIL</xPais>"
+            "</enderDest>"
+            "<indIEDest>1</indIEDest>"
+            f"<IE>{dest_ie or 'ISENTO'}</IE>"
+            "</dest>"
             "<det nItem=\"1\">"
             '<prod><cProd>001</cProd><cEAN>SEM GTIN</cEAN>'
             "<xProd>PRODUTO MOCK</xProd>"
