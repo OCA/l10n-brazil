@@ -354,6 +354,7 @@ class Document(models.Model):
     def _before_document_validate(self):
         self._document_date()
         self._document_number()
+        self._copy_operation_comments()
         self._document_comment()
         self._document_check()
         self._document_export()  # Legacy hook, might be empty
@@ -396,6 +397,16 @@ class Document(models.Model):
 
     def _document_check(self):
         return True
+
+    def _copy_operation_comments(self):
+        """Copy the default comments of the fiscal operation to the document
+        and its lines, so _document_comment() can render them."""
+        for record in self:
+            if not record.comment_ids and record.fiscal_operation_id.comment_ids:
+                record.comment_ids |= record.fiscal_operation_id.comment_ids
+            for line in record.fiscal_line_ids:
+                if not line.comment_ids and line.fiscal_operation_line_id.comment_ids:
+                    line.comment_ids |= line.fiscal_operation_line_id.comment_ids
 
     def _generate_key(self):
         for record in self:
