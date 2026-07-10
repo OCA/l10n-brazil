@@ -5,3 +5,4 @@ nfelib
 Setuptools<81
 signxml==3.2.2
 xmldiff
+nfelib @ git+https://github.com/akretion/nfelib@update-schema-xsdata-latest
