@@ -4,6 +4,7 @@
 from importlib import import_module
 
 from odoo import api, models
+from odoo.models import is_definition_class
 from odoo.tools import mute_logger
 
 from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
@@ -128,7 +129,25 @@ class SpecMixin(models.AbstractModel):
             spec_class = StackedModel._odoo_name_to_class(name, spec_module)
             if spec_class is None:
                 continue
-            fields = self.env[spec_class._name]._fields
+            # By the time this hook runs, all modules extending this spec
+            # mixin via _inherit (e.g. custom fields added by a downstream
+            # *_nfe module) have already been merged by Odoo into the
+            # registry class for `name`. spec_class only reflects the single
+            # class literally defined in spec_module though, so using it
+            # alone as the base below would silently drop those extra
+            # fields. Pull in every genuine definition class that
+            # contributed to the merged registry class (skipping registry
+            # ("NewClass") wrappers themselves, which cannot safely be reused
+            # as a base for another _build_model() call).
+            merged_class = self.env.registry[name]
+            # accessed via getattr to avoid Python's name mangling of the
+            # double-underscore "__base_classes" attribute set by Odoo's
+            # BaseModel._build_model()
+            merged_base_classes = merged_class._BaseModel__base_classes
+            definition_bases = tuple(
+                base for base in merged_base_classes if is_definition_class(base)
+            )
+            fields = merged_class._fields
             rec_name = next(
                 filter(
                     lambda x: (x.startswith(field_prefix) and "_choice" not in x),
@@ -138,7 +157,7 @@ class SpecMixin(models.AbstractModel):
             )
             model_type = type(
                 name,
-                (SpecModel, spec_class),
+                (SpecModel,) + definition_bases,
                 {
                     "_name": name,
                     "_inherit": spec_class._inherit,
