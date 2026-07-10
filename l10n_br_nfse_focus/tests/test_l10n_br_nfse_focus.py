@@ -1493,14 +1493,19 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         document.state_edoc = SITUACAO_EDOC_ENVIADA
         document.cancel_reason = "Teste"
 
+        # Only the provider call is mocked: the document must actually be
+        # cancelled locally (regression: calling action_document_cancel()
+        # here just returned the wizard action and left the state untouched).
         with patch(
-            "odoo.addons.l10n_br_fiscal_edi.models.document.Document"
-            ".action_document_cancel"
+            "odoo.addons.l10n_br_nfse_focus.models.document.Document"
+            ".cancel_document_focus",
+            return_value=True,
         ) as mock_cancel:
             result = document._process_status_nacional(document)
 
             self.assertIn("cancelado", result)
             mock_cancel.assert_called_once()
+        self.assertEqual(document.state_edoc, SITUACAO_EDOC_CANCELADA)
 
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.nfse_municipal"
