@@ -270,6 +270,7 @@ class Document(models.Model):
                     "trigger": "action_authorize",
                     "source": [DOCUMENT_STATE_SENDING, DOCUMENT_STATE_OPEN],
                     "dest": DOCUMENT_STATE_AUTHORIZED,
+                    "after": "_after_document_authorize",
                 },
                 # Reject: Sending -> Rejected
                 {
@@ -364,6 +365,11 @@ class Document(models.Model):
     def _after_document_send(self):
         # Trigger actual sending logic
         self._document_send_logic()
+
+    def _after_document_authorize(self):
+        """Hook called after the document is authorized. Overridden by
+        transmission modules (e.g. l10n_br_nfe generates the DANFE here)."""
+        pass
 
     def _before_document_cancel(self):
         # Logic moved from _document_cancel
