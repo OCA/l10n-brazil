@@ -115,28 +115,27 @@ class AccountMove(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             self._sync_proxy_fields_vals(vals)
-            # Prevent Odoo's tax_totals widget from obliterating our
-            # exact XML tax calculations
-            if "tax_totals" in vals and (
-                vals.get("imported_document")
-                or self.env.context.get("force_fiscal_amount_recompute")
-            ):
-                vals.pop("tax_totals")
         return super().create(vals_list)
 
     def write(self, vals):
         self._sync_proxy_fields_vals(vals)
-        # Pop tax_totals to prevent Odoo from overriding our tax lines on save
-        if "tax_totals" in vals and (
-            any(self.mapped("imported_document"))
-            or self.env.context.get("force_fiscal_amount_recompute")
-        ):
-            vals.pop("tax_totals")
-
         res = super().write(vals)
         if "partner_id" in vals:
             self._onchange_ind_final()
         return res
+
+    def _inverse_tax_totals(self):
+        # Never let the tax_totals widget override the exact tax values
+        # of an imported fiscal document.
+        if self.env.context.get("force_fiscal_amount_recompute"):
+            # Import flow: the move is still being assembled and
+            # imported_document may not be written yet, so skip the
+            # inverse for the whole batch.
+            return
+        # Regular (UI) flow: run the standard inverse only for the moves
+        # that are not the mirror of an imported fiscal document.
+        moves = self.filtered(lambda move: not move.imported_document)
+        return super(AccountMove, moves)._inverse_tax_totals()
 
     @api.onchange("company_id")
     def _onchange_company_id_br(self):
