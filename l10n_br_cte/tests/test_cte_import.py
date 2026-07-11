@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import importlib.resources
+
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo.models import NewId
