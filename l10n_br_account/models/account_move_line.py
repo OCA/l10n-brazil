@@ -416,22 +416,7 @@ class AccountMoveLine(models.Model):
                 subtotal = line.quantity * line_discount_price_unit
                 line.price_total = line.price_subtotal = subtotal
 
-    # Ordered rules to classify an account.tax into a Brazilian tax kind
-    # from its domain/name. Each entry is (kind, include_kw, exclude_kw).
-    # Order matters: "icmsst" must be tested before "icms", etc.
-    _IMPORTED_TAX_MATCH_RULES = [
-        ("icmsst", ["icmsst", "icms_st", "icms st"], []),
-        ("icms", ["icms"], ["st", "wh", "ret"]),
-        ("ipi", ["ipi"], ["wh", "ret"]),
-        ("pis", ["pis"], ["st", "wh", "ret"]),
-        ("cofins", ["cofins"], ["st", "wh", "ret"]),
-        ("issqn", ["issqn", "iss"], ["inss", "wh", "ret"]),
-        ("ii", ["ii"], ["wh", "ret"]),
-        ("ibs", ["ibs"], ["wh", "ret"]),
-        ("cbs", ["cbs"], ["wh", "ret"]),
-    ]
-
-    # kind -> (fiscal_value_field, fiscal_base_field)
+    # tax_domain -> (fiscal_value_field, fiscal_base_field)
     _IMPORTED_TAX_FIELD_MAP = {
         "icmsst": ("icmsst_value", "icmsst_base"),
         "icms": ("icms_value", "icms_base"),
@@ -444,55 +429,32 @@ class AccountMoveLine(models.Model):
         "cbs": ("cbs_value", "cbs_base"),
     }
 
-    def _resolve_tax_kind(self, tax_dict):
-        """Resolve the Brazilian tax kind from a compute_all tax dict.
-
-        Tries the account.tax tax_domain first, then falls back to
-        heuristic name matching against ``_IMPORTED_TAX_MATCH_RULES``.
-        Returns a kind string (e.g. "icms") or "".
-        """
-        domain = ""
-        acc_tax = (
-            self.env["account.tax"].browse(tax_dict["id"])
-            if tax_dict.get("id")
-            else None
-        )
-        if not acc_tax and tax_dict.get("tax_repartition_line_id"):
-            acc_tax = (
-                self.env["account.tax.repartition.line"]
-                .browse(tax_dict["tax_repartition_line_id"])
-                .tax_id
-            )
-        if acc_tax:
-            if hasattr(acc_tax, "tax_domain") and acc_tax.tax_domain:
-                domain = acc_tax.tax_domain
-            elif hasattr(acc_tax, "fiscal_tax_ids") and acc_tax.fiscal_tax_ids:
-                domain = acc_tax.fiscal_tax_ids[0].tax_domain
-        if not domain:
-            domain = tax_dict.get("name", "").lower()
-
-        for kind, include_kw, exclude_kw in self._IMPORTED_TAX_MATCH_RULES:
-            if any(kw in domain for kw in include_kw) and not any(
-                kw in domain for kw in exclude_kw
-            ):
-                return kind
-        return ""
-
     def _override_taxes_from_import(self, taxes, fiscal_line, sign):
-        """Override compute_all tax amounts with imported fiscal values."""
+        """Override compute_all tax amounts with the imported fiscal values.
+
+        The account.tax -> Brazilian tax mapping comes from the fiscal
+        tax group (``tax_group_id.fiscal_tax_group_id.tax_domain``), the
+        same canonical link already used by the account.tax compute_all
+        override.
+        """
         for tax in taxes:
-            kind = self._resolve_tax_kind(tax)
-            fields = self._IMPORTED_TAX_FIELD_MAP.get(kind)
-            if fields:
-                tax["amount"] = sign * (getattr(fiscal_line, fields[0]) or 0.0)
-                tax["base"] = sign * (getattr(fiscal_line, fields[1]) or 0.0)
-            elif (
-                "wh" in tax.get("name", "").lower()
-                or "ret" in tax.get("name", "").lower()
-            ):
+            acc_tax = self.env["account.tax"].browse(tax.get("id") or [])
+            if not acc_tax and tax.get("tax_repartition_line_id"):
+                acc_tax = (
+                    self.env["account.tax.repartition.line"]
+                    .browse(tax["tax_repartition_line_id"])
+                    .tax_id
+                )
+            fiscal_group = acc_tax.tax_group_id.fiscal_tax_group_id
+            if fiscal_group.tax_withholding:
                 # Clear withholding taxes: XML doesn't bring WH item per item
                 tax["amount"] = 0.0
                 tax["base"] = 0.0
+                continue
+            field_names = self._IMPORTED_TAX_FIELD_MAP.get(fiscal_group.tax_domain)
+            if field_names:
+                tax["amount"] = sign * (getattr(fiscal_line, field_names[0]) or 0.0)
+                tax["base"] = sign * (getattr(fiscal_line, field_names[1]) or 0.0)
 
     @api.depends(
         "tax_ids",
