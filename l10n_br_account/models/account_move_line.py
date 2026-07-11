@@ -438,13 +438,13 @@ class AccountMoveLine(models.Model):
         override.
         """
         for tax in taxes:
-            acc_tax = self.env["account.tax"].browse(tax.get("id") or [])
-            if not acc_tax and tax.get("tax_repartition_line_id"):
-                acc_tax = (
-                    self.env["account.tax.repartition.line"]
-                    .browse(tax["tax_repartition_line_id"])
-                    .tax_id
-                )
+            repartition_line = self.env["account.tax.repartition.line"].browse(
+                tax.get("tax_repartition_line_id") or []
+            )
+            acc_tax = (
+                self.env["account.tax"].browse(tax.get("id") or [])
+                or repartition_line.tax_id
+            )
             fiscal_group = acc_tax.tax_group_id.fiscal_tax_group_id
             if fiscal_group.tax_withholding:
                 # Clear withholding taxes: XML doesn't bring WH item per item
@@ -453,7 +453,13 @@ class AccountMoveLine(models.Model):
                 continue
             field_names = self._IMPORTED_TAX_FIELD_MAP.get(fiscal_group.tax_domain)
             if field_names:
-                tax["amount"] = sign * (getattr(fiscal_line, field_names[0]) or 0.0)
+                # compute_all returns one entry per tax repartition line:
+                # each entry must carry only its share (factor) of the
+                # imported tax value, otherwise taxes with more than one
+                # repartition line would be counted multiple times.
+                factor = repartition_line.factor if repartition_line else 1.0
+                fiscal_value = getattr(fiscal_line, field_names[0]) or 0.0
+                tax["amount"] = sign * fiscal_value * factor
                 tax["base"] = sign * (getattr(fiscal_line, field_names[1]) or 0.0)
 
     @api.depends(
