@@ -1664,76 +1664,14 @@ class NFeLine(spec_models.StackedModel):
 
     def _import_ibscbs_attrs(self, value, odoo_attrs):
         """Import IBSCBS tax attributes from NFe binding."""
-        if not value or not value.gIBSCBS:
-            return
-
-        gibscbs = value.gIBSCBS
-
-        # Base calculation
-        v_bc = float(gibscbs.vBC) if gibscbs.vBC else 0.0
-
-        # CST - shared for both IBS and CBS
-        cst_code = value.CST if value.CST else "000"
-        cst_ibs = self.env.ref(
-            f"l10n_br_fiscal.cst_ibs_{cst_code}", raise_if_not_found=False
+        tax_ids = self.env["l10n_br_fiscal.document.line"]._add_imported_ibscbs_vals(
+            value, odoo_attrs
         )
-        if cst_ibs:
-            odoo_attrs["ibs_cst_id"] = cst_ibs.id
-        cst_cbs = self.env.ref(
-            f"l10n_br_fiscal.cst_cbs_{cst_code}", raise_if_not_found=False
-        )
-        if cst_cbs:
-            odoo_attrs["cbs_cst_id"] = cst_cbs.id
-
-        # IBS values
-        ibs_percent = 0.0
-        ibs_value = 0.0
-        if gibscbs.gIBSUF:
-            ibs_percent = float(gibscbs.gIBSUF.pIBSUF) if gibscbs.gIBSUF.pIBSUF else 0.0
-            ibs_value = float(gibscbs.gIBSUF.vIBSUF) if gibscbs.gIBSUF.vIBSUF else 0.0
-
-        odoo_attrs["ibs_base"] = v_bc
-        odoo_attrs["ibs_percent"] = ibs_percent
-        odoo_attrs["ibs_value"] = ibs_value
-
-        # CBS values
-        cbs_percent = 0.0
-        cbs_value = 0.0
-        if gibscbs.gCBS:
-            cbs_percent = float(gibscbs.gCBS.pCBS) if gibscbs.gCBS.pCBS else 0.0
-            cbs_value = float(gibscbs.gCBS.vCBS) if gibscbs.gCBS.vCBS else 0.0
-
-        odoo_attrs["cbs_base"] = v_bc
-        odoo_attrs["cbs_percent"] = cbs_percent
-        odoo_attrs["cbs_value"] = cbs_value
-
-        # Find IBS tax
-        ibs_tax = self.env["l10n_br_fiscal.tax"].search(
-            [
-                ("tax_group_id", "=", self.env.ref("l10n_br_fiscal.tax_group_ibs").id),
-                ("percent_amount", "=", ibs_percent),
-            ],
-            limit=1,
-        )
-        if ibs_tax:
-            odoo_attrs["ibs_tax_id"] = ibs_tax.id
+        if tax_ids:
+            # the NFe import framework links m2m fields with raw ids
             if not odoo_attrs.get("fiscal_tax_ids"):
                 odoo_attrs["fiscal_tax_ids"] = []
-            odoo_attrs["fiscal_tax_ids"].append(ibs_tax.id)
-
-        # Find CBS tax
-        cbs_tax = self.env["l10n_br_fiscal.tax"].search(
-            [
-                ("tax_group_id", "=", self.env.ref("l10n_br_fiscal.tax_group_cbs").id),
-                ("percent_amount", "=", cbs_percent),
-            ],
-            limit=1,
-        )
-        if cbs_tax:
-            odoo_attrs["cbs_tax_id"] = cbs_tax.id
-            if not odoo_attrs.get("fiscal_tax_ids"):
-                odoo_attrs["fiscal_tax_ids"] = []
-            odoo_attrs["fiscal_tax_ids"].append(cbs_tax.id)
+            odoo_attrs["fiscal_tax_ids"].extend(tax_ids)
 
     def _verify_related_many2ones(self, related_many2ones):
         if (
