@@ -756,6 +756,10 @@ class AccountMove(models.Model):
                     }
                 )
 
+                # amount_tax_(not_)included are NOT repeated here: they are
+                # delegated to the fiscal line through _inherits and writing
+                # them along with a new fiscal_document_line_id in the same
+                # vals would be ambiguous (old or new parent record?).
                 invoice_line_write_vals.append(
                     (
                         1,
@@ -764,8 +768,6 @@ class AccountMove(models.Model):
                             "product_uom_id": item["uot_id"],
                             "price_unit": item["price_unit"],
                             "fiscal_document_line_id": item["fiscal_line_id"],
-                            "amount_tax_included": item["amt_inc"],
-                            "amount_tax_not_included": item["amt_not_inc"],
                         },
                     )
                 )
