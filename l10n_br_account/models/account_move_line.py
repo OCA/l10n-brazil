@@ -440,6 +440,185 @@ class AccountMoveLine(models.Model):
                 # If no tax, just compute the total based on price_unit and quantity
                 subtotal = line.quantity * line_discount_price_unit
                 line.price_total = line.price_subtotal = subtotal
+    
+    # tax_domain -> (fiscal_value_field, fiscal_base_field)
+    _IMPORTED_TAX_FIELD_MAP = {
+        "icmsst": ("icmsst_value", "icmsst_base"),
+        "icms": ("icms_value", "icms_base"),
+        "ipi": ("ipi_value", "ipi_base"),
+        "pis": ("pis_value", "pis_base"),
+        "cofins": ("cofins_value", "cofins_base"),
+        "issqn": ("issqn_value", "issqn_base"),
+        "ii": ("ii_value", "ii_base"),
+        "ibs": ("ibs_value", "ibs_base"),
+        "cbs": ("cbs_value", "cbs_base"),
+    }
+
+    def _override_taxes_from_import(self, taxes, fiscal_line, sign):
+        """Override compute_all tax amounts with the imported fiscal values.
+
+        The account.tax -> Brazilian tax mapping comes from the fiscal
+        tax group (``tax_group_id.fiscal_tax_group_id.tax_domain``), the
+        same canonical link already used by the account.tax compute_all
+        override.
+        """
+        for tax in taxes:
+            repartition_line = self.env["account.tax.repartition.line"].browse(
+                tax.get("tax_repartition_line_id") or []
+            )
+            acc_tax = (
+                self.env["account.tax"].browse(tax.get("id") or [])
+                or repartition_line.tax_id
+            )
+            fiscal_group = acc_tax.tax_group_id.fiscal_tax_group_id
+            if fiscal_group.tax_withholding:
+                # Clear withholding taxes: XML doesn't bring WH item per item
+                tax["amount"] = 0.0
+                tax["base"] = 0.0
+                continue
+            field_names = self._IMPORTED_TAX_FIELD_MAP.get(fiscal_group.tax_domain)
+            if field_names:
+                # compute_all returns one entry per tax repartition line:
+                # each entry must carry only its share (factor) of the
+                # imported tax value, otherwise taxes with more than one
+                # repartition line would be counted multiple times.
+                factor = repartition_line.factor if repartition_line else 1.0
+                fiscal_value = getattr(fiscal_line, field_names[0]) or 0.0
+                tax["amount"] = sign * fiscal_value * factor
+                tax["base"] = sign * (getattr(fiscal_line, field_names[1]) or 0.0)
+
+    @api.depends(
+        "tax_ids",
+        "currency_id",
+        "partner_id",
+        "analytic_distribution",
+        "balance",
+        "partner_id",
+        "move_id.partner_id",
+        "price_unit",
+        "fiscal_tax_ids",
+        "fiscal_operation_line_id",
+        "cfop_id",
+        "ncm_id",
+        "nbm_id",
+        "nbs_id",
+        "cest_id",
+        "discount_value",
+        "insurance_value",
+        "other_value",
+        "ii_customhouse_charges",
+        "freight_value",
+        "fiscal_price",
+        "fiscal_quantity",
+        "uot_id",
+        "icmssn_range_id",
+        "icms_origin",
+        "ind_final",
+        "fiscal_document_line_id",
+        "fiscal_document_line_id.document_id.imported_document",
+    )
+    def _compute_all_tax(self):
+        """
+        Overriden to pass all the extra Brazilian parameters we need
+        to the account.tax#compute_all method.
+        """
+        if not self.move_id.fiscal_operation_id:
+            return super()._compute_all_tax()
+
+        for line in self:
+            sign = line.move_id.direction_sign
+            if line.display_type == "tax":
+                line.compute_all_tax = {}
+                line.compute_all_tax_dirty = False
+                continue
+            if line.display_type == "product" and line.move_id.is_invoice(True):
+                amount_currency = sign * line.price_unit * (1 - line.discount / 100)
+                handle_price_include = True
+                quantity = line.quantity
+            else:
+                amount_currency = line.amount_currency
+                handle_price_include = False
+                quantity = 1
+
+            compute_all_currency = line.tax_ids.compute_all(
+                amount_currency,
+                currency=line.currency_id,
+                quantity=quantity,
+                product=line.product_id,
+                partner=line.move_id.partner_id or line.partner_id,
+                is_refund=line.is_refund,
+                handle_price_include=handle_price_include,
+                include_caba_tags=line.move_id.always_tax_exigible,
+                fixed_multiplicator=sign,
+                fiscal_taxes=line.fiscal_tax_ids,
+                operation_line=line.fiscal_operation_line_id,
+                cfop=line.cfop_id or None,
+                ncm=line.ncm_id,
+                nbs=line.nbs_id,
+                nbm=line.nbm_id,
+                cest=line.cest_id,
+                discount_value=line.discount_value,
+                insurance_value=line.insurance_value,
+                other_value=line.other_value,
+                ii_customhouse_charges=line.ii_customhouse_charges,
+                freight_value=line.freight_value,
+                fiscal_price=line.fiscal_price,
+                fiscal_quantity=line.fiscal_quantity,
+                uot_id=line.uot_id,
+                icmssn_range=line.icmssn_range_id,
+                icms_origin=line.icms_origin,
+                ind_final=line.ind_final,
+            )
+            rate = (
+                line.amount_currency / line.balance
+                if (line.balance and line.amount_currency)
+                else 1
+            )
+            line.compute_all_tax_dirty = True
+
+            if (
+                line.fiscal_document_line_id
+                and line.fiscal_document_line_id.document_id.imported_document
+            ):
+                self._override_taxes_from_import(
+                    compute_all_currency["taxes"],
+                    line.fiscal_document_line_id,
+                    sign,
+                )
+
+            line.compute_all_tax = {
+                frozendict(
+                    {
+                        "tax_repartition_line_id": tax["tax_repartition_line_id"],
+                        "group_tax_id": tax["group"] and tax["group"].id or False,
+                        "account_id": tax["account_id"] or line.account_id.id,
+                        "currency_id": line.currency_id.id,
+                        "analytic_distribution": (
+                            tax["analytic"] or not tax["use_in_tax_closing"]
+                        )
+                        and line.analytic_distribution,
+                        "tax_ids": [Command.set(tax["tax_ids"])],
+                        "tax_tag_ids": [Command.set(tax["tag_ids"])],
+                        "partner_id": line.move_id.partner_id.id or line.partner_id.id,
+                        "move_id": line.move_id.id,
+                        "display_type": line.display_type,
+                    }
+                ): {
+                    "name": tax["name"]
+                    + (" " + _("(Discount)") if line.display_type == "epd" else ""),
+                    "balance": tax["amount"] / rate,
+                    "amount_currency": tax["amount"],
+                    "tax_base_amount": tax["base"]
+                    / rate
+                    * (-1 if line.tax_tag_invert else 1),
+                }
+                for tax in compute_all_currency["taxes"]
+                if tax["amount"]
+            }
+            if not line.tax_repartition_line_id:
+                line.compute_all_tax[frozendict({"id": line.id})] = {
+                    "tax_tag_ids": [Command.set(compute_all_currency["base_tags"])],
+                }
 
     @api.onchange(
         "icms_base",
