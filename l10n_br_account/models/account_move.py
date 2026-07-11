@@ -749,7 +749,7 @@ class AccountMove(models.Model):
             move = self.env["account.move"]
 
         move_form = Form(
-            move.with_context(
+            move.sudo().with_context(
                 default_move_type=move_type,
                 account_predictive_bills_disable_prediction=True,
                 force_fiscal_amount_recompute=True,
@@ -830,6 +830,10 @@ class AccountMove(models.Model):
                     }
                 )
 
+                # amount_tax_(not_)included are NOT repeated here: they are
+                # delegated to the fiscal line through _inherits and writing
+                # them along with a new fiscal_document_line_id in the same
+                # vals would be ambiguous (old or new parent record?).
                 invoice_line_write_vals.append(
                     (
                         1,
@@ -838,18 +842,16 @@ class AccountMove(models.Model):
                             "product_uom_id": item["uot_id"],
                             "price_unit": item["price_unit"],
                             "fiscal_document_line_id": item["fiscal_line_id"],
-                            "amount_tax_included": item["amt_inc"],
-                            "amount_tax_not_included": item["amt_not_inc"],
                         },
                     )
                 )
 
         # Write safely bypassing strict validity checks mid-loop
-        move.with_context(check_move_validity=False).write(
+        move.sudo().with_context(check_move_validity=False).write(
             {"invoice_line_ids": invoice_line_write_vals}
         )
 
         if dummy_lines_to_unlink:
-            dummy_lines_to_unlink.unlink()
+            dummy_lines_to_unlink.sudo().unlink()
 
         return move_form
