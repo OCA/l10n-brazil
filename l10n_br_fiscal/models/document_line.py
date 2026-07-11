@@ -127,3 +127,72 @@ class DocumentLine(models.Model):
             line.additional_data = line.comment_ids.compute_message(
                 line.__document_comment_vals(), line.manual_additional_data
             )
+
+    @api.model
+    def _add_imported_ibscbs_vals(self, ibscbs, vals):
+        """Merge into ``vals`` the IBS/CBS values of an imported IBSCBS
+        binding node (NFe and CTe share the same DFe schema for it).
+
+        Returns the list of matched fiscal tax ids so each caller can
+        link them into ``fiscal_tax_ids`` with its own convention (the
+        NFe import framework expects raw ids, the CTe one expects
+        Command tuples).
+        """
+        tax_ids = []
+        if not (ibscbs and ibscbs.gIBSCBS):
+            return tax_ids
+
+        gibscbs = ibscbs.gIBSCBS
+        base = float(gibscbs.vBC) if gibscbs.vBC else 0.0
+
+        ibs_percent = ibs_value = 0.0
+        if gibscbs.gIBSUF:
+            ibs_percent = float(gibscbs.gIBSUF.pIBSUF) if gibscbs.gIBSUF.pIBSUF else 0.0
+            ibs_value = float(gibscbs.gIBSUF.vIBSUF) if gibscbs.gIBSUF.vIBSUF else 0.0
+        cbs_percent = cbs_value = 0.0
+        if gibscbs.gCBS:
+            cbs_percent = float(gibscbs.gCBS.pCBS) if gibscbs.gCBS.pCBS else 0.0
+            cbs_value = float(gibscbs.gCBS.vCBS) if gibscbs.gCBS.vCBS else 0.0
+
+        cst_code = ibscbs.CST if ibscbs.CST else "000"
+        cst_ibs = self.env.ref(
+            f"l10n_br_fiscal.cst_ibs_{cst_code}", raise_if_not_found=False
+        )
+        if cst_ibs:
+            vals["ibs_cst_id"] = cst_ibs.id
+        cst_cbs = self.env.ref(
+            f"l10n_br_fiscal.cst_cbs_{cst_code}", raise_if_not_found=False
+        )
+        if cst_cbs:
+            vals["cbs_cst_id"] = cst_cbs.id
+
+        vals.update(
+            ibs_base=base,
+            ibs_percent=ibs_percent,
+            ibs_value=ibs_value,
+            cbs_base=base,
+            cbs_percent=cbs_percent,
+            cbs_value=cbs_value,
+        )
+
+        ibs_tax = self.env["l10n_br_fiscal.tax"].search(
+            [
+                ("tax_group_id", "=", self.env.ref("l10n_br_fiscal.tax_group_ibs").id),
+                ("percent_amount", "=", ibs_percent),
+            ],
+            limit=1,
+        )
+        if ibs_tax:
+            vals["ibs_tax_id"] = ibs_tax.id
+            tax_ids.append(ibs_tax.id)
+        cbs_tax = self.env["l10n_br_fiscal.tax"].search(
+            [
+                ("tax_group_id", "=", self.env.ref("l10n_br_fiscal.tax_group_cbs").id),
+                ("percent_amount", "=", cbs_percent),
+            ],
+            limit=1,
+        )
+        if cbs_tax:
+            vals["cbs_tax_id"] = cbs_tax.id
+            tax_ids.append(cbs_tax.id)
+        return tax_ids
