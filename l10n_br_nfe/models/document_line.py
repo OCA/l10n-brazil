@@ -1733,6 +1733,17 @@ class NFeLine(spec_models.StackedModel):
                 odoo_attrs["fiscal_tax_ids"] = []
             odoo_attrs["fiscal_tax_ids"].extend(tax_ids)
 
+    def _import_ibscbs_attrs(self, value, odoo_attrs):
+        """Import IBSCBS tax attributes from NFe binding."""
+        tax_ids = self.env["l10n_br_fiscal.document.line"]._add_imported_ibscbs_vals(
+            value, odoo_attrs
+        )
+        if tax_ids:
+            # the NFe import framework links m2m fields with raw ids
+            if not odoo_attrs.get("fiscal_tax_ids"):
+                odoo_attrs["fiscal_tax_ids"] = []
+            odoo_attrs["fiscal_tax_ids"].extend(tax_ids)
+
     def _verify_related_many2ones(self, related_many2ones):
         if (
             related_many2ones.get("product_id", {}).get("barcode")
