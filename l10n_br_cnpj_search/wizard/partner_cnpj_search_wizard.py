@@ -23,7 +23,7 @@ class PartnerCnpjSearchWizard(models.TransientModel):
 
     partner_id = fields.Many2one(comodel_name="res.partner")
     provider_name = fields.Char()
-    cnpj_cpf = fields.Char()
+    vat = fields.Char(string="CNPJ")
     legal_name = fields.Char()
     name = fields.Char()
     l10n_br_ie_code = fields.Char()
@@ -65,17 +65,18 @@ class PartnerCnpjSearchWizard(models.TransientModel):
     def _onchange_zip(self):
         self.zip = misc.format_zipcode(self.zip)
 
-    @api.onchange("cnpj_cpf")
-    def _onchange_cnpj_cpf(self):
-        self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
+    @api.onchange("vat")
+    def _onchange_vat(self):
+        if self.vat:
+            self.vat = cnpj_cpf.formata(str(self.vat))
 
-    def _get_partner_values(self, cnpj_cpf):
+    def _get_partner_values(self, vat):
         webservice = self.env["l10n_br_cnpj_search.webservice.abstract"]
         provider_name = webservice.get_provider()
         with patch("requests.Session.send", _original_send):
             try:
                 response = requests.get(
-                    webservice.get_api_url(cnpj_cpf),
+                    webservice.get_api_url(vat),
                     headers=webservice.get_headers(),
                     timeout=5,
                 )
@@ -91,17 +92,16 @@ class PartnerCnpjSearchWizard(models.TransientModel):
         data = webservice.validate(response)
         values = webservice.import_data(data)
         values["provider_name"] = provider_name
-        values["cnpj_cpf"] = cnpj_cpf
+        values["vat"] = vat
         return values
 
     def default_get(self, fields):
         res = super().default_get(fields)
         partner_id = self.env.context.get("default_partner_id")
         if partner_id:
-            partner_model = self.env["res.partner"]
-            partner = partner_model.browse(partner_id)
-            cnpj_cpf = punctuation_rm(partner.vat)
-            values = self._get_partner_values(cnpj_cpf)
+            partner = self.env["res.partner"].browse(partner_id)
+            vat = punctuation_rm(partner.vat)
+            values = self._get_partner_values(vat)
             res.update(values)
         return res
 
@@ -128,6 +128,8 @@ class PartnerCnpjSearchWizard(models.TransientModel):
             "cnae_secondary_ids": self.cnae_secondary_ids,
             "company_type": "company",
         }
+        if self.vat:
+            values_to_update["vat"] = punctuation_rm(self.vat)
         if self.child_ids:
             values_to_update["child_ids"] = [Command.set(self.child_ids.ids)]
 
