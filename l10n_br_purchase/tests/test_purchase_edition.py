@@ -143,9 +143,38 @@ class TestPurchaseEdition(TransactionCase):
             0,
             "icms_value must be > 0 when price_unit is non-zero.",
         )
+        self.assertGreater(
+            line.ipi_value,
+            0,
+            "ipi_value must be > 0 when price_unit is non-zero.",
+        )
 
         # Fiscal totals should reflect the price.
         self.assertAlmostEqual(line.fiscal_amount_untaxed, 1000.0, places=2)
+
+        # --- PO-level tax totals: ICMS and IPI group amounts should
+        #     match the line values. ---
+        self.env.flush_all()
+        self.assertTrue(po.tax_totals, "tax_totals must not be empty.")
+        subtotals = po.tax_totals.get("subtotals", [])
+        self.assertTrue(subtotals, "tax_totals must have subtotals.")
+
+        tax_groups = {g["group_name"]: g for g in subtotals[0]["tax_groups"]}
+        self.assertIn("ICMS", tax_groups, "ICMS group missing in tax_totals.")
+        self.assertIn("IPI", tax_groups, "IPI group missing in tax_totals.")
+
+        self.assertAlmostEqual(
+            tax_groups["ICMS"]["tax_amount_currency"],
+            line.icms_value,
+            places=2,
+            msg="ICMS total at PO level must match line icms_value.",
+        )
+        self.assertAlmostEqual(
+            tax_groups["IPI"]["tax_amount_currency"],
+            line.ipi_value,
+            places=2,
+            msg="IPI total at PO level must match line ipi_value.",
+        )
 
         # Manually change price_unit and verify tax values recompute.
         line.price_unit = 200
