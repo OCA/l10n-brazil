@@ -26,7 +26,7 @@ class Lead(models.Model):
         if is_company:
             values.update(
                 {
-                    "vat": self.cnpj,
+                    "vat": self.vat,
                     "l10n_br_ie_code": self.l10n_br_ie_code,
                     "l10n_br_im_code": self.l10n_br_im_code,
                     "l10n_br_isuf_code": self.l10n_br_isuf_code,
@@ -39,7 +39,7 @@ class Lead(models.Model):
         else:
             values.update(
                 {
-                    "vat": self.cpf,
+                    "vat": self.vat,
                     "l10n_br_ie_code": self.l10n_br_rg_code,
                     "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
