@@ -181,6 +181,16 @@ msgid "SUFRAMA registration number."
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:ir.model.fields,help:l10n_br_portal.field_res_partner__show_l10n_br
+msgid "Should display Brazilian localization fields?"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__show_l10n_br
+msgid "Show L10N Br"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "State / Province"
 msgstr ""
