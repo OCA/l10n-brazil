@@ -23070,12 +23070,16 @@ msgid "Short Name"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_l10n_br_base_party_mixin__show_l10n_br
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__show_l10n_br
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__show_l10n_br
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__show_l10n_br
 msgid "Should display Brazilian localization fields?"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__show_l10n_br
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__show_l10n_br
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__show_l10n_br
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__show_l10n_br
 msgid "Show L10N Br"
