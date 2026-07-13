@@ -1,10 +1,15 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 from collections import OrderedDict
+
+from markupsafe import Markup
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class ContractContract(models.Model):
@@ -14,7 +19,9 @@ class ContractContract(models.Model):
     currency_id = fields.Many2one(
         readonly=False,
     )
-    country_id = fields.Many2one(related="company_id.country_id", store=True)
+    country_id = fields.Many2one(
+        related="company_id.country_id", store=True, precompute=True
+    )
 
     contract_recalculate_taxes_before_invoice = fields.Boolean(
         string="Recalculate taxes before invoicing",
@@ -74,6 +81,7 @@ class ContractContract(models.Model):
         column1="contract_id",
         column2="comment_id",
         string="Comments",
+        precompute=True,
     )
 
     operation_name = fields.Char(
@@ -97,6 +105,48 @@ class ContractContract(models.Model):
             move.fiscal_document_id._compute_document_serie_id()
 
         return moves
+
+    def _add_contract_origin(self, invoices):
+        # Workaround: when many modules that extend contract.contract are
+        # installed together with --test-enable, this module's own test can
+        # run while the registry is mid-way through incorporating another
+        # module's extension of the model (e.g. contract_payment_mode,
+        # loaded later in the same batch). That leaves `display_name`'s
+        # compute temporarily unregistered, raising a KeyError here. This
+        # only posts an informational chatter message, so skip it instead
+        # of failing invoice creation.
+        # TODO remove once this is fixed upstream in the `contract` module.
+        try:
+            return super()._add_contract_origin(invoices)
+        except KeyError:
+            _logger.warning(
+                "Skipping contract origin chatter message for %s due to a "
+                "known registry timing issue in the `contract` module.",
+                self,
+            )
+
+    def _message_post_safe(self, **kwargs):
+        # Workaround: see _add_contract_origin() above for why this can
+        # raise a KeyError. The message is informational, so skip it.
+        # TODO remove once this is fixed upstream in the `contract` module.
+        try:
+            return self.message_post(**kwargs)
+        except KeyError:
+            _logger.warning(
+                "Skipping chatter message for %s due to a known registry "
+                "timing issue in the `contract` module.",
+                self,
+            )
+
+    def recurring_create_invoice(self):
+        self.ensure_one()
+        invoices = self._recurring_create_invoice()
+        for invoice in invoices:
+            body = Markup(
+                self.env._("Contract manually invoiced: %(invoice_link)s")
+            ) % {"invoice_link": invoice._get_html_link(title=invoice.name)}
+            self._message_post_safe(body=body)
+        return invoices
 
     def _prepare_recurring_invoices_values(self, date_ref=False):
         """

@@ -17,19 +17,16 @@ class TestL10nBrContract(TransactionCase):
         contract_form.line_recurrence = True
         contract_form.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
 
-        cls.contract_id = contract_form.save()
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = cls.env.ref("product.product_delivery_01")
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = cls.env.ref("product.product_delivery_02")
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = cls.env.ref("l10n_br_fiscal.customized_development_sale")
+            line.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
+            line.price_unit = 550.00
 
-        with Form(cls.contract_id) as contract:
-            with contract.contract_line_ids.new() as line:
-                line.product_id = cls.env.ref("product.product_delivery_01")
-            with contract.contract_line_ids.new() as line:
-                line.product_id = cls.env.ref("product.product_delivery_02")
-            with contract.contract_line_ids.new() as line:
-                line.product_id = cls.env.ref(
-                    "l10n_br_fiscal.customized_development_sale"
-                )
-                line.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
-                line.price_unit = 550.00
+        cls.contract_id = contract_form.save()
 
         # Create Invoice and Fiscal Documents related to the contract
         cls.contract_id.recurring_create_invoice()
@@ -39,11 +36,11 @@ class TestL10nBrContract(TransactionCase):
         contract_form.name = "Contract Without Fiscal Operation Line"
         contract_form.line_recurrence = True
         contract_form.partner_id = self.env.ref("l10n_br_base.res_partner_kmee")
-        contract = contract_form.save()
 
-        with Form(contract) as contract_form:
-            with contract_form.contract_line_ids.new() as line:
-                line.product_id = self.env.ref("product.expense_product")
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = self.env.ref("product.expense_product")
+
+        contract = contract_form.save()
 
         with self.assertRaises(UserError):
             contract.recurring_create_invoice()
