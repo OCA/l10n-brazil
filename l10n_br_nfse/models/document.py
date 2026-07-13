@@ -332,7 +332,7 @@ class Document(models.Model):
             "regime_especial_tributacao": self.taxation_special_regime,
             "finalidade_emissao": "0",
             "indicador_destinatario": "1"
-            if (self.partner_id.is_company and self.partner_id.l10n_br_ie_code)
+            if (self.partner_id.is_company and self.partner_id.inscr_est)
             else "9",
             "operacao_onerosa": bool(self.fiscal_line_ids[0].operation_indicator_id),
             "optante_simples_nacional": "1"
