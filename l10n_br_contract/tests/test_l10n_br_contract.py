@@ -2,35 +2,30 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.exceptions import UserError
-from odoo.tests import Form, TransactionCase
+from odoo.tests import Form, TransactionCase, tagged
 
 
+@tagged("post_install", "-at_install")
 class TestL10nBrContract(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
-        # Create contract with 3 lines, two resale products and one service
         contract_form = Form(cls.env["contract.contract"])
         contract_form.name = "Test Contract"
         contract_form.line_recurrence = True
         contract_form.partner_id = cls.env.ref("l10n_br_base.res_partner_kmee")
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = cls.env.ref("product.product_delivery_01")
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = cls.env.ref("product.product_delivery_02")
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = cls.env.ref("l10n_br_fiscal.customized_development_sale")
+            line.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
+            line.price_unit = 550.00
 
         cls.contract_id = contract_form.save()
-
-        with Form(cls.contract_id) as contract:
-            with contract.contract_line_ids.new() as line:
-                line.product_id = cls.env.ref("product.product_delivery_01")
-            with contract.contract_line_ids.new() as line:
-                line.product_id = cls.env.ref("product.product_delivery_02")
-            with contract.contract_line_ids.new() as line:
-                line.product_id = cls.env.ref(
-                    "l10n_br_fiscal.customized_development_sale"
-                )
-                line.fiscal_operation_id = cls.env.ref("l10n_br_fiscal.fo_venda")
-                line.price_unit = 550.00
-
         # Create Invoice and Fiscal Documents related to the contract
         cls.contract_id.recurring_create_invoice()
 
@@ -39,11 +34,9 @@ class TestL10nBrContract(TransactionCase):
         contract_form.name = "Contract Without Fiscal Operation Line"
         contract_form.line_recurrence = True
         contract_form.partner_id = self.env.ref("l10n_br_base.res_partner_kmee")
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = self.env.ref("product.expense_product")
         contract = contract_form.save()
-
-        with Form(contract) as contract_form:
-            with contract_form.contract_line_ids.new() as line:
-                line.product_id = self.env.ref("product.expense_product")
 
         with self.assertRaises(UserError):
             contract.recurring_create_invoice()
