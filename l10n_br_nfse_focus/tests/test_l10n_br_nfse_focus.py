@@ -749,6 +749,56 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertNotIn("inscricao_municipal_prestador", payload)
 
+    def test_prepare_service_basic_nacional_tipo_retencao_iss_override(self):
+        """Tests that tipo_retencao_iss is forced to '1' for tributacao_iss 2/3/4.
+
+        Even when iss_retido indicates retention, exigibilidade codes 2, 3 and 4
+        (isento/imune/exportacao) must never report ISS as retido.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = dict(
+            PAYLOAD[1]["service"], iss_retido="1", codigo_tributacao_iss=2
+        )
+
+        result = nfse_nacional._prepare_service_basic_nacional(service_info)
+
+        self.assertEqual(result["tipo_retencao_iss"], 1)
+
+    def test_prepare_tax_data_nacional_situacao_isenta_zeroes_base(self):
+        """Tests that base_calculo_pis_cofins is zeroed for isenta/imune situations."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {
+            "situacao_tributaria_pis": "00",
+            "base_calculo_pis": 100.0,
+        }
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 100.0)
+
+        self.assertEqual(result["base_calculo_pis_cofins"], 0.0)
+
+    def test_prepare_tax_data_nacional_situacao_tributada_uses_valor_servico(self):
+        """Tests that a taxable situation with no base falls back to valor_servico."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {"situacao_tributaria_pis": "01"}
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 150.0)
+
+        self.assertEqual(result["base_calculo_pis_cofins"], 150.0)
+
+    def test_prepare_tax_data_nacional_aliquota_calculation(self):
+        """Tests aliquota_pis/cofins are computed from valor and base when present."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {
+            "base_calculo_pis": 100.0,
+            "valor_pis": 1.5,
+            "valor_cofins": 3.0,
+        }
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 100.0)
+
+        self.assertEqual(result["aliquota_pis"], "1.50")
+        self.assertEqual(result["aliquota_cofins"], "3.00")
+
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.process_focus_nfse_nacional_document"  # noqa: B950
     )
