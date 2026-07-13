@@ -242,8 +242,7 @@ class MDe(models.Model):
         return {
             "type": "ir.actions.act_url",
             "url": (
-                f"/web/content/{attachment_id.id}"
-                f"/{attachment_id.name}?download=true"
+                f"/web/content/{attachment_id.id}/{attachment_id.name}?download=true"
             ),
             "target": "self",
         }

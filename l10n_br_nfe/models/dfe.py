@@ -54,8 +54,9 @@ class DFe(models.Model):
         if mde_id:
             return mde_id
 
-        supplier_cnpj = utils.mask_cnpj("%014d" % root.NFe.infNFe.emit.CNPJ)
-        partner = self.env["res.partner"].search([("vat", "=", supplier_cnpj)])
+        raw_cnpj = f"{int(root.NFe.infNFe.emit.CNPJ):014d}"
+        supplier_cnpj = utils.mask_cnpj(raw_cnpj)
+        partner = self.env["res.partner"].search([("vat", "=", raw_cnpj)])
 
         return self.env["l10n_br_nfe.mde"].create(
             {
@@ -86,8 +87,9 @@ class DFe(models.Model):
         if mde_id:
             return mde_id
 
-        supplier_cnpj = utils.mask_cnpj("%014d" % root.CNPJ)
-        partner_id = self.env["res.partner"].search([("vat", "=", supplier_cnpj)])
+        raw_cnpj = f"{int(root.CNPJ):014d}"
+        supplier_cnpj = utils.mask_cnpj(raw_cnpj)
+        partner_id = self.env["res.partner"].search([("vat", "=", raw_cnpj)])
 
         return self.env["l10n_br_nfe.mde"].create(
             {
