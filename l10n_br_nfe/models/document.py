@@ -9,7 +9,6 @@ import string
 import threading
 from datetime import datetime
 
-from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
@@ -285,9 +284,11 @@ class NFe(spec_models.StackedModel):
 
     nfe40_verProc = fields.Char(
         copy=False,
-        default=lambda s: s.env["ir.config_parameter"]
-        .sudo()
-        .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14"),
+        default=lambda s: (
+            s.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14")
+        ),
     )
 
     ##########################
@@ -1587,9 +1588,7 @@ class NFe(spec_models.StackedModel):
             .build_from_binding("nfe", "40", binding.infNFe, dry_run=dry_run)
         )
 
-        if edoc_type == "in" and document.company_id.vat != cnpj_cpf.formata(
-            binding.infNFe.emit.CNPJ
-        ):
+        if edoc_type == "in" and document.company_id.vat != binding.infNFe.emit.CNPJ:
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
 
@@ -1772,7 +1771,7 @@ class NFe(spec_models.StackedModel):
     def _prepare_nfce_danfe_values(self):
         return {
             "company_ie": self.company_id.l10n_br_ie_code,
-            "company_cnpj": self.company_id.vat,
+            "company_cnpj": self.company_id.vat_formatted_cnpj,
             "company_legal_name": self.company_id.legal_name,
             "company_street": self.company_id.street,
             "company_number": self.company_id.street_number,
