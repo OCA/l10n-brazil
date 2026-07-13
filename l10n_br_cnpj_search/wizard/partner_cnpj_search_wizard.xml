@@ -17,7 +17,7 @@
                     <group name="Identification" string="Identification">
                         <field name="name" />
                         <field name="legal_name" />
-                        <field name="cnpj_cpf" readonly="1" string="CNPJ" />
+                        <field name="vat" readonly="1" string="CNPJ" />
                         <field name="l10n_br_ie_code" string="IE" />
                     </group>
 
