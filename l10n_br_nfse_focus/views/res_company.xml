@@ -45,6 +45,10 @@
                     name="focusnfe_nfse_type"
                     invisible="provedor_nfse != 'focusnfe'"
                 />
+                <field
+                    name="focusnfe_nfse_nacional_send_im_prestador"
+                    invisible="provedor_nfse != 'focusnfe' or focusnfe_nfse_type != 'nfse_nacional'"
+                />
             </field>
             <xpath expr="//field[@name='nfse_ssl_verify']" position="attributes">
                 <attribute name="invisible">provedor_nfse != 'focusnfe'</attribute>
