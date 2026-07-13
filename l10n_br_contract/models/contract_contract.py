@@ -81,7 +81,6 @@ class ContractContract(models.Model):
         column1="contract_id",
         column2="comment_id",
         string="Comments",
-        precompute=True,
     )
 
     operation_name = fields.Char(
@@ -119,7 +118,7 @@ class ContractContract(models.Model):
         try:
             return super()._add_contract_origin(invoices)
         except KeyError:
-            _logger.warning(
+            _logger.info(
                 "Skipping contract origin chatter message for %s due to a "
                 "known registry timing issue in the `contract` module.",
                 self,
@@ -132,7 +131,7 @@ class ContractContract(models.Model):
         try:
             return self.message_post(**kwargs)
         except KeyError:
-            _logger.warning(
+            _logger.info(
                 "Skipping chatter message for %s due to a known registry "
                 "timing issue in the `contract` module.",
                 self,
