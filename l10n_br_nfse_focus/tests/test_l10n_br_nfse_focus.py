@@ -714,6 +714,43 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertIn("codigo_tributacao_nacional_iss", payload)
         self.assertIn("valor_servico", payload)
 
+    def test_prepare_payload_nacional_send_im_prestador(self):
+        """Tests that the provider IM is sent when the company option is enabled."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+        self.company.focusnfe_nfse_nacional_send_im_prestador = True
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("inscricao_municipal_prestador"), "12345")
+
+    def test_prepare_payload_nacional_suppress_im_prestador(self):
+        """Tests that the provider IM is omitted when the company option is disabled.
+
+        Some municipalities (e.g. Porto Alegre/RS) do not have the provider's
+        Municipal Registration registered in the national CNC NFS-e environment,
+        and the DPS is rejected if the field is informed in that case.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+        self.company.focusnfe_nfse_nacional_send_im_prestador = False
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertNotIn("inscricao_municipal_prestador", payload)
+
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.process_focus_nfse_nacional_document"  # noqa: B950
     )
