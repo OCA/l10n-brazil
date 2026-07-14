@@ -817,6 +817,14 @@ class NFe(spec_models.StackedModel):
     # Framework Spec model's methods
     ################################
 
+    def _nfe_export_ibscbs_totals(self):
+        """Return True when the document has IBS/CBS values to export"""
+        self.ensure_one()
+        return bool(
+            sum(self.fiscal_line_ids.mapped("ibs_value"))
+            or sum(self.fiscal_line_ids.mapped("cbs_value"))
+        )
+
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
@@ -825,11 +833,21 @@ class NFe(spec_models.StackedModel):
                 xsd_field, class_obj, member_spec, export_value
             )
 
-        if xsd_field == "nfe40_IBSCBSTot":
-            total_ibs = sum(self.fiscal_line_ids.mapped("ibs_value"))
-            total_cbs = sum(self.fiscal_line_ids.mapped("cbs_value"))
+        if xsd_field == "nfe40_vNFTot":
+            # NT 2025.002 (rule W60): total of the NF-e considering the
+            # IBS/CBS/IS taxes. This mirrors fiscal_amount_total, which
+            # already honors each tax group's "tax_include" flag: taxes
+            # flagged as included in the price do not add to the total,
+            # taxes flagged as "outside" do. In the 2026 transition the
+            # IBS/CBS/IS groups are set as included, so vNFTot equals vNF;
+            # switching those groups to "outside" makes them compose the
+            # total automatically, with no code change.
+            if not self._nfe_export_ibscbs_totals():
+                return False
+            return f"{self.fiscal_amount_total:.2f}"
 
-            if not total_ibs and not total_cbs:
+        if xsd_field == "nfe40_IBSCBSTot":
+            if not self._nfe_export_ibscbs_totals():
                 return False
 
             # Build gIBSUF
