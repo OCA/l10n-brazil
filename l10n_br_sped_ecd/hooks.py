@@ -3,12 +3,9 @@
 
 from pathlib import Path
 
-from odoo import SUPERUSER_ID, api
 
-
-def post_init_hook(cr, registry):
+def post_init_hook(env):
     """Import demo SPED file"""
-    env = api.Environment(cr, SUPERUSER_ID, {})
     if env.ref("base.module_l10n_br_sped_ecd").demo:
         parent_dir = Path(__file__).resolve().parent
         file_path = parent_dir / "demo" / "demo_ecd.txt"
