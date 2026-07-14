@@ -12,7 +12,6 @@ class SpedTest(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.demo_path = path.join(l10n_br_sped_ecd.__path__[0], "demo")
 
     def test_import_ecd(self):
