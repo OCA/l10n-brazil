@@ -1,16 +1,12 @@
 # Copyright 2023 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
-from pathlib import Path
 
-from odoo import SUPERUSER_ID, api
-
-
-def post_init_hook(cr, registry):
-    """Import demo SPED file"""
-    env = api.Environment(cr, SUPERUSER_ID, {})
+def post_init_hook(env):
+    """Import demo SPED file."""
     if env.ref("base.module_l10n_br_sped_ecf").demo:
-        parent_dir = Path(__file__).resolve().parent
-        file_path = parent_dir / "demo" / "demo_efc.txt"
-        # FIXME the current demo ECF file is bugguy
+        # FIXME: the current demo ECF file is buggy; demo import disabled.
+        # parent_dir = Path(__file__).resolve().parent
+        # file_path = parent_dir / "demo" / "demo_efc.txt"
         # env["l10n_br_sped.mixin"]._import_file(file_path, "ecf")
+        pass
