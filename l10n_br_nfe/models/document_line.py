@@ -8,7 +8,7 @@ from enum import Enum
 
 from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs, TtribNfe
 
-from odoo import api, fields
+from odoo import _, api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
@@ -225,6 +225,19 @@ class NFeLine(spec_models.StackedModel):
 
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
         """Override to handle IBSCBS field export"""
+        if xsd_field == "nfe40_vItem":
+            # NT 2025.002 (rules VB01/W60): vItem must be present in every
+            # det when the document exports the IBS/CBS totals, and the sum
+            # of all vItem must match vNFTot. This mirrors the line's
+            # fiscal_amount_total, which already honors each tax group's
+            # "tax_include" flag; in the 2026 transition IBS/CBS/IS are
+            # included in the price, so vItem is the line share of the
+            # current vNF (switching the groups to "outside" makes them
+            # compose vItem automatically, keeping sum(vItem) == vNFTot).
+            if not self.document_id._nfe_export_ibscbs_totals():
+                return False
+            return f"{self.fiscal_amount_total:.2f}"
+
         if xsd_field == "nfe40_IBSCBS":
             if not self.ibs_value and not self.cbs_value:
                 return False
