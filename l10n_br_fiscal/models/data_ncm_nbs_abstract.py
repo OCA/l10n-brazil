@@ -104,6 +104,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                         object_field: record.id,
                         "key": result.chave,
                         "origin": result.fonte,
+                        "version": result.versao,
                         "state_id": company.state_id.id,
                         "state_taxes": result.estadual,
                         "federal_taxes_national": result.nacional,
