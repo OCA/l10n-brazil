@@ -4,10 +4,8 @@
 # ruff: noqa: E501
 
 import textwrap
-from datetime import datetime, time
 
 from erpbrasil.base import misc
-from erpbrasil.base.misc import punctuation_rm
 from lxml.builder import E
 
 from odoo import _, api, fields, models
@@ -24,11 +22,11 @@ from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
 
 
 class Registro0000(models.Model):
-    """Abertura do Arquivo Digital e Identificação da entidade."""
+    "Abertura do Arquivo Digital e Identificação da entidade"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0000"
-    _inherit = ["l10n_br_sped.efd_icms_ipi.20.0000"]
+    _inherit = ["l10n_br_sped.efd_icms_ipi.17.0000"]
     _odoo_model = "res.company"
 
     COD_FIN = fields.Selection(
@@ -120,16 +118,6 @@ class Registro0000(models.Model):
         default="0",
     )
 
-    ind_tp_leiaute = fields.Selection(
-        [
-            ("0", "Leiaute Simplificado"),
-            ("1", "Leiaute Completo (K200, K230, etc.)"),
-            ("2", "Leiaute Restrito aos Saldos de Estoque (K200)"),
-        ],
-        string="Tipo de Leiaute (Bloco K)",
-        default="2",  # Defaulting to 2 is the safest for most standard companies
-    )
-
     IND_ATIV = fields.Selection(
         [
             ("0", "Industrial ou equiparado a industrial"),
@@ -168,9 +156,6 @@ class Registro0000(models.Model):
         group.append(
             E.field(name="CLAS_ESTAB_IND", required="1", attrs=EDITABLE_ON_DRAFT)
         )
-        group.append(
-            E.field(name="ind_tp_leiaute", required="1", attrs=EDITABLE_ON_DRAFT)
-        )
         return res
 
     @api.model
@@ -185,25 +170,34 @@ class Registro0000(models.Model):
             # "DT_INI": (will use declaration field directly),
             # "DT_FIN": (will use declaration field directly),
             "NOME": record.legal_name,
-            "CNPJ": misc.punctuation_rm(record.cnpj_cpf),
-            # "CPF": misc.punctuation_rm(record.cnpj_cpf),  # TODO if produtor rural?
+            "CNPJ": misc.punctuation_rm(record.vat),
+            # "CPF": misc.punctuation_rm(record.vat),  # TODO if produtor rural?
             "UF": record.state_id.code,
-            "IE": misc.punctuation_rm(record.inscr_est),
+            "IE": misc.punctuation_rm(record.l10n_br_ie_code),
             "COD_MUN": misc.punctuation_rm(record.city_id.ibge_code),
-            "IM": misc.punctuation_rm(record.inscr_mun or ""),
-            "SUFRAMA": record.l10n_br_isuf_code
-            or "",  # Inscrição da entidade na SUFRAMA
+            "IM": misc.punctuation_rm(record.l10n_br_im_code or ""),
+            "SUFRAMA": "",  # Inscrição da entidade na SUFRAMA
             "IND_PERFIL": "A",  # Perfil de apresentação do arquivo fiscal; A – Per...
             # "IND_ATIV": (will use declaration field directly),
         }
 
 
 class Registro0002(models.Model):
-    """Classificação do Estabelecimento Industrial ou Equiparado a Industrial."""
+    "Classificação do Estabelecimento Industrial ou Equiparado a Industrial"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0002"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0002"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0002"
+
+    @api.model
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        if not self._context["declaration"].CLAS_ESTAB_IND:
+            return
+        return super()._pull_records_from_odoo(
+            kind, level, parent_register, parent_record, log_msg
+        )
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -213,11 +207,11 @@ class Registro0002(models.Model):
 
 
 class Registro0005(models.Model):
-    """Dados Complementares da entidade."""
+    "Dados Complementares da entidade"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0005"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0005"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0005"
     _odoo_model = "res.company"
 
     @api.model
@@ -226,11 +220,6 @@ class Registro0005(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # TODO melhorar isso
-        phone = record.phone.split(",")[0].strip()
-        phone = misc.punctuation_rm(phone).replace(" ", "")
-        if len(phone) == 13:
-            phone = phone[2:]
         return {
             "FANTASIA": record.name,
             "CEP": misc.punctuation_rm(record.zip),
@@ -238,18 +227,18 @@ class Registro0005(models.Model):
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
-            "FONE": phone,
+            "FONE": misc.punctuation_rm(record.phone),
             # "FAX": 0,  # Número do fax.
             "EMAIL": record.email,
         }
 
 
 class Registro0015(models.Model):
-    """Dados do Contribuinte Substituto ou Responsável pelo ICMS Destino."""
+    "Dados do Contribuinte Substituto ou Responsável pelo ICMS Destino"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0015"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0015"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0015"
     _odoo_model = "state.tax.numbers"
 
     def _odoo_domain(self, parent_record, declaration):
@@ -260,17 +249,17 @@ class Registro0015(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "UF_ST": misc.punctuation_rm(record.inscr_est),
+            "UF_ST": misc.punctuation_rm(record.l10n_br_ie_code),
             "IE_ST": record.state_id.code,
         }
 
 
 class Registro0100(models.Model):
-    """Dados do Contabilista."""
+    "Dados do Contabilista"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0100"
     _odoo_model = "res.partner"
 
     @api.model
@@ -284,22 +273,18 @@ class Registro0100(models.Model):
                 "Cadastre o contador responsável dentro das configurações da Empresa."
             )
             raise UserError(msg_err)
-        # TODO melhorar isso
-        phone = record.phone.split(",")[0].strip()
-        phone = misc.punctuation_rm(phone).replace(" ", "")
-        if len(phone) == 13:
-            phone = phone[2:]
+
         return {
             "NOME": record.name,
-            "CPF": misc.punctuation_rm(record.cnpj_cpf),
+            "CPF": misc.punctuation_rm(record.vat),
             "CRC": misc.punctuation_rm(record.crc_code),
-            "CNPJ": misc.punctuation_rm(record.parent_id.cnpj_cpf),
+            "CNPJ": misc.punctuation_rm(record.parent_id.vat),
             "CEP": misc.punctuation_rm(record.zip),
             "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
-            "FONE": phone,
+            "FONE": misc.punctuation_rm(record.phone),
             # "FAX": 0,  # Número do fax.
             "EMAIL": record.email,
             "COD_MUN": record.city_id.ibge_code,
@@ -307,11 +292,11 @@ class Registro0100(models.Model):
 
 
 class Registro0150(models.Model):
-    """Tabela de Cadastro do Participante."""
+    "Tabela de Cadastro do Participante"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0150"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0150"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0150"
     _odoo_model = "res.partner"
 
     @api.model
@@ -323,21 +308,21 @@ class Registro0150(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         vals = {
-            "COD_PART": misc.punctuation_rm(record.cnpj_cpf),
+            "COD_PART": misc.punctuation_rm(record.vat),
             "NOME": record.legal_name or record.name,
             "COD_PAIS": record.country_id.bc_code,
-            "IE": misc.punctuation_rm(record.inscr_est),
-            "SUFRAMA": record.l10n_br_isuf_code or "",
-            "END": record.street_name[:60],
+            "IE": misc.punctuation_rm(record.l10n_br_ie_code),
+            "SUFRAMA": "",
+            "END": record.street_name,
             "NUM": misc.punctuation_rm(record.street_number),
             "COMPL": record.street2,
             "BAIRRO": record.district,
         }
-        if record.country_id.bc_code == "1058":
+        if record.country_id.bc_code == "1056":
             if record.company_type == "person":
-                vals["CPF"] = misc.punctuation_rm(record.cnpj_cpf)
+                vals["CPF"] = misc.punctuation_rm(record.vat)
             else:
-                vals["CNPJ"] = misc.punctuation_rm(record.cnpj_cpf)
+                vals["CNPJ"] = misc.punctuation_rm(record.vat)
             vals["COD_MUN"] = misc.punctuation_rm(record.city_id.ibge_code)
         else:
             vals["COD_MUN"] = "9999999"
@@ -345,11 +330,11 @@ class Registro0150(models.Model):
 
 
 class Registro0175(models.Model):
-    """Alteração da Tabela de Cadastro de Participante."""
+    "Alteração da Tabela de Cadastro de Participante"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0175"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0175"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0175"
 
     # TODO: Verificar se vamos precisar criar alguma modificação no res.partner para monitorar os campos alterados.
 
@@ -363,11 +348,11 @@ class Registro0175(models.Model):
 
 
 class Registro0190(models.Model):
-    """Identificação das unidades de medida."""
+    "Identificação das unidades de medida"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0190"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0190"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0190"
     _odoo_model = "uom.uom"
 
     @api.model
@@ -382,17 +367,17 @@ class Registro0190(models.Model):
             msg_err = _(f"UOM without code: {record.name}")
             raise UserError(msg_err)
         return {
-            "UNID": record.code,  # Código da unidade de medida
+            "UNID": record.name,  # Código da unidade de medida
             "DESCR": record.name,  # Descrição da unidade de medida
         }
 
 
 class Registro0200(models.Model):
-    """Tabela de Identificação do Item."""
+    "Tabela de Identificação do Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0200"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0200"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0200"
     _odoo_model = "product.product"
 
     @api.model
@@ -403,42 +388,32 @@ class Registro0200(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # Get only the lines for this product from INTERNAL operations (CFOP Destination == '1')
-        internal_lines = declaration.fiscal_document_line_ids.filtered(
-            lambda x: x.product_id.id == record.id and x.cfop_destination == "1"
-        )
-
-        aliq_icms = 0.0
-        if internal_lines:
-            # We take the first internal line found to get the standard internal state rate
-            first_line = internal_lines[0]
-            # SPED requires ICMS Aliquot + FCP Aliquot
-            aliq_icms = (first_line.icms_percent or 0.0) + (
-                first_line.icmsfcp_percent or 0.0
-            )
-
+        # TODO: Buscar tax definition do Produto e preencher o campo ALIQ_ICMS
+        fiscal_document_line = declaration.fiscal_document_line_ids.filtered(
+            lambda x: x.product_id.id == record.id
+        )[:1]
         return {
             "COD_ITEM": record.default_code or record.id,
             "DESCR_ITEM": record.name,
             "COD_BARRA": record.barcode,
             # "COD_ANT_ITEM": "", # Não preencher. Ele deve ser especificado no Registro 0205
-            "UNID_INV": record.uom_id.code,
+            "UNID_INV": record.uom_id.name,
             "TIPO_ITEM": record.fiscal_type,
-            "COD_NCM": misc.punctuation_rm(record.ncm_id.code),
+            "COD_NCM": record.ncm_id.code,
             "EX_IPI": record.ncm_id.exception,
             "COD_GEN": record.fiscal_genre_id.code,
             "COD_LST": record.service_type_id.code,
-            "ALIQ_ICMS": aliq_icms,
+            "ALIQ_ICMS": fiscal_document_line.icms_percent,  # Alíquota de ICMS aplicável ao item nas operações i...
             "CEST": record.cest_id.code,
         }
 
 
 class Registro0205(models.Model):
-    """Alteração do Item."""
+    "Alteração do Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0205"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0205"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0205"
 
     # TODO: Essa informação do código não é salva atualmente, talvez seja preciso
     # atualizar o modelo product.product para ter um histórico disso.
@@ -454,11 +429,11 @@ class Registro0205(models.Model):
 
 
 class Registro0206(models.Model):
-    """Código de produto conforme Tabela ANP."""
+    "Código de produto conforme Tabela ANP"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0206"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0206"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0206"
 
     # TODO: Não temos esse código da ANP no modelo.
 
@@ -470,89 +445,83 @@ class Registro0206(models.Model):
 
 
 class Registro0210(models.Model):
-    """Consumo Específico Padronizado."""
+    """Consumo Específico Padronizado
+
+    Até dezembro de 2017, este registro deve ser apresentado,
+    caso exista produção e/ou consumo nos Registros K230/K235 e K250/K255.
+
+    A partir de janeiro de 2018, a obrigatoriedade da apresentação deste
+    registro ficará a critério de cada UF, caso exista
+    produção e consumo nos Registros K230/K235 e K250/K255."""
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0210"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0210"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0210"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
+    #         "COD_ITEM_COMP": 0,  # Código do item componente/insumo (campo 02 do ...
+    #         "QTD_COMP": 0,  # Quantidade do item componente/insumo para se produz...
+    #         "PERDA": 0,  # Perda/quebra normal percentual do insumo/componente pa...
     #     }
 
 
 class Registro0220(models.Model):
-    """Fatores de Conversão de Unidades."""
+    "Fatores de Conversão de Unidades"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0220"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0220"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0220"
 
     @api.model
     def _odoo_query(self, parent_record, declaration):
-        # We query the DB to find if this product was sold/bought in a UoM
-        # different from its Inventory UoM during the period.
-        query = """
-            SELECT DISTINCT uom.name AS unid_conv, uom.id as uom_id
-            FROM l10n_br_fiscal_document_line fdl
-            JOIN l10n_br_fiscal_document fd ON fd.id = fdl.document_id
-            JOIN uom_uom uom ON uom.id = fdl.uom_id
-            WHERE fdl.product_id = %s
-              AND fdl.uom_id != %s
-              AND fd.document_date >= %s
-              AND fd.document_date <= %s
-              AND fd.state_edoc IN ('autorizada', 'enviada')
-        """
-        return query, [
-            parent_record.id,
-            parent_record.uom_id.id,
-            declaration.DT_INI,
-            declaration.DT_FIN,
-        ]
+        return (
+            """
+                select distinct
+                    uom.code as unid_conv
+                    ,uom.factor as fat_conv
+                from
+                    l10n_br_fiscal_document as fd,
+                    l10n_br_fiscal_document_line as fdl,
+                    uom_uom as uom
+                where
+                    fd.id = fdl.document_id
+                    and uom.id = fdl.uot_id
+                    and document_date between %s and %s
+                    and (document_type in ('01', '1B', '04', '55', '65'))
+                    and (state_edoc = 'autorizada')
+                    and uom.id <> fdl.uot_id
+                order by 1
+            """,
+            (declaration.DT_INI, declaration.DT_FIN),
+        )
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        commercial_uom = self.env["uom.uom"].browse(record["uom_id"])
-        inventory_uom = parent_record.uom_id
-
-        # Odoo's native UoM conversion ratio math
-        factor = commercial_uom._compute_quantity(1.0, inventory_uom)
-
         return {
-            "UNID_CONV": commercial_uom.code or "",
-            "FAT_CONV": factor,
-            "COD_BARRA": "",
+            "UNID_CONV": record.get(
+                "unid_conv"
+            ),  # Unidade comercial a ser convertida na unidade de e...
+            "FAT_CONV": record.get(
+                "fat_conv"
+            ),  # Fator de conversão: fator utilizado para converter ...
+            "COD_BARRA": 0,  # Representação alfanumérica do código de barra da u...
         }
 
 
-class Registro0221(models.Model):
-    """Correlação entre códigos de itens comercializados."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.0221"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0221"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_ITEM_ATOMICO": 0,  # Informar o código do item atômico contido n...
-    #         "QTD_CONTIDA": 0,  # Informar quantos itens atômicos estão contidos n...
-    #     }
-
-
 class Registro0300(models.Model):
-    """Cadastro de bens ou componentes do Ativo Imobilizado."""
+    "Cadastro de bens ou componentes do Ativo Imobilizado"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_IND_BEM": 0,  # Código individualizado do bem ou componente adot...
-    #         "IDENT_MERC": 0,  # Identificação do tipo de mercadoria: 1 = bem 2 = ...
+    #         "IDENT_MERC": 0,  # Identificação do tipo de mercadoria: 1 = bem; 2 =...
     #         "DESCR_ITEM": 0,  # Descrição do bem ou componente (modelo, marca e o...
     #         "COD_PRNC": 0,  # Código de cadastro do bem principal nos casos em qu...
     #         "COD_CTA": 0,  # Código da conta analítica de contabilização do bem o...
@@ -561,11 +530,11 @@ class Registro0300(models.Model):
 
 
 class Registro0305(models.Model):
-    """Informação sobre a Utilização do Bem."""
+    "Informação sobre a Utilização do Bem"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0305"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0305"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0305"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -577,11 +546,11 @@ class Registro0305(models.Model):
 
 
 class Registro0400(models.Model):
-    """Tabela de Natureza da Operação/ Prestação."""
+    "Tabela de Natureza da Operação/ Prestação"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0400"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0400"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0400"
     _odoo_model = "l10n_br_fiscal.operation"
 
     @api.model
@@ -593,18 +562,17 @@ class Registro0400(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "COD_NAT": record.code
-            or str(record.id),  # Código da natureza da operação/prestação
+            "COD_NAT": record.id,  # Código da natureza da operação/prestação
             "DESCR_NAT": record.name,  # Descrição da natureza da operação/prestação
         }
 
 
 class Registro0450(models.Model):
-    """Tabela de Informação Complementar do documento fiscal."""
+    "Tabela de Informação Complementar do documento fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0450"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0450"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0450"
     _odoo_model = "l10n_br_fiscal.comment"
 
     @api.model
@@ -622,26 +590,26 @@ class Registro0450(models.Model):
 
 
 class Registro0460(models.Model):
-    """Tabela de Observações do Lançamento Fiscal."""
+    "Tabela de Observações do Lançamento Fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0460"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0460"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0460"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal
+    #         "COD_OBS": 0,  # Código da Observação do lançamento fiscal.
     #         "TXT": 0,  # Descrição da observação vinculada ao lançamento fiscal
     #     }
 
 
 class Registro0500(models.Model):
-    """Plano de contas contábeis."""
+    "Plano de contas contábeis"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0500"
 
     # TODO: Usado em H010?
 
@@ -651,42 +619,42 @@ class Registro0500(models.Model):
     #         "DT_ALT": 0,  # Data da inclusão/alteração
     #         "COD_NAT_CC": 0,  # Código da natureza da conta/grupo de contas: 01 -...
     #         "IND_CTA": 0,  # Indicador do tipo de conta: S - Sintética (grupo de ...
-    #         "NIVEL": 0,  # Nível da conta analítica/grupo de contas
-    #         "COD_CTA": 0,  # Código da conta analítica/grupo de contas
-    #         "NOME_CTA": 0,  # Nome da conta analítica/grupo de contas
+    #         "NIVEL": 0,  # Nível da conta analítica/grupo de contas.
+    #         "COD_CTA": 0,  # Código da conta analítica/grupo de contas.
+    #         "NOME_CTA": 0,  # Nome da conta analítica/grupo de contas.
     #     }
 
 
 class Registro0600(models.Model):
-    """Centro de custos."""
+    "Centro de custos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.0600"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.0600"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.0600"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "DT_ALT": 0,  # Data da inclusão/alteração
-    #         "COD_CCUS": 0,  # Código do centro de custos
-    #         "CCUS": 0,  # Nome do centro de custos
+    #         "DT_ALT": 0,  # Data da inclusão/alteração.
+    #         "COD_CCUS": 0,  # Código do centro de custos.
+    #         "CCUS": 0,  # Nome do centro de custos.
     #     }
 
 
 class RegistroB020(models.Model):
-    """Nota Fiscal (código 01)."""
+    "Nota Fiscal (código 01)"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b020"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b020"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b020"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0- Aquisição 1- Pres...
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0- Emiss...
+    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Aquisição; 1 - P...
+    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "COD_SIT": 0,  # Código da situação do documento conforme tabela 4.1....
     #         "SER": 0,  # Série do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
@@ -696,7 +664,7 @@ class RegistroB020(models.Model):
     #         "VL_CONT": 0,  # Valor contábil (valor total do documento)
     #         "VL_MAT_TERC": 0,  # Valor do material fornecido por terceiros na pre...
     #         "VL_SUB": 0,  # Valor da subempreitada
-    #         "VL_ISNT_ISS": 0,  # Valor das operações isentas ou não-tributadas pe...
+    #         "VL_ISNT_ISS": 0,  # Valor das operações isentas ou não- tributadas p...
     #         "VL_DED_BC": 0,  # Valor da dedução da base de cálculo
     #         "VL_BC_ISS": 0,  # Valor da base de cálculo do ISS
     #         "VL_BC_ISS_RT": 0,  # Valor da base de cálculo de retenção do ISS
@@ -707,36 +675,35 @@ class RegistroB020(models.Model):
 
 
 class RegistroB025(models.Model):
-    """Detalhamento por combinação de alíquota e item da lista de serviços da Lei
-    Complementar nº 116/2003."""
+    "Detalhamento por combinação de alíquota e item da lista de serviços da Lei Complementar nº 116/2003"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b025"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b025"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b025"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "VL_CONT_P": 0,  # Parcela correspondente ao "Valor Contábil" referen...
-    #         "VL_BC_ISS_P": 0,  # Parcela correspondente ao "Valor da base de cálc...
+    #         "VL_CONT_P": 0,  # Parcela correspondente ao “Valor Contábil” referen...
+    #         "VL_BC_ISS_P": 0,  # Parcela correspondente ao “Valor da base de cálc...
     #         "ALIQ_ISS": 0,  # Alíquota do ISS
-    #         "VL_ISS_P": 0,  # Parcela correspondente ao "Valor do ISS" referente ...
-    #         "VL_ISNT_ISS_P": 0,  # Parcela correspondente ao "Valor das operações...
-    #         "COD_SERV": 0,  # Item da lista de serviços, conforme tabela 4.6.3
+    #         "VL_ISS_P": 0,  # Parcela correspondente ao “Valor do ISS” referente ...
+    #         "VL_ISNT_ISS_P": 0,  # Parcela correspondente ao “Valor das operações...
+    #         "COD_SERV": 0,  # Item da lista de serviços, conforme Tabela 4.6.3
     #     }
 
 
 class RegistroB030(models.Model):
-    """Nota fiscal de Serviços Simplificada."""
+    "Nota fiscal de Serviços Simplificada"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b030"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b030"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b030"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "NUM_DOC_INI": 0,  # Número do primeiro documento fiscal emitido no d...
     #         "NUM_DOC_FIN": 0,  # Número do último documento fiscal emitido no dia
@@ -750,32 +717,12 @@ class RegistroB030(models.Model):
     #     }
 
 
-class RegistroB035(models.Model):
-    """Detalhamento por combinação de alíquota e item da lista de serviços da Lei
-    Complementar nº 116/2003."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.b035"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b035"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "VL_CONT_P": 0,  # Parcela correspondente ao "Valor Contábil" referen...
-    #         "VL_BC_ISS_P": 0,  # Parcela correspondente ao "Valor da base de cálc...
-    #         "ALIQ_ISS": 0,  # Alíquota do ISS
-    #         "VL_ISS_P": 0,  # Parcela correspondente ao "Valor do ISS" referente ...
-    #         "VL_ISNT_ISS_P": 0,  # Parcela correspondente ao "Valor das operações...
-    #         "COD_SERV": 0,  # Item da lista de serviços, conforme tabela 4.6.3
-    #     }
-
-
 class RegistroB350(models.Model):
-    """Serviços prestados por insituições financeiras."""
+    "Serviços prestados por insituições financeiras"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b350"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b350"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b350"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -784,7 +731,7 @@ class RegistroB350(models.Model):
     #         "CTA_ISS": 0,  # Descrição da conta no plano de contas
     #         "CTA_COSIF": 0,  # Código COSIF a que está subordinada a conta do ISS...
     #         "QTD_OCOR": 0,  # Quantidade de ocorrências na conta
-    #         "COD_SERV": 0,  # Item da lista de serviços, conforme tabela 4.6.3
+    #         "COD_SERV": 0,  # Item da lista de serviços, conforme Tabela 4.6.3.
     #         "VL_CONT": 0,  # Valor contábil
     #         "VL_BC_ISS": 0,  # Valor da base de cálculo do ISS
     #         "ALIQ_ISS": 0,  # Alíquota do ISS
@@ -794,12 +741,11 @@ class RegistroB350(models.Model):
 
 
 class RegistroB420(models.Model):
-    """Totalização dos valores de serviços prestados por combinação de alíquota e item
-    da lista de serviços."""
+    "Totalização dos valores de serviços prestados por combinação de alíquota e item da lista de serviços"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b420"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b420"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b420"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -809,34 +755,34 @@ class RegistroB420(models.Model):
     #         "ALIQ_ISS": 0,  # Alíquota do ISS
     #         "VL_ISNT_ISS": 0,  # Totalização do valor das operações isentas ou nã...
     #         "VL_ISS": 0,  # Totalização, por combinação da alíquota e item da lis...
-    #         "COD_SERV": 0,  # Item da lista de serviços, conforme tabela 4.6.3
+    #         "COD_SERV": 0,  # Item da lista de serviços, conforme Tabela 4.6.3.
     #     }
 
 
 class RegistroB440(models.Model):
-    """Totalização dos valores retidos."""
+    "Totalização dos valores retidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b440"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b440"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b440"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Aquisição 1 – Pr...
+    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Aquisição; 1 - P...
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "VL_CONT_RT": 0,  # Totalização do valor contábil das prestações e/ou...
-    #         "VL_BC_ISS_RT": 0,  # Totalização do valor da base de cálculo de rete...
-    #         "VL_ISS_RT": 0,  # Totalização do valor do ISS retido pelo tomador da...
+    #         "VL_CONT_RT": 0,  # Totalização do Valor Contábil das prestações e/ou...
+    #         "VL_BC_ISS_RT": 0,  # Totalização do Valor da base de cálculo de rete...
+    #         "VL_ISS_RT": 0,  # Totalização do Valor do ISS retido pelo tomador da...
     #     }
 
 
 class RegistroB460(models.Model):
-    """Deduções do ISS."""
+    "Deduções do ISS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b460"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b460"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b460"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -844,7 +790,7 @@ class RegistroB460(models.Model):
     #         "IND_DED": 0,  # Indicador do tipo de dedução: 0 - Compensação do ISS...
     #         "VL_DED": 0,  # Valor da dedução
     #         "NUM_PROC": 0,  # Número do processo ao qual o ajuste está vinculado,...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0 - Sefin 1 - Just...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0 - Sefin; 1 - Jus...
     #         "PROC": 0,  # Descrição do processo que embasou o lançamento
     #         "COD_INF_OBS": 0,  # Código da observação do lançamento fiscal (campo...
     #         "IND_OBR": 0,  # Indicador da obrigação onde será aplicada a dedução:...
@@ -852,11 +798,11 @@ class RegistroB460(models.Model):
 
 
 class RegistroB470(models.Model):
-    """Apuração do ISS."""
+    "Apuração do ISS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b470"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b470"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b470"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -874,16 +820,16 @@ class RegistroB470(models.Model):
     #         "VL_DED": 0,  # K - Valor total das deduções do ISS próprio
     #         "VL_ISS_REC": 0,  # L - Valor total apurado do ISS próprio a recolher...
     #         "VL_ISS_ST": 0,  # M - Valor total do ISS substituto a recolher pelas...
-    #         "VL_ISS_REC_UNI": 0,  # N - Valor do ISS próprio a recolher pela soci...
+    #         "VL_ISS_REC_UNI": 0,  # N - Valor do ISS próprio a recolher pela Soci...
     #     }
 
 
 class RegistroB500(models.Model):
-    """Apuração do ISS sociedade uniprofissional."""
+    "Apuração do ISS sociedade uniprofissional"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -895,37 +841,36 @@ class RegistroB500(models.Model):
 
 
 class RegistroB510(models.Model):
-    """Uniprofissional – empregados e sócios."""
+    "Uniprofissional – empregados e sócios"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.b510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.b510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.b510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "IND_PROF": 0,  # Indicador de habilitação: 0- Profissional habilitad...
     #         "IND_ESC": 0,  # Indicador de escolaridade: 0- Nível superior 1- Níve...
-    #         "IND_SOC": 0,  # Indicador de participação societária: 0- Sócio 1- Nã...
-    #         "CPF": 0,  # Número de inscrição do profissional no CPF
+    #         "IND_SOC": 0,  # Indicador de participação societária: 0 - Sócio 1 - ...
+    #         "CPF": 0,  # Número de inscrição do profissional no CPF.
     #         "NOME": 0,  # Nome do profissional
     #     }
 
 
 class RegistroC100(models.Model):
-    """Documento - Nota Fiscal (código 01, 1B, 04, 55, 65)."""
+    "Documento - Nota Fiscal (código 01, 1B, 04, 55, 65)"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c100"
     _odoo_model = "l10n_br_fiscal.document"
 
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        return [
-            ("id", "in", declaration.fiscal_document_ids.ids),
-            ("document_type_id.code", "in", ("01", "1B", "04", "55", "65")),
-        ]
+    # @api.model
+    # def _odoo_domain(self, parent_record, declaration):
+    #     return [
+    #         ("id", "in", declaration.c100_fiscal_document_ids.ids),
+    #     ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -948,7 +893,7 @@ class RegistroC100(models.Model):
         #     registro_c100.CHV_NFE = ""
         # if nfe.emissao_doc == '1' and not nfe.state == 'cancel' \
         #     and nfe.chave_nfe[6:20] != \
-        #     self.limpa_formatacao(nfe.partner_id.company_id.cnpj_cpf):
+        #     self.limpa_formatacao(nfe.partner_id.company_id.vat):
         #     cod_sit = '08'
 
         ind_pgto = "1"  # TODO ATS-TI code is commented as follow:
@@ -974,7 +919,7 @@ class RegistroC100(models.Model):
             "CHV_NFE": record.document_key,
             "DT_DOC": record.document_date,
             "DT_E_S": record.date_in_out,
-            "VL_DOC": record.fiscal_amount_total,
+            "VL_DOC": record.amount_financial_total,
             "IND_PGTO": ind_pgto,
             "VL_DESC": record.amount_discount_value,
             "VL_ABAT_NT": record.amount_financial_discount_value,
@@ -998,95 +943,77 @@ class RegistroC100(models.Model):
 
 
 class RegistroC101(models.Model):
-    """Informação complementar dos documentos fiscais quando das operações
-    interestaduais destinadas."""
+    "Informação complementar dos documentos fiscais quando das operações interestaduais destinadas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c101"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c101"
-
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        # Only output C101 if there is actually DIFAL or FCP
-        return [
-            ("id", "=", parent_record.id),
-            "|",
-            ("amount_icms_destination_value", ">", 0),
-            ("amount_icmsfcp_value", ">", 0),
-        ]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "VL_FCP_UF_DEST": parent_record.amount_icmsfcp_value or 0.0,
-            "VL_ICMS_UF_DEST": parent_record.amount_icms_destination_value or 0.0,
-            "VL_ICMS_UF_REM": parent_record.amount_icms_origin_value or 0.0,
-        }
-
-
-class RegistroC105(models.Model):
-    """Operações com ICMS ST recolhido para UF diversa do destinatário do documento
-    fiscal."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.c105"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c105"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c101"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "OPER": 0,  # Indicador do tipo de operação: 0 - Combustíveis e Lubri...
+    #         "VL_FCP_UF_DEST": 0,  # Valor total relativo ao Fundo de Combate à Po...
+    #         "VL_ICMS_UF_DEST": 0,  # Valor total do ICMS Interestadual para a UF
+    #         "VL_ICMS_UF_REM": 0,  # Valor total do ICMS Interestadual para a UF d...
+    #     }
+
+
+class RegistroC105(models.Model):
+    "Operações com ICMS ST recolhido para UF diversa do destinatário do docu- mento fiscal"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.c105"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c105"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "OPER": 0,  # Indicador do tipo de operação: 0- Combustíveis e Lubrif...
     #         "UF": 0,  # Sigla da UF de destino do ICMS_ST
     #     }
 
 
 class RegistroC110(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c110"
-    _odoo_model = "l10n_br_fiscal.document.related"
-
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        # Generate a C110 block for each related document found in C100
-        return [("document_id", "=", parent_record.id)]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "COD_INF": "",
-            "TXT_COMPL": "Documento Referenciado",
-        }
-
-
-class RegistroC111(models.Model):
-    """Complemento de Documento."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.c111"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c111"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "NUM_PROC": 0,  # Identificação do processo ou ato concessório
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz 1 - Justi...
+    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
+    #         "TXT_COMPL": 0,  # Descrição complementar do código de referência.
+    #     }
+
+
+class RegistroC111(models.Model):
+    "Complemento de Documento"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.c111"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c111"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "NUM_PROC": 0,  # Identificação do processo ou ato concessório.
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0 - SEFAZ; 1 - Jus...
     #     }
 
 
 class RegistroC112(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c112"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c112"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c112"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_DA": 0,  # Código do modelo do documento de arrecadação: 0 - Doc...
+    #         "COD_DA": 0,  # Código do modelo do documento de arrecadação : 0 – Do...
     #         "UF": 0,  # Unidade federada beneficiária do recolhimento
     #         "NUM_DA": 0,  # Número do documento de arrecadação
     #         "COD_AUT": 0,  # Código completo da autenticação bancária
@@ -1097,43 +1024,33 @@ class RegistroC112(models.Model):
 
 
 class RegistroC113(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c113"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c113"
-    _odoo_model = "l10n_br_fiscal.document.related"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c113"
 
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        # parent_record here is from C110 (which is the exact document.related record)
-        return [("id", "=", parent_record.id)]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # Origin doc properties
-        ind_oper = "0" if record.document_id.fiscal_operation_type == "in" else "1"
-        ind_emit = "0" if record.document_id.issuer == "company" else "1"
-
-        return {
-            "IND_OPER": ind_oper,
-            "IND_EMIT": ind_emit,
-            "COD_PART": misc.punctuation_rm(record.cnpj_cpf) if record.cnpj_cpf else "",
-            "COD_MOD": record.document_type_code or "",
-            "SER": record.document_serie or "",
-            "SUB": "",
-            "NUM_DOC": record.document_number or "",
-            "DT_DOC": record.document_date,
-            "CHV_DOCE": record.document_key or "",
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0- Entrada/aquisição...
+    #         "IND_EMIT": 0,  # Indicador do emitente do título: 0- Emissão própria...
+    #         "COD_PART": 0,  # Código do participante emitente (campo 02 do Regist...
+    #         "COD_MOD": 0,  # Código do documento fiscal, conforme a Tabela 4.1.1
+    #         "SER": 0,  # Série do documento fiscal
+    #         "SUB": 0,  # Subsérie do documento fiscal
+    #         "NUM_DOC": 0,  # Número do documento fiscal
+    #         "DT_DOC": 0,  # Data da emissão do documento fiscal.
+    #         "CHV_DOCe": 0,  # Chave do Documento Eletrônico
+    #     }
 
 
 class RegistroC114(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c114"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c114"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c114"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1147,69 +1064,69 @@ class RegistroC114(models.Model):
 
 
 class RegistroC115(models.Model):
-    """Local de coleta e/ou entrega."""
+    "Local de coleta e/ou entrega"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c115"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c115"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c115"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_CARGA": 0,  # Indicador do tipo de transporte: 0 - Rodoviário 1 ...
+    #         "IND_CARGA": 0,  # Indicador do tipo de transporte: 0 – Rodoviário; 1...
     #         "CNPJ_COL": 0,  # Número do CNPJ do contribuinte do local de coleta
-    #         "IE_COL": 0,  # Inscrição estadual do contribuinte do local de coleta
+    #         "IE_COL": 0,  # Inscrição Estadual do contribuinte do local de coleta
     #         "CPF_COL": 0,  # CPF do contribuinte do local de coleta das mercadori...
     #         "COD_MUN_COL": 0,  # Código do Município do local de coleta
     #         "CNPJ_ENTG": 0,  # Número do CNPJ do contribuinte do local de entrega
-    #         "IE_ENTG": 0,  # Inscrição estadual do contribuinte do local de entre...
+    #         "IE_ENTG": 0,  # Inscrição Estadual do contribuinte do local de entre...
     #         "CPF_ENTG": 0,  # CPF do contribuinte do local de entrega
-    #         "COD_MUN_ENTG": 0,  # Código do município do local de entrega
+    #         "COD_MUN_ENTG": 0,  # Código do Município do local de entrega
     #     }
 
 
 class RegistroC116(models.Model):
-    """Cupom Fiscal Eletrônico."""
+    "Cupom Fiscal Eletrônico"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c116"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c116"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c116"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "NR_SAT": 0,  # Número de Série do equipamento SAT
     #         "CHV_CFE": 0,  # Chave do Cupom Fiscal Eletrônico
-    #         "NUM_CFE": 0,  # Número do Cupom Fiscal Eletrônico
+    #         "NUM_CFE": 0,  # Número do cupom fiscal eletrônico
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
     #     }
 
 
 class RegistroC120(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c120"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c120"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c120"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_DOC_IMP": 0,  # Documento de importação: 0 - Declaração de impor...
-    #         "NUM_DOC_IMP": 0,  # Número do documento de importação.
+    #         "COD_DOC_IMP": 0,  # Documento de importação: 0 – Declaração de Impor...
+    #         "NUM_DOC_IMP": 0,  # Número do documento de Importação.
     #         "PIS_IMP": 0,  # Valor pago de PIS na importação
-    #         "COFINS_IMP": 0,  # Valor pago de COFINS na importação
-    #         "NUM_ACDRAW": 0,  # Número do ato concessório do regime Drawback
+    #         "COFINSIMP": 0,  # Valor pago de COFINS na importação
+    #         "NUM_ACDRAW": 0,  # Número do Ato Concessório do regime Drawback
     #     }
 
 
 class RegistroC130(models.Model):
-    """Complemento de Documento - ISSQN."""
+    "Complemento de Documento - ISSQN"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c130"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c130"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c130"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1218,18 +1135,18 @@ class RegistroC130(models.Model):
     #         "VL_BC_ISSQN": 0,  # Valor da base de cálculo do ISSQN
     #         "VL_ISSQN": 0,  # Valor do ISSQN
     #         "VL_BC_IRRF": 0,  # Valor da base de cálculo do Imposto de Renda Reti...
-    #         "VL_IRRF": 0,  # Valor do Imposto de Renda retido na fonte
+    #         "VL_IRRF": 0,  # Valor do Imposto de Renda - Retido na Fonte
     #         "VL_BC_PREV": 0,  # Valor da base de cálculo de retenção da Previdênc...
     #         "VL_PREV": 0,  # Valor destacado para retenção da Previdência Social
     #     }
 
 
 class RegistroC140(models.Model):
-    """Complemento de Documento - Fatura."""
+    "Complemento de Documento - Fatura"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c140"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c140"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c140"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1244,27 +1161,26 @@ class RegistroC140(models.Model):
 
 
 class RegistroC141(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c141"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c141"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c141"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "NUM_PARC": 0,  # Número da parcela a receber/pagar
     #         "DT_VCTO": 0,  # Data de vencimento da parcela
-    #         "VL_PARC": 0,  # Valor da parcela a receber/pagar
     #     }
 
 
 class RegistroC160(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c160"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c160"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c160"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1279,18 +1195,18 @@ class RegistroC160(models.Model):
 
 
 class RegistroC165(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c165"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c165"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c165"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
     #         "VEIC_ID": 0,  # Placa de identificação do veículo
-    #         "COD_AUT": 0,  # Código da autorização fornecido pela SEFAZ (combustí...
+    #         "COD_AUT": 0,  # Código da autorização fornecido pela
     #         "NR_PASSE": 0,  # Número do Passe Fiscal
     #         "HORA": 0,  # Hora da saída das mercadorias
     #         "TEMPER": 0,  # Temperatura em graus Celsius utilizada para quantific...
@@ -1304,11 +1220,11 @@ class RegistroC165(models.Model):
 
 
 class RegistroC170(models.Model):
-    """Complemento de Documento."""
+    "Complemento de Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c170"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c170"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c170"
     _odoo_model = "l10n_br_fiscal.document.line"
 
     @api.model
@@ -1319,22 +1235,18 @@ class RegistroC170(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # Format the 3-digit CST (Origin + CST code)
-        cst_icms = f"{record.icms_origin or '0'}{record.icms_cst_code or '00'}"
-
         return {
             "NUM_ITEM": index + 1,
             "COD_ITEM": record.nfe40_cProd if hasattr(record, "nfe40_pag") else "",
             "DESCR_COMPL": record.name,
             "QTD": record.fiscal_quantity,
             "UNID": record.nfe40_uCom if hasattr(record, "nfe40_uCom") else "",
-            "VL_ITEM": record.price_gross or 0.0,
+            "VL_ITEM": record.fiscal_price * record.fiscal_quantity,
             "VL_DESC": record.discount_value,
             "IND_MOV": "0" if record.cfop_id.stock_move else "1",
-            "CST_ICMS": cst_icms,
+            "CST_ICMS": "",
             "CFOP": str(record.cfop_id.code),
-            "COD_NAT": record.fiscal_operation_id.code
-            or str(record.fiscal_operation_id.id),
+            "COD_NAT": str(record.fiscal_operation_id.code),
             "VL_BC_ICMS": record.icms_base,
             "ALIQ_ICMS": record.icms_percent,
             "VL_ICMS": record.icms_value,
@@ -1369,11 +1281,11 @@ class RegistroC170(models.Model):
 
 
 class RegistroC171(models.Model):
-    """Complemento de Item."""
+    "Complemento de Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c171"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c171"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c171"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1384,11 +1296,11 @@ class RegistroC171(models.Model):
 
 
 class RegistroC172(models.Model):
-    """Complemento de Item."""
+    "Complemento de Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c172"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c172"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c172"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1400,11 +1312,11 @@ class RegistroC172(models.Model):
 
 
 class RegistroC173(models.Model):
-    """Complemento de Item."""
+    "Complemento de Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c173"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c173"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c173"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1414,63 +1326,62 @@ class RegistroC173(models.Model):
     #         "DT_FAB": 0,  # Data de fabricação do medicamento
     #         "DT_VAL": 0,  # Data de expiração da validade do medicamento
     #         "IND_MED": 0,  # Indicador de tipo de referência da base de cálculo d...
-    #         "TP_PROD": 0,  # Tipo de produto: 0- Similar 1- Genérico 2- Ético ou ...
-    #         "VL_TAB_MAX": 0,  # Valor do preço tabela do ou valor do preço máximo
+    #         "TP_PROD": 0,  # Tipo de produto: 0 - Similar; 1 - Genérico; 2 - Étic...
+    #         "VL_TAB_MAX": 0,  # Valor do preço tabelado ou valor do preço máximo
     #     }
 
 
 class RegistroC174(models.Model):
-    """Complemento de Item."""
+    "Complemento de Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c174"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c174"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c174"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_ARM": 0,  # Indicador do tipo da arma de fogo: 0- Uso permitido ...
+    #         "IND_ARM": 0,  # Indicador do tipo da arma de fogo: 0 - Uso permitido...
     #         "NUM_ARM": 0,  # Numeração de série de fabricação da arma
     #         "DESCR_COMPL": 0,  # Descrição da arma, compreendendo: número do cano...
     #     }
 
 
 class RegistroC175(models.Model):
-    """Complemento de Item."""
+    "Complemento de Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c175"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c175"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c175"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_VEIC_OPER": 0,  # Indicador do tipo de operação com veículo: 0- ...
-    #         "CNPJ": 0,  # CNPJ da concessionária
-    #         "UF": 0,  # Sigla da unidade da federação da concessionária
+    #         "IND_VEIC_OPER": 0,  # Indicador do tipo de operação com veículo: 0 -...
+    #         "CNPJ": 0,  # CNPJ da Concessionária
+    #         "UF": 0,  # Sigla da unidade da federação da Concessionária
     #         "CHASSI_VEIC": 0,  # Chassi do veículo
     #     }
 
 
 class RegistroC176(models.Model):
-    """Complemento de Item -Ressarcimento de ICMS em operações com Substituição
-    Tributária."""
+    "Complemento de Item -Ressarcimento de ICMS em operações com Substitui- ção Tributária"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c176"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c176"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c176"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_MOD_ULT_E": 0,  # Código do modelo do documento fiscal relativa ...
-    #         "NUM_DOC_ULT_E": 0,  # Número do documento fiscal relativa à última e...
-    #         "SER_ULT_E": 0,  # Série do documento fiscal relativa à última entrad...
+    #         "NUM_DOC_ULT_E": 0,  # Número do documento fiscal relativa a última e...
+    #         "SER_ULT_E": 0,  # Série do documento fiscal relativa a última entrad...
     #         "DT_ULT_E": 0,  # Data relativa a última entrada da mercadoria
     #         "COD_PART_ULT_E": 0,  # Código do participante (do emitente do docume...
-    #         "QUANT_ULT_E": 0,  # Quantidade do item relativa à última entrada
+    #         "QUANT_ULT_E": 0,  # Quantidade do item relativa a última entrada
     #         "VL_UNIT_ULT_E": 0,  # Valor unitário da mercadoria constante na NF r...
-    #         "VL_UNIT_BC_ST": 0,  # Valor unitário da base de cálculo do imposto p...
+    #         "VL_UNIT_BC_ST": 0,  # Valor unitário da base de cálculo do
     #         "CHAVE_NFE_ULT_E": 0,  # Número completo da chave da NFe relativo à ú...
     #         "NUM_ITEM_ULT_E": 0,  # Número sequencial do item na NF entrada que c...
     #         "VL_UNIT_BC_ICMS_ULT_E": 0,  # Valor unitário da base de cálculo da o...
@@ -1483,69 +1394,70 @@ class RegistroC176(models.Model):
     #         "COD_MOT_RES": 0,  # Código do motivo do ressarcimento: 1 - Saída par...
     #         "CHAVE_NFE_RET": 0,  # Número completo da chave da NF-e emitida pelo ...
     #         "COD_PART_NFE_RET": 0,  # Código do participante do emitente da NF-e ...
-    #         "SER_NFE_RET": 0,  # Série da NF-e em que houve a retenção do ICMS-ST
-    #         "NUM_NFE_RET": 0,  # Número da NF-e em que houve a retenção do ICMS-S...
+    #         "SER_NFE_RET": 0,  # Série da NF-e em que houve a retenção do ICMS ST
+    #         "NUM_NFE_RET": 0,  # Número da NF-e em que houve a retenção do ICMS S...
     #         "ITEM_NFE_RET": 0,  # Número sequencial do item na NF-e em que houve ...
-    #         "COD_DA": 0,  # Código do modelo do documento de arrecadação: 0 - doc...
+    #         "COD_DA": 0,  # Código do modelo do documento de
     #         "NUM_DA": 0,  # Número do documento de arrecadação estadual, se houve...
     #         "VL_UNIT_RES_FCP_ST": 0,  # Valor unitário do ressarcimento (parcial ...
     #     }
 
 
 class RegistroC177(models.Model):
-    """Complemento de Item – Outras informações."""
+    "Complemento de Item – Outras informações"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c177"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c177"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c177"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_INF_ITEM": 0,  # Código da informação adicional de acordo com ta...
+    #         "COD_SELO_IPI": 0,  # Código do selo de controle do IPI, conforme Tab...
+    #         "QT_SELO_IPI": 0,  # Quantidade de selo de controle do IPI aplicada
     #     }
 
 
 class RegistroC178(models.Model):
-    """Complemento de Item."""
+    "Complemento de Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c178"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c178"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c178"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "CL_ENQ": 0,  # Código da classe de enquadramento do IPI, conforme ta...
+    #         "CL_ENQ": 0,  # Código da classe de enquadramento do IPI, conforme Ta...
     #         "VL_UNID": 0,  # Valor por unidade padrão de tributação
     #         "QUANT_PAD": 0,  # Quantidade total de produtos na unidade padrão de ...
     #     }
 
 
 class RegistroC179(models.Model):
-    """Complemento de Item."""
+    "Complemento de Item"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c179"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c179"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c179"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "BC_ST_ORIG_DEST": 0,  # Valor da base de cálculo ST na origem/destin...
-    #         "ICMS_ST_REP": 0,  # Valor do ICMS-ST a repassar/deduzir em operações...
-    #         "ICMS_ST_COMPL": 0,  # Valor do ICMS-ST a complementar à UF de destin...
+    #         "ICMS_ST_REP": 0,  # Valor do ICMS ST a repassar/deduzir em operações...
+    #         "ICMS_ST_COMPL": 0,  # Valor do ICMS ST a complementar à UF de destin...
     #         "BC_RET": 0,  # Valor da BC de retenção em remessa promovida por Subs...
     #         "ICMS_RET": 0,  # Valor da parcela do imposto retido em remessa promo...
     #     }
 
 
 class RegistroC180(models.Model):
-    """Informações complementares das operações de entrada de mercadorias sujeitas."""
+    "Informações complementares das operações de en- trada de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c180"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c180"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c180"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1564,12 +1476,11 @@ class RegistroC180(models.Model):
 
 
 class RegistroC181(models.Model):
-    """Informações complementares das operações de devolução de saídas de mercadorias
-    sujeitas."""
+    "Informações complementares das operações de devolução de saídas de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c181"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c181"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c181"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1589,12 +1500,11 @@ class RegistroC181(models.Model):
 
 
 class RegistroC185(models.Model):
-    """Informações complementares das operações de saída de mercadorias sujeitas à
-    substituição tributária."""
+    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c185"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c185"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c185"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1610,33 +1520,28 @@ class RegistroC185(models.Model):
     #         "VL_UNIT_ICMS_NA_OPERACAO_CONV": 0,  # Valor unitário para o ICMS na ...
     #         "VL_UNIT_ICMS_OP_CONV": 0,  # Valor unitário do ICMS OP calculado con...
     #         "VL_UNIT_ICMS_OP_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS qu...
-    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS/ST...
-    #         "VL_UNIT_ICMS_ST_": 0,  # Valor unitário do total do ICMS/ST, incluin...
-    #         "VL_UNIT_FCP_ST_CONV_REST": 0,  # Valor unitário correspondente à par...
-    #         "VL_UNIT_ICMS_ST_CONV_COMPL": 0,  # Valor unitário do complemento do ...
-    #         "VL_UNIT_FCP_ST_CONV_COMPL": 0,  # Valor unitário correspondente à pa...
+    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS ST...
     #     }
 
 
 class RegistroC186(models.Model):
-    """Informações complementares das operações de devolução de entradas de
-    mercadorias sujeitas."""
+    "Informações complementares das operações de devolução de entradas de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c186"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c186"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c186"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "NUM_ITEM": 0,  # Número sequencial do item no documento fiscal
+    #         "NUM_ITEM": 0,  # Número sequencial do item no documento fiscal de sa...
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
-    #         "CST_ICMS": 0,  # Código da Situação Tributária referente ao ICMS
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
+    #         "CST_ICMS": 0,  # Código da Situação Tributária referente ao ICMS no ...
+    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação no documento fisc...
     #         "COD_MOT_REST_COMPL": 0,  # Código do motivo da restituição ou comple...
-    #         "QUANT_CONV": 0,  # Quantidade do item
+    #         "QUANT_CONV": 0,  # Quantidade do item no documento fiscal de saída d...
     #         "UNID": 0,  # Unidade adotada para informar o campo QUANT_CONV.
-    #         "COD_MOD_ENTRADA": 0,  # Código do modelo do documento fiscal de saíd...
+    #         "COD_MOD_ENTRADA": 0,  # Código do modelo do documento fiscal de entr...
     #         "SERIE_ENTRADA": 0,  # Número de série do documento de entrada em pap...
     #         "NUM_DOC_ENTRADA": 0,  # Número do documento fiscal de entrada
     #         "CHV_DFE_ENTRADA": 0,  # Chave do documento fiscal eletrônico de entr...
@@ -1644,63 +1549,92 @@ class RegistroC186(models.Model):
     #         "NUM_ITEM_ENTRADA": 0,  # Item do documento fiscal de entrada
     #         "VL_UNIT_CONV_ENTRADA": 0,  # Valor unitário da mercadoria, considera...
     #         "VL_UNIT_ICMS_OP_CONV_ENTRADA": 0,  # Valor unitário do ICMS correspo...
-    #         "VL_UNIT_ICMS_ST_CONV_ENTRADA": 0,  # Valor unitário do imposto pago ...
-    #         "VL_UNIT_FCP_ST_CONV_ENTRADA": 0,  # Valor unitário do FCP_ST, corres...
     #     }
 
 
 class RegistroC190(models.Model):
-    """Registro Analítico do Documento."""
+    "Registro Analítico do Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c190"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c190"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c190"
 
     @api.model
-    def _odoo_query(self, parent_record, declaration):
-        # SPED requires grouping by CST, CFOP, and ICMS Aliquot
-        query = """
-            SELECT
-                CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
-                cfop.code AS cfop,
-                fdl.icms_percent AS aliq_icms,
-                SUM(fdl.amount_tax_not_included) AS vl_opr,
-                SUM(fdl.icms_base) AS vl_bc_icms,
-                SUM(fdl.icms_value) AS vl_icms,
-                SUM(fdl.icmsst_base) AS vl_bc_icms_st,
-                SUM(fdl.icmsst_value) AS vl_icms_st,
-                SUM(fdl.ipi_value) AS vl_ipi
-            FROM l10n_br_fiscal_document_line fdl
-            LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
-            LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
-            WHERE fdl.document_id = %s
-            GROUP BY cst.code, cfop.code, fdl.icms_percent, fdl.icms_origin
-        """
-        return query, [parent_record.id]
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        declaration = self._context["declaration"]
+        parent_field = "reg_C190_ids_RegistroC100_id"
 
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "CST_ICMS": record.get("cst_icms") or "",
-            "CFOP": record.get("cfop") or "",
-            "ALIQ_ICMS": record.get("aliq_icms") or 0.0,
-            "VL_OPR": record.get("vl_opr") or 0.0,
-            "VL_BC_ICMS": record.get("vl_bc_icms") or 0.0,
-            "VL_ICMS": record.get("vl_icms") or 0.0,
-            "VL_BC_ICMS_ST": record.get("vl_bc_icms_st") or 0.0,
-            "VL_ICMS_ST": record.get("vl_icms_st") or 0.0,
-            "VL_RED_BC": 0.0,  # Can also be aggregated in SQL if needed
-            "VL_IPI": record.get("vl_ipi") or 0.0,
-            "COD_OBS": "",
-        }
+        groups = {}
+        order = []
+        for line in parent_record.fiscal_line_ids:
+            key = (
+                line.icms_cst_code or "",
+                str(line.cfop_id.code) if line.cfop_id else "",
+                line.icms_percent,
+            )
+            if key not in groups:
+                groups[key] = dict.fromkeys(
+                    (
+                        "VL_OPR",
+                        "VL_BC_ICMS",
+                        "VL_ICMS",
+                        "VL_BC_ICMS_ST",
+                        "VL_ICMS_ST",
+                        "VL_RED_BC",
+                        "VL_IPI",
+                    ),
+                    0.0,
+                )
+                order.append(key)
+            group = groups[key]
+            group["VL_OPR"] += (
+                line.price_gross
+                - line.discount_value
+                + line.freight_value
+                + line.insurance_value
+                + line.other_value
+                + line.icmsst_value
+                + line.ipi_value
+            )
+            group["VL_BC_ICMS"] += line.icms_base
+            group["VL_ICMS"] += line.icms_value
+            group["VL_BC_ICMS_ST"] += line.icmsst_base
+            group["VL_ICMS_ST"] += line.icmsst_value
+            group["VL_IPI"] += line.ipi_value
+            # VL_RED_BC (valor não tributado por redução de base) left at 0.0;
+            # the reduced amount is not stored as a value on the fiscal line.
+
+        for key in order:
+            cst_icms, cfop, aliq_icms = key
+            vals = dict(groups[key])
+            vals.update(
+                {
+                    "CST_ICMS": cst_icms,
+                    "CFOP": cfop,
+                    "ALIQ_ICMS": aliq_icms,
+                    "COD_OBS": "",
+                    "declaration_id": declaration.id,
+                    parent_field: parent_register.id if parent_register else False,
+                }
+            )
+            self.create(vals)
+
+        if log_msg is not None and parent_register:
+            self._log_chatter_sped_item(
+                log_msg,
+                level,
+                self.search([(parent_field, "=", parent_register.id)]),
+            )
 
 
 class RegistroC191(models.Model):
-    """Informações do Fundo de Combate à Pobreza – FCP – na NF-e."""
+    "Informações do Fundo de Combate à Pobreza – FCP – na NF-e"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c191"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c191"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c191"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1712,26 +1646,26 @@ class RegistroC191(models.Model):
 
 
 class RegistroC195(models.Model):
-    """Complemento do Registro Analítico."""
+    "Complemento do Registro Analítico"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c195"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c195"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c195"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação
+    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação.
     #     }
 
 
 class RegistroC197(models.Model):
-    """Outras Obrigações Tributárias."""
+    "Outras Obrigações Tributárias"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c197"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c197"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c197"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1747,16 +1681,16 @@ class RegistroC197(models.Model):
 
 
 class RegistroC300(models.Model):
-    """Documento."""
+    "Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC_INI": 0,  # Número do documento fiscal inicial
@@ -1765,16 +1699,16 @@ class RegistroC300(models.Model):
     #         "VL_DOC": 0,  # Valor total dos documentos
     #         "VL_PIS": 0,  # Valor total do PIS
     #         "VL_COFINS": 0,  # Valor total da COFINS
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
+    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/ credita...
     #     }
 
 
 class RegistroC310(models.Model):
-    """Documentos Cancelados de Nota Fiscal de Venda a Consumidor."""
+    "Documentos Cancelados de Nota Fiscal de Venda a Consumidor"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c310"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c310"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c310"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1784,16 +1718,16 @@ class RegistroC310(models.Model):
 
 
 class RegistroC320(models.Model):
-    """Registro Analítico das Notas Fiscais de Venda a Consumidor."""
+    "Registro Analítico das Notas Fiscais de Venda a Consumidor"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c320"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c320"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c320"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor total acumulado das operações correspondentes à...
@@ -1805,11 +1739,11 @@ class RegistroC320(models.Model):
 
 
 class RegistroC321(models.Model):
-    """Itens dos Resumos Diários dos Documentos."""
+    "Itens dos Resumos Diários dos Documentos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c321"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c321"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c321"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1827,12 +1761,11 @@ class RegistroC321(models.Model):
 
 
 class RegistroC330(models.Model):
-    """Informações complementares das operações de saída de mercadorias sujeitas à
-    substituição tributária."""
+    "Informações complementares das operações de sa-"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c330"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c330"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c330"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1844,20 +1777,16 @@ class RegistroC330(models.Model):
     #         "VL_UNIT_ICMS_NA_OPERACAO_CONV": 0,  # Valor unitário para o ICMS na ...
     #         "VL_UNIT_ICMS_OP_CONV": 0,  # Valor unitário do ICMS OP calculado con...
     #         "VL_UNIT_ICMS_OP_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS qu...
-    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS/ST...
-    #         "VL_UNIT_ICMS_ST_CONV_REST": 0,  # Valor unitário do total do ICMS/ST...
-    #         "VL_UNIT_FCP_ST_CONV_REST": 0,  # Valor unitário correspondente à par...
-    #         "VL_UNIT_ICMS_ST_CONV_COMPL": 0,  # Valor unitário do complemento do ...
-    #         "VL_UNIT_FCP_ST_CONV_COMPL": 0,  # Valor unitário correspondente à pa...
+    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS ST...
     #     }
 
 
 class RegistroC350(models.Model):
-    """Nota Fiscal de venda a consumidor."""
+    "Nota Fiscal de venda a consumidor"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c350"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c350"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c350"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1877,16 +1806,16 @@ class RegistroC350(models.Model):
 
 
 class RegistroC370(models.Model):
-    """Itens do documento (código 02)."""
+    "Itens do documento (código 02)"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c370"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c370"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c370"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "NUM_ITEM": 0,  # Número sequencialdo item no documento fiscal
+    #         "NUM_ITEM": 0,  # Número sequencial do item no documento fiscal
     #         "COD_ITEM": 0,  # Código do Item (campo 02 do registro 0200)
     #         "QTD": 0,  # Quantidade do item
     #         "UNID": 0,  # Unidade do item (campo 02 do registro 0190)
@@ -1896,12 +1825,11 @@ class RegistroC370(models.Model):
 
 
 class RegistroC380(models.Model):
-    """Informações complementares das operações de saída de mercadorias sujeitas à
-    substituição tributária."""
+    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c380"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c380"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c380"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1913,27 +1841,21 @@ class RegistroC380(models.Model):
     #         "VL_UNIT_ICMS_NA_OPERACAO_CONV": 0,  # Valor unitário para o ICMS na ...
     #         "VL_UNIT_ICMS_OP_CONV": 0,  # Valor unitário do ICMS OP calculado con...
     #         "VL_UNIT_ICMS_OP_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS qu...
-    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS/ST...
-    #         "VL_UNIT_ICMS_ST_CONV_REST": 0,  # Valor unitário do total do ICMS/ST...
-    #         "VL_UNIT_FCP_ST_CONV_REST": 0,  # Valor unitário correspondente à par...
-    #         "VL_UNIT_ICMS_ST_CONV_COMPL": 0,  # Valor unitário do complemento do ...
-    #         "VL_UNIT_FCP_ST_CONV_COMPL": 0,  # Valor unitário correspondente à pa...
-    #         "CST_ICMS": 0,  # Código da Situação Tributária referente ao ICMS
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
+    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS ST...
     #     }
 
 
 class RegistroC390(models.Model):
-    """Registro Analítico das Notas Fiscais de Venda a Consumidor."""
+    "Registro Analítico das Notas Fiscais de Venda a Consumidor"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c390"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c390"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c390"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor total acumulado das operações correspondentes à...
@@ -1945,16 +1867,16 @@ class RegistroC390(models.Model):
 
 
 class RegistroC400(models.Model):
-    """Equipamento ECF (código 02, 2D e 60)."""
+    "Equipamento ECF (código 02, 2D e 60)"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c400"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c400"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c400"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "ECF_MOD": 0,  # Modelo do equipamento
     #         "ECF_FAB": 0,  # Número de série de fabricação do ECF
     #         "ECF_CX": 0,  # Número do caixa atribuído ao ECF
@@ -1962,11 +1884,11 @@ class RegistroC400(models.Model):
 
 
 class RegistroC405(models.Model):
-    """Redução Z (código 02, 2D e 60)."""
+    "Redução Z (código 02, 2D e 60)"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c405"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c405"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c405"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1981,11 +1903,11 @@ class RegistroC405(models.Model):
 
 
 class RegistroC410(models.Model):
-    """PIS e COFINS Totalizados no Dia."""
+    "PIS e COFINS Totalizados no Dia"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c410"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c410"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c410"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -1996,16 +1918,16 @@ class RegistroC410(models.Model):
 
 
 class RegistroC420(models.Model):
-    """Registro dos Totalizadores Parciais da Redução Z."""
+    "Registro dos Totalizadores Parciais da Redução Z"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c420"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c420"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c420"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_TOT_PAR": 0,  # Código do totalizador, conforme tabela 4.4.6
+    #         "COD_TOT_PAR": 0,  # Código do totalizador, conforme Tabela 4.4.6
     #         "VLR_ACUM_TOT": 0,  # Valor acumulado no totalizador, relativo à resp...
     #         "NR_TOT": 0,  # Número do totalizador quando ocorrer mais de uma situ...
     #         "DESCR_NR_TOT": 0,  # Descrição da situação tributária relativa ao to...
@@ -2013,11 +1935,11 @@ class RegistroC420(models.Model):
 
 
 class RegistroC425(models.Model):
-    """Resumo de itens do movimento diário."""
+    "Resumo de itens do movimento diário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c425"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c425"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c425"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2032,12 +1954,11 @@ class RegistroC425(models.Model):
 
 
 class RegistroC430(models.Model):
-    """Informações complementares das operações de saída de mercadorias sujeitas à
-    substituição tributária."""
+    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c430"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c430"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c430"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2049,28 +1970,22 @@ class RegistroC430(models.Model):
     #         "VL_UNIT_ICMS_NA_OPERACAO_CONV": 0,  # Valor unitário para o ICMS na ...
     #         "VL_UNIT_ICMS_OP_CONV": 0,  # Valor unitário do ICMS OP calculado con...
     #         "VL_UNIT_ICMS_OP_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS qu...
-    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS/ST...
-    #         "VL_UNIT_ICMS_ST_CONV_REST": 0,  # Valor unitário do total do ICMS ST...
-    #         "VL_UNIT_FCP_ST_CONV_REST": 0,  # Valor unitário correspondente à par...
-    #         "VL_UNIT_ICMS_ST_CONV_COMPL": 0,  # Valor unitário do complemento do ...
-    #         "VL_UNIT_FCP_ST_CONV_COMPL": 0,  # Valor unitário correspondente à pa...
-    #         "CST_ICMS": 0,  # Código da Situação Tributária referente ao ICMS
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
+    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS ST...
     #     }
 
 
 class RegistroC460(models.Model):
-    """Documento Fiscal Emitido por ECF."""
+    "Documento Fiscal Emitido por ECF"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c460"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c460"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c460"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a t...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
+    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
     #         "NUM_DOC": 0,  # Número do documento fiscal (COO)
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
     #         "VL_DOC": 0,  # Valor total do documento fiscal
@@ -2082,11 +1997,11 @@ class RegistroC460(models.Model):
 
 
 class RegistroC465(models.Model):
-    """Complemento do Cupom Fiscal Eletrônico Emitido por ECF."""
+    "Complemento do Cupom Fiscal Eletrônico Emitido por ECF"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c465"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c465"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c465"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2097,35 +2012,34 @@ class RegistroC465(models.Model):
 
 
 class RegistroC470(models.Model):
-    """Itens do Documento Fiscal Emitido por ECF."""
+    "Itens do Documento Fiscal Emitido por ECF"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c470"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c470"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c470"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
     #         "QTD": 0,  # Quantidade do item
-    #         "QTD_CANC": 0,  # Quantidade cancelada, no caso de cancelamento parci...
+    #         "QTD_CANC": 0,  # Quantidade cancelada, no caso de cancelamento
     #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
-    #         "VL_ITEM": 0,  # Valor do item
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "VL_ITEM": 0,  # Valor total do item
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS - Carga tributária efetiva em per...
+    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS – Carga tributária efetiva em per...
     #         "VL_PIS": 0,  # Valor do PIS
     #         "VL_COFINS": 0,  # Valor da COFINS
     #     }
 
 
 class RegistroC480(models.Model):
-    """Informações complementares das operações de saída de mercadorias sujeitas à
-    substituição tributária."""
+    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c480"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c480"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c480"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2137,27 +2051,21 @@ class RegistroC480(models.Model):
     #         "VL_UNIT_ICMS_NA_OPERACAO_CONV": 0,  # Valor unitário para o ICMS na ...
     #         "VL_UNIT_ICMS_OP_CONV": 0,  # Valor unitário do ICMS OP calculado con...
     #         "VL_UNIT_ICMS_OP_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS qu...
-    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS/ST...
-    #         "VL_UNIT_ICMS_ST_CONV_REST": 0,  # Valor unitário do total do ICMS/ST...
-    #         "VL_UNIT_FCP_ST_CONV_REST": 0,  # Valor unitário correspondente à par...
-    #         "VL_UNIT_ICMS_ST_CONV_COMPL": 0,  # Valor unitário do complemento do ...
-    #         "VL_UNIT_FCP_ST_CONV_COMPL": 0,  # Valor unitário correspondente à pa...
-    #         "CST_ICMS": 0,  # Código da Situação Tributária referente ao ICMS
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
+    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS ST...
     #     }
 
 
 class RegistroC490(models.Model):
-    """Registro Analítico do movimento diário."""
+    "Registro Analítico do movimento diário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c490"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c490"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c490"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
@@ -2168,11 +2076,11 @@ class RegistroC490(models.Model):
 
 
 class RegistroC495(models.Model):
-    """Resumo Mensal de Itens do ECF por Estabelecimento."""
+    "Resumo Mensal de Itens do ECF por Estabelecimento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c495"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c495"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c495"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2189,79 +2097,69 @@ class RegistroC495(models.Model):
     #         "VL_BC_ICMS": 0,  # Valor acumulado da base de cálculo do ICMS
     #         "VL_ICMS": 0,  # Valor acumulado do ICMS
     #         "VL_ISEN": 0,  # Valor das saídas isentas do ICMS
-    #         "VL_NT": 0,  # Valor das saídas sob não-incidência ou não-tributadas ...
+    #         "VL_NT": 0,  # Valor das saídas sob não-incidência ou não- tributadas...
     #         "VL_ICMS_ST": 0,  # Valor das saídas de mercadorias adquiridas com su...
     #     }
 
 
 class RegistroC500(models.Model):
-    """Nota Fiscal/Conta de Energia Elétrica."""
+    "Nota Fiscal/Conta de Energia Elétrica"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c500"
-    _odoo_model = "l10n_br_fiscal.document"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c500"
 
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        return [
-            ("id", "in", declaration.fiscal_document_ids.ids),
-            ("document_type_id.code", "in", ("06", "28", "29", "66")),
-        ]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        ind_oper = "0" if record.fiscal_operation_type == "in" else "1"
-        ind_emit = "0" if record.issuer == "company" else "1"
-
-        return {
-            "IND_OPER": ind_oper,
-            "IND_EMIT": ind_emit,
-            "COD_PART": str(record.partner_id.id),
-            "COD_MOD": record.document_type_id.code,
-            "COD_SIT": record.state_fiscal,
-            "SER": record.document_serie or "",
-            "SUB": "",  # Rarely used nowadays
-            "COD_CONS": getattr(record, "consumption_class_code", ""),  # MISSING FIELD
-            "NUM_DOC": punctuation_rm(str(record.document_number)),
-            "DT_DOC": record.document_date,
-            "DT_E_S": record.date_in_out,
-            "VL_DOC": record.fiscal_amount_total or 0.0,
-            "VL_DESC": record.amount_discount_value or 0.0,
-            "VL_FORN": record.amount_price_gross or 0.0,
-            "VL_SERV_NT": getattr(
-                record, "amount_untaxed_services", 0.0
-            ),  # MISSING FIELD
-            "VL_TERC": getattr(record, "amount_third_party", 0.0),  # MISSING FIELD
-            "VL_DA": record.amount_other_value or 0.0,
-            "VL_BC_ICMS": record.amount_icms_base or 0.0,
-            "VL_ICMS": record.amount_icms_value or 0.0,
-            "VL_BC_ICMS_ST": record.amount_icmsst_base or 0.0,
-            "VL_ICMS_ST": record.amount_icmsst_value or 0.0,
-            "COD_INF": "",  # Mapped in child C595 if needed
-            "VL_PIS": record.amount_pis_value or 0.0,
-            "VL_COFINS": record.amount_cofins_value or 0.0,
-            "TP_LIGACAO": getattr(record, "connection_type", ""),  # MISSING FIELD
-            "COD_GRUPO_TENSAO": getattr(
-                record, "tension_group_code", ""
-            ),  # MISSING FIELD
-            "CHV_DOCE": record.document_key or "",
-            "FIN_DOCE": record.edoc_purpose or "1",
-            "CHV_DOCE_REF": "",  # Ref keys normally go here if Fin_doce is 2 or 3
-            "IND_DEST": "1" if record.partner_id.l10n_br_ie_code else "9",
-            "COD_MUN_DEST": record.partner_id.city_id.ibge_code or "",
-            "COD_CTA": "",
-            "ENER_INJET": getattr(record, "injected_energy", 0.0),  # MISSING FIELD
-            "OUTRAS_DED": getattr(record, "other_deductions", 0.0),  # MISSING FIELD
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Entrada; 1 - Saí...
+    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
+    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
+    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
+    #         "SER": 0,  # Série do documento fiscal
+    #         "SUB": 0,  # Subsérie do documento fiscal
+    #         "COD_CONS": 0,  # - Código de classe de consumo de energia elétrica o...
+    #         "NUM_DOC": 0,  # Número do documento fiscal
+    #         "DT_DOC": 0,  # Data da emissão do documento fiscal
+    #         "DT_E_S": 0,  # Data da entrada ou da saída
+    #         "VL_DOC": 0,  # Valor total do documento fiscal
+    #         "VL_DESC": 0,  # Valor total do desconto
+    #         "VL_FORN": 0,  # Valor total fornecido/consumido
+    #         "VL_SERV_NT": 0,  # Valor total dos serviços não-tributados pelo ICMS
+    #         "VL_TERC": 0,  # Valor total cobrado em nome de terceiros
+    #         "VL_DA": 0,  # Valor total de despesas acessórias indicadas no docume...
+    #         "VL_BC_ICMS": 0,  # Valor acumulado da base de cálculo do ICMS
+    #         "VL_ICMS": 0,  # Valor acumulado do ICMS
+    #         "VL_BC_ICMS_ST": 0,  # Valor acumulado da base de cálculo do ICMS sub...
+    #         "VL_ICMS_ST": 0,  # Valor acumulado do ICMS retido por substituição t...
+    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
+    #         "VL_PIS": 0,  # Valor do PIS
+    #         "VL_COFINS": 0,  # Valor da COFINS
+    #         "TPLIGACAO": 0,  # Código de tipo de Ligação 1 - Monofásico 2 - Bifás...
+    #         "COD_GRUPO_TENSAO": 0,  # Código de grupo de tensão: 01 - A1 - Alta T...
+    #         "CHV_DOCe": 0,  # Chave da Nota Fiscal de Energia Elétrica Eletrônica
+    #         "FIN_DOCe": 0,  # Finalidade da emissão do documento eletrônico: 1 – ...
+    #         "CHV_DOCe_REF": 0,  # Chave da nota referenciada.
+    #         "IND_DEST": 0,  # Indicador do Destinatário/Acessante: 1 – Contribuin...
+    #         "COD_MUN_DEST": 0,  # Código do município do destinatário conforme a ...
+    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
+    #         "COD_MOD_DOC_REF": 0,  # Código do modelo do documento fiscal referen...
+    #         "HASH_DOC_REF": 0,  # Código de autenticação digital do registro (Con...
+    #         "SER_DOC_REF": 0,  # Série do documento fiscal referenciado.
+    #         "NUM_DOC_REF": 0,  # Número do documento fiscal referenciado.
+    #         "MES_DOC_REF": 0,  # Mês e ano da emissão do documento fiscal referen...
+    #         "ENER_INJET": 0,  # Energia injetada
+    #         "OUTRAS_DED": 0,  # Outras deduções
+    #     }
 
 
 class RegistroC510(models.Model):
-    """Itens do Documento."""
+    "Itens do Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2273,7 +2171,7 @@ class RegistroC510(models.Model):
     #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
     #         "VL_ITEM": 0,  # Valor do item
     #         "VL_DESC": 0,  # Valor total do desconto
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
     #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
@@ -2281,66 +2179,43 @@ class RegistroC510(models.Model):
     #         "VL_BC_ICMS_ST": 0,  # Valor da base de cálculo referente à substitui...
     #         "ALIQ_ST": 0,  # Alíquota do ICMS da substituição tributária na unida...
     #         "VL_ICMS_ST": 0,  # Valor do ICMS referente à substituição tributária
-    #         "IND_REC": 0,  # Indicador do tipo de receita: 0- Receita própria 1- ...
+    #         "IND_REC": 0,  # Indicador do tipo de receita: 0- Receita própria; 1-...
     #         "COD_PART": 0,  # Código do participante receptor da receita, terceir...
     #         "VL_PIS": 0,  # Valor do PIS
     #         "VL_COFINS": 0,  # Valor da COFINS
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
+    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/ credita...
     #     }
 
 
 class RegistroC590(models.Model):
-    """Registro Analítico do Documento."""
+    "Registro Analítico do Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c590"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c590"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c590"
 
-    @api.model
-    def _odoo_query(self, parent_record, declaration):
-        # We group lines by CST, CFOP and ICMS % exactly as we do for C190
-        query = """
-            SELECT
-                CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
-                cfop.code AS cfop,
-                fdl.icms_percent AS aliq_icms,
-                SUM(fdl.amount_tax_not_included) AS vl_opr,
-                SUM(fdl.icms_base) AS vl_bc_icms,
-                SUM(fdl.icms_value) AS vl_icms,
-                SUM(fdl.icmsst_base) AS vl_bc_icms_st,
-                SUM(fdl.icmsst_value) AS vl_icms_st
-                -- vl_red_bc omitted here for brevity, but could be computed as:
-                -- SUM((fdl.price_gross) - fdl.icms_base) FILTER WHERE fdl.icms_reduction > 0
-            FROM l10n_br_fiscal_document_line fdl
-            LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
-            LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
-            WHERE fdl.document_id = %s
-            GROUP BY cst.code, cfop.code, fdl.icms_percent, fdl.icms_origin
-        """
-        return query, [parent_record.id]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "CST_ICMS": record.get("cst_icms") or "",
-            "CFOP": record.get("cfop") or "",
-            "ALIQ_ICMS": record.get("aliq_icms") or 0.0,
-            "VL_OPR": record.get("vl_opr") or 0.0,
-            "VL_BC_ICMS": record.get("vl_bc_icms") or 0.0,
-            "VL_ICMS": record.get("vl_icms") or 0.0,
-            "VL_BC_ICMS_ST": record.get("vl_bc_icms_st") or 0.0,
-            "VL_ICMS_ST": record.get("vl_icms_st") or 0.0,
-            "VL_RED_BC": 0.0,
-            "COD_OBS": "",
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
+    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação do agrupamento de...
+    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
+    #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
+    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
+    #         "VL_BC_ICMS_ST": 0,  # Parcela correspondente ao "Valor da base de cá...
+    #         "VL_ICMS_ST": 0,  # Parcela correspondente ao valor creditado/debitad...
+    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
+    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
+    #     }
 
 
 class RegistroC591(models.Model):
-    """Informações do Fundo de Combate à Pobreza – FCP na NF3e."""
+    "Informações do Fundo de Combate à Pobreza – FCP na NF3e"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c591"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c591"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c591"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2351,11 +2226,11 @@ class RegistroC591(models.Model):
 
 
 class RegistroC595(models.Model):
-    """Observações do Lançamento Fiscal."""
+    "Observações do Lançamento Fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c595"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c595"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c595"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2366,16 +2241,16 @@ class RegistroC595(models.Model):
 
 
 class RegistroC597(models.Model):
-    """Outras obrigações tributárias."""
+    "Outras obrigações tributárias"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c597"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c597"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c597"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_AJ": 0,  # Código do ajustes/benefício/incentivo, conforme tabel...
+    #         "COD_AJ": 0,  # Código dos ajustes/benefício/incentivo, conforme tabe...
     #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste do documento...
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
     #         "VL_BC_ICMS": 0,  # Base de cálculo do ICMS ou do ICMS ST
@@ -2386,16 +2261,16 @@ class RegistroC597(models.Model):
 
 
 class RegistroC600(models.Model):
-    """Consolidação Diária de Notas Fiscais/Contas de Energia Elétrica."""
+    "Consolidação Diária de Notas Fiscais/Contas de Energia Elétrica"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c600"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c600"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c600"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "COD_MUN": 0,  # Código do município dos pontos de consumo, conforme ...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
@@ -2407,7 +2282,7 @@ class RegistroC600(models.Model):
     #         "VL_DESC": 0,  # Valor acumulado dos descontos
     #         "CONS": 0,  # Consumo total acumulado, em kWh (Código 06)
     #         "VL_FORN": 0,  # Valor acumulado do fornecimento
-    #         "VL_SERV_NT": 0,  # Valor acumulado dos serviços não-tributados pelo ...
+    #         "VL_SERV_NT": 0,  # Valor acumulado dos serviços não- tributados pelo...
     #         "VL_TERC": 0,  # Valores cobrados em nome de terceiros
     #         "VL_DA": 0,  # Valor acumulado das despesas acessórias
     #         "VL_BC_ICMS": 0,  # Valor acumulado da base de cálculo do ICMS
@@ -2420,11 +2295,11 @@ class RegistroC600(models.Model):
 
 
 class RegistroC601(models.Model):
-    """Documentos cancelados."""
+    "Documentos cancelados"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c601"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c601"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c601"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2434,11 +2309,11 @@ class RegistroC601(models.Model):
 
 
 class RegistroC610(models.Model):
-    """Itens do Documento Consolidado."""
+    "Itens do Documento Consolidado"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c610"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c610"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c610"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2449,7 +2324,7 @@ class RegistroC610(models.Model):
     #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
     #         "VL_ITEM": 0,  # Valor acumulado do item
     #         "VL_DESC": 0,  # Valor acumulado dos descontos
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação conforme tabela i...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_BC_ICMS": 0,  # Valor acumulado da base de cálculo do ICMS
@@ -2463,11 +2338,11 @@ class RegistroC610(models.Model):
 
 
 class RegistroC690(models.Model):
-    """Registro Analítico dos Documentos."""
+    "Registro Analítico dos Documentos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c690"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c690"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c690"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2476,7 +2351,7 @@ class RegistroC690(models.Model):
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base
     #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
     #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
     #         "VL_BC_ICMS_ST": 0,  # Valor da base de cálculo do ICMS substituição ...
@@ -2486,16 +2361,16 @@ class RegistroC690(models.Model):
 
 
 class RegistroC700(models.Model):
-    """Consolidação dos Documentos Nota Fiscal/Conta Energia Elétrica."""
+    "Consolidação dos Documentos Nota Fiscal/Conta Energia Elétrica"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c700"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c700"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c700"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "NRO_ORD_INI": 0,  # Número de ordem inicial
     #         "NRO_ORD_FIN": 0,  # Número de ordem final
@@ -2507,11 +2382,11 @@ class RegistroC700(models.Model):
 
 
 class RegistroC790(models.Model):
-    """Registro Analítico dos Documentos."""
+    "Registro Analítico dos Documentos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c790"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c790"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c790"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2520,8 +2395,8 @@ class RegistroC790(models.Model):
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao “Valor da base de cálcu...
+    #         "VL_ICMS": 0,  # Parcela correspondente ao “Valor do ICMS” referente ...
     #         "VL_BC_ICMS_ST": 0,  # Valor da base de cálculo do ICMS substituição ...
     #         "VL_ICMS_ST": 0,  # Valor do ICMS retido por substituição tributária
     #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
@@ -2530,11 +2405,11 @@ class RegistroC790(models.Model):
 
 
 class RegistroC791(models.Model):
-    """Registro de Informações de ICMS ST por UF."""
+    "Registro de Informações de ICMS ST por UF"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c791"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c791"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c791"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2546,17 +2421,17 @@ class RegistroC791(models.Model):
 
 
 class RegistroC800(models.Model):
-    """Registro Cupom Fiscal Eletrônico."""
+    "Registro Cupom Fiscal Eletrônico"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c800"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c800"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c800"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a t...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
+    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
     #         "NUM_CFE": 0,  # Número do Cupom Fiscal Eletrônico
     #         "DT_DOC": 0,  # Data da emissão do Cupom Fiscal Eletrônico
     #         "VL_CFE": 0,  # Valor total do Cupom Fiscal Eletrônico
@@ -2575,11 +2450,11 @@ class RegistroC800(models.Model):
 
 
 class RegistroC810(models.Model):
-    """Itens do documento do cupom fiscal eletrônico – SAT."""
+    "Itens do documento do cupom fiscal eletrônico – SAT"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c810"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c810"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c810"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2595,12 +2470,11 @@ class RegistroC810(models.Model):
 
 
 class RegistroC815(models.Model):
-    """Informações complementares das operações de saída de mercadorias sujeitas à
-    substituição tributária."""
+    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c815"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c815"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c815"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2612,20 +2486,16 @@ class RegistroC815(models.Model):
     #         "VL_UNIT_ICMS_NA_OPERACAO_CONV": 0,  # Valor unitário para o ICMS na ...
     #         "VL_UNIT_ICMS_OP_CONV": 0,  # Valor unitário do ICMS OP calculado con...
     #         "VL_UNIT_ICMS_OP_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS qu...
-    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS/ST...
-    #         "VL_UNIT_ICMS_ST_CONV_REST": 0,  # Valor unitário do total do ICMS/ST...
-    #         "VL_UNIT_FCP_ST_CONV_REST": 0,  # Valor unitário correspondente à par...
-    #         "VL_UNIT_ICMS_ST_CONV_COMPL": 0,  # Valor unitário do complemento do ...
-    #         "VL_UNIT_FCP_ST_CONV_COMPL": 0,  # Valor unitário correspondente à pa...
+    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS ST...
     #     }
 
 
 class RegistroC850(models.Model):
-    """Registro Analítico do CF-e."""
+    "Registro Analítico do CF-e"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c850"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c850"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c850"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2640,51 +2510,17 @@ class RegistroC850(models.Model):
     #     }
 
 
-class RegistroC855(models.Model):
-    """Observações do lançamento fiscal."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.c855"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c855"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação
-    #     }
-
-
-class RegistroC857(models.Model):
-    """Outras obrigações tributárias."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.c857"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c857"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_AJ": 0,  # Código do ajustes/benefício/incentivo, conforme tabel...
-    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste do documento...
-    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
-    #         "VL_BC_ICMS": 0,  # Base de cálculo do ICMS ou do ICMS ST
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_ICMS": 0,  # Valor do ICMS ou do ICMS ST
-    #     }
-
-
 class RegistroC860(models.Model):
-    """Identificação do equipamento SAT-CF-e."""
+    "Identificação do equipamento SAT-CF-e"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c860"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c860"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c860"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "NR_SAT": 0,  # Número de Série do equipamento SAT
     #         "DT_DOC": 0,  # Data de emissão dos documentos fiscais
     #         "DOC_INI": 0,  # Número do documento inicial
@@ -2693,11 +2529,11 @@ class RegistroC860(models.Model):
 
 
 class RegistroC870(models.Model):
-    """Itens do documento do cupom fiscal eletrônico – SAT."""
+    "Itens do documento do cupom fiscal eletrônico – SAT"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c870"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c870"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c870"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2711,12 +2547,11 @@ class RegistroC870(models.Model):
 
 
 class RegistroC880(models.Model):
-    """Informações complementares das operações de saída de mercadorias sujeitas à
-    substituição tributária."""
+    "Informações complementares das operações de sa- ída de mercadorias sujeitas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c880"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c880"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c880"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2728,25 +2563,21 @@ class RegistroC880(models.Model):
     #         "VL_UNIT_ICMS_NA_OPERACAO_CONV": 0,  # Valor unitário para o ICMS na ...
     #         "VL_UNIT_ICMS_OP_CONV": 0,  # Valor unitário do ICMS OP calculado con...
     #         "VL_UNIT_ICMS_OP_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS qu...
-    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS/ST...
-    #         "VL_UNIT_ICMS_ST_CONV_REST": 0,  # Valor unitário do total do ICMS ST...
-    #         "VL_UNIT_FCP_ST_CONV_REST": 0,  # Valor unitário correspondente à par...
-    #         "VL_UNIT_ICMS_ST_CONV_COMPL": 0,  # Valor unitário do complemento do ...
-    #         "VL_UNIT_FCP_ST_CONV_COMPL": 0,  # Valor unitário correspondente à pa...
+    #         "VL_UNIT_ICMS_ST_ESTOQUE_CONV": 0,  # Valor médio unitário do ICMS ST...
     #     }
 
 
 class RegistroC890(models.Model):
-    """Resumo diário de CF-e."""
+    "Resumo diário de CF-e"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c890"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c890"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.c890"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação do agrupamento de...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # “Valor total do CF-e” na combinação de CST_ICMS, CFOP...
@@ -2756,95 +2587,65 @@ class RegistroC890(models.Model):
     #     }
 
 
-class RegistroC895(models.Model):
-    """Observações do lançamento fiscal."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.c895"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c895"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação
-    #     }
-
-
-class RegistroC897(models.Model):
-    """Outras obrigações tributárias."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.c897"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.c897"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_AJ": 0,  # Código do ajustes/benefício/incentivo, conforme tabel...
-    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste do documento...
-    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
-    #         "VL_BC_ICMS": 0,  # Base de cálculo do ICMS ou do ICMS ST
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_ICMS": 0,  # Valor do ICMS ou do ICMS ST
-    #         "VL_OUTROS": 0,  # Outros valores
-    #     }
-
-
 class RegistroD100(models.Model):
-    """Nota Fiscal de Serviço de Transporte."""
+    "Nota Fiscal de Serviço de Transporte"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d100"
-    _odoo_model = "l10n_br_fiscal.document"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d100"
 
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        return [
-            ("id", "in", declaration.fiscal_document_ids.ids),
-            (
-                "document_type_id.code",
-                "in",
-                ("07", "08", "8B", "09", "10", "11", "26", "27", "57"),
-            ),
-        ]
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Aquisição; 1 - P...
+    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
+    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
+    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
+    #         "SER": 0,  # Série do documento fiscal
+    #         "SUB": 0,  # Subsérie do documento fiscal
+    #         "NUM_DOC": 0,  # Número do documento fiscal
+    #         "CHV_CTE": 0,  # Chave do Conhecimento de Transporte Eletrônico ou do...
+    #         "DT_DOC": 0,  # Data da emissão do documento fiscal
+    #         "DT_A_P": 0,  # Data da aquisição ou da prestação do serviço
+    #         "TP_CT_e": 0,  # Tipo de Conhecimento de Transporte Eletrônico confor...
+    #         "CHV_CTE_REF": 0,  # Chave do Bilhete de Passagem Eletrônico substitu...
+    #         "VL_DOC": 0,  # Valor total do documento fiscal
+    #         "VL_DESC": 0,  # Valor total do desconto
+    #         "IND_FRT": 0,  # Indicador do tipo do frete: 0 - Por conta de terceir...
+    #         "VL_SERV": 0,  # Valor total da prestação de serviço
+    #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
+    #         "VL_ICMS": 0,  # Valor do ICMS
+    #         "VL_NT": 0,  # Valor não-tributado
+    #         "COD_INF": 0,  # Código da informação complementar do documento
+    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
+    #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
+    #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
+    #     }
 
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "IND_OPER": "0" if record.fiscal_operation_type == FISCAL_IN else "1",
-            "IND_EMIT": "0" if record.issuer == DOCUMENT_ISSUER_COMPANY else "1",
-            "COD_PART": misc.punctuation_rm(record.partner_id.cnpj_cpf),
-            "COD_MOD": record.document_type_id.code or "",
-            "COD_SIT": record.state_fiscal,
-            "SER": record.document_serie or "",
-            "SUB": "",
-            "NUM_DOC": record.document_number or "",
-            "CHV_CTE": record.document_key or "",
-            "DT_DOC": record.document_date,
-            "DT_A_P": record.document_date,
-            "TP_CT_E": "",
-            "CHV_CTE_REF": "",
-            "VL_DOC": record.fiscal_amount_total or 0,
-            "VL_DESC": record.amount_discount_value or 0,
-            "IND_FRT": "0",
-            "VL_SERV": record.fiscal_amount_total or 0,
-            "VL_BC_ICMS": record.amount_icms_base or 0,
-            "VL_ICMS": record.amount_icms_value or 0,
-            "VL_NT": 0,
-            "COD_INF": "",
-            "COD_CTA": "",
-            "COD_MUN_ORIG": record.partner_id.city_id.ibge_code or "",
-            "COD_MUN_DEST": record.company_id.city_id.ibge_code or "",
-        }
+
+class RegistroD101(models.Model):
+    "Informação complementar dos documentos fiscais quando das prestações interestaduais destinadas"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.d101"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d101"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "VL_FCP_UF_DEST": 0,  # Valor total relativo ao Fundo de Combate à Po...
+    #         "VL_ICMS_UF_DEST": 0,  # Valor total do ICMS Interestadual para a UF ...
+    #         "VL_ICMS_UF_REM": 0,  # Valor total do ICMS Interestadual para a UF d...
+    #     }
 
 
 class RegistroD110(models.Model):
-    """Itens do documento."""
+    "Itens do documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2857,11 +2658,11 @@ class RegistroD110(models.Model):
 
 
 class RegistroD120(models.Model):
-    """Complemento da Nota Fiscal de Serviços de Transporte."""
+    "Complemento da Nota Fiscal de Serviços de Transporte"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d120"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d120"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d120"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2874,11 +2675,11 @@ class RegistroD120(models.Model):
 
 
 class RegistroD130(models.Model):
-    """Complemento do Conhecimento Rodoviário de Cargas."""
+    "Complemento do Conhecimento Rodoviário de Cargas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d130"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d130"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d130"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2900,21 +2701,21 @@ class RegistroD130(models.Model):
 
 
 class RegistroD140(models.Model):
-    """Complemento do Conhecimento Aquaviário de Cargas."""
+    "Complemento do Conhecimento Aquaviário de Cargas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d140"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d140"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d140"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_PART_CONSG": 0,  # Código do participante (campo 02 do Registro ...
-    #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
+    #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço,
     #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
-    #         "IND_VEIC": 0,  # Indicador do tipo do veículo transportador: 0 - Emb...
+    #         "IND_VEIC": 0,  # Indicador do tipo do veículo transportador: 0- Emba...
     #         "VEIC_ID": 0,  # Identificação da embarcação (IRIM ou Registro CPP)
-    #         "IND_NAV": 0,  # Indicador do tipo da navegação:
+    #         "IND_NAV": 0,  # Indicador do tipo da navegação: 0- Interior; 1- Cabo...
     #         "VIAGEM": 0,  # Número da viagem
     #         "VL_FRT_LIQ": 0,  # Valor líquido do frete
     #         "VL_DESP_PORT": 0,  # Valor das despesas portuárias
@@ -2926,11 +2727,11 @@ class RegistroD140(models.Model):
 
 
 class RegistroD150(models.Model):
-    """Complemento do Conhecimento Aéreo de Cargas."""
+    "Complemento do Conhecimento Aéreo de Cargas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d150"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d150"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d150"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2938,8 +2739,8 @@ class RegistroD150(models.Model):
     #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
     #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
     #         "VEIC_ID": 0,  # Identificação da aeronave (DAC)
-    #         "VIAGEM": 0,  # Número do vôo
-    #         "IND_TFA": 0,  # Indicador do tipo de tarifa aplicada: 0- Exp. 1- Enc...
+    #         "VIAGEM": 0,  # Número do vôo.
+    #         "IND_TFA": 0,  # Indicador do tipo de tarifa aplicada: 0- Exp.; 1- En...
     #         "VL_PESO_TX": 0,  # Peso taxado
     #         "VL_TX_TERR": 0,  # Valor da taxa terrestre
     #         "VL_TX_RED": 0,  # Valor da taxa de redespacho
@@ -2949,11 +2750,11 @@ class RegistroD150(models.Model):
 
 
 class RegistroD160(models.Model):
-    """Carga Transportada."""
+    "Carga Transportada"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d160"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d160"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d160"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2969,11 +2770,11 @@ class RegistroD160(models.Model):
 
 
 class RegistroD161(models.Model):
-    """Local de Coleta e Entrega."""
+    "Local de Coleta e Entrega"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d161"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d161"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d161"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2989,16 +2790,16 @@ class RegistroD161(models.Model):
 
 
 class RegistroD162(models.Model):
-    """Identificação dos documentos fiscais."""
+    "Identificação dos documentos fiscais"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d162"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d162"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d162"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
@@ -3011,11 +2812,11 @@ class RegistroD162(models.Model):
 
 
 class RegistroD170(models.Model):
-    """Complemento do Conhecimento Multimodal de Cargas."""
+    "Complemento do Conhecimento Multimodal de Cargas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d170"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d170"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d170"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3025,7 +2826,7 @@ class RegistroD170(models.Model):
     #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
     #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
     #         "OTM": 0,  # Registro do operador de transporte multimodal
-    #         "IND_NAT_FRT": 0,  # Indicador da natureza do frete: 0- Negociável
+    #         "IND_NAT_FRT": 0,  # Indicador da natureza do frete: 0- Negociável; 1...
     #         "VL_LIQ_FRT": 0,  # Valor líquido do frete
     #         "VL_GRIS": 0,  # Valor do gris (gerenciamento de risco)
     #         "VL_PDG": 0,  # Somatório dos valores de pedágio
@@ -3037,11 +2838,11 @@ class RegistroD170(models.Model):
 
 
 class RegistroD180(models.Model):
-    """Modais (código 26)."""
+    "Modais (código 26)"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d180"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d180"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d180"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3056,7 +2857,7 @@ class RegistroD180(models.Model):
     #         "UF_TOM": 0,  # Sigla da unidade da federação do participante tomador...
     #         "IE_TOM": 0,  # Inscrição Estadual do participante tomador do serviço
     #         "COD_MUN_DEST": 0,  # Código do município de destino, conforme a tabe...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
@@ -3066,66 +2867,47 @@ class RegistroD180(models.Model):
 
 
 class RegistroD190(models.Model):
-    """Registro Analítico dos Documentos."""
+    "Registro Analítico dos Documentos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d190"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d190"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d190"
 
-    @api.model
-    def _odoo_query(self, parent_record, declaration):
-        # SPED requires grouping by CST, CFOP, and ICMS Aliquot for the analytical register
-        query = """
-            SELECT
-                cst.code AS cst_icms,
-                cfop.code AS cfop,
-                fdl.icms_percent AS aliq_icms,
-                SUM(fdl.amount_tax_not_included) AS vl_opr,
-                SUM(fdl.icms_base) AS vl_bc_icms,
-                SUM(fdl.icms_value) AS vl_icms
-            FROM l10n_br_fiscal_document_line fdl
-            LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
-            LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
-            WHERE fdl.document_id = %s
-            GROUP BY cst.code, cfop.code, fdl.icms_percent
-        """
-        return query, [parent_record.id]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "CST_ICMS": record.get("cst_icms") or "",
-            "CFOP": record.get("cfop") or "",
-            "ALIQ_ICMS": record.get("aliq_icms") or 0.0,
-            "VL_OPR": record.get("vl_opr") or 0.0,
-            "VL_BC_ICMS": record.get("vl_bc_icms") or 0.0,
-            "VL_ICMS": record.get("vl_icms") or 0.0,
-            "VL_RED_BC": 0.0,  # Un-taxed value due to base reduction (can be aggregated in SQL if needed)
-            "COD_OBS": "",
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
+    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
+    #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
+    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
+    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
+    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
+    #     }
 
 
 class RegistroD195(models.Model):
-    """Observações do lançamento."""
+    "Observações do lançamento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d195"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d195"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d195"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação
+    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação.
     #     }
 
 
 class RegistroD197(models.Model):
-    """Outras obrigações tributárias."""
+    "Outras obrigações tributárias"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d197"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d197"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d197"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3141,21 +2923,21 @@ class RegistroD197(models.Model):
 
 
 class RegistroD300(models.Model):
-    """Registro Analítico dos bilhetes consolidados de Passagem Rodoviário."""
+    "Registro Analítico dos bilhetes consolidados de Passagem Rodoviário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC_INI": 0,  # Número do primeiro documento fiscal emitido (mes...
     #         "NUM_DOC_FIN": 0,  # Número do último documento fiscal emitido (mesmo...
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação conforme tabela i...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "DT_DOC": 0,  # Data da emissão dos documentos fiscais
@@ -3173,11 +2955,11 @@ class RegistroD300(models.Model):
 
 
 class RegistroD301(models.Model):
-    """Documentos cancelados dos Bilhetes de Passagem Rodoviário."""
+    "Documentos cancelados dos Bilhetes de Passagem Rodoviário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d301"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d301"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d301"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3187,11 +2969,11 @@ class RegistroD301(models.Model):
 
 
 class RegistroD310(models.Model):
-    """Complemento dos Bilhetes."""
+    "Complemento dos Bilhetes"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d310"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d310"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d310"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3204,16 +2986,16 @@ class RegistroD310(models.Model):
 
 
 class RegistroD350(models.Model):
-    """Equipamento ECF."""
+    "Equipamento ECF"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d350"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d350"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d350"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "ECF_MOD": 0,  # Modelo do equipamento
     #         "ECF_FAB": 0,  # Número de série de fabricação do ECF
     #         "ECF_CX": 0,  # Número do caixa atribuído ao ECF
@@ -3221,11 +3003,11 @@ class RegistroD350(models.Model):
 
 
 class RegistroD355(models.Model):
-    """Redução Z."""
+    "Redução Z"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d355"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d355"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d355"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3240,11 +3022,11 @@ class RegistroD355(models.Model):
 
 
 class RegistroD360(models.Model):
-    """PIS E COFINS totalizados no dia."""
+    "PIS E COFINS totalizados no dia"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d360"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d360"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d360"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3255,16 +3037,16 @@ class RegistroD360(models.Model):
 
 
 class RegistroD365(models.Model):
-    """Registro dos Totalizadores Parciais da Redução Z."""
+    "Registro dos Totalizadores Parciais da Redução Z"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d365"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d365"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d365"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_TOT_PAR": 0,  # Código do totalizador, conforme tabela 4.4.6
+    #         "COD_TOT_PAR": 0,  # Código do totalizador, conforme Tabela 4.4.6
     #         "VLR_ACUM_TOT": 0,  # Valor acumulado no totalizador, relativo à resp...
     #         "NR_TOT": 0,  # Número do totalizador quando ocorrer mais de uma situ...
     #         "DESCR_NR_TOT": 0,  # Descrição da situação tributária relativa ao to...
@@ -3272,11 +3054,11 @@ class RegistroD365(models.Model):
 
 
 class RegistroD370(models.Model):
-    """Complemento dos documentos informados."""
+    "Complemento dos documentos informados"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d370"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d370"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d370"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3290,16 +3072,16 @@ class RegistroD370(models.Model):
 
 
 class RegistroD390(models.Model):
-    """Registro analítico do movimento diário."""
+    "Registro analítico do movimento diário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d390"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d390"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d390"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
@@ -3313,18 +3095,18 @@ class RegistroD390(models.Model):
 
 
 class RegistroD400(models.Model):
-    """Resumo do Movimento Diário."""
+    "Resumo do Movimento Diário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d400"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d400"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d400"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a t...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
+    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal resumo.
@@ -3341,22 +3123,22 @@ class RegistroD400(models.Model):
 
 
 class RegistroD410(models.Model):
-    """Documentos Informados."""
+    "Documentos Informados"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d410"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d410"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d410"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal , conforme a ta...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal , conforme a Ta...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC_INI": 0,  # Número do documento fiscal inicial (mesmo modelo...
     #         "NUM_DOC_FIN": 0,  # Número do documento fiscal final(mesmo modelo, s...
     #         "DT_DOC": 0,  # Data da emissão dos documentos fiscais
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor total acumulado das operações correspondentes à...
@@ -3368,11 +3150,11 @@ class RegistroD410(models.Model):
 
 
 class RegistroD411(models.Model):
-    """Documentos Cancelados dos Documentos Informados."""
+    "Documentos Cancelados dos Documentos Informados"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d411"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d411"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d411"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3382,11 +3164,11 @@ class RegistroD411(models.Model):
 
 
 class RegistroD420(models.Model):
-    """Complemento dos Documentos Informados."""
+    "Complemento dos Documentos Informados"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d420"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d420"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d420"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3394,25 +3176,24 @@ class RegistroD420(models.Model):
     #         "COD_MUN_ORIG": 0,  # Código do município de origem do serviço, confo...
     #         "VL_SERV": 0,  # Valor total da prestação de serviço
     #         "VL_BC_ICMS": 0,  # Valor total da base de cálculo do ICMS
-    #         "VL_ICMS": 0,  # Valor total do ICMS
     #     }
 
 
 class RegistroD500(models.Model):
-    """Nota Fiscal de Serviço de Comunicação."""
+    "Nota Fiscal de Serviço de Comunicação"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0 - Aquisição 1 – Pr...
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
+    #         "IND_OPER": 0,  # Indicador do tipo de operação: 0- Aquisição; 1- Pre...
+    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0- Emiss...
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a t...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
+    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
@@ -3435,11 +3216,11 @@ class RegistroD500(models.Model):
 
 
 class RegistroD510(models.Model):
-    """Itens do Documento."""
+    "Itens do Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3451,46 +3232,46 @@ class RegistroD510(models.Model):
     #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
     #         "VL_ITEM": 0,  # Valor do item
     #         "VL_DESC": 0,  # Valor total do desconto
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
     #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_ICMS": 0,  # Valor do ICMS creditado/debitado
-    #         "VL_BC_ICMS_UF": 0,  # Valor da base de cálculo do ICMS a outras UFs
-    #         "VL_ICMS_UF": 0,  # Valor do ICMS a outras UFs
-    #         "IND_REC": 0,  # Indicador do tipo de receita: 0 - Receita própria - ...
+    #         "VL_BC_ICMS_UF": 0,  # Valor da base de cálculo do ICMS de outras UFs
+    #         "VL_ICMS_UF": 0,  # Valor do ICMS de outras UFs
+    #         "IND_REC": 0,  # Indicador do tipo de receita: 0- Receita própria - s...
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150) ...
     #         "VL_PIS": 0,  # Valor do PIS
     #         "VL_COFINS": 0,  # Valor da COFINS
-    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
+    #         "COD_CTA": 0,  # Código da conta analítica contábil
     #     }
 
 
 class RegistroD530(models.Model):
-    """Terminal Faturado."""
+    "Terminal Faturado"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d530"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d530"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d530"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_SERV": 0,  # Indicador do tipo de serviço prestado: 0- Telefonia...
+    #         "IND_SERV": 0,  # Indicador do tipo de serviço prestado: 0 - Telefoni...
     #         "DT_INI_SERV": 0,  # Data em que se iniciou a prestação do serviço
     #         "DT_FIN_SERV": 0,  # Data em que se encerrou a prestação do serviço
     #         "PER_FISCAL": 0,  # Período fiscal da prestação do serviço (MMAAAA)
-    #         "COD_AREA": 0,  # Código de área do terminal faturado, próprio da pre...
+    #         "COD_AREA": 0,  # Código de área do terminal faturado
     #         "TERMINAL": 0,  # Identificação do terminal faturado
     #     }
 
 
 class RegistroD590(models.Model):
-    """Registro Analítico do Documento."""
+    "Registro Analítico do Documento"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d590"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d590"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d590"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3509,16 +3290,16 @@ class RegistroD590(models.Model):
 
 
 class RegistroD600(models.Model):
-    """Consolidação da Prestação de Serviços."""
+    "Consolidação da Prestação de Serviços"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d600"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d600"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d600"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "COD_MUN": 0,  # Código do município dos terminais faturados, conform...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
@@ -3539,11 +3320,11 @@ class RegistroD600(models.Model):
 
 
 class RegistroD610(models.Model):
-    """Itens do Documento Consolidado."""
+    "Itens do Documento Consolidado"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d610"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d610"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d610"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3554,13 +3335,13 @@ class RegistroD610(models.Model):
     #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
     #         "VL_ITEM": 0,  # Valor acumulado do item
     #         "VL_DESC": 0,  # Valor acumulado dos descontos
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação conforme tabela i...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_BC_ICMS": 0,  # Valor acumulado da base de cálculo do ICMS
     #         "VL_ICMS": 0,  # Valor acumulado do ICMS debitado
-    #         "VL_BC_ICMS_UF": 0,  # Valor da base de cálculo do ICMS a outras UFs
-    #         "VL_ICMS_UF": 0,  # Valor do ICMS a outras UFs
+    #         "VL_BC_ICMS_UF": 0,  # Valor da base de cálculo do ICMS de outras UFs
+    #         "VL_ICMS_UF": 0,  # Valor do ICMS de outras UFs
     #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
     #         "VL_PIS": 0,  # Valor acumulado do PIS
     #         "VL_COFINS": 0,  # Valor acumulado da COFINS
@@ -3569,11 +3350,11 @@ class RegistroD610(models.Model):
 
 
 class RegistroD690(models.Model):
-    """Registro Analítico dos Documentos."""
+    "Registro Analítico dos Documentos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d690"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d690"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d690"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3582,26 +3363,25 @@ class RegistroD690(models.Model):
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
     #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
+    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao “Valor da base de cálcu...
     #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
     #         "VL_BC_ICMS_UF": 0,  # Parcela correspondente ao valor da base de cál...
     #         "VL_ICMS_UF": 0,  # Parcela correspondente ao valor do ICMS de outras...
     #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
     #     }
 
 
 class RegistroD695(models.Model):
-    """Consolidação da Prestação de Serviços."""
+    "Consolidação da Prestação de Serviços"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d695"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d695"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d695"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "NRO_ORD_INI": 0,  # Número de ordem inicial
     #         "NRO_ORD_FIN": 0,  # Número de ordem final
@@ -3613,11 +3393,11 @@ class RegistroD695(models.Model):
 
 
 class RegistroD696(models.Model):
-    """Registro Analítico dos Documentos."""
+    "Registro Analítico dos Documentos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d696"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d696"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d696"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3636,11 +3416,11 @@ class RegistroD696(models.Model):
 
 
 class RegistroD697(models.Model):
-    """Registro de informações de outras UFs."""
+    "Registro de informações de outras UFs"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.d697"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d697"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.d697"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3651,193 +3431,12 @@ class RegistroD697(models.Model):
     #     }
 
 
-class RegistroD700(models.Model):
-    """Nota Fiscal Fatura Eletrônica de Serviços de Comunicação – NFCom."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.d700"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d700"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de prestação: 0: Entrada 1: Saída
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0: Emiss...
-    #         "COD_PART": 0,  # Código do participante (Campo 02 do Registro 0150) ...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
-    #         "SER": 0,  # Série do documento fiscal.
-    #         "NUM_DOC": 0,  # Número do documento fiscal.
-    #         "DT_DOC": 0,  # Data da emissão do documento fiscal.
-    #         "DT_E_S": 0,  # Data da entrada ou da saída
-    #         "VL_DOC": 0,  # Valor do documento fiscal.
-    #         "VL_DESC": 0,  # Valor do desconto.
-    #         "VL_SERV": 0,  # Valor dos serviços tributados pelo ICMS.
-    #         "VL_SERV_NT": 0,  # Valores cobrados em nome do prestador sem destaqu...
-    #         "VL_TERC": 0,  # Valores cobrados em nome de terceiros.
-    #         "VL_DA": 0,  # Valor de despesas acessórias indicadas no documento fi...
-    #         "VL_BC_ICMS": 0,  # Valor da Base de Cálculo (BC) do ICMS.
-    #         "VL_ICMS": 0,  # Valor do ICMS
-    #         "COD_INF": 0,  # Código da informação complementar do documento fisca...
-    #         "VL_PIS": 0,  # Valor do PIS/Pasep.
-    #         "VL_COFINS": 0,  # Valor do Cofins.
-    #         "CHV_DOCE": 0,  # Chave da Nota Fiscal Fatura de Serviço de Comunicaç...
-    #         "FIN_DOCE": 0,  # Finalidade da emissão do documento eletrônico: 0 - ...
-    #         "TIP_FAT": 0,  # Tipo de faturamento do documento eletrônico: 0 - Fat...
-    #         "COD_MOD_DOC_REF": 0,  # Código do modelo do documento fiscal referen...
-    #         "CHV_DOCE_REF": 0,  # Chave da nota referenciada.
-    #         "HASH_DOC_REF": 0,  # Código de autenticação digital do registro, cam...
-    #         "SER_DOC_REF": 0,  # Série do documento fiscal referenciado.
-    #         "NUM_DOC_REF": 0,  # Número do documento fiscal referenciado.
-    #         "MES_DOC_REF": 0,  # Mês e ano da emissão do documento fiscal referen...
-    #         "COD_MUN_DEST": 0,  # Código do município do destinatário conforme a ...
-    #         "DED": 0,  # Deduções
-    #     }
-
-
-class RegistroD730(models.Model):
-    """Registro analítico Nota Fiscal Fatura Eletrônica de Serviços de Comunicação –
-    NFCom."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.d730"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d730"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # Valor da prestação correspondente à combinação de CST...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
-    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
-    #         "COD_OBS": 0,  # Código da observação (campo 02 do Registro 0460)
-    #     }
-
-
-class RegistroD731(models.Model):
-    """Informações do fundo de combate à pobreza – FCP –."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.d731"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d731"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "VL_FCP_OP": 0,  # Valor do Fundo de Combate à Pobreza (FCP) vinculad...
-    #     }
-
-
-class RegistroD735(models.Model):
-    """Observações do lançamento fiscal."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.d735"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d735"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_OBS": 0,  # Código da observação do lançamento fiscal (campo 02 ...
-    #         "TXT_COMPL": 0,  # Descrição complementar do código de observação.
-    #     }
-
-
-class RegistroD737(models.Model):
-    """Outras obrigações tributárias."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.d737"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d737"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_AJ": 0,  # Código do ajustes/benefício/incentivo, conforme tabel...
-    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste do documento...
-    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
-    #         "VL_BC_ICMS": 0,  # Base de cálculo do ICMS
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_ICMS": 0,  # Valor do ICMS
-    #         "VL_OUTROS": 0,  # Outros valores
-    #     }
-
-
-class RegistroD750(models.Model):
-    """Escrituração consolidada da Nota Fiscal Fatura Eletrônica de Serviços de
-    Comunicação – NFCom."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.d750"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d750"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
-    #         "SER": 0,  # Série do documento fiscal
-    #         "DT_DOC": 0,  # Data da emissão dos documentos
-    #         "QTD_CONS": 0,  # Quantidade de documentos consolidados neste registr...
-    #         "IND_PREPAGO": 0,  # Forma de pagamento: 0 – pré pago 1 – pós pago
-    #         "VL_DOC": 0,  # Valor total dos documentos
-    #         "VL_SERV": 0,  # Valor dos serviços tributados pelo ICMS.
-    #         "VL_SERV_NT": 0,  # Valores cobrados em nome do prestador sem destaqu...
-    #         "VL_TERC": 0,  # Valor total cobrado em nome de terceiros
-    #         "VL_DESC": 0,  # Valor total dos descontos
-    #         "VL_DA": 0,  # Valor total das despesas acessórias
-    #         "VL_BC_ICMS": 0,  # Valor total da base de cálculo do ICMS
-    #         "VL_ICMS": 0,  # Valor total do ICMS
-    #         "VL_PIS": 0,  # Valor total do PIS
-    #         "VL_COFINS": 0,  # Valor total da COFINS
-    #         "DED": 0,  # Deduções
-    #     }
-
-
-class RegistroD760(models.Model):
-    """Registro analítico da escrituração consolidada da Nota Fiscal Fatura Eletrônica
-    de Serviços."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.d760"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d760"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
-    #         "CFOP": 0,  # Código Fiscal de Operação e Prestação, conforme a tabel...
-    #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
-    #         "VL_OPR": 0,  # Valor da operação correspondente à combinação de CST_...
-    #         "VL_BC_ICMS": 0,  # Parcela correspondente ao "Valor da base de cálcu...
-    #         "VL_ICMS": 0,  # Parcela correspondente ao "Valor do ICMS" referente ...
-    #         "VL_RED_BC": 0,  # Valor não tributado em função da redução da base d...
-    #         "COD_OBS": 0,  # Código da observação (campo 02 do Registro 0460)
-    #     }
-
-
-class RegistroD761(models.Model):
-    """Informações do fundo de combate à pobreza FCP –."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.d761"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.d761"
-
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "VL_FCP_OP": 0,  # Valor do Fundo de Combate à Pobreza (FCP) vinculad...
-    #     }
-
-
 class RegistroE100(models.Model):
-    """Período de Apuração do ICMS."""
+    "Período de Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e100"
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3848,38 +3447,64 @@ class RegistroE100(models.Model):
 
 
 class RegistroE110(models.Model):
-    """Apuração do ICMS."""
+    "Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e110"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "VL_TOT_DEBITOS": 0,  # Valor total dos débitos por "Saídas e prestaç...
-    #         "VL_AJ_DEBITOS": 0,  # Valor total dos ajustes a débito decorrentes d...
-    #         "VL_TOT_AJ_DEBITOS": 0,  # Valor total de "Ajustes a débito"
-    #         "VL_ESTORNOS_CRED": 0,  # Valor total de Ajustes “Estornos de crédito...
-    #         "VL_TOT_CREDITOS": 0,  # Valor total dos créditos por "Entradas e aqu...
-    #         "VL_AJ_CREDITOS": 0,  # Valor total dos ajustes a crédito decorrentes...
-    #         "VL_TOT_AJ_CREDITOS": 0,  # Valor total de "Ajustes a crédito"
-    #         "VL_ESTORNOS_DEB": 0,  # Valor total de Ajustes “Estornos de Débitos”
-    #         "VL_SLD_CREDOR_ANT": 0,  # Valor total de "Saldo credor do período an...
-    #         "VL_SLD_APURADO": 0,  # Valor do saldo devedor apurado
-    #         "VL_TOT_DED": 0,  # Valor total de "Deduções"
-    #         "VL_ICMS_RECOLHER": 0,  # Valor total de "ICMS a recolher (11-12)
-    #         "VL_SLD_CREDOR_TRANSPORTAR": 0,  # Valor total de "Saldo credor a tra...
-    #         "DEB_ESP": 0,  # Valores recolhidos ou a recolher, extra-apuração
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        c190_records = self.env["l10n_br_sped.efd_icms_ipi.c190"].search(
+            [("declaration_id", "=", declaration.id)]
+        )
+        vl_tot_debitos = sum(
+            r.VL_ICMS
+            for r in c190_records
+            if r.reg_C190_ids_RegistroC100_id.IND_OPER == "1"
+        )
+        vl_tot_creditos = sum(
+            r.VL_ICMS
+            for r in c190_records
+            if r.reg_C190_ids_RegistroC100_id.IND_OPER == "0"
+        )
+
+        vl_sld_credor_ant = 0.0
+        total_debitos = vl_tot_debitos
+        total_creditos = vl_tot_creditos + vl_sld_credor_ant
+        if total_debitos >= total_creditos:
+            vl_sld_apurado = total_debitos - total_creditos
+            vl_sld_credor_transportar = 0.0
+        else:
+            vl_sld_apurado = 0.0
+            vl_sld_credor_transportar = total_creditos - total_debitos
+        vl_tot_ded = 0.0
+        vl_icms_recolher = max(0.0, vl_sld_apurado - vl_tot_ded)
+
+        return {
+            "VL_TOT_DEBITOS": vl_tot_debitos,
+            "VL_AJ_DEBITOS": 0.0,
+            "VL_TOT_AJ_DEBITOS": 0.0,
+            "VL_ESTORNOS_CRED": 0.0,
+            "VL_TOT_CREDITOS": vl_tot_creditos,
+            "VL_AJ_CREDITOS": 0.0,
+            "VL_TOT_AJ_CREDITOS": 0.0,
+            "VL_ESTORNOS_DEB": 0.0,
+            "VL_SLD_CREDOR_ANT": vl_sld_credor_ant,
+            "VL_SLD_APURADO": vl_sld_apurado,
+            "VL_TOT_DED": vl_tot_ded,
+            "VL_ICMS_RECOLHER": vl_icms_recolher,
+            "VL_SLD_CREDOR_TRANSPORTAR": vl_sld_credor_transportar,
+            "DEB_ESP": 0.0,
+        }
 
 
 class RegistroE111(models.Model):
-    """Ajuste/Benefício/Incentivo da Apuração do ICMS."""
+    "Ajuste/Benefício/Incentivo da Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e111"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e111"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e111"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3891,51 +3516,50 @@ class RegistroE111(models.Model):
 
 
 class RegistroE112(models.Model):
-    """Informações Adicionais dos Ajustes da Apuração do ICMS."""
+    "Informações Adicionais dos Ajustes da Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e112"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e112"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e112"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "NUM_DA": 0,  # Número do documento de arrecadação estadual, se houve...
     #         "NUM_PROC": 0,  # Número do processo ao qual o ajuste está vinculado,...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz 1- Justiç...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar
     #     }
 
 
 class RegistroE113(models.Model):
-    """Informações Adicionais dos Ajustes da Apuração do ICMS."""
+    "Informações Adicionais dos Ajustes da Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e113"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e113"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e113"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
     #         "VL_AJ_ITEM": 0,  # Valor do ajuste para a operação/item
-    #         "CHV_DOCE": 0,  # Chave do Documento Eletrônico
     #     }
 
 
 class RegistroE115(models.Model):
-    """Informações Adicionais da Apuração do ICMS."""
+    "Informações Adicionais da Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e115"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e115"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e115"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3947,33 +3571,33 @@ class RegistroE115(models.Model):
 
 
 class RegistroE116(models.Model):
-    """Obrigações do ICMS Recolhido ou a Recolher."""
+    "Obrigações do ICMS Recolhido ou a Recolher"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e116"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e116"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e116"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_OR": 0,  # Código da obrigação a recolher, conforme a tabela 5.4
+    #         "COD_OR": 0,  # Código da obrigação a recolher, conforme a Tabela 5.4
     #         "VL_OR": 0,  # Valor da obrigação a recolher
     #         "DT_VCTO": 0,  # Data de vencimento da obrigação
     #         "COD_REC": 0,  # Código de receita referente à obrigação, próprio da ...
     #         "NUM_PROC": 0,  # Número do processo ou auto de infração ao qual a ob...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz; 1- Justi...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
-    #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher
+    #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher.
     #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
     #     }
 
 
 class RegistroE200(models.Model):
-    """Período de Apuração do ICMS."""
+    "Período de Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e200"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e200"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e200"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -3985,16 +3609,16 @@ class RegistroE200(models.Model):
 
 
 class RegistroE210(models.Model):
-    """Apuração do ICMS."""
+    "Apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e210"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e210"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e210"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_MOV_ST": 0,  # Indicador de movimento: 0 - Sem operações com ST ...
+    #         "IND_MOV_ST": 0,  # Indicador de movimento: 0 – Sem operações com ST ...
     #         "VL_SLD_CRED_ANT_ST": 0,  # Valor do "Saldo credor de período anterio...
     #         "VL_DEVOL_ST": 0,  # Valor total do ICMS ST de devolução de mercadori...
     #         "VL_RESSARC_ST": 0,  # Valor total do ICMS ST de ressarcimentos
@@ -4007,66 +3631,82 @@ class RegistroE210(models.Model):
     #         "VL_DEDUCOES_ST": 0,  # Valor total dos ajustes "Deduções ST"
     #         "VL_ICMS_RECOL_ST": 0,  # Imposto a recolher ST (11-12)
     #         "VL_SLD_CRED_ST_TRANSPORTAR": 0,  # Saldo credor de ST a transportar ...
-    #         "DEB_ESP_ST": 0,  # Valores recolhidos ou a recolher, extra-apuração
+    #         "DEB_ESP_ST": 0,  # Valores recolhidos ou a recolher, extra-apuração.
+    #     }
+
+
+class RegistroE220(models.Model):
+    "Ajuste/Benefício/Incentivo da Apuração do ICMS"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.e220"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e220"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_AJ_APUR": 0,  # Código do ajuste da apuração e dedução, conforme...
+    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste da apuração
+    #         "VL_AJ_APUR": 0,  # Valor do ajuste da apuração
     #     }
 
 
 class RegistroE230(models.Model):
-    """Informações Adicionais dos Ajustes da Apuração do ICMS Substituição Tributá- ria."""
+    "Informações Adicionais dos Ajustes da Apuração do ICMS Substituição Tributá- ria"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e230"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e230"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e230"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "NUM_DA": 0,  # Número do documento de arrecadação estadual, se houve...
     #         "NUM_PROC": 0,  # Número do processo ao qual o ajuste está vinculado,...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz 1- Justiç...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0 - Sefaz; 1 - Jus...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar
     #     }
 
 
 class RegistroE240(models.Model):
-    """Informações Adicionais dos Ajustes da Apuração do ICMS Substituição Tributá- ria."""
+    "Informações Adicionais dos Ajustes da Apuração do ICMS Substituição Tributá- ria"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e240"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e240"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e240"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
     #         "VL_AJ_ITEM": 0,  # Valor do ajuste para a operação/item
-    #         "CHV_DOCE": 0,  # Chave do Documento Eletrônico
+    #         "CHV_DOCe": 0,  # Chave do Documento Eletrônico
     #     }
 
 
 class RegistroE250(models.Model):
-    """Obrigações do ICMS a Recolher."""
+    "Obrigações do ICMS a Recolher"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e250"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e250"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e250"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_OR": 0,  # Código da obrigação a recolher, conforme a tabela 5.4
+    #         "COD_OR": 0,  # Código da obrigação a recolher, conforme a Tabela 5.4
     #         "VL_OR": 0,  # Valor da obrigação ICMS ST a recolher
     #         "DT_VCTO": 0,  # Data de vencimento da obrigação
     #         "COD_REC": 0,  # Código de receita referente à obrigação, próprio da ...
     #         "NUM_PROC": 0,  # Número do processo ou auto de infração ao qual a ob...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz 1- Justiç...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher
     #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
@@ -4074,46 +3714,46 @@ class RegistroE250(models.Model):
 
 
 class RegistroE300(models.Model):
-    """Período de Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15."""
+    "Período de Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "UF": 0,  # Sigla da unidade da Federação a que se refere à apuração ...
-    #         "DT_INI": 0,  # Data Inicial a que a apuração se refere
-    #         "DT_FIN": 0,  # Data Final a que a apuração se refere
+    #         "UF": 0,  # Sigla da unidade da federação a que se refere à apuração ...
+    #         "DT_INI": 0,  # Data inicial a que a apuração se refere
+    #         "DT_FIN": 0,  # Data final a que a apuração se refere
     #     }
 
 
 class RegistroE310(models.Model):
-    """Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15."""
+    "Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e310"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e310"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e310"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_MOV_FCP_DIFAL": 0,  # Indicador de movimento: 0 - Sem operações ...
+    #         "IND_MOV_DIFAL": 0,  # Indicador de movimento: 0 – Sem operações com ...
     #         "VL_SLD_CRED_ANT_DIFAL": 0,  # Valor do "Saldo credor de período ante...
     #         "VL_TOT_DEBITOS_DIFAL": 0,  # Valor total dos débitos por "Saídas e p...
-    #         "VL_OUT_DEB_DIFAL": 0,  # Valor total dos ajustes "Outros débitos ICM...
-    #         "VL_TOT_CREDITOS_DIFAL": 0,  # Valor total dos créditos do ICMS refer...
-    #         "VL_OUT_CRED_DIFAL": 0,  # Valor total de Ajustes "Outros créditos IC...
-    #         "VL_SLD_DEV_ANT_DIFAL": 0,  # Valor total de “Saldo devedor ICMS Dife...
-    #         "VL_DEDUCOES_DIFAL": 0,  # Valor total dos ajustes "Deduções ICMS Dif...
-    #         "VL_RECOL_DIFAL": 0,  # Valor recolhido ou a recolher referente ao IC...
-    #         "VL_SLD_CRED_TRANSPORTAR_DIFAL": 0,  # Saldo credor a transportar par...
-    #         "DEB_ESP_DIFAL": 0,  # Valores recolhidos ou a recolher, extra-apuraç...
-    #         "VL_SLD_CRED_ANT_FCP": 0,  # Valor do "Saldo credor de período anteri...
+    #         "VL_OUT_DEB_DIFAL": 0,  # Valor Total dos ajustes "Outros débitos ICM...
     #         "VL_TOT_DEB_FCP": 0,  # Valor total dos débitos FCP por "Saídas e pre...
-    #         "VL_OUT_DEB_FCP": 0,  # Valor total dos ajustes "Outros débitos FCP" ...
+    #         "VL_TOT_CREDITOS_DIFAL": 0,  # Valor total dos créditos do ICMS refer...
     #         "VL_TOT_CRED_FCP": 0,  # Valor total dos créditos FCP por Entradas
+    #         "VL_OUT_CRED_DIFAL": 0,  # Valor total de Ajustes "Outros créditos IC...
+    #         "VL_SLD_DEV_ANT_DIFAL": 0,  # Valor total de Saldo devedor ICMS Difer...
+    #         "VL_DEDUCOES_DIFAL": 0,  # Valor total dos ajustes "Deduções ICMS Dif...
+    #         "VL_RECOL": 0,  # Valor recolhido ou a recolher referente a FCP e Imp...
+    #         "VL_SLD_CRED_TRANSPOR": 0,  # Saldo credor a transportar para o perío...
+    #         "DEB_ESP_DIFAL": 0,  # Valores recolhidos ou a recolher, extra-apuraç...
+    #         "VL_OUT_DEB_FCP": 0,  # Valor total dos ajustes "Outros débitos FCP" ...
+    #         "VL_TOT_CRED_FCP_INDEX_16": 0,  # Valor total dos créditos FCP por En...
     #         "VL_OUT_CRED_FCP": 0,  # Valor total de Ajustes "Outros créditos FCP"...
     #         "VL_SLD_DEV_ANT_FCP": 0,  # Valor total de Saldo devedor FCP antes da...
     #         "VL_DEDUCOES_FCP": 0,  # Valor total das deduções "FCP"
@@ -4124,11 +3764,11 @@ class RegistroE310(models.Model):
 
 
 class RegistroE311(models.Model):
-    """Ajuste/Benefício/Incentivo da Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15."""
+    "Ajuste/Benefício/Incentivo da Apuração do ICMS Diferencial de Alíquota – UF Origem/Destino EC 87/15"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e311"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e311"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e311"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4140,39 +3780,39 @@ class RegistroE311(models.Model):
 
 
 class RegistroE312(models.Model):
-    """Informações Adicionais dos Ajustes da Apuração do ICMS Diferencial."""
+    "Informações Adicionais dos Ajustes da Apuração do ICMS Diferencial"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e312"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e312"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e312"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "NUM_DA": 0,  # Número do documento de arrecadação estadual, se houve...
     #         "NUM_PROC": 0,  # Número do processo ao qual o ajuste está vinculado,...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz 1- Justiç...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- Sefaz; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar
     #     }
 
 
 class RegistroE313(models.Model):
-    """Informações Adicionais da Apuração do ICMS Diferencial."""
+    "Informações Adicionais da Apuração do ICMS Diferencial"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e313"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e313"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e313"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150)
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
-    #         "CHV_DOCE": 0,  # Chave do Documento Eletrônico
+    #         "CHV_DOCe": 0,  # Chave do Documento Eletrônico
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
     #         "VL_AJ_ITEM": 0,  # Valor do ajuste para a operação/item
@@ -4180,11 +3820,11 @@ class RegistroE313(models.Model):
 
 
 class RegistroE316(models.Model):
-    """Obrigações do ICMS recolhido ou a recolher – Diferencial de Alíquota – UF Origem/Destino EC 87/15."""
+    "Obrigações do ICMS recolhido ou a recolher – Diferencial de Alíquota – UF Origem/Destino EC 87/15"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e316"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e316"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e316"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4194,7 +3834,7 @@ class RegistroE316(models.Model):
     #         "DT_VCTO": 0,  # Data de vencimento da obrigação
     #         "COD_REC": 0,  # Código de receita referente à obrigação, próprio da ...
     #         "NUM_PROC": 0,  # Número do processo ou auto de infração ao qual a ob...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ 1- Justiç...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar das obrigações recolhidas o...
     #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
@@ -4202,11 +3842,11 @@ class RegistroE316(models.Model):
 
 
 class RegistroE500(models.Model):
-    """Período de Apuração do IPI."""
+    "Período de Apuração do IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4218,11 +3858,11 @@ class RegistroE500(models.Model):
 
 
 class RegistroE510(models.Model):
-    """Consolidação dos Valores de IPI."""
+    "Consolidação dos Valores de IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4236,11 +3876,11 @@ class RegistroE510(models.Model):
 
 
 class RegistroE520(models.Model):
-    """Apuração do IPI."""
+    "Apuração do IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e520"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e520"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e520"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4256,36 +3896,36 @@ class RegistroE520(models.Model):
 
 
 class RegistroE530(models.Model):
-    """Ajustes da Apuração do IPI."""
+    "Ajustes da Apuração do IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e530"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e530"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e530"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_AJ": 0,  # Indicador do tipo de ajuste: 0- Ajuste a débito 1- Aj...
-    #         "VL_AJ": 0,  # 9 Indicador da origem do documento vinculado ao ajuste...
-    #         "COD_AJ": 0,  # Código do ajuste da apuração, conforme a tabela indic...
+    #         "IND_AJ": 0,  # Indicador do tipo de ajuste: 0- Ajuste a débito; 1- A...
+    #         "VL_AJ": 0,  # Valor do ajuste
+    #         "COD_AJ": 0,  # Código do ajuste da apuração, conforme a Tabela indic...
     #         "IND_DOC": 0,  # Indicador da origem do documento vinculado ao ajuste...
     #         "NUM_DOC": 0,  # Número do documento / processo / declaração ao qual ...
-    #         "DESCR_AJ": 0,  # Descrição resumida do ajuste
+    #         "DESCR_AJ": 0,  # Descrição detalhada do ajuste, com citação dos docu...
     #     }
 
 
 class RegistroE531(models.Model):
-    """Informações adicionais dos ajustes da apuração do IPI – Identificação dos documentos fiscais."""
+    "Informações adicionais dos ajustes da apuração do IPI – Identificação dos documentos fiscais"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.e531"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.e531"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.e531"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
@@ -4297,11 +3937,11 @@ class RegistroE531(models.Model):
 
 
 class RegistroG110(models.Model):
-    """ICMS – Ativo Permanente – CIAP."""
+    "ICMS – Ativo Permanente – CIAP"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.g110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.g110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4314,16 +3954,38 @@ class RegistroG110(models.Model):
     #         "VL_TOTAL": 0,  # Valor total de saídas
     #         "IND_PER_SAI": 0,  # Índice de participação do valor do somatório das...
     #         "ICMS_APROP": 0,  # Valor de ICMS a ser apropriado na apuração do ICM...
-    #         "SOM_ICMS_OC": 0,  # Valor de outros créditos a ser apropriado na apu...
+    #         "SOM_ICMS_OC": 0,  # Valor de outros créditos a ser apropriado na Apu...
+    #     }
+
+
+class RegistroG125(models.Model):
+    "Movimentação de bem ou componente"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.g125"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.g125"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_IND_BEM": 0,  # Código individualizado do bem ou componente adot...
+    #         "DT_MOV": 0,  # Data da movimentação ou do saldo inicial
+    #         "TIPO_MOV": 0,  # Tipo de movimentação do bem ou componente: SI = Sal...
+    #         "VL_IMOB_ICMS_OP": 0,  # Valor do ICMS da Operação Própria na entrada...
+    #         "VL_IMOB_ICMS_ST": 0,  # Valor do ICMS da Oper. por Sub. Tributária n...
+    #         "VL_IMOB_ICMS_FRT": 0,  # Valor do ICMS sobre Frete do Conhecimento d...
+    #         "VL_IMOB_ICMS_DIF": 0,  # Valor do ICMS - Diferencial de Alíquota, co...
+    #         "NUM_PARC": 0,  # Número da parcela do ICMS
+    #         "VL_PARC_PASS": 0,  # Valor da parcela de ICMS passível de apropriaçã...
     #     }
 
 
 class RegistroG126(models.Model):
-    """Outros créditos CIAP."""
+    "Outros créditos CIAP"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g126"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.g126"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.g126"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4340,16 +4002,16 @@ class RegistroG126(models.Model):
 
 
 class RegistroG130(models.Model):
-    """Identificação do documento fiscal."""
+    "Identificação do documento fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g130"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.g130"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.g130"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
+    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0- Emiss...
     #         "COD_PART": 0,  # Código do participante : - do emitente do documento...
     #         "COD_MOD": 0,  # Código do modelo de documento fiscal, conforme tabel...
     #         "SERIE": 0,  # Série do documento fiscal
@@ -4361,17 +4023,17 @@ class RegistroG130(models.Model):
 
 
 class RegistroG140(models.Model):
-    """Identificação do item do documento fiscal."""
+    "Identificação do item do documento fiscal"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.g140"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.g140"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.g140"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "NUM_ITEM": 0,  # Número sequencial do item no documento fiscal
-    #         "COD_ITEM": 0,  # Código correspondente do bem no documento fiscal
+    #         "COD_ITEM": 0,  # Código correspondente do bem no documento fiscal (c...
     #         "QTDE": 0,  # Quantidade, deste item da nota fiscal, que foi aplicada...
     #         "UNID": 0,  # Unidade do item constante no documento fiscal de entrad...
     #         "VL_ICMS_OP_APLICADO": 0,  # Valor do ICMS da Operação Própria na ent...
@@ -4382,77 +4044,50 @@ class RegistroG140(models.Model):
 
 
 class RegistroH005(models.Model):
-    """Totais do Inventário."""
+    "Totais do Inventário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h005"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.h005"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.h005"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "DT_INV": 0,  # Data do inventário
     #         "VL_INV": 0,  # Valor total do estoque
-    #         "MOT_INV": 0,  # Informe o motivo do Inventário: 01 - No final no per...
+    #         "MOT_INV": 0,  # Informe o motivo do Inventário: 01 – No final no per...
     #     }
 
 
 class RegistroH010(models.Model):
-    """Inventário."""
+    "Inventário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h010"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.h010"
-    _odoo_model = "product.product"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.h010"
 
-    @api.model
-    def _pull_records_from_odoo(
-        self, kind, level, parent_register=None, parent_record=None, log_msg=None
-    ):
-        # Injecting the historical date into the context, just like for K200
-        declaration = self._context.get("declaration")
-        if declaration and declaration.DT_FIN:
-            dt_fin_end = datetime.combine(declaration.DT_FIN, time(23, 59, 59))
-            self = self.with_context(to_date=fields.Datetime.to_string(dt_fin_end))
-
-        return super()._pull_records_from_odoo(
-            kind, level, parent_register, parent_record, log_msg
-        )
-
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        return [("type", "=", "product"), ("qty_available", ">", 0.0)]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # Quantity is perfectly accurate due to the `to_date` context
-        qty = record.qty_available or 0.0
-
-        # CAVEAT: record.standard_price returns the CURRENT cost, not the historical cost.
-        # FIXME we might need to use stock.valuation.layer here instead...
-        vl_unit = record.standard_price or 0.0
-        vl_item = qty * vl_unit
-
-        return {
-            "COD_ITEM": record.default_code or str(record.id),
-            "UNID": record.uom_id.name or "",
-            "QTD": qty,
-            "VL_UNIT": vl_unit,
-            "VL_ITEM": vl_item,
-            "IND_PROP": "0",  # 0 = Property of the informant and in their possession
-            "COD_PART": "",  # Blank because IND_PROP is 0
-            "TXT_COMPL": "",
-            "COD_CTA": "",  # Usually mapped by the accountant's software
-            "VL_ITEM_IR": vl_item,  # Usually equal to VL_ITEM
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
+    #         "UNID": 0,  # Unidade do item
+    #         "QTD": 0,  # Quantidade do item
+    #         "VL_UNIT": 0,  # Valor unitário do item
+    #         "VL_ITEM": 0,  # Valor do item
+    #         "IND_PROP": 0,  # Indicador de propriedade/posse do item: 0- Item de ...
+    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
+    #         "TXT_COMPL": 0,  # Descrição complementar.
+    #         "COD_CTA": 0,  # Código da conta analítica contábil debitada/creditad...
+    #         "VL_ITEM_IR": 0,  # Valor do item para efeitos do Imposto de Renda.
+    #     }
 
 
 class RegistroH020(models.Model):
-    """Informação complementar do Inventário."""
+    "Informação complementar do Inventário"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h020"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.h020"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.h020"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4464,11 +4099,11 @@ class RegistroH020(models.Model):
 
 
 class RegistroH030(models.Model):
-    """Informações complementares do inventário das mercadorias sujeitas ao regime."""
+    "Informações complementares do inventário das mercadorias sujeitas ao regime"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.h030"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.h030"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.h030"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4480,83 +4115,45 @@ class RegistroH030(models.Model):
     #     }
 
 
-class RegistroK010(models.Model):
-    """Informação sobre o tipo de leiaute."""
-
-    _description = textwrap.dedent(f"    {__doc__}")
-    _name = "l10n_br_sped.efd_icms_ipi.k010"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k010"
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "IND_TP_LEIAUTE": declaration.ind_tp_leiaute or "2",
-        }
-
-
 class RegistroK100(models.Model):
-    """Período de Apuração do ICMS/IPI."""
+    "Período de Apuração do ICMS/IPI"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k100"
 
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "DT_INI": declaration.DT_INI,
-            "DT_FIN": declaration.DT_FIN,
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "DT_INI": 0,  # Data inicial a que a apuração se refere
+    #         "DT_FIN": 0,  # Data final a que a apuração se refere
+    #     }
 
 
 class RegistroK200(models.Model):
-    """Estoque Escriturado."""
+    "Estoque Escriturado"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k200"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k200"
-    _odoo_model = "product.product"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k200"
 
-    @api.model
-    def _pull_records_from_odoo(
-        self, kind, level, parent_register=None, parent_record=None, log_msg=None
-    ):
-        # Injecting the to_date context for Odoo 16 historical stock computation
-        declaration = self._context.get("declaration")
-        if declaration and declaration.DT_FIN:
-            dt_fin_end = datetime.combine(declaration.DT_FIN, time(23, 59, 59))
-            # Using only to_date (and implicitly the current company)
-            self = self.with_context(to_date=fields.Datetime.to_string(dt_fin_end))
-
-        return super()._pull_records_from_odoo(
-            kind, level, parent_register, parent_record, log_msg
-        )
-
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        return [
-            ("type", "=", "product"),
-            ("ncm_id", "!=", False),
-            ("qty_available", ">", 0.0),
-        ]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "DT_EST": declaration.DT_FIN,
-            "COD_ITEM": record.default_code or str(record.id),
-            "QTD": record.qty_available,
-            "IND_EST": "0",  # 0 = Estoque de propriedade do informante e em seu poder
-            "COD_PART": "",
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "DT_EST": 0,  # Data do estoque final
+    #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
+    #         "QTD": 0,  # Quantidade em estoque
+    #         "IND_EST": 0,  # Indicador do tipo de estoque: 0 - Estoque de proprie...
+    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
+    #     }
 
 
 class RegistroK210(models.Model):
-    """Desmontagem de mercadorias – Item de Origem."""
+    "Desmontagem de mercadorias – Item de Origem"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k210"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k210"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k210"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4570,11 +4167,11 @@ class RegistroK210(models.Model):
 
 
 class RegistroK215(models.Model):
-    """Desmontagem de mercadorias – Item de Destino."""
+    "Desmontagem de mercadorias – Item de Destino"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k215"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k215"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k215"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4585,11 +4182,11 @@ class RegistroK215(models.Model):
 
 
 class RegistroK220(models.Model):
-    """Outras Movimentações Internas entre Mercadorias."""
+    "Outras Movimentações Internas entre Mercadorias"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k220"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k220"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k220"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4603,72 +4200,46 @@ class RegistroK220(models.Model):
 
 
 class RegistroK230(models.Model):
-    """Itens Produzidos."""
+    "Itens Produzidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k230"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k230"
-    _odoo_model = "mrp.production"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k230"
 
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        # We fetch Manufacturing Orders (MOs) FINISHED within the SPED period.
-        # Ensure we only fetch MOs that actually produced something.
-        return [
-            ("state", "=", "done"),
-            ("date_finished", ">=", declaration.DT_INI),
-            ("date_finished", "<=", declaration.DT_FIN),
-        ]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {
-            "DT_INI_OP": record.date_start or record.date_planned_start,
-            "DT_FIN_OP": record.date_finished,
-            "COD_DOC_OP": record.name,
-            "COD_ITEM": record.product_id.default_code or str(record.product_id.id),
-            "QTD_ENC": record.qty_producing,  # The actual finished quantity
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "DT_INI_OP": 0,  # Data de início da ordem de produção
+    #         "DT_FIN_OP": 0,  # Data de conclusão da ordem de produção
+    #         "COD_DOC_OP": 0,  # Código de identificação da ordem de produção
+    #         "COD_ITEM": 0,  # Código do item produzido (campo 02 do Registro 0200...
+    #         "QTD_ENC": 0,  # Quantidade de produção acabada
+    #     }
 
 
 class RegistroK235(models.Model):
-    """Insumos Consumidos."""
+    "Insumos Consumidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k235"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k235"
-    _odoo_model = "stock.move"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k235"
 
-    @api.model
-    def _odoo_domain(self, parent_record, declaration):
-        # parent_record is the `mrp.production` from K230.
-        # We look for all done stock moves that were raw materials for this MO.
-        # We only report storable products (type='product'), ignoring consumables/services.
-        return [
-            ("raw_material_production_id", "=", parent_record.id),
-            ("state", "=", "done"),
-            ("product_id.type", "=", "product"),
-        ]
-
-    @api.model
-    def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # If the move has an exact date, use it; otherwise fallback to the MO's finished date.
-        dt_saida = record.date or parent_record.date_finished
-
-        return {
-            "DT_SAIDA": dt_saida,
-            "COD_ITEM": record.product_id.default_code or str(record.product_id.id),
-            "QTD": record.quantity_done,  # The actual consumed quantity, NOT the BOM theoretical qty
-            "COD_INS_SUBST": "",  # Odoo doesn't natively tag substitute items explicitly without custom mods
-        }
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "DT_SAIDA": 0,  # Data de saída do estoque para alocação ao produto
+    #         "COD_ITEM": 0,  # Código do item componente/insumo (campo 02 do Regis...
+    #         "QTD": 0,  # Quantidade consumida do item
+    #         "COD_INS_SUBST": 0,  # Código do insumo que foi substituído, caso oco...
+    #     }
 
 
 class RegistroK250(models.Model):
-    """Industrialização Efetuada por Terceiros – Itens Produzidos."""
+    "Industrialização Efetuada por Terceiros – Itens Produzidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k250"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k250"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k250"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4680,11 +4251,11 @@ class RegistroK250(models.Model):
 
 
 class RegistroK255(models.Model):
-    """Industrialização em Terceiros – Insumos Consumidos."""
+    "Industrialização em Terceiros – Insumos Consumidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k255"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k255"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k255"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4697,11 +4268,11 @@ class RegistroK255(models.Model):
 
 
 class RegistroK260(models.Model):
-    """Reprocessamento/Reparo de Produto/Insumo."""
+    "Reprocessamento/Reparo de Produto/Insumo"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k260"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k260"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k260"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4716,11 +4287,11 @@ class RegistroK260(models.Model):
 
 
 class RegistroK265(models.Model):
-    """Reprocessamento/Reparo – Mercadorias Consumidas e/ou Retornadas."""
+    "Reprocessamento/Reparo – Mercadorias Consumidas e/ou Retornadas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k265"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k265"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k265"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4732,11 +4303,11 @@ class RegistroK265(models.Model):
 
 
 class RegistroK270(models.Model):
-    """Correção de Apontamento dos Registros K210."""
+    "Correção de Apontamento dos Registros K210"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k270"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k270"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k270"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4747,16 +4318,16 @@ class RegistroK270(models.Model):
     #         "COD_ITEM": 0,  # Código da mercadoria que está sendo corrigido (camp...
     #         "QTD_COR_POS": 0,  # Quantidade de correção positiva de apontamento o...
     #         "QTD_COR_NEG": 0,  # Quantidade de correção negativa de apontamento o...
-    #         "ORIGEM": 0,  # 1 - correção de apontamento de produção e/ou consumo ...
+    #         "ORIGEM": 0,  # 1 – correção de apontamento de produção e/ou consumo ...
     #     }
 
 
 class RegistroK275(models.Model):
-    """Correção de Apontamento e Retorno de Insumos dos Registros K215."""
+    "Correção de Apontamento e Retorno de Insumos dos Registros K215"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k275"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k275"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k275"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4769,11 +4340,11 @@ class RegistroK275(models.Model):
 
 
 class RegistroK280(models.Model):
-    """Correção de Apontamento – Estoque Escriturado."""
+    "Correção de Apontamento – Estoque Escriturado"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k280"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k280"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k280"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4788,11 +4359,11 @@ class RegistroK280(models.Model):
 
 
 class RegistroK290(models.Model):
-    """Produção Conjunta – Ordem de Produção."""
+    "Produção Conjunta – Ordem de Produção"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k290"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k290"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k290"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4804,11 +4375,11 @@ class RegistroK290(models.Model):
 
 
 class RegistroK291(models.Model):
-    """Produção Conjunta – Itens Produzidos."""
+    "Produção Conjunta – Itens Produzidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k291"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k291"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k291"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4819,11 +4390,11 @@ class RegistroK291(models.Model):
 
 
 class RegistroK292(models.Model):
-    """Produção Conjunta – insumos Consumidos."""
+    "Produção Conjunta – insumos Consumidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k292"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k292"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k292"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4833,12 +4404,26 @@ class RegistroK292(models.Model):
     #     }
 
 
+class RegistroK300(models.Model):
+    "Produção Conjunta – Industrialização efetuada por terceiros"
+
+    _description = textwrap.dedent(f"    {__doc__}")
+    _name = "l10n_br_sped.efd_icms_ipi.k300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k300"
+
+    # @api.model
+    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
+    #     return {
+    #         "DT_PROD": 0,  # Data do reconhecimento da produção ocorrida no terce...
+    #     }
+
+
 class RegistroK301(models.Model):
-    """Produção Conjunta – Industrialização efetuada por terceiros – Itens Produzidos."""
+    "Produção Conjunta – Industrialização efetuada por terceiros – Itens Produzidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k301"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k301"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k301"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4849,11 +4434,11 @@ class RegistroK301(models.Model):
 
 
 class RegistroK302(models.Model):
-    """Produção Conjunta – Industrialização efetuada por terceiros – Insumos Consumidos."""
+    "Produção Conjunta – Industrialização efetuada por terceiros – Insumos Consumidos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.k302"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.k302"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.k302"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4864,24 +4449,24 @@ class RegistroK302(models.Model):
 
 
 class Registro1010(models.Model):
-    """Obrigatoriedade de registros do Bloco 1."""
+    "Obrigatoriedade de registros do Bloco 1"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1010"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1010"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1010"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "IND_EXP": 0,  # Reg. 1100 - Ocorreu averbação (conclusão) de exporta...
-    #         "IND_CCRF": 0,  # Reg 1200 - Existem informações acerca de créditos d...
-    #         "IND_COMB": 0,  # Reg. 1300 - É comércio varejista de combustíveis co...
-    #         "IND_USINA": 0,  # Reg. 1390 - Usinas de açúcar e/álcool - O estabele...
+    #         "IND_CCRF": 0,  # Reg 1200 – Existem informações acerca de créditos d...
+    #         "IND_COMB": 0,  # Reg. 1300 – É comércio varejista de combustíveis co...
+    #         "IND_USINA": 0,  # Reg. 1390 – Usinas de açúcar e/álcool – O estabele...
     #         "IND_VA": 0,  # Reg 1400 - Sendo o registro obrigatório em sua Unidad...
     #         "IND_EE": 0,  # Reg 1500 - A empresa é distribuidora de energia e oco...
     #         "IND_CART": 0,  # Reg 1601 - Realizou vendas com instrumentos eletrôn...
     #         "IND_FORM": 0,  # Reg. 1700 - Foram emitidos documentos fiscais em pa...
-    #         "IND_AER": 0,  # Reg 1800 – A empresa prestou serviços de transporte ...
+    #         "IND_AER": 0,  # Reg 1800 - A empresa prestou serviços de transporte ...
     #         "IND_GIAF1": 0,  # Reg. 1960 - Possui informações GIAF1? S – Sim; N –...
     #         "IND_GIAF3": 0,  # Reg. 1970 - Possui informações GIAF3? S – Sim; N –...
     #         "IND_GIAF4": 0,  # Reg. 1980 - Possui informações GIAF4? S – Sim; N –...
@@ -4890,35 +4475,35 @@ class Registro1010(models.Model):
 
 
 class Registro1100(models.Model):
-    """Registro de Informações sobre Exportação."""
+    "Registro de Informações sobre Exportação"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1100"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1100"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1100"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_DOC": 0,  # Informe o tipo de documento: 0 - Declaração de Expor...
+    #         "IND_DOC": 0,  # Informe o tipo de documento: 0 – Declaração de Expor...
     #         "NRO_DE": 0,  # Número da declaração
     #         "DT_DE": 0,  # Data da declaração (DDMMAAAA)
-    #         "NAT_EXP": 0,  # Preencher com:
+    #         "NAT_EXP": 0,  # Preencher com: 0 - Exportação Direta 1 - Exportação ...
     #         "NRO_RE": 0,  # Nº do registro de Exportação
     #         "DT_RE": 0,  # Data do Registro de Exportação (DDMMAAAA)
     #         "CHC_EMB": 0,  # Nº do conhecimento de embarque
     #         "DT_CHC": 0,  # Data do conhecimento de embarque (DDMMAAAA)
     #         "DT_AVB": 0,  # Data da averbação da Declaração de exportação (ddmmaa...
-    #         "TP_CHC": 0,  # Informação do tipo de conhecimento de embarque : 01 -...
+    #         "TP_CHC": 0,  # Informação do tipo de conhecimento de embarque: 01 – ...
     #         "PAIS": 0,  # Código do país de destino da mercadoria (Preencher conf...
     #     }
 
 
 class Registro1105(models.Model):
-    """Documentos Fiscais de Exportação."""
+    "Documentos Fiscais de Exportação"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1105"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1105"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1105"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4933,38 +4518,38 @@ class Registro1105(models.Model):
 
 
 class Registro1110(models.Model):
-    """Operações de Exportação Indireta."""
+    "Operações de Exportação Indireta"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1110"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1110"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1110"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_PART": 0,  # Código do participante - fornecedor da mercadoria d...
-    #         "COD_MOD": 0,  # Código do documento fiscal, conforme a tabela 4.1.1
+    #         "COD_PART": 0,  # Código do participante-Fornecedor da Mercadoria des...
+    #         "COD_MOD": 0,  # Código do documento fiscal, conforme a Tabela 4.1.1
     #         "SER": 0,  # Série do documento fiscal recebido com fins específicos ...
     #         "NUM_DOC": 0,  # Número do documento fiscal recebido com fins específ...
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal recebido com fins...
     #         "CHV_NFE": 0,  # Chave da Nota Fiscal Eletrônica
     #         "NR_MEMO": 0,  # Número do Memorando de Exportação
-    #         "QTD": 0,  # Quantidade do item efetivamente exportado
+    #         "QTD": 0,  # Quantidade do item efetivamente exportado.
     #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
     #     }
 
 
 class Registro1200(models.Model):
-    """Controle de Créditos Fiscais - ICMS."""
+    "Controle de Créditos Fiscais - ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1200"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1200"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1200"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_AJ_APUR": 0,  # Código de ajuste, conforme informado na tabela i...
+    #         "COD_AJ_APUR": 0,  # Código de ajuste, conforme informado na Tabela i...
     #         "SLD_CRED": 0,  # Saldo de créditos fiscais de períodos anteriores
     #         "CRED_APR": 0,  # Total de crédito apropriado no mês
     #         "CRED_RECEB": 0,  # Total de créditos recebidos por transferência
@@ -4974,11 +4559,11 @@ class Registro1200(models.Model):
 
 
 class Registro1210(models.Model):
-    """Utilização de Créditos Fiscais."""
+    "Utilização de Créditos Fiscais"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1210"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1210"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1210"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -4986,158 +4571,169 @@ class Registro1210(models.Model):
     #         "TIPO_UTIL": 0,  # Tipo de utilização do crédito, conforme tabela ind...
     #         "NR_DOC": 0,  # Número do documento utilizado na baixa de créditos
     #         "VL_CRED_UTIL": 0,  # Total de crédito utilizado
-    #         "CHV_DOCE": 0,  # Chave do Documento Eletrônico
+    #         "CHV_DOCe": 0,  # Chave do Documento Eletrônico
     #     }
 
 
 class Registro1250(models.Model):
-    """Informações consolidadas de saldos de restituição."""
+    "Informações consolidadas de saldos de restituição"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1250"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1250"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1250"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
+    #         "VL_CREDITO_ICMS_OP": 0,  # Informar o valor total do ICMS operação p...
+    #         "VL_ICMS_ST_REST": 0,  # Informar o valor total do ICMS ST que o info...
+    #         "VL_FCP_ST_REST": 0,  # Informar o valor total do FCP_ST agregado ao ...
+    #         "VL_ICMS_ST_COMPL": 0,  # Informar o valor total do débito referente ...
+    #         "VL_FCP_ST_COMPL": 0,  # Informar o valor total do FCP_ST agregado ao...
     #     }
 
 
 class Registro1255(models.Model):
-    """Informações consolidadas de saldos de restituição."""
+    "Informações consolidadas de saldos de restituição"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1255"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1255"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1255"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
+    #         "COD_MOT_REST_COMPL": 0,  # Código do motivo da restituição ou comple...
+    #         "VL_CREDITO_ICMS_OP_MOT": 0,  # Informar o valor total do ICMS operaç...
+    #         "VL_ICMS_ST_REST_MOT": 0,  # Informar o valor total do ICMS ST que o ...
+    #         "VL_FCP_ST_REST_MOT": 0,  # Informar o valor total do FCP_ST agregado...
+    #         "VL_ICMS_ST_COMPL_MOT": 0,  # Informar o valor total do débito refere...
+    #         "VL_FCP_ST_COMPL_MOT": 0,  # Informar o valor total do FCP_ST agregad...
     #     }
 
 
 class Registro1300(models.Model):
-    """Movimentação diária de combustíveis."""
+    "Movimentação diária de combustíveis"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1300"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1300"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1300"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_ITEM": 0,  # Código do produto, constante do registro 0200
+    #         "COD_ITEM": 0,  # Código do Produto, constante do registro 0200
     #         "DT_FECH": 0,  # Data do fechamento da movimentação
-    #         "ESTQ_ABERT": 0,  # Estoque no inicio do dia, em litros
-    #         "VOL_ENTR": 0,  # Volume recebido no dia (em litros)
-    #         "VOL_DISP": 0,  # Volume disponível (04 + 05), em litros
-    #         "VOL_SAIDAS": 0,  # Volume total das saídas, em litros
-    #         "ESTQ_ESCR": 0,  # Estoque escritural (06 - 07), litros
-    #         "VAL_AJ_PERDA": 0,  # Valor da perda, em litros
+    #         "ESTQ_ABERT": 0,  # Estoque no início do dia, em litros
+    #         "VOL_ENTR": 0,  # Volume Recebido no dia (em litros)
+    #         "VOL_DISP": 0,  # Volume Disponível (04 + 05), em litros
+    #         "VOL_SAIDAS": 0,  # Volume Total das Saídas, em litros
+    #         "ESTQ_ESCR": 0,  # Estoque Escritural (06 – 07), litros
+    #         "VAL_AJ_PERDA": 0,  # Valor da Perda, em litros
     #         "VAL_AJ_GANHO": 0,  # Valor do ganho, em litros
+    #         "FECH_FISICO": 0,  # Estoque de Fechamento, em litros
     #     }
 
 
 class Registro1310(models.Model):
-    """Movimentação diária de combustíveis por tanque."""
+    "Movimentação diária de combustíveis por tanque"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1310"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1310"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1310"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "NUM_TANQUE": 0,  # Tanque que armazena o combustível
-    #         "ESTQ_ABERT": 0,  # Estoque no início do dia, em litros
-    #         "VOL_ENTR": 0,  # Volume recebido no dia (em litros)
-    #         "VOL_DISP": 0,  # Volume disponível (03 + 04), em litros
-    #         "VOL_SAIDAS": 0,  # Volume total das saídas, em litros
-    #         "ESTQ_ESCR": 0,  # Estoque escritural(05 - 06), litros
-    #         "VAL_AJ_PERDA": 0,  # Valor da perda, em litros
+    #         "NUM_TANQUE": 0,  # Tanque que armazena o combustível.
+    #         "ESTQ_ABERT": 0,  # Estoque no inicio do dia, em litros
+    #         "VOL_ENTR": 0,  # Volume Recebido no dia (em litros)
+    #         "VOL_DISP": 0,  # Volume Disponível (03 + 04), em litros
+    #         "VOL_SAIDAS": 0,  # Volume Total das Saídas, em litros
+    #         "ESTQ_ESCR": 0,  # Estoque Escritural(05 – 06), litros
+    #         "VAL_AJ_PERDA": 0,  # Valor da Perda, em litros
     #         "VAL_AJ_GANHO": 0,  # Valor do ganho, em litros
     #         "FECH_FISICO": 0,  # Volume aferido no tanque, em litros. Estoque de ...
-    #         "CAP_TANQUE": 0,  # Capacidade de armazenagem, em litros
     #     }
 
 
 class Registro1320(models.Model):
-    """Volume de vendas."""
+    "Volume de vendas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1320"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1320"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1320"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "NUM_BICO": 0,  # Bico ligado à bomba
+    #         "NUM_BICO": 0,  # Bico Ligado à Bomba
     #         "NR_INTERV": 0,  # Número da intervenção
-    #         "MOT_INTERV": 0,  # Motivo da intervenção
-    #         "NOM_INTERV": 0,  # Nome do interventor
+    #         "MOT_INTERV": 0,  # Motivo da Intervenção
+    #         "NOM_INTERV": 0,  # Nome do Interventor
     #         "CNPJ_INTERV": 0,  # CNPJ da empresa responsável pela intervenção
     #         "CPF_INTERV": 0,  # CPF do técnico responsável pela intervenção
     #         "VAL_FECHA": 0,  # Valor da leitura final do contador, no fechamento ...
     #         "VAL_ABERT": 0,  # Valor da leitura inicial do contador, na abertura ...
-    #         "VOL_AFERI": 0,  # Aferições da bomba, em litros
-    #         "VOL_VENDAS": 0,  # Vendas (08 - 09 - 10 ) do bico, em litros
+    #         "VOL_AFERI": 0,  # Aferições da Bomba, em litros
+    #         "VOL_VENDAS": 0,  # Vendas (08 – 09 - 10 ) do bico , em litros
     #     }
 
 
 class Registro1350(models.Model):
-    """Bombas."""
+    "Bombas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1350"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1350"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1350"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "SERIE": 0,  # Número de série da bomba
-    #         "FABRICANTE": 0,  # Nome do fabricante da bomba
-    #         "MODELO": 0,  # Modelo da bomba
-    #         "TIPO_MEDICAO": 0,  # Identificador de medição: 0 - analógico 1 - dig...
+    #         "SERIE": 0,  # Número de Série da Bomba
+    #         "FABRICANTE": 0,  # Nome do Fabricante da Bomba
+    #         "MODELO": 0,  # Modelo da Bomba
+    #         "TIPO_MEDICAO": 0,  # Identificador de medição: 0 – analógico 1 – dig...
     #     }
 
 
 class Registro1360(models.Model):
-    """Lacres das bombas."""
+    "Lacres das bombas"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1360"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1360"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1360"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "NUM_LACRE": 0,  # Número do lacre associado na bomba
-    #         "DT_APLICACAO": 0,  # Data de aplicação do lacre
+    #         "NUM_LACRE": 0,  # Número do Lacre associado na Bomba
+    #         "DT_APLICACAO": 0,  # Data de aplicação do Lacre
     #     }
 
 
 class Registro1370(models.Model):
-    """Bicos da bomba."""
+    "Bicos da bomba"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1370"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1370"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1370"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "NUM_BICO": 0,  # Número sequencial do bico ligado à bomba
-    #         "COD_ITEM": 0,  # Código do produto, constante do registro 0200
-    #         "NUM_TANQUE": 0,  # Tanque que armazena o combustível
+    #         "NUM_BICO": 0,  # Número sequencial do bico ligado a bomba
+    #         "COD_ITEM": 0,  # Código do Produto, constante do registro 0200
+    #         "NUM_TANQUE": 0,  # Tanque que armazena o combustível.
     #     }
 
 
 class Registro1390(models.Model):
-    """Controle de produção de Usina."""
+    "Controle de produção de Usina"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1390"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1390"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1390"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5147,11 +4743,11 @@ class Registro1390(models.Model):
 
 
 class Registro1391(models.Model):
-    """Produção diária da usina."""
+    "Produção diária da usina"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1391"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1391"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1391"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5173,48 +4769,45 @@ class Registro1391(models.Model):
     #         "PROD_ALC_MEL": 0,  # Produção de álcool (litros) ou açúcar (kg) prov...
     #         "OBS": 0,  # Observações
     #         "COD_ITEM": 0,  # Informar o insumo conforme código do item (campo 02...
-    #         "TP_RESIDUO": 0,  # Tipo de resíduo produzido: 01 – Bagaço de cana 02...
+    #         "TP_RESIDUO": 0,  # Tipo de resíduo produzido: 01 - Bagaço de cana 02...
     #         "QTD_RESIDUO": 0,  # Quantidade de resíduo produzido (toneladas)
-    #         "QTD_RESIDUO_DDG": 0,  # Quantidade de resíduo produzido de DDG (tone...
-    #         "QTD_RESIDUO_WDG": 0,  # Quantidade de resíduo produzido de WDG (tone...
-    #         "QTD_RESIDUO_CANA": 0,  # Quantidade de resíduo produzido de bagaço d...
     #     }
 
 
 class Registro1400(models.Model):
-    """Informação sobre Valor Agregado."""
+    "Informação sobre Valor Agregado"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1400"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1400"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1400"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_ITEM": 0,  # - IPM Código do item (tabela própria da unidade da ...
-    #         "MUN": 0,  # Código do município de origem/destino
+    #         "COD_ITEM_IPM": 0,  # Código do item (Tabela própria da unidade da fe...
+    #         "MUN": 0,  # Código do Município de origem/destino
     #         "VALOR": 0,  # Valor mensal correspondente ao município
     #     }
 
 
 class Registro1500(models.Model):
-    """Nota fiscal/Conta de energia elétrica."""
+    "Nota fiscal/Conta de energia elétrica"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1500"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1500"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1500"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_OPER": 0,  # Indicador do tipo de operação: 1 - Saída
-    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0 - Emis...
+    #         "IND_OPER": 0,  # Indicador do tipo de operação: 1- Saída
+    #         "IND_EMIT": 0,  # Indicador do emitente do documento fiscal: 0- Emiss...
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
-    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a t...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a
+    #         "COD_SIT": 0,  # Código da situação do documento fiscal, conforme a T...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
-    #         "COD_CONS": 0,  # Código de classe de consumo de energia elétrica ou ...
+    #         "COD_CONS": 0,  # Código de classe de consumo de energia elétrica: 01...
     #         "NUM_DOC": 0,  # Número do documento fiscal
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
     #         "DT_E_S": 0,  # Data da entrada ou da saída
@@ -5237,11 +4830,11 @@ class Registro1500(models.Model):
 
 
 class Registro1510(models.Model):
-    """Itens do documento Nota fiscal/Conta de energia elétrica."""
+    "Itens do documento Nota fiscal/Conta de energia elétrica"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1510"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1510"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1510"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5253,7 +4846,7 @@ class Registro1510(models.Model):
     #         "UNID": 0,  # Unidade do item (Campo 02 do registro 0190)
     #         "VL_ITEM": 0,  # Valor do item
     #         "VL_DESC": 0,  # Valor total do desconto
-    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a tabela in...
+    #         "CST_ICMS": 0,  # Código da Situação Tributária, conforme a Tabela in...
     #         "CFOP": 0,  # Código Fiscal de Operação e Prestação
     #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
     #         "ALIQ_ICMS": 0,  # Alíquota do ICMS
@@ -5270,24 +4863,27 @@ class Registro1510(models.Model):
 
 
 class Registro1600(models.Model):
-    """Total das operações com cartão de crédito e/ou débito."""
+    "Total das operações com cartão de crédito e/ou débito"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1600"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1600"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1600"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
+    #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
+    #         "TOT_CREDITO": 0,  # Valor total das operações de crédito realizadas ...
+    #         "TOT_DEBITO": 0,  # Valor total das operações de débito realizadas no...
     #     }
 
 
 class Registro1601(models.Model):
-    """Operações com instrumentos de pagamentos eletrônicos."""
+    "Operações com instrumentos de pagamentos eletrônicos"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1601"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1601"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1601"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5301,11 +4897,11 @@ class Registro1601(models.Model):
 
 
 class Registro1700(models.Model):
-    """Documentos fiscais utilizados."""
+    "Documentos fiscais utilizados"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1700"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1700"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1700"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5314,33 +4910,33 @@ class Registro1700(models.Model):
     #         "COD_MOD": 0,  # Código do modelo do dispositivo autorizado, conforme...
     #         "SER": 0,  # Série do dispositivo autorizado
     #         "SUB": 0,  # Subsérie do dispositivo autorizado
-    #         "NUM_DOC_INI": 0,  # Número inicial do dispositivo autorizado
-    #         "NUM_DOC_FIN": 0,  # Número final do dispositivo autorizado
+    #         "NUM_DOC_INI": 0,  # Número do dispositivo autorizado (utilizado) ini...
+    #         "NUM_DOC_FIN": 0,  # Número do dispositivo autorizado (utilizado) fin...
     #         "NUM_AUT": 0,  # Número da autorização, conforme dispositivo autoriza...
     #     }
 
 
 class Registro1710(models.Model):
-    """Documentos fiscais cancelados/inutilizados."""
+    "Documentos fiscais cancelados/inutilizados"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1710"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1710"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1710"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "NUM_DOC_INI": 0,  # Número inicial do dispositivo autorizado
-    #         "NUM_DOC_FIN": 0,  # Número final do dispositivo autorizado
+    #         "NUM_DOC_INI": 0,  # Número do dispositivo autorizado (inutilizado) i...
+    #         "NUM_DOC_FIN": 0,  # Número do dispositivo autorizado (inutilizado) f...
     #     }
 
 
 class Registro1800(models.Model):
-    """DCTA."""
+    "DCTA"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1800"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1800"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1800"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5348,36 +4944,36 @@ class Registro1800(models.Model):
     #         "VL_CARGA": 0,  # Valor das prestações cargas (Tributado)
     #         "VL_PASS": 0,  # Valor das prestações passageiros/cargas (Não Tributa...
     #         "VL_FAT": 0,  # Valor total do faturamento (2+3)
-    #         "IND_RAT": 0,  # Índice para rateio (2/4)
-    #         "VL_ICMS_ANT": 0,  # Valor total dos créditos de ICMS
+    #         "IND_RAT": 0,  # Índice para rateio(2 / 4)
+    #         "VL_ICMS_ANT": 0,  # Valor total dos créditos do ICMS
     #         "VL_BC_ICMS": 0,  # Valor da base de cálculo do ICMS
-    #         "VL_ICMS_APUR": 0,  # Valor do ICMS apurado (5 X 6)
+    #         "VL_ICMS_APUR": 0,  # Valor do ICMS apurado no cálculo (5 x 6)
     #         "VL_BC_ICMS_APUR": 0,  # Valor da base de cálculo do ICMS apurada (5 ...
     #         "VL_DIF": 0,  # Valor da diferença a ser levada a estorno de crédito ...
     #     }
 
 
 class Registro1900(models.Model):
-    """Indicador de Sub-apuração do ICMS."""
+    "Indicador de Sub-apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1900"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1900"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1900"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "IND_APUR_ICMS": 0,  # Indicador de outra apuração do ICMS: 3 - APURA...
+    #         "IND_APUR_ICMS": 0,  # Indicador de outra apuração do ICMS: 3 – APURA...
     #         "DESCR_COMPL_OUT_APUR": 0,  # Descrição complementar de Outra Apuraçã...
     #     }
 
 
 class Registro1910(models.Model):
-    """Período da Sub-apuração do ICMS."""
+    "Período da Sub-apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1910"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1910"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1910"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5388,92 +4984,92 @@ class Registro1910(models.Model):
 
 
 class Registro1920(models.Model):
-    """Sub-apuração do ICMS."""
+    "Sub-apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1920"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1920"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1920"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "VL_TOT_TRANSF_DEBITOS_OA": 0,  # Valor total dos débitos por "Saídas...
-    #         "VL_TOT_AJ_DEBITOS_OA": 0,  # Valor total de "Ajustes a débito"
+    #         "VL_TOT_TRANSF_DEBITOS_OA": 0,  # Valor total dos débitos por “Saídas...
+    #         "VL_TOT_AJ_DEBITOS_OA": 0,  # Valor total de “Ajustes a débito”
     #         "VL_ESTORNOS_CRED_OA": 0,  # Valor total de Ajustes “Estornos de créd...
-    #         "VL_TOT_TRANSF_CREDITOS_OA": 0,  # Valor total dos créditos por "Entr...
-    #         "VL_TOT_AJ_CREDITOS_OA": 0,  # Valor total de "Ajustes a crédito"
+    #         "VL_TOT_TRANSF_CREDITOS_OA": 0,  # Valor total dos créditos por “Entr...
+    #         "VL_TOT_AJ_CREDITOS_OA": 0,  # Valor total de “Ajustes a crédito”
     #         "VL_ESTORNOS_DEB_OA": 0,  # Valor total de Ajustes “Estornos de Débit...
-    #         "VL_SLD_CREDOR_ANT_OA": 0,  # Valor total de "Saldo credor do período...
+    #         "VL_SLD_CREDOR_ANT_OA": 0,  # Valor total de “Saldo credor do período...
     #         "VL_SLD_APURADO_OA": 0,  # Valor do saldo devedor apurado
-    #         "VL_TOT_DED": 0,  # Valor total de "Deduções"
+    #         "VL_TOT_DED": 0,  # Valor total de “Deduções”
     #         "VL_ICMS_RECOLHER_OA": 0,  # Valor total de "ICMS a recolher (09-10)
-    #         "VL_SLD_CREDOR_TRANSP_OA": 0,  # Valor total de "Saldo credor a trans...
-    #         "DEB_ESP_OA": 0,  # Valores recolhidos ou a recolher, extra-apuração
+    #         "VL_SLD_CREDOR_TRANSP_OA": 0,  # Valor total de “Saldo credor a trans...
+    #         "DEB_ESP_OA": 0,  # Valores recolhidos ou a recolher, extra- apuração...
     #     }
 
 
 class Registro1921(models.Model):
-    """Ajuste/Benefício/Incentivo da Sub- apuração do ICMS."""
+    "Ajuste/Benefício/Incentivo da Sub- apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1921"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1921"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1921"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_AJ_APUR": 0,  # Código do ajuste da SUB-APURAÇÃO e dedução, conf...
-    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste da apuração
+    #         "DESCR_COMPL_AJ": 0,  # Descrição complementar do ajuste da apuração.
     #         "VL_AJ_APUR": 0,  # Valor do ajuste da apuração
     #     }
 
 
 class Registro1922(models.Model):
-    """Informações Adicionais dos Ajustes da Sub-apuração do ICMS."""
+    "Informações Adicionais dos Ajustes da Sub-apuração do ICMS"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1922"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1922"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1922"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "NUM_DA": 0,  # Número do documento de arrecadação estadual, se houve...
     #         "NUM_PROC": 0,  # Número do processo ao qual o ajuste está vinculado,...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ 1- Justiç...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
     #         "TXT_COMPL": 0,  # Descrição complementar
     #     }
 
 
 class Registro1923(models.Model):
-    """Informações Adicionais dos Ajustes da Sub-apuração do ICMS – Identificação dos Documentos Fiscais."""
+    "Informações Adicionais dos Ajustes da Sub-apuração do ICMS – Identificação dos Documentos Fiscais"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1923"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1923"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1923"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
     #         "COD_PART": 0,  # Código do participante (campo 02 do Registro 0150):...
-    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a tab...
+    #         "COD_MOD": 0,  # Código do modelo do documento fiscal, conforme a Tab...
     #         "SER": 0,  # Série do documento fiscal
     #         "SUB": 0,  # Subsérie do documento fiscal
     #         "NUM_DOC": 0,  # Número do documento fiscal
     #         "DT_DOC": 0,  # Data da emissão do documento fiscal
     #         "COD_ITEM": 0,  # Código do item (campo 02 do Registro 0200)
     #         "VL_AJ_ITEM": 0,  # Valor do ajuste para a operação/item
-    #         "CHV_DOCE": 0,  # Chave do Documento Eletrônico
+    #         "CHV_DOCe": 0,  # Chave do Documento Eletrônico
     #     }
 
 
 class Registro1925(models.Model):
-    """Informações Adicionais da Sub- apuração – Valores Declaratórios."""
+    "Informações Adicionais da Sub- apuração – Valores Declaratórios"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1925"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1925"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1925"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5485,33 +5081,33 @@ class Registro1925(models.Model):
 
 
 class Registro1926(models.Model):
-    """Obrigações do ICMS A Recolher – Operações referentes à Sub-apuração."""
+    "Obrigações do ICMS A Recolher – Operações referentes à Sub-apuração"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1926"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1926"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1926"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
-    #         "COD_OR": 0,  # Código da obrigação a recolher, conforme a tabela 5.4
+    #         "COD_OR": 0,  # Código da obrigação a recolher, conforme a Tabela 5.4
     #         "VL_OR": 0,  # Valor da obrigação a recolher
     #         "DT_VCTO": 0,  # Data de vencimento da obrigação
     #         "COD_REC": 0,  # Código de receita referente à obrigação, próprio da ...
     #         "NUM_PROC": 0,  # Número do processo ou auto de infração ao qual a ob...
-    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ 1- Justiç...
+    #         "IND_PROC": 0,  # Indicador da origem do processo: 0- SEFAZ; 1- Justi...
     #         "PROC": 0,  # Descrição resumida do processo que embasou o lançamento
-    #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher
+    #         "TXT_COMPL": 0,  # Descrição complementar das obrigações a recolher.
     #         "MES_REF": 0,  # Informe o mês de referência no formato “mmaaaa”
     #     }
 
 
 class Registro1960(models.Model):
-    """GIAF 1."""
+    "GIAF 1"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1960"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1960"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1960"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5532,11 +5128,11 @@ class Registro1960(models.Model):
 
 
 class Registro1970(models.Model):
-    """GIAF 3."""
+    "GIAF 3"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1970"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1970"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1970"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5556,11 +5152,11 @@ class Registro1970(models.Model):
 
 
 class Registro1975(models.Model):
-    """GIAF 3."""
+    "GIAF 3"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1975"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1975"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1975"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5573,11 +5169,11 @@ class Registro1975(models.Model):
 
 
 class Registro1980(models.Model):
-    """GIAF 4."""
+    "GIAF 4"
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.1980"
-    _inherit = "l10n_br_sped.efd_icms_ipi.20.1980"
+    _inherit = "l10n_br_sped.efd_icms_ipi.17.1980"
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -5594,4 +5190,5 @@ class Registro1980(models.Model):
     #         "G4_09": 0,  # Crédito presumido nas saídas incentivadas de PI
     #         "G4_10": 0,  # Dedução de incentivo da Central de Distribuição (entra...
     #         "G4_11": 0,  # Saldo devedor do ICMS após deduções do incentivo
+    #         "G4_12": 0,  # Índice de recolhimento da central de distribuição
     #     }
