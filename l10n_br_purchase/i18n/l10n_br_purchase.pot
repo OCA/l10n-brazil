@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -363,6 +363,13 @@ msgid "City Taxation Code"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__city_taxation_code_id
+msgid ""
+"City Taxation Code for Municipal NFS-e or ISS Municipal Taxation Code for "
+"National NFS-e."
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__comment_ids
 msgid "Comments"
@@ -450,23 +457,8 @@ msgid "Document Key Random Code"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_number
-msgid "Document Number"
-msgstr ""
-
-#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie_id
 msgid "Document Serie"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_type_id
-msgid "Document Type"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
-msgid "Edit in Form"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -536,6 +528,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_amount_untaxed
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_amount_untaxed
 msgid "Fiscal Amount Untaxed"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_number
+msgid "Fiscal Document Number"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_type_id
+msgid "Fiscal Document Type"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1020,6 +1022,11 @@ msgid "IRPJ Value"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__national_taxation_code_id
+msgid "ISS National Taxation Code"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__issqn_percent
 msgid "ISSQN %"
 msgstr ""
@@ -1126,21 +1133,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__insurance_endorsement
-msgid "Insurance Endorsement"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__insurance_policy
-msgid "Insurance Policy"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__partner_insurance_id
-msgid "Insurance Provider"
-msgstr ""
-
-#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_insurance_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__insurance_value
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__insurance_value
@@ -1234,6 +1226,11 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__simple_without_icms_value
 msgid "National Simple Taxes without ICMS"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order_line__national_taxation_code_id
+msgid "National Taxation Code for the ISS tax (National NFS-e)"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1479,16 +1476,6 @@ msgid "Purchases"
 msgstr ""
 
 #. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__partner_receivering_id
-msgid "Receiver Address"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__partner_sendering_id
-msgid "Sender Address"
-msgstr ""
-
-#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__document_serie
 msgid "Serie Number"
 msgstr ""
@@ -1501,11 +1488,6 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields.selection,name:l10n_br_purchase.selection__purchase_report__fiscal_type__09
 msgid "Serviços"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__partner_shippering_id
-msgid "Shipper Address"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -1667,50 +1649,6 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
 msgid "Taxes"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__insurance_endorsement
-msgid ""
-"The endorsement number associated with the insurance policy, indicating any "
-"modifications or adjustments to the coverage. This field is primarily used "
-"when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__insurance_policy
-msgid ""
-"The insurance policy number covering the transported goods. This field is "
-"primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__partner_receivering_id
-msgid ""
-"The intermediary partner who receives the goods before they reach the final "
-"recipient, often involved in verification, temporary storage, or further "
-"distribution. This field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__partner_insurance_id
-msgid ""
-"The partner providing insurance coverage for the transported goods. This "
-"field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__partner_shippering_id
-msgid ""
-"The partner responsible for delivering the cargo to the carrier, if not done"
-" directly by the sender. This field is primarily used when issuing the CT-e."
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__partner_sendering_id
-msgid ""
-"The partner responsible for sending the goods, typically the issuer of the "
-"document. This field is primarily used when issuing the CT-e."
 msgstr ""
 
 #. module: l10n_br_purchase
