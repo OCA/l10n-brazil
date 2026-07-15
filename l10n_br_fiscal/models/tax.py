@@ -680,17 +680,32 @@ class Tax(models.Model):
         """The IBS (Tax on Goods and Services) must have the
         following taxes removed from its calculation base:
         ICMS, PIS, and COFINS."""
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_ii = taxes_dict.get("ii", {})
+        tax_dict_is = taxes_dict.get("is", {})
         tax_dict_icms = taxes_dict.get("icms", {})
         tax_dict_issqn = taxes_dict.get("issqn", {})
         tax_dict_pis = taxes_dict.get("pis", {})
         tax_dict_cofins = taxes_dict.get("cofins", {})
-        tax_dict["remove_from_base"] += (
-            tax_dict_icms.get("tax_value", 0.00)
-            + tax_dict_issqn.get("tax_value", 0.00)
-            + tax_dict_pis.get("tax_value", 0.00)
-            + tax_dict_cofins.get("tax_value", 0.00)
-        )
+        if (
+            cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict["add_to_base"] += (
+                tax_dict_ii.get("tax_value", 0.00)
+                + tax_dict_is.get("tax_value", 0.00)
+                + kwargs.get("ii_customhouse_charges", 0.00)
+            )
+        else:
+            tax_dict["remove_from_base"] += (
+                tax_dict_icms.get("tax_value", 0.00)
+                + tax_dict_issqn.get("tax_value", 0.00)
+                + tax_dict_pis.get("tax_value", 0.00)
+                + tax_dict_cofins.get("tax_value", 0.00)
+            )
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     @api.model
@@ -698,17 +713,32 @@ class Tax(models.Model):
         """The CBS (Contribution on Goods and Services) must have the
         following taxes removed from its calculation base:
         ICMS, PIS, and COFINS."""
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_ii = taxes_dict.get("ii", {})
+        tax_dict_is = taxes_dict.get("is", {})
         tax_dict_icms = taxes_dict.get("icms", {})
         tax_dict_issqn = taxes_dict.get("issqn", {})
         tax_dict_pis = taxes_dict.get("pis", {})
         tax_dict_cofins = taxes_dict.get("cofins", {})
-        tax_dict["remove_from_base"] += (
-            tax_dict_icms.get("tax_value", 0.00)
-            + tax_dict_issqn.get("tax_value", 0.00)
-            + tax_dict_pis.get("tax_value", 0.00)
-            + tax_dict_cofins.get("tax_value", 0.00)
-        )
+        if (
+            cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict["add_to_base"] += (
+                tax_dict_ii.get("tax_value", 0.00)
+                + tax_dict_is.get("tax_value", 0.00)
+                + kwargs.get("ii_customhouse_charges", 0.00)
+            )
+        else:
+            tax_dict["remove_from_base"] += (
+                tax_dict_icms.get("tax_value", 0.00)
+                + tax_dict_issqn.get("tax_value", 0.00)
+                + tax_dict_pis.get("tax_value", 0.00)
+                + tax_dict_cofins.get("tax_value", 0.00)
+            )
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     @api.model
@@ -716,15 +746,27 @@ class Tax(models.Model):
         """The IS tax (Selective Tax) must have the
         following taxes removed from its calculation base:
         ICMS, PIS, and COFINS."""
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
         tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_ii = taxes_dict.get("ii", {})
         tax_dict_icms = taxes_dict.get("icms", {})
         tax_dict_pis = taxes_dict.get("pis", {})
         tax_dict_cofins = taxes_dict.get("cofins", {})
-        tax_dict["remove_from_base"] += (
-            tax_dict_icms.get("tax_value", 0.00)
-            + tax_dict_pis.get("tax_value", 0.00)
-            + tax_dict_cofins.get("tax_value", 0.00)
-        )
+        if (
+            cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00) + kwargs.get(
+                "ii_customhouse_charges", 0.00
+            )
+        else:
+            tax_dict["remove_from_base"] += (
+                tax_dict_icms.get("tax_value", 0.00)
+                + tax_dict_pis.get("tax_value", 0.00)
+                + tax_dict_cofins.get("tax_value", 0.00)
+            )
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     @api.model
