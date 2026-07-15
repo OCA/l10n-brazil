@@ -751,6 +751,128 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertNotIn("inscricao_municipal_prestador", payload)
 
+    def test_prepare_payload_nacional_no_indicador_total_tributacao(self):
+        """Tests that indicador_total_tributacao is never sent, since the module
+        always sends the percentual_total_tributos_* fields and the DPS nacional
+        schema does not allow both at the same time."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertNotIn("indicador_total_tributacao", payload)
+
+    def test_prepare_payload_nacional_send_aliquota_optante_simples(self):
+        """Tests percentual_aliquota_relativa_municipio is sent for an optante do
+        Simples Nacional without regime especial de tributacao."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        rps = {
+            **PAYLOAD[0]["rps"],
+            "regime_especial_tributacao": "0",
+            "optante_simples_nacional": "1",
+        }
+        edoc = {
+            "rps": rps,
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_payload_nacional_suppress_aliquota_regime_especial(self):
+        """Tests percentual_aliquota_relativa_municipio is omitted for a provider
+        with regime especial de tributacao."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        rps = {**PAYLOAD[0]["rps"], "regime_especial_tributacao": "1"}
+        edoc = {
+            "rps": rps,
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertNotIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_payload_nacional_suppress_aliquota_not_optante_simples(self):
+        """Tests percentual_aliquota_relativa_municipio is omitted for a provider
+        that is not optante do Simples Nacional.
+
+        Some municipalities (e.g. Porto Alegre/RS) reject the DPS when pAliq is
+        informed for a non-optante provider once the municipio de incidencia is
+        ATIVO in the Sistema Nacional NFS-e.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        rps = {
+            **PAYLOAD[0]["rps"],
+            "regime_especial_tributacao": "0",
+            "optante_simples_nacional": "2",
+        }
+        edoc = {
+            "rps": rps,
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertNotIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_tax_data_nacional_omits_empty_cst(self):
+        """Tests situacao_tributaria_pis_cofins is omitted when there is no CST,
+        since the DPS nacional schema requires one of 00-99 when the field is
+        informed."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {**PAYLOAD[1]["service"]}
+
+        tax_data = nfse_nacional._prepare_tax_data_nacional(service_info, 100.0)
+
+        self.assertNotIn("situacao_tributaria_pis_cofins", tax_data)
+
+    def test_prepare_tax_data_nacional_sends_cst_when_present(self):
+        """Tests situacao_tributaria_pis_cofins is sent when informed."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {**PAYLOAD[1]["service"], "situacao_tributaria_pis": "01"}
+
+        tax_data = nfse_nacional._prepare_tax_data_nacional(service_info, 100.0)
+
+        self.assertEqual(tax_data.get("situacao_tributaria_pis_cofins"), "01")
+
+    def test_prepare_tax_data_nacional_aliquota_matches_valor(self):
+        """Tests aliquota_pis/aliquota_cofins are derived from valor_pis/valor_cofins
+        divided by base_calculo_pis_cofins, since the DPS nacional rejects the
+        document when base_calculo x aliquota != valor (e.g. when valor comes from
+        a withholding calculation at a different rate than aliquota_pis/cofins)."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {
+            **PAYLOAD[1]["service"],
+            "situacao_tributaria_pis": "01",
+            "base_calculo_pis": 100.0,
+            "valor_pis": 0.65,
+            "valor_cofins": 3.0,
+            "aliquota_pis": 999,
+            "aliquota_cofins": 999,
+        }
+
+        tax_data = nfse_nacional._prepare_tax_data_nacional(service_info, 100.0)
+
+        self.assertEqual(tax_data["aliquota_pis"], "0.65")
+        self.assertEqual(tax_data["aliquota_cofins"], "3.00")
+
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.process_focus_nfse_nacional_document"  # noqa: B950
     )

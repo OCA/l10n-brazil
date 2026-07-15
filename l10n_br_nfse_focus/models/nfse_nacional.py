@@ -246,19 +246,30 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
                 if not base_calculo_pis_cofins or base_calculo_pis_cofins == 0:
                     base_calculo_pis_cofins = round(valor_servico, 2)
 
-        # Format rates as strings with 2 decimal places
-        aliquota_pis_raw = round(service_info.get("aliquota_pis", 0), 2)
-        aliquota_pis = f"{aliquota_pis_raw:.2f}"
-        aliquota_cofins_raw = round(service_info.get("aliquota_cofins", 0), 2)
-        aliquota_cofins = f"{aliquota_cofins_raw:.2f}"
+        valor_pis = round(service_info.get("valor_pis", 0), 2)
+        valor_cofins = round(service_info.get("valor_cofins", 0), 2)
+
+        # aliquota must match valor / base_calculo or the DPS nacional rejects it
+        if base_calculo_pis_cofins:
+            aliquota_pis = f"{round(valor_pis / base_calculo_pis_cofins * 100, 2):.2f}"
+            aliquota_cofins = (
+                f"{round(valor_cofins / base_calculo_pis_cofins * 100, 2):.2f}"
+            )
+        else:
+            aliquota_pis = "0.00"
+            aliquota_cofins = "0.00"
 
         return {
-            "situacao_tributaria_pis_cofins": situacao_tributaria_pis_cofins or "",
+            **(
+                {"situacao_tributaria_pis_cofins": situacao_tributaria_pis_cofins}
+                if situacao_tributaria_pis_cofins
+                else {}
+            ),
             "base_calculo_pis_cofins": round(base_calculo_pis_cofins, 2),
             "aliquota_pis": aliquota_pis,
             "aliquota_cofins": aliquota_cofins,
-            "valor_pis": round(service_info.get("valor_pis", 0), 2),
-            "valor_cofins": round(service_info.get("valor_cofins", 0), 2),
+            "valor_pis": valor_pis,
+            "valor_cofins": valor_cofins,
             "tipo_retencao_pis_cofins": service_info.get(
                 "tipo_retencao_pis_cofins", "2"
             ),
@@ -360,7 +371,16 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "valor_servico": service_basic["valor"],
             "tributacao_iss": service_basic["tributacao_iss"],
             "tipo_retencao_iss": service_basic["tipo_retencao_iss"],
-            "percentual_aliquota_relativa_municipio": service_basic["aliquota_iss"],
+            **(
+                {
+                    "percentual_aliquota_relativa_municipio": service_basic[
+                        "aliquota_iss"
+                    ]
+                }
+                if provider_data["regime_especial_tributacao"] == 0
+                and provider_data["codigo_opcao_simples_nacional"] != 1
+                else {}
+            ),
             "percentual_total_tributos_federais": service_basic[
                 "percentual_total_tributos_federais"
             ],
@@ -370,7 +390,6 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "percentual_total_tributos_municipais": service_basic[
                 "percentual_total_tributos_municipais"
             ],
-            "indicador_total_tributacao": 0,
             "informacoes_complementares": (
                 rps_info.get("customer_additional_data", False)[:2000]
                 if rps_info.get("customer_additional_data")
