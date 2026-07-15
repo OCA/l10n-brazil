@@ -50,15 +50,11 @@ class PurchaseOrder(models.Model):
         arch, view = super()._get_view(view_id, view_type, **options)
         if self.env.company.country_id.code != "BR":
             return arch, view
-        for tax_totals_node in arch.xpath(
-            "//field[@name='tax_totals'][@widget='account-tax-totals-field']"
-        ):
-            tax_totals_node.set("attrs", "{'invisible': True}")
         if view_type == "form" and self.env.company.country_id.code == "BR":
             arch = self.env["purchase.order.line"].inject_fiscal_fields(arch)
 
         if view_type == "form" and (
-            self.user_has_groups("l10n_br_purchase.group_line_fiscal_detail")
+            self.env.user.has_group("l10n_br_purchase.group_line_fiscal_detail")
             or self.env.context.get("force_line_fiscal_detail")
         ):
             for sub_tree_node in arch.xpath("//field[@name='order_line']/tree"):
@@ -77,6 +73,14 @@ class PurchaseOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         invoice_vals = super()._prepare_invoice()
+        # Ensure the invoice partner is resolved via address_get.
+        # The core _prepare_invoice uses address_get but in some
+        # MRO configurations its result may not reach this override
+        # (e.g. when purchase_stock or other modules reshape the
+        #  method-resolution chain).  Mirror _get_fiscal_partner
+        # below which already applies the same safeguard.
+        partner_invoice = self.partner_id.address_get(["invoice"])["invoice"]
+        invoice_vals["partner_id"] = partner_invoice
         if self.fiscal_operation_id:
             # O caso Brasil se caracteriza por ter a Operação Fiscal
             document_type_id = (
@@ -98,6 +102,27 @@ class PurchaseOrder(models.Model):
                 }
             )
         return invoice_vals
+
+    @api.depends(
+        "order_line.fiscal_amount_untaxed",
+        "order_line.fiscal_amount_tax",
+        "order_line.fiscal_amount_total",
+    )
+    def _amount_all(self):
+        """Override to use fiscal amounts directly for Brazilian POs.
+
+        The standard _amount_all recomputes taxes via AccountTax utilities
+        from the standard taxes_id field, ignoring Brazilian fiscal taxes.
+        For POs with a fiscal operation, we override the computed amounts
+        with the fiscal line totals instead.
+        """
+        result = super()._amount_all()
+        for order in self.filtered("fiscal_operation_id"):
+            lines = order.order_line
+            order.amount_untaxed = sum(lines.mapped("fiscal_amount_untaxed"))
+            order.amount_tax = sum(lines.mapped("fiscal_amount_tax"))
+            order.amount_total = sum(lines.mapped("fiscal_amount_total"))
+        return result
 
     def _get_fiscal_partner(self):
         self.ensure_one()
