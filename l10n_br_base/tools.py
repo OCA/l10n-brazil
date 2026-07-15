@@ -71,7 +71,7 @@ def check_cnpj_cpf(env, cnpj_cpf_value, country):
                     # 76586507812 - CPF
                     document = "CPF"
                     if (
-                        len("".join(char for char in cnpj_cpf_value if char.isdigit()))
+                        len("".join(char for char in cnpj_cpf_value if char.isalnum()))
                         == 14
                     ):
                         document = "CNPJ"

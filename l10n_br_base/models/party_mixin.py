@@ -95,7 +95,10 @@ class PartyMixin(models.AbstractModel):
 
     def _inverse_cnpj_cpf(self):
         for partner in self:
-            partner.vat = cnpj_cpf.formata(str(self.cnpj_cpf))
+            if partner.cnpj_cpf:
+                partner.vat = cnpj_cpf.formata(str(partner.cnpj_cpf))
+            else:
+                partner.vat = False
 
     @api.model
     def search(self, domain, offset=0, limit=None, order=None, count=False):
