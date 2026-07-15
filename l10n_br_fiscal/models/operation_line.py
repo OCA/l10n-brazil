@@ -7,11 +7,15 @@ from odoo.exceptions import UserError
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
     FISCAL_COMMENT_LINE,
+    FISCAL_IN,
     NFE_IND_IE_DEST,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
     PRODUCT_FISCAL_TYPE,
+    TAX_DOMAIN_CBS,
+    TAX_DOMAIN_IBS,
     TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_II,
     TAX_DOMAIN_IPI,
     TAX_DOMAIN_ISSQN,
     TAX_FRAMEWORK,
@@ -299,13 +303,13 @@ class OperationLine(models.Model):
 
         # 1_5 From Tax Classification
         if mapping_result["tax_classification"]:
-            mapping_result["taxes"][
-                mapping_result["tax_classification"].tax_cbs_id.tax_domain
-            ] = mapping_result["tax_classification"].tax_cbs_id
+            mapping_result["taxes"][TAX_DOMAIN_CBS] = mapping_result[
+                "tax_classification"
+            ].tax_cbs_id
 
-            mapping_result["taxes"][
-                mapping_result["tax_classification"].tax_ibs_id.tax_domain
-            ] = mapping_result["tax_classification"].tax_ibs_id
+            mapping_result["taxes"][TAX_DOMAIN_IBS] = mapping_result[
+                "tax_classification"
+            ].tax_ibs_id
 
         # 2 From NCM
         if not ncm and product:
@@ -314,7 +318,7 @@ class OperationLine(models.Model):
         if company.tax_framework == TAX_FRAMEWORK_NORMAL:
             tax_ipi = ncm.tax_ipi_id
             tax_ii = ncm.tax_ii_id
-            mapping_result["taxes"][tax_ipi.tax_domain] = tax_ipi
+            mapping_result["taxes"][TAX_DOMAIN_IPI] = tax_ipi
 
             if len(ncm.piscofins_ids) == 1:
                 mapping_result["taxes"][ncm.piscofins_ids[0].tax_pis_id.tax_domain] = (
@@ -324,8 +328,11 @@ class OperationLine(models.Model):
                     ncm.piscofins_ids[0].tax_cofins_id.tax_domain
                 ] = ncm.piscofins_ids[0].tax_cofins_id
 
-            if mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT:
-                mapping_result["taxes"][tax_ii.tax_domain] = tax_ii
+            if (
+                mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT
+                and mapping_result["cfop"].type_in_out == FISCAL_IN
+            ):
+                mapping_result["taxes"][TAX_DOMAIN_II] = tax_ii
 
             # 3 From ICMS Regulation
             if company.icms_regulation_id:
