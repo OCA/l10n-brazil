@@ -218,7 +218,7 @@ class TestMoveEdition(TransactionCase):
             line_form.price_unit = 42
             line_form.quantity = 5
 
-            self.assertEqual(len(line_form.fiscal_tax_ids), 4)
+            self.assertEqual(len(line_form.fiscal_tax_ids), 6)
             self.assertEqual(
                 line_form.icms_tax_id, self.env.ref("l10n_br_fiscal.tax_icms_7")
             )
@@ -233,7 +233,7 @@ class TestMoveEdition(TransactionCase):
             line_form.fiscal_operation_line_id = self.env.ref(
                 "l10n_br_fiscal.fo_venda_venda"
             )
-            self.assertEqual(len(line_form.fiscal_tax_ids), 4)
+            self.assertEqual(len(line_form.fiscal_tax_ids), 6)
             self.assertEqual(
                 line_form.icms_tax_id, self.env.ref("l10n_br_fiscal.tax_icms_7")
             )
