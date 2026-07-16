@@ -84,7 +84,7 @@ class TestXMLValidation(TransactionCase):
                 "fiscal_quantity": 22,
             }
         )
-        self.assertEqual(len(line.fiscal_tax_ids), 4)
+        self.assertEqual(len(line.fiscal_tax_ids), 6)
         line.write(
             {
                 "icms_tax_id": self.env.ref("l10n_br_fiscal.tax_icms_12_st").id,
