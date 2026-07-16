@@ -33,6 +33,7 @@ class AccountMoveLine(models.Model):
         string="Fiscal Document Line",
         copy=False,
         ondelete="cascade",
+        index="btree_not_null",
     )
 
     document_type_id = fields.Many2one(
