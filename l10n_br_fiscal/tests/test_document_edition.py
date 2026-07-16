@@ -106,7 +106,7 @@ class TestDocumentEdition(TransactionCase):
 
             line_form.price_unit = 50
             line_form.quantity = 2
-            self.assertEqual(len(line_form.fiscal_tax_ids), 4)
+            self.assertEqual(len(line_form.fiscal_tax_ids), 6)
             self.assertEqual(
                 line_form.icms_tax_id, self.env.ref("l10n_br_fiscal.tax_icms_12")
             )
@@ -146,7 +146,7 @@ class TestDocumentEdition(TransactionCase):
         self.assertEqual(line.fiscal_price, 100)
         self.assertEqual(line.quantity, 2)
         self.assertEqual(line.fiscal_quantity, 2)
-        self.assertEqual(len(line.fiscal_tax_ids), 4)
+        self.assertEqual(len(line.fiscal_tax_ids), 6)
 
         self.assertEqual(
             line.fiscal_operation_line_id,
