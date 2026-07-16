@@ -24,7 +24,10 @@ class AccountChartTemplate(models.AbstractModel):
         Brazilian companies.
         """
         move_data = super()._get_demo_data_move(company)
-        if company.account_fiscal_country_id.code == "BR":
+        if (
+            "l10n_latam.document.type" in self.env
+            and company.account_fiscal_country_id.code == "BR"
+        ):
             # Find a default document type for Brazil
             # Use 'all' internal type as it matches all move types
             latam_doc_type = self.env["l10n_latam.document.type"].search(
