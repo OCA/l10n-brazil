@@ -6,7 +6,7 @@ erpbrasil.assinatura
 erpbrasil.base
 erpbrasil.edoc
 erpbrasil.transmissao
-nfelib
+nfelib @ git+https://github.com/akretion/nfelib.git@1b9f8b989d6beff389002721db0a19312f8a5702
 num2words
 phonenumbers
 pyyaml
