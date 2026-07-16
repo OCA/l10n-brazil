@@ -118,12 +118,14 @@ class TestFiscalTax(TransactionCase):
             + self.env.ref("l10n_br_fiscal.tax_ipi_15")
             + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
             + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+            + self.env.ref("l10n_br_fiscal.tax_ibs_0_1")
+            + self.env.ref("l10n_br_fiscal.tax_cbs_0_9")
         )
 
         compute_result = fiscal_taxes.compute_taxes(**kwargs)
 
         test_result = {
-            "amount_included": 4.04,
+            "amount_included": 4.34,
             "amount_not_included": 5.19,
             "amount_withholding": 0.0,
             "estimate_tax": 0.0,
@@ -160,6 +162,22 @@ class TestFiscalTax(TransactionCase):
                     "percent_reduction": 0.0,
                     "value_amount": 0.0,
                     "tax_value": 1.04,
+                },
+                "ibs": {
+                    "base": 30.54,
+                    "base_reduction": 0.0,
+                    "percent_amount": 0.10,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 0.03,
+                },
+                "cbs": {
+                    "base": 30.54,
+                    "base_reduction": 0.0,
+                    "percent_amount": 0.90,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 0.27,
                 },
             },
         }
