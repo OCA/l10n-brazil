@@ -175,6 +175,11 @@ msgid "Select whether to use NFSe (municipal) or NFSe Nacional (national) API"
 msgstr ""
 
 #. module: l10n_br_nfse_focus
+#: model:ir.model.fields,field_description:l10n_br_nfse_focus.field_res_company__focusnfe_nfse_nacional_send_im_prestador
+msgid "Send Provider Municipal Registration (NFSe Nacional)"
+msgstr ""
+
+#. module: l10n_br_nfse_focus
 #: model:ir.model.fields.selection,name:l10n_br_nfse_focus.selection__res_company__focusnfe_nfse_service_type_value__item_lista_servico
 msgid "Service Type"
 msgstr ""
