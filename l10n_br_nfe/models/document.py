@@ -14,8 +14,8 @@ from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.nfe.bindings.v4_0.dfe_tipos_basicos_v1_00 import TibscbsmonoTot
-from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 from nfelib.nfe.bindings.v4_0.nfe_v4_00 import Nfe
+from nfelib.nfe.bindings.v4_0.proc_nfe_v4_00 import NfeProc
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
@@ -1392,7 +1392,7 @@ class NFe(spec_models.StackedModel):
         if proc_nfe_xml:
             # it is not always possible to create nfeProc.
             parser = XmlParser()
-            nfe_proc = parser.from_string(proc_nfe_xml.decode(), TnfeProc)
+            nfe_proc = parser.from_string(proc_nfe_xml.decode(), NfeProc)
             ws_response_process.processo = nfe_proc
             ws_response_process.processo_xml = proc_nfe_xml
 
