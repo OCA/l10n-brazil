@@ -53,10 +53,19 @@ def _request(ws_url, params, ibpt_request_timeout=30):
                     "IBPT Service Unavailable - %s(url)s", url=ws_url
                 )
             )
-    except Exception as err:
+    except requests.exceptions.RequestException as err:
         raise UserError(
             odoo.api.Environment._(
                 "Error in the request: %(error)s",
+                error=str(err),
+            )
+        ) from err
+    except UserError:
+        raise
+    except Exception as err:
+        raise UserError(
+            odoo.api.Environment._(
+                "Unexpected error in IBPT request: %(error)s",
                 error=str(err),
             )
         ) from err
@@ -78,7 +87,7 @@ def get_ibpt_product(
         "gtin": gtin,
     }
 
-    return _request(WS_IBPT[WS_PRODUTOS], data, config.ibpt_request_timeout)
+    return _request(WS_IBPT[WS_PRODUTOS], data, config.ibpt_request_timeout or 30)
 
 
 def get_ibpt_service(config, nbs, description="", uom="", amount="0"):
@@ -92,4 +101,4 @@ def get_ibpt_service(config, nbs, description="", uom="", amount="0"):
         "valor": amount,
     }
 
-    return _request(WS_IBPT[WS_SERVICOS], data, config.ibpt_request_timeout)
+    return _request(WS_IBPT[WS_SERVICOS], data, config.ibpt_request_timeout or 30)
