@@ -13,7 +13,24 @@ Baseline (calibration):
     create_form: simple=975q (1.79s)  complex=7709q (21.2s)
     post:        simple=122q (0.07s)  complex=130q (0.19s)
     unlink:      115q (0.12s)
-Limits = measured * 1.15 rounded up. Time is logged, never asserted.
+
+Recalibrated after dropping clear_caches() from move/aml unlink (systemic:
+_sync_dynamic_lines unlinks term/tax lines mid-save, so the global cache was
+being wiped inside the create/post flow itself):
+    create_form: simple=732q  complex=7572q
+    post:        simple=70q   complex=78q
+    unlink:      87q
+
+Limits are calibrated against the OCA CI environment (canonical reference:
+the full localization is installed there, which legitimately costs more
+queries than a minimal database — e.g. payment/EDI modules add triggers on
+post). OCA CI, all patches applied (runs are deterministic across the
+Odoo/OCB jobs, spread <=1q):
+    create_form: simple=785q  complex=7995q
+    post:        simple=104q  complex=169q
+    unlink:      115q
+Limits = CI measured * 1.15 rounded up; minimal-db runs stay far below.
+Time is logged, never asserted.
 """
 
 from odoo.tests.common import tagged, warmup
@@ -24,11 +41,11 @@ from .perf_common import PerfMixin
 LINES_SIMPLE = 2
 LINES_COMPLEX = 30
 
-QUERY_LIMIT_CREATE_SIMPLE = 1150
-QUERY_LIMIT_CREATE_COMPLEX = 8900
-QUERY_LIMIT_POST_SIMPLE = 150
-QUERY_LIMIT_POST_COMPLEX = 160
-QUERY_LIMIT_UNLINK = 140
+QUERY_LIMIT_CREATE_SIMPLE = 905
+QUERY_LIMIT_CREATE_COMPLEX = 9200
+QUERY_LIMIT_POST_SIMPLE = 120
+QUERY_LIMIT_POST_COMPLEX = 195
+QUERY_LIMIT_UNLINK = 135
 
 # queries/line(complex) <= factor * queries/line(simple): catches O(n^2).
 SCALING_MAX_FACTOR = 1.5

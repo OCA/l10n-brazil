@@ -14,7 +14,24 @@ Baseline (calibration):
     so_confirm:      simple=14q  (0.01s) complex=41q  (0.02s)
     create_invoices: simple=162q (0.20s) complex=409q (0.88s)
     invoice_post:    simple=61q  (0.05s) complex=81q  (0.15s)
-Limits = measured * 1.15 rounded up. Time is logged, never asserted.
+
+Recalibrated after dropping clear_caches() from move/aml unlink:
+    so_create:       simple=116q complex=360q
+    so_confirm:      simple=10q  complex=39q
+    create_invoices: simple=129q complex=380q
+    invoice_post:    simple=29q  complex=61q
+
+Limits are calibrated against the OCA CI environment (canonical reference:
+the full localization is installed there, which legitimately costs more
+queries than a minimal database — e.g. l10n_br_sale_stock creates pickings
+on SO confirm). OCA CI, all patches applied (runs are deterministic across
+the Odoo/OCB jobs, spread <=1q):
+    so_create:       simple=128q complex=422q
+    so_confirm:      simple=157q complex=1113q
+    create_invoices: simple=145q complex=423q
+    invoice_post:    simple=56q  complex=140q
+Limits = CI measured * 1.15 rounded up; minimal-db runs stay far below.
+Time is logged, never asserted.
 """
 
 from odoo.tests.common import tagged, warmup
@@ -25,14 +42,14 @@ from odoo.addons.l10n_br_account.tests.perf_common import PerfMixin
 LINES_SIMPLE = 2
 LINES_COMPLEX = 30
 
-QUERY_LIMIT_SO_CREATE_SIMPLE = 175
-QUERY_LIMIT_SO_CREATE_COMPLEX = 450
-QUERY_LIMIT_SO_CONFIRM_SIMPLE = 25
-QUERY_LIMIT_SO_CONFIRM_COMPLEX = 50
-QUERY_LIMIT_CREATE_INVOICES_SIMPLE = 200
-QUERY_LIMIT_CREATE_INVOICES_COMPLEX = 475
-QUERY_LIMIT_INVOICE_POST_SIMPLE = 75
-QUERY_LIMIT_INVOICE_POST_COMPLEX = 100
+QUERY_LIMIT_SO_CREATE_SIMPLE = 150
+QUERY_LIMIT_SO_CREATE_COMPLEX = 490
+QUERY_LIMIT_SO_CONFIRM_SIMPLE = 185
+QUERY_LIMIT_SO_CONFIRM_COMPLEX = 1280
+QUERY_LIMIT_CREATE_INVOICES_SIMPLE = 170
+QUERY_LIMIT_CREATE_INVOICES_COMPLEX = 490
+QUERY_LIMIT_INVOICE_POST_SIMPLE = 65
+QUERY_LIMIT_INVOICE_POST_COMPLEX = 165
 
 SCALING_MAX_FACTOR = 1.5
 
