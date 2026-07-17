@@ -436,7 +436,6 @@ class AccountMove(models.Model):
             unlink_moves |= move
         result = super(AccountMove, unlink_moves).unlink()
         unlink_documents.unlink()
-        self.clear_caches()
         return result
 
     @api.depends("move_type", "fiscal_operation_id")
