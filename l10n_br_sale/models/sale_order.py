@@ -133,7 +133,9 @@ class SaleOrder(models.Model):
         moves = self.env["account.move"]
         for document_type in document_types:
             self = self.with_context(
-                document_type_id=document_type.id, l10n_br_fiscal_active=True
+                document_type_id=document_type.id,
+                l10n_br_fiscal_active=True,
+                force_fiscal_amount_recompute=True,
             )
             try:
                 moves |= super()._create_invoices(
