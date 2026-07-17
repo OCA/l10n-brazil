@@ -23,8 +23,10 @@ def domain_field_codes(
     operator2="=ilike",
     code_size=8,
 ):
-    field_codes = field_codes.replace(".", "")
-    list_codes = field_codes.split(delimiter)
+    field_codes = field_codes.replace(" ", "").replace(".", "")
+    if delimiter == ",":
+        field_codes = field_codes.replace(";", ",")
+    list_codes = [c for c in field_codes.split(delimiter) if c]
 
     domain = []
 
@@ -36,10 +38,16 @@ def domain_field_codes(
         domain += ["|"] * (len(list_codes) - 1)
 
     for n in list_codes:
-        if len(n) == code_size:
+        if "_" in n:
+            code_part, exception_part = n.split("_", 1)
+            domain += [
+                "&",
+                (field_name, operator1, code_part),
+                ("exception", operator1, exception_part),
+            ]
+        elif len(n) == code_size:
             domain.append((field_name, operator1, n))
-
-        if len(n) < code_size:
+        elif len(n) < code_size:
             domain.append((field_name, operator2, n + "%"))
 
     return domain
