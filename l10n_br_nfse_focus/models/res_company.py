@@ -71,6 +71,11 @@ class ResCompany(models.Model):
         help="Select whether to use NFSe (municipal) or NFSe Nacional (national) API",
     )
 
+    focusnfe_nfse_nacional_send_im_prestador = fields.Boolean(
+        string="Send Provider Municipal Registration (NFSe Nacional)",
+        default=True,
+    )
+
     def get_focusnfe_token(self):
         """
         Retrieve the appropriate FocusNFe API token based on the current NFSe
