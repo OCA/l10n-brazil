@@ -3,37 +3,30 @@
     <record id="tax_icms_relief_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.icms.relief.search</field>
         <field name="model">l10n_br_fiscal.icms.relief</field>
+        <field name="inherit_id" ref="data_abstract_search" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <search string="ICMS relief">
-                <field name="code" />
-                <field name="name" />
-            </search>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="tax_icms_relief_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.icms.relief.tree</field>
         <field name="model">l10n_br_fiscal.icms.relief</field>
+        <field name="inherit_id" ref="data_abstract_tree" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree>
-                <field name="code" />
-                <field name="name" />
-            </tree>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 
     <record id="tax_icms_relief_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.icms.relief.form</field>
         <field name="model">l10n_br_fiscal.icms.relief</field>
+        <field name="inherit_id" ref="data_abstract_form" />
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form string="ICMS relief">
-                <sheet>
-                    <group>
-                        <field name="code" required="1" />
-                        <field name="name" required="1" />
-                    </group>
-                </sheet>
-            </form>
+            <xpath expr="." position="attributes" />
         </field>
     </record>
 </odoo>
