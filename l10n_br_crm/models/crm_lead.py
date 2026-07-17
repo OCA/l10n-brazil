@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from erpbrasil.base import misc
-from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
@@ -15,10 +14,6 @@ class Lead(models.Model):
 
     _name = "crm.lead"
     _inherit = [_name, "l10n_br_base.party.mixin"]
-
-    cnpj = fields.Char(string="CNPJ")
-
-    cpf = fields.Char(string="CPF")
 
     l10n_br_rg_code = fields.Char(string="RG")
 
@@ -72,15 +67,10 @@ class Lead(models.Model):
         if not self.name_surname:
             self.name_surname = self.contact_name
 
-    @api.constrains("cnpj")
-    def _check_cnpj(self):
+    @api.constrains("vat", "country_id")
+    def _check_vat(self):
         for record in self:
-            check_cnpj_cpf(record.env, record.cnpj, record.country_id)
-
-    @api.constrains("cpf")
-    def _check_cpf(self):
-        for record in self:
-            check_cnpj_cpf(record.env, record.cpf, record.country_id)
+            check_cnpj_cpf(record.env, record.vat, record.country_id)
 
     @api.constrains("l10n_br_ie_code")
     def _check_ie(self):
@@ -94,19 +84,11 @@ class Lead(models.Model):
                 record.env, record.l10n_br_ie_code, record.state_id, record.country_id
             )
 
-    @api.onchange("cnpj", "country_id")
-    def _onchange_cnpj(self):
-        self.cnpj = cnpj_cpf.formata(self.cnpj)
-
-    @api.onchange("cpf", "country_id")
-    def _onchange_mask_cpf(self):
-        self.cpf = cnpj_cpf.formata(self.cpf)
-
     @api.onchange("city_id")
     def _onchange_city_id(self):
         """Ao alterar o campo l10n_br_city_id que é um campo relacional
-        com o l10n_br_base.city que são os municípios do IBGE, copia o nome
-        do município para o campo city que é o campo nativo do módulo base
+        com o l10n_br_base.city que são os municípios do IBGE, copia o
+        nome do município para o campo city que é o campo nativo do módulo base
         para manter a compatibilidade entre os demais módulos que usam o
         campo city.
         param int l10n_br_city_id: id do l10n_br_city_id digitado.
@@ -133,16 +115,18 @@ class Lead(models.Model):
             result["district"] = self.partner_id.district
             result["city_id"] = self.partner_id.city_id.id
             result["country_id"] = self.partner_id.country_id.id
+            result["vat"] = self.partner_id.vat
+            result = self._convert_to_write(result)
+            if self.partner_id.country_id.code == "BR":
+                self._normalize_vat(result)
             if self.partner_id.is_company:
                 result["legal_name"] = self.partner_id.legal_name
-                result["cnpj"] = self.partner_id.vat
                 result["l10n_br_ie_code"] = self.partner_id.l10n_br_ie_code
                 result["l10n_br_im_code"] = self.partner_id.l10n_br_im_code
                 result["l10n_br_isuf_code"] = self.partner_id.l10n_br_isuf_code
             else:
                 result["partner_name"] = self.partner_id.parent_id.name or False
                 result["legal_name"] = self.partner_id.parent_id.legal_name or False
-                result["cnpj"] = self.partner_id.parent_id.vat or False
                 result["l10n_br_ie_code"] = (
                     self.partner_id.parent_id.l10n_br_ie_code or False
                 )
@@ -153,7 +137,6 @@ class Lead(models.Model):
                     self.partner_id.parent_id.l10n_br_isuf_code or False
                 )
                 result["website"] = self.partner_id.parent_id.website or False
-                result["cpf"] = self.partner_id.vat
                 result["l10n_br_rg_code"] = self.partner_id.l10n_br_rg_code
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
@@ -161,7 +144,7 @@ class Lead(models.Model):
 
     def _prepare_customer_values(self, name, is_company, parent_id=False):
         """Extract data from lead to create a partner.
-        :param name : furtur name of the partner
+        :param name : future name of the partner
         :param is_company : True if the partner is a company
         :param parent_id : id of the parent partner (False if no parent)
         :return: dictionary of values to give at res_partner.create()
@@ -174,12 +157,15 @@ class Lead(models.Model):
                 "street_number": self.street_number,
                 "district": self.district,
                 "city_id": self.city_id.id,
+                "vat": self.vat,
             }
         )
+        if self.vat and not values.get("country_id"):
+            values["country_id"] = self.env.ref("base.br").id
+        self._normalize_vat(values)
         if is_company:
             values.update(
                 {
-                    "vat": self.cnpj,
                     "l10n_br_ie_code": self.l10n_br_ie_code,
                     "l10n_br_im_code": self.l10n_br_im_code,
                     "l10n_br_isuf_code": self.l10n_br_isuf_code,
@@ -188,7 +174,6 @@ class Lead(models.Model):
         else:
             values.update(
                 {
-                    "vat": self.cpf,
                     "l10n_br_ie_code": self.l10n_br_rg_code,
                     "l10n_br_rg_code": self.l10n_br_rg_code,
                 }
@@ -196,8 +181,7 @@ class Lead(models.Model):
         return values
 
     def action_open_cnpj_search_wizard(self):
-        """Override to use cnpj field instead of vat for crm.lead."""
-        if not self.cnpj:
+        if not self.vat:
             raise UserError(self.env._("Please enter your CNPJ"))
         if self.cnpj_validation_disabled():
             raise UserError(
@@ -225,3 +209,12 @@ class Lead(models.Model):
             "context": context,
             "target": "new",
         }
+
+    @api.model
+    def cnpj_validation_disabled(self):
+        cnpj_validation_disabled = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_base.disable_cpf_cnpj_validation")
+        )
+        return cnpj_validation_disabled

@@ -11,6 +11,7 @@
             </field>
             <xpath expr="//group[@name='lead_info']/div" position="after">
                 <field name="name_surname" />
+                <field name="vat" invisible="show_l10n_br == False" />
                 <field name="l10n_br_rg_code" invisible="show_l10n_br == False" />
             </xpath>
             <xpath
@@ -18,12 +19,7 @@
                 position="after"
             >
                 <field name="legal_name" invisible="show_l10n_br == False" />
-                <field name="cnpj" invisible="show_l10n_br == False" />
-                <field
-                    name="vat_formatted_cnpj"
-                    string="CNPJ/CPF"
-                    invisible="show_l10n_br == False"
-                />
+                <field name="vat" invisible="show_l10n_br == False" />
                 <field name="l10n_br_ie_code" invisible="show_l10n_br == False" />
             </xpath>
             <xpath
@@ -38,12 +34,7 @@
                 position='after'
             >
                 <field name="legal_name" invisible="show_l10n_br == False" />
-                <field name="cnpj" invisible="show_l10n_br == False" />
-                <field
-                    name="vat_formatted_cnpj"
-                    string="CNPJ/CPF"
-                    invisible="show_l10n_br == False"
-                />
+                <field name="vat" invisible="show_l10n_br == False" />
                 <field name="l10n_br_ie_code" invisible="show_l10n_br == False" />
             </xpath>
             <xpath
@@ -58,6 +49,7 @@
                 position='before'
             >
                 <field name="name_surname" />
+                <field name="vat" invisible="show_l10n_br == False" />
                 <field name="l10n_br_rg_code" invisible="show_l10n_br == False" />
             </xpath>
         </field>
