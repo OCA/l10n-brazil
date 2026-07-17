@@ -5,7 +5,6 @@ from erpbrasil.base import misc
 from erpbrasil.base.fiscal import cnpj_cpf
 
 from odoo import api, fields, models
-from odoo.fields import Domain
 
 
 class PartyMixin(models.AbstractModel):
@@ -85,25 +84,53 @@ class PartyMixin(models.AbstractModel):
         )
 
     @api.model
-    def search(self, domain, offset=0, limit=None, order=None, count=False):
-        """in the case of a simple search with only OR terms and a vat ilike condition,
-        inject the possibility to match the cnpj_cpf_stripped field.
+    def _expand_vat_search_domain(self, domain):
+        """Expand simple ``vat ilike`` domain leaves so searching with a
+        formatted CNPJ/CPF (with punctuation) also matches, even though
+        ``vat`` is stored unformatted. The punctuation-stripped term is
+        matched against the indexed ``cnpj_cpf_stripped`` field.
         """
-        if not any(term == "&" for term in domain) and not self.env.context.get(
-            "no_stripped_match"
-        ):
-            for term in domain:
-                if (
-                    isinstance(term, list | tuple)
-                    and len(term) == 3
-                    and term[0] == "vat"
-                    and term[1] == "ilike"
-                ):
-                    domain = Domain(domain) | Domain(
-                        [("cnpj_cpf_stripped", "ilike", term[2])]
-                    )
-                    break
-        return super().search(domain, offset, limit, order)
+        if self.env.context.get("no_stripped_match"):
+            return domain
+        new_domain = []
+        for term in domain:
+            if (
+                isinstance(term, list | tuple)
+                and len(term) == 3
+                and term[0] == "vat"
+                and term[1] in ("ilike", "=ilike")
+                and term[2]
+            ):
+                stripped = "".join(char for char in str(term[2]) if char.isalnum())
+                if stripped and stripped != term[2]:
+                    new_domain += [
+                        "|",
+                        ("vat", term[1], term[2]),
+                        ("cnpj_cpf_stripped", term[1], stripped),
+                    ]
+                    continue
+            new_domain.append(term)
+        return new_domain
+
+    @api.model
+    def _search(
+        self,
+        domain,
+        offset=0,
+        limit=None,
+        order=None,
+        *,
+        active_test=True,
+        bypass_access=False,
+    ):
+        return super()._search(
+            self._expand_vat_search_domain(domain),
+            offset=offset,
+            limit=limit,
+            order=order,
+            active_test=active_test,
+            bypass_access=bypass_access,
+        )
 
     @api.depends("vat")
     def _compute_cnpj_cpf_stripped(self):
@@ -120,7 +147,7 @@ class PartyMixin(models.AbstractModel):
         for record in self:
             vat_formatted_cnpj = False
             if record.vat and record.country_id and record.country_id.code == "BR":
-                vat_formatted_cnpj = cnpj_cpf.formata(str(record.vat))
+                vat_formatted_cnpj = cnpj_cpf.formata(record.vat)
             record.vat_formatted_cnpj = vat_formatted_cnpj
 
     @api.onchange("zip")
@@ -142,9 +169,43 @@ class PartyMixin(models.AbstractModel):
 
     @api.onchange("vat")
     def _onchange_vat(self):
-        """Format the VAT field (CNPJ/CPF) with proper punctuation."""
-        if self.vat and self.country_id and self.country_id.code == "BR":
-            self.vat = cnpj_cpf.formata(str(self.vat))
+        """Keep VAT unformatted; the formatted value is available via
+        vat_formatted_cnpj.
+        """
+        if self.vat:
+            vals = {"vat": self.vat}
+            self._normalize_vat(vals)
+            self.vat = vals["vat"]
+
+    @api.model
+    def _normalize_vat(self, vals):
+        """Strip punctuation from Brazilian VAT values so they are stored
+        unformatted.
+        """
+        if not isinstance(vals, dict):
+            return
+        vat = vals.get("vat")
+        if not vat:
+            return
+        country_id = vals.get("country_id")
+        if country_id:
+            country = self.env["res.country"].browse(country_id)
+        elif self and len(self) == 1:
+            country = self.country_id
+        else:
+            country = self.env.company.country_id
+        if country and country.code == "BR":
+            vals["vat"] = misc.punctuation_rm(str(vat))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            self._normalize_vat(vals)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        self._normalize_vat(vals)
+        return super().write(vals)
 
     @api.depends("country_id")
     def _compute_show_l10n_br(self):
