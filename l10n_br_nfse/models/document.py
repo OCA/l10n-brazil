@@ -75,8 +75,8 @@ class Document(models.Model):
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
-        pdf = self.env.ref("l10n_br_nfse.report_br_nfse_danfe")._render_qweb_pdf(
-            self.ids
+        pdf = self.env["ir.actions.report"]._render_qweb_pdf(
+            "l10n_br_nfse.report_br_nfse_danfe", self.ids
         )[0]
 
         if self.document_number:
@@ -215,7 +215,7 @@ class Document(models.Model):
         nbs_id = self.fiscal_line_ids[0].nbs_id
         tax_estimate = nbs_id.tax_estimate_ids.filtered(
             lambda x: x.state_id == state_id
-        )
+        ).sorted(key=lambda x: x.id, reverse=True)[:1]
 
         percentual_total_tributos_federais = tax_estimate.federal_taxes_national
         if self.partner_id.country_id.code != "BR":
