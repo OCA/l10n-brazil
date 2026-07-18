@@ -1,6 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import re
 from copy import deepcopy
 
 from lxml import etree
@@ -144,6 +145,74 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         }
 
     @api.model
+    def _fiscal_line_view_fields(self):
+        """Fiscal ``fiscal_taxes`` fields kept in the *invisible* onchange
+        collection of the business-document line TREES.
+
+        The fiscal taxes block is ~180 fields wide. In an editable o2m tree the
+        inline onchange payload is driven by the tree fields (not the line form
+        dialog), so every extra invisible field is fetched/computed on every
+        onchange round, for every line. Keeping only the fields the inline
+        protocol actually needs shrinks that payload while the full fiscal
+        detail stays editable in the line FORM dialog (the popup opened from the
+        tree), which is a separate, isolated datapoint.
+
+        Kept here:
+
+        * the tax selector fields (``FISCAL_TAX_ID_FIELDS``);
+        * every field with an ``@api.onchange`` (its handler must keep firing on
+          inline edits);
+        * stored, non-computed fields (their client-set value is not recomputed
+          server-side, so it must round-trip through the tree onchange).
+
+        Fields referenced by a modifier/domain/context are additionally forced
+        back in by :meth:`inject_fiscal_fields` (modifier closure), so a view
+        never fails to load. Every other (compute+store) fiscal field is
+        recomputed server-side on write, hence value-preserving to drop from the
+        tree. Override to bring one back to the trees::
+
+            @api.model
+            def _fiscal_line_view_fields(self):
+                return super()._fiscal_line_view_fields() | {"icms_value"}
+        """
+        keep = set(FISCAL_TAX_ID_FIELDS)
+        keep |= set(self._onchange_methods)
+        for name, field in self._fields.items():
+            if (
+                field.store
+                and not field.compute
+                and field.type not in ("one2many", "many2many")
+            ):
+                keep.add(name)
+        return keep
+
+    @api.model
+    def _fiscal_line_modifier_refs(self, arch, field_names):
+        """Return the ``field_names`` referenced by a modifier/domain/context of
+        any node in ``arch`` (``parent.`` references are dropped, they resolve on
+        the parent record). Used to keep the modifier closure of the reduced
+        line trees, so removing a field can never raise "Unknown field ... in
+        modifier" at view load."""
+        refs = set()
+        token = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+        for node in arch.iter():
+            for attr in (
+                "attrs",
+                "domain",
+                "context",
+                "invisible",
+                "readonly",
+                "required",
+                "column_invisible",
+            ):
+                value = node.get(attr)
+                if not value:
+                    continue
+                value = re.sub(r"parent\.[A-Za-z0-9_]+", " ", value)
+                refs.update(tok for tok in token.findall(value) if tok in field_names)
+        return refs
+
+    @api.model
     def inject_fiscal_fields(
         self,
         doc,
@@ -172,6 +241,32 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         fsc_doc = etree.fromstring(
             fiscal_view.with_context(inherit_branding=True).get_combined_arch()
         )
+
+        # Whitelist of fiscal_taxes fields kept in the invisible tree
+        # collection (the rest stays only in the line form dialog). The
+        # injected tree nodes carry their attrs from the fiscal source block,
+        # so its modifier closure is force-kept: a kept node can never
+        # reference a dropped field ("Unknown field ... in modifier").
+        field_names = set(self.env["l10n_br_fiscal.document.line.mixin"]._fields) | set(
+            self._fields
+        )
+        tree_keep = self._fiscal_line_view_fields()
+        tree_keep |= self._fiscal_line_modifier_refs(fsc_doc, field_names)
+
+        # Fiscal detail fields dropped from the invisible TREE collections
+        # (they stay only in the line form dialog): the fiscal_taxes page
+        # fields that are not whitelisted, plus the dead computes. The form
+        # dialog (replaced wholesale below) is never touched.
+        taxes_names = {
+            node.attrib["name"]
+            for node in fsc_doc.xpath("//page[@name='fiscal_taxes']//field")
+        }
+        # Subtract ``tree_keep`` LAST so it always wins: a field referenced in a
+        # kept node's modifier (attrs/invisible/domain) must never be dropped,
+        # even when a downstream ``_fiscal_view_pruned_fields()`` override also
+        # lists it in ``pruned_fields`` -- otherwise the kept node would point at
+        # a removed field and crash the view load ("Unknown field").
+        drop_from_tree = (taxes_names | pruned_fields) - tree_keep
 
         if xpath_mappings is None:
             xpath_mappings = (
@@ -203,29 +298,33 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             fiscal_nodes = fsc_doc.xpath(fiscal_xpath)
             for target_node in placeholder_nodes:
                 if len(fiscal_nodes) == 1:
-                    # replace unique placeholder
+                    # replace unique placeholder with the full fiscal block
+                    # (form dialog): keeps the whole fiscal detail editable.
                     # (deepcopy is required to inject fiscal nodes in possible
                     # next places)
                     replace_node = deepcopy(fiscal_nodes[0])
                     target_node.getparent().replace(target_node, replace_node)
                 else:
-                    # append multiple fields to placeholder container
+                    # append multiple (invisible) fields to a tree placeholder,
+                    # skipping the fiscal detail fields kept only in the dialog
                     existing_fields = [
                         e.attrib["name"] for e in target_node if e.tag == "field"
                     ]
                     for fiscal_node in fiscal_nodes:
-                        if fiscal_node.attrib["name"] in missing_line_fields:
-                            missing_line_fields.remove(fiscal_node.attrib["name"])
-                        if fiscal_node.attrib["name"] in pruned_fields:
-                            # dead fiscal computes never belong in the views
+                        fiscal_name = fiscal_node.attrib["name"]
+                        if fiscal_name in missing_line_fields:
+                            missing_line_fields.remove(fiscal_name)
+                        if fiscal_name in drop_from_tree:
                             continue
-                        if fiscal_node.attrib["name"] in existing_fields:
+                        if fiscal_name in existing_fields:
                             continue
                         field = deepcopy(fiscal_node)
                         if not field.attrib.get("optional"):
                             field.attrib["optional"] = "hide"
                         target_node.append(field)
                     for fname in missing_line_fields:
+                        if fname in drop_from_tree:
+                            continue
                         if fname not in existing_fields:
                             target_node.append(
                                 E.field(name=fname, string=fname, optional="hide")
