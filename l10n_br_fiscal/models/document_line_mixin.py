@@ -338,6 +338,35 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             arch = self.inject_fiscal_fields(arch)
         return arch, view
 
+    @api.model
+    def _fiscal_amount_signal_fields(self):
+        """Line fields that feed the document monetary totals: the line-side
+        counterparts of the document ``amount_*`` / ``fiscal_amount_*`` fields
+        (the very ones ``document.mixin._get_fiscal_amount_field_dependencies``
+        used to expose as ~50 ``o2m.<field>`` dependencies)."""
+        doc_amount_fields = self.env[
+            "l10n_br_fiscal.document.mixin"
+        ]._get_amount_fields()
+        line_fields = self._fields
+        return [
+            source
+            for source in (f.replace("amount_", "") for f in doc_amount_fields)
+            if source in line_fields
+        ]
+
+    @api.depends(lambda self: self._fiscal_amount_signal_fields())
+    def _compute_fiscal_amount_total_signal(self):
+        """Aggregate the line amount sources into a single technical signal.
+
+        Its numeric value is a plain sum: it only has to *change* when any
+        source changes so the document totals get re-triggered through one
+        ``o2m.fiscal_amount_total_signal`` dependency edge instead of ~50. The
+        document total itself is still summed from the real line fields, so
+        correctness is unchanged -- this only narrows the trigger."""
+        fnames = self._fiscal_amount_signal_fields()
+        for line in self:
+            line.fiscal_amount_total_signal = sum(line[fname] for fname in fnames)
+
     @api.depends(
         "discount_value",
         "amount_tax_not_included",
@@ -1354,6 +1383,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     amount_fiscal = fields.Monetary(
         compute="_compute_fiscal_amounts",
+    )
+
+    fiscal_amount_total_signal = fields.Float(
+        string="Fiscal Totals Signal",
+        compute="_compute_fiscal_amount_total_signal",
+        store=True,
+        help="Technical field. It aggregates every line amount source that "
+        "feeds the document monetary totals, so the document "
+        "``_compute_fiscal_amount`` can depend on a single per-line signal "
+        "instead of ~50 line fields. Narrows the recompute trigger of the "
+        "document totals (fewer cross-record dependency edges) without "
+        "touching the total columns themselves.",
     )
 
     price_gross = fields.Monetary(
