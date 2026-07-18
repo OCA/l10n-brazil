@@ -108,14 +108,13 @@ class MDe(models.Model):
 
     attachment_id = fields.Many2one(comodel_name="ir.attachment")
 
-    def name_get(self):
-        return [
-            (
-                rec.id,
-                f"NFº: {rec.number} ({rec.vat}): {rec.company_id.legal_name}",
+    @api.depends("number", "cnpj_cpf", "company_id.legal_name")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = (
+                f"NFº: {record.number} ({record.cnpj_cpf}): "
+                f"{record.company_id.legal_name}"
             )
-            for rec in self
-        ]
 
     def _get_processor(self):
         certificado = self.env.company._get_br_ecertificate()
