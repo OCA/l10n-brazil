@@ -18,8 +18,9 @@ class TestPaymentOrder(TransactionCase):
 
     def test_cnab_code_abstract(self):
         """Test CNAB Code Abstract Model"""
-        # Testa o name_get do objeto
-        self.instruction_unicred_01.name_get()
+        # Testa o display_name do objeto
+        display_name = self.instruction_unicred_01.display_name
+        self.assertTrue(display_name)
 
     def test_cnab_instruction_move_code(self):
         """Test CNAB Instruction Move Code"""

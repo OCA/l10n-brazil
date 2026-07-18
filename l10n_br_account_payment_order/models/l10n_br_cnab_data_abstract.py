@@ -20,11 +20,10 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
         tracking=True,
     )
 
-    def name_get(self):
-        result = []
+    @api.depends("code", "name")
+    def _compute_display_name(self):
         for record in self:
-            result.append((record.id, f"{record.code} - {record.name}"))
-        return result
+            record.display_name = f"{record.code} - {record.name}"
 
     @api.constrains("code")
     def check_code(self):
