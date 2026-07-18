@@ -26,6 +26,13 @@ class TestPerTaxDraftEdition(AccountMoveBRCommon):
     be left stale -- e.g. ICMS stuck at the mapped rate after the user selected
     another tax. Assertions are relationship based (value == base * rate) so
     they hold regardless of the company-specific mapped rates.
+
+    ICMS base/value/percent stay in the inline line tree, so the ICMS cases are
+    checked live on the Form. IPI/PIS/COFINS detail moved to the line form
+    dialog (popup) with the #4721 tree-field reduction and is no longer part of
+    the inline onchange payload, so those cases select the tax live (the tax
+    selector is kept in the tree) and assert P2b's deterministic recompute on
+    the saved fiscal line -- the exact value #4721 could leave stale.
     """
 
     @classmethod
@@ -106,22 +113,29 @@ class TestPerTaxDraftEdition(AccountMoveBRCommon):
         move_form = self._invoice_form()
         with move_form.invoice_line_ids.new() as line:
             self._init_line(line)
+            # the IPI selector is kept in the tree; the IPI detail moved to the
+            # line popup, so the value is asserted on the saved line (P2b).
             line.ipi_tax_id = self.tax_ipi_10
-            self._assert_value_tracks_rate(line, "ipi", 10.0, "(after ->10%)")
+        fisc_line = move_form.save().fiscal_line_ids[0]
+        self._assert_value_tracks_rate(fisc_line, "ipi", 10.0, "(after ->10%, saved)")
 
     def test_draft_pis_tax_id_override(self):
         move_form = self._invoice_form()
         with move_form.invoice_line_ids.new() as line:
             self._init_line(line)
             line.pis_tax_id = self.tax_pis_1_65
-            self._assert_value_tracks_rate(line, "pis", 1.65, "(after ->1.65%)")
+        fisc_line = move_form.save().fiscal_line_ids[0]
+        self._assert_value_tracks_rate(fisc_line, "pis", 1.65, "(after ->1.65%, saved)")
 
     def test_draft_cofins_tax_id_override(self):
         move_form = self._invoice_form()
         with move_form.invoice_line_ids.new() as line:
             self._init_line(line)
             line.cofins_tax_id = self.tax_cofins_7_6
-            self._assert_value_tracks_rate(line, "cofins", 7.6, "(after ->7.6%)")
+        fisc_line = move_form.save().fiscal_line_ids[0]
+        self._assert_value_tracks_rate(
+            fisc_line, "cofins", 7.6, "(after ->7.6%, saved)"
+        )
 
     def test_draft_icms_override_survives_save(self):
         """The overridden rate must persist through save() to the posted-ready
