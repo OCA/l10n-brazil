@@ -35,8 +35,9 @@ class TestTaxBenefit(TransactionCase):
                 "state": "approved",
             }
         )
-        # force update
-        cls.nfe_tax_benefit.fiscal_line_ids._compute_fiscal_tax_ids()
+        # force update: icms_tax_benefit_id is now derived by
+        # _compute_fiscal_operation_data
+        cls.nfe_tax_benefit.fiscal_line_ids._compute_fiscal_operation_data()
 
     def test_nfe_tax_benefit(self):
         """Test NFe with tax benefit."""
