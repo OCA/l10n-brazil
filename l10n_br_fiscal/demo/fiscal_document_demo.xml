@@ -522,7 +522,10 @@
         <field name="document_serie">1</field>
         <field name="document_number">123</field>
         <field name="issuer">partner</field>
-        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <!-- Fornecedor contribuinte normal (perfil CNT), coerente com a NF
+             destacando ICMS/IPI. Um fornecedor Simples (ex.: akretion/SNN)
+             não destacaria esses impostos. -->
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
         <field name="fiscal_operation_type">in</field>
     </record>
 
